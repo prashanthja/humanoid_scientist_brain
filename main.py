@@ -4,6 +4,7 @@ from data_pipeline.filter import SafetyFilter
 from knowledge_base.database import KnowledgeBase
 from learning_module.trainer import Trainer
 from reasoning_module.reasoning import ReasoningEngine
+from reasoning_module.graph_reasoner import GraphReasoner
 from embedding.encoder import TextEncoder
 from reflection_module.reflection import ReflectionEngine
 
@@ -55,11 +56,16 @@ def main():
             reflection.review_knowledge()
             reflection.plan_next_steps()
 
-            # 5️⃣ Reasoning example
+            # 5️⃣ Knowledge Graph Reasoning
+            gr = GraphReasoner(reflection.kg)
+            print("🔎 Graph reasoning demo:", gr.explain_relation("force", "motion"))
+            print("🔎 Transitive (causes) from 'force':", gr.suggest_transitive("force", "causes"))
+
+            # 6️⃣ Reasoning example
             ans = reasoning.answer("Explain Newton’s third law in simple words.")
             print("🧠 Reasoning Output:", ans)
 
-            # 6️⃣ Wait before next cycle (adjust as needed)
+            # 7️⃣ Wait before next cycle (adjust as needed)
             print("⏳ Waiting before next learning cycle...\n")
             time.sleep(10)
 
