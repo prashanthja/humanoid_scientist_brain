@@ -1,0 +1,12 @@
+{
+  "update_time": "09:00",
+  "learning": {
+    "epochs": 5,
+    "vocab_size": 1000,
+    "max_len": 50
+  },
+  "data_sources": [
+    "https://en.wikipedia.org/wiki/Physics",
+    "https://en.wikipedia.org/wiki/Mathematics"
+  ]
+}
