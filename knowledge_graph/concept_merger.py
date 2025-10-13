@@ -1,68 +1,66 @@
 # knowledge_graph/concept_merger.py
 """
-Concept normalization and clustering for Knowledge Graph.
-This helps the AI unify similar nodes and expand relationships.
+Concept normalization & merging + simple topic clustering.
+Helps reduce duplicates like "physics", "physics is the study".
 """
 
 import re
-import math
-from collections import defaultdict, Counter
+from collections import defaultdict
 from difflib import SequenceMatcher
+
+def _norm(s: str) -> str:
+    s = s.lower()
+    s = re.sub(r"[^a-z0-9\s\-]", " ", s)
+    s = re.sub(r"\s+", " ", s).strip()
+    return s
 
 class ConceptMerger:
     def __init__(self, kg):
         self.kg = kg
 
-    def normalize(self, text: str) -> str:
-        """Normalize a concept (lowercase, remove stopwords, punctuation)."""
-        text = text.lower()
-        text = re.sub(r"[^a-z0-9\s]", " ", text)
-        text = re.sub(r"\s+", " ", text).strip()
-        return text
-
-    def merge_similar_concepts(self, threshold: float = 0.8):
-        """Merge similar nodes based on string similarity."""
+    def merge_similar_concepts(self, threshold: float = 0.82):
         nodes = list(self.kg.graph.keys())
         merged = {}
         for i, a in enumerate(nodes):
             for b in nodes[i+1:]:
                 if b in merged or a in merged:
                     continue
-                sim = SequenceMatcher(None, a, b).ratio()
-                if sim >= threshold:
+                aa = _norm(a)
+                bb = _norm(b)
+                sim = SequenceMatcher(None, aa, bb).ratio()
+                if sim >= threshold or aa in bb or bb in aa:
                     merged[b] = a  # merge b into a
 
-        # Apply merges
+        # apply merges
         for b, a in merged.items():
             if b in self.kg.graph:
                 for rel, objs in self.kg.graph[b].items():
                     self.kg.graph[a][rel].update(objs)
                 del self.kg.graph[b]
 
-        print(f"🧩 Merged {len(merged)} similar concepts in Knowledge Graph.")
+        print(f"🧩 Merged {len(merged)} similar concepts in KG.")
 
     def cluster_topics(self):
-        """Cluster related nodes based on relation overlap."""
-        clusters = defaultdict(set)
-        for subj, rels in self.kg.graph.items():
-            cluster_id = None
-            for rel, objs in rels.items():
-                for obj in objs:
-                    for cid, members in clusters.items():
-                        if subj in members or obj in members:
-                            cluster_id = cid
-                            break
-                    if cluster_id:
-                        break
-                if cluster_id:
-                    break
-            if cluster_id is None:
-                cluster_id = len(clusters) + 1
-            clusters[cluster_id].add(subj)
-            for rel, objs in rels.items():
-                clusters[cluster_id].update(objs)
+        # very simple connectivity-based clustering for preview
+        clusters = []
+        seen = set()
+
+        def dfs(node, bag):
+            seen.add(node)
+            bag.add(node)
+            for rel, objs in self.kg.graph[node].items():
+                for o in objs:
+                    if o not in seen and o in self.kg.graph:
+                        dfs(o, bag)
+
+        for n in list(self.kg.graph.keys()):
+            if n in seen: continue
+            bag = set()
+            dfs(n, bag)
+            clusters.append(bag)
 
         print(f"🧠 Identified {len(clusters)} topic clusters:")
-        for cid, members in clusters.items():
-            print(f"  Cluster {cid}: {', '.join(list(members)[:6])}...")
+        for i, c in enumerate(clusters[:5], 1):
+            preview = ", ".join(list(c)[:6])
+            print(f"  Cluster {i}: {preview}...")
         return clusters
