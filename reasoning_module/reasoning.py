@@ -1,73 +1,74 @@
+# reasoning_module/reasoning.py
 """
-Reasoning Engine — Graph-Augmented Reasoning
---------------------------------------------
-Combines:
-• Text-based retrieval from the Knowledge Base
-• Graph reasoning through the Knowledge Graph
-• Multi-hop causal inference & explanation synthesis
+Graph-Augmented + Semantic Reasoning (Phase S Step 3)
 """
 
 from knowledge_base.retriever import Retriever
 from reasoning_module.graph_reasoner import GraphReasoner
+from reasoning_module.semantic_reasoner import SemanticReasoner
 
 
 class GraphAugmentedReasoning:
-    """
-    Combines Knowledge Base + Knowledge Graph reasoning.
-    """
-
     def __init__(self, kb, encoder, graph=None):
         self.kb = kb
         self.encoder = encoder
         self.retriever = Retriever(kb, encoder)
-        self.graph_reasoner = GraphReasoner(graph) if graph else None
+        self.semantic = SemanticReasoner(encoder, kg=graph)
+        self.graph_reasoner = GraphReasoner(graph, semantic=self.semantic) if graph else None
 
-    # -----------------------------------------------------------
+    def set_graph(self, graph):
+        """Call when KG is rebuilt to keep modules in sync."""
+        self.semantic.set_graph(graph)
+        self.graph_reasoner = GraphReasoner(graph, semantic=self.semantic)
+
     def answer(self, query: str, top_k: int = 3) -> str:
-        """
-        1️⃣ Retrieve relevant knowledge from KB.
-        2️⃣ Use KG for relational reasoning.
-        3️⃣ Fuse both into a final, scientific explanation.
-        """
-        print(f"[ReasoningEngine] Processing query: {query}")
+        print(f"[Reasoning] Answering (semantic+graph): {query}")
 
-        # --- Step 1: Retrieve knowledge from KB ---
+        # 1) KB retrieval
         kb_results = self.retriever.semantic_search(query, top_k=top_k)
-        kb_summary = "\n".join([r[1] for r in kb_results]) if kb_results else "No relevant knowledge found."
+        kb_summary = "\n".join([r[1] for r in kb_results]) if kb_results else "No direct text found."
 
-        # --- Step 2: Use Knowledge Graph reasoning ---
-        graph_insights = ""
+        # 2) Graph reasoning (with semantic fallback)
+        graph_insights = "(No Knowledge Graph loaded)"
         if self.graph_reasoner:
             try:
                 key_terms = self._extract_keywords(query)
                 if len(key_terms) >= 2:
                     a, b = key_terms[:2]
-                    relation = self.graph_reasoner.explain_relation(a, b)
-                    transitive = self.graph_reasoner.suggest_transitive(a, "causes")
-                    graph_insights = f"Relation between '{a}' and '{b}': {relation}\nTransitive links: {transitive}"
+                    graph_insights = self.graph_reasoner.explain_relation(a, b)
                 elif len(key_terms) == 1:
-                    graph_insights = str(self.graph_reasoner.find_related_concepts(key_terms[0]))
-                else:
-                    graph_insights = "(No keywords to reason about.)"
+                    # Just show nearest concepts semantically
+                    terms = self.semantic.nearest_concepts(key_terms[0], top_k=5)
+                    graph_insights = f"Nearest concepts to '{key_terms[0]}': {[n for n,_ in terms]}"
             except Exception as e:
-                graph_insights = f"(Graph reasoning error: {e})"
-        else:
-            graph_insights = "(No Knowledge Graph loaded)"
+                graph_insights = f"(Graph reasoning unavailable: {e})"
 
-        # --- Step 3: Synthesize both results ---
-        final_answer = (
+        # 3) Semantic reasoning summary
+        sem_block = ""
+        try:
+            k = self._extract_keywords(query)
+            if len(k) >= 2:
+                sem_block = self.semantic.semantic_explain(k[0], k[1])
+            elif len(k) == 1:
+                nn = self.semantic.nearest_concepts(k[0], top_k=5)
+                sem_block = f"Nearest to '{k[0]}': {[(n, round(s,3)) for n,s in nn]}"
+            else:
+                sem_block = "No semantic extraction."
+        except Exception as e:
+            sem_block = f"(Semantic unavailable: {e})"
+
+        # 4) Synthesis
+        final = (
             f"🧠 **Textual Knowledge Extracted:**\n{kb_summary}\n\n"
-            f"🕸️ **Graph Reasoning Insights:**\n{graph_insights}\n\n"
+            f"🕸️ **Graph Reasoning:**\n{graph_insights}\n\n"
+            f"📐 **Semantic Reasoning:**\n{sem_block}\n\n"
             f"✅ **Scientific Synthesis:**\n"
-            f"By integrating textual knowledge and conceptual graph structure, "
-            f"the system concludes that *{query.lower()}* is derived from or related "
-            f"to these observed scientific relationships."
+            f"Combining retrieved facts, graph structure, and semantic proximity, "
+            f"the system infers: {query}"
         )
+        return final
 
-        return final_answer
-
-    # -----------------------------------------------------------
     def _extract_keywords(self, text: str):
-        """Lightweight keyword extractor (heuristic)."""
-        words = [w.strip(".,?").lower() for w in text.split() if len(w) > 3]
-        return list(dict.fromkeys(words))[:3]
+        words = [w.strip(".,?;:!()[]\"'").lower() for w in text.split() if len(w) > 3]
+        unique = list(dict.fromkeys(words))
+        return unique[:3]

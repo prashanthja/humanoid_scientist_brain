@@ -62,6 +62,7 @@ def main():
             # 4️⃣ Reflection and KG update
             print("\n🧠 [Reflection] Begin KG update and gap analysis...")
             reflection.review_knowledge()
+            reasoning.set_graph(reflection.kg)
 
             # 5️⃣ Plan next learning goal
             print("\n🧭 [Planning] Deciding next topic...")
