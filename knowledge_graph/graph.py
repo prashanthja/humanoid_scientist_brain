@@ -1,212 +1,187 @@
 # knowledge_graph/graph.py
 """
-Knowledge Graph (Phase B – Step 2)
-- Robust, lowercase-friendly extraction (no external NLP deps)
-- Handles "X is the study of Y", equations (f = m a), relation verbs,
-  "X of Y", and a co-occurrence fallback.
-- Persists to disk.
+KnowledgeGraph
+Phase B — lightweight concept graph built from corpus.
+- Stores graph as: dict[str, list[tuple[str, str]]] == {source: [(relation, target), ...]}
+- Can load/save JSON
+- Builds from text with simple patterning (Phase A/B)
+- Finds weak concepts (low degree) for graph-driven expansion
 """
 
-import re
+from __future__ import annotations
 import json
+import re
 from collections import defaultdict
-from typing import Dict, List
-
-REL_VERBS = [
-    # causal / process
-    "causes", "cause", "requires", "require", "produces", "produce",
-    "forms", "form", "contains", "contain", "transfers", "transfer",
-    "converts", "convert", "leads to", "lead to", "results in", "result in",
-    # definitional / equality
-    "equals", "equal", "is", "are", "defined as", "relates to", "related to",
-    "implies", "imply", "correlates with", "correlate with"
-]
-
-STOPWORDS = set("""
-a an the of to in on at for from by with as about into through over during including
-until against among throughout despite toward upon concerning
-is are was were be been being this that these those and or nor but so yet if then than
-it its their his her our your my we you they i who whom whose which what when where why how
-""".split())
-
-TOKEN_RE = re.compile(r"[a-z0-9][a-z0-9\-\+\*/\^]*")
-
-
-def _normalize(text: str) -> str:
-    text = text.lower()
-    text = re.sub(r"[^a-z0-9\s\-\+\*/\^=]", " ", text)
-    text = re.sub(r"\s+", " ", text).strip()
-    return text
-
-
-def _keep_token(tok: str) -> bool:
-    if not tok: return False
-    if tok in STOPWORDS: return False
-    if tok.isdigit(): return False
-    return True
+from typing import Dict, List, Tuple, Set, Any
 
 
 class KnowledgeGraph:
     def __init__(self):
-        # subj -> relation -> set(objects)
-        self.graph = defaultdict(lambda: defaultdict(set))
+        # { src: [(relation, dst), ...] }
+        self.graph: Dict[str, List[Tuple[str, str]]] = defaultdict(list)
 
-    # ---------------- Core ops ----------------
-    def add_relation(self, subj: str, rel: str, obj: str):
-        subj, rel, obj = subj.strip(), rel.strip(), obj.strip()
-        if not subj or not rel or not obj: return
-        if subj in STOPWORDS or obj in STOPWORDS: return
-        if subj == obj: return
-        self.graph[subj][rel].add(obj)
-
-    def stats(self) -> Dict[str, int]:
-        edges = sum(len(v) for rels in self.graph.values() for v in rels.values())
-        return {"nodes": len(self.graph), "edges": edges}
-
-    def all_concepts(self) -> List[str]:
-        return list(self.graph.keys())
-
-    def get_relations(self, concept: str) -> Dict[str, List[str]]:
-        rels = self.graph.get(concept, {})
-        return {r: sorted(list(objs)) for r, objs in rels.items()}
-
-    # ------------- Extraction -------------
-    def _extract_study_of(self, t: str) -> int:
-        """
-        Capture: "<X> is the study of <Y...>"
-        -> relation: study_of
-        """
-        added = 0
-        # allow a short phrase for X and a longer phrase for Y
-        pat = re.compile(r"\b([a-z0-9][a-z0-9\s\-]{1,40})\s+is\s+the\s+study\s+of\s+([a-z0-9][a-z0-9\s\-\ ,]{1,120})\b")
-        for subj, rhs in pat.findall(t):
-            subj = subj.strip()
-            # split rhs into salient tokens/phrases separated by commas or "and"
-            parts = re.split(r"[,\;]| and ", rhs)
-            for p in parts:
-                p = " ".join(w for w in p.split() if w not in STOPWORDS)
-                p = p.strip()
-                if len(p) > 1:
-                    self.add_relation(subj, "study_of", p)
-                    added += 1
-        return added
-
-    def _extract_relation_verbs(self, t: str) -> int:
-        """
-        "<phrase> <rel_verb> <phrase>"
-        """
-        added = 0
-        rel_group = "|".join(map(re.escape, REL_VERBS))
-        pat = re.compile(
-            rf"\b([a-z0-9][a-z0-9\s\-]{{1,40}}?)\s+(?:{rel_group})\s+([a-z0-9][a-z0-9\s\-]{{1,80}}?)\b"
-        )
-        for m in pat.finditer(t):
-            full = m.group(0)
-            # locate the rel verb actually present in the full span
-            rel_match = None
-            for rv in REL_VERBS:
-                if f" {rv} " in f" {full} ":
-                    rel_match = rv
-                    break
-            subj = " ".join(w for w in m.group(1).split() if w not in STOPWORDS).strip()
-            obj  = " ".join(w for w in m.group(2).split() if w not in STOPWORDS).strip()
-            if subj and obj and rel_match:
-                # collapse trivial leftovers like single letters unless eq
-                if len(subj) == 1 and rel_match != "equals": continue
-                if len(obj) == 1 and rel_match != "equals": continue
-                self.add_relation(subj, rel_match, obj)
-                added += 1
-        return added
-
-    def _extract_equations(self, t: str) -> int:
-        """
-        equations like: f = m a  -> f equals m*a
-        """
-        added = 0
-        pat = re.compile(r"\b([a-z])\s*=\s*([a-z0-9\*\s\+\-\/\^]+)\b")
-        for lhs, rhs in pat.findall(t):
-            rhs_norm = re.sub(r"\s+", "*", rhs.strip())
-            if lhs and rhs_norm:
-                self.add_relation(lhs, "equals", rhs_norm)
-                added += 1
-        return added
-
-    def _extract_of_relation(self, t: str) -> int:
-        """
-        "X of Y" -> (X, of, Y)  (e.g., "law of motion")
-        """
-        added = 0
-        pat = re.compile(r"\b([a-z0-9][a-z0-9\s\-]{1,40})\s+of\s+([a-z0-9][a-z0-9\s\-]{1,60})\b")
-        for a, b in pat.findall(t):
-            a = " ".join(w for w in a.split() if w not in STOPWORDS).strip()
-            b = " ".join(w for w in b.split() if w not in STOPWORDS).strip()
-            if a and b and a != b:
-                self.add_relation(a, "of", b)
-                added += 1
-        return added
-
-    def _cooccurrence_edges(self, t: str, window: int = 6, max_pairs: int = 12) -> int:
-        """
-        Fallback: connect informative tokens that co-occur in a sliding window.
-        Ensures we always get some structure even when explicit patterns fail.
-        """
-        added = 0
-        toks = [tok for tok in TOKEN_RE.findall(t) if _keep_token(tok)]
-        if len(toks) < 2:
-            return 0
-        for i in range(len(toks)):
-            a = toks[i]
-            for j in range(i+1, min(i+window, len(toks))):
-                b = toks[j]
-                if a == b: continue
-                self.add_relation(a, "co-occurs-with", b)
-                added += 1
-                if added >= max_pairs:
-                    return added
-        return added
-
-    def extract_relations_from_text(self, text: str) -> int:
-        if not text:
-            return 0
-        t = _normalize(text)
-        total = 0
-        total += self._extract_study_of(t)
-        total += self._extract_equations(t)
-        total += self._extract_relation_verbs(t)
-        total += self._extract_of_relation(t)
-        if total == 0:
-            total += self._cooccurrence_edges(t)
-        return total
-
-    def build_from_corpus(self, texts: List[str]):
-        added = 0
-        for txt in texts:
-            added += self.extract_relations_from_text(txt)
-        s = self.stats()
-        print(f"🔗 KG built: {s['nodes']} concepts, {s['edges']} edges (added {added} edges this pass).")
-
-    # ------------- Persistence -------------
+    # ---------- Persistence ----------
     def save(self, path: str):
-        serial = {s: {r: list(objs) for r, objs in rels.items()} for s, rels in self.graph.items()}
-        with open(path, "w", encoding="utf-8") as f:
-            json.dump(serial, f, ensure_ascii=False, indent=2)
+        serializable = {k: list(v) for k, v in self.graph.items()}
+        with open(path, "w") as f:
+            json.dump(serializable, f, indent=2)
 
     def load(self, path: str):
-        with open(path, "r", encoding="utf-8") as f:
+        with open(path, "r") as f:
             data = json.load(f)
-        self.graph = defaultdict(lambda: defaultdict(set))
-        for s, rels in data.items():
-            for r, objs in rels.items():
-                self.graph[s][r].update(objs)
+        self.graph = defaultdict(list, {k: [tuple(t) for t in v] for k, v in data.items()})
 
-    def visualize(self, max_lines: int = 30):
-        print("\n🕸️ Knowledge Graph Preview:")
-        printed = 0
-        for subj, rels in self.graph.items():
-            for rel, objs in rels.items():
-                for obj in objs:
-                    print(f"  {subj} --{rel}--> {obj}")
-                    printed += 1
-                    if printed >= max_lines:
-                        print("  ... (truncated)")
-                        return
+    # ---------- Introspection ----------
+    def all_concepts(self) -> List[str]:
+        nodes: Set[str] = set(self.graph.keys())
+        for _, edge_list in self.graph.items():
+            for _, t in edge_list:
+                nodes.add(t)
+        return sorted(nodes)
+
+    def degree(self) -> Dict[str, int]:
+        """Undirected-like degree: out + in counts."""
+        deg: Dict[str, int] = {}
+        for s, edges in self.graph.items():
+            deg[s] = deg.get(s, 0) + len(edges)
+            for _, t in edges:
+                deg[t] = deg.get(t, 0) + 1
+        return deg
+
+    def _has_any_edge(self, a: str, b: str) -> bool:
+        a, b = a.lower(), b.lower()
+        for rel, t in self.graph.get(a, []):
+            if t.lower() == b:
+                return True
+        for rel, t in self.graph.get(b, []):
+            if t.lower() == a:
+                return True
+        return False
+
+    def _undirected_adj(self) -> Dict[str, Set[str]]:
+        adj: Dict[str, Set[str]] = {}
+        for s, edges in self.graph.items():
+            adj.setdefault(s, set())
+            for _, t in edges:
+                adj.setdefault(t, set())
+                adj[s].add(t)
+                adj[t].add(s)
+        return adj
+
+    def _path_exists(self, a: str, b: str) -> bool:
+        a, b = a.lower().strip(), b.lower().strip()
+        if a == b:
+            return True
+        adj = self._undirected_adj()
+        if a not in adj or b not in adj:
+            return False
+        seen = {a}
+        q = [a]
+        while q:
+            nxt = []
+            for u in q:
+                for v in adj.get(u, ()):
+                    if v == b:
+                        return True
+                    if v not in seen:
+                        seen.add(v)
+                        nxt.append(v)
+            q = nxt
+        return False
+
+    def find_weak_concepts(self, threshold: int = 2) -> List[str]:
+        """
+        Return concept names whose (undirected) degree < threshold.
+        Used by ReflectionEngine to target expansion.
+        """
+        deg = self.degree()
+        return [n for n, d in deg.items() if d < threshold]
+
+    # ---------- Build from corpus (simple patterns; Phase A/B) ----------
+    def build_from_corpus(self, texts: List[str]):
+        """
+        Very simple relation extraction (Phase B baseline):
+        - "X is Y"  -> X --is--> Y
+        - "X is the study of Y" -> X --study_of--> Y
+        - "X of Y"  -> X --of--> Y
+        - Also pick short 'X causes Y' patterns
+        """
+        self.graph = defaultdict(list)  # rebuild fresh each time
+
+        for text in texts:
+            if not text:
+                continue
+            s = " ".join(text.strip().split())
+            lowered = s.lower()
+
+            # pattern 1: "X is the study of Y"
+            m = re.findall(r"([a-zA-Z][\w\s\-]{1,40})\s+is the study of\s+([a-zA-Z][\w\s\-\s,]{1,80})", lowered)
+            for a, b in m:
+                src = a.strip()
+                tgt = b.strip().strip(".")
+                self._add_edge(src, "study_of", tgt)
+
+            # pattern 2: "X is Y"
+            m2 = re.findall(r"([a-zA-Z][\w\s\-]{1,40})\s+is\s+([a-zA-Z][\w\s\-]{1,60})", lowered)
+            for a, b in m2:
+                src = a.strip()
+                tgt = b.strip().strip(".")
+                if src != tgt:
+                    self._add_edge(src, "is", tgt)
+
+            # pattern 3: "X of Y"
+            m3 = re.findall(r"([a-zA-Z][\w\s\-]{1,30})\s+of\s+([a-zA-Z][\w\s\-\s,]{1,80})", lowered)
+            for a, b in m3:
+                src = a.strip()
+                tgt = b.strip().strip(".")
+                if src != tgt:
+                    self._add_edge(src, "of", tgt)
+
+            # pattern 4: "X causes Y"
+            m4 = re.findall(r"([a-zA-Z][\w\s\-]{1,40})\s+causes\s+([a-zA-Z][\w\s\-]{1,60})", lowered)
+            for a, b in m4:
+                src = a.strip()
+                tgt = b.strip().strip(".")
+                if src != tgt:
+                    self._add_edge(src, "causes", tgt)
+
+    def _add_edge(self, src: str, rel: str, tgt: str):
+        src = src.strip()
+        rel = rel.strip()
+        tgt = tgt.strip()
+        if not src or not tgt or not rel:
+            return
+        # de-duplicate exact edge
+        if (rel, tgt) not in self.graph[src]:
+            self.graph[src].append((rel, tgt))
+
+    # ---------- Optional: no-op viz hook for older calls ----------
+    def visualize(self) -> None:
+        # kept as a stub (visualization handled by visualization/graph_progress.py)
+        return
+
+    def get_relations(self, concept):
+        """
+        Returns all relationships (edges) connected to a concept node.
+        Supports both dict-based graph and NetworkX-based graph structures.
+        """
+        if hasattr(self, "G") and self.G is not None:
+            if concept not in self.G:
+                return []
+            relations = []
+            for neighbor, attrs in self.G[concept].items():
+                for key, val in attrs.items():
+                    rel_label = val if isinstance(val, str) else val.get("label", "")
+                    relations.append((concept, rel_label, neighbor))
+            return relations
+
+        elif isinstance(self.graph, dict):
+            rels = self.graph.get(concept, {})
+            if isinstance(rels, dict):
+                return [(concept, rel, obj) for rel, objs in rels.items() for obj in (objs if isinstance(objs, list) else [objs])]
+            elif isinstance(rels, list):
+                return [(concept, "related_to", obj) for obj in rels]
+            else:
+                return []
+        else:
+            return []
