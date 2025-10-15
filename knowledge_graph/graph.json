@@ -1,15 +1,18 @@
 {
-  "physics": {
-    "is": [
-      "the"
+  "physics": [
+    [
+      "study_of",
+      "matter, energy, and their interactions"
     ],
-    "study_of": [
-      "matter energy",
-      "interactions"
-    ],
-    "of": [
-      "matter energy interactions",
-      "matter energy and their interactions"
+    [
+      "is",
+      "the study of matter"
     ]
-  }
+  ],
+  "physics is the study": [
+    [
+      "of",
+      "matter, energy, and their interactions"
+    ]
+  ]
 }

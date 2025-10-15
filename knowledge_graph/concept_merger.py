@@ -1,66 +1,104 @@
-# knowledge_graph/concept_merger.py
 """
-Concept normalization & merging + simple topic clustering.
-Helps reduce duplicates like "physics", "physics is the study".
+Concept Merger — Phase B Step 2
+---------------------------------
+Merges semantically similar concepts in the Knowledge Graph
+and clusters related topics for reflection & planning.
 """
 
-import re
+import itertools
 from collections import defaultdict
-from difflib import SequenceMatcher
 
-def _norm(s: str) -> str:
-    s = s.lower()
-    s = re.sub(r"[^a-z0-9\s\-]", " ", s)
-    s = re.sub(r"\s+", " ", s).strip()
-    return s
 
 class ConceptMerger:
     def __init__(self, kg):
         self.kg = kg
 
-    def merge_similar_concepts(self, threshold: float = 0.82):
+    # ---------------------------------------------------------
+    def merge_similar_concepts(self, threshold=0.8):
+        """
+        Merge concepts that are textually or semantically similar.
+        Uses lexical overlap (or embedding similarity if available).
+        """
+        print("🧩 Merging similar concepts...")
+
         nodes = list(self.kg.graph.keys())
-        merged = {}
-        for i, a in enumerate(nodes):
-            for b in nodes[i+1:]:
-                if b in merged or a in merged:
-                    continue
-                aa = _norm(a)
-                bb = _norm(b)
-                sim = SequenceMatcher(None, aa, bb).ratio()
-                if sim >= threshold or aa in bb or bb in aa:
-                    merged[b] = a  # merge b into a
+        merged = set()
+        merge_map = {}
 
-        # apply merges
-        for b, a in merged.items():
-            if b in self.kg.graph:
-                for rel, objs in self.kg.graph[b].items():
-                    self.kg.graph[a][rel].update(objs)
-                del self.kg.graph[b]
+        for a, b in itertools.combinations(nodes, 2):
+            if a in merged or b in merged:
+                continue
 
-        print(f"🧩 Merged {len(merged)} similar concepts in KG.")
+            sim = self._similarity(a, b)
+            if sim >= threshold:
+                print(f"🔗 Merging '{a}' and '{b}' (similarity={sim:.2f})")
+                self._merge_nodes(a, b)
+                merged.add(b)
+                merge_map[b] = a
 
+        if merge_map:
+            print(f"🧠 Merged {len(merge_map)} similar concepts in KG.")
+        else:
+            print("✅ No merges required at this cycle.")
+
+    # ---------------------------------------------------------
     def cluster_topics(self):
-        # very simple connectivity-based clustering for preview
+        """
+        Groups concepts into clusters based on textual overlap or shared subwords.
+        Used by ReflectionEngine to decide next focus areas.
+        """
+        nodes = list(self.kg.graph.keys())
         clusters = []
-        seen = set()
+        visited = set()
 
-        def dfs(node, bag):
-            seen.add(node)
-            bag.add(node)
-            for rel, objs in self.kg.graph[node].items():
-                for o in objs:
-                    if o not in seen and o in self.kg.graph:
-                        dfs(o, bag)
+        for node in nodes:
+            if node in visited:
+                continue
+            cluster = {node}
+            for other in nodes:
+                if other != node and self._similarity(node, other) > 0.5:
+                    cluster.add(other)
+                    visited.add(other)
+            clusters.append(cluster)
 
-        for n in list(self.kg.graph.keys()):
-            if n in seen: continue
-            bag = set()
-            dfs(n, bag)
-            clusters.append(bag)
+        if clusters:
+            print(f"🧠 Identified {len(clusters)} topic clusters:")
+            for i, cluster in enumerate(clusters, 1):
+                print(f"  Cluster {i}: {', '.join(cluster)}")
+        else:
+            print("ℹ️ No distinct topic clusters formed this round.")
 
-        print(f"🧠 Identified {len(clusters)} topic clusters:")
-        for i, c in enumerate(clusters[:5], 1):
-            preview = ", ".join(list(c)[:6])
-            print(f"  Cluster {i}: {preview}...")
+        self.kg.topic_clusters = clusters
         return clusters
+
+    # ---------------------------------------------------------
+    def _similarity(self, a, b):
+        """Compute a lexical similarity between two concept names."""
+        a_set, b_set = set(a.lower().split()), set(b.lower().split())
+        overlap = len(a_set & b_set)
+        union = len(a_set | b_set)
+        return overlap / union if union else 0
+
+    # ---------------------------------------------------------
+    def _merge_nodes(self, a, b):
+        """Merge all relationships and attributes of node b into node a."""
+        G = getattr(self.kg, "G", None)
+
+        if G is not None and hasattr(G, "neighbors"):
+            if b not in G:
+                return
+            for nbr, attrs in list(G[b].items()):
+                for rel, val in attrs.items():
+                    G.add_edge(a, nbr, label=rel)
+            G.remove_node(b)
+        elif isinstance(self.kg.graph, dict):
+            rels_b = self.kg.graph.get(b, {})
+            if isinstance(rels_b, dict):
+                for rel, objs in rels_b.items():
+                    objs = objs if isinstance(objs, list) else [objs]
+                    for obj in objs:
+                        self.kg.add_relation(a, rel, obj)
+            elif isinstance(rels_b, list):
+                for obj in rels_b:
+                    self.kg.add_relation(a, "related_to", obj)
+            self.kg.graph.pop(b, None)
