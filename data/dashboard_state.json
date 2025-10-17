@@ -1,0 +1,143 @@
+{
+  "cycle": 3,
+  "topic": "physics",
+  "timestamp": "2025-10-17 10:59:24",
+  "knowledge_stats": {
+    "nodes": 2,
+    "edges": 0
+  },
+  "hypotheses": [
+    {
+      "text": "matter, energy, and their interactions --related_to--> physics",
+      "score": 1.0,
+      "type": "semantic_link"
+    },
+    {
+      "text": "matter, energy, and their interactions --related_to--> the study of matter",
+      "score": 1.0,
+      "type": "semantic_link"
+    },
+    {
+      "text": "matter, energy, and their interactions --related_to--> physics is the study",
+      "score": 1.0,
+      "type": "semantic_link"
+    },
+    {
+      "text": "physics --related_to--> matter, energy, and their interactions",
+      "score": 1.0,
+      "type": "semantic_link"
+    },
+    {
+      "text": "physics --related_to--> physics is the study",
+      "score": 1.0,
+      "type": "semantic_link"
+    },
+    {
+      "text": "physics --related_to--> the study of matter",
+      "score": 1.0,
+      "type": "semantic_link"
+    },
+    {
+      "text": "physics is the study --related_to--> the study of matter",
+      "score": 1.0,
+      "type": "semantic_link"
+    },
+    {
+      "text": "physics is the study --related_to--> physics",
+      "score": 1.0,
+      "type": "semantic_link"
+    },
+    {
+      "text": "physics is the study --related_to--> matter, energy, and their interactions",
+      "score": 1.0,
+      "type": "semantic_link"
+    },
+    {
+      "text": "the study of matter --related_to--> physics is the study",
+      "score": 1.0,
+      "type": "semantic_link"
+    }
+  ],
+  "validated": [
+    {
+      "text": "matter, energy, and their interactions --related_to--> physics",
+      "support": 1.0,
+      "consistency": 1.0,
+      "confidence": 1.0,
+      "persist": 1.0,
+      "promote": true
+    },
+    {
+      "text": "matter, energy, and their interactions --related_to--> the study of matter",
+      "support": 1.0,
+      "consistency": 1.0,
+      "confidence": 1.0,
+      "persist": 1.0,
+      "promote": true
+    },
+    {
+      "text": "matter, energy, and their interactions --related_to--> physics is the study",
+      "support": 1.0,
+      "consistency": 1.0,
+      "confidence": 1.0,
+      "persist": 1.0,
+      "promote": true
+    },
+    {
+      "text": "physics --related_to--> matter, energy, and their interactions",
+      "support": 1.0,
+      "consistency": 1.0,
+      "confidence": 1.0,
+      "persist": 1.0,
+      "promote": true
+    },
+    {
+      "text": "physics --related_to--> physics is the study",
+      "support": 1.0,
+      "consistency": 1.0,
+      "confidence": 1.0,
+      "persist": 1.0,
+      "promote": true
+    },
+    {
+      "text": "physics --related_to--> the study of matter",
+      "support": 1.0,
+      "consistency": 1.0,
+      "confidence": 1.0,
+      "persist": 1.0,
+      "promote": true
+    },
+    {
+      "text": "physics is the study --related_to--> the study of matter",
+      "support": 1.0,
+      "consistency": 1.0,
+      "confidence": 1.0,
+      "persist": 1.0,
+      "promote": true
+    },
+    {
+      "text": "physics is the study --related_to--> physics",
+      "support": 1.0,
+      "consistency": 1.0,
+      "confidence": 1.0,
+      "persist": 1.0,
+      "promote": true
+    },
+    {
+      "text": "physics is the study --related_to--> matter, energy, and their interactions",
+      "support": 1.0,
+      "consistency": 1.0,
+      "confidence": 1.0,
+      "persist": 1.0,
+      "promote": true
+    },
+    {
+      "text": "the study of matter --related_to--> physics is the study",
+      "support": 1.0,
+      "consistency": 1.0,
+      "confidence": 1.0,
+      "persist": 1.0,
+      "promote": true
+    }
+  ]
+}
