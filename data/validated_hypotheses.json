@@ -1,0 +1,52 @@
+{
+  "hypotheses": {
+    "matter, energy, and their interactions --related_to--> physics is the study": {
+      "ema": 0.988211336557331,
+      "count": 3
+    },
+    "matter, energy, and their interactions --related_to--> the study of matter": {
+      "ema": 0.988211336557331,
+      "count": 3
+    },
+    "matter, energy, and their interactions --related_to--> physics": {
+      "ema": 0.988211336557331,
+      "count": 3
+    },
+    "physics --related_to--> physics is the study": {
+      "ema": 0.9882113895691238,
+      "count": 3
+    },
+    "physics --related_to--> the study of matter": {
+      "ema": 0.988211336557331,
+      "count": 3
+    },
+    "physics --related_to--> matter, energy, and their interactions": {
+      "ema": 0.988211336557331,
+      "count": 3
+    },
+    "physics is the study --related_to--> the study of matter": {
+      "ema": 0.9882113895691238,
+      "count": 3
+    },
+    "physics is the study --related_to--> matter, energy, and their interactions": {
+      "ema": 0.988211336557331,
+      "count": 3
+    },
+    "physics is the study --related_to--> physics": {
+      "ema": 0.9882113895691238,
+      "count": 3
+    },
+    "the study of matter --related_to--> physics is the study": {
+      "ema": 0.9882113895691238,
+      "count": 3
+    },
+    "the study of matter --related_to--> matter, energy, and their interactions": {
+      "ema": 0.988211336557331,
+      "count": 3
+    },
+    "the study of matter --related_to--> physics": {
+      "ema": 0.988211336557331,
+      "count": 3
+    }
+  }
+}

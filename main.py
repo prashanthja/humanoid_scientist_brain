@@ -1,12 +1,9 @@
 """
 Humanoid Scientist Brain — Continuous Learning & Graph Reasoning
 ---------------------------------------------------------------
-Phase B Step 3–4:
-- Continuous self-learning
-- KG construction + reflection
-- Graph-driven knowledge expansion
-- Textual + Graph reasoning integration
-- KG growth visualization on exit
+Phase C Step 2 (added):
+- Hypothesis validation (KB support + semantic consistency + persistence)
+- Optional promotion of strong hypotheses back into the KG
 """
 
 import time
@@ -16,6 +13,8 @@ from knowledge_base.database import KnowledgeBase
 from learning_module.trainer import Trainer
 from reasoning_module.reasoning import GraphAugmentedReasoning
 from reasoning_module.graph_reasoner import GraphReasoner
+from reasoning_module.hypothesis_generator import HypothesisGenerator
+from reasoning_module.hypothesis_validator import HypothesisValidator
 from embedding.encoder import TextEncoder
 from reflection_module.reflection import ReflectionEngine
 
@@ -23,61 +22,81 @@ from reflection_module.reflection import ReflectionEngine
 def main():
     print("🤖 Starting Humanoid Scientist Brain (Continuous Learning Mode)...")
 
-    # --- Initialize Core Modules ---
+    # Core plumbling
     fetcher = DataFetcher()
     safety = SafetyFilter()
     kb = KnowledgeBase()
     encoder = TextEncoder()
     trainer = Trainer(encoder)
     reflection = ReflectionEngine(fetcher, safety, kb, trainer)
-    reasoning = GraphAugmentedReasoning(kb, encoder, reflection.kg)
 
-    topic = "physics"
+    # Reasoners
+    hypgen = HypothesisGenerator(reflection.kg, encoder, kb)
+    validator = HypothesisValidator(kb, encoder, reflection.kg)  # NEW
+    reasoning = GraphAugmentedReasoning(kb, encoder, reflection.kg, hypothesis_generator=hypgen)
 
-    # --- Initialize Tokenizer ---
+    # Initial tokenizer seed
     initial_knowledge = kb.query("")
     texts = [item["text"] if isinstance(item, dict) else str(item) for item in initial_knowledge]
     encoder.fit_tokenizer(texts or ["physics", "energy", "force", "science"])
 
+    topic = "physics"
     cycle = 1
+
     try:
         while True:
             print(f"\n🌀 Learning Cycle {cycle} starting...")
 
-            # 1️⃣ Fetch and store new knowledge
-            raw_data = fetcher.fetch(topic)
-            safe_data = safety.filter(raw_data)
-            kb.store(safe_data)
+            # 1) Pull & store
+            raw = fetcher.fetch(topic)
+            safe = safety.filter(raw)
+            kb.store(safe)
 
-            # 2️⃣ Update tokenizer dynamically
-            all_knowledge = kb.query("")
-            new_texts = [item["text"] if isinstance(item, dict) else str(item) for item in all_knowledge]
-            if new_texts:
-                encoder.fit_tokenizer(new_texts)
+            # 2) Tokenizer refresh
+            all_items = kb.query("")
+            all_texts = [it["text"] if isinstance(it, dict) else str(it) for it in all_items]
+            if all_texts:
+                encoder.fit_tokenizer(all_texts)
 
-            # 3️⃣ Train AI model on accumulated knowledge
-            if all_knowledge:
-                trainer.run_training(all_knowledge)
+            # 3) Train model
+            if all_items:
+                trainer.run_training(all_items)
 
-            # 4️⃣ Reflection and KG update
+            # 4) Reflect & update KG
             print("\n🧠 [Reflection] Begin KG update and gap analysis...")
             reflection.review_knowledge()
-            reasoning.set_graph(reflection.kg)
+            reasoning.set_graph(reflection.kg)  # keep in sync
 
-            # 5️⃣ Plan next learning goal
-            print("\n🧭 [Planning] Deciding next topic...")
-            reflection.plan_next_steps()
+            # 5) Hypothesize + Validate + Promote
+            hyps = hypgen.generate(top_n=20)
+            if hyps:
+                print("🧪 Generated hypotheses (top 5):")
+                for h in hyps[:5]:
+                    print(f"  • [{h['type']}] {h['hypothesis']} (gen_score={round(h.get('score', 0.0), 3)})")
 
-            # 6️⃣ Graph Reasoning Demonstration
+                validated = validator.validate(hyps, cycle=cycle)
+                if validated:
+                    print("\n🔍 Validated hypotheses (top 5):")
+                    for v in validated[:5]:
+                        mark = "✅" if v["promote"] else "⚠️"
+                        print(
+                            f"  {mark} {v['hypothesis']} | "
+                            f"support={v['support']}, cons={v['consistency']}, "
+                            f"conf={v['confidence']}, persist={v['persistence']}"
+                        )
+
+                    # Optional promotion into KG
+                    reflection.promote_validated(validated)
+
+            # 6) Reasoning demos
             gr = GraphReasoner(reflection.kg)
             print("🔎 Graph reasoning demo:", gr.explain_relation("force", "motion"))
             print("🔎 Transitive (causes) from 'force':", gr.suggest_transitive("force", "causes"))
 
-            # 7️⃣ Textual + Graph Reasoning Integration
             ans = reasoning.answer("Explain Newton’s third law in simple words.")
             print("🧠 Reasoning Output:\n", ans)
 
-            # 8️⃣ Pause before next iteration
+            # Loop wait
             print("⏳ Waiting before next learning cycle...\n")
             time.sleep(10)
             cycle += 1
@@ -88,14 +107,12 @@ def main():
         try:
             trainer.visualizer.plot_progress()
         except Exception:
-            print("⚠️ Could not plot training progress.")
-
-        print("📈 Displaying Knowledge Graph growth...")
+            pass
+        print("📈 Displaying KG growth...")
         try:
             reflection.progress.plot()
-        except Exception as e:
-            print(f"⚠️ Could not plot KG growth: {e}")
-
+        except Exception:
+            pass
         kb.close()
 
 
