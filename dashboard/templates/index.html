@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Humanoid Scientist Dashboard</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <h1>🤖 Humanoid Scientist Dashboard</h1>
+  <div id="status">
+    <h3>Current Learning Cycle: {{ state.cycle }}</h3>
+    <p>Last Updated: {{ state.time }}</p>
+  </div>
+
+  <div class="panel">
+    <h2>📊 Metrics</h2>
+    <pre>{{ state.metrics | tojson(indent=2) }}</pre>
+  </div>
+
+  <div class="panel">
+    <h2>🕸️ Knowledge Graph Stats</h2>
+    <pre>{{ state.kg_stats | tojson(indent=2) }}</pre>
+  </div>
+
+  <div class="panel">
+    <h2>🧪 Recent Hypotheses</h2>
+    <ul>
+      {% for h in state.hypotheses %}
+        <li>{{ h.type }} → {{ h.hypothesis }} (score: {{ h.score }})</li>
+      {% endfor %}
+    </ul>
+  </div>
+</body>
+</html>
