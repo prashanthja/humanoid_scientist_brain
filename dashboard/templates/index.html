@@ -1,34 +1,71 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Humanoid Scientist Dashboard</title>
-  <link rel="stylesheet" href="/static/style.css">
+  <meta charset="UTF-8" />
+  <title>Humanoid Scientist Brain Dashboard</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+  <meta http-equiv="refresh" content="5" /> <!-- auto-refresh every 5s -->
 </head>
 <body>
-  <h1>🤖 Humanoid Scientist Dashboard</h1>
-  <div id="status">
-    <h3>Current Learning Cycle: {{ state.cycle }}</h3>
-    <p>Last Updated: {{ state.time }}</p>
-  </div>
+  <div class="container">
+    <h1>🤖 Humanoid Scientist Brain Dashboard</h1>
+    <p class="subtitle">Live AI Research Monitoring — Continuous Learning, Reasoning & Evolution</p>
 
-  <div class="panel">
-    <h2>📊 Metrics</h2>
-    <pre>{{ state.metrics | tojson(indent=2) }}</pre>
-  </div>
+    <!-- CYCLE INFO -->
+    <div class="card">
+      <h2>🌀 Current Cycle</h2>
+      <p><strong>Cycle:</strong> {{ state.cycle }}</p>
+    </div>
 
-  <div class="panel">
-    <h2>🕸️ Knowledge Graph Stats</h2>
-    <pre>{{ state.kg_stats | tojson(indent=2) }}</pre>
-  </div>
+    <!-- KNOWLEDGE GRAPH SECTION -->
+    <div class="card">
+      <h2>🧠 Knowledge Graph</h2>
+      <ul>
+        <li><strong>Nodes:</strong> {{ state.kg.nodes }}</li>
+        <li><strong>Edges:</strong> {{ state.kg.edges }}</li>
+        <li><strong>Last Visualization:</strong>
+          {% if state.kg.last_visual %}
+            <a href="{{ url_for('static', filename='../' + state.kg.last_visual) }}" target="_blank">View Graph</a>
+          {% else %}
+            None
+          {% endif %}
+        </li>
+      </ul>
+    </div>
 
-  <div class="panel">
-    <h2>🧪 Recent Hypotheses</h2>
-    <ul>
-      {% for h in state.hypotheses %}
-        <li>{{ h.type }} → {{ h.hypothesis }} (score: {{ h.score }})</li>
-      {% endfor %}
-    </ul>
+    <!-- TRAINING SECTION -->
+    <div class="card">
+      <h2>📊 Training Progress</h2>
+      <ul>
+        <li><strong>Last Average Loss:</strong> {{ state.training.last_avg_loss }}</li>
+        <li><strong>Embedding Similarity:</strong> {{ state.training.last_sim }}</li>
+      </ul>
+    </div>
+
+    <!-- HYPOTHESIS SECTION -->
+    <div class="card">
+      <h2>🧩 Hypothesis Evolution</h2>
+      <ul>
+        <li><strong>Active Hypotheses:</strong> {{ state.hypotheses.active }}</li>
+        <li><strong>Promoted Total:</strong> {{ state.hypotheses.promoted_total }}</li>
+        <li><strong>Retired Total:</strong> {{ state.hypotheses.retired_total }}</li>
+      </ul>
+
+      {% if state.hypotheses.evolution %}
+      <h3>📈 Evolution Summary (Cycle {{ state.hypotheses.evolution.cycle }})</h3>
+      <ul>
+        <li>🔁 Reinforced: {{ state.hypotheses.evolution.counts.reinforced }}</li>
+        <li>⬇️ Decayed: {{ state.hypotheses.evolution.counts.decayed }}</li>
+        <li>⚰️ Retired: {{ state.hypotheses.evolution.counts.retired }}</li>
+        <li>🚀 Promoted: {{ state.hypotheses.evolution.counts.promoted }}</li>
+        <li>📚 Total Active: {{ state.hypotheses.evolution.counts.total_active }}</li>
+      </ul>
+      {% endif %}
+    </div>
+
+    <footer>
+      <p>Powered by <strong>Humanoid Scientist Brain</strong> — Continuous AI Learning System 🌍</p>
+    </footer>
   </div>
 </body>
 </html>
