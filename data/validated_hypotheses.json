@@ -1,52 +1,52 @@
 {
   "hypotheses": {
     "matter, energy, and their interactions --related_to--> physics is the study": {
-      "ema": 0.9998778548235647,
-      "count": 7
+      "ema": 0.9999984348400253,
+      "count": 12
     },
     "matter, energy, and their interactions --related_to--> the study of matter": {
-      "ema": 0.9998778562271713,
-      "count": 7
+      "ema": 0.9999984242263862,
+      "count": 12
     },
     "matter, energy, and their interactions --related_to--> physics": {
-      "ema": 0.9998778541217614,
-      "count": 7
+      "ema": 0.9999984180153276,
+      "count": 12
     },
     "physics --related_to--> physics is the study": {
-      "ema": 0.9998778546707876,
-      "count": 7
+      "ema": 0.9999983899324558,
+      "count": 12
     },
     "physics --related_to--> the study of matter": {
-      "ema": 0.999877880666064,
-      "count": 7
+      "ema": 0.9999983990023987,
+      "count": 12
     },
     "physics --related_to--> matter, energy, and their interactions": {
-      "ema": 0.9998778541217614,
-      "count": 7
+      "ema": 0.9999984180153276,
+      "count": 12
     },
     "physics is the study --related_to--> the study of matter": {
-      "ema": 0.9998778833204999,
-      "count": 7
+      "ema": 0.9999984058944262,
+      "count": 12
     },
     "physics is the study --related_to--> matter, energy, and their interactions": {
-      "ema": 0.9998778548235647,
-      "count": 7
+      "ema": 0.9999984348400253,
+      "count": 12
     },
     "physics is the study --related_to--> physics": {
-      "ema": 0.9998778546707876,
-      "count": 7
+      "ema": 0.9999983899324558,
+      "count": 12
     },
     "the study of matter --related_to--> physics is the study": {
-      "ema": 0.9998778833204999,
-      "count": 7
+      "ema": 0.9999984058944262,
+      "count": 12
     },
     "the study of matter --related_to--> matter, energy, and their interactions": {
-      "ema": 0.9998778562271713,
-      "count": 7
+      "ema": 0.9999984242263862,
+      "count": 12
     },
     "the study of matter --related_to--> physics": {
-      "ema": 0.999877880666064,
-      "count": 7
+      "ema": 0.9999983990023987,
+      "count": 12
     }
   }
 }

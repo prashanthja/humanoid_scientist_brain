@@ -1,0 +1,390 @@
+{
+  "cycle": 1,
+  "registry": {
+    "matter, energy, and their interactions --related_to--> physics is the study": {
+      "text": "matter, energy, and their interactions --related_to--> physics is the study",
+      "stage": "candidate",
+      "gen_score": 0.8075,
+      "last_score": 0.8500000000000001,
+      "cycles_seen": 1,
+      "mentions": 7,
+      "last_cycle": 1,
+      "sources": [
+        {
+          "cycle": 1,
+          "raw": {
+            "hypothesis": "matter, energy, and their interactions --related_to--> physics is the study",
+            "type": "semantic_link",
+            "relation": "related_to",
+            "subject": "matter, energy, and their interactions",
+            "object": "physics is the study",
+            "support": 1.0,
+            "consistency": 1.0,
+            "confidence": 1.0,
+            "persistence": 1.0,
+            "promote": true
+          }
+        },
+        {
+          "cycle": 1,
+          "raw": {
+            "hypothesis": "matter, energy, and their interactions --related_to--> physics",
+            "type": "semantic_link",
+            "relation": "related_to",
+            "subject": "matter, energy, and their interactions",
+            "object": "physics",
+            "support": 1.0,
+            "consistency": 1.0,
+            "confidence": 1.0,
+            "persistence": 1.0,
+            "promote": true
+          }
+        },
+        {
+          "cycle": 1,
+          "raw": {
+            "hypothesis": "physics --related_to--> matter, energy, and their interactions",
+            "type": "semantic_link",
+            "relation": "related_to",
+            "subject": "physics",
+            "object": "matter, energy, and their interactions",
+            "support": 1.0,
+            "consistency": 1.0,
+            "confidence": 1.0,
+            "persistence": 1.0,
+            "promote": true
+          }
+        },
+        {
+          "cycle": 1,
+          "raw": {
+            "hypothesis": "physics is the study --related_to--> matter, energy, and their interactions",
+            "type": "semantic_link",
+            "relation": "related_to",
+            "subject": "physics is the study",
+            "object": "matter, energy, and their interactions",
+            "support": 1.0,
+            "consistency": 1.0,
+            "confidence": 1.0,
+            "persistence": 1.0,
+            "promote": true
+          }
+        },
+        {
+          "cycle": 1,
+          "raw": {
+            "hypothesis": "matter, energy, and their interactions --related_to--> physics is the study (in condensed matter)",
+            "type": "mutation",
+            "score": 0.8075
+          }
+        },
+        {
+          "cycle": 1,
+          "raw": {
+            "hypothesis": "physics is the study --related_to--> matter, energy, and their interactions",
+            "type": "mutation",
+            "score": 0.8075
+          }
+        },
+        {
+          "cycle": 1,
+          "raw": {
+            "hypothesis": "matter, energy, and their interactions relates to physics is the study",
+            "type": "mutation",
+            "score": 0.8075
+          }
+        }
+      ],
+      "history": [
+        {
+          "cycle": 1,
+          "score": 0.8500000000000001,
+          "stage": "candidate"
+        }
+      ]
+    },
+    "matter, energy, and their interactions --related_to--> the study of matter": {
+      "text": "matter, energy, and their interactions --related_to--> the study of matter",
+      "stage": "candidate",
+      "gen_score": 0.8075,
+      "last_score": 0.8500000000000001,
+      "cycles_seen": 1,
+      "mentions": 5,
+      "last_cycle": 1,
+      "sources": [
+        {
+          "cycle": 1,
+          "raw": {
+            "hypothesis": "matter, energy, and their interactions --related_to--> the study of matter",
+            "type": "semantic_link",
+            "relation": "related_to",
+            "subject": "matter, energy, and their interactions",
+            "object": "the study of matter",
+            "support": 1.0,
+            "consistency": 1.0,
+            "confidence": 1.0,
+            "persistence": 1.0,
+            "promote": true
+          }
+        },
+        {
+          "cycle": 1,
+          "raw": {
+            "hypothesis": "the study of matter --related_to--> matter, energy, and their interactions",
+            "type": "semantic_link",
+            "relation": "related_to",
+            "subject": "the study of matter",
+            "object": "matter, energy, and their interactions",
+            "support": 1.0,
+            "consistency": 1.0,
+            "confidence": 1.0,
+            "persistence": 1.0,
+            "promote": true
+          }
+        },
+        {
+          "cycle": 1,
+          "raw": {
+            "hypothesis": "matter, energy, and their interactions relates to the study of matter",
+            "type": "mutation",
+            "score": 0.8075
+          }
+        },
+        {
+          "cycle": 1,
+          "raw": {
+            "hypothesis": "the study of matter --related_to--> matter, energy, and their interactions",
+            "type": "mutation",
+            "score": 0.8075
+          }
+        },
+        {
+          "cycle": 1,
+          "raw": {
+            "hypothesis": "matter, energy, and their interactions --related_to--> the study of matter (in condensed matter)",
+            "type": "mutation",
+            "score": 0.8075
+          }
+        }
+      ],
+      "history": [
+        {
+          "cycle": 1,
+          "score": 0.8500000000000001,
+          "stage": "candidate"
+        }
+      ]
+    },
+    "physics --related_to--> physics is the study": {
+      "text": "physics --related_to--> physics is the study",
+      "stage": "candidate",
+      "gen_score": 0.8075,
+      "last_score": 0.8500000000000001,
+      "cycles_seen": 1,
+      "mentions": 3,
+      "last_cycle": 1,
+      "sources": [
+        {
+          "cycle": 1,
+          "raw": {
+            "hypothesis": "physics --related_to--> physics is the study",
+            "type": "semantic_link",
+            "relation": "related_to",
+            "subject": "physics",
+            "object": "physics is the study",
+            "support": 1.0,
+            "consistency": 1.0,
+            "confidence": 1.0,
+            "persistence": 1.0,
+            "promote": true
+          }
+        },
+        {
+          "cycle": 1,
+          "raw": {
+            "hypothesis": "physics is the study --related_to--> physics",
+            "type": "semantic_link",
+            "relation": "related_to",
+            "subject": "physics is the study",
+            "object": "physics",
+            "support": 1.0,
+            "consistency": 1.0,
+            "confidence": 1.0,
+            "persistence": 1.0,
+            "promote": true
+          }
+        },
+        {
+          "cycle": 1,
+          "raw": {
+            "hypothesis": "physics is the study --related_to--> physics",
+            "type": "mutation",
+            "score": 0.8075
+          }
+        }
+      ],
+      "history": [
+        {
+          "cycle": 1,
+          "score": 0.8500000000000001,
+          "stage": "candidate"
+        }
+      ]
+    },
+    "physics --related_to--> the study of matter": {
+      "text": "physics --related_to--> the study of matter",
+      "stage": "candidate",
+      "gen_score": 0.8075,
+      "last_score": 0.8500000000000001,
+      "cycles_seen": 1,
+      "mentions": 5,
+      "last_cycle": 1,
+      "sources": [
+        {
+          "cycle": 1,
+          "raw": {
+            "hypothesis": "physics --related_to--> the study of matter",
+            "type": "semantic_link",
+            "relation": "related_to",
+            "subject": "physics",
+            "object": "the study of matter",
+            "support": 1.0,
+            "consistency": 1.0,
+            "confidence": 1.0,
+            "persistence": 1.0,
+            "promote": true
+          }
+        },
+        {
+          "cycle": 1,
+          "raw": {
+            "hypothesis": "physics is the study --related_to--> the study of matter",
+            "type": "semantic_link",
+            "relation": "related_to",
+            "subject": "physics is the study",
+            "object": "the study of matter",
+            "support": 1.0,
+            "consistency": 1.0,
+            "confidence": 1.0,
+            "persistence": 1.0,
+            "promote": true
+          }
+        },
+        {
+          "cycle": 1,
+          "raw": {
+            "hypothesis": "the study of matter --related_to--> physics is the study",
+            "type": "semantic_link",
+            "relation": "related_to",
+            "subject": "the study of matter",
+            "object": "physics is the study",
+            "support": 1.0,
+            "consistency": 1.0,
+            "confidence": 1.0,
+            "persistence": 1.0,
+            "promote": true
+          }
+        },
+        {
+          "cycle": 1,
+          "raw": {
+            "hypothesis": "the study of matter --related_to--> physics",
+            "type": "semantic_link",
+            "relation": "related_to",
+            "subject": "the study of matter",
+            "object": "physics",
+            "support": 1.0,
+            "consistency": 1.0,
+            "confidence": 1.0,
+            "persistence": 1.0,
+            "promote": true
+          }
+        },
+        {
+          "cycle": 1,
+          "raw": {
+            "hypothesis": "the study of matter --related_to--> physics",
+            "type": "mutation",
+            "score": 0.8075
+          }
+        }
+      ],
+      "history": [
+        {
+          "cycle": 1,
+          "score": 0.8500000000000001,
+          "stage": "candidate"
+        }
+      ]
+    },
+    "physics relates to physics is the study": {
+      "text": "physics relates to physics is the study",
+      "stage": "seed",
+      "gen_score": 0.8075,
+      "last_score": 0.0,
+      "cycles_seen": 0,
+      "mentions": 1,
+      "last_cycle": 1,
+      "sources": [
+        {
+          "cycle": 1,
+          "raw": {
+            "hypothesis": "physics relates to physics is the study",
+            "type": "mutation",
+            "score": 0.8075
+          }
+        }
+      ],
+      "history": []
+    },
+    "physics --related_to--> physics is the study (in condensed matter)": {
+      "text": "physics --related_to--> physics is the study (in condensed matter)",
+      "stage": "seed",
+      "gen_score": 0.8075,
+      "last_score": 0.0,
+      "cycles_seen": 0,
+      "mentions": 2,
+      "last_cycle": 1,
+      "sources": [
+        {
+          "cycle": 1,
+          "raw": {
+            "hypothesis": "physics --related_to--> physics is the study (in condensed matter)",
+            "type": "mutation",
+            "score": 0.8075
+          }
+        },
+        {
+          "cycle": 1,
+          "raw": {
+            "hypothesis": "physics --related_to--> the study of matter (in condensed matter)",
+            "type": "mutation",
+            "score": 0.8075
+          }
+        }
+      ],
+      "history": []
+    },
+    "physics relates to the study of matter": {
+      "text": "physics relates to the study of matter",
+      "stage": "seed",
+      "gen_score": 0.8075,
+      "last_score": 0.0,
+      "cycles_seen": 0,
+      "mentions": 1,
+      "last_cycle": 1,
+      "sources": [
+        {
+          "cycle": 1,
+          "raw": {
+            "hypothesis": "physics relates to the study of matter",
+            "type": "mutation",
+            "score": 0.8075
+          }
+        }
+      ],
+      "history": []
+    }
+  },
+  "ts": 1760806782.469179
+}

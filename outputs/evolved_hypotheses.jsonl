@@ -1,0 +1,11 @@
+{"ts": 1760806782.467446, "cycle": 1, "event": "ingest", "hypothesis": "matter, energy, and their interactions --related_to--> physics is the study"}
+{"ts": 1760806782.467942, "cycle": 1, "event": "ingest", "hypothesis": "matter, energy, and their interactions --related_to--> the study of matter"}
+{"ts": 1760806782.4680371, "cycle": 1, "event": "ingest", "hypothesis": "physics --related_to--> physics is the study"}
+{"ts": 1760806782.468129, "cycle": 1, "event": "ingest", "hypothesis": "physics --related_to--> the study of matter"}
+{"ts": 1760806782.468551, "cycle": 1, "event": "stage_change", "from": "seed", "to": "candidate", "hypothesis": "matter, energy, and their interactions --related_to--> physics is the study", "score": 0.85}
+{"ts": 1760806782.468715, "cycle": 1, "event": "stage_change", "from": "seed", "to": "candidate", "hypothesis": "matter, energy, and their interactions --related_to--> the study of matter", "score": 0.85}
+{"ts": 1760806782.4688199, "cycle": 1, "event": "ingest", "hypothesis": "physics relates to physics is the study"}
+{"ts": 1760806782.468905, "cycle": 1, "event": "ingest", "hypothesis": "physics --related_to--> physics is the study (in condensed matter)"}
+{"ts": 1760806782.46894, "cycle": 1, "event": "stage_change", "from": "seed", "to": "candidate", "hypothesis": "physics --related_to--> physics is the study", "score": 0.85}
+{"ts": 1760806782.469111, "cycle": 1, "event": "ingest", "hypothesis": "physics relates to the study of matter"}
+{"ts": 1760806782.469145, "cycle": 1, "event": "stage_change", "from": "seed", "to": "candidate", "hypothesis": "physics --related_to--> the study of matter", "score": 0.85}
