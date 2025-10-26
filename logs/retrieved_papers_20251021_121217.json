@@ -1,0 +1,1199 @@
+[
+  {
+    "id": "2f10f6010f1e751c0ec357741eacad0a034502a2",
+    "source": "arxiv",
+    "title": "Exorcising ghosts with gravitational waves: cases of ghostful and ghost-free fourth-order gravity",
+    "text": "General Relativity (GR) is an effective field theory valid in the infrared regime. Quadratic curvature extensions intended to probe ultraviolet physics generically propagate a massive spin-$2$ ghost and are therefore non-unitary. One route to remove ghost is by enlarging the geometric sector (torsion, non-metricity). We investigate the infrared phenomenology of both the standard (ghostful) and ghost-free fourth-order gravity theories by computing Gravitational Wave (GW) emission and confronting the results with observations such as the orbital-period decay of quasi-stable binaries such as PSR B1913+16 and PSR J1738+0333 and the chirp-mass evolution of GW170817. In the ghostful theory, besides the theoretical inconsistency due to non-unitarity, there are also phenomenological problems: the massless spin-$2$ GW flux cancels the combined GW fluxes of the massive spin-$2$ ghost and massive spin-$0$ scalar in the vanishing-mass limit, so the GR quadrupole formula is not recovered at the leading order. As a result, we obtain the GW constraint on the ghostful theory as $m\\gtrsim 10^{-11}~\\mathrm{eV}$, where $m$ is the mass of the massive modes. By contrast, the ghost-free theory smoothly reproduces the Newtonian potential and GR quadrupole formulae when the two coupling constants $\\alpha_1$ and $\\alpha_2$ vanish, independently of the mass $m$. Therefore, GW observations put mass-dependent upper bounds on the size of the coupling constants. For example, if we assume $\\alpha_1\\simeq\\alpha_2$ for simplicity, then we obtain $\\alpha_{1,2}\\lesssim 4.2\\times 10^{83}$ for $m\\sim 3\\times 10^{-16}\\,\\mathrm{eV}$ and $\\alpha_{1,2}\\lesssim 1.3\\times 10^{75}$ for $m\\sim 10^{-11}\\,\\mathrm{eV}$. To our knowledge, these are the first astrophysical-scale bounds reported for ghostful and ghost-free fourth-order gravity.",
+    "url": "http://arxiv.org/abs/2510.17789v1",
+    "tags": [
+      "arxiv",
+      "paper",
+      "physics"
+    ],
+    "timestamp": "2025-10-20T17:47:09Z",
+    "meta": {
+      "query": "physics"
+    }
+  },
+  {
+    "id": "791cb8b718c4a5c093b1825d7a72963496fcfea9",
+    "source": "crossref",
+    "title": "Space is the Same thing as Energy-The Underlying Structure of the Observed Universe",
+    "text": "Energy and Matter is the same thing. Space and Energy is the same thing. Time and change are different. These conclusions give rise to a different view of Atomic and molecular Structure and force. The model universe is a Quantum Universe, Quantum solution for quantum point driven, Time Free, Dimension Free, Thermodynamic Free and therefore entropy free. AuT built this list which is foundational and unique. 1. All dimensions present (at least 5) exist together within the matrix of the universe and in any regional matrix; subgroups of these dimensions are present. • Space has no dimension, precharge exists in a single dimension, prephotons exist in two; neutrons (complete matter) in 3 and blackholes in 4. • The definitions of time and space mean that exchanges of information state (ct state) between space and prephotonsoccur independent of time. Time as we experience arises between the prephoton states and ends with compression to neutrons. 2. All change is quantum change in response to a single variable leading to the universe existing as a series of quantum states or snapshots. Force and time are effects based on this quantum change. 3. Time and change are different. Changes in the single variable lead to time, but time is not required for that underlying change nor does it affect that change. 4. Time is an effect like force and dimension of the quantum change between states some of which occur without time-based reference giving rise to features like wave - particle false duality and the impression of charge among other features. 5. Space is made of the same type of information as all other states (energy, matter, black holes) which are folded from space based on exponential compression/folding. 6. Waves, Photons, Electrons and protons are examples of transitional states (ct3-ct4) between prephotons (ct3) and neutrons (ct4); atoms (after hydrogen) and molecular states through neutron stars are transitional states between neutrons (ct4) and black holes (ct5) along with intervening transitional ct3-ct4 states.",
+    "url": "https://doi.org/10.33140/atcp.02.02.1",
+    "tags": [
+      "crossref",
+      "journal-article",
+      "physics"
+    ],
+    "timestamp": "2029-01-01T00:00:00Z",
+    "meta": {
+      "container": [
+        "Advances in Theoretical &amp; Computational Physics"
+      ],
+      "subject": null
+    }
+  },
+  {
+    "id": "f2ab6b47a5f63fe41757880dad2089956cb1ae1c",
+    "source": "crossref",
+    "title": "Optical Transition Rates in a Cylindrical Quantum Wire with an Inverse Parabolic Potential",
+    "text": "Electron transition rates due to interaction with circularly polarized light incident along the axis of a free-standing solid cylindrical nanowire are evaluated in the dipole approximation. In this case, the allowed optical transitions are only those for which the azimuthal quantum numbers of the initial and final states differ by unity. The envisaged electric potential of the quantum wire is modeled as inversely parabolic in the radial distance and such that it assumes a value of zero at the surface of the nanostructure. The investigations here are on the influence of this form of the confining potential on the transition rates involving some few electrons’ states of higher radial quantum numbers, nonetheless limited to transitions only between a pair of the electron’s energy sub bands. It is found that a sweep of the strength of the potential gives rise to modulations of the optical transition rates for higher radial quantum numbers. Furthermore, an increase of the strength of this potential reduces the transition energies thus such an increase redshifts peaks of the corresponding transitions rates.",
+    "url": "https://doi.org/10.33140/atcp.02.02.2",
+    "tags": [
+      "crossref",
+      "journal-article",
+      "physics"
+    ],
+    "timestamp": "2029-01-01T00:00:00Z",
+    "meta": {
+      "container": [
+        "Advances in Theoretical &amp; Computational Physics"
+      ],
+      "subject": null
+    }
+  },
+  {
+    "id": "11f8450930258e9a7ece88770e070cf37d248406",
+    "source": "crossref",
+    "title": "Crossref item",
+    "text": "Crossref item",
+    "url": "https://doi.org/10.33140/atcp.02.02",
+    "tags": [
+      "crossref",
+      "journal-issue",
+      "physics"
+    ],
+    "timestamp": "2029-01-01T00:00:00Z",
+    "meta": {
+      "container": [
+        "Advances in Theoretical &amp; Computational Physics"
+      ],
+      "subject": null
+    }
+  },
+  {
+    "id": "db60ea0ed36b434b435bb1a67c89071303446c9b",
+    "source": "crossref",
+    "title": "Supreme Theory of Everything",
+    "text": "Not only universe, but everything has general characters as eternal, infinite, cyclic and wave-particle duality. Everything from elementary particles to celestial bodies, from electromagnetic wave to gravity is in eternal motions, which dissects only to circle. Since everything is described only by trigonometry. Without trigonometry and mathematical circle, the science cannot indicate all the beauty of harmonic universe. Other method may be very good, but it is not perfect. Some part is very nice, another part is problematic. General Theory of Relativity holds that gravity is geometric. Quantum Mechanics describes all particles by wave function of trigonometry. In this paper using trigonometry, particularly mathematics circle, a possible version of the unification of partial theories, evolution history and structure of expanding universe, and the parallel universes are shown.",
+    "url": "https://doi.org/10.33140/atcp.02.02.05",
+    "tags": [
+      "crossref",
+      "journal-article",
+      "physics"
+    ],
+    "timestamp": "2029-01-01T00:00:00Z",
+    "meta": {
+      "container": [
+        "Advances in Theoretical &amp; Computational Physics"
+      ],
+      "subject": null
+    }
+  },
+  {
+    "id": "6d62d06519cdf9eef870ca14ae420d37a73f471b",
+    "source": "crossref",
+    "title": "A Cause of Inertia",
+    "text": "A charged particle, moving at a constant velocity, carries along its electrostatic field Eo . But, as a result of finite speed of light, a particle of charge Q and mass m moving at time t with velocity v and acceleration dv/dt, has a resultant of its electrostatic field in the opposite direction of accelerarion. So, a reactive electric field Ea proportional to and in the opposite direction of the acceleration is created. The field Ea acts only on the same charge Q, producing it, to generate an inertial force f= QEa = -m (dv/dt), where m is a constant equal to the rest mass. For a neutral body of mass M, composed of N/2 positive and N/2 negative charges, the inertial forces on the charges add up to Nf =NQEa = -Nm (dv/dt) = -M (dv/dt). This explains the cause of inertia, the tendency of a body to resist acceleration or deceleration, as the result of self-induced reactive forces on the electric charges composing the body, contrary to general relativity. Expressions are deduced for the mass m and energy E of an electric charge Q, in the form of a spherical shell of radius a, in conformity with a mass-energy equivalence law as E = ½ mc2 , where c is the speed of light in a vacuum, in contrast to special relativity giving E = mc2 . The total energy of a particle of mass m moving at speed v, relative to an observer, is Ev = ½ m (c2 + v2 ).",
+    "url": "https://doi.org/10.33140/atcp.02.01.1",
+    "tags": [
+      "crossref",
+      "journal-article",
+      "physics"
+    ],
+    "timestamp": "2029-01-01T00:00:00Z",
+    "meta": {
+      "container": [
+        "Advances in Theoretical &amp; Computational Physics"
+      ],
+      "subject": null
+    }
+  },
+  {
+    "id": "7c2685c8951fd5d44781149367b5bf26f0722a66",
+    "source": "crossref",
+    "title": "Materion Astronomical Filter Heritage",
+    "text": "For over 40 years Materion Precision Optics (formerly Barr Associates) has been providing precision optical coatings for some of the world’s most challenging ground and space based astronomical programs. From UV – LWIR Materion offers a wide range of optical coatings (bandpass filters, dichroic beamsplitters, and mirrors). Our Large Area Optics Lab was designed and built to specifically provide high performance optics (&gt;1.4M) to the large telescope community. Materion’s heritage additionally includes our space-based optics capabilities; all of which meet or exceed even the most stringent performance and durability requirements.",
+    "url": "https://doi.org/10.33140/atcp.02.02.06",
+    "tags": [
+      "crossref",
+      "journal-article",
+      "physics"
+    ],
+    "timestamp": "2029-01-01T00:00:00Z",
+    "meta": {
+      "container": [
+        "Advances in Theoretical &amp; Computational Physics"
+      ],
+      "subject": null
+    }
+  },
+  {
+    "id": "c6c9b78460b344df6a152ae0524adf7e5758dcd1",
+    "source": "crossref",
+    "title": "Transient Formulations for a Heat-Generating Fin with a Temperature-Dependent Heat Transfer Coefficient and Thermal Conductivity",
+    "text": "Numerical calculations and scalar transport analyses are carried out for transient heat transfer in a heat generating fin with a temperature-dependent heat transfer and conduction coefficients. The highly nonlinear governing equation, satisfies the Dirichlet and Neumann boundary conditions at both ends of the problem domain.Integral representation of the governing equation over the discretized problem domain is achieved via the Green’s second identity together with the so called free- space Green function . This element-driven approach togetherwith the finite difference approximation of the temporal derivative result in discrete equations which are recursive in nature. At the boundaries of any of the adjacent elements, compatibility conditions and/or boundary conditions are enforced to guarantee scalar continuity. After the resulting system of discrete equations are numerically solved and assembled, they yield the transient history of the scalar variables at any particular point in time. Several numerical tests are carried out to ensure the convergence and accuracy of the formulation by comparing numerical results with those found in literature.",
+    "url": "https://doi.org/10.33140/atcp.02.02.03",
+    "tags": [
+      "crossref",
+      "journal-article",
+      "physics"
+    ],
+    "timestamp": "2029-01-01T00:00:00Z",
+    "meta": {
+      "container": [
+        "Advances in Theoretical &amp; Computational Physics"
+      ],
+      "subject": null
+    }
+  },
+  {
+    "id": "70d1411e32b1856880692c4acaf1f24135044798",
+    "source": "crossref",
+    "title": "A Non-Regular Icosahedron Geometry Satellite Form, Mirror Invested Polyhedro Heliotrope, For Optical Tracking",
+    "text": "Working on relationships of three circles in common ratio [4/π or square root of the golden number ] and drawing lines of related tangents, squares and triangles, viewed on the paper plan, a figure having the shape of a section [Hexagonal] similar to that of an Icosahedron or Dodecahedron. This gave me the idea of searching for an existing probable Polyhedron built upon this traced shape. In fact this Polyhedron was built[ 4x scale], whose geometry relates to the Icosahedron and the Dodecahedron. It is a non regular Icosahedron having 12 Isosceli triangles and 8 Equilateral triangles. Mirror triangles cut to size, invested the structure for the configuration of a “Polyhedroheliotrope”Satellite Optical Tracking application.",
+    "url": "https://doi.org/10.33140/atcp.02.02.04",
+    "tags": [
+      "crossref",
+      "journal-article",
+      "physics"
+    ],
+    "timestamp": "2029-01-01T00:00:00Z",
+    "meta": {
+      "container": [
+        "Advances in Theoretical &amp; Computational Physics"
+      ],
+      "subject": null
+    }
+  },
+  {
+    "id": "312b84584cfa3fa07894b4f07728ccec75f353b0",
+    "source": "crossref",
+    "title": "Modeling of thermal effect in dynamic high-pressure microfluidization and its impact on heat sensitive components from fruit juice",
+    "text": "Modeling of thermal effect in dynamic high-pressure microfluidization and its impact on heat sensitive components from fruit juice",
+    "url": "https://doi.org/10.1016/j.foodp.2025.100069",
+    "tags": [
+      "crossref",
+      "journal-article",
+      "physics"
+    ],
+    "timestamp": "2026-01-01T00:00:00Z",
+    "meta": {
+      "container": [
+        "Food Physics"
+      ],
+      "subject": null
+    }
+  },
+  {
+    "id": "1dec4adfad54bb02395042532198031565033f3a",
+    "source": "crossref",
+    "title": "Crossref item",
+    "text": "Crossref item",
+    "url": "https://doi.org/10.3030/101220729",
+    "tags": [
+      "crossref",
+      "grant",
+      "physics"
+    ],
+    "timestamp": "2026-01-01T00:00:00Z",
+    "meta": {
+      "container": null,
+      "subject": null
+    }
+  },
+  {
+    "id": "cfb6fdc760c32139bbd14b0e4d547c67d55fc9c1",
+    "source": "crossref",
+    "title": "Effect of a magnetic field on the production of Monascus pigments and citrinin via regulation of intracellular and extracellular iron content",
+    "text": "Effect of a magnetic field on the production of Monascus pigments and citrinin via regulation of intracellular and extracellular iron content",
+    "url": "https://doi.org/10.1016/j.foodp.2025.100070",
+    "tags": [
+      "crossref",
+      "journal-article",
+      "physics"
+    ],
+    "timestamp": "2026-01-01T00:00:00Z",
+    "meta": {
+      "container": [
+        "Food Physics"
+      ],
+      "subject": null
+    }
+  },
+  {
+    "id": "9e01b467550efeffe0135be7c43dad47574686e0",
+    "source": "crossref",
+    "title": "To investigate the effects of controlled moisture levels on the peach (Prunus persica) kernels: Dimensional, gravimetrical, frictional, optical, and mechanical properties",
+    "text": "To investigate the effects of controlled moisture levels on the peach (Prunus persica) kernels: Dimensional, gravimetrical, frictional, optical, and mechanical properties",
+    "url": "https://doi.org/10.1016/j.foodp.2025.100071",
+    "tags": [
+      "crossref",
+      "journal-article",
+      "physics"
+    ],
+    "timestamp": "2026-01-01T00:00:00Z",
+    "meta": {
+      "container": [
+        "Food Physics"
+      ],
+      "subject": null
+    }
+  },
+  {
+    "id": "ec7d36c0b0e41454af40eadb35e340880fb501eb",
+    "source": "crossref",
+    "title": "Significance of Corrosion Phenomena for Magnets of Accelerators, Fusion and High Energy Physics Experiments",
+    "text": "Significance of Corrosion Phenomena for Magnets of Accelerators, Fusion and High Energy Physics Experiments",
+    "url": "https://doi.org/10.1109/tasc.2025.3612929",
+    "tags": [
+      "crossref",
+      "journal-article",
+      "physics"
+    ],
+    "timestamp": "2026-01-01T00:00:00Z",
+    "meta": {
+      "container": [
+        "IEEE Transactions on Applied Superconductivity"
+      ],
+      "subject": null
+    }
+  },
+  {
+    "id": "3ffb47e4ede5c5612f914371c55a2bfb66dcf32c",
+    "source": "arxiv",
+    "title": "ConsistEdit: Highly Consistent and Precise Training-free Visual Editing",
+    "text": "Recent advances in training-free attention control methods have enabled flexible and efficient text-guided editing capabilities for existing generation models. However, current approaches struggle to simultaneously deliver strong editing strength while preserving consistency with the source. This limitation becomes particularly critical in multi-round and video editing, where visual errors can accumulate over time. Moreover, most existing methods enforce global consistency, which limits their ability to modify individual attributes such as texture while preserving others, thereby hindering fine-grained editing. Recently, the architectural shift from U-Net to MM-DiT has brought significant improvements in generative performance and introduced a novel mechanism for integrating text and vision modalities. These advancements pave the way for overcoming challenges that previous methods failed to resolve. Through an in-depth analysis of MM-DiT, we identify three key insights into its attention mechanisms. Building on these, we propose ConsistEdit, a novel attention control method specifically tailored for MM-DiT. ConsistEdit incorporates vision-only attention control, mask-guided pre-attention fusion, and differentiated manipulation of the query, key, and value tokens to produce consistent, prompt-aligned edits. Extensive experiments demonstrate that ConsistEdit achieves state-of-the-art performance across a wide range of image and video editing tasks, including both structure-consistent and structure-inconsistent scenarios. Unlike prior methods, it is the first approach to perform editing across all inference steps and attention layers without handcraft, significantly enhancing reliability and consistency, which enables robust multi-round and multi-region editing. Furthermore, it supports progressive adjustment of structural consistency, enabling finer control.",
+    "url": "http://arxiv.org/abs/2510.17803v1",
+    "tags": [
+      "arxiv",
+      "paper",
+      "quantum mechanics"
+    ],
+    "timestamp": "2025-10-20T17:59:52Z",
+    "meta": {
+      "query": "quantum mechanics"
+    }
+  },
+  {
+    "id": "deca269cbcb9d8eefecca29ee865d65e8cf13440",
+    "source": "arxiv",
+    "title": "Unbiased Gradient Low-Rank Projection",
+    "text": "Memory-efficient optimization is critical for training increasingly large language models (LLMs). A popular strategy involves gradient low-rank projection, storing only the projected optimizer states, with GaLore being a representative example. However, a significant drawback of many such methods is their lack of convergence guarantees, as various low-rank projection approaches introduce inherent biases relative to the original optimization algorithms, which contribute to performance gaps compared to full-parameter training. Aiming to tackle this problem, this paper investigates the layerwise sampling technique for debiasing low-rank projection mechanisms. In particular, an instantiation of the paradigm gives rise to a novel and unbiased low-rank optimization method built upon GaLore's mechanism and the Muon algorithm, named GaLore Unbiased with Muon (GUM). We theoretically prove our method matches the convergence guarantees of the base Muon algorithm while preserving the memory efficiency of low-rank techniques. Empirical experiments on LLM fine-tuning and pretraining also demonstrate non-trivial improvements over GaLore and even better performance than full-parameter training. Further investigation shows that the improvement of this technique comes from a more uniform distribution of knowledge inside layers, leading to more efficient utilization of the model parameter space and better memorization.",
+    "url": "http://arxiv.org/abs/2510.17802v1",
+    "tags": [
+      "arxiv",
+      "paper",
+      "quantum mechanics"
+    ],
+    "timestamp": "2025-10-20T17:59:25Z",
+    "meta": {
+      "query": "quantum mechanics"
+    }
+  },
+  {
+    "id": "c0193fccb4d53fa10fcea5fc569c64870f08e979",
+    "source": "arxiv",
+    "title": "Enterprise Deep Research: Steerable Multi-Agent Deep Research for Enterprise Analytics",
+    "text": "As information grows exponentially, enterprises face increasing pressure to transform unstructured data into coherent, actionable insights. While autonomous agents show promise, they often struggle with domain-specific nuances, intent alignment, and enterprise integration. We present Enterprise Deep Research (EDR), a multi-agent system that integrates (1) a Master Planning Agent for adaptive query decomposition, (2) four specialized search agents (General, Academic, GitHub, LinkedIn), (3) an extensible MCP-based tool ecosystem supporting NL2SQL, file analysis, and enterprise workflows, (4) a Visualization Agent for data-driven insights, and (5) a reflection mechanism that detects knowledge gaps and updates research direction with optional human-in-the-loop steering guidance. These components enable automated report generation, real-time streaming, and seamless enterprise deployment, as validated on internal datasets. On open-ended benchmarks including DeepResearch Bench and DeepConsult, EDR outperforms state-of-the-art agentic systems without any human steering. We release the EDR framework and benchmark trajectories to advance research on multi-agent reasoning applications. Code at https://github.com/SalesforceAIResearch/enterprise-deep-research and Dataset at https://huggingface.co/datasets/Salesforce/EDR-200",
+    "url": "http://arxiv.org/abs/2510.17797v1",
+    "tags": [
+      "arxiv",
+      "paper",
+      "quantum mechanics"
+    ],
+    "timestamp": "2025-10-20T17:55:11Z",
+    "meta": {
+      "query": "quantum mechanics"
+    }
+  },
+  {
+    "id": "3e9fece115a8c53df137f9af6785ae17e34dbf61",
+    "source": "arxiv",
+    "title": "UltraCUA: A Foundation Model for Computer Use Agents with Hybrid Action",
+    "text": "Multimodal agents for computer use rely exclusively on primitive actions (click, type, scroll) that require accurate visual grounding and lengthy execution chains, leading to cascading failures and performance bottlenecks. While other agents leverage rich programmatic interfaces (APIs, MCP servers, tools), computer-use agents (CUAs) remain isolated from these capabilities. We present UltraCUA, a foundation model that bridges this gap through hybrid action -- seamlessly integrating GUI primitives with high-level programmatic tool calls. To achieve this, our approach comprises four key components: (1) an automated pipeline that scales programmatic tools from software documentation, open-source repositories, and code generation; (2) a synthetic data engine producing over 17,000 verifiable tasks spanning real-world computer-use scenarios; (3) a large-scale high-quality hybrid action trajectory collection with both low-level GUI actions and high-level programmatic tool calls; and (4) a two-stage training pipeline combining supervised fine-tuning with online reinforcement learning, enabling strategic alternation between low-level and high-level actions. Experiments with our 7B and 32B models demonstrate substantial improvements over state-of-the-art agents. On OSWorld, UltraCUA models achieve an average 22% relative improvement over base models, while being 11% faster in terms of steps. Out-of-domain evaluation on WindowsAgentArena shows our model reaches 21.7% success rate, outperforming baselines trained on Windows data. The hybrid action mechanism proves critical, reducing error propagation while maintaining execution efficiency.",
+    "url": "http://arxiv.org/abs/2510.17790v1",
+    "tags": [
+      "arxiv",
+      "paper",
+      "quantum mechanics"
+    ],
+    "timestamp": "2025-10-20T17:48:26Z",
+    "meta": {
+      "query": "quantum mechanics"
+    }
+  },
+  {
+    "id": "75b591e787556466db76836c9dbd9b62c9320c36",
+    "source": "arxiv",
+    "title": "Comprehensive analysis of time-domain overlapping gravitational wave transients: A Lensing Study",
+    "text": "Next-generation GW detectors will produce a high rate of temporally overlapping signals from unrelated compact binary coalescences. Such overlaps can bias parameter estimation (PE) and mimic signatures of other physical effects, such as gravitational lensing. In this work, we investigate how overlapping signals can be degenerate with gravitational lensing by focusing on two scenarios: Type-II strong lensing and microlensing by an isolated point-mass lens. We simulate quasicircular binary black-hole pairs with chirp-mass ratios $\\mathscr{M}_{\\rm B}/\\mathscr{M}_{\\rm A}\\in\\{0.5,\\,1,\\,2\\}$, SNR ratios $\\mathrm{SNR}_{\\rm B}/\\mathrm{SNR}_{\\rm A}\\in\\{0.5,\\,1\\}$, and coalescence-time offsets $\\Delta t_{\\rm c}\\in[-0.1,\\,0.1]~\\mathrm{s}$. Bayesian PE and fitting-factor studies show that the Type-II lensing hypothesis is favored over the unlensed quasicircular hypothesis ($\\log_{10}\\mathscr{B}^{\\rm L}_{\\rm U}&gt;1$) only in a small region of the overlapping parameter space with $\\mathscr{M}_{\\rm B}/\\mathscr{M}_{\\rm A}\\gtrsim1$ and $|\\Delta t_{\\rm c}|\\leq0.03~\\rm{s}$.. Meanwhile, false evidence for microlensing signatures can arise because, to a reasonable approximation, the model produces two superimposed images whose time delay can closely match $|\\Delta t_{\\rm c}|$. Overall, the inferred Bayes factor depends on relative chirp-mass ratios, relative loudness, difference in coalescence times, and also the absolute SNRs of the overlapping signals. Cumulatively, our results indicate that overlapping black-hole binaries with nearly equal chirp masses and comparable loudness are likely to be falsely identified as lensed. Such misidentifications are expected to become more common as detector sensitivities improve. While our study focuses on ground-based detectors using appropriate detectability thresholds, the findings naturally extend to next-generation GW observatories.",
+    "url": "http://arxiv.org/abs/2510.17787v1",
+    "tags": [
+      "arxiv",
+      "paper",
+      "quantum mechanics"
+    ],
+    "timestamp": "2025-10-20T17:46:37Z",
+    "meta": {
+      "query": "quantum mechanics"
+    }
+  },
+  {
+    "id": "81fad9b8bbefc43399bd202fb37d0ec26dedcf98",
+    "source": "arxiv",
+    "title": "Circular Huygens Dipoles: Unidirectional Spin-Angular Momentum from Achiral Nanoparticles",
+    "text": "Simultaneous control over the directionality and spin of light at the nanoscale is a central goal in nanophotonics with applications ranging from quantum information to advanced biosensing. We introduce the concept of the Circular Huygens Dipole and numerically demonstrate its realization in a single Si nanocuboid. We show that the polarization of an incident linear wave controls the interference between co-located circular electric and magnetic dipoles excited in phase quadrature. This enables deterministic switching of the forward-scattered radiation between purely right- and left-circularly polarized states. The system also functions as a directional spin-to-linear polarization converter. Our findings establish a robust, passive method for reconfigurable spin-directional control in a simple, monolithic silicon nanostructure, opening avenues for chip-scale spin-optics, chiral quantum interfaces, and novel sensing platforms.",
+    "url": "http://arxiv.org/abs/2510.17784v1",
+    "tags": [
+      "arxiv",
+      "paper",
+      "quantum mechanics"
+    ],
+    "timestamp": "2025-10-20T17:43:23Z",
+    "meta": {
+      "query": "quantum mechanics"
+    }
+  },
+  {
+    "id": "c83cc6704126cf93c6f111e07b88a1a333b5cf54",
+    "source": "arxiv",
+    "title": "On the Capacity of Erasure-prone Quantum Storage with Erasure-prone Entanglement Assistance",
+    "text": "A quantum message is encoded into $N$ storage nodes (quantum systems $Q_1\\dots Q_N$) with assistance from $N_B$ maximally entangled bi-partite quantum systems $A_1B_1, \\dots, A_{N_B}B_{N_B}$, that are prepared in advance such that $B_1\\dots B_{N_B}$ are stored separately as entanglement assistance (EA) nodes, while $A_1\\dots A_{N_B}$ are made available to the encoder. Both the storage nodes and EA nodes are erasure-prone. The quantum message must be recoverable given any $K$ of the $N$ storage nodes along with any $K_B$ of the $N_B$ EA nodes. The capacity for this setting is the maximum size of the quantum message, given that the size of each EA node is $\\lambda_B$. All node sizes are relative to the size of a storage node, which is normalized to unity. The exact capacity is characterized as a function of $N,K,N_B,K_B, \\lambda_B$ in all cases, with one exception. The capacity remains open for an intermediate range of $\\lambda_B$ values when a strict majority of the $N$ storage nodes, and a strict non-zero minority of the $N_B$ EA nodes, are erased. As a key stepping stone, an analogous classical storage (with shared-randomness assistance) problem is introduced. A set of constraints is identified for the classical problem, such that classical linear code constructions translate to quantum storage codes, and the converse bounds for the two settings utilize similar insights. In particular, the capacity characterizations for the classical and quantum settings are shown to be identical in all cases where the capacity is settled.",
+    "url": "http://arxiv.org/abs/2510.17781v1",
+    "tags": [
+      "arxiv",
+      "paper",
+      "quantum mechanics"
+    ],
+    "timestamp": "2025-10-20T17:40:21Z",
+    "meta": {
+      "query": "quantum mechanics"
+    }
+  },
+  {
+    "id": "ecb7913493052ea6b94aa4873c2335544a670af7",
+    "source": "arxiv",
+    "title": "Quench rate dependence of center formation in Er implanted Si",
+    "text": "Er implanted Si (Er:Si) is a promising candidate for scalable planar quantum memory (QM) applications. Er has a preference to coordinate with O impurities, and multiple types of Er center are typically formed after a post implant anneal. Float zone Si was implanted with 1018 cm-3 Er and separate samples were annealed using a rapid quench annealing technique at 950 degC for 10 min with quench rates of 5, 23, 46, 93, 185 and 400 degC/s. The evolution of photoluminescence (PL) peaks and their associated Er centers was tracked as a function of quench rate. Across all samples, five distinct Er centers were identified. Two centers, one with mixed Si and O coordination and one with Si-only coordination, exhibited fully resolved crystal-field splitting of the 4I15/2 ground state together with 2 to 3 hot lines from the 4I13/2 excited state; fitting of crystal-field parameters for both was consistent with C2v symmetry. The mixed Si and O coordinated center was suppressed at quench rates above 185 degC/s, while the Si-only coordinated center was progressively enhanced with increasing quench rate up to the maximum of 400 degC/s. These results demonstrate that rapid quench annealing has the potential to selectively stabilize a single, Si-coordinated Er center in Er:Si, which is required for QM applications.",
+    "url": "http://arxiv.org/abs/2510.17779v1",
+    "tags": [
+      "arxiv",
+      "paper",
+      "quantum mechanics"
+    ],
+    "timestamp": "2025-10-20T17:36:31Z",
+    "meta": {
+      "query": "quantum mechanics"
+    }
+  },
+  {
+    "id": "239615a0162a42f1d319787f23b1e48b6d3905ea",
+    "source": "arxiv",
+    "title": "A High-Resolution Spectroscopic Survey of Directly Imaged Companion Hosts: II. Diversity in C/O Ratios among Host Stars",
+    "text": "The era of JWST has enabled measurements of abundances of elements such as C, O, and even Na, S, K, and Fe in planetary atmospheres to very high precisions ($\\sim$0.1 dex). Accurate inference of planet formation using these elemental abundances require the corresponding abundance measurements for the host star. We present the second set of results from our high-resolution spectroscopic survey of directly imaged companion host stars, measuring abundances of 16 elements (including C, O, Na, Mg, Si, S, K and Fe) for five directly imaged companion host stars. Using both the spectral fitting and the equivalent width methods, we find solar C/O ratios for HR 2562 (0.58 $\\pm$ 0.09), AB Pic (0.50 $\\pm$ 0.14), and YSES 1 (0.45 $\\pm$ 0.05), and sub-solar C/O ratios for PZ Tel (0.28 $\\pm$ 0.05) and $\\beta$ Pic (0.22 $\\pm$ 0.06). The $4\\sigma$ sub-solar C/O detections for PZ Tel and $\\beta$ Pic highlight the importance of accurate stellar C/O estimates for constraining planet formation. Subsequently, we combine our abundances with those from our previous work to measure population-level average elemental abundances. We find super-solar carbon and oxygen for this stellar population, indicating that the protoplanetary disks around these stars were potentially rich in volatiles. We compare stellar C/O to those of their companions, revealing super-stellar C/O for several objects that suggest planet-like formation mechanisms. We also compare the C/O of our directly imaged companion host star population with other planet host stars using the Kolmogorov-Smirnov Test, which indicates insufficient evidence to differentiate between the various stellar populations",
+    "url": "http://arxiv.org/abs/2510.17774v1",
+    "tags": [
+      "arxiv",
+      "paper",
+      "quantum mechanics"
+    ],
+    "timestamp": "2025-10-20T17:34:40Z",
+    "meta": {
+      "query": "quantum mechanics"
+    }
+  },
+  {
+    "id": "a93bd68093f22326660a0ac95b7a1b9437c3a65f",
+    "source": "arxiv",
+    "title": "Phantom scalar field with arbitrary potential: accelerating scaling attractors",
+    "text": "In this article, we investigate the dynamics of a phantom scalar field with an arbitrary potential, focusing on accelerating scaling solutions of cosmological relevance. We consider both uncoupled and coupled cosmological scenarios. In the latter case, the coupling between phantom dark energy and dark matter is motivated by the warm inflationary paradigm, with the dissipation coefficient assumed to be either constant or variable. The evolution equations of our coupled and uncoupled cosmological models are written in the form of autonomous systems, whose stability is studied using methods of qualitative analysis of dynamical systems. For this analysis, the only requirement imposed on the phantom scalar-field potential is that a specific dynamical variable, defined in terms of the potential and its derivative, must be invertible. We show that the uncoupled phantom cosmological model cannot accommodate any accelerated scaling solution, while such solutions do exist in the coupled scenario, for both constant and variable dissipation coefficients. Although there is a limitation to these scaling solutions $-$ specifically, the current stage of accelerated expansion is not preceded by a long enough matter-dominated era $-$ our results show that the existence of a direct coupling between phantom dark energy and dark matter yields great potential for addressing the cosmic coincidence problem.",
+    "url": "http://arxiv.org/abs/2510.17765v1",
+    "tags": [
+      "arxiv",
+      "paper",
+      "quantum mechanics"
+    ],
+    "timestamp": "2025-10-20T17:22:55Z",
+    "meta": {
+      "query": "quantum mechanics"
+    }
+  },
+  {
+    "id": "ae2966e6bb9aad497f15fcfd0bc96f90f596adfe",
+    "source": "arxiv",
+    "title": "Mott vs Kondo: Influence of Various Density Functional Based Methods on the Ce Isostructural Phase Transition Mechanism",
+    "text": "The cerium iso-structural phase transition (gamma to alpha) is dominated by f-electron localization changes that results in a magnetic ordering change and a volume collapse. Generally, these physics are difficult to capture with ab initio and first principles methods. However, previous works have shown various methods to be successful in predicting at least some of the physics of the gamma to alpha phase transition. Therefore, here, we perform a broad survey of density functional based methods across three levels of theory and types of functions (GGA, MetaGGA, and Hybrid functionals) and compare the results, focusing on hydrostatic compression across the phase boundary at zero Kelvin. For the methods that best reproduce experimental results, we directly probe the predicted mechanisms and frame the results in the Mott/Kondo debate, assessing how the underlying methods and assumptions of different functionals can assess the physical drivers in the phase transition, providing insight into the governing dynamics of this unique phase transition.",
+    "url": "http://arxiv.org/abs/2510.17755v1",
+    "tags": [
+      "arxiv",
+      "paper",
+      "quantum mechanics"
+    ],
+    "timestamp": "2025-10-20T17:09:32Z",
+    "meta": {
+      "query": "quantum mechanics"
+    }
+  },
+  {
+    "id": "46c8d405958243ee05135a758eed5a9c2bd23399",
+    "source": "arxiv",
+    "title": "Thickness of epithelia on wavy substrates: measurements and continuous models",
+    "text": "We measured the thickness of MDCK epithelia grown on substrates with a sinusoidal profile. We show that while at long wavelength the profile of the epithelium follows that of the substrate, at short wavelengths cells are thicker in valleys than on ridges. This is reminiscent of the so-called {\\guillemotleft} healing length {\\guillemotright} in the case of a thin liquid film wetting a rough solid substrate. We explore the ability of continuum mechanics models to account for these observations. Modeling the epithelium as a thin liquid film, with surface tension, does not fully account for the measurements. Neither does modeling the epithelium as a thin incompressible elastic film. On the contrary, the addition of an apical active stress gives satisfactory agreement with measurements, with one fitting parameter, the ratio between the active stress and the elastic modulus.",
+    "url": "http://dx.doi.org/10.1140/epje/s10189-022-00206-1",
+    "tags": [
+      "arxiv",
+      "paper",
+      "quantum mechanics"
+    ],
+    "timestamp": "2025-10-20T17:07:29Z",
+    "meta": {
+      "query": "quantum mechanics"
+    }
+  },
+  {
+    "id": "b2aa1625bd1481594be07303abe13fb7327e28e6",
+    "source": "crossref",
+    "title": "Artificial intelligence empowered quantum-resistant cryptographic algorithms in information security of WSN for future-proof systems",
+    "text": "Artificial intelligence empowered quantum-resistant cryptographic algorithms in information security of WSN for future-proof systems",
+    "url": "https://doi.org/10.1504/ijesdf.2027.10072341",
+    "tags": [
+      "crossref",
+      "journal-article",
+      "quantum mechanics"
+    ],
+    "timestamp": "2027-01-01T00:00:00Z",
+    "meta": {
+      "container": [
+        "International Journal of Electronic Security and Digital Forensics"
+      ],
+      "subject": null
+    }
+  },
+  {
+    "id": "ede30b0a105a113391b01dadcb196d3d203ffaea",
+    "source": "crossref",
+    "title": "Optimising Accuracy Rate of Genomic Image Representation of Human Corona Virus Sequences for COVID-19 Detection using Modified Quantum-Based Marine Predators Algorithm",
+    "text": "Optimising Accuracy Rate of Genomic Image Representation of Human Corona Virus Sequences for COVID-19 Detection using Modified Quantum-Based Marine Predators Algorithm",
+    "url": "https://doi.org/10.1504/ijids.2027.10070075",
+    "tags": [
+      "crossref",
+      "journal-article",
+      "quantum mechanics"
+    ],
+    "timestamp": "2027-01-01T00:00:00Z",
+    "meta": {
+      "container": [
+        "International Journal of Information and Decision Sciences"
+      ],
+      "subject": null
+    }
+  },
+  {
+    "id": "a982520ff26998c19826242ab9991f1e3d248a31",
+    "source": "crossref",
+    "title": "Integrating artificial intelligence and quantum computing: A systematic literature review of features and applications",
+    "text": "Integrating artificial intelligence and quantum computing: A systematic literature review of features and applications",
+    "url": "https://doi.org/10.1016/j.ijcce.2025.08.002",
+    "tags": [
+      "crossref",
+      "journal-article",
+      "quantum mechanics"
+    ],
+    "timestamp": "2026-01-01T00:00:00Z",
+    "meta": {
+      "container": [
+        "International Journal of Cognitive Computing in Engineering"
+      ],
+      "subject": null
+    }
+  },
+  {
+    "id": "ff56dcfdd246b13d7d8b023e27184fbdc4334169",
+    "source": "crossref",
+    "title": "Crossref item",
+    "text": "Crossref item",
+    "url": "https://doi.org/10.3030/101220228",
+    "tags": [
+      "crossref",
+      "grant",
+      "quantum mechanics"
+    ],
+    "timestamp": "2026-01-01T00:00:00Z",
+    "meta": {
+      "container": null,
+      "subject": null
+    }
+  },
+  {
+    "id": "576bdcebfd2cfca114c812f101f1b87dece32a09",
+    "source": "crossref",
+    "title": "Crossref item",
+    "text": "Crossref item",
+    "url": "https://doi.org/10.3030/101198416",
+    "tags": [
+      "crossref",
+      "grant",
+      "quantum mechanics"
+    ],
+    "timestamp": "2026-01-01T00:00:00Z",
+    "meta": {
+      "container": null,
+      "subject": null
+    }
+  },
+  {
+    "id": "5ea345e31f0531162e2c418b0c268cf384baeba8",
+    "source": "crossref",
+    "title": "Crossref item",
+    "text": "Crossref item",
+    "url": "https://doi.org/10.3030/101202810",
+    "tags": [
+      "crossref",
+      "grant",
+      "quantum mechanics"
+    ],
+    "timestamp": "2026-01-01T00:00:00Z",
+    "meta": {
+      "container": null,
+      "subject": null
+    }
+  },
+  {
+    "id": "89b7d4fe803496d2173b31557c682b3192570547",
+    "source": "crossref",
+    "title": "Learning quantum computers' errors using interpretable neural networks",
+    "text": "Learning quantum computers' errors using interpretable neural networks",
+    "url": "https://doi.org/10.2172/2589601",
+    "tags": [
+      "crossref",
+      "report",
+      "quantum mechanics"
+    ],
+    "timestamp": "2026-01-01T00:00:00Z",
+    "meta": {
+      "container": null,
+      "subject": null
+    }
+  },
+  {
+    "id": "a3e46dc675c7cff05cd282e630ec46a92ff7a0e5",
+    "source": "crossref",
+    "title": "Crossref item",
+    "text": "Crossref item",
+    "url": "https://doi.org/10.3030/101206221",
+    "tags": [
+      "crossref",
+      "grant",
+      "quantum mechanics"
+    ],
+    "timestamp": "2026-01-01T00:00:00Z",
+    "meta": {
+      "container": null,
+      "subject": null
+    }
+  },
+  {
+    "id": "e2cd85ba85c9630356eb7730642293bda7894871",
+    "source": "crossref",
+    "title": "Crossref item",
+    "text": "Crossref item",
+    "url": "https://doi.org/10.3030/101206332",
+    "tags": [
+      "crossref",
+      "grant",
+      "quantum mechanics"
+    ],
+    "timestamp": "2026-01-01T00:00:00Z",
+    "meta": {
+      "container": null,
+      "subject": null
+    }
+  },
+  {
+    "id": "ac245ca4a71e7c90675fcfe72aca28fa8ad7d3e9",
+    "source": "crossref",
+    "title": "Crossref item",
+    "text": "Crossref item",
+    "url": "https://doi.org/10.3030/101207162",
+    "tags": [
+      "crossref",
+      "grant",
+      "quantum mechanics"
+    ],
+    "timestamp": "2026-01-01T00:00:00Z",
+    "meta": {
+      "container": null,
+      "subject": null
+    }
+  },
+  {
+    "id": "e7c899b8c7e3ff398bb7c181d7de5d060671d6ad",
+    "source": "crossref",
+    "title": "Optimization of Fiber Amplifier Design for Stimulated Raman Scattering Microscopy",
+    "text": "Optimization of Fiber Amplifier Design for Stimulated Raman Scattering Microscopy",
+    "url": "https://doi.org/10.1109/jstqe.2025.3616654",
+    "tags": [
+      "crossref",
+      "journal-article",
+      "quantum mechanics"
+    ],
+    "timestamp": "2026-01-01T00:00:00Z",
+    "meta": {
+      "container": [
+        "IEEE Journal of Selected Topics in Quantum Electronics"
+      ],
+      "subject": null
+    }
+  },
+  {
+    "id": "b20acacf706664fc6ed46a0f29db9c65d8438f67",
+    "source": "crossref",
+    "title": "Multi-Parametric Optical Coherence Tomography Angiography Quantifies Heterogeneous Therapeutic Responses in Port Wine Stains",
+    "text": "Multi-Parametric Optical Coherence Tomography Angiography Quantifies Heterogeneous Therapeutic Responses in Port Wine Stains",
+    "url": "https://doi.org/10.1109/jstqe.2025.3609623",
+    "tags": [
+      "crossref",
+      "journal-article",
+      "quantum mechanics"
+    ],
+    "timestamp": "2026-01-01T00:00:00Z",
+    "meta": {
+      "container": [
+        "IEEE Journal of Selected Topics in Quantum Electronics"
+      ],
+      "subject": null
+    }
+  },
+  {
+    "id": "a0e03130dee5e806b63ff56ed0515dd994f9068c",
+    "source": "arxiv",
+    "title": "Resolving the dusty star-forming galaxy GN20 at z=4.055 with NOEMA and JWST: A similar distribution of stars, gas and dust despite distinct apparent profiles",
+    "text": "We present high-resolution (0.13\"-0.23\") NOEMA observations of the dust continuum emission at 1.1 mm (rest-frame 220 micron) and JWST/NIRCam and MIRI imaging of the z=4.055 starburst galaxy GN20. The sensitive NOEMA imaging at 1.6 kpc resolution reveals extended dust emission, ~14 kpc in diameter (r_e~2.5 kpc, b/a=0.5), that is centrally asymmetric and clumpy. The dust emission is as extended as the stellar emission and the molecular gas traced by CO(2-1), with a common center, and is brightest in the strongly-obscured nuclear part of the galaxy. Approximately one-third of the total dust emission emerges from the nucleus and the most prominent clump to the south, and (only) 60% from the central 3.5x1.5 kpc (0.5\"-0.2\"), implying that the starburst is very extended. The combined JWST and NOEMA morphology suggests GN20 experienced a recent interaction or merger, likely invigorating the starburst. The radial surface brightness profiles of the molecular gas and near-IR stellar emission are similar, while in contrast, the dust emission appears significantly more concentrated. Through self-consistent radiative transfer modeling of the integrated and resolved CO and dust emission, we derive an $M_{mol}=2.9^{+0.4}_{-0.3}\\times10^{11}$ Msun with $\\alpha_{CO}=2.8^{+0.5}_{-0.3}$. We find that the extended dust implies a lower global dust optical depth than previously reported, but a high dust mass of $M_{dust}=5.7^{+0.8}_{-0.6}\\times 10^{9}$ Msun and gas-to-dust ratio of ~50. Furthermore, we show the distinct apparent radial profiles of the gas and dust can be explained purely by radiative transfer effects and the observations are consistent with the gas and dust mass being similarly distributed throughout the starburst. The latter highlights the importance of accounting for radiative transfer effects when comparing molecular gas and dust distributions from different tracers.",
+    "url": "http://arxiv.org/abs/2510.17804v1",
+    "tags": [
+      "arxiv",
+      "paper",
+      "AI in science"
+    ],
+    "timestamp": "2025-10-20T17:59:58Z",
+    "meta": {
+      "query": "AI in science"
+    }
+  },
+  {
+    "id": "66141b50927706f3e4f7e7e9e6eadab6b30ac4ac",
+    "source": "crossref",
+    "title": "Studying the Effluent Quality of Enhanced Modified Ludzack Ettinger-oxic Settling Anaerobic Process (E-MLE-OSA) for Treating Real Municipal Wastewater",
+    "text": "Background: Wastewater collection, treatment, discharge, additionally as reusing the treated wastewater in urban are critical factors for maintaining public health preventing contamination of water resources. This study aimed to investigate the performance of enhanced modified Ludzack Ettinger process-oxic settling anaerobic (MLE-OSA) process for treating real municipal wastewater in Sari wastewater Treatment, Sari City, Iran. Methods: To combine the OSA process technique with the MLE system, the Sludge Holding Tanks (SHT) were implemented in the return sludge line of designed pilot studies which comprised 1) MLE, which was regarded as the control system similar; 2) MLE-OSA4 with a 70-L SHT operated at 4-h Hydraulic Retention Time (HRT), and 3) MLEOSA6 with a 107-L SHT operated at 6-h HRT. To start the process, the overflow effluent of the primary settling tank of the Sari wastewater treatment plant was used. After 45-60 days, the reactors reached a steady state. The parameters of Dissolved Oxygen (DO), Oxidation-Reduction Potential (ORP), temperature, pH, Chemical Oxygen Demand (COD), Biochemical Oxygen Demand (BOD5), Total Suspended Solids (TSS), and nutrients were analyzed. Results: The results revealed that the average TSS, COD, BOD, phosphorus, nitrite, nitrate, and total nitrogen in MLEOSA4 effluent decreased 20.1, 14.6, 2.97, 10, 51.1, 19.3, and 20.7%, respectively compared to MLE. Similarly, in MLE-OSA6, the values decreased 34.2, 16.1, 14.6, 16.7, 69.6, 31.3, and 25.8%, respectively compared to the control process. Conclusion: Therefore, using natural wastewater, the enhanced MLE-OSA process showed better performance in removing the study parameters and better quality for the effluent. Furthermore, the quality of effluent is following the Iran Department of Environment (IDE).",
+    "url": "https://doi.org/10.32598/jaehr.9.4.1243",
+    "tags": [
+      "crossref",
+      "journal-article",
+      "AI in science"
+    ],
+    "timestamp": "2121-01-01T00:00:00Z",
+    "meta": {
+      "container": [
+        "Journal of Advances in Environmental Health Research"
+      ],
+      "subject": null
+    }
+  },
+  {
+    "id": "271c8d44d89201dc202a491fb795f4c3008b7871",
+    "source": "crossref",
+    "title": "Effect of Drought Stress, Soil Salinity, P. indica, and MWCNs on Biodegradation of Diesel Oil in the Pb- and Cd-Polluted Soil Under Cultivation of Triticale Plant",
+    "text": "Background: Today, soil pollution with heavy metals and petroleum compounds is one of the main environmental problems. This research was done to investigate the effect of drought stress, soil salinity, Piriformospora indica (P. indica), and MWCNs on biodegradation of diesel oil in the soil that contaminated with Pb and Cd under cultivation of triticale plant. Methods: Treatments consisted of applying MWCNs (2% [W/W]) in the Pb- and Cd-polluted soil that was simultaneously polluted with diesel oil (0, 5, and 10% [W/W]), and the plants used in this study were inoculated with P. indica. After 70 days, plants were harvested, and plant and soil Cd were measured using AAS (atomic absorption spectrometry). In addition, the degradation percentage of diesel oil in soil was determined. Results: Soil application of MWCNs at the rate of 2% (W/W) significantly increased the biodegradation of diesel oil in the soil in the drought and salinity (6 dS/m) stress by 11.3% and 15.6%, respectively. In addition, plant inoculation with P. indica significantly increased the biodegradation of diesel oil in the soil by 12.3%. For salinity (6 dS/m) and drought stress, it was increased by 8.3% and 9.4%, respectively. In addition, the Pb and Cd concentrations decreased by 14.3% and 12.8%, respectively, when the MWCNs were added to the soil (2% [W/W]). Conclusion: Soil application of MWCNs and plant inoculation with P. indica not only increased the biodegradation of diesel oil but also decreased the plant Pb and Cd concentrations.",
+    "url": "https://doi.org/10.32598/jaehr.9.4.1232",
+    "tags": [
+      "crossref",
+      "journal-article",
+      "AI in science"
+    ],
+    "timestamp": "2121-01-01T00:00:00Z",
+    "meta": {
+      "container": [
+        "Journal of Advances in Environmental Health Research"
+      ],
+      "subject": null
+    }
+  },
+  {
+    "id": "f1a83420ff0c38fa5f420fa3379373accabe8516",
+    "source": "crossref",
+    "title": "ANALYTICAL CLOUD SYSTEM ERI Digital health analysis using Spectral analysis in AI",
+    "text": "ANALYTICAL CLOUD SYSTEM ERI Digital health analysis using Spectral analysis in AI",
+    "url": "https://doi.org/10.47363/jeast/2021/vid/1006",
+    "tags": [
+      "crossref",
+      "journal-article",
+      "AI in science"
+    ],
+    "timestamp": "2121-01-01T00:00:00Z",
+    "meta": {
+      "container": [
+        "Journal of Engineering and Applied Sciences Technology"
+      ],
+      "subject": null
+    }
+  },
+  {
+    "id": "005867ca06e262f0d21abdeb1b7c0b6fd48f4231",
+    "source": "crossref",
+    "title": "The Effects of Relaxing Music on Life Distress and Maternal-fetal Attachment in Pregnant Women",
+    "text": "Background: Although pregnancy and motherhood are enjoyable experiences, they are associated with numerous biopsychological changes requiring adaptation. The present study aimed to assess the effects of relaxing music on life distress and Maternal-Fetal Attachment (MFA) in pregnant women. Methods: This was a quasi-experimental study with a pre-test, post-test and a control group design. The research population included all Iranian pregnant women referring to Laleh Hospital in Tehran City, Iran, in 2020. In total, 30 women were selected using the convenience sampling method and randomly assigned into the intervention and control groups (n=15/group). The required data were collected using the Life Distress Inventory (LDI) and the Maternal-Fetal Attachment Scale (MFAS). The intervention group listened to relaxing music for twelve 45-50-minute sessions in the morning and during routine midwifery visits; however, the controls received no intervention. The collected data were analyzed using Multivariate Analysis of Covariance (MANCOVA) in SPSS V. 22. Results: The obtained results indicated that the intervention group reported a lower level of life distress in the post-test, compared to the controls (P=0.0001, F=15.860). The intervention group also achieved a higher mean score on MFA, than the control group (P=0.0001, F=35.872). Conclusion: According to the present research findings, reproductive health, nursing professionals, and psychologists could recommend music as a complementary therapy to reduce stress and distress experienced by expecting mothers and to improve MFA.",
+    "url": "https://doi.org/10.32598/jccnc.7.1.33.14",
+    "tags": [
+      "crossref",
+      "journal-article",
+      "AI in science"
+    ],
+    "timestamp": "2121-01-01T00:00:00Z",
+    "meta": {
+      "container": [
+        "Journal of Client-Centered Nursing Care"
+      ],
+      "subject": null
+    }
+  },
+  {
+    "id": "7230aa738bc0e9e85468d33f96533a57b9d3718c",
+    "source": "crossref",
+    "title": "The Role of Attachment Styles and Spiritual Intelligence in Predicting Women’s Emotional Divorce",
+    "text": "Background: Emotional divorce refers to a situation in which the emotional relationship, support, passion, warmth, attention, love, and intimacy between couples (husband &amp; wife) decline or diminish. Such conditions lead to an unaffectionate marital life to the point that the couples are only together under one roof. Accordingly, the present study aimed to explore the role of attachment styles and spiritual intelligence in predicting emotional divorce in women. Methods: This study employed a descriptive-correlational design. The research population included all women filing for divorce who were referred to marriage counseling and couple therapy centers in districts 5 and 6 in Tehran City, Iran, in 2020. In total, 400 women who met the inclusion criteria were selected as the study participants using voluntary response and convenience sampling techniques. The required data were collected by the Emotional Divorce Scale, the Adult Attachment Scale, and the Self-Report Measure of Spiritual Intelligence. The collected data were analyzed using the multiple regression analysis method in SPSS V. 22. Results: The obtained results suggested a significant positive relationship between the anxious-avoidant attachment style and emotional divorce (P&lt;0.01). Furthermore, there was a significant negative relationship between spiritual intelligence and emotional divorce; the higher the spiritual intelligence, the lower the emotional divorce (P=0.02). Accordingly, spiritual intelligence and anxious-avoidant attachment style can predict emotional divorce (Multiple Regressions= -0.58). Conclusion: The present study data suggested that premarital education and counseling before spouse selection help in examining the personality traits of the parties. Moreover, paying attention to the role of health professionals, such as family counselors, psychologists, and psychiatric nurses in providing premarital counseling and education to couples and emphasizing the role of spiritual intelligence and attachment styles may prevent emotional separation and divorce among couples.",
+    "url": "https://doi.org/10.32598/jccnc.7.1.350.1",
+    "tags": [
+      "crossref",
+      "journal-article",
+      "AI in science"
+    ],
+    "timestamp": "2121-01-01T00:00:00Z",
+    "meta": {
+      "container": [
+        "Journal of Client-Centered Nursing Care"
+      ],
+      "subject": null
+    }
+  },
+  {
+    "id": "cb2d84cc9cf985f896962a22a0db4d181b5ea0ff",
+    "source": "crossref",
+    "title": "Is High Maternal Body Mass Index Associated with Cesarean Section Delivery in Mongolia? A Prospective Observational Study",
+    "text": "Is High Maternal Body Mass Index Associated with Cesarean Section Delivery in Mongolia? A Prospective Observational Study",
+    "url": "https://doi.org/10.31372/20190403.1056",
+    "tags": [
+      "crossref",
+      "journal-article",
+      "AI in science"
+    ],
+    "timestamp": "2109-01-01T00:00:00Z",
+    "meta": {
+      "container": [
+        "Asian/Pacific Island Nursing Journal"
+      ],
+      "subject": null
+    }
+  },
+  {
+    "id": "e4dbdb6f849f3358fbe3d27da7ee41776f31d7ac",
+    "source": "crossref",
+    "title": "Contour Based Real Time Multiple Object Tracking",
+    "text": "Contour Based Real Time Multiple Object Tracking",
+    "url": "https://doi.org/10.18535/ijetst/v3i08.10",
+    "tags": [
+      "crossref",
+      "journal-article",
+      "AI in science"
+    ],
+    "timestamp": "2106-01-01T00:00:00Z",
+    "meta": {
+      "container": [
+        "International journal of Emerging Trends in Science and Technology"
+      ],
+      "subject": null
+    }
+  },
+  {
+    "id": "6037303a7287b679e2151c403372c0f0e712bb46",
+    "source": "crossref",
+    "title": "Science, Technology, and Medicine in the Modern Japanese Empire ed. by David G. Wittner and Philip C. Brown",
+    "text": "Science, Technology, and Medicine in the Modern Japanese Empire ed. by David G. Wittner and Philip C. Brown",
+    "url": "https://doi.org/10.1353/mni.2081.0012",
+    "tags": [
+      "crossref",
+      "journal-article",
+      "AI in science"
+    ],
+    "timestamp": "2081-01-01T00:00:00Z",
+    "meta": {
+      "container": [
+        "Monumenta Nipponica"
+      ],
+      "subject": null
+    }
+  },
+  {
+    "id": "ae12da44e1e34ac7739883362459b9f8270f5902",
+    "source": "crossref",
+    "title": "The Head of NASA Science Spent a Whole Weekend Building a LEGO Rocket",
+    "text": "The Head of NASA Science Spent a Whole Weekend Building a LEGO Rocket",
+    "url": "https://doi.org/10.1038/scientificamerican072077-jtynvligrskgzxwopmm6s",
+    "tags": [
+      "crossref",
+      "journal-article",
+      "AI in science"
+    ],
+    "timestamp": "2077-01-01T00:00:00Z",
+    "meta": {
+      "container": [
+        "Scientific American"
+      ],
+      "subject": null
+    }
+  },
+  {
+    "id": "9c2966fbbbae4d7a8d275ae14a1c9f8490cd6f19",
+    "source": "crossref",
+    "title": "Title Pending 25050",
+    "text": "Title Pending 25050",
+    "url": "https://doi.org/10.16995/zygon.25050",
+    "tags": [
+      "crossref",
+      "journal-article",
+      "AI in science"
+    ],
+    "timestamp": "2035-01-01T00:00:00Z",
+    "meta": {
+      "container": [
+        "Zygon: Journal of Religion and Science"
+      ],
+      "subject": null
+    }
+  },
+  {
+    "id": "1b4baf2b1599f1eaf1b559ca58d114f14a397f1e",
+    "source": "crossref",
+    "title": "Title Pending 17613",
+    "text": "Title Pending 17613",
+    "url": "https://doi.org/10.16995/zygon.17613",
+    "tags": [
+      "crossref",
+      "journal-article",
+      "AI in science"
+    ],
+    "timestamp": "2035-01-01T00:00:00Z",
+    "meta": {
+      "container": [
+        "Zygon: Journal of Religion and Science"
+      ],
+      "subject": null
+    }
+  },
+  {
+    "id": "7d75a02a40945ac3c68d19c1da592aec8a92adba",
+    "source": "crossref",
+    "title": "Title Pending 20050",
+    "text": "Title Pending 20050",
+    "url": "https://doi.org/10.16995/zygon.20050",
+    "tags": [
+      "crossref",
+      "journal-article",
+      "AI in science"
+    ],
+    "timestamp": "2035-01-01T00:00:00Z",
+    "meta": {
+      "container": [
+        "Zygon: Journal of Religion and Science"
+      ],
+      "subject": null
+    }
+  },
+  {
+    "id": "76cdafb9ae869a6f8e684c8ada4211655b6951ca",
+    "source": "crossref",
+    "title": "Title Pending 20126",
+    "text": "Title Pending 20126",
+    "url": "https://doi.org/10.16995/zygon.20126",
+    "tags": [
+      "crossref",
+      "journal-article",
+      "AI in science"
+    ],
+    "timestamp": "2035-01-01T00:00:00Z",
+    "meta": {
+      "container": [
+        "Zygon: Journal of Religion and Science"
+      ],
+      "subject": null
+    }
+  },
+  {
+    "id": "bd64dcd4e27f95b0e564389ca5dd1c577d50e3ad",
+    "source": "arxiv",
+    "title": "Searches for new physics breaking the CP and flavor symmetries in the top quark sector at CMS",
+    "text": "The top quark plays an important role in a number of new physics models, some of which introduce violations to some of the accidental symmetries of the SM, such as the lepton number conservation or introduce additional sources of others already broken, such as the CP symmetry. A set of measurements is presented that probe violation of these symmetries in processes involving the top quark, in association with additional particles.",
+    "url": "http://arxiv.org/abs/2510.17782v1",
+    "tags": [
+      "arxiv",
+      "paper",
+      "theoretical physics"
+    ],
+    "timestamp": "2025-10-20T17:41:50Z",
+    "meta": {
+      "query": "theoretical physics"
+    }
+  },
+  {
+    "id": "2a7f26ce993ab5454efcb09b06d700cdcfce240d",
+    "source": "arxiv",
+    "title": "Increased molecular gas velocity dispersion and star formation efficiency in barred galaxy centres",
+    "text": "Work by the Physics at High Angular resolution in Nearby GalaxieS (PHANGS) collaboration found higher molecular gas surface densities and velocity dispersions in the centres of barred galaxies compared to unbarred galaxies. We explore central molecular gas using published high resolution (150 pc) measurements of CO$(2-1)$ from the PHANGS-ALMA survey and a new velocity dispersion-dependent prescription for the CO-to-H$_{2}$ conversion factor $\\alpha_{\\rm{CO}}$. Comparisons of the molecular gas surface density, velocity dispersion, star formation rate, and depletion time reveal that these quantities are different in the centres of barred and unbarred galaxies. Gas depletion times are found to be shorter in barred galaxy centres. Even when we control for the presence of an AGN, the velocity dispersion and depletion time are found to be statistically different between barred and unbarred galaxy centres. The higher velocity dispersion suggests extra non-circular motions, possibly due to the inflow of gas along the bar, that are not constant but must increase as the star formation rate increases.",
+    "url": "http://arxiv.org/abs/2510.17768v1",
+    "tags": [
+      "arxiv",
+      "paper",
+      "theoretical physics"
+    ],
+    "timestamp": "2025-10-20T17:29:56Z",
+    "meta": {
+      "query": "theoretical physics"
+    }
+  },
+  {
+    "id": "2a347e35a9df6dccb8db049cf56ed4968dd710b9",
+    "source": "arxiv",
+    "title": "Higher-order corrections for $t{\\bar t}Z$ production",
+    "text": "We present calculations of higher-order QCD and electroweak (EW) corrections to the associated production of a top-antitop quark pair and a $Z$ boson, i.e. $t{\\bar t}Z$ production, in proton collisions. We find that the contributions from soft-gluon corrections are numerically dominant and large. We present approximate NNLO (aNNLO) and approximate N$^3$LO (aN$^3$LO) cross sections that include soft corrections on top of the exact NLO QCD result. We also add electroweak corrections through NLO. We compare our aN$^3$LO QCD + NLO EW theoretical results to measurements of total cross sections from the LHC, and we also calculate top-quark differential distributions in transverse momentum and rapidity.",
+    "url": "http://arxiv.org/abs/2510.17766v1",
+    "tags": [
+      "arxiv",
+      "paper",
+      "theoretical physics"
+    ],
+    "timestamp": "2025-10-20T17:23:18Z",
+    "meta": {
+      "query": "theoretical physics"
+    }
+  },
+  {
+    "id": "5d2e9c5f4156e31b9a54075ea5ab7cec6d323c3a",
+    "source": "arxiv",
+    "title": "First Self-Renormalized Gluon PDF of Nucleon from Large-Momentum Effective Theory in the Continuum Limit",
+    "text": "We present the first lattice-QCD determination of the nucleon gluon parton distribution function (PDF) within the large-momentum effective theory (LaMET) framework, employing the hybrid scheme with self renormalization, in the continuum limit. High statistics calculations with boost momentum $P_z \\approx 2.0$-$2.2$~GeV are performed at lattice spacings of $a \\approx \\{ 0.15, 0.12, 0.09 \\}$~fm, a pion mass of $M_\\pi \\approx 310$~MeV, with $N_f=2+1+1$ quark flavors. We apply gradient flow smearing with $\\mathcal{T}_\\text{W} = 3a^2$, finding that self-renormalization remains stable. The renormalized gluon matrix elements and PDFs show consistent behavior across lattice spacings, with the $a \\approx 0.09$~fm results statistically compatible with the continuum limit. Our final LaMET gluon PDF compares reasonably with select global-fit determinations, specifically preferring analyses which have near-zero gluonic density in the $x \\gtrsim 0.6$ region.",
+    "url": "http://arxiv.org/abs/2510.17758v1",
+    "tags": [
+      "arxiv",
+      "paper",
+      "theoretical physics"
+    ],
+    "timestamp": "2025-10-20T17:11:44Z",
+    "meta": {
+      "query": "theoretical physics"
+    }
+  },
+  {
+    "id": "08accebef2efd0dee18839575017d41f8942df6f",
+    "source": "arxiv",
+    "title": "When and what to learn in a changing world",
+    "text": "A decision-maker periodically acquires information about a changing state, controlling both the timing and content of updates. I characterize optimal policies using a decomposition of the dynamic problem into optimal stopping and static information acquisition. Eventually, information acquisition either stops or follows a simple cycle in which updates occur at regular intervals to restore prescribed levels of relative certainty. This enables precise analysis of long run dynamics across environments. As fixed costs of information vanish, belief changes become lumpy: it is optimal to either wait or acquire information so as to exactly confirm the current belief until rare news prompts a sudden change. The long run solution admits a closed-form characterization in terms of the \"virtual flow payoff\". I highlight an illustrative application to portfolio diversification.",
+    "url": "http://arxiv.org/abs/2510.17757v1",
+    "tags": [
+      "arxiv",
+      "paper",
+      "theoretical physics"
+    ],
+    "timestamp": "2025-10-20T17:11:31Z",
+    "meta": {
+      "query": "theoretical physics"
+    }
+  },
+  {
+    "id": "41c24b426f01ac060e750c19412835686785dd97",
+    "source": "arxiv",
+    "title": "Prediction of Sea Ice Velocity and Concentration in the Arctic Ocean using Physics-informed Neural Network",
+    "text": "As an increasing amount of remote sensing data becomes available in the Arctic Ocean, data-driven machine learning (ML) techniques are becoming widely used to predict sea ice velocity (SIV) and sea ice concentration (SIC). However, fully data-driven ML models have limitations in generalizability and physical consistency due to their excessive reliance on the quantity and quality of training data. In particular, as Arctic sea ice entered a new phase with thinner ice and accelerated melting, there is a possibility that an ML model trained with historical sea ice data cannot fully represent the dynamically changing sea ice conditions in the future. In this study, we develop physics-informed neural network (PINN) strategies to integrate physical knowledge of sea ice into the ML model. Based on the Hierarchical Information-sharing U-net (HIS-Unet) architecture, we incorporate the physics loss function and the activation function to produce physically plausible SIV and SIC outputs. Our PINN model outperforms the fully data-driven model in the daily predictions of SIV and SIC, even when trained with a small number of samples. The PINN approach particularly improves SIC predictions in melting and early freezing seasons and near fast-moving ice regions.",
+    "url": "http://arxiv.org/abs/2510.17756v1",
+    "tags": [
+      "arxiv",
+      "paper",
+      "theoretical physics"
+    ],
+    "timestamp": "2025-10-20T17:10:01Z",
+    "meta": {
+      "query": "theoretical physics"
+    }
+  },
+  {
+    "id": "512a39a03629e137366749cc7c4483c992e7f892",
+    "source": "crossref",
+    "title": "The Relationship between Long-Term Incentives and Corporate Performance: A Theoretical Review",
+    "text": "The Relationship between Long-Term Incentives and Corporate Performance: A Theoretical Review",
+    "url": "https://doi.org/10.20431/2349-0381.0303004",
+    "tags": [
+      "crossref",
+      "journal-article",
+      "theoretical physics"
+    ],
+    "timestamp": "2106-01-01T00:00:00Z",
+    "meta": {
+      "container": [
+        "International Journal of Humanities, Social Sciences and Education"
+      ],
+      "subject": null
+    }
+  },
+  {
+    "id": "b8f80cf90f58b861b4159e6da130e300e38db63f",
+    "source": "crossref",
+    "title": "Title Pending 20215",
+    "text": "Title Pending 20215",
+    "url": "https://doi.org/10.16995/traj.20215",
+    "tags": [
+      "crossref",
+      "journal-article",
+      "theoretical physics"
+    ],
+    "timestamp": "2035-01-01T00:00:00Z",
+    "meta": {
+      "container": [
+        "Theoretical Roman Archaeology Journal"
+      ],
+      "subject": null
+    }
+  },
+  {
+    "id": "1ae782ac917d475363fce94e2bead73ae9ead619",
+    "source": "crossref",
+    "title": "Title Pending 24325",
+    "text": "Title Pending 24325",
+    "url": "https://doi.org/10.16995/traj.24325",
+    "tags": [
+      "crossref",
+      "journal-article",
+      "theoretical physics"
+    ],
+    "timestamp": "2035-01-01T00:00:00Z",
+    "meta": {
+      "container": [
+        "Theoretical Roman Archaeology Journal"
+      ],
+      "subject": null
+    }
+  },
+  {
+    "id": "3317f3d789d73bb1d5627769a8d1741149f88786",
+    "source": "crossref",
+    "title": "Title Pending 24329",
+    "text": "Title Pending 24329",
+    "url": "https://doi.org/10.16995/traj.24329",
+    "tags": [
+      "crossref",
+      "journal-article",
+      "theoretical physics"
+    ],
+    "timestamp": "2035-01-01T00:00:00Z",
+    "meta": {
+      "container": [
+        "Theoretical Roman Archaeology Journal"
+      ],
+      "subject": null
+    }
+  },
+  {
+    "id": "0bb0202916d13a084ac539a3f9e2d7362116b96e",
+    "source": "crossref",
+    "title": "Title Pending 17587",
+    "text": "Title Pending 17587",
+    "url": "https://doi.org/10.16995/traj.17587",
+    "tags": [
+      "crossref",
+      "journal-article",
+      "theoretical physics"
+    ],
+    "timestamp": "2035-01-01T00:00:00Z",
+    "meta": {
+      "container": [
+        "Theoretical Roman Archaeology Journal"
+      ],
+      "subject": null
+    }
+  },
+  {
+    "id": "cbc9bde3d5a7eb2b5cf1718223bbaaac05f9d87c",
+    "source": "crossref",
+    "title": "Title Pending 15280",
+    "text": "Title Pending 15280",
+    "url": "https://doi.org/10.16995/traj.15280",
+    "tags": [
+      "crossref",
+      "journal-article",
+      "theoretical physics"
+    ],
+    "timestamp": "2034-01-01T00:00:00Z",
+    "meta": {
+      "container": [
+        "Theoretical Roman Archaeology Journal"
+      ],
+      "subject": null
+    }
+  },
+  {
+    "id": "5ddfa8c9f26c2e63e72efa03fb0d0208bf28ecbb",
+    "source": "crossref",
+    "title": "Title Pending 11715",
+    "text": "Title Pending 11715",
+    "url": "https://doi.org/10.16995/traj.11715",
+    "tags": [
+      "crossref",
+      "journal-article",
+      "theoretical physics"
+    ],
+    "timestamp": "2033-01-01T00:00:00Z",
+    "meta": {
+      "container": [
+        "Theoretical Roman Archaeology Journal"
+      ],
+      "subject": null
+    }
+  },
+  {
+    "id": "d8805e10eaf13ea9669faa8ae61e2ddf4e2c9999",
+    "source": "crossref",
+    "title": "Title Pending 11714",
+    "text": "Title Pending 11714",
+    "url": "https://doi.org/10.16995/traj.11714",
+    "tags": [
+      "crossref",
+      "journal-article",
+      "theoretical physics"
+    ],
+    "timestamp": "2033-01-01T00:00:00Z",
+    "meta": {
+      "container": [
+        "Theoretical Roman Archaeology Journal"
+      ],
+      "subject": null
+    }
+  },
+  {
+    "id": "b388d008dd981b45b09872d764c4efe644c36b20",
+    "source": "crossref",
+    "title": "Title Pending 8881",
+    "text": "Title Pending 8881",
+    "url": "https://doi.org/10.16995/traj.8881",
+    "tags": [
+      "crossref",
+      "journal-article",
+      "theoretical physics"
+    ],
+    "timestamp": "2032-01-01T00:00:00Z",
+    "meta": {
+      "container": [
+        "Theoretical Roman Archaeology Journal"
+      ],
+      "subject": null
+    }
+  }
+]

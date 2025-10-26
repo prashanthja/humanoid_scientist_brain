@@ -1,0 +1,1263 @@
+[
+  {
+    "id": "fed50ad727f70aafd9531edf51daaa0fadc3a379",
+    "source": "arxiv",
+    "title": "VAMOS: A Hierarchical Vision-Language-Action Model for Capability-Modulated and Steerable Navigation",
+    "text": "A fundamental challenge in robot navigation lies in learning policies that generalize across diverse environments while conforming to the unique physical constraints and capabilities of a specific embodiment (e.g., quadrupeds can walk up stairs, but rovers cannot). We propose VAMOS, a hierarchical VLA that decouples semantic planning from embodiment grounding: a generalist planner learns from diverse, open-world data, while a specialist affordance model learns the robot's physical constraints and capabilities in safe, low-cost simulation. We enabled this separation by carefully designing an interface that lets a high-level planner propose candidate paths directly in image space that the affordance model then evaluates and re-ranks. Our real-world experiments show that VAMOS achieves higher success rates in both indoor and complex outdoor navigation than state-of-the-art model-based and end-to-end learning methods. We also show that our hierarchical design enables cross-embodied navigation across legged and wheeled robots and is easily steerable using natural language. Real-world ablations confirm that the specialist model is key to embodiment grounding, enabling a single high-level planner to be deployed across physically distinct wheeled and legged robots. Finally, this model significantly enhances single-robot reliability, achieving 3X higher success rates by rejecting physically infeasible plans. Website: https://vamos-vla.github.io/",
+    "url": "http://arxiv.org/abs/2510.20818v1",
+    "tags": [
+      "arxiv",
+      "paper",
+      "physics"
+    ],
+    "timestamp": "2025-10-23T17:59:45Z",
+    "meta": {
+      "query": "physics"
+    }
+  },
+  {
+    "id": "791cb8b718c4a5c093b1825d7a72963496fcfea9",
+    "source": "crossref",
+    "title": "Space is the Same thing as Energy-The Underlying Structure of the Observed Universe",
+    "text": "Energy and Matter is the same thing. Space and Energy is the same thing. Time and change are different. These conclusions give rise to a different view of Atomic and molecular Structure and force. The model universe is a Quantum Universe, Quantum solution for quantum point driven, Time Free, Dimension Free, Thermodynamic Free and therefore entropy free. AuT built this list which is foundational and unique. 1. All dimensions present (at least 5) exist together within the matrix of the universe and in any regional matrix; subgroups of these dimensions are present. • Space has no dimension, precharge exists in a single dimension, prephotons exist in two; neutrons (complete matter) in 3 and blackholes in 4. • The definitions of time and space mean that exchanges of information state (ct state) between space and prephotonsoccur independent of time. Time as we experience arises between the prephoton states and ends with compression to neutrons. 2. All change is quantum change in response to a single variable leading to the universe existing as a series of quantum states or snapshots. Force and time are effects based on this quantum change. 3. Time and change are different. Changes in the single variable lead to time, but time is not required for that underlying change nor does it affect that change. 4. Time is an effect like force and dimension of the quantum change between states some of which occur without time-based reference giving rise to features like wave - particle false duality and the impression of charge among other features. 5. Space is made of the same type of information as all other states (energy, matter, black holes) which are folded from space based on exponential compression/folding. 6. Waves, Photons, Electrons and protons are examples of transitional states (ct3-ct4) between prephotons (ct3) and neutrons (ct4); atoms (after hydrogen) and molecular states through neutron stars are transitional states between neutrons (ct4) and black holes (ct5) along with intervening transitional ct3-ct4 states.",
+    "url": "https://doi.org/10.33140/atcp.02.02.1",
+    "tags": [
+      "crossref",
+      "journal-article",
+      "physics"
+    ],
+    "timestamp": "2029-01-01T00:00:00Z",
+    "meta": {
+      "container": [
+        "Advances in Theoretical &amp; Computational Physics"
+      ],
+      "subject": null
+    }
+  },
+  {
+    "id": "f2ab6b47a5f63fe41757880dad2089956cb1ae1c",
+    "source": "crossref",
+    "title": "Optical Transition Rates in a Cylindrical Quantum Wire with an Inverse Parabolic Potential",
+    "text": "Electron transition rates due to interaction with circularly polarized light incident along the axis of a free-standing solid cylindrical nanowire are evaluated in the dipole approximation. In this case, the allowed optical transitions are only those for which the azimuthal quantum numbers of the initial and final states differ by unity. The envisaged electric potential of the quantum wire is modeled as inversely parabolic in the radial distance and such that it assumes a value of zero at the surface of the nanostructure. The investigations here are on the influence of this form of the confining potential on the transition rates involving some few electrons’ states of higher radial quantum numbers, nonetheless limited to transitions only between a pair of the electron’s energy sub bands. It is found that a sweep of the strength of the potential gives rise to modulations of the optical transition rates for higher radial quantum numbers. Furthermore, an increase of the strength of this potential reduces the transition energies thus such an increase redshifts peaks of the corresponding transitions rates.",
+    "url": "https://doi.org/10.33140/atcp.02.02.2",
+    "tags": [
+      "crossref",
+      "journal-article",
+      "physics"
+    ],
+    "timestamp": "2029-01-01T00:00:00Z",
+    "meta": {
+      "container": [
+        "Advances in Theoretical &amp; Computational Physics"
+      ],
+      "subject": null
+    }
+  },
+  {
+    "id": "11f8450930258e9a7ece88770e070cf37d248406",
+    "source": "crossref",
+    "title": "Crossref item",
+    "text": "Crossref item",
+    "url": "https://doi.org/10.33140/atcp.02.02",
+    "tags": [
+      "crossref",
+      "journal-issue",
+      "physics"
+    ],
+    "timestamp": "2029-01-01T00:00:00Z",
+    "meta": {
+      "container": [
+        "Advances in Theoretical &amp; Computational Physics"
+      ],
+      "subject": null
+    }
+  },
+  {
+    "id": "db60ea0ed36b434b435bb1a67c89071303446c9b",
+    "source": "crossref",
+    "title": "Supreme Theory of Everything",
+    "text": "Not only universe, but everything has general characters as eternal, infinite, cyclic and wave-particle duality. Everything from elementary particles to celestial bodies, from electromagnetic wave to gravity is in eternal motions, which dissects only to circle. Since everything is described only by trigonometry. Without trigonometry and mathematical circle, the science cannot indicate all the beauty of harmonic universe. Other method may be very good, but it is not perfect. Some part is very nice, another part is problematic. General Theory of Relativity holds that gravity is geometric. Quantum Mechanics describes all particles by wave function of trigonometry. In this paper using trigonometry, particularly mathematics circle, a possible version of the unification of partial theories, evolution history and structure of expanding universe, and the parallel universes are shown.",
+    "url": "https://doi.org/10.33140/atcp.02.02.05",
+    "tags": [
+      "crossref",
+      "journal-article",
+      "physics"
+    ],
+    "timestamp": "2029-01-01T00:00:00Z",
+    "meta": {
+      "container": [
+        "Advances in Theoretical &amp; Computational Physics"
+      ],
+      "subject": null
+    }
+  },
+  {
+    "id": "6d62d06519cdf9eef870ca14ae420d37a73f471b",
+    "source": "crossref",
+    "title": "A Cause of Inertia",
+    "text": "A charged particle, moving at a constant velocity, carries along its electrostatic field Eo . But, as a result of finite speed of light, a particle of charge Q and mass m moving at time t with velocity v and acceleration dv/dt, has a resultant of its electrostatic field in the opposite direction of accelerarion. So, a reactive electric field Ea proportional to and in the opposite direction of the acceleration is created. The field Ea acts only on the same charge Q, producing it, to generate an inertial force f= QEa = -m (dv/dt), where m is a constant equal to the rest mass. For a neutral body of mass M, composed of N/2 positive and N/2 negative charges, the inertial forces on the charges add up to Nf =NQEa = -Nm (dv/dt) = -M (dv/dt). This explains the cause of inertia, the tendency of a body to resist acceleration or deceleration, as the result of self-induced reactive forces on the electric charges composing the body, contrary to general relativity. Expressions are deduced for the mass m and energy E of an electric charge Q, in the form of a spherical shell of radius a, in conformity with a mass-energy equivalence law as E = ½ mc2 , where c is the speed of light in a vacuum, in contrast to special relativity giving E = mc2 . The total energy of a particle of mass m moving at speed v, relative to an observer, is Ev = ½ m (c2 + v2 ).",
+    "url": "https://doi.org/10.33140/atcp.02.01.1",
+    "tags": [
+      "crossref",
+      "journal-article",
+      "physics"
+    ],
+    "timestamp": "2029-01-01T00:00:00Z",
+    "meta": {
+      "container": [
+        "Advances in Theoretical &amp; Computational Physics"
+      ],
+      "subject": null
+    }
+  },
+  {
+    "id": "7c2685c8951fd5d44781149367b5bf26f0722a66",
+    "source": "crossref",
+    "title": "Materion Astronomical Filter Heritage",
+    "text": "For over 40 years Materion Precision Optics (formerly Barr Associates) has been providing precision optical coatings for some of the world’s most challenging ground and space based astronomical programs. From UV – LWIR Materion offers a wide range of optical coatings (bandpass filters, dichroic beamsplitters, and mirrors). Our Large Area Optics Lab was designed and built to specifically provide high performance optics (&gt;1.4M) to the large telescope community. Materion’s heritage additionally includes our space-based optics capabilities; all of which meet or exceed even the most stringent performance and durability requirements.",
+    "url": "https://doi.org/10.33140/atcp.02.02.06",
+    "tags": [
+      "crossref",
+      "journal-article",
+      "physics"
+    ],
+    "timestamp": "2029-01-01T00:00:00Z",
+    "meta": {
+      "container": [
+        "Advances in Theoretical &amp; Computational Physics"
+      ],
+      "subject": null
+    }
+  },
+  {
+    "id": "c6c9b78460b344df6a152ae0524adf7e5758dcd1",
+    "source": "crossref",
+    "title": "Transient Formulations for a Heat-Generating Fin with a Temperature-Dependent Heat Transfer Coefficient and Thermal Conductivity",
+    "text": "Numerical calculations and scalar transport analyses are carried out for transient heat transfer in a heat generating fin with a temperature-dependent heat transfer and conduction coefficients. The highly nonlinear governing equation, satisfies the Dirichlet and Neumann boundary conditions at both ends of the problem domain.Integral representation of the governing equation over the discretized problem domain is achieved via the Green’s second identity together with the so called free- space Green function . This element-driven approach togetherwith the finite difference approximation of the temporal derivative result in discrete equations which are recursive in nature. At the boundaries of any of the adjacent elements, compatibility conditions and/or boundary conditions are enforced to guarantee scalar continuity. After the resulting system of discrete equations are numerically solved and assembled, they yield the transient history of the scalar variables at any particular point in time. Several numerical tests are carried out to ensure the convergence and accuracy of the formulation by comparing numerical results with those found in literature.",
+    "url": "https://doi.org/10.33140/atcp.02.02.03",
+    "tags": [
+      "crossref",
+      "journal-article",
+      "physics"
+    ],
+    "timestamp": "2029-01-01T00:00:00Z",
+    "meta": {
+      "container": [
+        "Advances in Theoretical &amp; Computational Physics"
+      ],
+      "subject": null
+    }
+  },
+  {
+    "id": "70d1411e32b1856880692c4acaf1f24135044798",
+    "source": "crossref",
+    "title": "A Non-Regular Icosahedron Geometry Satellite Form, Mirror Invested Polyhedro Heliotrope, For Optical Tracking",
+    "text": "Working on relationships of three circles in common ratio [4/π or square root of the golden number ] and drawing lines of related tangents, squares and triangles, viewed on the paper plan, a figure having the shape of a section [Hexagonal] similar to that of an Icosahedron or Dodecahedron. This gave me the idea of searching for an existing probable Polyhedron built upon this traced shape. In fact this Polyhedron was built[ 4x scale], whose geometry relates to the Icosahedron and the Dodecahedron. It is a non regular Icosahedron having 12 Isosceli triangles and 8 Equilateral triangles. Mirror triangles cut to size, invested the structure for the configuration of a “Polyhedroheliotrope”Satellite Optical Tracking application.",
+    "url": "https://doi.org/10.33140/atcp.02.02.04",
+    "tags": [
+      "crossref",
+      "journal-article",
+      "physics"
+    ],
+    "timestamp": "2029-01-01T00:00:00Z",
+    "meta": {
+      "container": [
+        "Advances in Theoretical &amp; Computational Physics"
+      ],
+      "subject": null
+    }
+  },
+  {
+    "id": "312b84584cfa3fa07894b4f07728ccec75f353b0",
+    "source": "crossref",
+    "title": "Modeling of thermal effect in dynamic high-pressure microfluidization and its impact on heat sensitive components from fruit juice",
+    "text": "Modeling of thermal effect in dynamic high-pressure microfluidization and its impact on heat sensitive components from fruit juice",
+    "url": "https://doi.org/10.1016/j.foodp.2025.100069",
+    "tags": [
+      "crossref",
+      "journal-article",
+      "physics"
+    ],
+    "timestamp": "2026-01-01T00:00:00Z",
+    "meta": {
+      "container": [
+        "Food Physics"
+      ],
+      "subject": null
+    }
+  },
+  {
+    "id": "1dec4adfad54bb02395042532198031565033f3a",
+    "source": "crossref",
+    "title": "Crossref item",
+    "text": "Crossref item",
+    "url": "https://doi.org/10.3030/101220729",
+    "tags": [
+      "crossref",
+      "grant",
+      "physics"
+    ],
+    "timestamp": "2026-01-01T00:00:00Z",
+    "meta": {
+      "container": null,
+      "subject": null
+    }
+  },
+  {
+    "id": "cfb6fdc760c32139bbd14b0e4d547c67d55fc9c1",
+    "source": "crossref",
+    "title": "Effect of a magnetic field on the production of Monascus pigments and citrinin via regulation of intracellular and extracellular iron content",
+    "text": "Effect of a magnetic field on the production of Monascus pigments and citrinin via regulation of intracellular and extracellular iron content",
+    "url": "https://doi.org/10.1016/j.foodp.2025.100070",
+    "tags": [
+      "crossref",
+      "journal-article",
+      "physics"
+    ],
+    "timestamp": "2026-01-01T00:00:00Z",
+    "meta": {
+      "container": [
+        "Food Physics"
+      ],
+      "subject": null
+    }
+  },
+  {
+    "id": "9e01b467550efeffe0135be7c43dad47574686e0",
+    "source": "crossref",
+    "title": "To investigate the effects of controlled moisture levels on the peach (Prunus persica) kernels: Dimensional, gravimetrical, frictional, optical, and mechanical properties",
+    "text": "To investigate the effects of controlled moisture levels on the peach (Prunus persica) kernels: Dimensional, gravimetrical, frictional, optical, and mechanical properties",
+    "url": "https://doi.org/10.1016/j.foodp.2025.100071",
+    "tags": [
+      "crossref",
+      "journal-article",
+      "physics"
+    ],
+    "timestamp": "2026-01-01T00:00:00Z",
+    "meta": {
+      "container": [
+        "Food Physics"
+      ],
+      "subject": null
+    }
+  },
+  {
+    "id": "ec7d36c0b0e41454af40eadb35e340880fb501eb",
+    "source": "crossref",
+    "title": "Significance of Corrosion Phenomena for Magnets of Accelerators, Fusion and High Energy Physics Experiments",
+    "text": "Significance of Corrosion Phenomena for Magnets of Accelerators, Fusion and High Energy Physics Experiments",
+    "url": "https://doi.org/10.1109/tasc.2025.3612929",
+    "tags": [
+      "crossref",
+      "journal-article",
+      "physics"
+    ],
+    "timestamp": "2026-01-01T00:00:00Z",
+    "meta": {
+      "container": [
+        "IEEE Transactions on Applied Superconductivity"
+      ],
+      "subject": null
+    }
+  },
+  {
+    "id": "276929f5948a00f7d9467bbe0b30c8ba2f2e8d82",
+    "source": "arxiv",
+    "title": "HoloCine: Holistic Generation of Cinematic Multi-Shot Long Video Narratives",
+    "text": "State-of-the-art text-to-video models excel at generating isolated clips but fall short of creating the coherent, multi-shot narratives, which are the essence of storytelling. We bridge this \"narrative gap\" with HoloCine, a model that generates entire scenes holistically to ensure global consistency from the first shot to the last. Our architecture achieves precise directorial control through a Window Cross-Attention mechanism that localizes text prompts to specific shots, while a Sparse Inter-Shot Self-Attention pattern (dense within shots but sparse between them) ensures the efficiency required for minute-scale generation. Beyond setting a new state-of-the-art in narrative coherence, HoloCine develops remarkable emergent abilities: a persistent memory for characters and scenes, and an intuitive grasp of cinematic techniques. Our work marks a pivotal shift from clip synthesis towards automated filmmaking, making end-to-end cinematic creation a tangible future. Our code is available at: https://holo-cine.github.io/.",
+    "url": "http://arxiv.org/abs/2510.20822v1",
+    "tags": [
+      "arxiv",
+      "paper",
+      "quantum mechanics"
+    ],
+    "timestamp": "2025-10-23T17:59:59Z",
+    "meta": {
+      "query": "quantum mechanics"
+    }
+  },
+  {
+    "id": "2d94171c2061097482f13c5a1261162e89f7873a",
+    "source": "arxiv",
+    "title": "LayerComposer: Interactive Personalized T2I via Spatially-Aware Layered Canvas",
+    "text": "Despite their impressive visual fidelity, existing personalized generative models lack interactive control over spatial composition and scale poorly to multiple subjects. To address these limitations, we present LayerComposer, an interactive framework for personalized, multi-subject text-to-image generation. Our approach introduces two main contributions: (1) a layered canvas, a novel representation in which each subject is placed on a distinct layer, enabling occlusion-free composition; and (2) a locking mechanism that preserves selected layers with high fidelity while allowing the remaining layers to adapt flexibly to the surrounding context. Similar to professional image-editing software, the proposed layered canvas allows users to place, resize, or lock input subjects through intuitive layer manipulation. Our versatile locking mechanism requires no architectural changes, relying instead on inherent positional embeddings combined with a new complementary data sampling strategy. Extensive experiments demonstrate that LayerComposer achieves superior spatial control and identity preservation compared to the state-of-the-art methods in multi-subject personalized image generation.",
+    "url": "http://arxiv.org/abs/2510.20820v1",
+    "tags": [
+      "arxiv",
+      "paper",
+      "quantum mechanics"
+    ],
+    "timestamp": "2025-10-23T17:59:55Z",
+    "meta": {
+      "query": "quantum mechanics"
+    }
+  },
+  {
+    "id": "cbd4597f802d484edae75e78030de29007261b72",
+    "source": "arxiv",
+    "title": "Small Drafts, Big Verdict: Information-Intensive Visual Reasoning via Speculation",
+    "text": "Large Vision-Language Models (VLMs) have achieved remarkable progress in multimodal understanding, yet they struggle when reasoning over information-intensive images that densely interleave textual annotations with fine-grained graphical elements. The main challenges lie in precisely localizing critical cues in dense layouts and multi-hop reasoning to integrate dispersed evidence. We propose Speculative Verdict (SV), a training-free framework inspired by speculative decoding that combines multiple lightweight draft experts with a large verdict model. In the draft stage, small VLMs act as draft experts to generate reasoning paths that provide diverse localization candidates; in the verdict stage, a strong VLM synthesizes these paths to produce the final answer, minimizing computational cost while recovering correct answers. To further improve efficiency and accuracy, SV introduces a consensus expert selection mechanism that forwards only high-agreement reasoning paths to the verdict. Empirically, SV achieves consistent gains on challenging information-intensive and high-resolution visual question answering benchmarks, including InfographicVQA, ChartMuseum, ChartQAPro, and HR-Bench 4K. By synthesizing correct insights from multiple partially accurate reasoning paths, SV achieves both error correction and cost-efficiency compared to large proprietary models or training pipelines. Code is available at https://github.com/Tinaliu0123/speculative-verdict",
+    "url": "http://arxiv.org/abs/2510.20812v1",
+    "tags": [
+      "arxiv",
+      "paper",
+      "quantum mechanics"
+    ],
+    "timestamp": "2025-10-23T17:59:21Z",
+    "meta": {
+      "query": "quantum mechanics"
+    }
+  },
+  {
+    "id": "59fa638552a40347e8f235ed157c3825b1873caa",
+    "source": "arxiv",
+    "title": "Quantum black holes: inside and outside",
+    "text": "For a unitary description of an evaporating black hole, one usually chooses the time slices that cover only outside of the event horizon, which is mostly problem-free because the event horizon is not encountered. However, is there any justification for avoiding time slices that cover inside the event horizon? To answer the question, we investigate the Wheeler-DeWitt equation, where the time slices can cover both inside and outside the event horizon. We find that one can reasonably construct a wave packet that covers outside, but the wave function must be annihilated near the event horizon. This observation strongly suggests that we cannot choose a coherent state for a spacelike hypersurface that crosses the event horizon. To explain the unitary time evolution, we must keep the slices as coherent states; hence, they must always be outside the event horizon. In contrast, inside the horizon, we cannot have a single coherent state of a classical spacetime. Hence, the interior must be a superposition of several coherent states, which implies that there exists a horizon-scale uncertainty and a black hole should be viewed as a highly quantum macroscopic object. We provide a synthetic approach to understanding the information loss paradox from this perspective.",
+    "url": "http://arxiv.org/abs/2510.20799v1",
+    "tags": [
+      "arxiv",
+      "paper",
+      "quantum mechanics"
+    ],
+    "timestamp": "2025-10-23T17:57:43Z",
+    "meta": {
+      "query": "quantum mechanics"
+    }
+  },
+  {
+    "id": "7bac542c3095853e8447be5dafce13ef198cefff",
+    "source": "arxiv",
+    "title": "Analog Quantum Feature Selection with Neutral-Atom Quantum Processors",
+    "text": "We present a quantum-native approach to quantum feature selection (QFS) based on analog quantum simulation with neutral atom arrays, adaptable to a variety of academic and industrial applications. In our method, feature relevance-measured via mutual information with the target-is encoded as local detuning amplitudes, while feature redundancy is embedded through distance-dependent van der Waals interactions, constrained by the Rydberg blockade radius. The system is evolved adiabatically toward low-energy configurations, and the resulting measurement bitstrings are used to extract physically consistent subsets of features. The protocol is evaluated through simulations on three benchmark binary classification datasets: Adult Income, Bank Marketing, and Telco Churn. Compared to classical methods such as mutual information ranking and Boruta, combined with XGBoost and Random Forest classifiers, our quantum-computing approach achieves competitive or superior performance. In particular, for compact subsets of 2-5 features, analog QFS improves mean AUC scores by 1.5-2.3% while reducing the number of features by 75-84%, offering interpretable, low-redundancy solutions. These results demonstrate that programmable Rydberg arrays offer a viable platform for intelligent feature selection with practical relevance in machine learning pipelines, capable of transforming computational quantum advantage into industrial quantum usefulness.",
+    "url": "http://arxiv.org/abs/2510.20798v1",
+    "tags": [
+      "arxiv",
+      "paper",
+      "quantum mechanics"
+    ],
+    "timestamp": "2025-10-23T17:57:34Z",
+    "meta": {
+      "query": "quantum mechanics"
+    }
+  },
+  {
+    "id": "e55c067ddd28c8f8d632ff3e5e6e222361da3464",
+    "source": "arxiv",
+    "title": "Trapping, manipulating and probing ultracold atoms: a quantum technologies tutorial",
+    "text": "Engineered ultracold atomic systems are a valuable platform for fundamental quantum mechanics studies and the development of quantum technologies. At near zero absolute temperature, atoms exhibit macroscopic phase coherence and collective quantum behavior, enabling their use in precision metrology, quantum simulation, and even information processing. This review provides an introductory overview of the key techniques used to trap, manipulate, and detect ultracold atoms, while highlighting the main applications of each method. We outline the principles of laser cooling, magnetic and optical trapping, and the most widely used techniques, including optical lattices and tweezers. Next, we discuss the manipulation methods of atomic internal and external degrees of freedom, and we present atom interferometry techniques and how to leverage and control interatomic interactions. Next, we review common ensemble detection strategies, including absorption and fluorescence imaging, state-selective readout, correlation and quantum non-demolition measurements and conclude with high-resolution approaches. This review aims to provide newcomers to the field with a broad understanding of the experimental toolkit that underpins research in ultracold atom physics and its applications across quantum science and technology.",
+    "url": "http://arxiv.org/abs/2510.20790v1",
+    "tags": [
+      "arxiv",
+      "paper",
+      "quantum mechanics"
+    ],
+    "timestamp": "2025-10-23T17:54:06Z",
+    "meta": {
+      "query": "quantum mechanics"
+    }
+  },
+  {
+    "id": "85d587ef6dcc50b627c0bded77d9f6b2893b86a1",
+    "source": "arxiv",
+    "title": "The complexity of perfect quantum state classification",
+    "text": "The problem of quantum state classification asks how accurately one can identify an unknown quantum state that is promised to be drawn from a known set of pure states. In this work, we introduce the notion of $k$-learnability, which captures the ability to identify the correct state using at most $k$ guesses, with zero error. We show that deciding whether a given family of states is $k$-learnable can be solved via semidefinite programming. When there are $n$ states, we present polynomial-time (in $n$) algorithms for determining $k$-learnability for two cases: when $k$ is a fixed constant or the dimension of the states is a fixed constant. When both $k$ and the dimension of the states are part of the input, we prove that there exist succinct certificates placing the problem in NP, and we establish NP-hardness by a reduction from the classical $k$-clique problem. Together, our findings delineate the boundary between efficiently solvable and intractable instances of quantum state classification in the perfect (zero-error) regime.",
+    "url": "http://arxiv.org/abs/2510.20789v1",
+    "tags": [
+      "arxiv",
+      "paper",
+      "quantum mechanics"
+    ],
+    "timestamp": "2025-10-23T17:53:53Z",
+    "meta": {
+      "query": "quantum mechanics"
+    }
+  },
+  {
+    "id": "c7a746eeff0f9eac77fa761009afb248be64f7de",
+    "source": "arxiv",
+    "title": "Are Large Reasoning Models Good Translation Evaluators? Analysis and Performance Boost",
+    "text": "Recent advancements in large reasoning models (LRMs) have introduced an intermediate \"thinking\" process prior to generating final answers, improving their reasoning capabilities on complex downstream tasks. However, the potential of LRMs as evaluators for machine translation (MT) quality remains underexplored. We provides the first systematic analysis of LRM-as-a-judge in MT evaluation. We identify key challenges, revealing LRMs require tailored evaluation materials, tend to \"overthink\" simpler instances and have issues with scoring mechanisms leading to overestimation. To address these, we propose to calibrate LRM thinking by training them on synthetic, human-like thinking trajectories. Our experiments on WMT24 Metrics benchmarks demonstrate that this approach largely reduces thinking budgets by ~35x while concurrently improving evaluation performance across different LRM scales from 7B to 32B (e.g., R1-Distill-Qwen-7B achieves a +8.7 correlation point improvement). These findings highlight the potential of efficiently calibrated LRMs to advance fine-grained automatic MT evaluation.",
+    "url": "http://arxiv.org/abs/2510.20780v1",
+    "tags": [
+      "arxiv",
+      "paper",
+      "quantum mechanics"
+    ],
+    "timestamp": "2025-10-23T17:48:36Z",
+    "meta": {
+      "query": "quantum mechanics"
+    }
+  },
+  {
+    "id": "f4b42a90726bcd142f935fc5a2e71eaef4512b2e",
+    "source": "arxiv",
+    "title": "Quantum Sensing of Gravitational Frame-Dragging with a Superfluid $^4$He Gyrometer",
+    "text": "We propose a laboratory-scale experiment to locally measure the general relativistic frame-dragging effect on Earth using the macroscopic quantum properties of a novel superfluid $^4$He single Josephson junction gyrometer. We derive the frame-dragging and related geodetic and Thomas effects in the superfluid gyrometer and present a procedure for their experimental measurement. We compute the expected thermal noise floor and find that very high sensitivity can be expected at millikelvin temperatures, where near-future Josephson junctions using nanoporous 2D materials are expected to operate. Assuming utilization of the lowest mechanical loss materials, we find a noise spectral density of $5\\times 10^{-17}$ rads/s/$\\sqrt{\\mathrm{Hz}}$ at 10 mK, which is sufficient to resolve the frame-dragging rate to 0.2% within one second of measurement, giving a rotational sensitivity of 1 revolution in 4 Byrs. This extreme sensitivity to rotation corresponds to a measurement of proper time differences as small as $10^{-35}$ s.",
+    "url": "http://arxiv.org/abs/2510.20772v1",
+    "tags": [
+      "arxiv",
+      "paper",
+      "quantum mechanics"
+    ],
+    "timestamp": "2025-10-23T17:45:58Z",
+    "meta": {
+      "query": "quantum mechanics"
+    }
+  },
+  {
+    "id": "c84f19a03b09d6e13388017db12c24dc894b5a81",
+    "source": "arxiv",
+    "title": "DyPE: Dynamic Position Extrapolation for Ultra High Resolution Diffusion",
+    "text": "Diffusion Transformer models can generate images with remarkable fidelity and detail, yet training them at ultra-high resolutions remains extremely costly due to the self-attention mechanism's quadratic scaling with the number of image tokens. In this paper, we introduce Dynamic Position Extrapolation (DyPE), a novel, training-free method that enables pre-trained diffusion transformers to synthesize images at resolutions far beyond their training data, with no additional sampling cost. DyPE takes advantage of the spectral progression inherent to the diffusion process, where low-frequency structures converge early, while high-frequencies take more steps to resolve. Specifically, DyPE dynamically adjusts the model's positional encoding at each diffusion step, matching their frequency spectrum with the current stage of the generative process. This approach allows us to generate images at resolutions that exceed the training resolution dramatically, e.g., 16 million pixels using FLUX. On multiple benchmarks, DyPE consistently improves performance and achieves state-of-the-art fidelity in ultra-high-resolution image generation, with gains becoming even more pronounced at higher resolutions. Project page is available at https://noamissachar.github.io/DyPE/.",
+    "url": "http://arxiv.org/abs/2510.20766v1",
+    "tags": [
+      "arxiv",
+      "paper",
+      "quantum mechanics"
+    ],
+    "timestamp": "2025-10-23T17:42:14Z",
+    "meta": {
+      "query": "quantum mechanics"
+    }
+  },
+  {
+    "id": "ba09ec7c74015ba528f1c79be241baa4829feeb0",
+    "source": "arxiv",
+    "title": "Controllable Embedding Transformation for Mood-Guided Music Retrieval",
+    "text": "Music representations are the backbone of modern recommendation systems, powering playlist generation, similarity search, and personalized discovery. Yet most embeddings offer little control for adjusting a single musical attribute, e.g., changing only the mood of a track while preserving its genre or instrumentation. In this work, we address the problem of controllable music retrieval through embedding-based transformation, where the objective is to retrieve songs that remain similar to a seed track but are modified along one chosen dimension. We propose a novel framework for mood-guided music embedding transformation, which learns a mapping from a seed audio embedding to a target embedding guided by mood labels, while preserving other musical attributes. Because mood cannot be directly altered in the seed audio, we introduce a sampling mechanism that retrieves proxy targets to balance diversity with similarity to the seed. We train a lightweight translation model using this sampling strategy and introduce a novel joint objective that encourages transformation and information preservation. Extensive experiments on two datasets show strong mood transformation performance while retaining genre and instrumentation far better than training-free baselines, establishing controllable embedding transformation as a promising paradigm for personalized music retrieval.",
+    "url": "http://arxiv.org/abs/2510.20759v1",
+    "tags": [
+      "arxiv",
+      "paper",
+      "quantum mechanics"
+    ],
+    "timestamp": "2025-10-23T17:29:13Z",
+    "meta": {
+      "query": "quantum mechanics"
+    }
+  },
+  {
+    "id": "8a8b653593f8b5121602e5e688898963bed9bee8",
+    "source": "arxiv",
+    "title": "Theta-term in Russian Doll Model: phase structure, quantum metric and BPS multifractality",
+    "text": "We investigate the phase structure of the deterministic and disordered versions of the Russian Doll Model (RDM), which is a generalization of Richardson model of superconductivity in a finite system with time-reversal symmetry breaking parameter $\\theta$. It is one of the simplest examples of the cyclic RG where $\\log N$ plays the role of the RG time. The deterministic model is integrable and shares the same Bethe Ansatz (BA) equations with the inhomogeneous twisted XXX spin chain. We analyze the quantum metric, the Berry curvature, and the fractal dimension in the sector with a single Cooper pair. A rich phase structure in the $(\\theta,\\gamma)$ parameter plane is found, where $\\gamma \\log N$ quantifies the hopping term. For the deterministic RDM we clearly identify the extended domain of non-ergodic multifractal phase on the $(\\theta,\\gamma)$ parameter plane supporting the reentrance transitions between the localized, ergodic, and multifractal phases. We find the pattern of phase transitions in the global charge $Q(\\theta,\\gamma)$, which arises from the BA equation. In particular, in the multifractal phase in the deterministic model $Q(\\gamma)$ exhibits the analogue of \"charge concentration\" and fortuity phenomena discussed in the context of black hole microstates at finite $N$. The BA equations in RDM exactly coincide with the equations defining the ground states in the theory on the worldvolume of the vortex strings in $N_F=2N_C$ ${\\cal N}=2$ SQCD at a strong coupling point $\\frac{1}{g_{YM}^2}=0$ with identification $\\theta_{RDM}= \\theta_{4D}-\\pi$. We conjecture that the Hamiltonian of the RDM model describes the mixing in particular 2d-4d BPS sector of the Hilbert space. Our findings provide an example of the BPS multifractality regime for the probe operator in the sector of Hilbert space, and we comment on the possible application to dense QCD with $\\theta$ term.",
+    "url": "http://arxiv.org/abs/2510.20758v1",
+    "tags": [
+      "arxiv",
+      "paper",
+      "quantum mechanics"
+    ],
+    "timestamp": "2025-10-23T17:25:01Z",
+    "meta": {
+      "query": "quantum mechanics"
+    }
+  },
+  {
+    "id": "b2aa1625bd1481594be07303abe13fb7327e28e6",
+    "source": "crossref",
+    "title": "Artificial intelligence empowered quantum-resistant cryptographic algorithms in information security of WSN for future-proof systems",
+    "text": "Artificial intelligence empowered quantum-resistant cryptographic algorithms in information security of WSN for future-proof systems",
+    "url": "https://doi.org/10.1504/ijesdf.2027.10072341",
+    "tags": [
+      "crossref",
+      "journal-article",
+      "quantum mechanics"
+    ],
+    "timestamp": "2027-01-01T00:00:00Z",
+    "meta": {
+      "container": [
+        "International Journal of Electronic Security and Digital Forensics"
+      ],
+      "subject": null
+    }
+  },
+  {
+    "id": "ede30b0a105a113391b01dadcb196d3d203ffaea",
+    "source": "crossref",
+    "title": "Optimising Accuracy Rate of Genomic Image Representation of Human Corona Virus Sequences for COVID-19 Detection using Modified Quantum-Based Marine Predators Algorithm",
+    "text": "Optimising Accuracy Rate of Genomic Image Representation of Human Corona Virus Sequences for COVID-19 Detection using Modified Quantum-Based Marine Predators Algorithm",
+    "url": "https://doi.org/10.1504/ijids.2027.10070075",
+    "tags": [
+      "crossref",
+      "journal-article",
+      "quantum mechanics"
+    ],
+    "timestamp": "2027-01-01T00:00:00Z",
+    "meta": {
+      "container": [
+        "International Journal of Information and Decision Sciences"
+      ],
+      "subject": null
+    }
+  },
+  {
+    "id": "a982520ff26998c19826242ab9991f1e3d248a31",
+    "source": "crossref",
+    "title": "Integrating artificial intelligence and quantum computing: A systematic literature review of features and applications",
+    "text": "Integrating artificial intelligence and quantum computing: A systematic literature review of features and applications",
+    "url": "https://doi.org/10.1016/j.ijcce.2025.08.002",
+    "tags": [
+      "crossref",
+      "journal-article",
+      "quantum mechanics"
+    ],
+    "timestamp": "2026-01-01T00:00:00Z",
+    "meta": {
+      "container": [
+        "International Journal of Cognitive Computing in Engineering"
+      ],
+      "subject": null
+    }
+  },
+  {
+    "id": "ff56dcfdd246b13d7d8b023e27184fbdc4334169",
+    "source": "crossref",
+    "title": "Crossref item",
+    "text": "Crossref item",
+    "url": "https://doi.org/10.3030/101220228",
+    "tags": [
+      "crossref",
+      "grant",
+      "quantum mechanics"
+    ],
+    "timestamp": "2026-01-01T00:00:00Z",
+    "meta": {
+      "container": null,
+      "subject": null
+    }
+  },
+  {
+    "id": "576bdcebfd2cfca114c812f101f1b87dece32a09",
+    "source": "crossref",
+    "title": "Crossref item",
+    "text": "Crossref item",
+    "url": "https://doi.org/10.3030/101198416",
+    "tags": [
+      "crossref",
+      "grant",
+      "quantum mechanics"
+    ],
+    "timestamp": "2026-01-01T00:00:00Z",
+    "meta": {
+      "container": null,
+      "subject": null
+    }
+  },
+  {
+    "id": "5ea345e31f0531162e2c418b0c268cf384baeba8",
+    "source": "crossref",
+    "title": "Crossref item",
+    "text": "Crossref item",
+    "url": "https://doi.org/10.3030/101202810",
+    "tags": [
+      "crossref",
+      "grant",
+      "quantum mechanics"
+    ],
+    "timestamp": "2026-01-01T00:00:00Z",
+    "meta": {
+      "container": null,
+      "subject": null
+    }
+  },
+  {
+    "id": "89b7d4fe803496d2173b31557c682b3192570547",
+    "source": "crossref",
+    "title": "Learning quantum computers' errors using interpretable neural networks",
+    "text": "Learning quantum computers' errors using interpretable neural networks",
+    "url": "https://doi.org/10.2172/2589601",
+    "tags": [
+      "crossref",
+      "report",
+      "quantum mechanics"
+    ],
+    "timestamp": "2026-01-01T00:00:00Z",
+    "meta": {
+      "container": null,
+      "subject": null
+    }
+  },
+  {
+    "id": "a3e46dc675c7cff05cd282e630ec46a92ff7a0e5",
+    "source": "crossref",
+    "title": "Crossref item",
+    "text": "Crossref item",
+    "url": "https://doi.org/10.3030/101206221",
+    "tags": [
+      "crossref",
+      "grant",
+      "quantum mechanics"
+    ],
+    "timestamp": "2026-01-01T00:00:00Z",
+    "meta": {
+      "container": null,
+      "subject": null
+    }
+  },
+  {
+    "id": "e2cd85ba85c9630356eb7730642293bda7894871",
+    "source": "crossref",
+    "title": "Crossref item",
+    "text": "Crossref item",
+    "url": "https://doi.org/10.3030/101206332",
+    "tags": [
+      "crossref",
+      "grant",
+      "quantum mechanics"
+    ],
+    "timestamp": "2026-01-01T00:00:00Z",
+    "meta": {
+      "container": null,
+      "subject": null
+    }
+  },
+  {
+    "id": "ac245ca4a71e7c90675fcfe72aca28fa8ad7d3e9",
+    "source": "crossref",
+    "title": "Crossref item",
+    "text": "Crossref item",
+    "url": "https://doi.org/10.3030/101207162",
+    "tags": [
+      "crossref",
+      "grant",
+      "quantum mechanics"
+    ],
+    "timestamp": "2026-01-01T00:00:00Z",
+    "meta": {
+      "container": null,
+      "subject": null
+    }
+  },
+  {
+    "id": "e7c899b8c7e3ff398bb7c181d7de5d060671d6ad",
+    "source": "crossref",
+    "title": "Optimization of Fiber Amplifier Design for Stimulated Raman Scattering Microscopy",
+    "text": "Optimization of Fiber Amplifier Design for Stimulated Raman Scattering Microscopy",
+    "url": "https://doi.org/10.1109/jstqe.2025.3616654",
+    "tags": [
+      "crossref",
+      "journal-article",
+      "quantum mechanics"
+    ],
+    "timestamp": "2026-01-01T00:00:00Z",
+    "meta": {
+      "container": [
+        "IEEE Journal of Selected Topics in Quantum Electronics"
+      ],
+      "subject": null
+    }
+  },
+  {
+    "id": "b20acacf706664fc6ed46a0f29db9c65d8438f67",
+    "source": "crossref",
+    "title": "Multi-Parametric Optical Coherence Tomography Angiography Quantifies Heterogeneous Therapeutic Responses in Port Wine Stains",
+    "text": "Multi-Parametric Optical Coherence Tomography Angiography Quantifies Heterogeneous Therapeutic Responses in Port Wine Stains",
+    "url": "https://doi.org/10.1109/jstqe.2025.3609623",
+    "tags": [
+      "crossref",
+      "journal-article",
+      "quantum mechanics"
+    ],
+    "timestamp": "2026-01-01T00:00:00Z",
+    "meta": {
+      "container": [
+        "IEEE Journal of Selected Topics in Quantum Electronics"
+      ],
+      "subject": null
+    }
+  },
+  {
+    "id": "fdefc000faf1afeef5e41b2b37ec4aeff90ecf81",
+    "source": "arxiv",
+    "title": "Doubling the Number of Blue Large-Amlitude Pulsators: Final Results of Searches for BLAPs in the OGLE Inner Galactic Bulge Fields",
+    "text": "Blue Large-Amplitude Pulsators (BLAPs) are rare short-period ($\\lesssim$80 min) pulsating variable stars exhibiting large-amplitude brightness variations (typically between 0.1 and 0.4 mag). As a recently discovered class of radial-mode pulsators, the origin and nature of these variables remain the subject of ongoing investigations. Here, we present a comprehensive summary of all BLAPs identified in the data of the Optical Gravitational Lensing Experiment (OGLE), including the discovery of 88 new BLAPs in the inner Galactic bulge fields. We performed a systematic search for periodic signals in the $I$-band light curves of more than 400 milion stars with magnitudes down to $I = 21$. Our search effectively doubles the number of these variables to almost 200. The detected BLAPs exhibit pulsation periods between roughly 5 and 76 minutes. The analyzed dataset covers a timespan from 2001 to 2024, with some stars observed up to 20,000 times, providing the temporal coverage needed to study period and amplitude variations. We report on three objects that show enormous period changes, at a rate of $10^{-5}$ yr$^{-1}$, which could provide important clues to the evolutionary status of BLAPs. Full dataset is incorporated into the publicly available OGLE Collection of Variable Stars (OCVS), enabling future studies of these enigmatic objects.",
+    "url": "http://arxiv.org/abs/2510.20823v1",
+    "tags": [
+      "arxiv",
+      "paper",
+      "AI in science"
+    ],
+    "timestamp": "2025-10-23T17:59:59Z",
+    "meta": {
+      "query": "AI in science"
+    }
+  },
+  {
+    "id": "64b575c6b97a941adaac0636c73c7fa00e2040c9",
+    "source": "arxiv",
+    "title": "Efficient analytic approximation for small-scale non-cold relic perturbations",
+    "text": "We develop a highly accurate analytic approximation for small-scale non-cold relic perturbations by solving the collisionless Boltzmann equation in the quasi-stationary regime. The approximation is implemented in CLASSIER (CLASS Integral Equation Revision), a modified version of the Boltzmann solver CLASS that replaces the traditional truncated Boltzmann hierarchy of non cold relic multipoles with a small set of integral equations solved iteratively. Applying it to massive neutrinos yields a factor-of-two reduction in total runtime relative to CLASSIER without the approximation. Compared to standard CLASS runs (with $\\ell_{\\rm max}^{\\rm NCDM}=40$ and no late-time massive neutrino fluid approximation) under the same precision setting, CLASSIER with this approximation is faster by a factor of 3-6. The approximation faithfully reproduces the late-time behavior of massive neutrino perturbations and preserves sub-$0.1\\%$ accuracy in the matter power spectrum today up to comoving wavenumber $k=100\\,{\\rm Mpc}^{-1}$. With this approximation, massive-neutrino perturbations are no longer the computational bottleneck on small scales for linear-theory predictions. The approach can be readily extendable to non-standard dark-matter models, and offers prospects for further efficiency gains in high-precision cosmological analyses.",
+    "url": "http://arxiv.org/abs/2510.20821v1",
+    "tags": [
+      "arxiv",
+      "paper",
+      "AI in science"
+    ],
+    "timestamp": "2025-10-23T17:59:58Z",
+    "meta": {
+      "query": "AI in science"
+    }
+  },
+  {
+    "id": "c0f14f6a24ec645d9f0edaab052b708c3fd4acd1",
+    "source": "arxiv",
+    "title": "Towards General Modality Translation with Contrastive and Predictive Latent Diffusion Bridge",
+    "text": "Recent advances in generative modeling have positioned diffusion models as state-of-the-art tools for sampling from complex data distributions. While these models have shown remarkable success across single-modality domains such as images and audio, extending their capabilities to Modality Translation (MT), translating information across different sensory modalities, remains an open challenge. Existing approaches often rely on restrictive assumptions, including shared dimensionality, Gaussian source priors, and modality-specific architectures, which limit their generality and theoretical grounding. In this work, we propose the Latent Denoising Diffusion Bridge Model (LDDBM), a general-purpose framework for modality translation based on a latent-variable extension of Denoising Diffusion Bridge Models. By operating in a shared latent space, our method learns a bridge between arbitrary modalities without requiring aligned dimensions. We introduce a contrastive alignment loss to enforce semantic consistency between paired samples and design a domain-agnostic encoder-decoder architecture tailored for noise prediction in latent space. Additionally, we propose a predictive loss to guide training toward accurate cross-domain translation and explore several training strategies to improve stability. Our approach supports arbitrary modality pairs and performs strongly on diverse MT tasks, including multi-view to 3D shape generation, image super-resolution, and multi-view scene synthesis. Comprehensive experiments and ablations validate the effectiveness of our framework, establishing a new strong baseline in general modality translation. For more information, see our project page: https://sites.google.com/view/lddbm/home.",
+    "url": "http://arxiv.org/abs/2510.20819v1",
+    "tags": [
+      "arxiv",
+      "paper",
+      "AI in science"
+    ],
+    "timestamp": "2025-10-23T17:59:54Z",
+    "meta": {
+      "query": "AI in science"
+    }
+  },
+  {
+    "id": "66141b50927706f3e4f7e7e9e6eadab6b30ac4ac",
+    "source": "crossref",
+    "title": "Studying the Effluent Quality of Enhanced Modified Ludzack Ettinger-oxic Settling Anaerobic Process (E-MLE-OSA) for Treating Real Municipal Wastewater",
+    "text": "Background: Wastewater collection, treatment, discharge, additionally as reusing the treated wastewater in urban are critical factors for maintaining public health preventing contamination of water resources. This study aimed to investigate the performance of enhanced modified Ludzack Ettinger process-oxic settling anaerobic (MLE-OSA) process for treating real municipal wastewater in Sari wastewater Treatment, Sari City, Iran. Methods: To combine the OSA process technique with the MLE system, the Sludge Holding Tanks (SHT) were implemented in the return sludge line of designed pilot studies which comprised 1) MLE, which was regarded as the control system similar; 2) MLE-OSA4 with a 70-L SHT operated at 4-h Hydraulic Retention Time (HRT), and 3) MLEOSA6 with a 107-L SHT operated at 6-h HRT. To start the process, the overflow effluent of the primary settling tank of the Sari wastewater treatment plant was used. After 45-60 days, the reactors reached a steady state. The parameters of Dissolved Oxygen (DO), Oxidation-Reduction Potential (ORP), temperature, pH, Chemical Oxygen Demand (COD), Biochemical Oxygen Demand (BOD5), Total Suspended Solids (TSS), and nutrients were analyzed. Results: The results revealed that the average TSS, COD, BOD, phosphorus, nitrite, nitrate, and total nitrogen in MLEOSA4 effluent decreased 20.1, 14.6, 2.97, 10, 51.1, 19.3, and 20.7%, respectively compared to MLE. Similarly, in MLE-OSA6, the values decreased 34.2, 16.1, 14.6, 16.7, 69.6, 31.3, and 25.8%, respectively compared to the control process. Conclusion: Therefore, using natural wastewater, the enhanced MLE-OSA process showed better performance in removing the study parameters and better quality for the effluent. Furthermore, the quality of effluent is following the Iran Department of Environment (IDE).",
+    "url": "https://doi.org/10.32598/jaehr.9.4.1243",
+    "tags": [
+      "crossref",
+      "journal-article",
+      "AI in science"
+    ],
+    "timestamp": "2121-01-01T00:00:00Z",
+    "meta": {
+      "container": [
+        "Journal of Advances in Environmental Health Research"
+      ],
+      "subject": null
+    }
+  },
+  {
+    "id": "271c8d44d89201dc202a491fb795f4c3008b7871",
+    "source": "crossref",
+    "title": "Effect of Drought Stress, Soil Salinity, P. indica, and MWCNs on Biodegradation of Diesel Oil in the Pb- and Cd-Polluted Soil Under Cultivation of Triticale Plant",
+    "text": "Background: Today, soil pollution with heavy metals and petroleum compounds is one of the main environmental problems. This research was done to investigate the effect of drought stress, soil salinity, Piriformospora indica (P. indica), and MWCNs on biodegradation of diesel oil in the soil that contaminated with Pb and Cd under cultivation of triticale plant. Methods: Treatments consisted of applying MWCNs (2% [W/W]) in the Pb- and Cd-polluted soil that was simultaneously polluted with diesel oil (0, 5, and 10% [W/W]), and the plants used in this study were inoculated with P. indica. After 70 days, plants were harvested, and plant and soil Cd were measured using AAS (atomic absorption spectrometry). In addition, the degradation percentage of diesel oil in soil was determined. Results: Soil application of MWCNs at the rate of 2% (W/W) significantly increased the biodegradation of diesel oil in the soil in the drought and salinity (6 dS/m) stress by 11.3% and 15.6%, respectively. In addition, plant inoculation with P. indica significantly increased the biodegradation of diesel oil in the soil by 12.3%. For salinity (6 dS/m) and drought stress, it was increased by 8.3% and 9.4%, respectively. In addition, the Pb and Cd concentrations decreased by 14.3% and 12.8%, respectively, when the MWCNs were added to the soil (2% [W/W]). Conclusion: Soil application of MWCNs and plant inoculation with P. indica not only increased the biodegradation of diesel oil but also decreased the plant Pb and Cd concentrations.",
+    "url": "https://doi.org/10.32598/jaehr.9.4.1232",
+    "tags": [
+      "crossref",
+      "journal-article",
+      "AI in science"
+    ],
+    "timestamp": "2121-01-01T00:00:00Z",
+    "meta": {
+      "container": [
+        "Journal of Advances in Environmental Health Research"
+      ],
+      "subject": null
+    }
+  },
+  {
+    "id": "f1a83420ff0c38fa5f420fa3379373accabe8516",
+    "source": "crossref",
+    "title": "ANALYTICAL CLOUD SYSTEM ERI Digital health analysis using Spectral analysis in AI",
+    "text": "ANALYTICAL CLOUD SYSTEM ERI Digital health analysis using Spectral analysis in AI",
+    "url": "https://doi.org/10.47363/jeast/2021/vid/1006",
+    "tags": [
+      "crossref",
+      "journal-article",
+      "AI in science"
+    ],
+    "timestamp": "2121-01-01T00:00:00Z",
+    "meta": {
+      "container": [
+        "Journal of Engineering and Applied Sciences Technology"
+      ],
+      "subject": null
+    }
+  },
+  {
+    "id": "005867ca06e262f0d21abdeb1b7c0b6fd48f4231",
+    "source": "crossref",
+    "title": "The Effects of Relaxing Music on Life Distress and Maternal-fetal Attachment in Pregnant Women",
+    "text": "Background: Although pregnancy and motherhood are enjoyable experiences, they are associated with numerous biopsychological changes requiring adaptation. The present study aimed to assess the effects of relaxing music on life distress and Maternal-Fetal Attachment (MFA) in pregnant women. Methods: This was a quasi-experimental study with a pre-test, post-test and a control group design. The research population included all Iranian pregnant women referring to Laleh Hospital in Tehran City, Iran, in 2020. In total, 30 women were selected using the convenience sampling method and randomly assigned into the intervention and control groups (n=15/group). The required data were collected using the Life Distress Inventory (LDI) and the Maternal-Fetal Attachment Scale (MFAS). The intervention group listened to relaxing music for twelve 45-50-minute sessions in the morning and during routine midwifery visits; however, the controls received no intervention. The collected data were analyzed using Multivariate Analysis of Covariance (MANCOVA) in SPSS V. 22. Results: The obtained results indicated that the intervention group reported a lower level of life distress in the post-test, compared to the controls (P=0.0001, F=15.860). The intervention group also achieved a higher mean score on MFA, than the control group (P=0.0001, F=35.872). Conclusion: According to the present research findings, reproductive health, nursing professionals, and psychologists could recommend music as a complementary therapy to reduce stress and distress experienced by expecting mothers and to improve MFA.",
+    "url": "https://doi.org/10.32598/jccnc.7.1.33.14",
+    "tags": [
+      "crossref",
+      "journal-article",
+      "AI in science"
+    ],
+    "timestamp": "2121-01-01T00:00:00Z",
+    "meta": {
+      "container": [
+        "Journal of Client-Centered Nursing Care"
+      ],
+      "subject": null
+    }
+  },
+  {
+    "id": "7230aa738bc0e9e85468d33f96533a57b9d3718c",
+    "source": "crossref",
+    "title": "The Role of Attachment Styles and Spiritual Intelligence in Predicting Women’s Emotional Divorce",
+    "text": "Background: Emotional divorce refers to a situation in which the emotional relationship, support, passion, warmth, attention, love, and intimacy between couples (husband &amp; wife) decline or diminish. Such conditions lead to an unaffectionate marital life to the point that the couples are only together under one roof. Accordingly, the present study aimed to explore the role of attachment styles and spiritual intelligence in predicting emotional divorce in women. Methods: This study employed a descriptive-correlational design. The research population included all women filing for divorce who were referred to marriage counseling and couple therapy centers in districts 5 and 6 in Tehran City, Iran, in 2020. In total, 400 women who met the inclusion criteria were selected as the study participants using voluntary response and convenience sampling techniques. The required data were collected by the Emotional Divorce Scale, the Adult Attachment Scale, and the Self-Report Measure of Spiritual Intelligence. The collected data were analyzed using the multiple regression analysis method in SPSS V. 22. Results: The obtained results suggested a significant positive relationship between the anxious-avoidant attachment style and emotional divorce (P&lt;0.01). Furthermore, there was a significant negative relationship between spiritual intelligence and emotional divorce; the higher the spiritual intelligence, the lower the emotional divorce (P=0.02). Accordingly, spiritual intelligence and anxious-avoidant attachment style can predict emotional divorce (Multiple Regressions= -0.58). Conclusion: The present study data suggested that premarital education and counseling before spouse selection help in examining the personality traits of the parties. Moreover, paying attention to the role of health professionals, such as family counselors, psychologists, and psychiatric nurses in providing premarital counseling and education to couples and emphasizing the role of spiritual intelligence and attachment styles may prevent emotional separation and divorce among couples.",
+    "url": "https://doi.org/10.32598/jccnc.7.1.350.1",
+    "tags": [
+      "crossref",
+      "journal-article",
+      "AI in science"
+    ],
+    "timestamp": "2121-01-01T00:00:00Z",
+    "meta": {
+      "container": [
+        "Journal of Client-Centered Nursing Care"
+      ],
+      "subject": null
+    }
+  },
+  {
+    "id": "cb2d84cc9cf985f896962a22a0db4d181b5ea0ff",
+    "source": "crossref",
+    "title": "Is High Maternal Body Mass Index Associated with Cesarean Section Delivery in Mongolia? A Prospective Observational Study",
+    "text": "Is High Maternal Body Mass Index Associated with Cesarean Section Delivery in Mongolia? A Prospective Observational Study",
+    "url": "https://doi.org/10.31372/20190403.1056",
+    "tags": [
+      "crossref",
+      "journal-article",
+      "AI in science"
+    ],
+    "timestamp": "2109-01-01T00:00:00Z",
+    "meta": {
+      "container": [
+        "Asian/Pacific Island Nursing Journal"
+      ],
+      "subject": null
+    }
+  },
+  {
+    "id": "e4dbdb6f849f3358fbe3d27da7ee41776f31d7ac",
+    "source": "crossref",
+    "title": "Contour Based Real Time Multiple Object Tracking",
+    "text": "Contour Based Real Time Multiple Object Tracking",
+    "url": "https://doi.org/10.18535/ijetst/v3i08.10",
+    "tags": [
+      "crossref",
+      "journal-article",
+      "AI in science"
+    ],
+    "timestamp": "2106-01-01T00:00:00Z",
+    "meta": {
+      "container": [
+        "International journal of Emerging Trends in Science and Technology"
+      ],
+      "subject": null
+    }
+  },
+  {
+    "id": "6037303a7287b679e2151c403372c0f0e712bb46",
+    "source": "crossref",
+    "title": "Science, Technology, and Medicine in the Modern Japanese Empire ed. by David G. Wittner and Philip C. Brown",
+    "text": "Science, Technology, and Medicine in the Modern Japanese Empire ed. by David G. Wittner and Philip C. Brown",
+    "url": "https://doi.org/10.1353/mni.2081.0012",
+    "tags": [
+      "crossref",
+      "journal-article",
+      "AI in science"
+    ],
+    "timestamp": "2081-01-01T00:00:00Z",
+    "meta": {
+      "container": [
+        "Monumenta Nipponica"
+      ],
+      "subject": null
+    }
+  },
+  {
+    "id": "ae12da44e1e34ac7739883362459b9f8270f5902",
+    "source": "crossref",
+    "title": "The Head of NASA Science Spent a Whole Weekend Building a LEGO Rocket",
+    "text": "The Head of NASA Science Spent a Whole Weekend Building a LEGO Rocket",
+    "url": "https://doi.org/10.1038/scientificamerican072077-jtynvligrskgzxwopmm6s",
+    "tags": [
+      "crossref",
+      "journal-article",
+      "AI in science"
+    ],
+    "timestamp": "2077-01-01T00:00:00Z",
+    "meta": {
+      "container": [
+        "Scientific American"
+      ],
+      "subject": null
+    }
+  },
+  {
+    "id": "9c2966fbbbae4d7a8d275ae14a1c9f8490cd6f19",
+    "source": "crossref",
+    "title": "Title Pending 25050",
+    "text": "Title Pending 25050",
+    "url": "https://doi.org/10.16995/zygon.25050",
+    "tags": [
+      "crossref",
+      "journal-article",
+      "AI in science"
+    ],
+    "timestamp": "2035-01-01T00:00:00Z",
+    "meta": {
+      "container": [
+        "Zygon: Journal of Religion and Science"
+      ],
+      "subject": null
+    }
+  },
+  {
+    "id": "1b4baf2b1599f1eaf1b559ca58d114f14a397f1e",
+    "source": "crossref",
+    "title": "Title Pending 17613",
+    "text": "Title Pending 17613",
+    "url": "https://doi.org/10.16995/zygon.17613",
+    "tags": [
+      "crossref",
+      "journal-article",
+      "AI in science"
+    ],
+    "timestamp": "2035-01-01T00:00:00Z",
+    "meta": {
+      "container": [
+        "Zygon: Journal of Religion and Science"
+      ],
+      "subject": null
+    }
+  },
+  {
+    "id": "7d75a02a40945ac3c68d19c1da592aec8a92adba",
+    "source": "crossref",
+    "title": "Title Pending 20050",
+    "text": "Title Pending 20050",
+    "url": "https://doi.org/10.16995/zygon.20050",
+    "tags": [
+      "crossref",
+      "journal-article",
+      "AI in science"
+    ],
+    "timestamp": "2035-01-01T00:00:00Z",
+    "meta": {
+      "container": [
+        "Zygon: Journal of Religion and Science"
+      ],
+      "subject": null
+    }
+  },
+  {
+    "id": "76cdafb9ae869a6f8e684c8ada4211655b6951ca",
+    "source": "crossref",
+    "title": "Title Pending 20126",
+    "text": "Title Pending 20126",
+    "url": "https://doi.org/10.16995/zygon.20126",
+    "tags": [
+      "crossref",
+      "journal-article",
+      "AI in science"
+    ],
+    "timestamp": "2035-01-01T00:00:00Z",
+    "meta": {
+      "container": [
+        "Zygon: Journal of Religion and Science"
+      ],
+      "subject": null
+    }
+  },
+  {
+    "id": "86c5bf443ced9fea8f0fd6d0b4668425eb751923",
+    "source": "arxiv",
+    "title": "KL-Regularized Reinforcement Learning is Designed to Mode Collapse",
+    "text": "It is commonly believed that optimizing the reverse KL divergence results in \"mode seeking\", while optimizing forward KL results in \"mass covering\", with the latter being preferred if the goal is to sample from multiple diverse modes. We show -- mathematically and empirically -- that this intuition does not necessarily transfer well to doing reinforcement learning with reverse/forward KL regularization (e.g. as commonly used with language models). Instead, the choice of reverse/forward KL determines the family of optimal target distributions, parameterized by the regularization coefficient. Mode coverage depends primarily on other factors, such as regularization strength, and relative scales between rewards and reference probabilities. Further, we show commonly used settings such as low regularization strength and equal verifiable rewards tend to specify unimodal target distributions, meaning the optimization objective is, by construction, non-diverse. We leverage these insights to construct a simple, scalable, and theoretically justified algorithm. It makes minimal changes to reward magnitudes, yet optimizes for a target distribution which puts high probability over all high-quality sampling modes. In experiments, this simple modification works to post-train both Large Language Models and Chemical Language Models to have higher solution quality and diversity, without any external signals of diversity, and works with both forward and reverse KL when using either naively fails.",
+    "url": "http://arxiv.org/abs/2510.20817v1",
+    "tags": [
+      "arxiv",
+      "paper",
+      "theoretical physics"
+    ],
+    "timestamp": "2025-10-23T17:59:40Z",
+    "meta": {
+      "query": "theoretical physics"
+    }
+  },
+  {
+    "id": "dabde7a8c9490023dee22b3e7ddd26440c06dce4",
+    "source": "arxiv",
+    "title": "Charge-density waves and stripes in quarter metals of graphene heterostructures",
+    "text": "Motivated by recent experiments, here we identify valley-coherent charge-density wave (VC-CDW) order in the non-degenerate quarter-metal for the entire family of chirally-stacked $n$ layer graphene, encompassing rhombohedral multi-layer, Bernal bilayer, and monolayer cousins. Besides the hallmark broken translational symmetry, yielding a modulated charge-density over an enlarged unit-cell with a characteristic $2{\\bf K}$ periodicity, where $\\pm {\\bf K}$ are the valley momenta, this phase lacks the three-fold ($C_3$) rotational symmetry but only for even integer $n$. The VC-CDW then represents a stripe order, as observed in hexalayer graphene [arXiv:2504.05129], but preserves the $C_3$ symmetry for odd $n$ as observed in trilayer graphene [Nat. Phys. 20, 1413 (2024) and arXiv: 2411.11163]. From a universal Clifford algebraic argument, we establish that the VC-CDW and an anomalous Hall order can lift the residual valley degeneracy of an antiferromagnetically ordered spin-polarized half-metal, when these systems are subject to perpendicular displacement fields, with only the latter one displaying a hysteresis in off-diagonal resistivity, as observed in all the systems with $2 \\leq n \\leq 6$. We showcase a confluence of VC-CDW and anomalous Hall orders within the quarter-metal, generically displaying a regime of coexistence, separating the pure phases.",
+    "url": "http://arxiv.org/abs/2510.20816v1",
+    "tags": [
+      "arxiv",
+      "paper",
+      "theoretical physics"
+    ],
+    "timestamp": "2025-10-23T17:59:33Z",
+    "meta": {
+      "query": "theoretical physics"
+    }
+  },
+  {
+    "id": "a3fdb655c4241cc08d09056aab4b1fe4d7046a3c",
+    "source": "arxiv",
+    "title": "GSWorld: Closed-Loop Photo-Realistic Simulation Suite for Robotic Manipulation",
+    "text": "This paper presents GSWorld, a robust, photo-realistic simulator for robotics manipulation that combines 3D Gaussian Splatting with physics engines. Our framework advocates \"closing the loop\" of developing manipulation policies with reproducible evaluation of policies learned from real-robot data and sim2real policy training without using real robots. To enable photo-realistic rendering of diverse scenes, we propose a new asset format, which we term GSDF (Gaussian Scene Description File), that infuses Gaussian-on-Mesh representation with robot URDF and other objects. With a streamlined reconstruction pipeline, we curate a database of GSDF that contains 3 robot embodiments for single-arm and bimanual manipulation, as well as more than 40 objects. Combining GSDF with physics engines, we demonstrate several immediate interesting applications: (1) learning zero-shot sim2real pixel-to-action manipulation policy with photo-realistic rendering, (2) automated high-quality DAgger data collection for adapting policies to deployment environments, (3) reproducible benchmarking of real-robot manipulation policies in simulation, (4) simulation data collection by virtual teleoperation, and (5) zero-shot sim2real visual reinforcement learning. Website: https://3dgsworld.github.io/.",
+    "url": "http://arxiv.org/abs/2510.20813v1",
+    "tags": [
+      "arxiv",
+      "paper",
+      "theoretical physics"
+    ],
+    "timestamp": "2025-10-23T17:59:26Z",
+    "meta": {
+      "query": "theoretical physics"
+    }
+  },
+  {
+    "id": "41551726991c966fd6e6bca96578291453d927c5",
+    "source": "arxiv",
+    "title": "SpectraMorph: Structured Latent Learning for Self-Supervised Hyperspectral Super-Resolution",
+    "text": "Hyperspectral sensors capture dense spectra per pixel but suffer from low spatial resolution, causing blurred boundaries and mixed-pixel effects. Co-registered companion sensors such as multispectral, RGB, or panchromatic cameras provide high-resolution spatial detail, motivating hyperspectral super-resolution through the fusion of hyperspectral and multispectral images (HSI-MSI). Existing deep learning based methods achieve strong performance but rely on opaque regressors that lack interpretability and often fail when the MSI has very few bands. We propose SpectraMorph, a physics-guided self-supervised fusion framework with a structured latent space. Instead of direct regression, SpectraMorph enforces an unmixing bottleneck: endmember signatures are extracted from the low-resolution HSI, and a compact multilayer perceptron predicts abundance-like maps from the MSI. Spectra are reconstructed by linear mixing, with training performed in a self-supervised manner via the MSI sensor's spectral response function. SpectraMorph produces interpretable intermediates, trains in under a minute, and remains robust even with a single-band (pan-chromatic) MSI. Experiments on synthetic and real-world datasets show SpectraMorph consistently outperforming state-of-the-art unsupervised/self-supervised baselines while remaining very competitive against supervised baselines.",
+    "url": "http://arxiv.org/abs/2510.20814v1",
+    "tags": [
+      "arxiv",
+      "paper",
+      "theoretical physics"
+    ],
+    "timestamp": "2025-10-23T17:59:26Z",
+    "meta": {
+      "query": "theoretical physics"
+    }
+  },
+  {
+    "id": "710517e721840c789eee481009c3baacbf24cef9",
+    "source": "arxiv",
+    "title": "Video Prediction of Dynamic Physical Simulations With Pixel-Space Spatiotemporal Transformers",
+    "text": "Inspired by the performance and scalability of autoregressive large language models (LLMs), transformer-based models have seen recent success in the visual domain. This study investigates a transformer adaptation for video prediction with a simple end-to-end approach, comparing various spatiotemporal self-attention layouts. Focusing on causal modeling of physical simulations over time; a common shortcoming of existing video-generative approaches, we attempt to isolate spatiotemporal reasoning via physical object tracking metrics and unsupervised training on physical simulation datasets. We introduce a simple yet effective pure transformer model for autoregressive video prediction, utilizing continuous pixel-space representations for video prediction. Without the need for complex training strategies or latent feature-learning components, our approach significantly extends the time horizon for physically accurate predictions by up to 50% when compared with existing latent-space approaches, while maintaining comparable performance on common video quality metrics. In addition, we conduct interpretability experiments to identify network regions that encode information useful to perform accurate estimations of PDE simulation parameters via probing models, and find that this generalizes to the estimation of out-of-distribution simulation parameters. This work serves as a platform for further attention-based spatiotemporal modeling of videos via a simple, parameter efficient, and interpretable approach.",
+    "url": "http://dx.doi.org/10.1109/TNNLS.2025.3585949",
+    "tags": [
+      "arxiv",
+      "paper",
+      "theoretical physics"
+    ],
+    "timestamp": "2025-10-23T17:58:45Z",
+    "meta": {
+      "query": "theoretical physics"
+    }
+  },
+  {
+    "id": "17f274809c09ed6cc5cacb1b8883038e768a1a04",
+    "source": "arxiv",
+    "title": "Anomalous Hall effect in rhombohedral graphene",
+    "text": "Motivated by recent experiments on rhombohedral stacked multilayer graphene and the observation of the anomalous Hall effect in a spontaneous spin-valley polarized quarter metal state, we calculate the anomalous Hall conductivity for this system in the presence of two types of impurities: weak and dense as well as sparse and strong. Our calculation of $\\sigma_{xy}$ is based on the Kubo-Streda diagrammatic approach. In a model with Gaussian disorder applicable to weak dense impurities, this involves all non-crossing diagrams (intrinsic, side-jump and Gaussian skew-scattering contributions) and additionally diagrams with two intersecting impurities, X and $\\Psi$, representing diffractive skew-scattering processes. A \"Mercedes star\" diagram (non-Gaussian skew scattering) is furthermore included to treat in the case of strong, sparse impurities. We supplement our asymptotically exact analytical solutions for an isotropic model without warping effects by semi-numerical calculations accounting perturbatively for warping, which plays a crucial role in the low-energy band structure.",
+    "url": "http://arxiv.org/abs/2510.20804v1",
+    "tags": [
+      "arxiv",
+      "paper",
+      "theoretical physics"
+    ],
+    "timestamp": "2025-10-23T17:58:28Z",
+    "meta": {
+      "query": "theoretical physics"
+    }
+  },
+  {
+    "id": "fb67a6941b0e84a482c1c9a190041ef31ca042b8",
+    "source": "arxiv",
+    "title": "A Classification of Long-Refinement Graphs for Colour Refinement",
+    "text": "The Colour Refinement algorithm is a classical procedure to detect symmetries in graphs, whose most prominent application is in graph-isomorphism tests. The algorithm and its generalisation, the Weisfeiler-Leman algorithm, evaluate local information to compute a colouring for the vertices in an iterative fashion. Different final colours of two vertices certify that no isomorphism can map one onto the other. The number of iterations that the algorithm takes to terminate is its central complexity parameter. For a long time, it was open whether graphs that take the maximum theoretically possible number of Colour Refinement iterations actually exist. Starting from an exhaustive search on graphs of low degrees, Kiefer and McKay proved the existence of infinite families of such long-refinement graphs with degrees 2 and 3, thereby showing that the trivial upper bound on the iteration number of Colour Refinement is tight. In this work, we provide a complete characterisation of the long-refinement graphs with low (or, equivalently, high) degrees. We show that, with one exception, the aforementioned families are the only long-refinement graphs with maximum degree at most 3, and we fully classify the long-refinement graphs with maximum degree 4. To this end, via a reverse-engineering approach, we show that all low-degree long-refinement graphs can be represented as compact strings, and we derive multiple structural insights from this surprising fact. Since long-refinement graphs are closed under taking edge complements, this also yields a classification of long-refinement graphs with high degrees. Kiefer and McKay initiated a search for long-refinement graphs that are only distinguished in the last iteration of Colour Refinement before termination. We conclude it in this submission by showing that such graphs cannot exist.",
+    "url": "http://arxiv.org/abs/2510.20802v1",
+    "tags": [
+      "arxiv",
+      "paper",
+      "theoretical physics"
+    ],
+    "timestamp": "2025-10-23T17:58:08Z",
+    "meta": {
+      "query": "theoretical physics"
+    }
+  },
+  {
+    "id": "969bd87c68b30dc3f7a6da81326fa96e3ee4a9f9",
+    "source": "arxiv",
+    "title": "Bayesian Inference of Primordial Magnetic Field Parameters from CMB with Spherical Graph Neural Networks",
+    "text": "Deep learning has emerged as a transformative methodology in modern cosmology, providing powerful tools to extract meaningful physical information from complex astronomical datasets. This paper implements a novel Bayesian graph deep learning framework for estimating key cosmological parameters in a primordial magnetic field (PMF) cosmology directly from simulated Cosmic Microwave Background (CMB) maps. Our methodology utilizes DeepSphere, a spherical convolutional neural network architecture specifically designed to respect the spherical geometry of CMB data through HEALPix pixelization. To advance beyond deterministic point estimates and enable robust uncertainty quantification, we integrate Bayesian Neural Networks (BNNs) into the framework, capturing aleatoric and epistemic uncertainties that reflect the model confidence in its predictions. The proposed approach demonstrates exceptional performance, achieving $R^{2}$ scores exceeding 0.89 for the magnetic parameter estimation. We further obtain well-calibrated uncertainty estimates through post-hoc training techniques including Variance Scaling and GPNormal. This integrated DeepSphere-BNNs framework not only delivers accurate parameter estimation from CMB maps with PMF contributions but also provides reliable uncertainty quantification, providing the necessary tools for robust cosmological inference in the era of precision cosmology.",
+    "url": "http://arxiv.org/abs/2510.20795v1",
+    "tags": [
+      "arxiv",
+      "paper",
+      "theoretical physics"
+    ],
+    "timestamp": "2025-10-23T17:56:04Z",
+    "meta": {
+      "query": "theoretical physics"
+    }
+  },
+  {
+    "id": "512a39a03629e137366749cc7c4483c992e7f892",
+    "source": "crossref",
+    "title": "The Relationship between Long-Term Incentives and Corporate Performance: A Theoretical Review",
+    "text": "The Relationship between Long-Term Incentives and Corporate Performance: A Theoretical Review",
+    "url": "https://doi.org/10.20431/2349-0381.0303004",
+    "tags": [
+      "crossref",
+      "journal-article",
+      "theoretical physics"
+    ],
+    "timestamp": "2106-01-01T00:00:00Z",
+    "meta": {
+      "container": [
+        "International Journal of Humanities, Social Sciences and Education"
+      ],
+      "subject": null
+    }
+  },
+  {
+    "id": "b8f80cf90f58b861b4159e6da130e300e38db63f",
+    "source": "crossref",
+    "title": "Title Pending 20215",
+    "text": "Title Pending 20215",
+    "url": "https://doi.org/10.16995/traj.20215",
+    "tags": [
+      "crossref",
+      "journal-article",
+      "theoretical physics"
+    ],
+    "timestamp": "2035-01-01T00:00:00Z",
+    "meta": {
+      "container": [
+        "Theoretical Roman Archaeology Journal"
+      ],
+      "subject": null
+    }
+  },
+  {
+    "id": "1ae782ac917d475363fce94e2bead73ae9ead619",
+    "source": "crossref",
+    "title": "Title Pending 24325",
+    "text": "Title Pending 24325",
+    "url": "https://doi.org/10.16995/traj.24325",
+    "tags": [
+      "crossref",
+      "journal-article",
+      "theoretical physics"
+    ],
+    "timestamp": "2035-01-01T00:00:00Z",
+    "meta": {
+      "container": [
+        "Theoretical Roman Archaeology Journal"
+      ],
+      "subject": null
+    }
+  },
+  {
+    "id": "3317f3d789d73bb1d5627769a8d1741149f88786",
+    "source": "crossref",
+    "title": "Title Pending 24329",
+    "text": "Title Pending 24329",
+    "url": "https://doi.org/10.16995/traj.24329",
+    "tags": [
+      "crossref",
+      "journal-article",
+      "theoretical physics"
+    ],
+    "timestamp": "2035-01-01T00:00:00Z",
+    "meta": {
+      "container": [
+        "Theoretical Roman Archaeology Journal"
+      ],
+      "subject": null
+    }
+  },
+  {
+    "id": "0bb0202916d13a084ac539a3f9e2d7362116b96e",
+    "source": "crossref",
+    "title": "Title Pending 17587",
+    "text": "Title Pending 17587",
+    "url": "https://doi.org/10.16995/traj.17587",
+    "tags": [
+      "crossref",
+      "journal-article",
+      "theoretical physics"
+    ],
+    "timestamp": "2035-01-01T00:00:00Z",
+    "meta": {
+      "container": [
+        "Theoretical Roman Archaeology Journal"
+      ],
+      "subject": null
+    }
+  },
+  {
+    "id": "cbc9bde3d5a7eb2b5cf1718223bbaaac05f9d87c",
+    "source": "crossref",
+    "title": "Title Pending 15280",
+    "text": "Title Pending 15280",
+    "url": "https://doi.org/10.16995/traj.15280",
+    "tags": [
+      "crossref",
+      "journal-article",
+      "theoretical physics"
+    ],
+    "timestamp": "2034-01-01T00:00:00Z",
+    "meta": {
+      "container": [
+        "Theoretical Roman Archaeology Journal"
+      ],
+      "subject": null
+    }
+  },
+  {
+    "id": "5ddfa8c9f26c2e63e72efa03fb0d0208bf28ecbb",
+    "source": "crossref",
+    "title": "Title Pending 11715",
+    "text": "Title Pending 11715",
+    "url": "https://doi.org/10.16995/traj.11715",
+    "tags": [
+      "crossref",
+      "journal-article",
+      "theoretical physics"
+    ],
+    "timestamp": "2033-01-01T00:00:00Z",
+    "meta": {
+      "container": [
+        "Theoretical Roman Archaeology Journal"
+      ],
+      "subject": null
+    }
+  },
+  {
+    "id": "d8805e10eaf13ea9669faa8ae61e2ddf4e2c9999",
+    "source": "crossref",
+    "title": "Title Pending 11714",
+    "text": "Title Pending 11714",
+    "url": "https://doi.org/10.16995/traj.11714",
+    "tags": [
+      "crossref",
+      "journal-article",
+      "theoretical physics"
+    ],
+    "timestamp": "2033-01-01T00:00:00Z",
+    "meta": {
+      "container": [
+        "Theoretical Roman Archaeology Journal"
+      ],
+      "subject": null
+    }
+  },
+  {
+    "id": "b388d008dd981b45b09872d764c4efe644c36b20",
+    "source": "crossref",
+    "title": "Title Pending 8881",
+    "text": "Title Pending 8881",
+    "url": "https://doi.org/10.16995/traj.8881",
+    "tags": [
+      "crossref",
+      "journal-article",
+      "theoretical physics"
+    ],
+    "timestamp": "2032-01-01T00:00:00Z",
+    "meta": {
+      "container": [
+        "Theoretical Roman Archaeology Journal"
+      ],
+      "subject": null
+    }
+  }
+]

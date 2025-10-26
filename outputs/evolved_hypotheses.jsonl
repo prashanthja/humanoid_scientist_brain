@@ -9,3 +9,34 @@
 {"ts": 1760806782.46894, "cycle": 1, "event": "stage_change", "from": "seed", "to": "candidate", "hypothesis": "physics --related_to--> physics is the study", "score": 0.85}
 {"ts": 1760806782.469111, "cycle": 1, "event": "ingest", "hypothesis": "physics relates to the study of matter"}
 {"ts": 1760806782.469145, "cycle": 1, "event": "stage_change", "from": "seed", "to": "candidate", "hypothesis": "physics --related_to--> the study of matter", "score": 0.85}
+{"event": "ingest", "cycle": 1, "hypothesis": "matter --related_to--> the study of matter", "ts": 1760895990.8975549}
+{"event": "ingest", "cycle": 1, "hypothesis": "physics --related_to--> physics is the study", "ts": 1760895990.898607}
+{"event": "ingest", "cycle": 1, "hypothesis": "a body to resist acceleration or deceleration --related_to--> controlled moisture levels on the peach", "ts": 1760994259.4984581}
+{"event": "ingest", "cycle": 1, "hypothesis": "a body to resist acceleration or deceleration --related_to--> defining inequalities in the original space", "ts": 1760994259.498973}
+{"event": "ingest", "cycle": 1, "hypothesis": "a --related_to--> benchmark instances", "ts": 1760994259.4990551}
+{"event": "ingest", "cycle": 1, "hypothesis": "a --related_to--> additional fidelity loss", "ts": 1760994259.499129}
+{"event": "ingest", "cycle": 1, "hypothesis": "a --related_to--> a quantum universe", "ts": 1760994259.499202}
+{"event": "ingest", "cycle": 1, "hypothesis": "a cause --related_to--> di", "ts": 1760994259.499277}
+{"event": "ingest", "cycle": 1, "hypothesis": "between space and prephotonsoccur independent --is--> an effect like force and dimension of the quantum change between states some of which occur without time", "ts": 1760994259.4994078}
+{"event": "ingest", "cycle": 1, "hypothesis": "special attention is now on the start --of--> the transport line will follow at the end of", "ts": 1760994259.499532}
+{"event": "ingest", "cycle": 1, "hypothesis": "we give a simple combinatorial classification --of--> which meet or exceed even the most stringent performance and durability requirements", "ts": 1760994259.499686}
+{"event": "ingest", "cycle": 1, "hypothesis": "we investigate the spectral properties --of--> which meet or exceed even the most stringent performance and durability requirements", "ts": 1760994259.4998422}
+{"event": "ingest", "cycle": 1, "hypothesis": "with the flexibility --study_of--> matter", "ts": 1760994259.499972}
+{"event": "ingest", "cycle": 1, "hypothesis": "with the flexibility --is--> the study of matter", "ts": 1760994259.500106}
+{"event": "ingest", "cycle": 1, "hypothesis": "a body to resist acceleration or deceleration --related_to--> field diffusion monte carlo calculations", "ts": 1760994259.500275}
+{"event": "ingest", "cycle": 1, "hypothesis": "a cause --related_to--> at the", "ts": 1760994259.5005262}
+{"event": "ingest", "cycle": 1, "hypothesis": "a central and challenging problem in combinatorial commutative algebra --related_to--> a phase space analysis reveals the existence", "ts": 1760994259.500731}
+{"event": "ingest", "cycle": 1, "hypothesis": "a central and challenging problem in combinatorial commutative algebra --related_to--> by leveraging the unique properties", "ts": 1760994259.501088}
+{"event": "ingest", "cycle": 1, "hypothesis": "a central and challenging problem in combinatorial commutative algebra --related_to--> composite hadron and the gpds", "ts": 1760994259.501315}
+{"event": "ingest", "cycle": 1, "hypothesis": "a challenging yet valuable task in providing immersive and embodied applications --related_to--> entangling and swapping processes than the traditional long time slot protocol", "ts": 1760994259.501605}
+{"event": "ingest", "cycle": 1, "hypothesis": "a challenging yet valuable task in providing immersive and embodied applications --related_to--> axion dark energy contributions that can resolve the sn", "ts": 1760994259.501896}
+{"event": "ingest", "cycle": 1, "hypothesis": "a crucial shortcoming of many of these techniques --related_to--> a crucial shortcoming of many of these techniques is the independence", "ts": 1761064810.503801}
+{"event": "ingest", "cycle": 1, "hypothesis": "client --related_to--> commissioning", "ts": 1761064810.504529}
+{"event": "ingest", "cycle": 1, "hypothesis": "client --related_to--> dijkgraaf", "ts": 1761064810.5047512}
+{"event": "ingest", "cycle": 1, "hypothesis": "commissioning --related_to--> dijkgraaf", "ts": 1761064810.505148}
+{"event": "ingest", "cycle": 1, "hypothesis": "all accepted requests --related_to--> all momenta", "ts": 1761064810.505842}
+{"event": "ingest", "cycle": 1, "hypothesis": "client --related_to--> dictated by the holevo cram", "ts": 1761064810.5063748}
+{"event": "ingest", "cycle": 1, "hypothesis": "and beam commissioning --related_to--> client", "ts": 1761064810.5077078}
+{"event": "ingest", "cycle": 1, "hypothesis": "and beam commissioning --related_to--> dijkgraaf", "ts": 1761064810.5081651}
+{"event": "ingest", "cycle": 1, "hypothesis": "all accepted requests --related_to--> client", "ts": 1761064810.508414}
+{"event": "ingest", "cycle": 1, "hypothesis": "all accepted requests --related_to--> commissioning", "ts": 1761064810.508668}

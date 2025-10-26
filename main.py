@@ -1,223 +1,252 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
 """
-Humanoid Scientist Brain — Continuous Learning, Reasoning & Evolution
---------------------------------------------------------------------
-Phase C Step 2–3:
-- Hypothesis validation + evolution (reinforce/decay/retire/promotion)
-- Automatic promotion of strong hypotheses into the KG
-- Dashboard state updates (training, KG, hypotheses, evolution deltas)
+Humanoid Scientist Brain — Continuous Learning & Hypothesis Evolution
+---------------------------------------------------------------------
+Phase F+: Semantic Reasoning Integration + Online Transformer Learning
+Now includes:
+  • Persistent TrainingMemory — prevents duplicate paper training
+  • EvidenceEvaluator — checks if hypotheses are supported by known science
+  • Full continual learning cycle with reflection, reasoning, and dashboard
 """
 
-import time, json, os
-from typing import Dict, Any, List
+import time
+import json
+import os
+
+# Enable automatic CPU fallback for unsupported MPS ops
+os.environ["PYTORCH_ENABLE_MPS_FALLBACK"] = "1"
+print("⚙️ Enabled MPS CPU fallback for unsupported ops.")
+
+import gc
+import re
+from typing import List, Dict, Any
 
 from data_pipeline.fetcher import DataFetcher
 from data_pipeline.filter import SafetyFilter
 from knowledge_base.database import KnowledgeBase
-from learning_module.trainer import Trainer
-from embedding.encoder import TextEncoder
-
-from reflection_module.reflection import ReflectionEngine
-from reasoning_module.graph_reasoner import GraphReasoner
+from learning_module.trainer_online import OnlineTrainer, get_device
+from learning_module.embedding_bridge import EmbeddingBridge
+from learning_module.training_memory import TrainingMemory
 from reasoning_module.reasoning import GraphAugmentedReasoning
+from reasoning_module.graph_reasoner import GraphReasoner
 from reasoning_module.hypothesis_generator import HypothesisGenerator
 from reasoning_module.hypothesis_validator import HypothesisValidator
 from reasoning_module.hypothesis_evolver import HypothesisEvolver
+from reflection_module.reflection import ReflectionEngine
+from data_pipeline.internet_retriever import InternetRetriever
+from reasoning_module.evidence_evaluator import EvidenceEvaluator
 
-# ------------------------------
-# Dashboard helpers / constants
-# ------------------------------
+# ----------------------------
+# Setup
+# ----------------------------
 DASHBOARD_STATE_PATH = "data/dashboard_state.json"
-HYP_STATE_PATH = "data/hypothesis_state.json"
 os.makedirs("data", exist_ok=True)
+os.makedirs("visualization/graphs", exist_ok=True)
+MAX_CYCLES = 3  # switch to while True for autonomous daemon mode
 
 
-def write_json(path: str, payload: Dict[str, Any]) -> None:
-    with open(path, "w") as f:
-        json.dump(payload, f, indent=2)
-
-
-def write_dashboard_state(payload: Dict[str, Any]) -> None:
-    write_json(DASHBOARD_STATE_PATH, payload)
+# ----------------------------
+# Helpers
+# ----------------------------
+def write_dashboard_state(payload: dict) -> None:
+    """Write current model + KG state to dashboard JSON."""
+    with open(DASHBOARD_STATE_PATH, "w", encoding="utf-8") as f:
+        json.dump(payload, f, indent=2, ensure_ascii=False)
     print("📊 Dashboard state updated → data/dashboard_state.json")
 
 
-def _edge_count_fallback(kg) -> int:
-    """Count edges from your KG’s internal dict structure if kg.edge_count() doesn’t exist."""
-    g = getattr(kg, "graph", {})
-    if not isinstance(g, dict):
-        return 0
-    total = 0
-    for _, rels in g.items():
-        if isinstance(rels, dict):
-            for _, objs in rels.items():
-                if isinstance(objs, list):
-                    total += len(objs)
-    return total
+def extract_concepts(text: str, top_n: int = 5) -> str:
+    """Lightweight keyword extractor using regex frequency."""
+    words = re.findall(r"\b[a-zA-Z]{5,}\b", (text or "").lower())
+    freq: Dict[str, int] = {}
+    for w in words:
+        freq[w] = freq.get(w, 0) + 1
+    top = sorted(freq.items(), key=lambda x: x[1], reverse=True)[:top_n]
+    return ", ".join([w for w, _ in top])
 
 
-# ---------------
-# Main program
-# ---------------
+def _latest_visualization_path() -> str | None:
+    vis_dir = "visualization/graphs"
+    try:
+        all_graphs = [
+            f for f in os.listdir(vis_dir)
+            if f.lower().endswith((".png", ".jpg", ".jpeg", ".svg"))
+        ]
+        if not all_graphs:
+            return None
+        all_graphs.sort(key=lambda f: os.path.getmtime(os.path.join(vis_dir, f)), reverse=True)
+        return os.path.join(vis_dir, all_graphs[0])
+    except Exception:
+        return None
+
+
+# ----------------------------
+# Main
+# ----------------------------
 def main():
-    print("🤖 Starting Humanoid Scientist Brain (Continuous Learning Mode)...")
+    # ---------- Device / startup ----------
+    device = get_device()
+    print(f"🤖 Starting Humanoid Scientist Brain (Continuous Learning Mode) on device: {device}")
 
-    # Core modules
+    # ---------- Core components ----------
     fetcher = DataFetcher()
     safety = SafetyFilter()
     kb = KnowledgeBase()
-    encoder = TextEncoder()
-    trainer = Trainer(encoder)
-    reflection = ReflectionEngine(fetcher, safety, kb, trainer)
+    online_trainer = OnlineTrainer(None, batch_size=32, epochs=2, lr=1e-3)
+    retriever = InternetRetriever()
+    reflection = ReflectionEngine(fetcher, safety, kb, online_trainer)
+    memory = TrainingMemory()
+    bridge = EmbeddingBridge(online_trainer)
 
-    # Reasoners
-    hypgen = HypothesisGenerator(reflection.kg, encoder, kb)
-    validator = HypothesisValidator(kb, encoder, reflection.kg)
-    evolver = HypothesisEvolver(kb, reflection.kg)  # Phase C Step 3
-    reasoning = GraphAugmentedReasoning(kb, encoder, reflection.kg, hypothesis_generator=hypgen)
-
-    # Seed tokenizer (from KB if present)
-    initial = kb.query("")
-    seed_texts = [it["text"] if isinstance(it, dict) else str(it) for it in initial]
-    encoder.fit_tokenizer(seed_texts or ["physics", "energy", "force", "science"])
+    # Reasoning + hypothesis modules
+    hypgen = HypothesisGenerator(reflection.kg, bridge, kb)
+    validator = HypothesisValidator(kb, bridge, reflection.kg)
+    evolver = HypothesisEvolver(kb, reflection.kg)
+    reasoning = GraphAugmentedReasoning(kb, bridge, reflection.kg, hypothesis_generator=hypgen)
+    reasoner = GraphReasoner(reflection.kg, online_trainer=online_trainer)
+    evaluator = EvidenceEvaluator(kb, bridge, reflection.kg)
 
     topic = "physics"
     cycle = 1
 
     try:
-        while True:
+        while cycle <= MAX_CYCLES:
             print(f"\n🌀 Learning Cycle {cycle} starting...")
 
-            # 1) Fetch/store
-            fresh = fetcher.fetch(topic)
-            safe = safety.filter(fresh)
-            kb.store(safe)
+            # ---------- Local fetch + safety filtering ----------
+            raw_items = fetcher.fetch(topic)
+            safe_items = safety.filter(raw_items)
+            safe_texts = [
+                json.dumps(it, ensure_ascii=False) if isinstance(it, dict) else str(it)
+                for it in safe_items
+            ]
+            kb.current_source = "fetcher"
+            if safe_texts:
+                kb.store(safe_texts)
 
-            # 2) Tokenizer refresh
-            all_items = kb.query("")
-            corpus = [it["text"] if isinstance(it, dict) else str(it) for it in all_items]
-            if corpus:
-                encoder.fit_tokenizer(corpus)
+            # ---------- Internet retrieval ----------
+            print("\n🌐 [Internet Expansion] Retrieving scientific papers and concepts...")
+            topics_to_search = [topic, "quantum mechanics", "AI in science", "theoretical physics"]
+            try:
+                web_items = retriever.retrieve_topics(topics_to_search, max_items=50, safety=safety)
+            except Exception as e:
+                print(f"⚠️ InternetRetriever error: {e}")
+                web_items = []
 
-            # 3) Train on accumulated knowledge
-            if all_items:
-                trainer.run_training(all_items)
+            # ---------- Deduplicate & Train ----------
+            if web_items:
+                print(f"🌍 Retrieved {len(web_items)} new internet-based papers.")
+                new_items = memory.filter_new(web_items)
+                if not new_items:
+                    print("⚙️ All retrieved papers were already trained — skipping training.")
+                    enriched_items = []
+                else:
+                    print(f"🧠 {len(new_items)} new unseen papers will be trained.")
+                    enriched_items = []
+                    for item in new_items:
+                        text = item.get("text", "") if isinstance(item, dict) else str(item)
+                        title = item.get("title", "Unknown Paper") if isinstance(item, dict) else "Unknown Paper"
+                        concepts = extract_concepts(text)
+                        enriched_items.append({
+                            "text": text,
+                            "paper_title": title,
+                            "concepts": concepts,
+                            "source": "internet"
+                        })
+                    kb.store(enriched_items)
+                    online_trainer.incremental_train(enriched_items)
+                    memory.mark_trained(enriched_items)
+            else:
+                print("⚠️ No new web data retrieved this cycle.")
+                enriched_items = []
 
-            # 4) Reflect / KG update
-            print("\n🧠 [Reflection] Begin KG update and gap analysis...")
+            # ---------- Reflection + KG update ----------
+            print("\n🧠 [Reflection] Updating Knowledge Graph...")
             reflection.review_knowledge()
-            # keep reasoning in sync with the latest KG
-            if hasattr(reasoning, "set_graph"):
-                reasoning.set_graph(reflection.kg)
 
-            # 5) Hypothesize → Validate → Evolve
-            validated: List[Dict[str, Any]] = []
+            # ---------- Visualization snapshot ----------
+            latest_vis_path = _latest_visualization_path()
+
+            # ---------- Hypothesis Generation + Validation ----------
             hyps = hypgen.generate(top_n=20)
             if hyps:
                 print("🧪 Generated hypotheses (top 5):")
                 for h in hyps[:5]:
-                    print(f"  • [{h.get('type','?')}] {h['hypothesis']} (gen_score={round(h.get('score',0.0), 3)})")
-
+                    ht = h.get("type", "?")
+                    hs = h.get("score", 0.0)
+                    print(f"  • [{ht}] {h['hypothesis']} (score={round(hs, 3)})")
                 validated = validator.validate(hyps, cycle=cycle)
-                if validated:
-                    print("\n🔍 Validated hypotheses (top 5):")
-                    for v in validated[:5]:
-                        mark = "✅" if v.get("promote") else "⚠️"
-                        print(
-                            f"  {mark} {v['hypothesis']} | "
-                            f"support={v['support']}, cons={v['consistency']}, "
-                            f"conf={v['confidence']}, persist={v['persistence']}"
-                        )
+                evolver.update(validated, cycle=cycle)
+                reflection.promote_validated(validated)
 
-            # Phase C Step 3: Evolution (reinforce / decay / retire)
-            evo_summary = evolver.step(validated or [], cycle=cycle)
-            # Persist evolutionary state (useful for restarts / dashboard)
+                # ---------- Evidence Evaluation ----------
+                evaluated = evaluator.evaluate_batch(validated)
+                print("🧩 Evidence evaluation complete. Verdicts summary:")
+                for e in evaluated[:5]:
+                    print(
+                        f"  - {e.get('hypothesis')[:70]}... "
+                        f"→ {e.get('verdict', '?')} (conf={e.get('evidence_confidence')})"
+                    )
+
+            # ---------- Semantic Graph Reasoning ----------
             try:
-                write_json(HYP_STATE_PATH, {"cycle": cycle, "state": evolver.state, "summary": evo_summary})
-            except Exception:
-                pass
+                print("🔎 Graph reasoning demo:", reasoner.explain_relation("force", "motion"))
+                print("🔎 Transitive (causes) from 'force':", reasoner.suggest_transitive("force", "causes"))
+            except Exception as e:
+                print(f"ℹ️ GraphReasoner demo skipped: {e}")
 
-            # Optional promotion of strong hypotheses to KG (robust against missing method)
-            promote_list = [v for v in (validated or []) if v.get("promote")]
-            if promote_list:
-                if hasattr(reflection, "promote_validated"):
-                    reflection.promote_validated(promote_list)
-                else:
-                    # Fallback: add as 'related_to' edges to KG
-                    for v in promote_list:
-                        hyp = v.get("hypothesis", "")
-                        # naive parse: "A --rel--> B"
-                        if "--" in hyp and "-->" in hyp:
-                            try:
-                                left, right = hyp.split("--", 1)
-                                rel, dst = right.split("-->", 1)
-                                a = left.strip()
-                                relation = rel.strip()
-                                b = dst.strip()
-                                if hasattr(reflection.kg, "add_edge"):
-                                    reflection.kg.add_edge(a, relation, b)
-                            except Exception:
-                                pass
-                # Save KG after promotion to persist the change
-                try:
-                    if hasattr(reflection.kg, "save"):
-                        reflection.kg.save("knowledge_graph/graph.json")
-                except Exception:
-                    pass
-
-            # 6) Reasoning demos
-            gr = GraphReasoner(reflection.kg)
-            print("🔎 Graph reasoning demo:", gr.explain_relation("force", "motion"))
-            print("🔎 Transitive (causes) from 'force':", gr.suggest_transitive("force", "causes"))
-
-            ans = reasoning.answer("Explain Newton’s third law in simple words.")
-            print("🧠 Reasoning Output:\n", ans)
-
-            # 7) Dashboard: snapshot
+            # ---------- Reasoning Query ----------
             try:
-                edge_count = getattr(reflection.kg, "edge_count", None)
-                kg_edges = edge_count() if callable(edge_count) else _edge_count_fallback(reflection.kg)
+                ans = reasoning.answer("Explain Newton’s third law in simple words.")
+                print("🧠 Reasoning Output:\n", ans)
+            except Exception as e:
+                print(f"ℹ️ Reasoning demo skipped: {e}")
 
-                dash_payload = {
-                    "cycle": cycle,
-                    "kg": {
-                        "nodes": len(getattr(reflection.kg, "graph", {})),
-                        "edges": kg_edges,
-                        "last_visual": getattr(getattr(reflection, "visualizer", None), "last_path", None),
-                    },
-                    "training": {
-                        "last_avg_loss": getattr(trainer, "last_avg_loss", None),
-                        "last_sim": getattr(trainer, "last_similarity", None),
-                    },
-                    "hypotheses": {
-                        "active": len(getattr(evolver, "state", {})),
-                        "promoted_total": sum(1 for r in evolver.state.values() if r.get("promoted")),
-                        "retired_total": sum(1 for r in evolver.state.values() if r.get("retired")),
-                        "evolution": evo_summary,  # counts: reinforced/decayed/retired/promoted
-                    },
-                }
-                write_dashboard_state(dash_payload)
+            # ---------- Dashboard ----------
+            try:
+                edge_count = reflection.kg.edge_count() if hasattr(reflection.kg, "edge_count") else 0
+                node_count = len(getattr(reflection.kg, "graph", {}) or {})
             except Exception:
-                pass
+                edge_count, node_count = 0, 0
 
-            # 8) Plan next topic and loop
-            print("\n🧭 [Planning] Deciding next topic...")
-            reflection.plan_next_steps()
+            dash_payload = {
+                "cycle": cycle,
+                "device": str(device),
+                "kg": {"nodes": node_count, "edges": edge_count},
+                "training": {
+                    "online_loss": getattr(online_trainer, "last_avg_loss", None),
+                    "online_sim": getattr(online_trainer, "last_similarity", None),
+                    "vocab_size": getattr(getattr(online_trainer, "tokenizer", None), "vocab_size", None),
+                },
+                "recent_papers": [i.get("paper_title", "Unknown") for i in enriched_items[-5:]] if enriched_items else [],
+                "concepts_learned": [i.get("concepts", "") for i in enriched_items[-5:]] if enriched_items else [],
+                "visualization": latest_vis_path,
+                "timestamp": int(time.time()),
+            }
+            write_dashboard_state(dash_payload)
 
-            print("⏳ Waiting before next learning cycle...\n")
-            time.sleep(10)
+            # ---------- Planning ----------
+            print("\n🧭 [Planning] Choosing next topic...")
+            try:
+                reflection.plan_next_steps()
+            except Exception as e:
+                print(f"ℹ️ Planning skipped: {e}")
+
+            # ---------- Cycle housekeeping ----------
+            gc.collect()
             cycle += 1
+            time.sleep(5)
+
+        print("\n🧩 Maximum cycles reached — stopping continuous learning loop.")
 
     except KeyboardInterrupt:
         print("\n🧩 Learning loop interrupted by user.")
+    finally:
         try:
-            trainer.visualizer.plot_progress()
+            kb.close()
         except Exception:
             pass
-        try:
-            reflection.progress.plot()
-        except Exception:
-            pass
-        kb.close()
 
 
 if __name__ == "__main__":
