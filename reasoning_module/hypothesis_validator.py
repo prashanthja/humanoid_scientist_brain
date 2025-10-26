@@ -1,14 +1,12 @@
-# reasoning_module/hypothesis_validator.py
 """
-Hypothesis Validator — Phase C Step 2
--------------------------------------
+Hypothesis Validator — Phase C Step 2 (Transformer Compatible)
+--------------------------------------------------------------
 Validates hypotheses produced by HypothesisGenerator using:
-  • KB support (retrieval evidence)
-  • Semantic consistency (encoder similarity)
-  • Persistence across cycles (rolling confidence)
+  • Knowledge Base (KB) evidence support
+  • Semantic consistency using transformer embeddings (EmbeddingBridge)
+  • Rolling confidence persistence across learning cycles
 
-If confidence passes a threshold, caller may promote the hypothesis into the KG.
-Persists scores in data/validated_hypotheses.json
+If a hypothesis remains consistently supported, it is promoted into the Knowledge Graph (KG).
 """
 
 import os
@@ -31,7 +29,7 @@ class HypothesisValidator:
         max_kb_check: int = 200,
     ):
         self.kb = kb
-        self.encoder = encoder
+        self.encoder = encoder  # ⚡ This is EmbeddingBridge (continual transformer)
         self.kg = kg
         self.store_path = store_path
         self.kb_support_thresh = kb_support_thresh
@@ -62,89 +60,87 @@ class HypothesisValidator:
     def _cosine(self, a: np.ndarray, b: np.ndarray) -> float:
         if a is None or b is None:
             return 0.0
-        na = np.linalg.norm(a) + 1e-8
-        nb = np.linalg.norm(b) + 1e-8
+        na = np.linalg.norm(a) + 1e-9
+        nb = np.linalg.norm(b) + 1e-9
         return float(np.dot(a, b) / (na * nb))
 
     def _embed(self, text: str) -> np.ndarray:
+        """
+        Use EmbeddingBridge.encode() → transformer-based embeddings.
+        Fallback to zero-vector if not available.
+        """
         try:
-            vec = self.encoder.get_vector(text)
-            return np.asarray(vec, dtype=np.float32)
+            emb = self.encoder.encode([text])  # EmbeddingBridge returns np.array
+            if isinstance(emb, list):
+                emb = np.array(emb)
+            if emb.ndim == 2:
+                emb = emb[0]
+            return np.asarray(emb, dtype=np.float32)
         except Exception:
-            return np.zeros(64, dtype=np.float32)
+            return np.zeros(768, dtype=np.float32)
 
     def _parse_hypothesis(self, h: Dict[str, Any]):
         """
-        Expect formats from HypothesisGenerator:
-          - {'type': 'edge', 'hypothesis': 'A --rel--> B', 'score': ...}
-          - {'type': 'semantic_link', 'hypothesis': 'A --related_to--> B', 'score': ...}
+        Parse formats like:
+          "A --rel--> B"
         """
         s = h.get("hypothesis", "")
-        # Very simple parse: "left --rel--> right"
         if "--" in s and "-->" in s:
             left, right = s.split("--", 1)
             rel, right = right.split("-->", 1)
             return left.strip(), rel.strip(), right.strip()
-        # fallback: treat entire hypothesis as one string
         return s.strip(), "related_to", s.strip()
 
+    # ---------- validation logic ----------
     def _kb_support(self, subj: str, obj: str, relation: str) -> float:
         """
-        Retrieve KB items using subject/object as queries and measure:
-        - how many items semantically align with 'subj rel obj'
-        Returns ratio in [0,1].
+        Retrieve KB entries and check semantic alignment with hypothesis.
         """
         hyp_text = f"{subj} {relation} {obj}"
         hyp_vec = self._embed(hyp_text)
 
-        # collect candidate KB items (subject/object queries)
         cand_a = self.kb.query(subj) or []
         cand_b = self.kb.query(obj) or []
         cands = cand_a + cand_b
         if not cands:
             return 0.0
 
-        # limit to first N for speed
         cands = cands[: self.max_kb_check]
-
-        hits = 0
-        total = 0
+        sims = []
         for item in cands:
             text = item["text"] if isinstance(item, dict) else str(item)
             if not text:
                 continue
-            total += 1
             sim = self._cosine(hyp_vec, self._embed(text))
-            if sim >= self.kb_support_thresh:
-                hits += 1
+            sims.append(sim)
 
-        return (hits / total) if total > 0 else 0.0
+        if not sims:
+            return 0.0
+        return float(np.mean([s for s in sims if s >= self.kb_support_thresh]))
 
     def _semantic_consistency(self, subj: str, obj: str) -> float:
         """
-        Consistency between subject/object concepts by semantic similarity.
+        Measure semantic coherence between subject and object concepts.
         """
         return self._cosine(self._embed(subj), self._embed(obj))
 
     def _update_persistence(self, key: str, conf: float) -> float:
         """
-        Rolling persistence = exponential moving average over confidence.
+        Smooth confidence history via exponential moving average.
         """
         rec = self.state["hypotheses"].get(key, {"ema": 0.0, "count": 0})
         count = rec["count"]
-        # decay gets gentler with more observations
         alpha = 0.6 * math.exp(-0.05 * count) + 0.2
         ema = alpha * conf + (1 - alpha) * rec["ema"]
         self.state["hypotheses"][key] = {"ema": ema, "count": count + 1}
         return ema
 
-    # ---------- main API ----------
+    # ---------- main ----------
     def validate(self, hypotheses: List[Dict[str, Any]], cycle: int) -> List[Dict[str, Any]]:
         """
-        Returns list of validated entries:
-          {'hypothesis': str, 'type': str, 'relation': str,
-           'support': float, 'consistency': float, 'confidence': float,
-           'persistence': float, 'promote': bool}
+        Returns validated entries:
+          {'hypothesis': str, 'support': float, 'consistency': float,
+           'confidence': float, 'persistence': float, 'promote': bool}
         """
         results = []
         if not hypotheses:
@@ -159,7 +155,6 @@ class HypothesisValidator:
             confidence = 0.55 * support + 0.45 * consistency
             key = h.get("hypothesis", f"{subj} --{rel}--> {obj}")
             persistence = self._update_persistence(key, confidence)
-
             promote = (confidence >= self.promote_conf_thresh) and (persistence >= 0.7)
 
             results.append({
@@ -175,8 +170,7 @@ class HypothesisValidator:
                 "promote": promote,
             })
 
-        # persist state
+        # persist
         self._save_state()
-        # sort by confidence desc
         results.sort(key=lambda x: x["confidence"], reverse=True)
         return results

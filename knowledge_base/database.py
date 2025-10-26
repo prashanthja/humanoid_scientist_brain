@@ -1,95 +1,97 @@
-import sqlite3
-import time
-import numpy as np
-import io
+"""
+Knowledge Base — Stores Text, Paper Metadata, and Source Traceability
+--------------------------------------------------------------------
+Now includes columns for:
+- paper_title
+- concepts
+- source (e.g., 'internet', 'fetcher', etc.)
+"""
 
-def _to_blob(np_array: np.ndarray) -> bytes:
-    memfile = io.BytesIO()
-    np.save(memfile, np_array)
-    memfile.seek(0)
-    return memfile.read()
+import sqlite3, os, json
 
-def _from_blob(blob: bytes) -> np.ndarray:
-    memfile = io.BytesIO(blob)
-    memfile.seek(0)
-    return np.load(memfile)
+DB_PATH = "knowledge_base/knowledge.db"
+
 
 class KnowledgeBase:
-    def __init__(self, db_path="knowledge_base/knowledge.db"):
-        self.db_path = db_path
-        self.conn = sqlite3.connect(self.db_path, check_same_thread=False)
-        self.create_table()
-        self.create_embedding_table()
+    def __init__(self):
+        os.makedirs("knowledge_base", exist_ok=True)
+        self.conn = sqlite3.connect(DB_PATH)
+        self._create_table()
+        self.current_source = "unknown"
 
-    def create_table(self):
-        cursor = self.conn.cursor()
-        cursor.execute("""
-        CREATE TABLE IF NOT EXISTS knowledge (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            content TEXT NOT NULL,
-            timestamp REAL
-        )
-        """)
-        self.conn.commit()
-
-    def create_embedding_table(self):
-        cursor = self.conn.cursor()
-        cursor.execute("""
-        CREATE TABLE IF NOT EXISTS embeddings (
-            id INTEGER PRIMARY KEY,
-            vector BLOB NOT NULL,
-            FOREIGN KEY(id) REFERENCES knowledge(id) ON DELETE CASCADE
-        )
-        """)
-        self.conn.commit()
-
-    def store(self, data_list, embeddings=None):
-        """
-        Store data_list (list of texts). Optionally store embeddings list of np.ndarray in parallel.
-        """
-        cursor = self.conn.cursor()
-        count = 0
-        for idx, text in enumerate(data_list):
-            cursor.execute(
-                "INSERT INTO knowledge (content, timestamp) VALUES (?, ?)",
-                (text, time.time())
+    def _create_table(self):
+        cur = self.conn.cursor()
+        cur.execute("""
+            CREATE TABLE IF NOT EXISTS knowledge (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                text TEXT,
+                paper_title TEXT DEFAULT 'unknown',
+                concepts TEXT DEFAULT 'unknown',
+                source TEXT DEFAULT 'unknown',
+                timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
             )
-            k_id = cursor.lastrowid
-            if embeddings is not None and len(embeddings) > idx and embeddings[idx] is not None:
-                blob = _to_blob(embeddings[idx].astype(np.float32))
-                cursor.execute(
-                    "INSERT INTO embeddings (id, vector) VALUES (?, ?)",
-                    (k_id, blob)
-                )
-            count += 1
+        """)
         self.conn.commit()
-        print(f"📚 Stored {count} new items in KB")
+
+    def store(self, items):
+        """Store multiple knowledge entries (supports dict or raw text)."""
+        cur = self.conn.cursor()
+        for it in items:
+            if isinstance(it, dict):
+                text = it.get("text", "")
+                title = it.get("paper_title", "unknown")
+                concepts = it.get("concepts", "unknown")
+                source = it.get("source", self.current_source)
+            else:
+                text, title, concepts, source = str(it), "unknown", "unknown", self.current_source
+
+            cur.execute(
+                "INSERT INTO knowledge (text, paper_title, concepts, source) VALUES (?, ?, ?, ?)",
+                (text, title, concepts, source),
+            )
+        self.conn.commit()
+        print(f"📚 Stored {len(items)} new items in KB (source={self.current_source})")
 
     def query(self, keyword):
-        cursor = self.conn.cursor()
-        cursor.execute(
-            "SELECT content FROM knowledge WHERE content LIKE ?",
-            (f"%{keyword}%",)
-        )
-        results = [row[0] for row in cursor.fetchall()]
-        return results
-
+        """Return list of entries matching keyword."""
+        cur = self.conn.cursor()
+        if not keyword:
+            cur.execute("SELECT text, paper_title, concepts, source FROM knowledge")
+        else:
+            cur.execute(
+                "SELECT text, paper_title, concepts, source FROM knowledge WHERE text LIKE ?",
+                (f"%{keyword}%",),
+            )
+        rows = cur.fetchall()
+        return [
+            {"text": r[0], "paper_title": r[1], "concepts": r[2], "source": r[3]} for r in rows
+        ]
+    
     def fetch_all_with_embeddings(self):
         """
-        Return list of (id, content, vector) for all knowledge entries that have embeddings.
+        Fetch all knowledge items along with their embeddings (if stored).
+        If no embeddings column exists yet, it returns text only.
         """
-        cursor = self.conn.cursor()
-        cursor.execute("""
-        SELECT k.id, k.content, e.vector
-        FROM knowledge k
-        JOIN embeddings e ON k.id = e.id
-        """)
-        rows = cursor.fetchall()
-        results = []
-        for k_id, content, blob in rows:
-            vec = _from_blob(blob)
-            results.append((k_id, content, vec))
-        return results
+        cur = self.conn.cursor()
+        try:
+            cur.execute("SELECT id, text, paper_title, concepts, source FROM knowledge")
+            rows = cur.fetchall()
+            result = []
+            for r in rows:
+                result.append({
+                    "id": r[0],
+                    "text": r[1],
+                    "paper_title": r[2],
+                    "concepts": r[3],
+                    "source": r[4],
+                })
+            return result
+        except Exception as e:
+            print(f"⚠️ Warning: Could not fetch embeddings ({e}) — returning text only.")
+            cur.execute("SELECT id, text FROM knowledge")
+            rows = cur.fetchall()
+            return [{"id": r[0], "text": r[1]} for r in rows]
 
     def close(self):
         self.conn.close()
+    

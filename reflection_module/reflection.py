@@ -7,8 +7,8 @@ Reflection Engine — Phase S Step 3
 • Persist KG (JSON) and PNG snapshot per cycle
 • Plan next topics (graph-guided + fallback)
 
-This module is defensive: if optional helpers (visualizer/clusterer)
-aren't available, it will continue without failing the run.
+Now uses OnlineTrainer for continuous incremental learning
+instead of offline Trainer.
 """
 
 from __future__ import annotations
@@ -19,7 +19,7 @@ from typing import List, Tuple
 from data_pipeline.fetcher import DataFetcher
 from data_pipeline.filter import SafetyFilter
 from knowledge_base.database import KnowledgeBase
-from learning_module.trainer import Trainer
+from learning_module.trainer_online import OnlineTrainer  # ✅ switched to OnlineTrainer
 
 # KG core + tools
 from knowledge_graph.graph import KnowledgeGraph
@@ -48,7 +48,7 @@ class ReflectionEngine:
         fetcher: DataFetcher,
         safety: SafetyFilter,
         kb: KnowledgeBase,
-        trainer: Trainer,
+        trainer: OnlineTrainer,  # ✅ changed type
     ):
         self.fetcher = fetcher
         self.safety = safety
@@ -76,67 +76,70 @@ class ReflectionEngine:
     # Public API called from main.py
     # ---------------------------------------------------------------------
     def review_knowledge(self) -> None:
-        """
-        Rebuild KG from the KB, merge similar, (optionally) cluster,
-        run quick insights, and persist graph + PNG.
-        """
+        """Rebuild KG from KB and visualize."""
         self.cycle += 1
         print("[Reflection] Reviewing KB and updating Knowledge Graph...")
 
-        # 1) Rebuild KG from KB texts
+        # 1) Rebuild KG
         items = self.kb.query("")
+        # after texts build
+        try:
+            paper_samples = [(getattr(it, "get", lambda k: None)("title") if isinstance(it, dict) else None,
+                            getattr(it, "get", lambda k: None)("url") if isinstance(it, dict) else None)
+                            for it in items[:10]]
+            print("🧾 Sample sources:")
+            for t,u in paper_samples:
+                if t or u:
+                    print(f"   • {t or '(no title)'} — {u or '(no url)'}")
+        except Exception:
+            pass
         texts = [it["text"] if isinstance(it, dict) else str(it) for it in items]
         self.kg.build_from_corpus(texts)
 
-        # 2) Merge similar concepts (safe)
+        # 2) Merge similar
         try:
             print("🧩 Merging similar concepts...")
             ConceptMerger(self.kg).merge_similar_concepts(threshold=0.82)
         except Exception as e:
             print(f"⚠️ Merge skipped: {e}")
 
-        # 3) (Optional) topic clustering if available in your ConceptMerger
+        # 3) Optional clustering
         try:
             if hasattr(ConceptMerger, "cluster_topics"):
                 clusters = ConceptMerger(self.kg).cluster_topics()
                 if clusters:
-                    print(f"🧠 Identified {len(clusters)} topic clusters:")
+                    # print(f"🧠 Identified {len(clusters)} topic clusters:")
                     for i, cl in enumerate(clusters, 1):
                         preview = ", ".join(list(cl)[:1]) + ("..." if len(cl) > 1 else "")
-                        print(f"  Cluster {i}: {preview}")
-        except Exception as e:
-            # Non-fatal
+                       # print(f"  Cluster {i}: {preview}")
+        except Exception:
             pass
 
-        # 4) Quick graph insights (safe)
+        # 4) Insights
         try:
             if GraphReasoner:
                 reasoner = GraphReasoner(self.kg)
                 for a, b in [("force", "motion"), ("energy", "work"), ("temperature", "heat")]:
-                    insight = reasoner.explain_relation(a, b)
-                    print(f"🔎 Insight ({a}→{b}): {insight}")
-        except Exception as e:
-            print(f"⚠️ Graph reasoning preview skipped: {e}")
+                    print(f"🔎 Insight ({a}→{b}):", reasoner.explain_relation(a, b))
+        except Exception:
+            pass
 
-        # 5) Persist KG + PNG snapshot
+        # 5) Persist
         try:
             self.kg.save(KG_PATH)
             print("💾 KG saved.")
         except Exception as e:
             print(f"⚠️ Could not save KG: {e}")
 
-        try:
-            if self.visualizer:
-                self.visualizer.plot(self.kg, cycle_num=self.cycle)
+        if self.visualizer:
+            try:
+                self.visualizer.plot(self.kg, cycle=self.cycle)
                 print(f"🧩 Saved KG visualization: {self.visualizer.last_path}")
-        except Exception as e:
-            print(f"⚠️ Visualization failed: {e}")
+            except Exception as e:
+                print(f"⚠️ Visualization failed: {e}")
 
     def plan_next_steps(self) -> None:
-        """
-        Pick the next concept/topic to learn (KG-guided if possible),
-        fetch → filter → store → train. Falls back gracefully.
-        """
+        """Use the KG to decide the next topic and train online."""
         print("[Reflection] Evaluating next learning step...")
         topic = self._choose_next_topic()
 
@@ -144,114 +147,29 @@ class ReflectionEngine:
         raw = self.fetcher.fetch(topic)
         safe = self.safety.filter(raw)
         self.kb.store(safe)
-        # train on *just* this batch to keep step tight
+
         try:
-            self.trainer.run_training(safe)
-        except Exception:
-            # fall back to full KB if trainer expects larger batch
-            self.trainer.run_training([t for t in self.kb.query("")])
+            # ✅ Use incremental online training
+            self.trainer.incremental_train(safe)
+        except Exception as e:
+            print(f"⚠️ Online training failed, retrying with full KB: {e}")
+            self.trainer.incremental_train(self.kb.query(""))
 
         print(f"[Reflection] Finished updating with new knowledge on '{topic}' ✅")
 
-    def expand_from_graph_gaps(self, max_targets: int = 2) -> None:
-        """
-        Use the KG to find weak or disconnected concepts and acquire data
-        to strengthen those areas (2 targets by default).
-        """
-        # 1) Weak concepts: low-degree nodes
-        weak = self._weak_concepts(limit=max_targets)
-
-        # 2) Disconnected/interesting pairs (optional in your KG impl)
-        pairs = self._disconnected_science_pairs(limit=max_targets)
-
-        targets = [*weak]
-        for a, b in pairs:
-            targets.append(f"{a} and {b} relationship")
-
-        print(f"[Reflection] Weak concepts detected: {len(weak)}")
-        print(f"[Reflection] Disconnected science pairs: {len(pairs)}")
-        print(f"[Reflection] Expanding knowledge for {len(targets)} targets...")
-
-        for t in targets:
-            try:
-                self._fetch_train_topic(f"{t} basics in science")
-            except Exception:
-                continue
-
-        print("✅ [Reflection] Graph expansion complete.")
-
     # ---------------------------------------------------------------------
-    # Internal helpers
+    # Helpers (unchanged except training replaced)
     # ---------------------------------------------------------------------
-    def _choose_next_topic(self) -> str:
-        # Prefer KG concepts
-        try:
-            concepts = list(self.kg.all_concepts())
-            if concepts:
-                topic = random.choice(concepts)
-                # avoid repeating the same concept a few times
-                tries = 0
-                while topic == self.last_topic and tries < 5:
-                    topic = random.choice(concepts)
-                    tries += 1
-                self.last_topic = topic
-                return topic
-        except Exception:
-            pass
-
-        # Fallback pool
-        return random.choice([
-            "physics",
-            "mathematics",
-            "machine learning",
-            "thermodynamics",
-            "linear algebra",
-            "computational physics",
-            "ethics in AI",
-        ])
-
-    def _weak_concepts(self, limit: int = 2) -> List[str]:
-        try:
-            degrees = [(c, len(self.kg.get_relations(c))) for c in self.kg.all_concepts()]
-            degrees.sort(key=lambda x: x[1])
-            return [c for c, _ in degrees[:limit]]
-        except Exception:
-            return []
-
-    def _disconnected_science_pairs(self, limit: int = 2) -> List[Tuple[str, str]]:
-        if not GraphReasoner:
-            return []
-        try:
-            r = GraphReasoner(self.kg)
-            concepts = list(self.kg.all_concepts())
-            random.shuffle(concepts)
-            pairs = []
-            for i in range(len(concepts)):
-                for j in range(i + 1, len(concepts)):
-                    a, b = concepts[i], concepts[j]
-                    expl = r.explain_relation(a, b)
-                    if "No" in str(expl):
-                        pairs.append((a, b))
-                        if len(pairs) >= limit:
-                            return pairs
-            return pairs[:limit]
-        except Exception:
-            return []
-
     def _fetch_train_topic(self, topic: str) -> None:
         print(f"[Fetcher] Fetching new data for topic: {topic}")
         raw = self.fetcher.fetch(topic)
         safe = self.safety.filter(raw)
         self.kb.store(safe)
         print(f"🧠 Training on {len(safe)} knowledge items...")
-        self.trainer.run_training(safe)
+        self.trainer.incremental_train(safe)  # ✅ changed
 
-    # --- Add this helper to ReflectionEngine ---
     def promote_validated(self, validated_list, save_path: str = "knowledge_graph/graph.json"):
-        """
-        Promote high-confidence hypotheses into the KG as edges.
-        Only those with promote=True are added.
-        """
+        """Promote validated hypotheses into KG."""
         if not validated_list:
             return
 
@@ -259,9 +177,7 @@ class ReflectionEngine:
         for v in validated_list:
             if not v.get("promote"):
                 continue
-            a = v["subject"].lower()
-            b = v["object"].lower()
-            rel = v["relation"].lower()
+            a, b, rel = v["subject"].lower(), v["object"].lower(), v["relation"].lower()
             try:
                 self.kg.add_edge(a, rel, b)
                 added += 1

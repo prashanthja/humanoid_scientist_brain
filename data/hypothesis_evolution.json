@@ -1,390 +1,811 @@
 {
   "cycle": 1,
   "registry": {
-    "matter, energy, and their interactions --related_to--> physics is the study": {
-      "text": "matter, energy, and their interactions --related_to--> physics is the study",
-      "stage": "candidate",
-      "gen_score": 0.8075,
-      "last_score": 0.8500000000000001,
-      "cycles_seen": 1,
-      "mentions": 7,
+    "matter --related_to--> the study of matter": {
+      "text": "matter --related_to--> the study of matter",
+      "stage": "theory",
+      "gen_score": 0.0,
+      "support": 1.0,
+      "consistency": 1.0,
+      "confidence": 1.0,
+      "persistence": 0.8,
+      "cycles_seen": 11,
+      "mentions": 32,
+      "last_score": 0.82,
       "last_cycle": 1,
-      "sources": [
-        {
-          "cycle": 1,
-          "raw": {
-            "hypothesis": "matter, energy, and their interactions --related_to--> physics is the study",
-            "type": "semantic_link",
-            "relation": "related_to",
-            "subject": "matter, energy, and their interactions",
-            "object": "physics is the study",
-            "support": 1.0,
-            "consistency": 1.0,
-            "confidence": 1.0,
-            "persistence": 1.0,
-            "promote": true
-          }
-        },
-        {
-          "cycle": 1,
-          "raw": {
-            "hypothesis": "matter, energy, and their interactions --related_to--> physics",
-            "type": "semantic_link",
-            "relation": "related_to",
-            "subject": "matter, energy, and their interactions",
-            "object": "physics",
-            "support": 1.0,
-            "consistency": 1.0,
-            "confidence": 1.0,
-            "persistence": 1.0,
-            "promote": true
-          }
-        },
-        {
-          "cycle": 1,
-          "raw": {
-            "hypothesis": "physics --related_to--> matter, energy, and their interactions",
-            "type": "semantic_link",
-            "relation": "related_to",
-            "subject": "physics",
-            "object": "matter, energy, and their interactions",
-            "support": 1.0,
-            "consistency": 1.0,
-            "confidence": 1.0,
-            "persistence": 1.0,
-            "promote": true
-          }
-        },
-        {
-          "cycle": 1,
-          "raw": {
-            "hypothesis": "physics is the study --related_to--> matter, energy, and their interactions",
-            "type": "semantic_link",
-            "relation": "related_to",
-            "subject": "physics is the study",
-            "object": "matter, energy, and their interactions",
-            "support": 1.0,
-            "consistency": 1.0,
-            "confidence": 1.0,
-            "persistence": 1.0,
-            "promote": true
-          }
-        },
-        {
-          "cycle": 1,
-          "raw": {
-            "hypothesis": "matter, energy, and their interactions --related_to--> physics is the study (in condensed matter)",
-            "type": "mutation",
-            "score": 0.8075
-          }
-        },
-        {
-          "cycle": 1,
-          "raw": {
-            "hypothesis": "physics is the study --related_to--> matter, energy, and their interactions",
-            "type": "mutation",
-            "score": 0.8075
-          }
-        },
-        {
-          "cycle": 1,
-          "raw": {
-            "hypothesis": "matter, energy, and their interactions relates to physics is the study",
-            "type": "mutation",
-            "score": 0.8075
-          }
-        }
-      ],
       "history": [
         {
           "cycle": 1,
-          "score": 0.8500000000000001,
+          "score": 0.82,
           "stage": "candidate"
-        }
-      ]
-    },
-    "matter, energy, and their interactions --related_to--> the study of matter": {
-      "text": "matter, energy, and their interactions --related_to--> the study of matter",
-      "stage": "candidate",
-      "gen_score": 0.8075,
-      "last_score": 0.8500000000000001,
-      "cycles_seen": 1,
-      "mentions": 5,
-      "last_cycle": 1,
-      "sources": [
+        },
         {
-          "cycle": 1,
-          "raw": {
-            "hypothesis": "matter, energy, and their interactions --related_to--> the study of matter",
-            "type": "semantic_link",
-            "relation": "related_to",
-            "subject": "matter, energy, and their interactions",
-            "object": "the study of matter",
-            "support": 1.0,
-            "consistency": 1.0,
-            "confidence": 1.0,
-            "persistence": 1.0,
-            "promote": true
-          }
+          "cycle": 2,
+          "score": 0.82,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 3,
+          "score": 0.82,
+          "stage": "theory"
         },
         {
           "cycle": 1,
-          "raw": {
-            "hypothesis": "the study of matter --related_to--> matter, energy, and their interactions",
-            "type": "semantic_link",
-            "relation": "related_to",
-            "subject": "the study of matter",
-            "object": "matter, energy, and their interactions",
-            "support": 1.0,
-            "consistency": 1.0,
-            "confidence": 1.0,
-            "persistence": 1.0,
-            "promote": true
-          }
+          "score": 0.82,
+          "stage": "theory"
+        },
+        {
+          "cycle": 2,
+          "score": 0.82,
+          "stage": "theory"
         },
         {
           "cycle": 1,
-          "raw": {
-            "hypothesis": "matter, energy, and their interactions relates to the study of matter",
-            "type": "mutation",
-            "score": 0.8075
-          }
+          "score": 0.82,
+          "stage": "theory"
         },
         {
           "cycle": 1,
-          "raw": {
-            "hypothesis": "the study of matter --related_to--> matter, energy, and their interactions",
-            "type": "mutation",
-            "score": 0.8075
-          }
+          "score": 0.82,
+          "stage": "theory"
         },
         {
           "cycle": 1,
-          "raw": {
-            "hypothesis": "matter, energy, and their interactions --related_to--> the study of matter (in condensed matter)",
-            "type": "mutation",
-            "score": 0.8075
-          }
-        }
-      ],
-      "history": [
+          "score": 0.82,
+          "stage": "theory"
+        },
         {
           "cycle": 1,
-          "score": 0.8500000000000001,
-          "stage": "candidate"
+          "score": 0.82,
+          "stage": "theory"
+        },
+        {
+          "cycle": 1,
+          "score": 0.82,
+          "stage": "theory"
         }
       ]
     },
     "physics --related_to--> physics is the study": {
       "text": "physics --related_to--> physics is the study",
-      "stage": "candidate",
-      "gen_score": 0.8075,
-      "last_score": 0.8500000000000001,
-      "cycles_seen": 1,
-      "mentions": 3,
+      "stage": "theory",
+      "gen_score": 0.0,
+      "support": 1.0,
+      "consistency": 1.0,
+      "confidence": 1.0,
+      "persistence": 0.8,
+      "cycles_seen": 11,
+      "mentions": 16,
+      "last_score": 0.82,
       "last_cycle": 1,
-      "sources": [
-        {
-          "cycle": 1,
-          "raw": {
-            "hypothesis": "physics --related_to--> physics is the study",
-            "type": "semantic_link",
-            "relation": "related_to",
-            "subject": "physics",
-            "object": "physics is the study",
-            "support": 1.0,
-            "consistency": 1.0,
-            "confidence": 1.0,
-            "persistence": 1.0,
-            "promote": true
-          }
-        },
-        {
-          "cycle": 1,
-          "raw": {
-            "hypothesis": "physics is the study --related_to--> physics",
-            "type": "semantic_link",
-            "relation": "related_to",
-            "subject": "physics is the study",
-            "object": "physics",
-            "support": 1.0,
-            "consistency": 1.0,
-            "confidence": 1.0,
-            "persistence": 1.0,
-            "promote": true
-          }
-        },
-        {
-          "cycle": 1,
-          "raw": {
-            "hypothesis": "physics is the study --related_to--> physics",
-            "type": "mutation",
-            "score": 0.8075
-          }
-        }
-      ],
       "history": [
         {
           "cycle": 1,
-          "score": 0.8500000000000001,
+          "score": 0.82,
           "stage": "candidate"
+        },
+        {
+          "cycle": 2,
+          "score": 0.82,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 3,
+          "score": 0.82,
+          "stage": "theory"
+        },
+        {
+          "cycle": 1,
+          "score": 0.82,
+          "stage": "theory"
+        },
+        {
+          "cycle": 2,
+          "score": 0.82,
+          "stage": "theory"
+        },
+        {
+          "cycle": 1,
+          "score": 0.82,
+          "stage": "theory"
+        },
+        {
+          "cycle": 1,
+          "score": 0.82,
+          "stage": "theory"
+        },
+        {
+          "cycle": 1,
+          "score": 0.82,
+          "stage": "theory"
+        },
+        {
+          "cycle": 1,
+          "score": 0.82,
+          "stage": "theory"
+        },
+        {
+          "cycle": 1,
+          "score": 0.82,
+          "stage": "theory"
         }
       ]
     },
-    "physics --related_to--> the study of matter": {
-      "text": "physics --related_to--> the study of matter",
+    "a body to resist acceleration or deceleration --related_to--> controlled moisture levels on the peach": {
+      "text": "a body to resist acceleration or deceleration --related_to--> controlled moisture levels on the peach",
       "stage": "candidate",
-      "gen_score": 0.8075,
-      "last_score": 0.8500000000000001,
-      "cycles_seen": 1,
-      "mentions": 5,
-      "last_cycle": 1,
-      "sources": [
-        {
-          "cycle": 1,
-          "raw": {
-            "hypothesis": "physics --related_to--> the study of matter",
-            "type": "semantic_link",
-            "relation": "related_to",
-            "subject": "physics",
-            "object": "the study of matter",
-            "support": 1.0,
-            "consistency": 1.0,
-            "confidence": 1.0,
-            "persistence": 1.0,
-            "promote": true
-          }
-        },
-        {
-          "cycle": 1,
-          "raw": {
-            "hypothesis": "physics is the study --related_to--> the study of matter",
-            "type": "semantic_link",
-            "relation": "related_to",
-            "subject": "physics is the study",
-            "object": "the study of matter",
-            "support": 1.0,
-            "consistency": 1.0,
-            "confidence": 1.0,
-            "persistence": 1.0,
-            "promote": true
-          }
-        },
-        {
-          "cycle": 1,
-          "raw": {
-            "hypothesis": "the study of matter --related_to--> physics is the study",
-            "type": "semantic_link",
-            "relation": "related_to",
-            "subject": "the study of matter",
-            "object": "physics is the study",
-            "support": 1.0,
-            "consistency": 1.0,
-            "confidence": 1.0,
-            "persistence": 1.0,
-            "promote": true
-          }
-        },
-        {
-          "cycle": 1,
-          "raw": {
-            "hypothesis": "the study of matter --related_to--> physics",
-            "type": "semantic_link",
-            "relation": "related_to",
-            "subject": "the study of matter",
-            "object": "physics",
-            "support": 1.0,
-            "consistency": 1.0,
-            "confidence": 1.0,
-            "persistence": 1.0,
-            "promote": true
-          }
-        },
-        {
-          "cycle": 1,
-          "raw": {
-            "hypothesis": "the study of matter --related_to--> physics",
-            "type": "mutation",
-            "score": 0.8075
-          }
-        }
-      ],
-      "history": [
-        {
-          "cycle": 1,
-          "score": 0.8500000000000001,
-          "stage": "candidate"
-        }
-      ]
-    },
-    "physics relates to physics is the study": {
-      "text": "physics relates to physics is the study",
-      "stage": "seed",
-      "gen_score": 0.8075,
-      "last_score": 0.0,
-      "cycles_seen": 0,
+      "gen_score": 0.0,
+      "support": 0.5,
+      "consistency": 1.0,
+      "confidence": 0.725,
+      "persistence": 0.58,
+      "cycles_seen": 3,
       "mentions": 1,
+      "last_score": 0.596,
       "last_cycle": 1,
-      "sources": [
+      "history": [
         {
           "cycle": 1,
-          "raw": {
-            "hypothesis": "physics relates to physics is the study",
-            "type": "mutation",
-            "score": 0.8075
-          }
+          "score": 0.596,
+          "stage": "candidate"
+        },
+        {
+          "cycle": 1,
+          "score": 0.596,
+          "stage": "candidate"
         }
-      ],
-      "history": []
+      ]
     },
-    "physics --related_to--> physics is the study (in condensed matter)": {
-      "text": "physics --related_to--> physics is the study (in condensed matter)",
-      "stage": "seed",
-      "gen_score": 0.8075,
-      "last_score": 0.0,
-      "cycles_seen": 0,
+    "a body to resist acceleration or deceleration --related_to--> defining inequalities in the original space": {
+      "text": "a body to resist acceleration or deceleration --related_to--> defining inequalities in the original space",
+      "stage": "candidate",
+      "gen_score": 0.0,
+      "support": 0.5,
+      "consistency": 1.0,
+      "confidence": 0.725,
+      "persistence": 0.58,
+      "cycles_seen": 3,
+      "mentions": 1,
+      "last_score": 0.596,
+      "last_cycle": 1,
+      "history": [
+        {
+          "cycle": 1,
+          "score": 0.596,
+          "stage": "candidate"
+        },
+        {
+          "cycle": 1,
+          "score": 0.596,
+          "stage": "candidate"
+        }
+      ]
+    },
+    "a --related_to--> benchmark instances": {
+      "text": "a --related_to--> benchmark instances",
+      "stage": "candidate",
+      "gen_score": 0.0,
+      "support": 0.403,
+      "consistency": 1.0,
+      "confidence": 0.672,
+      "persistence": 0.537,
+      "cycles_seen": 3,
+      "mentions": 1,
+      "last_score": 0.552,
+      "last_cycle": 1,
+      "history": [
+        {
+          "cycle": 1,
+          "score": 0.552,
+          "stage": "candidate"
+        },
+        {
+          "cycle": 1,
+          "score": 0.552,
+          "stage": "candidate"
+        }
+      ]
+    },
+    "a --related_to--> additional fidelity loss": {
+      "text": "a --related_to--> additional fidelity loss",
+      "stage": "candidate",
+      "gen_score": 0.0,
+      "support": 0.394,
+      "consistency": 1.0,
+      "confidence": 0.667,
+      "persistence": 0.534,
+      "cycles_seen": 3,
       "mentions": 2,
+      "last_score": 0.548,
       "last_cycle": 1,
-      "sources": [
+      "history": [
         {
           "cycle": 1,
-          "raw": {
-            "hypothesis": "physics --related_to--> physics is the study (in condensed matter)",
-            "type": "mutation",
-            "score": 0.8075
-          }
+          "score": 0.548,
+          "stage": "candidate"
         },
         {
           "cycle": 1,
-          "raw": {
-            "hypothesis": "physics --related_to--> the study of matter (in condensed matter)",
-            "type": "mutation",
-            "score": 0.8075
-          }
+          "score": 0.548,
+          "stage": "candidate"
         }
-      ],
-      "history": []
+      ]
     },
-    "physics relates to the study of matter": {
-      "text": "physics relates to the study of matter",
-      "stage": "seed",
-      "gen_score": 0.8075,
-      "last_score": 0.0,
-      "cycles_seen": 0,
+    "a --related_to--> a quantum universe": {
+      "text": "a --related_to--> a quantum universe",
+      "stage": "candidate",
+      "gen_score": 0.0,
+      "support": 0.389,
+      "consistency": 1.0,
+      "confidence": 0.664,
+      "persistence": 0.531,
+      "cycles_seen": 3,
       "mentions": 1,
+      "last_score": 0.546,
       "last_cycle": 1,
-      "sources": [
+      "history": [
         {
           "cycle": 1,
-          "raw": {
-            "hypothesis": "physics relates to the study of matter",
-            "type": "mutation",
-            "score": 0.8075
-          }
+          "score": 0.546,
+          "stage": "candidate"
+        },
+        {
+          "cycle": 1,
+          "score": 0.546,
+          "stage": "candidate"
         }
-      ],
-      "history": []
+      ]
+    },
+    "a cause --related_to--> di": {
+      "text": "a cause --related_to--> di",
+      "stage": "candidate",
+      "gen_score": 0.0,
+      "support": 0.333,
+      "consistency": 1.0,
+      "confidence": 0.633,
+      "persistence": 0.507,
+      "cycles_seen": 3,
+      "mentions": 1,
+      "last_score": 0.521,
+      "last_cycle": 1,
+      "history": [
+        {
+          "cycle": 1,
+          "score": 0.521,
+          "stage": "candidate"
+        },
+        {
+          "cycle": 1,
+          "score": 0.521,
+          "stage": "candidate"
+        }
+      ]
+    },
+    "between space and prephotonsoccur independent --is--> an effect like force and dimension of the quantum change between states some of which occur without time": {
+      "text": "between space and prephotonsoccur independent --is--> an effect like force and dimension of the quantum change between states some of which occur without time",
+      "stage": "seed",
+      "gen_score": 0.0,
+      "support": 0.0,
+      "consistency": 1.0,
+      "confidence": 0.45,
+      "persistence": 0.36,
+      "cycles_seen": 3,
+      "mentions": 1,
+      "last_score": 0.371,
+      "last_cycle": 1,
+      "history": [
+        {
+          "cycle": 1,
+          "score": 0.371,
+          "stage": "seed"
+        },
+        {
+          "cycle": 1,
+          "score": 0.371,
+          "stage": "seed"
+        }
+      ]
+    },
+    "special attention is now on the start --of--> the transport line will follow at the end of": {
+      "text": "special attention is now on the start --of--> the transport line will follow at the end of",
+      "stage": "seed",
+      "gen_score": 0.0,
+      "support": 0.0,
+      "consistency": 1.0,
+      "confidence": 0.45,
+      "persistence": 0.36,
+      "cycles_seen": 3,
+      "mentions": 1,
+      "last_score": 0.371,
+      "last_cycle": 1,
+      "history": [
+        {
+          "cycle": 1,
+          "score": 0.371,
+          "stage": "seed"
+        },
+        {
+          "cycle": 1,
+          "score": 0.371,
+          "stage": "seed"
+        }
+      ]
+    },
+    "we give a simple combinatorial classification --of--> which meet or exceed even the most stringent performance and durability requirements": {
+      "text": "we give a simple combinatorial classification --of--> which meet or exceed even the most stringent performance and durability requirements",
+      "stage": "seed",
+      "gen_score": 0.0,
+      "support": 0.0,
+      "consistency": 1.0,
+      "confidence": 0.45,
+      "persistence": 0.36,
+      "cycles_seen": 3,
+      "mentions": 1,
+      "last_score": 0.371,
+      "last_cycle": 1,
+      "history": [
+        {
+          "cycle": 1,
+          "score": 0.371,
+          "stage": "seed"
+        },
+        {
+          "cycle": 1,
+          "score": 0.371,
+          "stage": "seed"
+        }
+      ]
+    },
+    "we investigate the spectral properties --of--> which meet or exceed even the most stringent performance and durability requirements": {
+      "text": "we investigate the spectral properties --of--> which meet or exceed even the most stringent performance and durability requirements",
+      "stage": "seed",
+      "gen_score": 0.0,
+      "support": 0.0,
+      "consistency": 1.0,
+      "confidence": 0.45,
+      "persistence": 0.36,
+      "cycles_seen": 3,
+      "mentions": 1,
+      "last_score": 0.371,
+      "last_cycle": 1,
+      "history": [
+        {
+          "cycle": 1,
+          "score": 0.371,
+          "stage": "seed"
+        },
+        {
+          "cycle": 1,
+          "score": 0.371,
+          "stage": "seed"
+        }
+      ]
+    },
+    "with the flexibility --study_of--> matter": {
+      "text": "with the flexibility --study_of--> matter",
+      "stage": "seed",
+      "gen_score": 0.0,
+      "support": 0.0,
+      "consistency": 1.0,
+      "confidence": 0.45,
+      "persistence": 0.36,
+      "cycles_seen": 3,
+      "mentions": 1,
+      "last_score": 0.371,
+      "last_cycle": 1,
+      "history": [
+        {
+          "cycle": 1,
+          "score": 0.371,
+          "stage": "seed"
+        },
+        {
+          "cycle": 1,
+          "score": 0.371,
+          "stage": "seed"
+        }
+      ]
+    },
+    "with the flexibility --is--> the study of matter": {
+      "text": "with the flexibility --is--> the study of matter",
+      "stage": "seed",
+      "gen_score": 0.0,
+      "support": 0.0,
+      "consistency": 1.0,
+      "confidence": 0.45,
+      "persistence": 0.36,
+      "cycles_seen": 3,
+      "mentions": 1,
+      "last_score": 0.371,
+      "last_cycle": 1,
+      "history": [
+        {
+          "cycle": 1,
+          "score": 0.371,
+          "stage": "seed"
+        },
+        {
+          "cycle": 1,
+          "score": 0.371,
+          "stage": "seed"
+        }
+      ]
+    },
+    "a body to resist acceleration or deceleration --related_to--> field diffusion monte carlo calculations": {
+      "text": "a body to resist acceleration or deceleration --related_to--> field diffusion monte carlo calculations",
+      "stage": "seed",
+      "gen_score": 0.0,
+      "support": 0.0,
+      "consistency": 1.0,
+      "confidence": 0.45,
+      "persistence": 0.36,
+      "cycles_seen": 3,
+      "mentions": 1,
+      "last_score": 0.371,
+      "last_cycle": 1,
+      "history": [
+        {
+          "cycle": 1,
+          "score": 0.371,
+          "stage": "seed"
+        },
+        {
+          "cycle": 1,
+          "score": 0.371,
+          "stage": "seed"
+        }
+      ]
+    },
+    "a cause --related_to--> at the": {
+      "text": "a cause --related_to--> at the",
+      "stage": "seed",
+      "gen_score": 0.0,
+      "support": 0.0,
+      "consistency": 1.0,
+      "confidence": 0.45,
+      "persistence": 0.36,
+      "cycles_seen": 3,
+      "mentions": 1,
+      "last_score": 0.371,
+      "last_cycle": 1,
+      "history": [
+        {
+          "cycle": 1,
+          "score": 0.371,
+          "stage": "seed"
+        },
+        {
+          "cycle": 1,
+          "score": 0.371,
+          "stage": "seed"
+        }
+      ]
+    },
+    "a central and challenging problem in combinatorial commutative algebra --related_to--> a phase space analysis reveals the existence": {
+      "text": "a central and challenging problem in combinatorial commutative algebra --related_to--> a phase space analysis reveals the existence",
+      "stage": "seed",
+      "gen_score": 0.0,
+      "support": 0.0,
+      "consistency": 1.0,
+      "confidence": 0.45,
+      "persistence": 0.36,
+      "cycles_seen": 3,
+      "mentions": 1,
+      "last_score": 0.371,
+      "last_cycle": 1,
+      "history": [
+        {
+          "cycle": 1,
+          "score": 0.371,
+          "stage": "seed"
+        },
+        {
+          "cycle": 1,
+          "score": 0.371,
+          "stage": "seed"
+        }
+      ]
+    },
+    "a central and challenging problem in combinatorial commutative algebra --related_to--> by leveraging the unique properties": {
+      "text": "a central and challenging problem in combinatorial commutative algebra --related_to--> by leveraging the unique properties",
+      "stage": "seed",
+      "gen_score": 0.0,
+      "support": 0.0,
+      "consistency": 1.0,
+      "confidence": 0.45,
+      "persistence": 0.36,
+      "cycles_seen": 3,
+      "mentions": 1,
+      "last_score": 0.371,
+      "last_cycle": 1,
+      "history": [
+        {
+          "cycle": 1,
+          "score": 0.371,
+          "stage": "seed"
+        },
+        {
+          "cycle": 1,
+          "score": 0.371,
+          "stage": "seed"
+        }
+      ]
+    },
+    "a central and challenging problem in combinatorial commutative algebra --related_to--> composite hadron and the gpds": {
+      "text": "a central and challenging problem in combinatorial commutative algebra --related_to--> composite hadron and the gpds",
+      "stage": "seed",
+      "gen_score": 0.0,
+      "support": 0.0,
+      "consistency": 1.0,
+      "confidence": 0.45,
+      "persistence": 0.36,
+      "cycles_seen": 3,
+      "mentions": 1,
+      "last_score": 0.371,
+      "last_cycle": 1,
+      "history": [
+        {
+          "cycle": 1,
+          "score": 0.371,
+          "stage": "seed"
+        },
+        {
+          "cycle": 1,
+          "score": 0.371,
+          "stage": "seed"
+        }
+      ]
+    },
+    "a challenging yet valuable task in providing immersive and embodied applications --related_to--> entangling and swapping processes than the traditional long time slot protocol": {
+      "text": "a challenging yet valuable task in providing immersive and embodied applications --related_to--> entangling and swapping processes than the traditional long time slot protocol",
+      "stage": "seed",
+      "gen_score": 0.0,
+      "support": 0.0,
+      "consistency": 1.0,
+      "confidence": 0.45,
+      "persistence": 0.36,
+      "cycles_seen": 3,
+      "mentions": 1,
+      "last_score": 0.371,
+      "last_cycle": 1,
+      "history": [
+        {
+          "cycle": 1,
+          "score": 0.371,
+          "stage": "seed"
+        },
+        {
+          "cycle": 1,
+          "score": 0.371,
+          "stage": "seed"
+        }
+      ]
+    },
+    "a challenging yet valuable task in providing immersive and embodied applications --related_to--> axion dark energy contributions that can resolve the sn": {
+      "text": "a challenging yet valuable task in providing immersive and embodied applications --related_to--> axion dark energy contributions that can resolve the sn",
+      "stage": "seed",
+      "gen_score": 0.0,
+      "support": 0.0,
+      "consistency": 1.0,
+      "confidence": 0.45,
+      "persistence": 0.36,
+      "cycles_seen": 3,
+      "mentions": 1,
+      "last_score": 0.371,
+      "last_cycle": 1,
+      "history": [
+        {
+          "cycle": 1,
+          "score": 0.371,
+          "stage": "seed"
+        },
+        {
+          "cycle": 1,
+          "score": 0.371,
+          "stage": "seed"
+        }
+      ]
+    },
+    "a crucial shortcoming of many of these techniques --related_to--> a crucial shortcoming of many of these techniques is the independence": {
+      "text": "a crucial shortcoming of many of these techniques --related_to--> a crucial shortcoming of many of these techniques is the independence",
+      "stage": "candidate",
+      "gen_score": 0.0,
+      "support": 1.0,
+      "consistency": 0.888,
+      "confidence": 0.95,
+      "persistence": 0.76,
+      "cycles_seen": 2,
+      "mentions": 1,
+      "last_score": 0.778,
+      "last_cycle": 1,
+      "history": [
+        {
+          "cycle": 1,
+          "score": 0.778,
+          "stage": "candidate"
+        }
+      ]
+    },
+    "client --related_to--> commissioning": {
+      "text": "client --related_to--> commissioning",
+      "stage": "seed",
+      "gen_score": 0.0,
+      "support": 0.0,
+      "consistency": 1.0,
+      "confidence": 0.45,
+      "persistence": 0.36,
+      "cycles_seen": 2,
+      "mentions": 2,
+      "last_score": 0.371,
+      "last_cycle": 1,
+      "history": [
+        {
+          "cycle": 1,
+          "score": 0.371,
+          "stage": "seed"
+        }
+      ]
+    },
+    "client --related_to--> dijkgraaf": {
+      "text": "client --related_to--> dijkgraaf",
+      "stage": "seed",
+      "gen_score": 0.0,
+      "support": 0.0,
+      "consistency": 1.0,
+      "confidence": 0.45,
+      "persistence": 0.36,
+      "cycles_seen": 2,
+      "mentions": 2,
+      "last_score": 0.371,
+      "last_cycle": 1,
+      "history": [
+        {
+          "cycle": 1,
+          "score": 0.371,
+          "stage": "seed"
+        }
+      ]
+    },
+    "commissioning --related_to--> dijkgraaf": {
+      "text": "commissioning --related_to--> dijkgraaf",
+      "stage": "seed",
+      "gen_score": 0.0,
+      "support": 0.0,
+      "consistency": 1.0,
+      "confidence": 0.45,
+      "persistence": 0.36,
+      "cycles_seen": 2,
+      "mentions": 2,
+      "last_score": 0.371,
+      "last_cycle": 1,
+      "history": [
+        {
+          "cycle": 1,
+          "score": 0.371,
+          "stage": "seed"
+        }
+      ]
+    },
+    "all accepted requests --related_to--> all momenta": {
+      "text": "all accepted requests --related_to--> all momenta",
+      "stage": "seed",
+      "gen_score": 0.0,
+      "support": 0.0,
+      "consistency": 0.952,
+      "confidence": 0.428,
+      "persistence": 0.343,
+      "cycles_seen": 2,
+      "mentions": 2,
+      "last_score": 0.354,
+      "last_cycle": 1,
+      "history": [
+        {
+          "cycle": 1,
+          "score": 0.354,
+          "stage": "seed"
+        }
+      ]
+    },
+    "client --related_to--> dictated by the holevo cram": {
+      "text": "client --related_to--> dictated by the holevo cram",
+      "stage": "seed",
+      "gen_score": 0.0,
+      "support": 0.0,
+      "consistency": 0.939,
+      "confidence": 0.422,
+      "persistence": 0.338,
+      "cycles_seen": 2,
+      "mentions": 6,
+      "last_score": 0.349,
+      "last_cycle": 1,
+      "history": [
+        {
+          "cycle": 1,
+          "score": 0.349,
+          "stage": "seed"
+        }
+      ]
+    },
+    "and beam commissioning --related_to--> client": {
+      "text": "and beam commissioning --related_to--> client",
+      "stage": "seed",
+      "gen_score": 0.0,
+      "support": 0.0,
+      "consistency": 0.924,
+      "confidence": 0.416,
+      "persistence": 0.333,
+      "cycles_seen": 2,
+      "mentions": 2,
+      "last_score": 0.343,
+      "last_cycle": 1,
+      "history": [
+        {
+          "cycle": 1,
+          "score": 0.343,
+          "stage": "seed"
+        }
+      ]
+    },
+    "and beam commissioning --related_to--> dijkgraaf": {
+      "text": "and beam commissioning --related_to--> dijkgraaf",
+      "stage": "seed",
+      "gen_score": 0.0,
+      "support": 0.0,
+      "consistency": 0.924,
+      "confidence": 0.416,
+      "persistence": 0.333,
+      "cycles_seen": 2,
+      "mentions": 1,
+      "last_score": 0.343,
+      "last_cycle": 1,
+      "history": [
+        {
+          "cycle": 1,
+          "score": 0.343,
+          "stage": "seed"
+        }
+      ]
+    },
+    "all accepted requests --related_to--> client": {
+      "text": "all accepted requests --related_to--> client",
+      "stage": "seed",
+      "gen_score": 0.0,
+      "support": 0.0,
+      "consistency": 0.909,
+      "confidence": 0.409,
+      "persistence": 0.327,
+      "cycles_seen": 2,
+      "mentions": 1,
+      "last_score": 0.338,
+      "last_cycle": 1,
+      "history": [
+        {
+          "cycle": 1,
+          "score": 0.338,
+          "stage": "seed"
+        }
+      ]
+    },
+    "all accepted requests --related_to--> commissioning": {
+      "text": "all accepted requests --related_to--> commissioning",
+      "stage": "seed",
+      "gen_score": 0.0,
+      "support": 0.0,
+      "consistency": 0.909,
+      "confidence": 0.409,
+      "persistence": 0.327,
+      "cycles_seen": 2,
+      "mentions": 1,
+      "last_score": 0.338,
+      "last_cycle": 1,
+      "history": [
+        {
+          "cycle": 1,
+          "score": 0.338,
+          "stage": "seed"
+        }
+      ]
     }
   },
-  "ts": 1760806782.469179
+  "ts": 1761064810.508759
 }

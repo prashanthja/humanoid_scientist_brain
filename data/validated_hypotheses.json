@@ -1,52 +1,188 @@
 {
   "hypotheses": {
-    "matter, energy, and their interactions --related_to--> physics is the study": {
-      "ema": 0.9999984348400253,
-      "count": 12
-    },
-    "matter, energy, and their interactions --related_to--> the study of matter": {
-      "ema": 0.9999984242263862,
-      "count": 12
-    },
-    "matter, energy, and their interactions --related_to--> physics": {
-      "ema": 0.9999984180153276,
-      "count": 12
+    "matter --related_to--> the study of matter": {
+      "ema": 0.9999538330125604,
+      "count": 8
     },
     "physics --related_to--> physics is the study": {
-      "ema": 0.9999983899324558,
-      "count": 12
-    },
-    "physics --related_to--> the study of matter": {
-      "ema": 0.9999983990023987,
-      "count": 12
-    },
-    "physics --related_to--> matter, energy, and their interactions": {
-      "ema": 0.9999984180153276,
-      "count": 12
-    },
-    "physics is the study --related_to--> the study of matter": {
-      "ema": 0.9999984058944262,
-      "count": 12
-    },
-    "physics is the study --related_to--> matter, energy, and their interactions": {
-      "ema": 0.9999984348400253,
-      "count": 12
+      "ema": 0.9999538478247009,
+      "count": 8
     },
     "physics is the study --related_to--> physics": {
-      "ema": 0.9999983899324558,
-      "count": 12
+      "ema": 0.9999538478247009,
+      "count": 8
+    },
+    "physics is the study --related_to--> the study of matter": {
+      "ema": 0.9999538561688348,
+      "count": 8
+    },
+    "the study of matter --related_to--> matter": {
+      "ema": 0.9999538330125604,
+      "count": 8
     },
     "the study of matter --related_to--> physics is the study": {
-      "ema": 0.9999984058944262,
-      "count": 12
+      "ema": 0.9999538561688348,
+      "count": 8
     },
-    "the study of matter --related_to--> matter, energy, and their interactions": {
-      "ema": 0.9999984242263862,
-      "count": 12
+    "between space and prephotonsoccur independent --is--> an effect like force and dimension of the quantum change between states some of which occur without time": {
+      "ema": 0.35999450683593753,
+      "count": 1
     },
-    "the study of matter --related_to--> physics": {
-      "ema": 0.9999983990023987,
-      "count": 12
+    "special attention is now on the start --of--> the transport line will follow at the end of": {
+      "ema": 0.35999989271163946,
+      "count": 1
+    },
+    "we give a simple combinatorial classification --of--> which meet or exceed even the most stringent performance and durability requirements": {
+      "ema": 0.35999946355819706,
+      "count": 1
+    },
+    "we investigate the spectral properties --of--> which meet or exceed even the most stringent performance and durability requirements": {
+      "ema": 0.3599994206428528,
+      "count": 1
+    },
+    "with the flexibility --study_of--> matter": {
+      "ema": 0.3599999356269837,
+      "count": 1
+    },
+    "with the flexibility --is--> the study of matter": {
+      "ema": 0.35999989271163946,
+      "count": 1
+    },
+    "a --related_to--> a quantum universe": {
+      "ema": 0.5311110467380947,
+      "count": 1
+    },
+    "a --related_to--> additional fidelity loss": {
+      "ema": 0.533521062387547,
+      "count": 1
+    },
+    "a --related_to--> benchmark instances": {
+      "ema": 0.5372221578492059,
+      "count": 1
+    },
+    "a body to resist acceleration or deceleration --related_to--> controlled moisture levels on the peach": {
+      "ema": 0.5799999356269837,
+      "count": 1
+    },
+    "a body to resist acceleration or deceleration --related_to--> defining inequalities in the original space": {
+      "ema": 0.5799998927116395,
+      "count": 1
+    },
+    "a body to resist acceleration or deceleration --related_to--> field diffusion monte carlo calculations": {
+      "ema": 0.3599999356269837,
+      "count": 1
+    },
+    "a cause --related_to--> di": {
+      "ema": 0.5066666666666667,
+      "count": 1
+    },
+    "a cause --related_to--> additional fidelity loss": {
+      "ema": 0.3599999356269837,
+      "count": 1
+    },
+    "a cause --related_to--> at the": {
+      "ema": 0.35999995708465576,
+      "count": 1
+    },
+    "a central and challenging problem in combinatorial commutative algebra --related_to--> a phase space analysis reveals the existence": {
+      "ema": 0.3599999356269837,
+      "count": 1
+    },
+    "a central and challenging problem in combinatorial commutative algebra --related_to--> by leveraging the unique properties": {
+      "ema": 0.3599999356269837,
+      "count": 1
+    },
+    "a central and challenging problem in combinatorial commutative algebra --related_to--> composite hadron and the gpds": {
+      "ema": 0.3599999356269837,
+      "count": 1
+    },
+    "a challenging yet valuable task in providing immersive and embodied applications --related_to--> entangling and swapping processes than the traditional long time slot protocol": {
+      "ema": 0.35999989271163946,
+      "count": 1
+    },
+    "a challenging yet valuable task in providing immersive and embodied applications --related_to--> axion dark energy contributions that can resolve the sn": {
+      "ema": 0.35999989271163946,
+      "count": 1
+    },
+    "client --related_to--> commissioning": {
+      "ema": 0.36000000000000004,
+      "count": 1
+    },
+    "client --related_to--> dijkgraaf": {
+      "ema": 0.36000000000000004,
+      "count": 1
+    },
+    "commissioning --related_to--> client": {
+      "ema": 0.36000000000000004,
+      "count": 1
+    },
+    "commissioning --related_to--> dijkgraaf": {
+      "ema": 0.36000000000000004,
+      "count": 1
+    },
+    "dijkgraaf --related_to--> client": {
+      "ema": 0.36000000000000004,
+      "count": 1
+    },
+    "dijkgraaf --related_to--> commissioning": {
+      "ema": 0.36000000000000004,
+      "count": 1
+    },
+    "all accepted requests --related_to--> all momenta": {
+      "ema": 0.3426175689697266,
+      "count": 1
+    },
+    "all momenta --related_to--> all accepted requests": {
+      "ema": 0.3426175689697266,
+      "count": 1
+    },
+    "client --related_to--> dictated by the holevo cram": {
+      "ema": 0.337891001701355,
+      "count": 1
+    },
+    "commissioning --related_to--> dictated by the holevo cram": {
+      "ema": 0.337891001701355,
+      "count": 1
+    },
+    "dictated by the holevo cram --related_to--> client": {
+      "ema": 0.337891001701355,
+      "count": 1
+    },
+    "dictated by the holevo cram --related_to--> commissioning": {
+      "ema": 0.337891001701355,
+      "count": 1
+    },
+    "dictated by the holevo cram --related_to--> dijkgraaf": {
+      "ema": 0.337891001701355,
+      "count": 1
+    },
+    "dijkgraaf --related_to--> dictated by the holevo cram": {
+      "ema": 0.337891001701355,
+      "count": 1
+    },
+    "and beam commissioning --related_to--> client": {
+      "ema": 0.3325784039497376,
+      "count": 1
+    },
+    "and beam commissioning --related_to--> commissioning": {
+      "ema": 0.3325784039497376,
+      "count": 1
+    },
+    "and beam commissioning --related_to--> dijkgraaf": {
+      "ema": 0.3325784039497376,
+      "count": 1
+    },
+    "all accepted requests --related_to--> client": {
+      "ema": 0.32719508171081546,
+      "count": 1
+    },
+    "all accepted requests --related_to--> commissioning": {
+      "ema": 0.32719508171081546,
+      "count": 1
+    },
+    "a crucial shortcoming of many of these techniques --related_to--> a crucial shortcoming of many of these techniques is the independence": {
+      "ema": 0.7598345422744752,
+      "count": 1
     }
   }
 }

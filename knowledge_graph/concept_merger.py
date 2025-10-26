@@ -42,7 +42,7 @@ class ConceptMerger:
             print("✅ No merges required at this cycle.")
 
     # ---------------------------------------------------------
-    def cluster_topics(self):
+    def cluster_topics(self, verbose=False):
         """
         Groups concepts into clusters based on textual overlap or shared subwords.
         Used by ReflectionEngine to decide next focus areas.
@@ -62,9 +62,12 @@ class ConceptMerger:
             clusters.append(cluster)
 
         if clusters:
-            print(f"🧠 Identified {len(clusters)} topic clusters:")
-            for i, cluster in enumerate(clusters, 1):
-                print(f"  Cluster {i}: {', '.join(cluster)}")
+            if verbose:
+                print(f"🧠 Identified {len(clusters)} topic clusters:")
+                for i, cluster in enumerate(clusters, 1):
+                    print(f"  Cluster {i}: {', '.join(cluster)}")
+            else:
+                print(f"🧠 {len(clusters)} topic clusters identified (details suppressed).")
         else:
             print("ℹ️ No distinct topic clusters formed this round.")
 

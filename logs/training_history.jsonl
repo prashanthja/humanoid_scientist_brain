@@ -1,0 +1,16 @@
+{"timestamp": "2025-10-25 13:10:12", "epoch": 1, "loss": 1.1943880319595337, "similarity": 0.9159355163574219, "accuracy": 0.7857142885526022, "vocab_size": 2552, "device": "mps"}
+{"timestamp": "2025-10-25 13:10:15", "epoch": 2, "loss": 1.4421885808308919, "similarity": 0.9220213492711385, "accuracy": 0.706845243771871, "vocab_size": 2552, "device": "mps"}
+{"timestamp": "2025-10-25 13:11:20", "epoch": 1, "loss": 1.1880369285742443, "similarity": 0.9533311525980631, "accuracy": 0.6711309552192688, "vocab_size": 2575, "device": "mps"}
+{"timestamp": "2025-10-25 13:11:22", "epoch": 2, "loss": 1.2428443903724353, "similarity": 0.9230197469393412, "accuracy": 0.75, "vocab_size": 2575, "device": "mps"}
+{"timestamp": "2025-10-25 13:13:45", "epoch": 1, "loss": 1.0183099719385307, "similarity": 0.9584271113077799, "accuracy": 0.8020833333333334, "vocab_size": 2577, "device": "mps"}
+{"timestamp": "2025-10-25 13:13:47", "epoch": 2, "loss": 0.7872915950914224, "similarity": 0.9605451623598734, "accuracy": 0.84375, "vocab_size": 2577, "device": "mps"}
+{"timestamp": "2025-10-25 13:16:58", "epoch": 1, "loss": 0.6336828594406446, "similarity": 0.9582390983899435, "accuracy": 0.8541666666666666, "vocab_size": 2577, "device": "mps"}
+{"timestamp": "2025-10-25 13:17:01", "epoch": 2, "loss": 0.7385579744974772, "similarity": 0.9536596536636353, "accuracy": 0.8958333333333334, "vocab_size": 2577, "device": "mps"}
+{"timestamp": "2025-10-25 13:19:27", "epoch": 1, "loss": 0.6349025977154573, "similarity": 0.9598714113235474, "accuracy": 0.8854166666666666, "vocab_size": 2577, "device": "mps"}
+{"timestamp": "2025-10-25 13:19:29", "epoch": 2, "loss": 0.4604776129126549, "similarity": 0.9662051796913147, "accuracy": 0.9270833333333334, "vocab_size": 2577, "device": "mps"}
+{"timestamp": "2025-10-25 15:02:13", "epoch": 1, "loss": 0.7098180254300436, "similarity": 0.9319913585980734, "accuracy": 0.7708333333333334, "vocab_size": 2608, "device": "mps"}
+{"timestamp": "2025-10-25 15:02:15", "epoch": 2, "loss": 0.555812473098437, "similarity": 0.9411608576774597, "accuracy": 0.7916666666666666, "vocab_size": 2608, "device": "mps"}
+{"timestamp": "2025-10-25 15:08:59", "epoch": 1, "loss": 0.4446186472972234, "similarity": 0.9565411408742269, "accuracy": 0.9166666666666666, "vocab_size": 2615, "device": "mps"}
+{"timestamp": "2025-10-25 15:09:01", "epoch": 2, "loss": 0.5146862429877123, "similarity": 0.9266204833984375, "accuracy": 0.90625, "vocab_size": 2615, "device": "mps"}
+{"timestamp": "2025-10-26 11:52:51", "epoch": 1, "loss": 0.8041378855705261, "similarity": 0.8909792900085449, "accuracy": 0.6666666865348816, "vocab_size": 2623, "device": "mps"}
+{"timestamp": "2025-10-26 11:52:52", "epoch": 2, "loss": 0.7461201548576355, "similarity": 0.8802425265312195, "accuracy": 0.75, "vocab_size": 2623, "device": "mps"}

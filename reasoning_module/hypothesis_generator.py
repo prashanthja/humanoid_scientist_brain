@@ -1,10 +1,11 @@
 """
-Hypothesis Generator — Phase C · Step 1
----------------------------------------
+Hypothesis Generator — Phase C · Step 1 (Transformer-compatible)
+----------------------------------------------------------------
 Generates new scientific hypotheses by combining:
 • Graph transitivity patterns (A→B, B→C ⇒ maybe A→C)
 • Semantic proximity in embedding space (high-similar-yet-unlinked pairs)
 
+Now powered by the continual transformer via EmbeddingBridge.
 Outputs JSONL to outputs/hypotheses.jsonl and an append-only text log.
 """
 
@@ -13,7 +14,6 @@ import json
 import time
 from collections import defaultdict
 from typing import List, Dict, Any, Tuple
-
 import numpy as np
 
 
@@ -22,8 +22,8 @@ class HypothesisGenerator:
                  out_dir: str = "outputs", log_dir: str = "logs"):
         """
         knowledge_graph: KnowledgeGraph instance
-        encoder: TextEncoder instance (must have encode_texts(list[str]) -> np.ndarray)
-        kb: optional KnowledgeBase for sanity checks / retrieval (not required)
+        encoder: EmbeddingBridge instance (must have encode(text) -> np.ndarray)
+        kb: optional KnowledgeBase for additional context (optional)
         """
         self.kg = knowledge_graph
         self.encoder = encoder
@@ -39,21 +39,30 @@ class HypothesisGenerator:
 
     # ---------- Embeddings ----------
     def _embed(self, text: str) -> np.ndarray:
-        vec = self.encoder.encode_texts([text])[0]
-        n = np.linalg.norm(vec) + 1e-9
-        return vec / n
+        """Return normalized embedding using EmbeddingBridge (PyTorch transformer)."""
+        if not text:
+            return np.zeros(256, dtype=np.float32)
+        try:
+            vec = self.encoder.encode(text)
+            if isinstance(vec, list):
+                vec = np.array(vec)
+            n = np.linalg.norm(vec) + 1e-9
+            return vec / n
+        except Exception:
+            return np.zeros(256, dtype=np.float32)
 
     def _sim(self, a: str, b: str) -> float:
+        """Cosine similarity between two text embeddings."""
         va, vb = self._embed(a), self._embed(b)
+        if np.all(va == 0) or np.all(vb == 0):
+            return 0.0
         return float(np.dot(va, vb))
 
     # ---------- Graph helpers ----------
     def _neighbors(self, node: str) -> Dict[str, List[str]]:
         """Return {relation: [neighbors...]} or empty dict."""
-        # Your KG API should expose this; we stay defensive:
         try:
             rels = self.kg.get_relations(node)
-            # Some older KGs used list for empty; normalize to dict
             if not isinstance(rels, dict):
                 return {}
             return {r: (v if isinstance(v, list) else list(v)) for r, v in rels.items()}
@@ -68,7 +77,6 @@ class HypothesisGenerator:
         try:
             return list(self.kg.all_concepts())
         except Exception:
-            # Fallback if API differs:
             try:
                 return list(self.kg.graph.keys())
             except Exception:
@@ -108,15 +116,12 @@ class HypothesisGenerator:
                             continue
                         if self._has_edge(a, r2, c):
                             continue  # already known
-                        # score
                         s_ab = self._sim(a, b)
                         s_bc = self._sim(b, c)
                         score = 0.5 * (s_ab + s_bc)
-                        # slight penalty if A connects to C via any relation
                         any_edge = any(c in lst for lst in self._neighbors(a).values())
                         if any_edge:
                             score *= 0.9
-
                         proposals.append({
                             "type": "graph_transitivity",
                             "hypothesis": f"{a} --{r2}--> {c}",
@@ -143,7 +148,6 @@ class HypothesisGenerator:
         if not nodes:
             return []
 
-        # To keep it efficient, do a light sampling if the graph is large
         sample_nodes = nodes if len(nodes) <= 300 else nodes[:300]
 
         proposals = []
@@ -154,12 +158,10 @@ class HypothesisGenerator:
             for b in sample_nodes:
                 if a == b:
                     continue
-                # skip if any edge exists in either direction
                 if b in sum(self._neighbors(a).values(), []):
                     continue
                 if a in sum(self._neighbors(b).values(), []):
                     continue
-
                 vb = self._embed(b)
                 sim = float(np.dot(va, vb))
                 sims.append((b, sim))
@@ -178,7 +180,6 @@ class HypothesisGenerator:
                 count += 1
                 if count >= max_pairs:
                     return proposals
-
         return proposals
 
     # ---------- Public API ----------
@@ -190,14 +191,11 @@ class HypothesisGenerator:
         transitive = self._propose_transitive(max_new=max(10, top_n // 2))
         semantic = self._propose_semantic_pairs()
         all_props = transitive + semantic
-        # sort by score desc
         all_props.sort(key=lambda x: x["score"], reverse=True)
-        # enrich + clip
         ts = time.strftime("%Y-%m-%d %H:%M:%S")
         for h in all_props:
             h["timestamp"] = ts
         result = all_props[:top_n]
-        # persist
         self._save_jsonl(result)
         self._append_log(result)
         return result
