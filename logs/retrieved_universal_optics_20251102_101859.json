@@ -1,0 +1,135 @@
+[
+  {
+    "title": "Geometrical Optics",
+    "text": "<p>Discuss the limits imposed by the paraxial approximation. Define the sign convention based on the cartesian coordinate system, the foiundation of analytic geometery. Demonstrate ray tracing technique to derive the ABCD maxtrix which will generate both the gaussian and Newtonian form of the thin lens equation and the lens maker’s equation. The cardinal points of a lens are also derived. The ABCD matrix is used to explore the methods used in ray tracing to locate the aperture stop of a Cooke’s triplet lens system. In the problem set, the student is asked to use the aperture stop to locate the entrance and exit pupil of a Cooke’s triplet.</p>",
+    "url": "https://doi.org/10.1093/oso/9780198842859.003.0006",
+    "source": "crossref",
+    "timestamp": 2019
+  },
+  {
+    "title": "Diffractive optics and micro-optics production technology in Europe",
+    "text": "",
+    "url": "https://doi.org/10.1364/domo.2002.dmb1",
+    "source": "crossref",
+    "timestamp": 2002
+  },
+  {
+    "title": "Acknowledgment to Reviewers of Optics in 2021",
+    "text": "<jats:p>Rigorous peer-reviews are the basis of high-quality academic publishing [...]</jats:p>",
+    "url": "https://doi.org/10.3390/opt3010005",
+    "source": "crossref",
+    "timestamp": 2022
+  },
+  {
+    "title": "Binary optics: An emerging diffractive optics technology",
+    "text": "",
+    "url": "https://doi.org/10.1364/on.12.12.000015",
+    "source": "crossref",
+    "timestamp": 1986
+  },
+  {
+    "title": "Ophthalmic Lens Optics",
+    "text": "",
+    "url": "https://doi.org/10.1117/3.2506312.ch9",
+    "source": "crossref",
+    "timestamp": 2021
+  },
+  {
+    "title": "Acknowledgment to the Reviewers of Optics in 2022",
+    "text": "<jats:p>High-quality academic publishing is built on rigorous peer review [...]</jats:p>",
+    "url": "https://doi.org/10.3390/opt4010002",
+    "source": "crossref",
+    "timestamp": 2023
+  },
+  {
+    "title": "Finite Transverse Optics",
+    "text": "",
+    "url": "https://doi.org/10.1117/3.2506310.ch7",
+    "source": "crossref",
+    "timestamp": 2020
+  },
+  {
+    "title": "Acknowledgment to Reviewers of Optics in 2020",
+    "text": "<jats:p>Peer review is the driving force of journal development, and reviewers are gatekeepers who ensure that Optics maintains its standards for the high quality of its published papers [...]</jats:p>",
+    "url": "https://doi.org/10.3390/opt2010005",
+    "source": "crossref",
+    "timestamp": 2021
+  },
+  {
+    "title": "Optics of the Eye",
+    "text": "",
+    "url": "https://doi.org/10.1117/3.2506312.ch1",
+    "source": "crossref",
+    "timestamp": 2021
+  },
+  {
+    "title": "Optics '80",
+    "text": "",
+    "url": "https://doi.org/10.1016/0030-4018(80)90297-7",
+    "source": "crossref",
+    "timestamp": 1980
+  },
+  {
+    "title": "Blazed Diffractive Optics",
+    "text": "<jats:p>The diffractive optics community has embraced the lithographic methods used in the electronics industry<jats:sup>1</jats:sup>. Typically, binary transmission masks are used to expose resist and produce stepped structures which approximate the ideal, continuous profiles. Since these profiles are approximations of the ideal, continuous profiles, the diffraction efficiency is less than 100%: in theory, a four-level DOE has a first-order efficiency of 81%; an 8-level DOE, 95%<jats:sup>1</jats:sup>. Although the efficiency can be increased by increasing the number of levels and computer-based optimization, the process is limited by the resolutions of the binary masks and of the mask registration to the substrate.</jats:p>",
+    "url": "https://doi.org/10.1364/domo.1996.dthb.1",
+    "source": "crossref",
+    "timestamp": 1996
+  },
+  {
+    "title": "X-ray diffractive optics",
+    "text": "",
+    "url": "https://doi.org/10.1364/domo.2000.dthb1",
+    "source": "crossref",
+    "timestamp": 2000
+  },
+  {
+    "title": "Clever optics — Innovative applications of optics",
+    "text": "",
+    "url": "https://doi.org/10.1016/0030-3992(78)90017-8",
+    "source": "crossref",
+    "timestamp": 1978
+  },
+  {
+    "title": "Near Field Statistical Optics",
+    "text": "",
+    "url": "https://doi.org/10.1364/fio.2004.jma4",
+    "source": "crossref",
+    "timestamp": 2004
+  },
+  {
+    "title": "Optics of the Retina",
+    "text": "",
+    "url": "https://doi.org/10.1117/3.2506312.ch4",
+    "source": "crossref",
+    "timestamp": 2021
+  },
+  {
+    "title": "Optics",
+    "text": "",
+    "url": "https://doi.org/10.1117/3.2237066.ch2",
+    "source": "crossref",
+    "timestamp": null
+  },
+  {
+    "title": "Micromachining for micro-optics",
+    "text": "<jats:p>We report on the application of the emerging micromachining technology for fabrication of micro-optics as well as its integration with microactuators for adaptive control and dynamic alignment.</jats:p>",
+    "url": "https://doi.org/10.1364/domo.1998.dwa.1",
+    "source": "crossref",
+    "timestamp": 1998
+  },
+  {
+    "title": "Optics and photonics. Diffractive optics. Vocabulary",
+    "text": " ",
+    "url": "https://doi.org/10.3403/03047957u",
+    "source": "crossref",
+    "timestamp": null
+  },
+  {
+    "title": "WAVE OPTICS AND GEOMETRICAL OPTICS",
+    "text": "",
+    "url": "https://doi.org/10.2307/jj.8501483.4",
+    "source": "crossref",
+    "timestamp": 2023
+  }
+]

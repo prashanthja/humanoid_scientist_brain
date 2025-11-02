@@ -7998,5 +7998,381 @@
     "timestamp": "",
     "url": "",
     "text": "t"
+  },
+  {
+    "key": "a577dfae812e9d9c8a12259dbe33c4110bc93ab7",
+    "paper_title": "The Opacity Project: R-Matrix Calculations for Opacities of High-Energy-Density Astrophysical and Laboratory Plasmas",
+    "source": "internet",
+    "timestamp": "",
+    "url": "",
+    "text": "Accurate determination of opacity is critical for understanding radiation transport in both astrophysical and laboratory plasmas. We employ atomic data from R-Matrix calculations to investigate radiative properties in high-energy-density (HED) plasma sources. Specifically, we analyze environments such as the base of the convective zone (BCZ) of the Sun 2 x 10^6$ K, N_e = 10^{23}/cc and the inertial confinement fusion (ICF) device at the Sandia Z facility 2.11 x 10^6 K, N_e = 3.16 x 10^{22}/cc. We calculate Rosseland Mean Opacities (RMO) within a range of temperatures and densities and analyze how they vary under different plasma conditions. In this study, we specifically focus on electron collisional and Stark ion microfield broadening effects on autoionizing resonances in photoabsorption cross sections. Our results are relevant to astrophysical models, particularly in the context of the solar opacity problem, and provide insights into discrepancies between theoretical calculations and"
+  },
+  {
+    "key": "73f0f544220c0b023efe64f6bd5c23535e39f59b",
+    "paper_title": "Acoustic Emission Cascade Predicting Progression to Failure of Rock and Bone",
+    "source": "internet",
+    "timestamp": "",
+    "url": "",
+    "text": "Quasi brittle materials such as rock and bone are understood to fail via microcrack coalescence. The accompanying Acoustic Emission (AE) event rate is known to increase as failure progresses. Here we examine the progression of the AE event rate for both rock and bone under conditions where failure progresses under fixed loading. The experiments for rock entail subjecting granite beams to a fixed loading under three point bending and monitoring the time-dependent failure. For bone, human cadaver skulls are loaded under pinning loads similar to those used for immobilization of the head for neurosurgical procedures. AE rates are shown to be consistent with a rate dependent material failure law including a quasi-linear cascade of the inverse AE energy rate in the lead up to failure that is shown here to arise because of a coupling wherein a response rate is a power law of a driver and the driver is, in turn, a power law of the accumulated response. For both materials and experimental confi"
+  },
+  {
+    "key": "cfe81ed8baecc4ff2ceadfd2ba3d2fe390cab6c0",
+    "paper_title": "Critical Dynamics of Holographic Superfluids",
+    "source": "internet",
+    "timestamp": "",
+    "url": "",
+    "text": "We study the nearly critical behaviour of holographic superfluids at finite temperature and chemical potential. Using analytic techniques in the bulk, we derive an effective theory for the long wavelength dynamics of gapless and pseudo-gapped modes, at first subleading order in a derivative expansion and we match the classical limit of our field theory construction in a companion paper. Specifically, we obtain the constitutive relations for the stress tensor and electric current, as well as a time evolution equation for the order parameter at next-to-leading order. In addition, we get explicit formulas for all the transport coefficients in terms of background quantities. We carry out numerical cross-checks with the predictions of our effective theory close to the critical point."
+  },
+  {
+    "key": "e48df49c530a3d4cf5ecb678b01aa13fb076f785",
+    "paper_title": "Deep intrinsic image decomposition via physics-aware neural networks",
+    "source": "internet",
+    "timestamp": "",
+    "url": "",
+    "text": "Deep intrinsic image decomposition via physics-aware neural networks"
+  },
+  {
+    "key": "76cf00ce3903b8a7c901f65e548d04a1da6d19d6",
+    "paper_title": "Equivariant Lagrangian displacements",
+    "source": "internet",
+    "timestamp": "",
+    "url": "",
+    "text": "This paper proves that certain monotone Lagrangians in the standard symplectic vector space cannot be displaced by a Hamiltonian isotopy which commutes with the antipodal map. The method of proof is to develop a Borel equivariant version of the quantum cohomology of Biran and Cornea, and prove it is sensitive to equivariant displacements. The Floer--Euler class of Biran and Khanevsky appears as a term in the equivariant differential in certain cases."
+  },
+  {
+    "key": "eccd4c736eef98ceb96b0942db17ff0d0d35f7e0",
+    "paper_title": "Building Network Digital Twins Part II: Real-Time Adaptive PID for Enhanced State Synchronization",
+    "source": "internet",
+    "timestamp": "",
+    "url": "",
+    "text": "As we evolve towards more heterogeneous and cutting-edge mobile networks, Network Digital Twins (NDTs) are proving to be a promising paradigm in solving challenges faced by network operators, as they give a possibility of replicating the physical network operations and testing scenarios separately without interfering with the live network. However, with mobile networks becoming increasingly dynamic and heterogeneous due to massive device connectivity, replicating traffic and having NDTs synchronized in real-time with the physical network remains a challenge, thus necessitating the need to develop real-time adaptive mechanisms to bridge this gap. In this part II of our work, we implement a novel framework that integrates an adaptive Proportional-Integral-Derivative (PID) controller to dynamically improve synchronization. Additionally, through an interactive user interface, results of our enhanced approach demonstrate an improvement in real-time traffic synchronization."
+  },
+  {
+    "key": "1d9a82031a5970ded083bec813f07dc560ba26fc",
+    "paper_title": "Critical Dynamics of Superfluids",
+    "source": "internet",
+    "timestamp": "",
+    "url": "",
+    "text": "We use standard techniques of hydrodynamics to construct a relativistic effective field theory for the low energy dynamics of nearly critical superfluids. In an appropriate non-relativistic limit, our theory predicts an additional coefficient when compared and contrasted to earlier work of Khalatnikov and Lebedev. In addition, we provide an alternative derivation of the same effective theory, using the Keldysh-Schwinger framework for non-equilibrium systems. Finally, we comment on the comparison with the results of an appropriate holographic computation presented in a companion paper. This provides further evidence in support of the theory we propose and confirms the existence of the extra coefficient we identified."
+  },
+  {
+    "key": "9a2447c525c20bafe1c6c5e72f10cc290ce64ab7",
+    "paper_title": "Label-Free Rapid Intelligent Diagnosis of Thyroid Cancer",
+    "source": "internet",
+    "timestamp": "",
+    "url": "",
+    "text": "Label-Free Rapid Intelligent Diagnosis of Thyroid Cancer"
+  },
+  {
+    "key": "3e125473e052666904cdf3fe62d8f43f70be3313",
+    "paper_title": "Layered Analysis of Injury in the Rat Esophagus Induced by Photodynamic Therapy Using Two-Photon Microscopy",
+    "source": "internet",
+    "timestamp": "",
+    "url": "",
+    "text": "Layered Analysis of Injury in the Rat Esophagus Induced by Photodynamic Therapy Using Two-Photon Microscopy"
+  },
+  {
+    "key": "9ed8f5e8cf904590f2835961e08cbf9802b555e8",
+    "paper_title": "Title Pending 19008",
+    "source": "internet",
+    "timestamp": "",
+    "url": "",
+    "text": "Title Pending 19008"
+  },
+  {
+    "key": "f377eea43363b935f48f325bc3ee0c199ca17e6b",
+    "paper_title": "Title Pending 17272",
+    "source": "internet",
+    "timestamp": "",
+    "url": "",
+    "text": "Title Pending 17272"
+  },
+  {
+    "key": "4dc20c9222668879fdf0e3582569a117b3840f0e",
+    "paper_title": "Title Pending 17644",
+    "source": "internet",
+    "timestamp": "",
+    "url": "",
+    "text": "Title Pending 17644"
+  },
+  {
+    "key": "83e97de292029e184e6bd75650c6e5763a4f66ef",
+    "paper_title": "Genuine $C_n$-equivariant $\\mathrm{TMF}$",
+    "source": "internet",
+    "timestamp": "",
+    "url": "",
+    "text": "We determine the $\\mathrm{TMF}$-module structures of the genuine $C_2$-equivariant $\\mathrm{TMF}$ with $\\mathrm{RO}(C_2)$-gradings and of the $C_3$-equivariant $\\mathrm{TMF}$. Moreover, we propose a general strategy for studying $C_n$-equivariant $\\mathrm{TMF}$ via $U(1)$-equivariant $\\mathrm{TMF}$ and a duality phenomenon in equivariant $\\mathrm{TMF}$."
+  },
+  {
+    "key": "34ab0f0bff61a0b71e787ee88c24286eda5e4fda",
+    "paper_title": "Coupling-induced universal dynamics in bilayer two-dimensional Bose gases",
+    "source": "internet",
+    "timestamp": "",
+    "url": "",
+    "text": "The emergence of order in many-body systems and the associated self-similar dynamics governed by dynamical scaling laws is a hallmark of universality far from equilibrium. Measuring and classifying such nontrivial behavior for novel symmetry classes remains challenging. Here, we realize a well-controlled interlayer coupling quench in a tunable bilayer two-dimensional Bose gas, driving the system to an ordered phase. We observe robust self-similar dynamics and a universal critical exponent consistent with diffusion-like coarsening, driven by vortex and antivortex annihilation induced by the interlayer coupling. Our results extend the understanding of universal dynamics in many-body systems and provide a robust foundation for quantitative tests of nonequilibrium effective field theories."
+  },
+  {
+    "key": "93c6e043f883f980d02daabd308ae8e53c92f4b3",
+    "paper_title": "The Compressed 3D Lyman-Alpha Forest Bispectrum",
+    "source": "internet",
+    "timestamp": "",
+    "url": "",
+    "text": "Cosmological studies of the Lyman-Alpha (Lya) forest typically constrain parameters using two-point statistics. However, higher-order statistics, such as the three-point function (or its Fourier counterpart, the bispectrum) offer additional information and help break the degeneracy between the mean flux and power spectrum amplitude, albeit at a significant computational cost. To address this, we extend an existing highly informative compression of the bispectrum, the skew spectra, to the Lya forest. We derive the tree-level bispectrum of Lya forest fluctuations in the framework of effective field theory (EFT) directly in redshift space and validate our methodology on synthetic Lya forest data. We measure the anisotropic cross-spectra between the transmitted flux fraction and all quadratic operators arising in the bispectrum, yielding a set of 26 skew spectra. Using idealized 3D Gaussian smoothing (R=10 Mpc/h), we find good agreement (1-2 sigma level based on the statistical errors of t"
+  },
+  {
+    "key": "60fd21c73c3a71dc63f6173ff0bb6dfb136b4e9d",
+    "paper_title": "Gaussian tomography for cold-atom simulators",
+    "source": "internet",
+    "timestamp": "",
+    "url": "",
+    "text": "A limitation of analog quantum simulators based on cold atoms in optical lattices is that readout is typically limited to observables diagonal in the charge basis, i.e., densities and density correlation functions. To overcome this limitation, we propose experiment-friendly schemes to measure charge-off-diagonal correlations (such as currents). Our protocols use non-interacting dynamics for random times followed by standard quantum gas microscope measurements to effectively measure in random bases. The main requirement of our scheme is the ability to turn off interactions, which can be done in many atomic species using Feshbach resonances. Importantly, our scheme requires no local control and otherwise also exhibits modest requirements in terms of total evolution time and number of repetitions. We numerically demonstrate efficient estimation of bilinear correlation functions, requiring less than $4000$ samples to measure local currents to 5% error (system-size independent) and $\\sim 10"
+  },
+  {
+    "key": "d13c45b224efcbc773e7d260714892a9e7544c1e",
+    "paper_title": "Newtonian Gravity Can Produce Quantum Entanglement",
+    "source": "internet",
+    "timestamp": "",
+    "url": "",
+    "text": "In this note, we combine the key ingredient for preparing quantum bodies from superposed mass distributions with the post-Newtonian approach to obtain an effective field theory of quantum bodies, thereby addressing the question of whether classical gravity can produce quantum entanglement. In this framework, we find that the effective theory is a two-qubit interaction with a coupling given by the Newtonian nonlocal quadrupole-quadrupole interaction. This non-local coupling produces the entanglement between quantum bodies."
+  },
+  {
+    "key": "e46e9ae2ddb93117aa6af22f8e4ded606a67a376",
+    "paper_title": "Many-body chaos and pole-skipping in holographic charged rotating fluids",
+    "source": "internet",
+    "timestamp": "",
+    "url": "",
+    "text": "Recent developments identify pole-skipping as a `smoking-gun' signature of the hydrodynamic nature of chaos, offering an alternative way to probe quantum chaos in addition to the out-of-time-ordered correlator (OTOC). We study the quantum chaos and pole-skipping phenomenon in the strongly coupled charged rotating fluids, holographically dual to rotating black holes with nontrivial gauge field. We find that the near-horizon equation governing energy-density fluctuations differs from the source-less shock wave equation determining the OTOC, which depends on the $U(1)$ gauge choice. This discrepancy is eliminated under an appropriate boundary condition on the $U(1)$ gauge potential at the event horizon, as required by the vanishing of Wilson loop at the Euclidean horizon. We further investigate the dependence of the butterfly velocity on the charge and rotation parameters in a specific black hole configuration--the Cveti\\v{c}-L\\\"u-Pope solution."
+  },
+  {
+    "key": "08c1d458ab019751aea7da467b315445a44b5876",
+    "paper_title": "High-Efficiency Thermoelectric Transport in Aharonov-Bohm-Casher Rings",
+    "source": "internet",
+    "timestamp": "",
+    "url": "",
+    "text": "Quantum heat engines are nanoscale devices that convert heat into work by exploiting quantum effects, such as coherence and interference. Previous studies of these devices did not consider spin-dependent effects, which can influence the thermoelectric performance of the engine. In this work, we study the thermoelectric behavior of a quantum heat engine based on an Aharonov-Bohm ring - a mesoscopic ring where electrons exhibit interference depending on the magnetic flux it encloses - incorporating Rashba spin-orbit interaction (SOI), which couples the electron's motion and spin. We find that Rashba SOI enhances the figure of merit $ZT$, measure of the engine's conversion efficiency. Our results suggest that controlling spin-dependent interference could lead to improvements in the fabrication of efficient thermoelectric devices."
+  },
+  {
+    "key": "6123853fc6c1b34500cb7eb407eef3542fe3395d",
+    "paper_title": "FPGA-Based Adaptive Control for Phase Stabilization in Fiber-Optic Interferometers Using Correlated Photons",
+    "source": "internet",
+    "timestamp": "",
+    "url": "",
+    "text": "Time-bin encoded photon pairs enable robust, decoherence-resistant transmission through optical fibers for long-distance quantum communication, where phase noise poses a critical limitation to stable operation. Here, we implement an adaptive Perturbation-and-Observe algorithm on a fully digital FPGA platform operating with real-time feedback at 1 Hz. The control signal is derived from the coincidence counts of correlated photon pairs. This adaptive approach reduces the rise time by 70\\% and the coincidence noise by 30\\%, resulting in visibility improvements sustained for more than 600 s.These results provide an efficient solution for long-term phase stabilization in quantum and photonic systems."
+  },
+  {
+    "key": "49f4fe35c2cb14f7ea582bd875838b5e8438ef43",
+    "paper_title": "Design of Backscatter Tailored Optical Fibers for distributed magnetic field sensing using Fiber Optic Pulsed Polarimetry",
+    "source": "internet",
+    "timestamp": "",
+    "url": "",
+    "text": "Fiber optic pulsed polarimetry is a LIDAR-like fiber sensing technique that uses a backscatter enhanced single mode backscatter-tailored optical fiber(BTOF) to measure the distributed B fields on all Magnetic Fusion Energy devices. The BTOF has a series of wavelength resonant reflection fiber Bragg gratings written uniformly along its length. The fiber's Verdet constant determines the strength of the Faraday effect which effectuates the measurement of local B along the fiber placed intimately next to or within a magnetized plasma volume. A robust measurement of the field distribution along the fiber is obtained at high rep rates, 5 MHz, high spatial resolution(1-10cm), high B field accuracy(&lt;1%) and temporal response (ns). Multipathing in the BTOF produces 3rd order reflections that contaminate the LIDAR signal. Algorithms are given for calculating the level of contamination for uniform and flat reflection designs, in particular and any reflection series in general. The contaminatio"
+  },
+  {
+    "key": "57647fd24d7ae8b512cbe12c88664dfbb2042e8d",
+    "paper_title": "Prediction of a topological phase transition in exchange alternating spin-1 nanographene chains",
+    "source": "internet",
+    "timestamp": "",
+    "url": "",
+    "text": "The use of magnetic nanographenes as building blocks for artificial spin lattices is enabling the exploration of flagship model Hamiltonians of one-dimensional quantum magnetism with an unprecedented degree of control. The spin-1 Heisenberg model, incorporating both linear and quadratic exchange interactions, was first realized using [3]-triangulenes, where the hallmark Haldane phase with spin fractionalization was observed. Later, the spin-1/2 Heisenberg Hamiltonian with exchange alternation was realized with Clar's goblets, where two additional topological phases were identified. Here we show that spin-1 nanographenes can also be used to explore the topological phase transition between the Haldane phase and a dimerized phase predicted for spin-1 chains with bond-alternation. We first study how the boundary of the phase transition is modified by non-linear exchange, known to be present in spin-1 nanographenes, using density matrix renormalization group (DMRG). Combining multiconfigura"
+  },
+  {
+    "key": "0b72e932f4093a8566f4ad07a61504febf31c24f",
+    "paper_title": "Towards Stochastic (N-1)-Secure Redispatch",
+    "source": "internet",
+    "timestamp": "",
+    "url": "",
+    "text": "The intermittent nature of renewable power availability is one of the major sources of uncertainty in power systems. While markets can guarantee that the demand is covered by the available generation, transmission system operators have to often intervene via economic redispatch to ensure that the physical constraints of the network are satisfied. To account for uncertainty, the underlying optimal power flow (OPF) routines have to be modified. Recently, polynomial chaos expansion (PCE) has been suggested in the literature as a tool for stochastic OPF problems. However, the usage of PCE-based methods in security-constrained OPF for (N-1)-secure operations has not yet been explored. In this paper, we propose a procedure that iteratively solves a PCE-overloaded stochastic OPF problem by including line outage constraints until an (N-1)-secure solution is achieved. We demonstrate the efficacy of our method by comparing it with a Monte-Carlo simulation on a 118-bus example system."
+  },
+  {
+    "key": "4e4b8169e65c1ca8a1af7a6550eef5d1b8076b30",
+    "paper_title": "Variational Thermal State Preparation on Digital Quantum Processors Assisted by Matrix Product States",
+    "source": "internet",
+    "timestamp": "",
+    "url": "",
+    "text": "The preparation of quantum Gibbs states at finite temperatures is a cornerstone of quantum computation, enabling applications in quantum simulation of many-body systems, machine learning via quantum Boltzmann machines, and optimization through thermal sampling techniques. In this work, we introduce a variational framework that leverages matrix product states for the efficient classical evaluation of the Helmholtz free energy, combining scalable entanglement entropy computation with a hardware efficient ansatz to accurately approximate thermal states in one- and two-dimensional systems. We conduct extensive benchmarking on key observables, including energy density, susceptibility, specific heat, and two-point correlations, comparing against exact analytical results for 1D systems and quantum Monte Carlo simulations for 2D lattices across various temperatures and ansatz configurations. Our large-scale numerical simulations demonstrate the capability to prepare high-quality Gibbs states f"
+  },
+  {
+    "key": "61f7eb9fbef2311a8c760a37abde5f177baa6378",
+    "paper_title": "Magnetic-field controlled organic spintronic memristor for neural network computation",
+    "source": "internet",
+    "timestamp": "",
+    "url": "",
+    "text": "Memristors are emerging as key electronic components that retain resistance states without power. Their non-volatile nature and ability to mimic synaptic behavior make them ideal for next-generation memory technologies and neuromorphic computing systems inspired by the human brain. In this study, we present a novel organic spintronic memristor based on a La0.67Sr0.33MnO3 (LSMO)/poly(vinylidene fluoride) (PVDF)/Co heterostructure, exhibiting biologically inspired synaptic behavior. Driven by fluorine atom migration within the PVDF layer, the device demonstrates both long-term depression (LTD) and long-term potentiation (LTP) under controlled electrical polarization. Distinctively, the resistance states can also be modulated by an external magnetic field via the tunneling magnetoresistance (TMR) effect, introducing a non-electrical means of tuning synaptic plasticity. This magnetic control mechanism enables multi-state modulation without compromising device performance or endurance. Furt"
+  },
+  {
+    "key": "62d6f86db5f82311f61ef6f557a79ab3917ea4b7",
+    "paper_title": "The Enigma of Delayed Choice Quantum Eraser",
+    "source": "internet",
+    "timestamp": "",
+    "url": "",
+    "text": "The delayed-choice quantum eraser represents an interesting experiment that exemplifies Bohr's principle of complementarity in a beautiful way. According to the complementarity principle, in a two-path interference experiment, the knowledge of which path was taken by the particle and the appearance of interference are mutually exclusive. Even when the which-path information is merely retained in specific quantum path-markers, without being actually read, it suffices to eliminate interference. Nevertheless, if this path information is ``erased'' in some manner, the interference re-emerges, a phenomenon referred to as the quantum eraser. An intriguing aspect of this experiment is that if the path information is erased \\emph{after} the particle has been detected on the screen, the interference still reappears, a phenomenon known as the delayed-choice quantum eraser. This observation has led to the interpretation that the particle can be influenced to exhibit characteristics of either a pa"
+  },
+  {
+    "key": "06d2950bf94dd20d9be488417d416416afb7d377",
+    "paper_title": "The critical case for the concentration of eigenfunctions on singular Riemannian manifolds",
+    "source": "internet",
+    "timestamp": "",
+    "url": "",
+    "text": "We consider a compact Riemannian manifold with boundary with a certain class of critical singular Riemannian metrics that are singular at the boundary. The corresponding Laplace-Beltrami operator can be seen as a Grushin-type operator plus a potential. We show in the critical case that the average density of eigenfunctions for the Laplace-Beltrami operator with eigenvalues below $\\lambda&gt;0$ is distributed over all length scales between $\\lambda^{-1/2}$ and $1$ near the boundary. We give a precise description of this distribution as $\\lambda\\to\\infty$."
+  },
+  {
+    "key": "8a9610990700e528872bddfd6b2fdd386227cf45",
+    "paper_title": "Architecting Scalable Trapped Ion Quantum Computers using Surface Codes",
+    "source": "internet",
+    "timestamp": "",
+    "url": "",
+    "text": "Trapped ion (TI) qubits are a leading quantum computing platform. Current TI systems have less than 60 qubits, but a modular architecture known as the Quantum Charge-Coupled Device (QCCD) is a promising path to scale up devices. There is a large gap between the error rates of near-term systems ($10^{-3}$ to $10^{-4}$) and the requirements of practical applications (below $10^{-9}$). To bridge this gap, we require Quantum Error Correction (QEC) to build \\emph{logical qubits} that are composed of multiple physical qubits. While logical qubits have been demonstrated on TI qubits, these demonstrations are restricted to small codes and systems. There is no clarity on how QCCD systems should be designed to implement practical-scale QEC. This paper studies how surface codes, a standard QEC scheme, can be implemented efficiently on QCCD-based systems. To examine how architectural parameters of a QCCD system can be tuned for surface codes, we develop a near-optimal topology-aware compilation me"
+  },
+  {
+    "key": "94a4e1228b2e1818c25bd7e843fa42ebfc5cc651",
+    "paper_title": "Solution to a Quantum Impurity Model for Moiré Systems: Fermi Liquid, Pairing, and Pseudogap",
+    "source": "internet",
+    "timestamp": "",
+    "url": "",
+    "text": "Recent theoretical and experimental studies have revealed the co-existence of heavy and light electrons in magic-angle multilayer graphene, which form a periodic lattice of Anderson impurities hybridizing with Dirac semi-metals. This work demonstrates that nontrivial features -- pairing potential, pseudogap, and continuous quantum phase transitions -- already appear at the single-impurity level, if valley-anisotropic anti-Hund's interactions ($J_S$, $J_D$) are included, favoring either a singlet ($J_S&gt;J_D$) or a valley doublet ($J_D&gt;J_S$) impurity configuration. We derive a complete phase diagram and analytically solve the impurity problem at several fixed points using bosonization and refermionization techniques. When $J_D&gt;J_S,J_D&gt;0$, the valley doublet only couples via pair-hopping processes to the conduction electrons, in sharp contrast to the conventional Kondo scenario. Upon increasing $J_D$, there is a quantum phase transition of the BKT universality class, from a Fer"
+  },
+  {
+    "key": "6b7c2ac439b583827ff8031c64832d4c7864a961",
+    "paper_title": "Coherent all-optical tuning of large-area phase-gradient metasurface",
+    "source": "internet",
+    "timestamp": "",
+    "url": "",
+    "text": "Tunable active metasurfaces have become a major research focus in recent years. Among tuning mechanisms, all-optical coherent control stands out because it requires no material or geometric change, enabling ultrafast, low-energy, interference-based modulation of amplitude, phase, and polarization in ultrathin devices. However, when applied to phase-gradient metasurfaces, coherent control has been limited to small apertures effectively confined to a single Fresnel zone, leading to large divergence and degraded beam quality. Here we propose and numerically validate a scalable method that enables large-area coherent control. The key idea is to use coherent illumination to tune the phase gradient within each Fresnel zone while a direct search algorithm optimizes zone-by-zone parameters to meet system-level targets. Using this principle, we demonstrate continuous tuning of a large-area metasurface for continuous beam-steering without per-meta-atom phase actuation. The same framework applies"
+  },
+  {
+    "key": "469f467d266216992fc99ecc14e63b2214a18132",
+    "paper_title": "More Than Generation: Unifying Generation and Depth Estimation via Text-to-Image Diffusion Models",
+    "source": "internet",
+    "timestamp": "",
+    "url": "",
+    "text": "Generative depth estimation methods leverage the rich visual priors stored in pre-trained text-to-image diffusion models, demonstrating astonishing zero-shot capability. However, parameter updates during training lead to catastrophic degradation in the image generation capability of the pre-trained model. We introduce MERGE, a unified model for image generation and depth estimation, starting from a fixed pre-trained text-to-image model. MERGE demonstrates that the pre-trained text-to-image model can do more than image generation, but also expand to depth estimation effortlessly. Specifically, MERGE introduces a play-and-plug framework that enables seamless switching between image generation and depth estimation modes through simple and pluggable converters. Meanwhile, we propose a Group Reuse Mechanism to encourage parameter reuse and improve the utilization of the additional learnable parameters. MERGE unleashes the powerful depth estimation capability of the pre-trained text-to-image"
+  },
+  {
+    "key": "482929f59b8ac8d1ad881d2a231d9511244872c6",
+    "paper_title": "Lax-Kirchhoff moduli spaces and Hamiltonian 2D TQFT",
+    "source": "internet",
+    "timestamp": "",
+    "url": "",
+    "text": "We introduce the Lax-Kirchhoff moduli space associated with a finite quiver $\\Gamma$ and a compact connected Lie group $G$. On each oriented edge we consider the Lax equation $\\dot{A}_1 + [A_0, A_1] = 0$ and impose a Kirchhoff-type matching condition for the fields $A_1$ at interior vertices. Modulo gauge transformations trivial on the boundary, this yields a moduli space $\\mathcal{M}(\\Gamma)$. We prove that $\\mathcal{M}(\\Gamma)$ is a finite-dimensional smooth symplectic manifold carrying a Hamiltonian action of $G^{\\partial\\Gamma}$ whose moment map records the boundary values of $A_1$. Analytically, we construct slices for the infinite-dimensional gauge action and realize $\\mathcal{M}(\\Gamma)$ by Marsden-Weinstein reduction. For the quiver consisting of a single edge, we recover the classical identification $\\mathcal{M} \\cong T^*G$. In general, we identify $\\mathcal{M}(\\Gamma)$ with a symplectic reduction of $T^*G^E$ by $G^{\\Gamma_{\\mathrm{int}}}$, where $E$ is the set of edges and $\\"
+  },
+  {
+    "key": "763e850171e5cb969f2fdf3a3477b77ee77c6c7f",
+    "paper_title": "Homological freeness criterion for operadic modules and application to Cohen-Macalayness of posets",
+    "source": "internet",
+    "timestamp": "",
+    "url": "",
+    "text": "We show a variation of the usual homological freeness criterion for operadic modules over a Koszul operad. We then apply this result to decorated partition posets for some operads, showing that their augmentation is Cohen-Macaulay and computing its homology. This work answers several open questions asked by B\\'er\\'enice Delcroix-Oger and Cl\\'ement Dupont in a recent article."
+  },
+  {
+    "key": "9e217b0c4ec1b2e0d910aac29fec4331601c422a",
+    "paper_title": "Scattering of a massive quantum vortex-dipole from an obstacle",
+    "source": "internet",
+    "timestamp": "",
+    "url": "",
+    "text": "In binary mixtures of Bose-Einstein condensates, massive-vortex dipoles can arise, and undergo scattering processes against obstacles. These show an intriguing dynamics, governed by the strongly nonlinear character of the quantum vortex motion, where we are able to highlight the effects of the boundaries. We first characterize such scattering dynamics via some point-like models, for the cases of an unbounded plane and a confined geometry. Within this framework, we find two fundamental scattering behaviors of a vortex dipole, the \"fly-by\" and the \"go-around\" processes. By plotting the deflection angle of the dipole versus the impact parameter we are able to quantify the transition between different scattering behaviors. We then are able to introduce an analytical distinction of the two scenarios, basing on the point-like model for the plane geometry. Furthermore, another interesting result shows the emergence of an on-average massless dynamics whenever the nonlinear interactions with th"
+  },
+  {
+    "key": "332c9225986388719414436fb5d55dc49a0626f4",
+    "paper_title": "Concerto: Joint 2D-3D Self-Supervised Learning Emerges Spatial Representations",
+    "source": "internet",
+    "timestamp": "",
+    "url": "",
+    "text": "Humans learn abstract concepts through multisensory synergy, and once formed, such representations can often be recalled from a single modality. Inspired by this principle, we introduce Concerto, a minimalist simulation of human concept learning for spatial cognition, combining 3D intra-modal self-distillation with 2D-3D cross-modal joint embedding. Despite its simplicity, Concerto learns more coherent and informative spatial features, as demonstrated by zero-shot visualizations. It outperforms both standalone SOTA 2D and 3D self-supervised models by 14.2% and 4.8%, respectively, as well as their feature concatenation, in linear probing for 3D scene perception. With full fine-tuning, Concerto sets new SOTA results across multiple scene understanding benchmarks (e.g., 80.7% mIoU on ScanNet). We further present a variant of Concerto tailored for video-lifted point cloud spatial understanding, and a translator that linearly projects Concerto representations into CLIP's language space, ena"
+  },
+  {
+    "key": "5acbafb9fdc76dbf3ef33414e0b5bc47ee4e0ce2",
+    "paper_title": "Track, Inpaint, Resplat: Subject-driven 3D and 4D Generation with Progressive Texture Infilling",
+    "source": "internet",
+    "timestamp": "",
+    "url": "",
+    "text": "Current 3D/4D generation methods are usually optimized for photorealism, efficiency, and aesthetics. However, they often fail to preserve the semantic identity of the subject across different viewpoints. Adapting generation methods with one or few images of a specific subject (also known as Personalization or Subject-driven generation) allows generating visual content that align with the identity of the subject. However, personalized 3D/4D generation is still largely underexplored. In this work, we introduce TIRE (Track, Inpaint, REsplat), a novel method for subject-driven 3D/4D generation. It takes an initial 3D asset produced by an existing 3D generative model as input and uses video tracking to identify the regions that need to be modified. Then, we adopt a subject-driven 2D inpainting model for progressively infilling the identified regions. Finally, we resplat the modified 2D multi-view observations back to 3D while still maintaining consistency. Extensive experiments demonstrate "
+  },
+  {
+    "key": "cdc4036ceb924cda5ffd3421aaf05a7e11752f2f",
+    "paper_title": "PixelRefer: A Unified Framework for Spatio-Temporal Object Referring with Arbitrary Granularity",
+    "source": "internet",
+    "timestamp": "",
+    "url": "",
+    "text": "Multimodal large language models (MLLMs) have demonstrated strong general-purpose capabilities in open-world visual comprehension. However, most existing MLLMs primarily focus on holistic, scene-level understanding, often overlooking the need for fine-grained, object-centric reasoning. In this paper, we present PixelRefer, a unified region-level MLLM framework that enables advanced fine-grained understanding over user-specified regions across both images and videos. Motivated by the observation that LLM attention predominantly focuses on object-level tokens, we propose a Scale-Adaptive Object Tokenizer (SAOT) to generate compact and semantically rich object representations from free-form regions. Our analysis reveals that global visual tokens contribute mainly in early LLM layers, inspiring the design of PixelRefer-Lite, an efficient variant that employs an Object-Centric Infusion module to pre-fuse global context into object tokens. This yields a lightweight Object-Only Framework that"
+  },
+  {
+    "key": "36f38ce4db7f6223fd2829a83a5c1822ceb527d4",
+    "paper_title": "Alita-G: Self-Evolving Generative Agent for Agent Generation",
+    "source": "internet",
+    "timestamp": "",
+    "url": "",
+    "text": "Large language models (LLMs) have been shown to perform better when scaffolded into agents with memory, tools, and feedback. Beyond this, self-evolving agents have emerged, but current work largely limits adaptation to prompt rewriting or failure retries. Therefore, we present ALITA-G, a self-evolution framework that transforms a general-purpose agent into a domain expert by systematically generating, abstracting, and curating Model Context Protocol (MCP) tools. In this framework, a generalist agent executes a curated suite of target-domain tasks and synthesizes candidate MCPs from successful trajectories. These are then abstracted to parameterized primitives and consolidated into an MCP Box. At inference time, ALITA-G performs retrieval-augmented MCP selection with the help of each tool's descriptions and use cases, before executing an agent equipped with the MCP Executor. Across several benchmarks GAIA, PathVQA, and Humanity's Last Exam, ALITA-G attains strong gains while reducing co"
+  },
+  {
+    "key": "819fe946b5ae3e2e21d4551042a9529ec36cdb7f",
+    "paper_title": "The Benjamin-Ono equation with quasi-periodic data",
+    "source": "internet",
+    "timestamp": "",
+    "url": "",
+    "text": "We construct local solutions to the Benjamin-Ono equation for quasi-periodic initial data. The solution is unique among limits of smooth solutions and depends continuously on the data. Our result applies to a richer class of quasi-periodic functions than previous theorems. Central to the argument is an a-priori estimate, the proof of which utilizes Strichartz estimates for quasi-periodic functions obtained recently via decoupling, and a quasi-periodic extension of Tao's gauge transform. As a byproduct of our method, we also establish new local wellposedness results in certain anisotropic Sobolev spaces."
+  },
+  {
+    "key": "612cf7774379424a1566f9a1c77d71ec3c2877e1",
+    "paper_title": "HST-COS Transit Spectroscopy of KELT-20b: First Detection of Excess Far-ultraviolet Absorption From an Ultra-hot Jupiter",
+    "source": "internet",
+    "timestamp": "",
+    "url": "",
+    "text": "KELT-20 b is an ultra-hot Jupiter with an equilibrium temperature of $2260$ K orbiting a bright (V =7.6), fast-rotating ($v\\sin{i}$=117 km s$^{-1}$) A2 V star. The atmosphere of KELT-20 b has been studied extensively via transmission spectroscopy at optical wavelengths, showing strong hydrogen absorption as well as metals including Na I, Ca II, Fe I, Fe II, Mg I, Si I and Cr II. The atmospheric and ionization conditions of this planet may differ from Jupiter-mass exoplanets due to the relatively weak extreme-ultraviolet radiation from its host star, as the stellar dynamo that generates chromospheric and coronal activity is thought to shut down at spectral types earlier than A4. We present the first spectroscopic observations of KELT-20 b in the far-ultraviolet using the Hubble Space Telescope Cosmic Origins Spectrograph, searching for previously undetected low-ionization and neutral atoms in the upper atmosphere. We find that the FUV transit depth increases with decreasing wavelengths,"
+  },
+  {
+    "key": "9ef665ff4d198b33b25cfb21b343644c4c15354c",
+    "paper_title": "Think Twice: Branch-and-Rethink Reasoning Reward Model",
+    "source": "internet",
+    "timestamp": "",
+    "url": "",
+    "text": "Large language models (LLMs) increasingly rely on thinking models that externalize intermediate steps and allocate extra test-time compute, with think-twice strategies showing that a deliberate second pass can elicit stronger reasoning. In contrast, most reward models (RMs) still compress many quality dimensions into a single scalar in one shot, a design that induces judgment diffusion: attention spreads across evaluation criteria, yielding diluted focus and shallow analysis. We introduce branch-and-rethink (BR-RM), a two-turn RM that transfers the think-twice principle to reward modeling. Turn 1 performs adaptive branching, selecting a small set of instance-critical dimensions (such as factuality and safety) and sketching concise, evidence-seeking hypotheses. Turn 2 executes branch-conditioned rethinking, a targeted reread that tests those hypotheses and scrutinizes only what matters most. We train with GRPO-style reinforcement learning over structured two-turn traces using a simple b"
+  },
+  {
+    "key": "e8b8a5b8b2026b8626ae02442bab4d0e67b518a9",
+    "paper_title": "Multi-Agent Evolve: LLM Self-Improve through Co-evolution",
+    "source": "internet",
+    "timestamp": "",
+    "url": "",
+    "text": "Reinforcement Learning (RL) has demonstrated significant potential in enhancing the reasoning capabilities of large language models (LLMs). However, the success of RL for LLMs heavily relies on human-curated datasets and verifiable rewards, which limit their scalability and generality. Recent Self-Play RL methods, inspired by the success of the paradigm in games and Go, aim to enhance LLM reasoning capabilities without human-annotated data. However, their methods primarily depend on a grounded environment for feedback (e.g., a Python interpreter or a game engine); extending them to general domains remains challenging. To address these challenges, we propose Multi-Agent Evolve (MAE), a framework that enables LLMs to self-evolve in solving diverse tasks, including mathematics, reasoning, and general knowledge Q&amp;A. The core design of MAE is based on a triplet of interacting agents (Proposer, Solver, Judge) that are instantiated from a single LLM, and applies reinforcement learning to "
+  },
+  {
+    "key": "4652e28fa284c33ba0f936e8375318e09fa4790a",
+    "paper_title": "PRISM-Bench: A Benchmark of Puzzle-Based Visual Tasks with CoT Error Detection",
+    "source": "internet",
+    "timestamp": "",
+    "url": "",
+    "text": "We introduce \\textbf{PRISM-Bench}, a benchmark of puzzle-based visual challenges designed to evaluate not only whether models can solve problems, but how their reasoning unfolds. Unlike prior evaluations that measure only final-answer accuracy, PRISM-Bench introduces a diagnostic task: given a visual puzzle and a step-by-step chain-of-thought (CoT) containing exactly one error, models must identify the first incorrect step. This setting enables fine-grained assessment of logical consistency, error detection, and visual reasoning. The puzzles in PRISM-Bench require multi-step symbolic, geometric, and analogical reasoning, resisting shortcuts based on superficial pattern matching. Evaluations across state-of-the-art MLLMs reveal a persistent gap between fluent generation and faithful reasoning: models that produce plausible CoTs often fail to locate simple logical faults. By disentangling answer generation from reasoning verification, PRISM-Bench offers a sharper lens on multimodal reaso"
+  },
+  {
+    "key": "20f4a080959e2b350e82864ce86e7b70b1b3ec51",
+    "paper_title": "On Terwilliger $\\mathbb{F}$-algebras of factorial association schemes",
+    "source": "internet",
+    "timestamp": "",
+    "url": "",
+    "text": "The Terwilliger algebras of association schemes over an arbitrary field $\\mathbb{F}$ were called the Terwilliger $\\mathbb{F}$-algebras of association schemes in [9]. In this paper, we study the Terwilliger $\\mathbb{F}$-algebras of factorial association schemes. We determine the centers, the semisimplicity, the Jacobson radicals and their nilpotent indices, the Wedderburn-Artin decompositions of the Terwilliger $\\mathbb{F}$-algebras of factorial association schemes. Moreover, we determine all Terwilliger $\\mathbb{F}$-algebras of factorial association schemes that are the symmetric $\\mathbb{F}$-algebras or the Frobenius $\\mathbb{F}$-algebras."
+  },
+  {
+    "key": "d28b2548ae3600944ae60ecaacd4e1f5faa2473d",
+    "paper_title": "Title Pending 6507",
+    "source": "internet",
+    "timestamp": "",
+    "url": "",
+    "text": "Title Pending 6507"
+  },
+  {
+    "key": "5508d9b9a6af49d3b829cf31ea7c255de6ac8231",
+    "paper_title": "Sheaves on Quivers via a Grothendieck Topology on the Path Category",
+    "source": "internet",
+    "timestamp": "",
+    "url": "",
+    "text": "We construct Grothendieck topologies on the path category of a finite graph, examining both coarse and discrete cases that offer different perspectives on quiver representations. The coarse topology declares each vertex covered by all incoming morphisms, giving the minimal non-trivial Grothendieck topology where sheaves correspond to dual representations via dualization. The discrete topology is the finest possible, forcing sheaves to be locally constant with isomorphic restriction maps. We verify these satisfy Grothendieck's axioms, characterize their sheaf categories, and establish functorial relationships between them. Sheaves on the coarse site arise naturally from quiver representations through dualization, while discrete sheaves correspond to representations of the groupoid completion. This work suggests intermediate topologies could capture subtler representation-theoretic phenomena."
+  },
+  {
+    "key": "8b93022ff1a4ba9d440cab140b211a9ab3409482",
+    "paper_title": "Tests of independence for pairs of paths of non-stationary Gaussian processes",
+    "source": "internet",
+    "timestamp": "",
+    "url": "",
+    "text": "In the current work, we provide theoretical results for testing (in)dependence between pairs of paths of most commonly studied non-stationary Gaussian processes - standard Brownian motion and fractional Brownian motion (fBm). Please see the PDF version of the paper for a full abstract."
   }
 ]

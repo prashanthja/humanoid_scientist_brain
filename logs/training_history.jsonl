@@ -14,3 +14,45 @@
 {"timestamp": "2025-10-25 15:09:01", "epoch": 2, "loss": 0.5146862429877123, "similarity": 0.9266204833984375, "accuracy": 0.90625, "vocab_size": 2615, "device": "mps"}
 {"timestamp": "2025-10-26 11:52:51", "epoch": 1, "loss": 0.8041378855705261, "similarity": 0.8909792900085449, "accuracy": 0.6666666865348816, "vocab_size": 2623, "device": "mps"}
 {"timestamp": "2025-10-26 11:52:52", "epoch": 2, "loss": 0.7461201548576355, "similarity": 0.8802425265312195, "accuracy": 0.75, "vocab_size": 2623, "device": "mps"}
+{"timestamp": "2025-10-28 17:29:14", "epoch": 1, "loss": 0.7206301838159561, "similarity": 0.9396777749061584, "accuracy": 0.765625, "vocab_size": 3013, "device": "mps", "duration_s": 4.07}
+{"timestamp": "2025-10-28 17:29:16", "epoch": 2, "loss": 0.8064670106396079, "similarity": 0.9085984528064728, "accuracy": 0.796875, "vocab_size": 3013, "device": "mps", "duration_s": 1.09}
+{"timestamp": "2025-10-30 10:41:37", "epoch": 1, "loss": 1.215332955121994, "similarity": 0.9069552421569824, "accuracy": 0.78125, "vocab_size": 3392, "device": "mps", "duration_s": 5.46}
+{"timestamp": "2025-10-30 10:41:38", "epoch": 2, "loss": 1.31152905523777, "similarity": 0.8798756301403046, "accuracy": 0.8125, "vocab_size": 3392, "device": "mps", "duration_s": 1.05}
+{"timestamp": "2025-11-02 10:17:47", "epoch": 1, "loss": 0.34022098779678345, "similarity": 0.9416980743408203, "accuracy": 0.8888888955116272, "vocab_size": 3408, "device": "mps", "duration_s": 1.42}
+{"timestamp": "2025-11-02 10:17:47", "epoch": 2, "loss": 1.79659104347229, "similarity": 0.8100151419639587, "accuracy": 0.5555555820465088, "vocab_size": 3408, "device": "mps", "duration_s": 0.26}
+{"timestamp": "2025-11-02 10:17:50", "epoch": 1, "loss": 1.0147967338562012, "similarity": 0.9259239435195923, "accuracy": 0.692307710647583, "vocab_size": 3462, "device": "mps", "duration_s": 1.02}
+{"timestamp": "2025-11-02 10:17:50", "epoch": 2, "loss": 1.9794355630874634, "similarity": 0.8486420512199402, "accuracy": 0.4615384638309479, "vocab_size": 3462, "device": "mps", "duration_s": 0.35}
+{"timestamp": "2025-11-02 10:17:53", "epoch": 1, "loss": 0.22193288803100586, "similarity": 0.8877767324447632, "accuracy": 1.0, "vocab_size": 3473, "device": "mps", "duration_s": 0.94}
+{"timestamp": "2025-11-02 10:17:53", "epoch": 2, "loss": 0.11458852142095566, "similarity": 0.8154394030570984, "accuracy": 1.0, "vocab_size": 3473, "device": "mps", "duration_s": 0.16}
+{"timestamp": "2025-11-02 10:17:55", "epoch": 1, "loss": 2.5341718196868896, "similarity": 0.689428985118866, "accuracy": 0.6666666865348816, "vocab_size": 3514, "device": "mps", "duration_s": 0.34}
+{"timestamp": "2025-11-02 10:17:55", "epoch": 2, "loss": 0.09150731563568115, "similarity": 0.8837911486625671, "accuracy": 1.0, "vocab_size": 3514, "device": "mps", "duration_s": 0.18}
+{"timestamp": "2025-11-02 10:17:58", "epoch": 1, "loss": 0.5693951845169067, "similarity": 0.9125320911407471, "accuracy": 0.875, "vocab_size": 3553, "device": "mps", "duration_s": 0.37}
+{"timestamp": "2025-11-02 10:17:58", "epoch": 2, "loss": 2.333834171295166, "similarity": 0.7651782035827637, "accuracy": 0.875, "vocab_size": 3553, "device": "mps", "duration_s": 0.23}
+{"timestamp": "2025-11-02 10:18:02", "epoch": 1, "loss": 2.143099784851074, "similarity": 0.8252654671669006, "accuracy": 0.6428571343421936, "vocab_size": 3642, "device": "mps", "duration_s": 2.77}
+{"timestamp": "2025-11-02 10:18:03", "epoch": 2, "loss": 1.3240705728530884, "similarity": 0.8415771126747131, "accuracy": 0.7142857313156128, "vocab_size": 3642, "device": "mps", "duration_s": 0.45}
+{"timestamp": "2025-11-02 10:18:06", "epoch": 1, "loss": 1.6667577028274536, "similarity": 0.851751446723938, "accuracy": 0.6153846383094788, "vocab_size": 3681, "device": "mps", "duration_s": 0.59}
+{"timestamp": "2025-11-02 10:18:06", "epoch": 2, "loss": 1.0629109144210815, "similarity": 0.8872194886207581, "accuracy": 0.692307710647583, "vocab_size": 3681, "device": "mps", "duration_s": 0.37}
+{"timestamp": "2025-11-02 10:18:11", "epoch": 1, "loss": 1.5943684577941895, "similarity": 0.9468300938606262, "accuracy": 0.6111111044883728, "vocab_size": 3806, "device": "mps", "duration_s": 2.5}
+{"timestamp": "2025-11-02 10:18:12", "epoch": 2, "loss": 1.6836090087890625, "similarity": 0.9435977935791016, "accuracy": 0.6666666865348816, "vocab_size": 3806, "device": "mps", "duration_s": 0.63}
+{"timestamp": "2025-11-02 10:18:20", "epoch": 1, "loss": 1.4202519655227661, "similarity": 0.9543024897575378, "accuracy": 0.7222222089767456, "vocab_size": 3971, "device": "mps", "duration_s": 1.96}
+{"timestamp": "2025-11-02 10:18:21", "epoch": 2, "loss": 1.5446101427078247, "similarity": 0.9506680965423584, "accuracy": 0.7222222089767456, "vocab_size": 3971, "device": "mps", "duration_s": 0.58}
+{"timestamp": "2025-11-02 10:18:25", "epoch": 1, "loss": 1.374460220336914, "similarity": 0.9769088625907898, "accuracy": 0.5, "vocab_size": 4053, "device": "mps", "duration_s": 1.17}
+{"timestamp": "2025-11-02 10:18:25", "epoch": 2, "loss": 0.9442691802978516, "similarity": 0.9702926874160767, "accuracy": 0.6000000238418579, "vocab_size": 4053, "device": "mps", "duration_s": 0.29}
+{"timestamp": "2025-11-02 10:18:42", "epoch": 1, "loss": 1.9558141231536865, "similarity": 0.8750398755073547, "accuracy": 0.550000011920929, "vocab_size": 4096, "device": "mps", "duration_s": 10.86}
+{"timestamp": "2025-11-02 10:18:58", "epoch": 2, "loss": 2.110138177871704, "similarity": 0.8766976594924927, "accuracy": 0.550000011920929, "vocab_size": 4096, "device": "mps", "duration_s": 15.94}
+{"timestamp": "2025-11-02 10:19:04", "epoch": 1, "loss": 0.284167617559433, "similarity": 0.9633582830429077, "accuracy": 1.0, "vocab_size": 4096, "device": "mps", "duration_s": 4.88}
+{"timestamp": "2025-11-02 10:19:04", "epoch": 2, "loss": 0.14290758967399597, "similarity": 0.9806073307991028, "accuracy": 1.0, "vocab_size": 4096, "device": "mps", "duration_s": 0.12}
+{"timestamp": "2025-11-02 10:19:08", "epoch": 1, "loss": 0.9339540004730225, "similarity": 0.919096827507019, "accuracy": 0.6666666865348816, "vocab_size": 4096, "device": "mps", "duration_s": 1.07}
+{"timestamp": "2025-11-02 10:19:08", "epoch": 2, "loss": 1.089600920677185, "similarity": 0.9134780168533325, "accuracy": 0.7777777910232544, "vocab_size": 4096, "device": "mps", "duration_s": 0.25}
+{"timestamp": "2025-11-02 10:19:18", "epoch": 1, "loss": 1.6202118396759033, "similarity": 0.9364163875579834, "accuracy": 0.6000000238418579, "vocab_size": 4096, "device": "mps", "duration_s": 7.72}
+{"timestamp": "2025-11-02 10:19:20", "epoch": 2, "loss": 1.7207794189453125, "similarity": 0.9164047241210938, "accuracy": 0.46666666865348816, "vocab_size": 4096, "device": "mps", "duration_s": 2.37}
+{"timestamp": "2025-11-02 10:19:23", "epoch": 1, "loss": 0.44363126158714294, "similarity": 0.9659878015518188, "accuracy": 1.0, "vocab_size": 4096, "device": "mps", "duration_s": 0.73}
+{"timestamp": "2025-11-02 10:19:23", "epoch": 2, "loss": 0.24399814009666443, "similarity": 0.976040780544281, "accuracy": 1.0, "vocab_size": 4096, "device": "mps", "duration_s": 0.12}
+{"timestamp": "2025-11-02 10:19:25", "epoch": 1, "loss": 1.018826961517334, "similarity": 0.8703976273536682, "accuracy": 0.5, "vocab_size": 4096, "device": "mps", "duration_s": 1.21}
+{"timestamp": "2025-11-02 10:19:25", "epoch": 2, "loss": 2.239314079284668, "similarity": 0.8487023115158081, "accuracy": 0.5, "vocab_size": 4096, "device": "mps", "duration_s": 0.12}
+{"timestamp": "2025-11-02 10:19:28", "epoch": 1, "loss": 0.7641006708145142, "similarity": 0.9858790040016174, "accuracy": 0.75, "vocab_size": 4096, "device": "mps", "duration_s": 0.57}
+{"timestamp": "2025-11-02 10:19:29", "epoch": 2, "loss": 1.120866060256958, "similarity": 0.9444600343704224, "accuracy": 0.5, "vocab_size": 4096, "device": "mps", "duration_s": 0.13}
+{"timestamp": "2025-11-02 10:19:32", "epoch": 1, "loss": 0.7257964015007019, "similarity": 0.9129737019538879, "accuracy": 0.5714285969734192, "vocab_size": 4096, "device": "mps", "duration_s": 1.13}
+{"timestamp": "2025-11-02 10:19:33", "epoch": 2, "loss": 1.7344144582748413, "similarity": 0.8463611602783203, "accuracy": 0.8571428656578064, "vocab_size": 4096, "device": "mps", "duration_s": 0.19}
+{"timestamp": "2025-11-02 10:19:39", "epoch": 1, "loss": 1.530955195426941, "similarity": 0.9689989686012268, "accuracy": 0.5454545617103577, "vocab_size": 4096, "device": "mps", "duration_s": 1.39}
+{"timestamp": "2025-11-02 10:19:39", "epoch": 2, "loss": 1.2672474384307861, "similarity": 0.9521616101264954, "accuracy": 0.5454545617103577, "vocab_size": 4096, "device": "mps", "duration_s": 0.33}

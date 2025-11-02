@@ -1,0 +1,233 @@
+[
+  {
+    "title": "Nuclear physics",
+    "text": "",
+    "url": "https://doi.org/10.1016/0029-5582(63)90235-9",
+    "source": "crossref",
+    "timestamp": 1963
+  },
+  {
+    "title": "Elementary nuclear physics",
+    "text": "",
+    "url": "https://doi.org/10.1016/0029-5582(59)90252-4",
+    "source": "crossref",
+    "timestamp": 1959
+  },
+  {
+    "title": "Physics of nuclear fission",
+    "text": "",
+    "url": "https://doi.org/10.1016/0029-5582(58)90312-2",
+    "source": "crossref",
+    "timestamp": 1958
+  },
+  {
+    "title": "Progess in nuclear physics",
+    "text": "",
+    "url": "https://doi.org/10.1016/0029-5582(58)90113-5",
+    "source": "crossref",
+    "timestamp": 1958
+  },
+  {
+    "title": "Atomic and nuclear physics",
+    "text": "",
+    "url": "https://doi.org/10.1016/0029-5582(56)90014-1",
+    "source": "crossref",
+    "timestamp": 1956
+  },
+  {
+    "title": "Progress in nuclear physics",
+    "text": "",
+    "url": "https://doi.org/10.1016/0029-5582(64)90370-0",
+    "source": "crossref",
+    "timestamp": 1964
+  },
+  {
+    "title": "Solid state physics, nuclear physics and particle physics",
+    "text": "",
+    "url": "https://doi.org/10.1016/0375-9474(69)90289-9",
+    "source": "crossref",
+    "timestamp": 1969
+  },
+  {
+    "title": "Nuclear Physics B",
+    "text": "",
+    "url": "https://doi.org/10.1016/0550-3213(90)90220-8",
+    "source": "crossref",
+    "timestamp": 1990
+  },
+  {
+    "title": "Conference on low energy nuclear physics",
+    "text": "",
+    "url": "https://doi.org/10.1016/0029-5582(62)90344-9",
+    "source": "crossref",
+    "timestamp": 1962
+  },
+  {
+    "title": "Nuclear spectroscopy",
+    "text": "",
+    "url": "https://doi.org/10.1016/0029-5582(63)90216-5",
+    "source": "crossref",
+    "timestamp": 1963
+  },
+  {
+    "title": "Progress in nuclear physics, Vol. 7",
+    "text": "",
+    "url": "https://doi.org/10.1016/0029-5582(60)90349-7",
+    "source": "crossref",
+    "timestamp": 1960
+  },
+  {
+    "title": "Nuclear Physics A",
+    "text": "",
+    "url": "https://doi.org/10.1016/s0375-9474(01)00915-0",
+    "source": "crossref",
+    "timestamp": 2001
+  },
+  {
+    "title": "The physics of nuclear reactors",
+    "text": "",
+    "url": "https://doi.org/10.1016/0029-5582(57)90046-9",
+    "source": "crossref",
+    "timestamp": 1957
+  },
+  {
+    "title": "Nuclear structure and nuclear reactions",
+    "text": "",
+    "url": "https://doi.org/10.1016/0029-5582(66)90209-4",
+    "source": "crossref",
+    "timestamp": 1966
+  },
+  {
+    "title": "RCNP Laboratories and Physics Programs: Nucleon Meson Nuclear Physics and Quark Lepton Nuclear Physics",
+    "text": "",
+    "url": "https://doi.org/10.1080/10506899809410884",
+    "source": "crossref",
+    "timestamp": 1998
+  },
+  {
+    "title": "Nuclear physics at Halong bay",
+    "text": "",
+    "url": "https://doi.org/10.1016/s0375-9474(03)01432-5",
+    "source": "crossref",
+    "timestamp": 2003
+  },
+  {
+    "title": "Nuclear instruments and methods in physics research section B: Beam interactions with materials and atoms",
+    "text": null,
+    "url": "https://www.semanticscholar.org/paper/d843fad6bc6fe89b8ef432eb670fff7c1ff1ed1f",
+    "source": "semantic_scholar",
+    "timestamp": 2024
+  },
+  {
+    "title": "Machine learning in nuclear physics at low and intermediate energies",
+    "text": "Machine learning (ML) is becoming a new paradigm for scientific research in various research fields due to its exciting and powerful capability of modeling tools used for big-data processing tasks. In this review, we first briefly introduce the different methodologies used in ML algorithms and techniques. As a snapshot of many applications by ML, some selected applications are presented, especially for low- and intermediate-energy nuclear physics, which include topics on theoretical applications in nuclear structure, nuclear reactions, properties of nuclear matter, and experimental applications in event identification/reconstruction, complex system control, and firmware performance. Finally, we present a summary and outlook on the possible directions of ML use in low-intermediate energy nuclear physics and possible improvements in ML algorithms.",
+    "url": "https://www.semanticscholar.org/paper/fbd5f98bc446c44c80a96588f3eb1a50f526c431",
+    "source": "semantic_scholar",
+    "timestamp": 2023
+  },
+  {
+    "title": "High-energy nuclear physics meets machine learning",
+    "text": "Although seemingly disparate, high-energy nuclear physics (HENP) and machine learning (ML) have begun to merge in the last few years, yielding interesting results. It is worthy to raise the profile of utilizing this novel mindset from ML in HENP, to help interested readers see the breadth of activities around this intersection. The aim of this mini-review is to inform the community of the current status and present an overview of the application of ML to HENP. From different aspects and using examples, we examine how scientific questions involving HENP can be answered using ML.",
+    "url": "https://www.semanticscholar.org/paper/66d8f78be05e6c2aae309e3bd091e48b1932f98a",
+    "source": "semantic_scholar",
+    "timestamp": 2023
+  },
+  {
+    "title": "Quantum Information Science and Technology for Nuclear Physics. Input into U.S. Long-Range Planning, 2023",
+    "text": "In preparation for the 2023 NSAC Long Range Plan (LRP), members of the Nuclear Science community gathered to discuss the current state of, and plans for further leveraging opportunities in, QIST in NP research at the Quantum Information Science for U.S. Nuclear Physics Long Range Planning workshop, held in Santa Fe, New Mexico on January 31 - February 1, 2023. The workshop included 45 in-person participants and 53 remote attendees. The outcome of the workshop identified strategic plans and requirements for the next 5-10 years to advance quantum sensing and quantum simulations within NP, and to develop a diverse quantum-ready workforce. The plans include resolutions endorsed by the participants to address the compelling scientific opportunities at the intersections of NP and QIST. These endorsements are aligned with similar affirmations by the LRP Computational Nuclear Physics and AI/ML Workshop, the Nuclear Structure, Reactions, and Astrophysics LRP Town Hall, and the Fundamental Symmetries, Neutrons, and Neutrinos LRP Town Hall communities.",
+    "url": "https://www.semanticscholar.org/paper/b6a0961e11eced624d7c0582d52ec6c7ada5732d",
+    "source": "semantic_scholar",
+    "timestamp": 2023
+  },
+  {
+    "title": "The NUBASE2020 evaluation of nuclear physics properties",
+    "text": "The NUBASE2020 evaluation contains the recommended values of the main nuclear physics properties for all nuclei in their ground and excited, isomeric (T1/2 100 ns) states. It encompasses all experimental data published in primary (journal articles) and secondary (mainly laboratory reports and conference proceedings) references, together with the corresponding bibliographical information. In cases where no experimental data were available for a particular nuclide, trends in the behavior of specific properties in neighboring nuclei were examined and estimated values are proposed. Evaluation procedures and policies that were used during the development of this evaluated nuclear data library are presented, together with a detailed table of recommended values and their uncertainties.",
+    "url": "https://www.semanticscholar.org/paper/c557be6d5d4a6e083de1b2b468ba23c88333b020",
+    "source": "semantic_scholar",
+    "timestamp": 2021
+  },
+  {
+    "title": "Nuclear Physics in the Era of Quantum Computing and Quantum Machine Learning",
+    "text": "In this paper, the application of quantum simulations and quantum machine learning is explored to solve problems in low‐energy nuclear physics. The use of quantum computing to address nuclear physics problems is still in its infancy, and particularly, the application of quantum machine learning (QML) in the realm of low‐energy nuclear physics is almost nonexistent. Three specific examples are presented where the utilization of quantum computing and QML provides, or can potentially provide in the future, a computational advantage: i) determining the phase/shape in schematic nuclear models, ii) calculating the ground state energy of a nuclear shell model‐type Hamiltonian, and iii) identifying particles or determining trajectories in nuclear physics experiments.",
+    "url": "https://www.semanticscholar.org/paper/d8bb03ab1489b94fa63504618fd857fc293e509b",
+    "source": "semantic_scholar",
+    "timestamp": 2023
+  },
+  {
+    "title": "Trends in particle and nuclei identification techniques in nuclear physics experiments",
+    "text": "Particle identification techniques are fundamental tools in nuclear physics experiments. Discriminating particles or nuclei produced in nuclear interactions allows to better understand the underlying physics mechanisms. The energy interval of these reactions is very broad, from sub-eV up to TeV. For this reason, many different identification approaches have been developed, often combining two or more observables. This paper reviews several of these techniques with emphasis on the expertise gained within the current nuclear physics scientific program of the Italian Istituto Nazionale di Fisica Nucleare (INFN).",
+    "url": "https://www.semanticscholar.org/paper/2c05b11c8b25650db80ed4233678d477b9d01761",
+    "source": "semantic_scholar",
+    "timestamp": 2022
+  },
+  {
+    "title": "Nuclear Forces for Precision Nuclear Physics: A Collection of Perspectives",
+    "text": "This is a collection of perspective pieces contributed by the participants of the Institute for Nuclear Theory’s Program on Nuclear Physics for Precision Nuclear Physics which was held virtually from April 19 to May 7, 2021. The collection represents the reflections of a vibrant and engaged community of researchers on the status of theoretical research in low-energy nuclear physics, the challenges ahead, and new ideas and strategies to make progress in nuclear structure and reaction physics, effective field theory, lattice QCD, quantum information, and quantum computing. The contributed pieces solely reflect the perspectives of the respective authors and do not represent the viewpoints of the Institute for Nuclear theory or the organizers of the program.",
+    "url": "https://www.semanticscholar.org/paper/3662179b88f51cd05c80b355c3421047771580fa",
+    "source": "semantic_scholar",
+    "timestamp": 2022
+  },
+  {
+    "title": "Theoretical tools for neutrino scattering: interplay between lattice QCD, EFTs, nuclear physics, phenomenology, and neutrino event generators",
+    "text": "\n Maximizing the discovery potential of increasingly precise neutrino experiments will require an improved theoretical understanding of neutrino-nucleus cross sections over a wide range of energies. Low-energy interactions are needed to reconstruct the energies of astrophysical neutrinos from supernovae bursts and search for new physics using increasingly precise measurement of coherent elastic neutrino scattering. Higher-energy interactions involve a variety of reaction mechanisms including quasi-elastic scattering, resonance production, and deep inelastic scattering that must all be included to reliably predict cross sections for energies relevant to DUNE and other accelerator neutrino experiments. Refined nuclear interaction models in these energy regimes will also be valuable for other applications, such as measurements of reactor, solar, and atmospheric neutrinos. This manuscript discusses the theoretical status, challenges, required resources, and path forward for achieving precise predictions of neutrino-nucleus scattering and emphasizes the need for a coordinated theoretical effort involved lattice QCD, nuclear effective theories, phenomenological models of the transition region, and event generators.",
+    "url": "https://www.semanticscholar.org/paper/630021a29959e1f622fd18253b40680fc0b0c01f",
+    "source": "semantic_scholar",
+    "timestamp": 2022
+  },
+  {
+    "title": "BUQEYE guide to projection-based emulators in nuclear physics",
+    "text": "The BUQEYE collaboration (Bayesian Uncertainty Quantification: Errors in Your effective field theory) presents a pedagogical introduction to projection-based, reduced-order emulators for applications in low-energy nuclear physics. The term emulator refers here to a fast surrogate model capable of reliably approximating high-fidelity models. As the general tools employed by these emulators are not yet well-known in the nuclear physics community, we discuss variational and Galerkin projection methods, emphasize the benefits of offline-online decompositions, and explore how these concepts lead to emulators for bound and scattering systems that enable fast and accurate calculations using many different model parameter sets. We also point to future extensions and applications of these emulators for nuclear physics, guided by the mature field of model (order) reduction. All examples discussed here and more are available as interactive, open-source Python code so that practitioners can readily adapt projection-based emulators for their own work.",
+    "url": "https://www.semanticscholar.org/paper/d2eb4be7b17df24984d47fd27f5e35fc7fd514a7",
+    "source": "semantic_scholar",
+    "timestamp": 2022
+  },
+  {
+    "title": "Nuclear Physics Multimessenger Astrophysics Constraints on the Neutron Star Equation of State: Adding NICER’s PSR J0740+6620 Measurement",
+    "text": "In the past few years, new observations of neutron stars (NSs) and NS mergers have provided a wealth of data that allow one to constrain the equation of state (EOS) of nuclear matter at densities above nuclear saturation density. However, most observations were based on NSs with masses of about 1.4 M ⊙, probing densities up to ∼three to four times the nuclear saturation density. Even higher densities are probed inside massive NSs such as PSR J0740+6620. Very recently, new radio observations provided an update to the mass estimate for PSR J0740+6620, and X-ray observations by the NICER and XMM telescopes constrained its radius. Based on these new measurements, we revisit our previous nuclear physics multimessenger astrophysics constraints and derive updated constraints on the EOS describing the NS interior. By combining astrophysical observations of two radio pulsars, two NICER measurements, the two gravitational-wave detections GW170817 and GW190425, detailed modeling of the kilonova AT 2017gfo, and the gamma-ray burst GRB 170817A, we are able to estimate the radius of a typical 1.4 M ⊙ NS to be 11.94−0.87+0.76km at 90% confidence. Our analysis allows us to revisit the upper bound on the maximum mass of NSs and disfavors the presence of a strong first-order phase transition from nuclear matter to exotic forms of matter, such as quark matter, inside NSs.",
+    "url": "https://www.semanticscholar.org/paper/e3ccb707940ce0a9441d0600eeb445feb38a8c0c",
+    "source": "semantic_scholar",
+    "timestamp": 2021
+  },
+  {
+    "title": "Nuclear Instruments and Methods in Physics Research Section A: Accelerators, Spectrometers, Detectors and Associated Equipment",
+    "text": null,
+    "url": "https://www.semanticscholar.org/paper/30fbbcf99fb5a9ce553f82ed3a3a9ebc1cf0131f",
+    "source": "semantic_scholar",
+    "timestamp": 2014
+  },
+  {
+    "title": "Machine Learning in Nuclear Physics",
+    "text": "Advances in machine learning methods provide tools that have broad applicability in scientific research. These techniques are being applied across the diversity of nuclear physics research topics, leading to advances that will facilitate scientific discoveries and societal applications. This Review gives a snapshot of nuclear physics research which has been transformed by machine learning techniques.",
+    "url": "https://www.semanticscholar.org/paper/f207d89eb3870ba3ecea5c41da0ce08955106aac",
+    "source": "semantic_scholar",
+    "timestamp": 2021
+  },
+  {
+    "title": "Expanding Nuclear Physics Horizons with the Gamma Factory",
+    "text": "The Gamma Factory (GF) is an ambitious proposal, currently explored within the CERN Physics Beyond Colliders program, for a source of photons with energies up to ≈400 MeV and photon fluxes (up to ≈1017 photons s−1) exceeding those of the currently available gamma sources by orders of magnitude. The high‐energy (secondary) photons are produced via resonant scattering of the primary laser photons by highly relativistic partially‐stripped ions circulating in the accelerator. The secondary photons are emitted in a narrow cone and the energy of the beam can be monochromatized, down to 10−3–10−6 level, via collimation, at the expense of the photon flux. This paper surveys the new opportunities that may be afforded by the GF in nuclear physics and related fields.",
+    "url": "https://www.semanticscholar.org/paper/f521667de943c6cfd9f2221bf3ba49f43ff4714f",
+    "source": "semantic_scholar",
+    "timestamp": 2021
+  },
+  {
+    "title": "HNPS Advances in Nuclear Physics",
+    "text": null,
+    "url": "https://www.semanticscholar.org/paper/a8d7d631466ae918e064248e0bf89db9c56b48af",
+    "source": "semantic_scholar",
+    "timestamp": 2020
+  },
+  {
+    "title": "The Trojan Horse Method: A Nuclear Physics Tool for Astrophysics",
+    "text": "The Trojan Horse Method (THM) represents an indirect path to determine the bare nucleus astrophysical S-factor for reactions among charged particles at astrophysical energies. This is achieved by measuring the quasi-free cross section of a suitable three-body process. The method is also suited to study neutron-induced reactions, especially in the case of radioactive ion beams. A comprehensive review of the theoretical as well as experimental features behind the THM is presented here. An overview is given of some recent applications to demonstrate the method's practical use for reactions that have a great impact on selected astrophysical scenarios. Expected final online publication date for the Annual Review of Nuclear and Particle Science, Volume 71 is September 2021. Please see http://www.annualreviews.org/page/journal/pubdates for revised estimates.",
+    "url": "https://www.semanticscholar.org/paper/beac460db37010c0268406a97cb1412646e6f481",
+    "source": "semantic_scholar",
+    "timestamp": 2021
+  },
+  {
+    "title": "Advances in Nuclear Physics",
+    "text": null,
+    "url": "https://www.semanticscholar.org/paper/1554060a077aebc10db44ed8f7889bc28f5e7577",
+    "source": "semantic_scholar",
+    "timestamp": 2021
+  }
+]

@@ -1,0 +1,135 @@
+[
+  {
+    "title": "Why thermodynamics?",
+    "text": "<p>This chapter provides a background on predicting and understanding the behaviour of substances, chemical reactions, and processes. It explains thermodynamics as a study that is concerned with macroscopic systems, emphasizing large, measurable amounts of matter rather than individual molecules. It also analyses the chemical context of the name thermodynamics, which is considered a misnomer as it is useful in fundamental studies of understanding what drives chemical reactions and processes. The chapter focuses on chemical reactions and phase equilibria as the two main areas to which chemical thermodynamics can be applied. It cites the combustion of methane as an example of a reaction that goes to completion, as no methane is left after combustion if there is enough oxygen available.</p>",
+    "url": "https://doi.org/10.1093/hesc/9780198814450.003.0001",
+    "source": "crossref",
+    "timestamp": 2019
+  },
+  {
+    "title": "Thermodynamics of Irreversible Processes — Irreversible Thermodynamics",
+    "text": "",
+    "url": "https://doi.org/10.1142/9789813226067_others02",
+    "source": "crossref",
+    "timestamp": 2018
+  },
+  {
+    "title": "Thermodynamics of Reversible Processes — Equilibrium Thermodynamics",
+    "text": "",
+    "url": "https://doi.org/10.1142/9789813226067_others01",
+    "source": "crossref",
+    "timestamp": 2018
+  },
+  {
+    "title": "Chemical Thermodynamics",
+    "text": "",
+    "url": "https://doi.org/10.1016/b978-0-444-82281-9.50001-5",
+    "source": "crossref",
+    "timestamp": 1995
+  },
+  {
+    "title": "ISRN Thermodynamics",
+    "text": "",
+    "url": "https://doi.org/10.5402/thermodynamics",
+    "source": "crossref",
+    "timestamp": null
+  },
+  {
+    "title": "Statistical Thermodynamics",
+    "text": "",
+    "url": "https://doi.org/10.1017/cbo9780511994883.017",
+    "source": "crossref",
+    "timestamp": 2011
+  },
+  {
+    "title": "Linear Irreversible Thermodynamics",
+    "text": "",
+    "url": "https://doi.org/10.1142/9789813226067_0020",
+    "source": "crossref",
+    "timestamp": 2018
+  },
+  {
+    "title": "Thermodynamics of Surfaces",
+    "text": "",
+    "url": "https://doi.org/10.1142/9789813226067_0014",
+    "source": "crossref",
+    "timestamp": 2018
+  },
+  {
+    "title": "Thermodynamics of polymers",
+    "text": "",
+    "url": "https://doi.org/10.1017/cbo9781139028325.012",
+    "source": "crossref",
+    "timestamp": null
+  },
+  {
+    "title": "Thermodynamics of Solutions",
+    "text": "",
+    "url": "https://doi.org/10.1142/9789813226067_0013",
+    "source": "crossref",
+    "timestamp": 2018
+  },
+  {
+    "title": "Thermodynamics of Nonequilibrium Processes",
+    "text": "",
+    "url": "https://doi.org/10.1142/9789813226067_0019",
+    "source": "crossref",
+    "timestamp": 2018
+  },
+  {
+    "title": "Journal of Thermodynamics",
+    "text": "",
+    "url": "https://doi.org/10.1155/6962",
+    "source": "crossref",
+    "timestamp": null
+  },
+  {
+    "title": "Better Thermodynamics Teaching Needs More Thermodynamics Research",
+    "text": "",
+    "url": "https://doi.org/10.1007/978-1-4613-2163-7_4",
+    "source": "crossref",
+    "timestamp": 1985
+  },
+  {
+    "title": "Basic Thermodynamics",
+    "text": "",
+    "url": "https://doi.org/10.1017/9781316650394.015",
+    "source": "crossref",
+    "timestamp": null
+  },
+  {
+    "title": "A New Frame Work of Thermodynamics (1) Traditional Thermodynamics, (2) Thermodynamics of Thermal Electrons in a Static Magnetic Field, (3) Cosmos Thermodynamics",
+    "text": "<jats:p>This new frame work of thermodynamics contains three parts. First, the traditional thermodynamics: relating to all the ordinary thermodynamical processes we meet in our daily life and work, and in ordinary research. They are all irreversible. Entropy in these processes tends to increase, never decrease. Second, thermodynamics of thermal electrons in a magnetic field:Some experiments of thermal electrons emitted from two identical and parallel Ag-O-Cs emitters (work function 0.8eV) in a vacuum tube applied by a static magnetic field. The magnetic field is an artificial Maxwell’s demons. Third, cosmos thermodynamics: The universe is closed. There is an extraordinary heat ocean at a temperature of about 3K in the central part of the closed universe. A big band and a big assembling constitute a big cycle, the matter and energy in the closed universe are involved in an extraordinary big cycle; Entropy can increase, and it can also decrease. Black holes are natural demons in the universe.Besides, there is a supplementary file On Bekenstein and Hawking’s Black Hole Thermodynamics attached to this article, showing that Bekenstein’s “area entropy” is an incorrect idea, and so on.</jats:p>",
+    "url": "https://doi.org/10.20944/preprints202406.1065.v3",
+    "source": "crossref",
+    "timestamp": 2025
+  },
+  {
+    "title": "Equilibrium Thermodynamics",
+    "text": "<p>The ideas which we shall present in the remainder of this book are intimately connected with thermodynamics. In order to describe the various transport processes in structured continua, one must first build a solid foundation of equilibrium thermodynamics upon which to base further development. In approaching transport phenomena from an energetic viewpoint, one must first define what is meant by various thermodynamic variables as, for example, the temperature and pressure, in terms of the primitive variables used to characterize the system under investigation. In this chapter, we present a brief overview of equilibrium thermodynamics tailored to the needs of this book. Specifically, we want to define explicitly the thermodynamic quantities which are used in subsequent chapters. For clarity and completeness, we shall re-derive, rather than merely state, some of the standard thermodynamic relationships. Of course, the experienced reader may proceed directly to the next chapter and use this chapter as a reference to notation as the need arises. The starting point for our discussion of equilibrium thermodynamics is the axiomatic foundation of the description of macroscopic equilibria on certain fundamental principles. First, the macroscopic equilibrium of a closed system is completely described through the specification of a number of extensive (i.e., proportional to the total mass or volume of the system, and additive between systems) or intensive (i.e., independent of the total mass or volume of the system) parameters. This is a very important point which is usually overlooked in the traditional thermodynamic development. The extensive nature of the primary variables of the system introduces an additional relationship which acts on the allowed variations of the differentials, which, as we shall see, is tantamount to the Gibbs/Duhem relation. This implies, as we shall demonstrate in §4.3, that the density formalism, where every extensive quantity is reported on a unit volume basis, is a much more natural framework for describing the system in that it avoids a number of pitfalls of the traditional formalism. </p>",
+    "url": "https://doi.org/10.1093/oso/9780195076943.003.0008",
+    "source": "crossref",
+    "timestamp": 1994
+  },
+  {
+    "title": "Thermodynamics: General Consequences",
+    "text": "",
+    "url": "https://doi.org/10.1017/9781316650394.016",
+    "source": "crossref",
+    "timestamp": null
+  },
+  {
+    "title": "Thermodynamics of Real Fluids",
+    "text": "",
+    "url": "https://doi.org/10.1142/9789813226067_0009",
+    "source": "crossref",
+    "timestamp": 2018
+  },
+  {
+    "title": "Thermodynamics",
+    "text": "Thermodynamics is a branch of physics that deals with heat, work, and temperature, and their relation to energy, entropy, and the physical properties of matter and radiation. The behavior of these quantities is governed by the four laws of thermodynamics, which convey a quantitative description using measurable macroscopic physical quantities but may be explained in terms of microscopic constituents by statistical mechanics. Thermodynamics applies to various topics in science and engineering, especially physical chemistry, biochemistry, chemical engineering, and mechanical engineering, as well as other complex fields such as meteorology.",
+    "url": "https://en.wikipedia.org/wiki/Thermodynamics",
+    "source": "wikipedia",
+    "timestamp": "2025-11-02"
+  }
+]

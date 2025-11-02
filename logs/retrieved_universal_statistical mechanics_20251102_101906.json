@@ -1,0 +1,219 @@
+[
+  {
+    "title": "The ideas of statistical mechanics",
+    "text": "<p>This chapter discusses the microscopic basis of entropy, how to calculate the equation of state for a system, and the physical basis of the second law that ensures that entropy increases as a function of time. It cites Ludwig Boltzmann's hypothesis, which states that the entropy of a system is related to the probability of its state and its basis is statistical. The chapter also focuses on statistical mechanics, wherein thermal properties are calculated by using statistical ideas together with a knowledge of the laws of mechanics obeyed by the particles that make up a system. The chapter highlights that the power of statistical mechanics is grounded in the fact that it uses simple ideas and involves general techniques. It demonstrates the notion of statistical probability, which is obtained by considering a series of identical measurements made over a period of time on a single system.</p>",
+    "url": "https://doi.org/10.1093/hesc/9780198505761.003.0004",
+    "source": "crossref",
+    "timestamp": 1999
+  },
+  {
+    "title": "Quantum statistical mechanics, extended",
+    "text": "",
+    "url": "https://doi.org/10.1017/cbo9780511626555.019",
+    "source": "crossref",
+    "timestamp": 2009
+  },
+  {
+    "title": "Ensembles in Classical Statistical Mechanics",
+    "text": "<p>This chapter explores more powerful methods of calculation than were seen previously. Among them are Molecular Dynamics (MD) and Monte Carlo (MC) computer simulations. Another is the canonical partition function, which is related to the Helmholtz free energy. The derivation of thermodynamic identities within statistical mechanics is illustrated by the relationship between the specific heat and the fluctuations of the energy. It is shown how the canonical ensemble allows us to integrate out the momentum variables for many classical models. The factorization of the partition function is presented as the best trick in statistical mechanics, because of its central role in solving problems. Finally, the problem of many simple harmonic oscillators is solved, both for its importance and as an illustration of the best trick.</p>",
+    "url": "https://doi.org/10.1093/oso/9780198853237.003.0019",
+    "source": "crossref",
+    "timestamp": 2019
+  },
+  {
+    "title": "Preface",
+    "text": "",
+    "url": "https://doi.org/10.1039/9781847556929-fp003",
+    "source": "crossref",
+    "timestamp": null
+  },
+  {
+    "title": "Contents",
+    "text": "",
+    "url": "https://doi.org/10.1039/9781847556936-fp005",
+    "source": "crossref",
+    "timestamp": null
+  },
+  {
+    "title": "Foreword",
+    "text": "",
+    "url": "https://doi.org/10.1039/9781847556936-fp003",
+    "source": "crossref",
+    "timestamp": null
+  },
+  {
+    "title": "Statistical Mechanics",
+    "text": "",
+    "url": "https://doi.org/10.1017/9781108563055.003",
+    "source": "crossref",
+    "timestamp": 2022
+  },
+  {
+    "title": "Foundations of quantum statistical mechanics",
+    "text": "",
+    "url": "https://doi.org/10.1017/cbo9780511626555.002",
+    "source": "crossref",
+    "timestamp": 2009
+  },
+  {
+    "title": "Quantum Statistical Mechanics",
+    "text": "",
+    "url": "https://doi.org/10.1017/9781108563055.015",
+    "source": "crossref",
+    "timestamp": 2022
+  },
+  {
+    "title": "Foundation of Statistical Mechanics, Statistical Ensembles",
+    "text": "",
+    "url": "https://doi.org/10.1142/9789811242151_0002",
+    "source": "crossref",
+    "timestamp": 2021
+  },
+  {
+    "title": "International Journal of Statistical Mechanics",
+    "text": "",
+    "url": "https://doi.org/10.1155/3160",
+    "source": "crossref",
+    "timestamp": null
+  },
+  {
+    "title": "Front cover",
+    "text": "",
+    "url": "https://doi.org/10.1039/9781847556929-fx001",
+    "source": "crossref",
+    "timestamp": null
+  },
+  {
+    "title": "Front matter",
+    "text": "",
+    "url": "https://doi.org/10.1039/9781847556929-fp001",
+    "source": "crossref",
+    "timestamp": null
+  },
+  {
+    "title": "Complements on Statistical Mechanics",
+    "text": "",
+    "url": "https://doi.org/10.1017/9781108563055.019",
+    "source": "crossref",
+    "timestamp": 2022
+  },
+  {
+    "title": "Equilibrium Statistical Mechanics",
+    "text": "",
+    "url": "https://doi.org/10.1201/b13621-6",
+    "source": "crossref",
+    "timestamp": 2006
+  },
+  {
+    "title": "BIBLIOGRAPHY ON STATISTICAL MECHANICS",
+    "text": "",
+    "url": "https://doi.org/10.1016/b978-0-08-026515-5.50021-8",
+    "source": "crossref",
+    "timestamp": 1982
+  },
+  {
+    "title": "Statistical mechanics of complex networks",
+    "text": "The emergence of order in natural systems is a constant source of inspiration for both physical and biological sciences. While the spatial order characterizing for example the crystals has been the basis of many advances in contemporary physics, most complex systems in nature do not offer such high degree of order. Many of these systems form complex networks whose nodes are the elements of the system and edges represent the interactions between them. \nTraditionally complex networks have been described by the random graph theory founded in 1959 by Paul Erdohs and Alfred Renyi. One of the defining features of random graphs is that they are statistically homogeneous, and their degree distribution (characterizing the spread in the number of edges starting from a node) is a Poisson distribution. In contrast, recent empirical studies, including the work of our group, indicate that the topology of real networks is much richer than that of random graphs. In particular, the degree distribution of real networks is a power-law, indicating a heterogeneous topology in which the majority of the nodes have a small degree, but there is a significant fraction of highly connected nodes that play an important role in the connectivity of the network. \nThe scale-free topology of real networks has very important consequences on their functioning. For example, we have discovered that scale-free networks are extremely resilient to the random disruption of their nodes. On the other hand, the selective removal of the nodes with highest degree induces a rapid breakdown of the network to isolated subparts that cannot communicate with each other. \nThe non-trivial scaling of the degree distribution of real networks is also an indication of their assembly and evolution. Indeed, our modeling studies have shown us that there are general principles governing the evolution of networks. Most networks start from a small seed and grow by the addition of new nodes which attach to the nodes already in the system. This process obeys preferential attachment: the new nodes are more likely to connect to nodes with already high degree. We have proposed a simple model based on these two principles wich was able to reproduce the power-law degree distribution of real networks. Perhaps even more importantly, this model paved the way to a new paradigm of network modeling, trying to capture the evolution of networks, not just their static topology.",
+    "url": "https://www.semanticscholar.org/paper/dce8146987557735a19771aefa1f027211a2c275",
+    "source": "semantic_scholar",
+    "timestamp": 2001
+  },
+  {
+    "title": "Statistical mechanics of deep learning",
+    "text": null,
+    "url": "https://www.semanticscholar.org/paper/34daf682dd96d87768be276fcceb5eb005b32926",
+    "source": "semantic_scholar",
+    "timestamp": 2024
+  },
+  {
+    "title": "Information Theory and Statistical Mechanics",
+    "text": null,
+    "url": "https://www.semanticscholar.org/paper/08b67692bc037eada8d3d7ce76cc70994e7c8116",
+    "source": "semantic_scholar",
+    "timestamp": 1957
+  },
+  {
+    "title": "Exactly solved models in statistical mechanics",
+    "text": null,
+    "url": "https://www.semanticscholar.org/paper/5e6a4eda0a3d0d3a8c2864fd3afee4e67026bd40",
+    "source": "semantic_scholar",
+    "timestamp": 1982
+  },
+  {
+    "title": "Statistical Mechanics: Entropy, Order Parameters, and Complexity",
+    "text": "This text distills the core ideas of statistical mechanics to make room for new advances important to information theory, complexity, active matter, and dynamical systems. Chapters address random walks, equilibrium systems, entropy, free energies, quantum systems, calculation and computation, order parameters and topological defects, correlations and linear response theory, and abrupt and continuous phase transitions. Exercises explore the enormous range of phenomena where statistical mechanics provides essential insight — from card shuffling to how cells avoid errors when copying DNA, from the arrow of time to animal flocking behavior, from the onset of chaos to fingerprints. The text is aimed at graduates, undergraduates, and researchers in mathematics, computer science, engineering, biology, and the social sciences as well as to physicists, chemists, and astrophysicists. As such, it focuses on those issues common to all of these fields, background in quantum mechanics, thermodynamics, and advanced physics should not be needed, although scientific sophistication and interest will be important.",
+    "url": "https://www.semanticscholar.org/paper/f875601a7abf40e8bccd8494ea4bd14d6ca24729",
+    "source": "semantic_scholar",
+    "timestamp": 2021
+  },
+  {
+    "title": "From quantum chaos and eigenstate thermalization to statistical mechanics and thermodynamics",
+    "text": "This review gives a pedagogical introduction to the eigenstate thermalization hypothesis (ETH), its basis, and its implications to statistical mechanics and thermodynamics. In the first part, ETH is introduced as a natural extension of ideas from quantum chaos and random matrix theory (RMT). To this end, we present a brief overview of classical and quantum chaos, as well as RMT and some of its most important predictions. The latter include the statistics of energy levels, eigenstate components, and matrix elements of observables. Building on these, we introduce the ETH and show that it allows one to describe thermalization in isolated chaotic systems without invoking the notion of an external bath. We examine numerical evidence of eigenstate thermalization from studies of many-body lattice systems. We also introduce the concept of a quench as a means of taking isolated systems out of equilibrium, and discuss results of numerical experiments on quantum quenches. The second part of the review explores the implications of quantum chaos and ETH to thermodynamics. Basic thermodynamic relations are derived, including the second law of thermodynamics, the fundamental thermodynamic relation, fluctuation theorems, the fluctuation–dissipation relation, and the Einstein and Onsager relations. In particular, it is shown that quantum chaos allows one to prove these relations for individual Hamiltonian eigenstates and thus extend them to arbitrary stationary statistical ensembles. In some cases, it is possible to extend their regimes of applicability beyond the standard thermal equilibrium domain. We then show how one can use these relations to obtain nontrivial universal energy distributions in continuously driven systems. At the end of the review, we briefly discuss the relaxation dynamics and description after relaxation of integrable quantum systems, for which ETH is violated. We present results from numerical experiments and analytical studies of quantum quenches at integrability. We introduce the concept of the generalized Gibbs ensemble and discuss its connection with ideas of prethermalization in weakly interacting systems.",
+    "url": "https://www.semanticscholar.org/paper/cba6ea25e55a1f53a5eb8b7c8bd16ca1855707a9",
+    "source": "semantic_scholar",
+    "timestamp": 2015
+  },
+  {
+    "title": "Operator Algebras And Quantum Statistical Mechanics",
+    "text": null,
+    "url": "https://www.semanticscholar.org/paper/7033363f0c6c2274cede210b6f86d86ec0f0eed8",
+    "source": "semantic_scholar",
+    "timestamp": 1979
+  },
+  {
+    "title": "Statistical mechanics meets single-cell biology",
+    "text": null,
+    "url": "https://www.semanticscholar.org/paper/43f2ca3b8406b857bfed1310860c8963a6ace928",
+    "source": "semantic_scholar",
+    "timestamp": 2021
+  },
+  {
+    "title": "Many-Body Localization and Thermalization in Quantum Statistical Mechanics",
+    "text": "We review some recent developments in the statistical mechanics of isolated quantum systems. We provide a brief introduction to quantum thermalization, paying particular attention to the eigenstate thermalization hypothesis (ETH) and the resulting single-eigenstate statistical mechanics. We then focus on a class of systems that fail to quantum thermalize and whose eigenstates violate the ETH: These are the many-body Anderson-localized systems; their long-time properties are not captured by the conventional ensembles of quantum statistical mechanics. These systems can forever locally remember information about their local initial conditions and are thus of interest for possibilities of storing quantum information. We discuss key features of many-body localization (MBL) and review a phenomenology of the MBL phase. Single-eigenstate statistical mechanics within the MBL phase reveal dynamically stable ordered phases, and phase transitions among them, that are invisible to equilibrium statistical mechanics and...",
+    "url": "https://www.semanticscholar.org/paper/1c91b84328baaa5b39fcf96214488ee5d694733f",
+    "source": "semantic_scholar",
+    "timestamp": 2014
+  },
+  {
+    "title": "Journal of Statistical Mechanics: Theory and Experiment",
+    "text": null,
+    "url": "https://www.semanticscholar.org/paper/163e766d83d542f3fcbd6fec9a20267ea657797f",
+    "source": "semantic_scholar",
+    "timestamp": 2011
+  },
+  {
+    "title": "Statistical mechanics of quantum error correcting codes",
+    "text": "We study stabilizer quantum error-correcting codes (QECC) generated under hybrid dynamics of local Clifford unitaries and local Pauli measurements in one dimension. Building upon 1) a general formula relating the error-susceptibility of a subregion to its entanglement properties, and 2) a previously established mapping between entanglement entropies and domain wall free energies of an underlying spin model, we propose a statistical mechanical description of the QECC in terms of \"entanglement domain walls\". Free energies of such domain walls generically feature a leading volume law term coming from its \"surface energy\", and a sub-volume law correction coming from thermodynamic entropies of its transverse fluctuations. These are most easily accounted for by capillary-wave theory of liquid-gas interfaces, which we use as an illustrative tool. We show that the information-theoretic decoupling criterion corresponds to a geometric decoupling of domain walls, which further leads to the identification of the \"contiguous code distance\" of the QECC as the crossover length scale at which the energy and entropy of the domain wall are comparable. The contiguous code distance thus diverges with the system size as the subleading entropic term of the free energy, protecting a finite code rate against local undetectable errors. We support these correspondences with numerical evidence, where we find capillary-wave theory describes many qualitative features of the QECC; we also discuss when and why it fails to do so.",
+    "url": "https://www.semanticscholar.org/paper/419d68ef6b37f7e38739d79ec0ceb04c20ef2013",
+    "source": "semantic_scholar",
+    "timestamp": 2020
+  },
+  {
+    "title": "Glasses and Aging, A Statistical Mechanics Perspective on",
+    "text": "We review the field of the glass transition, glassy dynamics and aging from a statistical mechanics perspective. We give a brief introduction to the subject and explain the main phenomenology encountered in glassy systems, with a particular emphasis on spatially heterogeneous dynamics. We review the main theoretical approaches currently available to account for these glassy phenomena, including recent developments regarding mean-field theory of liquids and glasses, novel computational tools, and connections to the jamming transition. Finally, the physics of aging and off-equilibrium dynamics exhibited by glassy materials is discussed.",
+    "url": "https://www.semanticscholar.org/paper/60a069dfb6801d21a277fe6790546c7688d38120",
+    "source": "semantic_scholar",
+    "timestamp": 2020
+  },
+  {
+    "title": "Statistical mechanics of active Ornstein-Uhlenbeck particles.",
+    "text": "We study the statistical properties of active Ornstein-Uhlenbeck particles (AOUPs). In this simplest of models, the Gaussian white noise of overdamped Brownian colloids is replaced by a Gaussian colored noise. This suffices to grant this system the hallmark properties of active matter, while still allowing for analytical progress. We study in detail the steady-state distribution of AOUPs in the small persistence time limit and for spatially varying activity. At the collective level, we show AOUPs to experience motility-induced phase separation both in the presence of pairwise forces or due to quorum-sensing interactions. We characterize both the instability mechanism leading to phase separation and the resulting phase coexistence. We probe how, in the stationary state, AOUPs depart from their thermal equilibrium limit by investigating the emergence of ratchet currents and entropy production. In the small persistence time limit, we show how fluctuation-dissipation relations are recovered. Finally, we discuss how the emerging properties of AOUPs can be characterized from the dynamics of their collective modes.",
+    "url": "https://www.semanticscholar.org/paper/38a832d0c86512a1d56edda69411c64026b406d8",
+    "source": "semantic_scholar",
+    "timestamp": 2020
+  },
+  {
+    "title": "The statistical mechanics of near-extremal black holes",
+    "text": "An important open question in black hole thermodynamics is about the existence of a “mass gap” between an extremal black hole and the lightest near-extremal state within a sector of fixed charge. In this paper, we reliably compute the partition function of Reissner-Nordström near-extremal black holes at temperature scales comparable to the conjectured gap. We find that the density of states at fixed charge does not exhibit a gap; rather, at the expected gap energy scale, we see a continuum of states. We compute the partition function in the canonical and grand canonical ensembles, keeping track of all the fields appearing through a dimensional reduction on S2 in the near-horizon region. Our calculation shows that the relevant degrees of freedom at low temperatures are those of 2d Jackiw-Teitelboim gravity coupled to the electromagnetic U(1) gauge field and to an SO(3) gauge field generated by the dimensional reduction.",
+    "url": "https://www.semanticscholar.org/paper/98aaf6d7b2ce8ca599bd246c5b5a779f76c42adc",
+    "source": "semantic_scholar",
+    "timestamp": 2020
+  },
+  {
+    "title": "Noether’s theorem in statistical mechanics",
+    "text": "Noether’s calculus of invariant variations yields exact identities from functional symmetries. The standard application to an action integral allows to identify conservation laws. Here we rather consider generating functionals, such as the free energy and the power functional, for equilibrium and driven many-body systems. Translational and rotational symmetry operations yield mechanical laws. These global identities express vanishing of total internal and total external forces and torques. We show that functional differentiation then leads to hierarchies of local sum rules that interrelate density correlators as well as static and time direct correlation functions, including memory. For anisotropic particles, orbital and spin motion become systematically coupled. The theory allows us to shed new light on the spatio-temporal coupling of correlations in complex systems. As applications we consider active Brownian particles, where the theory clarifies the role of interfacial forces in motility-induced phase separation. For active sedimentation, the center-of-mass motion is constrained by an internal Noether sum rule. Noether’s Theorem relates symmetries to fundamental physical laws. Rather than applying the concept to an action integral in order to obtain conservation laws, here the authors consider Statistical Mechanical objects, such as the free energy and density and power functionals to derive exact force and torque sum rules.",
+    "url": "https://www.semanticscholar.org/paper/fd866197b2122351a878f4fd509298a047c37788",
+    "source": "semantic_scholar",
+    "timestamp": 2021
+  }
+]

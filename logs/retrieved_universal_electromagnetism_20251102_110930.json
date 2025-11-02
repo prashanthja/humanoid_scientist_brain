@@ -1,0 +1,212 @@
+[
+  {
+    "title": "Electromagnetism and special relativity",
+    "text": "<p>In 1905, when Einstein published his theory of special relativity, Maxwell’s work was already about forty years old. It is therefore both remarkable and ironic (recalling the old arguments about the aether being the ‘preferred’ reference frame for describing wave propagation) that classical electrodynamics turned out to be a relativistically correct theory. In this chapter, a range of questions in electromagnetism are considered as they relate to special relativity. In Questions 12.1–12.4 the behaviour of various physical quantities under Lorentz transformation is considered. This leads to the important concept of an <italic>invariant</italic>. Several of these are encountered, and used frequently throughout this chapter. Other topics considered include the transformationof <bold>E</bold>- and <bold>B-</bold>fields between inertial reference frames, the validity of Gauss’s law for an arbitrarily moving point charge (demonstrated numerically), the electromagnetic field tensor, Maxwell’s equations in covariant form and Larmor’s formula for a relativistic charge.</p>",
+    "url": "https://doi.org/10.1093/oso/9780198821915.003.0012",
+    "source": "crossref",
+    "timestamp": 2018
+  },
+  {
+    "title": "International Journal of Magnetics and Electromagnetism",
+    "text": "",
+    "url": "https://doi.org/10.35840/ijme",
+    "source": "crossref",
+    "timestamp": null
+  },
+  {
+    "title": "ELECTROMAGNETISM AND RELATIVITY",
+    "text": "",
+    "url": "https://doi.org/10.1016/b978-0-08-016382-6.50016-8",
+    "source": "crossref",
+    "timestamp": 1971
+  },
+  {
+    "title": "Electromagnetism in Matter",
+    "text": "",
+    "url": "https://doi.org/10.1017/9781009594660.009",
+    "source": "crossref",
+    "timestamp": 2025
+  },
+  {
+    "title": "Electromagnetism",
+    "text": "",
+    "url": "https://doi.org/10.1007/978-94-011-2112-5_5",
+    "source": "crossref",
+    "timestamp": 1993
+  },
+  {
+    "title": "ELECTROMAGNETISM AND ELECTRICAL ENGINEERING",
+    "text": "",
+    "url": "https://doi.org/10.1016/b978-0-08-016382-6.50005-3",
+    "source": "crossref",
+    "timestamp": 1971
+  },
+  {
+    "title": "A REVIEW OF ELEMENTARY ELECTROMAGNETISM",
+    "text": "",
+    "url": "https://doi.org/10.1016/b978-0-08-016382-6.50006-5",
+    "source": "crossref",
+    "timestamp": 1971
+  },
+  {
+    "title": "ACADEMIC PRESS SERIES IN ELECTROMAGNETISM",
+    "text": "",
+    "url": "https://doi.org/10.1016/b978-0-12-615760-4.50024-9",
+    "source": "crossref",
+    "timestamp": 2000
+  },
+  {
+    "title": "The Principles of Electromagnetism",
+    "text": "",
+    "url": "https://doi.org/10.1016/b978-0-08-032584-2.50006-5",
+    "source": "crossref",
+    "timestamp": 1986
+  },
+  {
+    "title": "Basic facts of electromagnetism",
+    "text": "",
+    "url": "https://doi.org/10.1007/978-1-349-22780-8_1",
+    "source": "crossref",
+    "timestamp": 1993
+  },
+  {
+    "title": "Relativity and electromagnetism",
+    "text": "",
+    "url": "https://doi.org/10.1007/978-1-349-22780-8_12",
+    "source": "crossref",
+    "timestamp": 1993
+  },
+  {
+    "title": "A general theoretical and experimental framework for nanoscale electromagnetism",
+    "text": "The macroscopic electromagnetic boundary conditions, which have been established for over a century1, are essential for the understanding of photonics at macroscopic length scales. Even state-of-the-art nanoplasmonic studies2–4, exemplars of extremely interface-localized fields, rely on their validity. This classical description, however, neglects the intrinsic electronic length scales (of the order of ångström) associated with interfaces, leading to considerable discrepancies between classical predictions and experimental observations in systems with deeply nanoscale feature sizes, which are typically evident below about 10 to 20 nanometres5–10. The onset of these discrepancies has a mesoscopic character: it lies between the granular microscopic (electronic-scale) and continuous macroscopic (wavelength-scale) domains. Existing top-down phenomenological approaches deal only with individual aspects of these omissions, such as nonlocality11–13 and local-response spill-out14,15. Alternatively, bottom-up first-principles approaches—for example, time-dependent density functional theory16,17—are severely constrained by computational demands and thus become impractical for multiscale problems. Consequently, a general and unified framework for nanoscale electromagnetism remains absent. Here we introduce and experimentally demonstrate such a framework—amenable to both analytics and numerics, and applicable to multiscale problems—that reintroduces the electronic length scale via surface-response functions known as Feibelman d parameters18,19. We establish an experimental procedure to measure these complex dispersive surface-response functions, using quasi-normal-mode perturbation theory and observations of pronounced nonclassical effects. We observe nonclassical spectral shifts in excess of 30 per cent and the breakdown of Kreibig-like broadening in a quintessential multiscale architecture: film-coupled nanoresonators, with feature sizes comparable to both the wavelength and the electronic length scale. Our results provide a general framework for modelling and understanding nanoscale (that is, all relevant length scales above about 1 nanometre) electromagnetic phenomena. A general framework for incorporating and correcting for nonclassical electromagnetic phenomena in nanoscale systems is presented.",
+    "url": "https://www.semanticscholar.org/paper/774763c30111d7f06a7e80fb6295880291b00ecc",
+    "source": "semantic_scholar",
+    "timestamp": 2019
+  },
+  {
+    "title": "How to Choose a Gauge? The Case of Hamiltonian Electromagnetism",
+    "text": "We develop some ideas about gauge symmetry in the context of Maxwell’s theory of electromagnetism in the Hamiltonian formalism. One great benefit of this formalism is that it pairs momentum and configurational degrees of freedom, so that a decomposition of one side into subsets can be translated into a decomposition of the other. In the case of electromagnetism, this enables us to pair degrees of freedom of the electric field with degrees of freedom of the vector potential. Another benefit is that the formalism algorithmically identifies subsets of the equations of motion that represent time-dependent symmetries. For electromagnetism, these two benefits allow us to define gauge-fixing in parallel to special decompositions of the electric field. More specifically, we apply the Helmholtz decomposition theorem to split the electric field into its Coulombic and radiative parts, and show how this gives a special role to the Coulomb gauge (i.e. div$$(\\mathbf{A}) = 0$$\n \n (\n A\n )\n =\n 0\n \n ). We relate this argument to Maudlin’s (Entropy, 2018. https://doi.org/10.3390/e20060465) discussion, which advocated the Coulomb gauge.",
+    "url": "https://www.semanticscholar.org/paper/2f40389f144216ec8bd4717dcb881164801174a2",
+    "source": "semantic_scholar",
+    "timestamp": 2021
+  },
+  {
+    "title": "Quasi-topological electromagnetism: Dark energy, dyonic black holes, stable photon spheres and hidden electromagnetic duality",
+    "text": "We introduce the quasi-topological electromagnetism which is defined to be the squared norm of the topological 4-form F ∧ F. A salient property is that its energy-momentum tensor is of the isotropic perfect fluid with the pressure being precisely the opposite to its energy density. It can thus provide a model for dark energy. We study its application in both black hole physics and cosmology. The quasi-topological term has no effect on the purely electric or magnetic Reissner-Nordström black holes, the dyonic solution is however completely modified. We find that the dyonic black holes can have four real horizons. For suitable parameters, the black hole can admit as many as three photon spheres, with one being stable. Another intriguing property is that although the quasi-topological term breaks the electromagnetic duality, the symmetry emerges in the on-shell action in the Wheeler-DeWitt patch. In cosmology, we demonstrate that the quasi-topological term alone is equivalent to a cosmological constant, but the model provides a mechanism for the dark energy to couple with other types of matter. We present a concrete example of the quasi-topological electromagnetism coupled to a scalar field that admits the standard FLRW cosmological solutions.",
+    "url": "https://www.semanticscholar.org/paper/28b3bb9dfb5ac3f256120de56371b78e5d12edc2",
+    "source": "semantic_scholar",
+    "timestamp": 2019
+  },
+  {
+    "title": "Chaos of particle motion near a black hole with quasitopological electromagnetism",
+    "text": "We consider a black hole with quasi-topological electromagnetism to explore the chaos behavior of particle motion near the black hole. We first study the static equilibrium of charged particle near the horizon to verify the chaos bound. The chaos bound could be violated in the higher order expansion of metric function and electric potential function. Then we study the relationship between the ``maximal'' Lyapunov exponent $\\lambda_s$ defined by static equilibrium and the Lyapunov exponent of the particle geodesic motion near the Reissner-Nordstr$\\rm\\ddot{o}$m(RN) black hole and the black hole with quasi-topological electromagnetism. We find an interesting relationship between the Lyapunov exponent $\\lambda_{ph}$ of photon's radial falling into the black hole and the ``maximal'' Lyapunov exponent $\\lambda_s$. For the black hole whose metric function increases monotonically with radius outside horizon, they satisfy the relation $\\lambda_{ph} \\geq 2\\lambda_s$.",
+    "url": "https://www.semanticscholar.org/paper/76a8725a084284b14b9abfb55fb7a8c9a80f3d1b",
+    "source": "semantic_scholar",
+    "timestamp": 2020
+  },
+  {
+    "title": "Generalized Electromagnetism of Subdimensional Particles: A Spin Liquid Story",
+    "text": "It has recently been shown that there exists a class of stable gapless spin liquids in 3+1 dimensions described by higher-rank tensor U(1) gauge fields, giving rise to an emergent tensor electromagnetism. The tensor gauge field of these theories couples naturally to subdimensional particles (such as fractons), which are restricted by gauge invariance to move only along lower-dimensional subspaces of the system. Here we work out some of the basic generalized electromagnetic properties of subdimensional particles coupled to tensor electromagnetism, such as generalized electrostatic fields, potential formulations, Lorentz forces, Maxwell equations, and Biot-Savart laws. Some concepts from conventional electromagnetism will carry over directly, while others require significant modification.",
+    "url": "https://www.semanticscholar.org/paper/5f6c6b4ff011387b3cce9e0432cf5196fd78e9af",
+    "source": "semantic_scholar",
+    "timestamp": 2016
+  },
+  {
+    "title": "Quasitopological electromagnetism and black holes",
+    "text": "In this paper we extend the quasi-topological electromagnetism, recently introduced in arXiv:1907.10876v1 [hep-th], to arbitrary dimensions by introducing a fundamental $p$--form field. This allows to construct new dyonic black hole solutions in odd-dimensions, as well as regular $D$--dimensional black holes and solitons. The three--dimensional system consists of a Maxwell field interacting with a scalar field, leading to a deformation of the BTZ black hole. We present the general formulae defining the black hole solutions in arbitrary dimensions in Lovelock theory and explore the thermal properties of the asymptotically AdS black holes in the gravitational framework of General Relativity. In five dimensions, the latter black holes possess a rich phase space structure in the canonical ensemble, giving rise to as many as five different black hole phases at a fixed temperature, for a given range of the parameters.",
+    "url": "https://www.semanticscholar.org/paper/1d09f1e135a62be3562e06f3bac575384e987d99",
+    "source": "semantic_scholar",
+    "timestamp": 2020
+  },
+  {
+    "title": "Asymptotic structure of electromagnetism in higher spacetime dimensions",
+    "text": "We investigate the asymptotic structure of electromagnetism in Minkowski space in even and odd spacetime dimensions $\\geq 4$. We focus on $d>4$ since the case $d=4$ has been studied previously at length. We first consider spatial infinity where we provide explicit boundary conditions that admit the known physical solutions and make the formalism well defined (finite symplectic structure and charges). Contrary to the situation found in $d=4$ dimensions, there is no need to impose parity conditions under the antipodal map on the leading order of the fields when $d>4$. There is, however, the same need to modify the standard bulk symplectic form by a boundary term at infinity involving a surface degree of freedom. This step makes the Lorentz boosts act canonically. Because of the absence of parity conditions, the theory is found to be invariant under two independent algebras of angle-dependent $u(1)$ transformations ($d>4$). We then integrate the equations of motion in order to find the behaviour of the fields near null infinity. We exhibit the radiative and Coulomb branches, characterized by different decays and parities. The analysis yields generalized matching conditions between the past of $\\mathscr{I}^+$ and the future of $\\mathscr{I} ^-$.",
+    "url": "https://www.semanticscholar.org/paper/4dc8861361c61e2b27973a864b6c73e04dbcd8d0",
+    "source": "semantic_scholar",
+    "timestamp": 2019
+  },
+  {
+    "title": "Colloquium\n: Fractional electromagnetism in quantum matter and high-energy physics",
+    "text": "We present here a theory of fractional electro-magnetism which is capable of describing phenomenon as disparate as the non-locality of the Pippard kernel in superconductivity and anomalous dimensions for conserved currents in holographic dilatonic models. The starting point for our analysis is the observation that the standard current conservation equations remain unchanged if any differential operator that commutes with the total exterior derivative multiplies the current. Such an operator, effectively changing the dimension of the current, increases the allowable gauge transformations in electromagnetism and is at the heart of Nother's second theorem. Here we develop a consistent theory of electromagnetism that exploits this hidden redundancy in which the standard gauge symmetry in electromagnetism is modified by the rotationally invariant operator, the fractional Laplacian. We show that the resultant theories all allow for anomalous (non-traditional) scaling dimensions of the gauge field and the associated current. Using well known extension theorems and the membrane paradigm, we show that either the boundary (UV) or horizon (IR) theory of holographic dilatonic models are both described by such fractional electromagnetism. We also show that the non-local Pippard kernel introduced to solve the problem of the Meissner effect in elemental superconductors can also be formulated as a special case of fractional electromagnetism. We show that the standard charge quantization rules fail when the gauge field acquires an anomalous dimension. The breakdown of charge quantization is discussed extensively in terms of the experimentally measurable modified Aharonov-Bohm effect in the strange metal phase of the cuprate superconductors.",
+    "url": "https://www.semanticscholar.org/paper/4d79e08e23f9b618b6bb1781fef9e1a938abe337",
+    "source": "semantic_scholar",
+    "timestamp": 2019
+  },
+  {
+    "title": "Exploring the Effect of PhET® Interactive Simulation-Based Activities on Students’ Performance and Learning Experiences in Electromagnetism",
+    "text": null,
+    "url": "https://www.semanticscholar.org/paper/07ed9395b1fe4f154c97231e4c1a7604dee676d7",
+    "source": "semantic_scholar",
+    "timestamp": 2018
+  },
+  {
+    "title": "Topology optimization in electromagnetism using SIMP method",
+    "text": "\nPurpose\nIn this work, the authors deal with topology optimization in electromagnetism using solid isotropic material with penalization (SIMP) method associated with a gradient-based algorithm. The purpose of this study is to propose and investigate the impact of new generalized material interpolation scheme (MIS) used in SIMP approaches.\n\n\nDesign/methodology/approach\nThe variable domains of this kind of electromagnetism design problem are decomposed into small squares which represent a material point (iron here) or void. A least square function where the magnetic ﬁeld in a target zone has to be as close as possible to a ﬁxed one is minimized. Then the binary optimization problem is relaxed to a continuous one. By using the adjoint variable method, the gradient is provided. By penalizing the objective function using MIS, gradient-based algorithms can then be directly applied to provide eﬃcient solutions close to the binary ones.\n\n\nFindings\nIn this work, new general MISs are proposed. It is shown on numerous numerical instances that the so-obtained design solutions are more precise to define the zones with or without materials.\n\n\nResearch limitations/implications\nOnly the linearity of the materials is addressed because the associated adjoint method needs this assumption. However, the new penalization approaches are not dependent directly on this assumption.\n\n\nOriginality/value\nThe new MISs are efficiently applied to design of a hall effect thruster (HET) magnetic circuits. Furthermore, these schemes are generic and can then be applied to other topology optimization applications in electromagnetism as well as and in mechanism.\n",
+    "url": "https://www.semanticscholar.org/paper/a7fdb3f57741216a92b15844f177ea899d9be828",
+    "source": "semantic_scholar",
+    "timestamp": 2018
+  },
+  {
+    "title": "Optimal Power Flow Using an Improved Electromagnetism-like Mechanism Method",
+    "text": null,
+    "url": "https://www.semanticscholar.org/paper/dc593a0afdbf4b2dadd667e7d3287ad641d65593",
+    "source": "semantic_scholar",
+    "timestamp": 2016
+  },
+  {
+    "title": "Knots in electromagnetism",
+    "text": null,
+    "url": "https://www.semanticscholar.org/paper/7a785656798f7a2ee07bd43a3f3f7d19ac2eeaca",
+    "source": "semantic_scholar",
+    "timestamp": 2017
+  },
+  {
+    "title": "Existence and nonexistence of solutions for p(x)-curl systems arising in electromagnetism",
+    "text": "Abstract In this paper, we study the existence and the nonexistence of solutions for a new class of p(x)-curl systems arising in electromagnetism. This work generalizes some results obtained in the curl case. There seems to be no results on the nonexistence of solutions for curl systems with variable exponent.",
+    "url": "https://www.semanticscholar.org/paper/f56942d4032336ef15519ddc2f3f6d56823116a6",
+    "source": "semantic_scholar",
+    "timestamp": 2017
+  },
+  {
+    "title": "The two cultures: SI and Gaussian units in electromagnetism",
+    "text": null,
+    "url": "https://www.semanticscholar.org/paper/6354fb3401492c0e5fd92b866be1f86193c4d921",
+    "source": "semantic_scholar",
+    "timestamp": 2018
+  },
+  {
+    "title": "Surface charges for gravity and electromagnetism in the first order formalism",
+    "text": "A new derivation of surface charges for 3  +  1 gravity coupled to electromagnetism is obtained. Gravity theory is written in the tetrad-connection variables. The general derivation starts from the Lagrangian, and uses the covariant symplectic formalism in the language of forms. For gauge theories, surface charges disentangle physical from gauge symmetries through the use of Noether identities and the exactness symmetry condition. The surface charges are quasilocal, explicitly coordinate independent, gauge invariant and background independent. For a black hole family solution, the surface charge conservation implies the first law of black hole mechanics. As a check, we show the first law for an electrically charged, rotating black hole with an asymptotically constant curvature (the Kerr–Newman (anti-)de Sitter family). The charges, including the would-be mass term appearing in the first law, are quasilocal. No reference to the asymptotic structure of the spacetime nor the boundary conditions is required and therefore topological terms do not play a rôle. Finally, surface charge formulae for Lovelock gravity coupled to electromagnetism are exhibited, generalizing the one derived in a recent work by Barnich et al Proc. Workshop ‘ About Various Kinds of Interactions’ in honour of Philippe Spindel (4–5 June 2015, Mons, Belgium) C15-06-04 (2016 (arXiv:1611.01777 [gr-qc])). The two different symplectic methods to define surface charges are compared and shown equivalent.",
+    "url": "https://www.semanticscholar.org/paper/e08b012abf065c9dcfea91654528427e90ac438b",
+    "source": "semantic_scholar",
+    "timestamp": 2017
+  },
+  {
+    "title": "Hybridizing electromagnetism-like mechanism algorithm with migration strategy for layout and size optimization of truss structures with frequency constraints",
+    "text": null,
+    "url": "https://www.semanticscholar.org/paper/4805dc3e59f3cc9c1e611d1469d7d08e5cbb30ce",
+    "source": "semantic_scholar",
+    "timestamp": 2016
+  },
+  {
+    "title": "Knotted solutions, from electromagnetism to fluid dynamics",
+    "text": "Knotted solutions to electromagnetism and fluid dynamics are investigated, based on relations we find between the two subjects. We can write fluid dynamics in electromagnetism language, but only on an initial surface, or for linear perturbations, and we use this map to find knotted fluid solutions, as well as new electromagnetic solutions. We find that knotted solutions of Maxwell electromagnetism are also solutions of more general nonlinear theories, like Born-Infeld, and including ones which contain quantum corrections from couplings with other modes, like Euler-Heisenberg and string theory DBI. Null configurations in electromagnetism can be described as a null pressureless fluid, and from this map we can find null fluid knotted solutions. A type of nonrelativistic reduction of the relativistic fluid equations is described, which allows us to find also solutions of the (nonrelativistic) Euler's equations.",
+    "url": "https://www.semanticscholar.org/paper/c7b176e377edc2044520392692348a6ab1832cd3",
+    "source": "semantic_scholar",
+    "timestamp": 2017
+  },
+  {
+    "title": "High-order finite elements in numerical electromagnetism: degrees of freedom and generators in duality",
+    "text": null,
+    "url": "https://www.semanticscholar.org/paper/0abd167f2090104fa7ed65c2dc6d543747c0bb44",
+    "source": "semantic_scholar",
+    "timestamp": 2016
+  },
+  {
+    "title": "Maxwell electromagnetism as an emergent phenomenon in condensed matter",
+    "text": "The formulation of a complete theory of classical electromagnetism by Maxwell is one of the milestones of science. The capacity of many-body systems to provide emergent mini-universes with vacua quite distinct from the one we inhabit was only recognized much later. Here, we provide an account of how simple systems of localized spins manage to emulate Maxwell electromagnetism in their low-energy behaviour. They are much less constrained by symmetry considerations than the relativistically invariant electromagnetic vacuum, as their substrate provides a non-relativistic background with even translational invariance broken. They can exhibit rich behaviour not encountered in conventional electromagnetism. This includes the existence of magnetic monopole excitations arising from fractionalization of magnetic dipoles; as well as the capacity of disorder, by generating defects on the lattice scale, to produce novel physics, as exemplified by topological spin glassiness or random Coulomb magnetism. This article is part of the themed issue ‘Unifying physics and technology in light of Maxwell's equations’.",
+    "url": "https://www.semanticscholar.org/paper/2ee9bc65691a6ad2d7a679f1b526b7f51c3541ad",
+    "source": "semantic_scholar",
+    "timestamp": 2016
+  }
+]

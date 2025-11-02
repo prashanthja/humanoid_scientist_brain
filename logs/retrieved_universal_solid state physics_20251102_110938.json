@@ -1,0 +1,219 @@
+[
+  {
+    "title": "Solid State Physics",
+    "text": "",
+    "url": "https://doi.org/10.1016/b978-0-12-385030-0.00020-7",
+    "source": "crossref",
+    "timestamp": 2014
+  },
+  {
+    "title": "Journal of Solid State Physics",
+    "text": "",
+    "url": "https://doi.org/10.1155/6139",
+    "source": "crossref",
+    "timestamp": null
+  },
+  {
+    "title": "Issues in Solid-State Physics",
+    "text": "",
+    "url": "https://doi.org/10.5772/intechopen.84367",
+    "source": "crossref",
+    "timestamp": 2019
+  },
+  {
+    "title": "Series Editors",
+    "text": "",
+    "url": "https://doi.org/10.1016/s0081-1947(09)00004-6",
+    "source": "crossref",
+    "timestamp": 2009
+  },
+  {
+    "title": "Copyright Page",
+    "text": "",
+    "url": "https://doi.org/10.1016/s0081-1947(09)00005-8",
+    "source": "crossref",
+    "timestamp": 2009
+  },
+  {
+    "title": "Journal of Physics C: Solid State Physics",
+    "text": "",
+    "url": "https://doi.org/10.1088/issn.0022-3719",
+    "source": "crossref",
+    "timestamp": null
+  },
+  {
+    "title": "Advances in Solid State Physics",
+    "text": "",
+    "url": "https://doi.org/10.1007/bfb0107442",
+    "source": "crossref",
+    "timestamp": 1984
+  },
+  {
+    "title": "SOLID STATE MAGNETISM",
+    "text": "",
+    "url": "https://doi.org/10.1201/9781482283037-13",
+    "source": "crossref",
+    "timestamp": 2000
+  },
+  {
+    "title": "Subject Index",
+    "text": "",
+    "url": "https://doi.org/10.1016/s0081-1947(09)00010-1",
+    "source": "crossref",
+    "timestamp": 2009
+  },
+  {
+    "title": "Author Index",
+    "text": "",
+    "url": "https://doi.org/10.1016/s0081-1947(09)00009-5",
+    "source": "crossref",
+    "timestamp": 2009
+  },
+  {
+    "title": "Advances in Solid State Physics 33",
+    "text": "",
+    "url": "https://doi.org/10.1007/bfb0107880",
+    "source": "crossref",
+    "timestamp": 1993
+  },
+  {
+    "title": "Solid State Physics - Advances in Research and Applications",
+    "text": "",
+    "url": "https://doi.org/10.1016/s0081-1947(06)x8001-3",
+    "source": "crossref",
+    "timestamp": 2006
+  },
+  {
+    "title": "Metallic Magnetism",
+    "text": "",
+    "url": "https://doi.org/10.1007/3-540-45618-x_32",
+    "source": "crossref",
+    "timestamp": null
+  },
+  {
+    "title": "Contributors to Volume 61",
+    "text": "",
+    "url": "https://doi.org/10.1016/s0081-1947(09)00006-x",
+    "source": "crossref",
+    "timestamp": 2009
+  },
+  {
+    "title": "Editor's Note",
+    "text": "",
+    "url": "https://doi.org/10.1016/s0081-1947(09)00008-3",
+    "source": "crossref",
+    "timestamp": 2009
+  },
+  {
+    "title": "Basic Concepts and Structure of Solid State Physics",
+    "text": "",
+    "url": "https://doi.org/10.1016/b978-0-08-015742-9.50006-5",
+    "source": "crossref",
+    "timestamp": 1972
+  },
+  {
+    "title": "Macroporous silicon: Physics and applications",
+    "text": "",
+    "url": "https://doi.org/10.1007/bfb0108236",
+    "source": "crossref",
+    "timestamp": null
+  },
+  {
+    "title": "Charge pumping and photovoltaic effect in open quantum dots",
+    "text": "We propose a random matrix theory to describe the influence of a time-dependent external field on electron transport through open quantum dots. We describe the generation of the current by an oscillating field for the dot, connected to two leads with equal chemical potentials. For low-frequency fields, our results correspond to adiabatic charge pumping. Finite current can be produced if the system goes along a closed loop in parameter space, which covers a finite area. At high frequency, a finite current is produced even if the loop is a line in parameter space. This result can be explained in the same way as adiabatic pumping, but considering the evolution of the system in phase space rather than in parametric space.",
+    "url": "https://www.semanticscholar.org/paper/fdf3c0840d9c102a5b97d0264bec7a94a79fa20c",
+    "source": "semantic_scholar",
+    "timestamp": 2000
+  },
+  {
+    "title": "Elasticity of nanometer-sized objects",
+    "text": "We initiate the development of a theory of the elasticity of nanoscale objects based upon physical concepts which remain properly defined on the nanoscale. This theory provides a powerful way of understanding nanoscale elasticity in terms of local group contributions and gives insight into the breakdown of standard continuum relations. We also give two applications. In the first, we show how to use the theory to derive a relation between the bending and stretching properties of nanomechanical resonators and prove that it is much more accurate than the continuum-based relations currently employed in present experimental analyses. In the second, we link features of the underlining electronic structure to the elastic response of a silicon nanoresonator.",
+    "url": "https://www.semanticscholar.org/paper/79e73d40b2fd8473099ed4523af51a84c201b50b",
+    "source": "semantic_scholar",
+    "timestamp": 2000
+  },
+  {
+    "title": "Ab initio approach for high-pressure systems with application to high-pressure phases of boron: Perturbative momentum-space potentials",
+    "text": "Through the use of perturbation theory, in this work we develop a method which allows for a substantial reduction in the size of the plane-wave basis used in density-functional calculations. This method may be used for both pseudopotentials and all-electron calculations and is particularly beneficial in the latter case. In all cases, the approach has the advantage of allowing accurate predictions of transferability errors for any environment. Finally, this method can be easily implemented into conjugate-gradient techniques, and it is therefore computationally efficient. In this work, we apply this method to study high-pressure phases of boron. We find that boron undergoes a phase transition from the ${\\ensuremath{\\alpha}}_{12}\\ensuremath{-}B$ structure to the ${\\ensuremath{\\alpha}}_{\\mathrm{ga}}\\ensuremath{-}B$ structure, both of which are semiconducting. The ${\\ensuremath{\\alpha}}_{\\mathrm{ga}}\\ensuremath{-}B$ structure has lower energy than traditional monoatomic structures, which supports the assertion that the metallic, and hence superconducting phase, for boron is much more complicated than a simple monoatomic crystal.",
+    "url": "https://www.semanticscholar.org/paper/252e45430ff112cd7e4f4aea9c15249bca6e70f1",
+    "source": "semantic_scholar",
+    "timestamp": 2002
+  },
+  {
+    "title": "Introduction to solid state physics",
+    "text": null,
+    "url": "https://www.semanticscholar.org/paper/47552b2aa5f1137bc46b01daa91b9175837cc380",
+    "source": "semantic_scholar",
+    "timestamp": 1954
+  },
+  {
+    "title": "Inhibited spontaneous emission in solid-state physics and electronics.",
+    "text": null,
+    "url": "https://www.semanticscholar.org/paper/25371c278c41a7aa99a6446ab419a6925d278b76",
+    "source": "semantic_scholar",
+    "timestamp": 1987
+  },
+  {
+    "title": "Fundamentals, Advances and Perspectives of Piezocatalysis: A Marriage of Solid-state Physics and Catalytic Chemistry",
+    "text": null,
+    "url": "https://www.semanticscholar.org/paper/e1aaa891e46ece3ab8f8121166f22fb0be6a0c5e",
+    "source": "semantic_scholar",
+    "timestamp": 2023
+  },
+  {
+    "title": "CRYSTAL23: A Program for Computational Solid State Physics and Chemistry",
+    "text": "The Crystal program for quantum-mechanical simulations of materials has been bridging the realm of molecular quantum chemistry to the realm of solid state physics for many years, since its first public version released back in 1988. This peculiarity stems from the use of atom-centered basis functions within a linear combination of atomic orbitals (LCAO) approach and from the corresponding efficiency in the evaluation of the exact Fock exchange series. In particular, this has led to the implementation of a rich variety of hybrid density functional approximations since 1998. Nowadays, it is acknowledged by a broad community of solid state chemists and physicists that the inclusion of a fraction of Fock exchange in the exchange-correlation potential of the density functional theory is key to a better description of many properties of materials (electronic, magnetic, mechanical, spintronic, lattice-dynamical, etc.). Here, the main developments made to the program in the last five years (i.e., since the previous release, Crystal17) are presented and some of their most noteworthy applications reviewed.",
+    "url": "https://www.semanticscholar.org/paper/11928c8fced0d76a2c909cf873e9fdf297b0d17b",
+    "source": "semantic_scholar",
+    "timestamp": 2022
+  },
+  {
+    "title": "Introduction to Solid State Physics (6th edn)",
+    "text": null,
+    "url": "https://www.semanticscholar.org/paper/ad1f12e5d51821bd44a84fac8559a54068b9cc99",
+    "source": "semantic_scholar",
+    "timestamp": 1986
+  },
+  {
+    "title": "Attosecond spectroscopy for the investigation of ultrafast dynamics in atomic, molecular and solid-state physics",
+    "text": "Since the first demonstration of the generation of attosecond pulses (1 as = 10−18 s) in the extreme-ultraviolet spectral region, several measurement techniques have been introduced, at the beginning for the temporal characterization of the pulses, and immediately after for the investigation of electronic and nuclear ultrafast dynamics in atoms, molecules and solids with unprecedented temporal resolution. The attosecond spectroscopic tools established in the last two decades, together with the development of sophisticated theoretical methods for the interpretation of the experimental outcomes, allowed to unravel and investigate physical processes never observed before, such as the delay in photoemission from atoms and solids, the motion of electrons in molecules after prompt ionization which precede any notable nuclear motion, the temporal evolution of the tunneling process in dielectrics, and many others. This review focused on applications of attosecond techniques to the investigation of ultrafast processes in atoms, molecules and solids. Thanks to the introduction and ongoing developments of new spectroscopic techniques, the attosecond science is rapidly moving towards the investigation, understanding and control of coupled electron–nuclear dynamics in increasingly complex systems, with ever more accurate and complete investigation techniques. Here we will review the most common techniques presenting the latest results in atoms, molecules and solids.",
+    "url": "https://www.semanticscholar.org/paper/e6695cbcd987c52db1b19d60620c2ea11856105d",
+    "source": "semantic_scholar",
+    "timestamp": 2022
+  },
+  {
+    "title": "M06-SX screened-exchange density functional for chemistry and solid-state physics",
+    "text": "Significance Density functionals with Hartree–Fock exchange have been widely used for a wide range of chemical applications, but the nonlocal character of exchange makes long-range exchange computationally expensive for solid-state calculations with periodic boundary conditions, and full exchange is nonphysical for condensed-phase systems. Here, we present a screened-exchange (SX) density functional, M06-SX, that is especially designed to have good accuracy for both solid-state physics and chemical applications with less computational cost than full Hartree–Fock exchange. The M06-SX functional gives accuracy comparable to functionals with full Hartree–Fock exchange for predicting chemical properties of molecules, while also being practical with good accuracy for plane wave calculations on band gaps and lattice constants of solids. Screened-exchange hybrid density functionals are especially recommended for solid-state systems because they combine the advantages of hybrid functionals with the correct physics and lower computational cost associated with the attenuation of Hartree–Fock exchange at long range. We present a screened-exchange hybrid functional, M06-SX, that combines the functional form of the local revM06-L functional with a percentage of short-range nonlocal Hartree–Fock exchange. The M06-SX functional gives good results not only for a large set of training data but also for several databases quite different from the training data. The mean unsigned error (MUE) of the M06-SX functional is 2.85 kcal/mol for 418 atomic and molecular energies (AME418) in Minnesota Database 2019, which is better than all five other screened-exchange hybrid functionals tested in this work. The M06-SX functional also gives especially good results for semiconductor band gaps, molecular dissociation energies, noncovalent interactions, barrier heights, and electronic excitation energies excluding long-range charge transfer excitations. For the LC18 lattice constants database, the M06-SX functional gives an MUE of only 0.034 Å. Therefore, the M06-SX functional is well suited for studying molecular chemistry as well as solid-state physics.",
+    "url": "https://www.semanticscholar.org/paper/de745f37f49e98c5227189d31107c9ade62cf7a3",
+    "source": "semantic_scholar",
+    "timestamp": 2020
+  },
+  {
+    "title": "Development of E-Modules Based on Multi-representations in Solid-State Physics Introductory Subject",
+    "text": "This study also aims to produce e-modules based on multi-representations in solid-state physics introductory subjects with good validity and practicality. The products produced are in the form of e-modules in the form of 3D flipbooks, including video, animation, sound, flash, and hyperlinks. This study uses the Rowntree development model. This model has three stages, planning, development, and evaluation stage. In the evaluation phase, Tessmer formative evaluation used, which consist of 5 stages, self-evaluation, expert review, one-to-one evaluation, small group evaluation, and field test. In the expert review stage, the average results of evaluations from experts obtained at 4.6 or 92.2% with a very valid category. The one-to-one evaluation stage found that the average result of the student questionnaire's impression on the use of teaching materials was 89%, with the category very practical. At the small group evaluation trial stage, the average score of the students' questionnaire assessment towards the use of teaching materials was 93.48% (very practical category). Based on the assessment that has been done, the e-module (electronic module) based on a multi-representation in solid-state physics introductory subject has been successfully developed with good validity and practicality.",
+    "url": "https://www.semanticscholar.org/paper/5179b687e95cea76e82169514a1b9f4200be1c19",
+    "source": "semantic_scholar",
+    "timestamp": 2020
+  },
+  {
+    "title": "ELEMENTS OF SOLID STATE PHYSICS",
+    "text": "Provides a basic introduction to the principles of solid state physics and, unlike many other introductory texts on the subject, it assumes no prior knowledge of quantum or statistical mechanics but relies on simple models to illustrate the physical principles. Highlights include a wide range of numerical problems with solutions and hints together with a large number of descriptive questions which serve as a means of self-testing and revision.",
+    "url": "https://www.semanticscholar.org/paper/6dc07ce11867390b6544b65dede7d86515f297f0",
+    "source": "semantic_scholar",
+    "timestamp": 2020
+  },
+  {
+    "title": "Emergence in Solid State Physics and Biology",
+    "text": "There has been much controversy over weak and strong emergence in physics and biology. As pointed out by Phil Anderson in many papers, the existence of broken symmetries is the key to emergence of properties in much of solid state physics. By carefully distinguishing between different types of symmetry breaking and tracing the relation between broken symmetries at micro and macro scales, I demonstrate that the emergence of the properties of semiconductors is a case of strong emergence. This is due to the existence of quasiparticles such as phonons. Furthermore time dependent potentials enable downward causation as in the case of digital computers. Additionally I show that the processes of evolutionary emergence of living systems is also a case of strong emergence, as is the emergence of properties of life out of the underlying physics. A useful result emerges: standard physics theories and the emergent theories arising out of them are all effective theories that are equally valid.",
+    "url": "https://www.semanticscholar.org/paper/173b5e2665971fcd2f5575c40937596a89ff0669",
+    "source": "semantic_scholar",
+    "timestamp": 2020
+  },
+  {
+    "title": "Solid-State Physics",
+    "text": "This short chapter gives a glimpse of how concepts studied in other areas of physics, e.g., energy losses of ionizing particles in matter, connect to solid-state physics. The basic ideas behind transistors are discussed, and a topic of current research interest is introduced: creation of vacancies in diamond by electron irradiation. It is also shown that a lot about magnetic domains can be understood from “back-of-the-envelope” estimates.",
+    "url": "https://www.semanticscholar.org/paper/4356dbc3336bccb4dca128e65f23b42c7b9c2d5f",
+    "source": "semantic_scholar",
+    "timestamp": 2021
+  }
+]

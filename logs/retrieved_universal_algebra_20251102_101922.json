@@ -1,0 +1,275 @@
+[
+  {
+    "title": "Algebra",
+    "text": "",
+    "url": "https://doi.org/10.1155/5708",
+    "source": "crossref",
+    "timestamp": null
+  },
+  {
+    "title": "From linear algebra via affine algebra to projective algebra",
+    "text": "",
+    "url": "https://doi.org/10.1016/j.laa.2003.06.021",
+    "source": "crossref",
+    "timestamp": 2004
+  },
+  {
+    "title": "ISRN Algebra",
+    "text": "",
+    "url": "https://doi.org/10.5402/algebra",
+    "source": "crossref",
+    "timestamp": null
+  },
+  {
+    "title": "Elftes Kapitel. Multilineare Algebra",
+    "text": "",
+    "url": "https://doi.org/10.1515/9783111507095.265",
+    "source": "crossref",
+    "timestamp": null
+  },
+  {
+    "title": "Abelianizing the divided powers algebra of an algebra",
+    "text": "",
+    "url": "https://doi.org/10.1016/0021-8693(89)90215-9",
+    "source": "crossref",
+    "timestamp": 1989
+  },
+  {
+    "title": "On Zhu's algebra and C2–algebra for symplectic fermion vertex algebra SF(d)+",
+    "text": "",
+    "url": "https://doi.org/10.1016/j.jalgebra.2020.07.019",
+    "source": "crossref",
+    "timestamp": 2020
+  },
+  {
+    "title": "W-Algebra: An Algebra of Invariant Operators",
+    "text": "",
+    "url": "https://doi.org/10.1017/cbo9781107340695.010",
+    "source": "crossref",
+    "timestamp": 1984
+  },
+  {
+    "title": "Triangular Decomposition of the Composition Algebra of the Kronecker Algebra",
+    "text": "",
+    "url": "https://doi.org/10.1006/jabr.1996.0252",
+    "source": "crossref",
+    "timestamp": 1996
+  },
+  {
+    "title": "The Ext-algebra and associated monomial algebra of a finite dimensional K-algebra",
+    "text": "",
+    "url": "https://doi.org/10.1016/j.jpaa.2023.107528",
+    "source": "crossref",
+    "timestamp": 2024
+  },
+  {
+    "title": "Algebra environments II. Algebra homomorphisms and derivations",
+    "text": "",
+    "url": "https://doi.org/10.1016/j.laa.2024.04.001",
+    "source": "crossref",
+    "timestamp": 2024
+  },
+  {
+    "title": "Max-algebra: the linear algebra of combinatorics?",
+    "text": "",
+    "url": "https://doi.org/10.1016/s0024-3795(02)00655-9",
+    "source": "crossref",
+    "timestamp": 2003
+  },
+  {
+    "title": "The Ext-Algebra of a Representation-Finite Biserial Algebra",
+    "text": "",
+    "url": "https://doi.org/10.1006/jabr.1999.8001",
+    "source": "crossref",
+    "timestamp": 1999
+  },
+  {
+    "title": "Gonosomal algebra",
+    "text": "",
+    "url": "https://doi.org/10.1016/j.jalgebra.2015.09.023",
+    "source": "crossref",
+    "timestamp": 2016
+  },
+  {
+    "title": "Sessions of the seminar “Algebra i Logika”",
+    "text": "",
+    "url": "https://doi.org/10.1007/s10469-011-9125-x",
+    "source": "crossref",
+    "timestamp": 2011
+  },
+  {
+    "title": "1. Numbers and algebra",
+    "text": "<p>‘Numbers and algebra’ introduces the number system and explains several terms used in algebra, including natural numbers, positive and negative integers, rational numbers, number factorization, the Fundamental Theorem of Arithmetic, Euclid’s Lemma, the Division Algorithm, and the Euclidean Algorithm. It proves that any common factor <italic>c</italic> of <italic>a</italic> and <italic>b</italic> is also a factor of any number of the form <italic>ax + by</italic>, and since the greatest common divisor (gcd) of <italic>a</italic> and <italic>b</italic> has this form, which may be found by reversing the steps of the Euclidean Algorithm, it follows that any common factor <italic>c</italic> of <italic>a</italic> and <italic>b</italic> divides their gcd <italic>d</italic>.</p>",
+    "url": "https://doi.org/10.1093/actrade/9780198732822.003.0001",
+    "source": "crossref",
+    "timestamp": 2015
+  },
+  {
+    "title": "(Hopf) Algebra Automorphisms of the Hopf Algebra",
+    "text": "",
+    "url": "https://doi.org/10.1080/00927872.2012.668992",
+    "source": "crossref",
+    "timestamp": 2013
+  },
+  {
+    "title": "Basic process algebra",
+    "text": "",
+    "url": "https://doi.org/10.1017/cbo9780511624193.003",
+    "source": "crossref",
+    "timestamp": 1990
+  },
+  {
+    "title": "Rota-Baxter TD Algebra and Quinquedendriform Algebra",
+    "text": "<jats:p>A dendriform algebra defined by Loday has two binary operations that give a two-part splitting of the associativity in the sense that their sum is associative. Similar dendriform type algebras with three-part and four-part splitting of the associativity were later obtained. These structures can also be derived from actions of suitable linear operators, such as a Rota-Baxter operator or TD operator, on an associative algebra. Motivated by finding a five-part splitting of the associativity, we consider the Rota-Baxter TD (RBTD) operator, an operator combining the Rota-Baxter operator and TD operator, and coming from a recent study of Rota’s problem concerning linear operators on associative algebras. Free RBTD algebras on rooted forests are constructed. We then introduce the concept of a quinquedendriform algebra and show that its defining relations are characterized by the action of an RBTD operator, similar to the cases of dendriform and tridendriform algebras.</jats:p>",
+    "url": "https://doi.org/10.1142/s1005386717000037",
+    "source": "crossref",
+    "timestamp": 2017
+  },
+  {
+    "title": "A GENERIC HALL ALGEBRA OF THE KRONECKER ALGEBRA",
+    "text": "",
+    "url": "https://doi.org/10.1081/agb-200065132",
+    "source": "crossref",
+    "timestamp": 2005
+  },
+  {
+    "title": "A Decision Method for Elementary Algebra and Geometry",
+    "text": null,
+    "url": "https://www.semanticscholar.org/paper/686812651628808e11f6fe661e681bc2a572c7da",
+    "source": "semantic_scholar",
+    "timestamp": 2023
+  },
+  {
+    "title": "Linear Algebra and Its Applications",
+    "text": null,
+    "url": "https://www.semanticscholar.org/paper/173494a3fccb402d3c222c806e7e139ecd4c0297",
+    "source": "semantic_scholar",
+    "timestamp": 2020
+  },
+  {
+    "title": "Structural Equation Models with Unobservable Variables and Measurement Error: Algebra and Statistics",
+    "text": null,
+    "url": "https://www.semanticscholar.org/paper/dddd06623c22a7ada3f11b05ac28729c2b8db147",
+    "source": "semantic_scholar",
+    "timestamp": 1981
+  },
+  {
+    "title": "The Magma Algebra System I: The User Language",
+    "text": null,
+    "url": "https://www.semanticscholar.org/paper/b7ebcec93f35e52ef14a41c9c9d55fa132987473",
+    "source": "semantic_scholar",
+    "timestamp": 1997
+  },
+  {
+    "title": "Matrix Analysis and Applied Linear Algebra",
+    "text": null,
+    "url": "https://www.semanticscholar.org/paper/d6e6c3243e9e4e6dd8f0bc783d7612b7d3863d5f",
+    "source": "semantic_scholar",
+    "timestamp": 2000
+  },
+  {
+    "title": "HOMOLOGICAL ALGEBRA",
+    "text": null,
+    "url": "https://www.semanticscholar.org/paper/9113b4096d3127944484b66d9091b9036ac017f5",
+    "source": "semantic_scholar",
+    "timestamp": 2021
+  },
+  {
+    "title": "Commutative Algebra: with a View Toward Algebraic Geometry",
+    "text": null,
+    "url": "https://www.semanticscholar.org/paper/a78c4d8308ec99087ec817b7984aaadbbf2ab25d",
+    "source": "semantic_scholar",
+    "timestamp": 1995
+  },
+  {
+    "title": "Introduction to commutative algebra",
+    "text": null,
+    "url": "https://www.semanticscholar.org/paper/d66a8bef8f614ba2dc30210b4a8b4b039a385d71",
+    "source": "semantic_scholar",
+    "timestamp": 1969
+  },
+  {
+    "title": "An algebra of observables for de Sitter space",
+    "text": "We describe an algebra of observables for a static patch in de Sitter space, with operators gravitationally dressed to the worldline of an observer. The algebra is a von Neumann algebra of Type II_1. There is a natural notion of entropy for a state of such an algebra. There is a maximum entropy state, which corresponds to empty de Sitter space, and the entropy of any semiclassical state of the Type II_1 algebras agrees, up to an additive constant independent of the state, with the expected generalized entropy S _gen = ( A/ 4 G _ N ) + S _out. An arbitrary additive constant is present because of the renormalization that is involved in defining entropy for a Type II_1 algebra.",
+    "url": "https://www.semanticscholar.org/paper/f06b0c2f1e47997f5383e81e0413b0f5bcd4d46c",
+    "source": "semantic_scholar",
+    "timestamp": 2022
+  },
+  {
+    "title": "Applied Numerical Linear Algebra",
+    "text": null,
+    "url": "https://www.semanticscholar.org/paper/59a0d7ca66f5bd7d31c7c96d36c31033a075e246",
+    "source": "semantic_scholar",
+    "timestamp": 1997
+  },
+  {
+    "title": "Ideals, Varieties, and Algorithms: An Introduction to Computational Algebraic Geometry and Commutative Algebra",
+    "text": null,
+    "url": "https://www.semanticscholar.org/paper/ff6ef8c9b8435f44ce222b0982c19d65900e0f92",
+    "source": "semantic_scholar",
+    "timestamp": 1992
+  },
+  {
+    "title": "Numerical Linear Algebra",
+    "text": null,
+    "url": "https://www.semanticscholar.org/paper/692dcd0882d9ad2168bdffc9ab6a31c9a90dd943",
+    "source": "semantic_scholar",
+    "timestamp": 2011
+  },
+  {
+    "title": "A course in universal algebra",
+    "text": null,
+    "url": "https://www.semanticscholar.org/paper/54c46e6b7e427ab16af104551a5766ba282e2d33",
+    "source": "semantic_scholar",
+    "timestamp": 1981
+  },
+  {
+    "title": "An Introduction to Homological Algebra: References",
+    "text": null,
+    "url": "https://www.semanticscholar.org/paper/6693168fd5b8e52919af5e30c97496ac18da1bf3",
+    "source": "semantic_scholar",
+    "timestamp": 1960
+  },
+  {
+    "title": "Matrix Algebra From a Statistician's Perspective",
+    "text": null,
+    "url": "https://www.semanticscholar.org/paper/09a014d787935df991b3ba6d41d5ebcea769109e",
+    "source": "semantic_scholar",
+    "timestamp": 1998
+  },
+  {
+    "title": "TOPAS and TOPAS-Academic: an optimization program integrating computer algebra and crystallographic objects written in C++",
+    "text": null,
+    "url": "https://www.semanticscholar.org/paper/f24ca222ed1a87ff7892d5bf969643eb240e86b3",
+    "source": "semantic_scholar",
+    "timestamp": 2018
+  },
+  {
+    "title": "Topics in algebra",
+    "text": null,
+    "url": "https://www.semanticscholar.org/paper/3efe5a7e7b6d2728cf59d85424303eb0a4305574",
+    "source": "semantic_scholar",
+    "timestamp": 2021
+  },
+  {
+    "title": "An Introduction to Homological Algebra",
+    "text": null,
+    "url": "https://www.semanticscholar.org/paper/5c1f0774a801d6f6757430418b3a2e966e7d4f67",
+    "source": "semantic_scholar",
+    "timestamp": 2016
+  },
+  {
+    "title": "Geometric Algebra",
+    "text": "Abstract algebra is the study of algebraic structures and include groups, rings, fields, modules, vector spaces, lattices, and algebras. The term abstract algebra was coined in the early 20th century to distinguish this area of study from the other parts of algebra.",
+    "url": "https://www.semanticscholar.org/paper/9298dd69b31e7193b67cc54521e008ae81e54914",
+    "source": "semantic_scholar",
+    "timestamp": 2019
+  },
+  {
+    "title": "Homotopical Algebra",
+    "text": null,
+    "url": "https://www.semanticscholar.org/paper/02aea65f10391841ade5f860fdd9cc56eb5eee8e",
+    "source": "semantic_scholar",
+    "timestamp": 2019
+  }
+]

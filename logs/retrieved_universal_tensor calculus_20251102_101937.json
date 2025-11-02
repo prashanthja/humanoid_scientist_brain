@@ -1,0 +1,268 @@
+[
+  {
+    "title": "Why Tensor Calculus?",
+    "text": "",
+    "url": "https://doi.org/10.1007/978-1-4614-7867-6_1",
+    "source": "crossref",
+    "timestamp": 2013
+  },
+  {
+    "title": "Matrix Calculus",
+    "text": "",
+    "url": "https://doi.org/10.1142/9789811202520_0001",
+    "source": "crossref",
+    "timestamp": 2019
+  },
+  {
+    "title": "Tensor Product",
+    "text": "",
+    "url": "https://doi.org/10.1142/9789811202520_0004",
+    "source": "crossref",
+    "timestamp": 2019
+  },
+  {
+    "title": "Wormhole calculus without averaging from \nO(N)q−1\n tensor model",
+    "text": "",
+    "url": "https://doi.org/10.37473/fic/10.1103/physrevd.105.046002",
+    "source": "crossref",
+    "timestamp": null
+  },
+  {
+    "title": "Coordinate Systems and the Role of Tensor Calculus",
+    "text": "",
+    "url": "https://doi.org/10.1007/978-1-4614-7867-6_3",
+    "source": "crossref",
+    "timestamp": 2013
+  },
+  {
+    "title": "Tensor Analysis",
+    "text": "",
+    "url": "https://doi.org/10.1201/9780203737293-3",
+    "source": "crossref",
+    "timestamp": 2018
+  },
+  {
+    "title": "Tensor Algebra",
+    "text": "",
+    "url": "https://doi.org/10.1201/9780203737293-2",
+    "source": "crossref",
+    "timestamp": 2018
+  },
+  {
+    "title": "Fundamentals of Tensor Calculus",
+    "text": "",
+    "url": "https://doi.org/10.1007/978-3-031-59302-4_4",
+    "source": "crossref",
+    "timestamp": 2024
+  },
+  {
+    "title": "Applications",
+    "text": "",
+    "url": "https://doi.org/10.1142/9789811202520_0003",
+    "source": "crossref",
+    "timestamp": 2019
+  },
+  {
+    "title": "Applications of Tensor Calculus to Some Problems of Mechanics and Physics",
+    "text": "",
+    "url": "https://doi.org/10.1142/9789812794260_0006",
+    "source": "crossref",
+    "timestamp": 2003
+  },
+  {
+    "title": "FRONT MATTER",
+    "text": "",
+    "url": "https://doi.org/10.1142/9789811202520_fmatter",
+    "source": "crossref",
+    "timestamp": 2019
+  },
+  {
+    "title": "Tensor Operations",
+    "text": "",
+    "url": "https://doi.org/10.1007/978-3-642-28027-6_13",
+    "source": "crossref",
+    "timestamp": 2012
+  },
+  {
+    "title": "Fractors — Fractional Tensor Calculus",
+    "text": "",
+    "url": "https://doi.org/10.1142/9789813274587_0024",
+    "source": "crossref",
+    "timestamp": 2018
+  },
+  {
+    "title": "Kronecker Product",
+    "text": "",
+    "url": "https://doi.org/10.1142/9789811202520_0002",
+    "source": "crossref",
+    "timestamp": 2019
+  },
+  {
+    "title": "Fractors: Fractional Tensor Calculus",
+    "text": "",
+    "url": "https://doi.org/10.1142/9789814340250_0017",
+    "source": "crossref",
+    "timestamp": 2011
+  },
+  {
+    "title": "Software Implementations",
+    "text": "",
+    "url": "https://doi.org/10.1142/9789811202520_0005",
+    "source": "crossref",
+    "timestamp": 2019
+  },
+  {
+    "title": "BACK MATTER",
+    "text": "",
+    "url": "https://doi.org/10.1142/9789811202520_bmatter",
+    "source": "crossref",
+    "timestamp": 2019
+  },
+  {
+    "title": "Fractors – Fractional Tensor Calculus",
+    "text": "",
+    "url": "https://doi.org/10.1142/9789819814404_0026",
+    "source": "crossref",
+    "timestamp": 2025
+  },
+  {
+    "title": "Tensor Calculus and Analytical Dynamics",
+    "text": "A Classical Introduction to Holonomic and Nonholonomic Tensor Calculus; and Its Principal Applications to the Lagrangean Dynamics of Constrained Mechanical Systems. ",
+    "url": "https://doi.org/10.1201/9780203737293",
+    "source": "crossref",
+    "timestamp": 2018
+  },
+  {
+    "title": "A Simple and Efficient Tensor Calculus",
+    "text": "Computing derivatives of tensor expressions, also known as tensor calculus, is a fundamental task in machine learning. A key concern is the efficiency of evaluating the expressions and their derivatives that hinges on the representation of these expressions. Recently, an algorithm for computing higher order derivatives of tensor expressions like Jacobians or Hessians has been introduced that is a few orders of magnitude faster than previous state-of-the-art approaches. Unfortunately, the approach is based on Ricci notation and hence cannot be incorporated into automatic differentiation frameworks like TensorFlow, PyTorch, autograd, or JAX that use the simpler Einstein notation. This leaves two options, to either change the underlying tensor representation in these frameworks or to develop a new, provably correct algorithm based on Einstein notation. Obviously, the first option is impractical. Hence, we pursue the second option. Here, we show that using Ricci notation is not necessary for an efficient tensor calculus and develop an equally efficient method for the simpler Einstein notation. It turns out that turning to Einstein notation enables further improvements that lead to even better efficiency.",
+    "url": "https://www.semanticscholar.org/paper/2c1cf81d1ff5b485130b17e9166c53fa4a53453e",
+    "source": "semantic_scholar",
+    "timestamp": 2020
+  },
+  {
+    "title": "Tensor Calculus",
+    "text": "These notes are the second part of the tensor calculus documents which started with the previous set of introductory. In the present text, we continue the discussion of selected topics of the subject at a higher level expanding, when necessary, some topics and developing further concepts and techniques. Unlike the previous notes which are largely based on a Cartesian approach, the present notes are essentially based on assuming an underlying general curvilinear coordinate system.",
+    "url": "https://www.semanticscholar.org/paper/e94e5c4e25036649c869ae313351f5cf70426ea1",
+    "source": "semantic_scholar",
+    "timestamp": 2016
+  },
+  {
+    "title": "Tensor calculus in spherical coordinates using Jacobi polynomials. Part-I: Mathematical analysis and derivations",
+    "text": null,
+    "url": "https://www.semanticscholar.org/paper/ad66c2520f33c55bbd3d3dd9e8034f1d602f5fde",
+    "source": "semantic_scholar",
+    "timestamp": 2018
+  },
+  {
+    "title": "Tensor network approach to 2D Lorentzian quantum Regge calculus",
+    "text": "We demonstrate a tensor renormalization group (TRG) calculation for a two-dimensional Lorentzian model of quantum Regge calculus (QRC). This model is expressed in terms of a tensor network by discretizing the continuous edge lengths of simplicial manifolds and identifying them as tensor indices. The expectation value of space-time area, which is obtained through the higher-order TRG method, nicely reproduces the exact value. The Lorentzian model does not have the spike configuration that was an obstacle in the Euclidean QRC, but it still has a length-divergent configuration called a pinched geometry. We find a possibility that the pinched geometry is suppressed by checking the average edge length squared in the limit where the number of simplices is large. This implies that the Lorentzian model may describe smooth geometries, although the investigation of the higher moments is required to make the statement more conclusive. Our results also indicate that TRG is a promising approach to numerical study of simplicial quantum gravity.",
+    "url": "https://www.semanticscholar.org/paper/9253fb4284955fa467e554022b8acd7911f90f9d",
+    "source": "semantic_scholar",
+    "timestamp": 2022
+  },
+  {
+    "title": "The basis of design tools for quantum computing: arrays, decision diagrams, tensor networks, and ZX-calculus",
+    "text": "Quantum computers promise to efficiently solve important problems classical computers never will. However, in order to capitalize on these prospects, a fully automated quantum software stack needs to be developed. This involves a multitude of complex tasks from the classical simulation of quantum circuits, over their compilation to specific devices, to the verification of the circuits to be executed as well as the obtained results. All of these tasks are highly non-trivial and necessitate efficient data structures to tackle the inherent complexity. Starting from rather straight-forward arrays over decision diagrams (inspired by the design automation community) to tensor networks and the ZX-calculus, various complementary approaches have been proposed. This work provides a look \"under the hood\" of today's tools and showcases how these means are utilized in them, e.g., for simulation, compilation, and verification of quantum circuits.",
+    "url": "https://www.semanticscholar.org/paper/f8b8a021ddf9821f93e1208e87bb1f84334bbf2f",
+    "source": "semantic_scholar",
+    "timestamp": 2022
+  },
+  {
+    "title": "Symbolic tensor calculus on manifolds: a SageMath implementation",
+    "text": "These lecture notes present a method for symbolic tensor calculus that (i) runs on fully specified smooth manifolds (described by an atlas), (ii) is not limited to a single coordinate chart or vector frame, (iii) runs even on non-parallelizable manifolds and (iv) is independent of the symbolic engine employed to perform calculus at the level of coordinate expressions. In addition to the main ideas, we discuss some details of the implementation in in the open-source mathematics software system SageMath, which has been performed via the SageManifolds project.",
+    "url": "https://www.semanticscholar.org/paper/98c3551838f78d16b5a84fead0feb642d4e78804",
+    "source": "semantic_scholar",
+    "timestamp": 2018
+  },
+  {
+    "title": "Tensor calculus in spherical coordinates using Jacobi polynomials. Part-II: Implementation and examples",
+    "text": null,
+    "url": "https://www.semanticscholar.org/paper/05ec0393eef6fb25c51899ebf447acc88b0e8c5f",
+    "source": "semantic_scholar",
+    "timestamp": 2018
+  },
+  {
+    "title": "Chain Rules for Hessian and Higher Derivatives Made Easy by Tensor Calculus",
+    "text": "Computing multivariate derivatives of matrix-like expressions in the compact, coordinate free fashion is very important for both theory and applied computations (e.g. optimization and machine learning). \nThe critical components of such computations are \\emph{chain and product rules} for derivatives. Although they are taught early in simple scenarios, practical applications involve high-dimensional arrays; in this context it is very hard to find easy accessible and compact explanation. \nThis paper discusses how to relatively simply carry such derivations based on the (simplified as adapted in applied computer science) concept of tensors. Numerical examples in modern Python libraries are provided. This discussion simplifies and illustrates an earlier exposition by Manton (2012).",
+    "url": "https://www.semanticscholar.org/paper/c6a8303886342776107d6102902935fd0a256d70",
+    "source": "semantic_scholar",
+    "timestamp": 2019
+  },
+  {
+    "title": "Anisotropic tensor calculus",
+    "text": "We introduce the anisotropic tensor calculus, which is a way of handling tensors that depends on the direction remaining always in the same class. This means that the derivative of an anisotropic tensor is a tensor of the same type. As an application we show how to define derivations using anisotropic linear connections in a manifold. In particular, we show that the Chern connection of a Finsler metric can be interpreted as the Levi-Civita connection and we introduce the anisotropic curvature tensor. We also relate the concept of anisotropic connection with the classical concept of linear connections in the vertical bundle. Furthermore, we also introduce the concept of anisotropic Lie derivative.",
+    "url": "https://www.semanticscholar.org/paper/16f7acdcd8cc2425480e08fd79b382c844842da1",
+    "source": "semantic_scholar",
+    "timestamp": 2016
+  },
+  {
+    "title": "Tensor calculus: unlearning vector calculus",
+    "text": null,
+    "url": "https://www.semanticscholar.org/paper/fc41559d5e0d42890b7c45956449363bcf32110a",
+    "source": "semantic_scholar",
+    "timestamp": 2018
+  },
+  {
+    "title": "Fast Higher-Order Functions for Tensor Calculus with Tensors and Subtensors",
+    "text": null,
+    "url": "https://www.semanticscholar.org/paper/238aa08208d90cba66586aa9ec4b9b5ac9684946",
+    "source": "semantic_scholar",
+    "timestamp": 2018
+  },
+  {
+    "title": "Comparing Controlflow and Dataflow for Tensor Calculus: Speed, Power, Complexity, and MTBF",
+    "text": null,
+    "url": "https://www.semanticscholar.org/paper/75d50fedc74bf057c25226add27e6939f96c5a4f",
+    "source": "semantic_scholar",
+    "timestamp": 2018
+  },
+  {
+    "title": "Topics on Tensor Calculus with Applications to Mechanics",
+    "text": null,
+    "url": "https://www.semanticscholar.org/paper/d3161a0c536573e3783f630a508a4cd44f5c3a61",
+    "source": "semantic_scholar",
+    "timestamp": 2017
+  },
+  {
+    "title": "Introduction to Tensor Calculus",
+    "text": "These are general notes on tensor calculus which can be used as a reference for an introductory course on tensor algebra and calculus. A basic knowledge of calculus and linear algebra with some commonly used mathematical terminology is presumed.",
+    "url": "https://www.semanticscholar.org/paper/0166a565356a961aee50d3ec46a68a130fdd0d33",
+    "source": "semantic_scholar",
+    "timestamp": 2016
+  },
+  {
+    "title": "EIN : An Intermediate Representation for Compiling Tensor Calculus",
+    "text": null,
+    "url": "https://www.semanticscholar.org/paper/3cc813d18bcb0aa1c0213ec9dd32d502df9a99e8",
+    "source": "semantic_scholar",
+    "timestamp": 2016
+  },
+  {
+    "title": "Symbolic Tensor Calculus - Functional and Dynamic Approach",
+    "text": "In this paper, we briefly discuss the dynamic and functional approach to computer symbolic tensor analysis. The ccgrg package for Wolfram Language/Mathematica is used to illustrate this approach. Some examples of applications are attached.",
+    "url": "https://www.semanticscholar.org/paper/64c763b0f9565f77b06f8da9f8673085085e24ce",
+    "source": "semantic_scholar",
+    "timestamp": 2016
+  },
+  {
+    "title": "Tensor calculus in polar coordinates using Jacobi polynomials",
+    "text": null,
+    "url": "https://www.semanticscholar.org/paper/3e5d61f51a2bbe1bac2392463f272be436ccda49",
+    "source": "semantic_scholar",
+    "timestamp": 2015
+  },
+  {
+    "title": "Tensor Calculus for Engineers and Physicists",
+    "text": null,
+    "url": "https://www.semanticscholar.org/paper/a9d5f9e54ba7d3e4c22ac582a0b52a2f465a4d49",
+    "source": "semantic_scholar",
+    "timestamp": 2016
+  },
+  {
+    "title": "Ricci calculus",
+    "text": "In mathematics, Ricci calculus constitutes the rules of index notation and manipulation for tensors and tensor fields on a differentiable manifold, with or without a metric tensor or connection. It is also the modern name for what used to be called the absolute differential calculus, tensor calculus or tensor analysis developed by Gregorio Ricci-Curbastro in 1887–1896, and subsequently popularized in a paper written with his pupil Tullio Levi-Civita in 1900. Jan Arnoldus Schouten developed the modern notation and formalism for this mathematical framework, and made contributions to the theory, during its applications to general relativity and differential geometry in the early twentieth century. The basis of modern tensor analysis was developed by Bernhard Riemann in a paper from 1861.",
+    "url": "https://en.wikipedia.org/wiki/Ricci_calculus",
+    "source": "wikipedia",
+    "timestamp": "2025-11-02"
+  }
+]

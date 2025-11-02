@@ -52,11 +52,25 @@ class HypothesisGenerator:
             return np.zeros(256, dtype=np.float32)
 
     def _sim(self, a: str, b: str) -> float:
-        """Cosine similarity between two text embeddings."""
-        va, vb = self._embed(a), self._embed(b)
-        if np.all(va == 0) or np.all(vb == 0):
-            return 0.0
-        return float(np.dot(va, vb))
+        """Compute cosine similarity between two terms using bridge embeddings."""
+        va = self.encoder.encode_texts([a])
+        vb = self.encoder.encode_texts([b])
+
+        # Handle token-level embeddings (mean pooling)
+        if va.ndim == 3:
+            va = va.mean(axis=1)
+        if vb.ndim == 3:
+            vb = vb.mean(axis=1)
+
+        # Convert to 1D
+        if va.ndim > 1:
+            va = va[0]
+        if vb.ndim > 1:
+            vb = vb[0]
+
+        # Normalize & compute cosine
+        denom = (np.linalg.norm(va) * np.linalg.norm(vb)) or 1e-8
+        return float(np.dot(va, vb) / denom)
 
     # ---------- Graph helpers ----------
     def _neighbors(self, node: str) -> Dict[str, List[str]]:

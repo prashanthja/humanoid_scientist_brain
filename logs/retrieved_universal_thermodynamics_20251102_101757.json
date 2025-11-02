@@ -1,0 +1,268 @@
+[
+  {
+    "title": "Why thermodynamics?",
+    "text": "<p>This chapter provides a background on predicting and understanding the behaviour of substances, chemical reactions, and processes. It explains thermodynamics as a study that is concerned with macroscopic systems, emphasizing large, measurable amounts of matter rather than individual molecules. It also analyses the chemical context of the name thermodynamics, which is considered a misnomer as it is useful in fundamental studies of understanding what drives chemical reactions and processes. The chapter focuses on chemical reactions and phase equilibria as the two main areas to which chemical thermodynamics can be applied. It cites the combustion of methane as an example of a reaction that goes to completion, as no methane is left after combustion if there is enough oxygen available.</p>",
+    "url": "https://doi.org/10.1093/hesc/9780198814450.003.0001",
+    "source": "crossref",
+    "timestamp": 2019
+  },
+  {
+    "title": "Thermodynamics of Irreversible Processes — Irreversible Thermodynamics",
+    "text": "",
+    "url": "https://doi.org/10.1142/9789813226067_others02",
+    "source": "crossref",
+    "timestamp": 2018
+  },
+  {
+    "title": "Thermodynamics of Reversible Processes — Equilibrium Thermodynamics",
+    "text": "",
+    "url": "https://doi.org/10.1142/9789813226067_others01",
+    "source": "crossref",
+    "timestamp": 2018
+  },
+  {
+    "title": "Chemical Thermodynamics",
+    "text": "",
+    "url": "https://doi.org/10.1016/b978-0-444-82281-9.50001-5",
+    "source": "crossref",
+    "timestamp": 1995
+  },
+  {
+    "title": "ISRN Thermodynamics",
+    "text": "",
+    "url": "https://doi.org/10.5402/thermodynamics",
+    "source": "crossref",
+    "timestamp": null
+  },
+  {
+    "title": "Statistical Thermodynamics",
+    "text": "",
+    "url": "https://doi.org/10.1017/cbo9780511994883.017",
+    "source": "crossref",
+    "timestamp": 2011
+  },
+  {
+    "title": "Linear Irreversible Thermodynamics",
+    "text": "",
+    "url": "https://doi.org/10.1142/9789813226067_0020",
+    "source": "crossref",
+    "timestamp": 2018
+  },
+  {
+    "title": "Thermodynamics of surfaces",
+    "text": "",
+    "url": "https://doi.org/10.1017/cbo9781139028325.013",
+    "source": "crossref",
+    "timestamp": null
+  },
+  {
+    "title": "Thermodynamics of polymers",
+    "text": "",
+    "url": "https://doi.org/10.1017/cbo9781139028325.012",
+    "source": "crossref",
+    "timestamp": null
+  },
+  {
+    "title": "Thermodynamics of Solutions",
+    "text": "",
+    "url": "https://doi.org/10.1142/9789813226067_0013",
+    "source": "crossref",
+    "timestamp": 2018
+  },
+  {
+    "title": "Better Thermodynamics Teaching Needs More Thermodynamics Research",
+    "text": "",
+    "url": "https://doi.org/10.1007/978-1-4613-2163-7_4",
+    "source": "crossref",
+    "timestamp": 1985
+  },
+  {
+    "title": "Thermodynamics of Nonequilibrium Processes",
+    "text": "",
+    "url": "https://doi.org/10.1142/9789813226067_0019",
+    "source": "crossref",
+    "timestamp": 2018
+  },
+  {
+    "title": "Journal of Thermodynamics",
+    "text": "",
+    "url": "https://doi.org/10.1155/6962",
+    "source": "crossref",
+    "timestamp": null
+  },
+  {
+    "title": "Basic Thermodynamics",
+    "text": "",
+    "url": "https://doi.org/10.1017/9781316650394.015",
+    "source": "crossref",
+    "timestamp": null
+  },
+  {
+    "title": "Equilibrium Thermodynamics",
+    "text": "<p>The ideas which we shall present in the remainder of this book are intimately connected with thermodynamics. In order to describe the various transport processes in structured continua, one must first build a solid foundation of equilibrium thermodynamics upon which to base further development. In approaching transport phenomena from an energetic viewpoint, one must first define what is meant by various thermodynamic variables as, for example, the temperature and pressure, in terms of the primitive variables used to characterize the system under investigation. In this chapter, we present a brief overview of equilibrium thermodynamics tailored to the needs of this book. Specifically, we want to define explicitly the thermodynamic quantities which are used in subsequent chapters. For clarity and completeness, we shall re-derive, rather than merely state, some of the standard thermodynamic relationships. Of course, the experienced reader may proceed directly to the next chapter and use this chapter as a reference to notation as the need arises. The starting point for our discussion of equilibrium thermodynamics is the axiomatic foundation of the description of macroscopic equilibria on certain fundamental principles. First, the macroscopic equilibrium of a closed system is completely described through the specification of a number of extensive (i.e., proportional to the total mass or volume of the system, and additive between systems) or intensive (i.e., independent of the total mass or volume of the system) parameters. This is a very important point which is usually overlooked in the traditional thermodynamic development. The extensive nature of the primary variables of the system introduces an additional relationship which acts on the allowed variations of the differentials, which, as we shall see, is tantamount to the Gibbs/Duhem relation. This implies, as we shall demonstrate in §4.3, that the density formalism, where every extensive quantity is reported on a unit volume basis, is a much more natural framework for describing the system in that it avoids a number of pitfalls of the traditional formalism. </p>",
+    "url": "https://doi.org/10.1093/oso/9780195076943.003.0008",
+    "source": "crossref",
+    "timestamp": 1994
+  },
+  {
+    "title": "A New Frame Work of Thermodynamics (1) Traditional Thermodynamics, (2) Thermodynamics of Thermal Electrons in a Static Magnetic Field, (3) Cosmos Thermodynamics",
+    "text": "<jats:p>This new frame work of thermodynamics contains three parts. First, the traditional thermodynamics: relating to all the ordinary thermodynamical processes we meet in our daily life and work, and in ordinary research. They are all irreversible. Entropy in these processes tends to increase, never decrease. Second, thermodynamics of thermal electrons in a magnetic field:Some experiments of thermal electrons emitted from two identical and parallel Ag-O-Cs emitters (work function 0.8eV) in a vacuum tube applied by a static magnetic field. The magnetic field is an artificial Maxwell’s demons. Third, cosmos thermodynamics: The universe is closed. There is an extraordinary heat ocean at a temperature of about 3K in the central part of the closed universe. A big band and a big assembling constitute a big cycle, the matter and energy in the closed universe are involved in an extraordinary big cycle; Entropy can increase, and it can also decrease. Black holes are natural demons in the universe.Besides, there is a supplementary file On Bekenstein and Hawking’s Black Hole Thermodynamics attached to this article, showing that Bekenstein’s “area entropy” is an incorrect idea, and so on.</jats:p>",
+    "url": "https://doi.org/10.20944/preprints202406.1065.v3",
+    "source": "crossref",
+    "timestamp": 2025
+  },
+  {
+    "title": "Thermodynamics of Real Fluids",
+    "text": "",
+    "url": "https://doi.org/10.1142/9789813226067_0009",
+    "source": "crossref",
+    "timestamp": 2018
+  },
+  {
+    "title": "Thermodynamics: General Consequences",
+    "text": "",
+    "url": "https://doi.org/10.1017/9781316650394.016",
+    "source": "crossref",
+    "timestamp": null
+  },
+  {
+    "title": "Deep Unsupervised Learning using Nonequilibrium Thermodynamics",
+    "text": "A central problem in machine learning involves modeling complex data-sets using highly flexible families of probability distributions in which learning, sampling, inference, and evaluation are still analytically or computationally tractable. Here, we develop an approach that simultaneously achieves both flexibility and tractability. The essential idea, inspired by non-equilibrium statistical physics, is to systematically and slowly destroy structure in a data distribution through an iterative forward diffusion process. We then learn a reverse diffusion process that restores structure in data, yielding a highly flexible and tractable generative model of the data. This approach allows us to rapidly learn, sample from, and evaluate probabilities in deep generative models with thousands of layers or time steps, as well as to compute conditional and posterior probabilities under the learned model. We additionally release an open source reference implementation of the algorithm.",
+    "url": "https://www.semanticscholar.org/paper/2dcef55a07f8607a819c21fe84131ea269cc2e3c",
+    "source": "semantic_scholar",
+    "timestamp": 2015
+  },
+  {
+    "title": "Thermodynamics",
+    "text": "We present three different neural network algorithms to calculate thermodynamic properties as well as dynamic correlation functions at finite temperatures for quantum lattice models. The first method is based on purification, which allows for the exact calculation of the operator trace. The second one is based on a sampling of the trace using minimally entangled states, whereas the third one makes use of quantum typicality. In the latter case, we approximate a typical infinite-temperature state by wave functions which are given by a product of a projected pair and a neural network part and evolve this typical state in imaginary time.",
+    "url": "https://www.semanticscholar.org/paper/4f9e24e465b1f5ee257cb92af3d7be3432e2dc49",
+    "source": "semantic_scholar",
+    "timestamp": 2021
+  },
+  {
+    "title": "Thermodynamics and an Introduction to Thermostatistics",
+    "text": null,
+    "url": "https://www.semanticscholar.org/paper/8e6174010987c73d2be1a719f8b879012022dcd9",
+    "source": "semantic_scholar",
+    "timestamp": 1988
+  },
+  {
+    "title": "Thermodynamics : An Engineering Approach",
+    "text": null,
+    "url": "https://www.semanticscholar.org/paper/4aa7b33d161d7fbb0ce4aad088cd664eae90d5a7",
+    "source": "semantic_scholar",
+    "timestamp": 1989
+  },
+  {
+    "title": "Prioritizing Hetero‐Metallic Interfaces via Thermodynamics Inertia and Kinetics Zincophilia Metrics for Tough Zn‐Based Aqueous Batteries",
+    "text": "Poor thermodynamic stability and sluggish electrochemical kinetics of metallic Zn anode in aqueous solution greatly hamper its practical application. To solve such problems, to date, various zincophilic surface modification strategies are developed, which can facilitate reversible Zn plating/stripping behavior. However, there is still a lack of systematic and fundamental understanding regarding the metrics of thermodynamics inertia and kinetics zincophilia in selecting zincophilic sites. Herein, hetero‐metallic interfaces are prioritized for the first time via optimizing different hetero metals (Fe, Co, Ni, Sn, Bi, Cu, Zn, etc.) and synthetic solvents (ethanol, ethylene glycol, n‐propanol, etc.). Specifically, both theoretical simulations and experimental results suggest that this Bi@Zn interface can exhibit high efficiency owing to the thermodynamics inertia and kinetics zincophilia. A best practice for prioritizing zincophilic sites in a more practical metric is also proposed. As a proof of concept, the Bi@Zn anode delivers ultralow overpotential of ≈55 mV at a high rate of 10 mA cm−2 and stable cycle life over 4700 cycles. The elaborated “thermodynamics inertia and kinetics metalphilia” metrics for hetero‐metallic interfaces can benchmark the success of other metal‐based batteries.",
+    "url": "https://www.semanticscholar.org/paper/7f54505fac23b8a8ee8f99fe196022bfce7d84fe",
+    "source": "semantic_scholar",
+    "timestamp": 2023
+  },
+  {
+    "title": "Non-equilibrium thermodynamics",
+    "text": null,
+    "url": "https://www.semanticscholar.org/paper/e54fc1822b1c9fc7265ed8adb8cb7ba356b565b5",
+    "source": "semantic_scholar",
+    "timestamp": 1969
+  },
+  {
+    "title": "Molecular Thermodynamics of Fluid-Phase Equilibria",
+    "text": null,
+    "url": "https://www.semanticscholar.org/paper/bdef1d0f198a87373a4cdf4573dfd9eda1344200",
+    "source": "semantic_scholar",
+    "timestamp": 1969
+  },
+  {
+    "title": "Photonics and thermodynamics concepts in radiative cooling",
+    "text": null,
+    "url": "https://www.semanticscholar.org/paper/d43a412e8716fda2d1a5efb6f57d79252d80549f",
+    "source": "semantic_scholar",
+    "timestamp": 2022
+  },
+  {
+    "title": "Statistical thermodynamics of liquid mixtures: A new expression for the excess Gibbs energy of partly or completely miscible systems",
+    "text": null,
+    "url": "https://www.semanticscholar.org/paper/93dd4327d887b207be9e5b13480ee6f24a455f3e",
+    "source": "semantic_scholar",
+    "timestamp": 1975
+  },
+  {
+    "title": "Stochastic Thermodynamics",
+    "text": null,
+    "url": "https://www.semanticscholar.org/paper/a85103ef4c26ffd5ba724f154b7a62f7fd2d894d",
+    "source": "semantic_scholar",
+    "timestamp": 2021
+  },
+  {
+    "title": "Stochastic thermodynamics, fluctuation theorems and molecular machines",
+    "text": "Stochastic thermodynamics as reviewed here systematically provides a framework for extending the notions of classical thermodynamics such as work, heat and entropy production to the level of individual trajectories of well-defined non-equilibrium ensembles. It applies whenever a non-equilibrium process is still coupled to one (or several) heat bath(s) of constant temperature. Paradigmatic systems are single colloidal particles in time-dependent laser traps, polymers in external flow, enzymes and molecular motors in single molecule assays, small biochemical networks and thermoelectric devices involving single electron transport. For such systems, a first-law like energy balance can be identified along fluctuating trajectories. For a basic Markovian dynamics implemented either on the continuum level with Langevin equations or on a discrete set of states as a master equation, thermodynamic consistency imposes a local-detailed balance constraint on noise and rates, respectively. Various integral and detailed fluctuation theorems, which are derived here in a unifying approach from one master theorem, constrain the probability distributions for work, heat and entropy production depending on the nature of the system and the choice of non-equilibrium conditions. For non-equilibrium steady states, particularly strong results hold like a generalized fluctuation–dissipation theorem involving entropy production. Ramifications and applications of these concepts include optimal driving between specified states in finite time, the role of measurement-based feedback processes and the relation between dissipation and irreversibility. Efficiency and, in particular, efficiency at maximum power can be discussed systematically beyond the linear response regime for two classes of molecular machines, isothermal ones such as molecular motors, and heat engines such as thermoelectric devices, using a common framework based on a cycle decomposition of entropy production.",
+    "url": "https://www.semanticscholar.org/paper/ebc69073614f68836121d1504d0725f5469ece95",
+    "source": "semantic_scholar",
+    "timestamp": 2012
+  },
+  {
+    "title": "Optimal computer folding of large RNA sequences using thermodynamics and auxiliary information",
+    "text": null,
+    "url": "https://www.semanticscholar.org/paper/1da9f4102b3c250bb0f27663e146f09b3bc89030",
+    "source": "semantic_scholar",
+    "timestamp": 1981
+  },
+  {
+    "title": "From quantum chaos and eigenstate thermalization to statistical mechanics and thermodynamics",
+    "text": "This review gives a pedagogical introduction to the eigenstate thermalization hypothesis (ETH), its basis, and its implications to statistical mechanics and thermodynamics. In the first part, ETH is introduced as a natural extension of ideas from quantum chaos and random matrix theory (RMT). To this end, we present a brief overview of classical and quantum chaos, as well as RMT and some of its most important predictions. The latter include the statistics of energy levels, eigenstate components, and matrix elements of observables. Building on these, we introduce the ETH and show that it allows one to describe thermalization in isolated chaotic systems without invoking the notion of an external bath. We examine numerical evidence of eigenstate thermalization from studies of many-body lattice systems. We also introduce the concept of a quench as a means of taking isolated systems out of equilibrium, and discuss results of numerical experiments on quantum quenches. The second part of the review explores the implications of quantum chaos and ETH to thermodynamics. Basic thermodynamic relations are derived, including the second law of thermodynamics, the fundamental thermodynamic relation, fluctuation theorems, the fluctuation–dissipation relation, and the Einstein and Onsager relations. In particular, it is shown that quantum chaos allows one to prove these relations for individual Hamiltonian eigenstates and thus extend them to arbitrary stationary statistical ensembles. In some cases, it is possible to extend their regimes of applicability beyond the standard thermal equilibrium domain. We then show how one can use these relations to obtain nontrivial universal energy distributions in continuously driven systems. At the end of the review, we briefly discuss the relaxation dynamics and description after relaxation of integrable quantum systems, for which ETH is violated. We present results from numerical experiments and analytical studies of quantum quenches at integrability. We introduce the concept of the generalized Gibbs ensemble and discuss its connection with ideas of prethermalization in weakly interacting systems.",
+    "url": "https://www.semanticscholar.org/paper/cba6ea25e55a1f53a5eb8b7c8bd16ca1855707a9",
+    "source": "semantic_scholar",
+    "timestamp": 2015
+  },
+  {
+    "title": "Thermodynamics of protein association reactions: forces contributing to stability.",
+    "text": null,
+    "url": "https://www.semanticscholar.org/paper/cdb763abab1f1f609c9cbd39c4d71e57354013b4",
+    "source": "semantic_scholar",
+    "timestamp": 1981
+  },
+  {
+    "title": "A unified view of polymer, dumbbell, and oligonucleotide DNA nearest-neighbor thermodynamics.",
+    "text": null,
+    "url": "https://www.semanticscholar.org/paper/12e4bd92d46ca92b806fda289e626e50f2bfe4d3",
+    "source": "semantic_scholar",
+    "timestamp": 1998
+  },
+  {
+    "title": "Introduction to chemical engineering thermodynamics",
+    "text": null,
+    "url": "https://www.semanticscholar.org/paper/800c486652e119ff865c491ae41661bd383655b2",
+    "source": "semantic_scholar",
+    "timestamp": 1949
+  },
+  {
+    "title": "Composition-dependent thermodynamics of intracellular phase separation",
+    "text": null,
+    "url": "https://www.semanticscholar.org/paper/b1d0aa8972acb1a6db70ea0c2290f968f969d6c8",
+    "source": "semantic_scholar",
+    "timestamp": 2020
+  },
+  {
+    "title": "Thermodynamics and kinetics of phase transformation in rare earth–magnesium alloys: A critical review",
+    "text": null,
+    "url": "https://www.semanticscholar.org/paper/b504f76fe0e69cfb442d3d22ab1e0b4ad8372e7b",
+    "source": "semantic_scholar",
+    "timestamp": 2020
+  },
+  {
+    "title": "Thermodynamics of electrolytes. I. Theoretical basis and general equations",
+    "text": null,
+    "url": "https://www.semanticscholar.org/paper/d264759c93196292a40a31093292d52d7df89d1e",
+    "source": "semantic_scholar",
+    "timestamp": 1973
+  },
+  {
+    "title": "Thermodynamics of Irreversible Processes",
+    "text": "The thermodynamics of irreversible processes is based on the expression of the entropy source density derived in the previous chapter. From it, phenomenological laws of transport can be presented in a unified way. Heat transport is given by Fourier’s law that leads to a heat equation in which Joule and Thomson effects can be included. It can explain thermal dephasing, heat exchangers and effusivity. Matter transport leads to the Dufour and Soret effects, which imply Fick’s law and the diffusion equation, which can be used to discuss Turing patterns and ultramicroelectrode. Transport of two types of charge carrier leads to the notion of diffusion length, giant magnetoresistance and planar Ettingshausen effect. Transport can be perpendicular to the generalised force, as in the Hall, Righi-Leduc and Nernst effects. The formalism accounts also for thermoelectric effects such as the Seebeck and Peltier effects, with which to analyse thermocouples, a Seebeck loop, adiabatic thermoelectric junctions, the Harman method of determing the ZT coefficient of a thermoelectric material and the principle of a Peltier generator.",
+    "url": "https://www.semanticscholar.org/paper/adcb1dc6450b393c133c920dc95356192402f5a9",
+    "source": "semantic_scholar",
+    "timestamp": 2018
+  }
+]
