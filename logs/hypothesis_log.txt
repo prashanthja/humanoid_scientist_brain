@@ -1154,3 +1154,26 @@
   · embedding_sim(all accepted requests,commissioning)=0.909 (no direct edge)
 [semantic_link] a crucial shortcoming of many of these techniques --related_to--> a crucial shortcoming of many of these techniques is the independence (score=0.888)
   · embedding_sim(a crucial shortcoming of many of these techniques,a crucial shortcoming of many of these techniques is the independence)=0.888 (no direct edge)
+
+=== Hypothesis Batch @ 2025-10-28 17:29:43 ===
+[graph_transitivity] between space and prephotonsoccur independent --is--> an effect like force and dimension of the quantum change between states some of which occur without time (score=0.0)
+  · between space and prephotonsoccur independent --of--> time
+  · time --is--> an effect like force and dimension of the quantum change between states some of which occur without time
+[graph_transitivity] special attention is now on the start --of--> the transport line will follow at the end of (score=0.0)
+  · special attention is now on the start --of--> commissioning
+  · commissioning --of--> the transport line will follow at the end of
+[graph_transitivity] temporal dynamics --of--> kelt (score=0.0)
+  · temporal dynamics --of--> the atmosphere
+  · the atmosphere --of--> kelt
+[graph_transitivity] we give a simple combinatorial classification --of--> which meet or exceed even the most stringent performance and durability requirements (score=0.0)
+  · we give a simple combinatorial classification --of--> all
+  · all --of--> which meet or exceed even the most stringent performance and durability requirements
+[graph_transitivity] we investigate the spectral properties --of--> which meet or exceed even the most stringent performance and durability requirements (score=0.0)
+  · we investigate the spectral properties --of--> all
+  · all --of--> which meet or exceed even the most stringent performance and durability requirements
+[graph_transitivity] with the flexibility --study_of--> matter (score=0.0)
+  · with the flexibility --of--> physics
+  · physics --study_of--> matter
+[graph_transitivity] with the flexibility --is--> the study of matter (score=0.0)
+  · with the flexibility --of--> physics
+  · physics --is--> the study of matter

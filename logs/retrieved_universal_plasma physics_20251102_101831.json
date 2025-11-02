@@ -1,0 +1,282 @@
+[
+  {
+    "title": "Non-linear plasma physics",
+    "text": "<jats:title>Abstract</jats:title>\n               <jats:p>We shall now consider the connection between the two major ways of describing plasma that have been used so far. First, we considered the dynamics of a single particle in the plasma, which leads directly to a simple model for the dielectric properties of the plasma. By including the single-particle dynamics of ions as well as of electrons, it is possible to predict the normal modes of the plasma over a wide range of frequencies. There is also the magneto hydrodynamic approach. By treating the plasma as a magnetized conducting fluid, whose inertia is provided by the mass of the ions, we can describe the bulk stability of the plasma and its lower-frequency normal modes-those modes which do not involve the movement of electrons independently of ions.</jats:p>",
+    "url": "https://doi.org/10.1093/oso/9780198519911.003.0007",
+    "source": "crossref",
+    "timestamp": 1990
+  },
+  {
+    "title": "Frontiers of plasma physics and technology 2023",
+    "text": "",
+    "url": "https://doi.org/10.1016/j.fpp.2024.100073",
+    "source": "crossref",
+    "timestamp": 2024
+  },
+  {
+    "title": "Eighth Annual Conference on Plasma Physics",
+    "text": "",
+    "url": "https://doi.org/10.1088/0032-1028/24/6/001",
+    "source": "crossref",
+    "timestamp": 1982
+  },
+  {
+    "title": "Basics of Plasma Physics",
+    "text": "",
+    "url": "https://doi.org/10.1007/11360360_1",
+    "source": "crossref",
+    "timestamp": null
+  },
+  {
+    "title": "Computational Plasma Physics",
+    "text": "",
+    "url": "https://doi.org/10.1007/11360360_16",
+    "source": "crossref",
+    "timestamp": null
+  },
+  {
+    "title": "Hot Plasma",
+    "text": "",
+    "url": "https://doi.org/10.1007/3-540-28097-9_12",
+    "source": "crossref",
+    "timestamp": null
+  },
+  {
+    "title": "Plasma Transport",
+    "text": "",
+    "url": "https://doi.org/10.1007/3-540-28097-9_7",
+    "source": "crossref",
+    "timestamp": null
+  },
+  {
+    "title": "Similarity rules in plasma physics",
+    "text": "",
+    "url": "https://doi.org/10.1088/0032-1028/13/4/003",
+    "source": "crossref",
+    "timestamp": 1971
+  },
+  {
+    "title": "Basic plasma characteristics",
+    "text": "<jats:title>Abstract</jats:title>\n               <jats:p>We start by considering an assembly that consists of an equal number of electrons with charge -e and ions (atomic nuclei) with charge +e. Suppose that these particles are initially uniformly distributed, so that the plasma is initially electrically neutral everywhere. Furthermore, let us assume that there is no random thermal motion, so that the electrons and ions are initially motionless. This idealized assembly is referred to as a cold plasma. We now perturb this system by transferring a group of electrons from a given region of space, leaving a net positive charge behind, to a neighbouring region which acquires net negative charge; see Fig. 1.1.</jats:p>",
+    "url": "https://doi.org/10.1093/oso/9780198519911.003.0002",
+    "source": "crossref",
+    "timestamp": 1990
+  },
+  {
+    "title": "Plasma Physics",
+    "text": "",
+    "url": "https://doi.org/10.1088/issn.0032-1028",
+    "source": "crossref",
+    "timestamp": null
+  },
+  {
+    "title": "Basic Space Plasma Physics/Advanced Space Plasma Physics",
+    "text": "",
+    "url": "https://doi.org/10.1088/0741-3335/43/3/701",
+    "source": "crossref",
+    "timestamp": 2001
+  },
+  {
+    "title": "Plasma Characteristics",
+    "text": "",
+    "url": "https://doi.org/10.1007/3-540-28097-9_2",
+    "source": "crossref",
+    "timestamp": null
+  },
+  {
+    "title": "Nature of Plasma",
+    "text": "",
+    "url": "https://doi.org/10.1007/3-540-28097-9_1",
+    "source": "crossref",
+    "timestamp": null
+  },
+  {
+    "title": "Kinetic description of plasma",
+    "text": "<jats:title>Abstract</jats:title>\n               <jats:p>Let us first look back at the different approaches that we have used for describing plasmas. After emphasizing the collective nature of plasma behaviour in Chapter 1, we considered the dynamics of single particles in Chapter 2. In order to achieve a collective description, we needed to sum the effects of single-particle dynamics for all the particles in the plasma. This summation was carried out in a simplistic, but nevertheless successful, way at eqn (3.21). By considering the current created by the sum of the individual electron velocities, we constructed the dielectric tensor of the plasma. This tensor was then employed in Maxwell's equations to yield the normal modes of the plasma. By including the contribution of the ions, this approach was extended to low frequencies.</jats:p>",
+    "url": "https://doi.org/10.1093/oso/9780198519911.003.0006",
+    "source": "crossref",
+    "timestamp": 1990
+  },
+  {
+    "title": "Magnetohydrodynamic description of plasma",
+    "text": "<jats:title>Abstract</jats:title>\n               <jats:p>So far, we have based our study of plasmas on the single particle dynamics of the constituent electrons and ions. We have used these dynamics as the basis for a dielectric description of the plasma. This approach has been very effective. The understanding of any physical system is aided by knowledge of its normal modes, and the dielectric approach has enabled us to formulate the normal modes of plasmas over a very wide range of frequencies. In Section 3.4, we studied normal modes with phase velocity VA defined by eqn (3.82), whose frequencies w lie well below the lowest characteristic single particle frequency, the ion cyclotron frequency Wei· Two features of these modes suggest that an alternative approach to low frequency plasma behaviour might be fruitful.</jats:p>",
+    "url": "https://doi.org/10.1093/oso/9780198519911.003.0005",
+    "source": "crossref",
+    "timestamp": 1990
+  },
+  {
+    "title": "Plasma as MHD Fluid",
+    "text": "",
+    "url": "https://doi.org/10.1007/3-540-28097-9_5",
+    "source": "crossref",
+    "timestamp": null
+  },
+  {
+    "title": "Plasma Diagnostics",
+    "text": "",
+    "url": "https://doi.org/10.1007/11360360_13",
+    "source": "crossref",
+    "timestamp": null
+  },
+  {
+    "title": "Correlation techniques in experimental plasma physics",
+    "text": "",
+    "url": "https://doi.org/10.1088/0032-1028/13/1/001",
+    "source": "crossref",
+    "timestamp": 1971
+  },
+  {
+    "title": "Dielectric description of cold plasma",
+    "text": "<jats:title>Abstract</jats:title>\n               <jats:p>The macroscopic response of any medium to an applied electric field is determined by the sum of the microscopic responses of the individual particles that make up the medium. In a conducting medium, the macroscopic response is determined at a microscopic level by the separation between positive and negative charges that is produced by the applied electric field. If the applied field varies with time, so too will the microscopic state of the medium: the separation between the positive and negative charges will change with time, as will the electric field that is produced by their separation. Thus, particle currents and displacement currents are produced.</jats:p>",
+    "url": "https://doi.org/10.1093/oso/9780198519911.003.0004",
+    "source": "crossref",
+    "timestamp": 1990
+  },
+  {
+    "title": "Editorial board",
+    "text": "",
+    "url": "https://doi.org/10.1016/s2772-8285(25)00006-8",
+    "source": "crossref",
+    "timestamp": 2025
+  },
+  {
+    "title": "Plasma Physics via Computer Simulation",
+    "text": "PART 1: PRIMER Why attempting to do plasma physics via computer simulation using particles makes good sense Overall view of a one dimensional electrostatic program A one dimensional electrostatic program ES1 Introduction to the numerical methods used Projects for ES1 A 1d electromagnetic program EM1 Projects for EM1 PART 2: THEORY Effects of the spatial grid Effects of the finitw time ste Energy-conserving simulation models Multipole models Kinetic theory for fluctuations and noise collisions Kinetic properties: theory, experience and heuristic estimates PART 3: PRACTICE Electrostatic programs in two and three dimensions Electromagnetic programs in two and three dimensions Particle loading, injection boudary conditions and external circuit PART 4: APPENDICES",
+    "url": "https://www.semanticscholar.org/paper/7d15851cde781f3cc7f147c40e0c019c36bed520",
+    "source": "semantic_scholar",
+    "timestamp": 2018
+  },
+  {
+    "title": "Plasma Physics and Engineering",
+    "text": "PART 1. FUNDAMENTALS OF PLASMA PHYSICS AND PLASMA CHEMISTRY. CHAPTER 1. Introduction CHAPTER 2. ELEMENTARY PROCESSES OF CHARGED SPECIES IN PLASMA. 2.1. Elementary Charged Particles In Plasma, And Their Elastic And Inelastic Collisions. 2.2. Ionization Processes. 2.3. Mechanisms Of Electron Losses: The Electron-Ion Recombination. 2.4. The Electron Losses Due To Formation Of Negative Ions: Electron Attachment And Detachment Processes. 2.5. The Ion-Ion Recombination Processes. 2.6. The Ion-Molecular Reactions. 2.7. Problems and Concept Questions. CHAPTER 3. ELEMENTARY PROCESSES OF EXCITED MOLECULES AND ATOMS IN PLASMA. 3.1. Electronically Excited Atoms And Molecules In Plasma. 3.2. Vibrationally And Rotationally Excited Molecules. 3.3. Elementary Processes Of Vibrational, Rotational And Electronic Excitation Of Molecules In Plasma. 3.4. Vibrational (VT) Relaxation, Landau-Teller Formula. 3.5. Vibrational Energy Transfer Between Molecules, VV-Relaxation Processes. 3.6. Processes Of Rotational And Electronic Relaxation Of Excited Molecules. 3.7. Elementary Chemical Reactions Of Excited Molecules, Fridman - Macheret a-Model. 3.8. Problems and Concept Questions. CHAPTER 4. PLASMA STATISTICS AND KINETICS OF CHARGED PARTICLES. 4.1. Statistics And Thermodynamics Of Equilibrium And Non-Equilibrium Plasmas, The Boltzmann, Saha And Treanor Distributions. 4.2. The Boltzmann And Fokker-Planck Kinetic Equations, Electron Energy Distribution Functions. 4.3. Electric And Thermal Conductivity In Plasma, Diffusion Of Charged Particles. 4.4. Breakdown Phenomena: The Townsend And Spark Mechanisms, Avalanches, Streamers And Leaders. 4.5. Steady-State Regimes Of Non-Equilibrium Electric Discharges. 4.6. Problems and Concept Questions. CHAPTER 5. KINETICS OF EXCITED PARTICLES IN PLASMA. 5.1.Vibrational Distribution Functions In Non-Equilibrium Plasma, The Fokker-Planck Kinetic Equation. 5.2. Non-Equilibrium Vibrational Kinetics: eV-Processes, Polyatomic Molecules, Non-Steady-State Regimes. 5.3. Macrokinetics Of Chemical Reactions And Relaxation Of Vibrationally Excited Molecules. 5.4. Vibrational Kinetics In Gas Mixtures, Isotopic Effect In Plasma Chemistry. 5.5. Kinetics Of Electronically And Rotationally Excited States, Non-Equilibrium Translational Distributions, Relaxation And Reactions Of Hot Atoms In Plasma. 5.6. Energy Efficiency, Energy Balance And Macrokinetics Of Plasma-Chemical Processes. 5.7. Energy Efficiency Of Quasi-Equilibrium Plasma-Chemical Systems, Absolute, Ideal And Super-Ideal Quenching. 5.8. Problems and Concept Questions. CHAPTER 6. ELECTROSTATICS, ELECTRODYNAMICS AND FLUID MECHANICS OF PLASMA. 6.1. Electrostatic Plasma Phenomena: Debye-Radius And Sheaths, Plasma Oscillations And Plasma Frequency. 6.2. Magneto-Hydrodynamics Of Plasma. 6.3. Instabilities Of Low Temperature Plasma. 6.4. Non-Thermal Plasma Fluid Mechanics In Fast Subsonic And Supersonic Flows. 6.5. Electrostatic, Magneto-Hydrodynamic And Acoustic Waves In Plasma. 6.6. Propagation Of Electro-Magnetic Waves In Plasma. 6.7. Emission And Absorption Of Radiation In Plasma, Continuous Spectrum. 6.8. Spectral Line Radiation In Plasma. 6.9. Non-Linear Phenomena In Plasma. 6.10. Problems and Concept Questions. PART 2. PHYSICS AND ENGINEERING OF ELECTRIC DISCHARGES. CHAPTER 7. GLOW DISCHARGE. 7.1. Structure And Physical Parameters Of Glow Discharge Plasma. Current-Voltage Characteristics, Comparison Of Glow And Dark Discharges. 7.2. Cathode And Anode Layers Of A Glow Discharge. 7.3. Positive Column Of Glow Discharge. 7.4. Glow Discharge Instabilities. 7.5. Different Specific Glow Discharge Plasma Sources. 7.6. Problems and Concept Questions. CHAPTER 8. ARC DISCHARGES. 8.1. Physical Features, Types, Parameters And Current-Voltage Characteristics Of Arc Discharges. 8.2. Mechanisms Of Electron Emission From Cathode. 8.3. Cathode And Anode Layers In Arc Discharges. 8.4. Positive Column Of Arc Discharges. 8.5. Different Configurations Of Arc Discharges. 8.6. Gliding Arc Discharge. 8.7. Problems and Concept Questions. CHAPTER 9. NON-EQUILIBRIUM COLD ATMOSPHERIC PRESSURE PLASMAS: CORONA, DIELECTRIC BARRIER AND SPARK DISCHARGES. 9.1. The Continuous Corona Discharge. 9.2. The Pulsed Corona Discharge. 9.3. Dielectric-Barrier Discharge. 9.4. Spark Discharges. 9.5. Problems and Concept Questions. CHAPTER 10. PLASMA CREATED IN HIGH FREQUENCY ELECTROMAGNETIC FIELDS: RADIO-FREQUENCY (RF), MICROWAVE AND OPTICAL DISCHARGES. 10.1. Radio-Frequency (RF) Discharges At High Pressures, Inductively Coupled Thermal RF Discharges. 10.2. Thermal Plasma Generation In Microwave And Optical Discharges. 10.3. Non-Equilibrium Radio-Frequency (RF) Discharges, General Features Of Non-Thermal Capacitively-Coupled (CCP) Discharges. 10.4. Non-Thermal Capacitively-Coupled (CCP) Discharges Of Moderate Pressure. 10.5. Low Pressure Capacitively-Coupled RF Discharges. 10.6. Asymmetric, Magnetron And Other Special Forms Of Low Pressure Capacitive RF-Discharges. 10.7. Non-Thermal Inductively-Coupled (ICP) Discharges. 10.8. Non-Thermal Low-Pressure Microwave And Other Wave-Heated Discharges. 10.9. Non-Equilibrium Microwave Discharges Of Moderate-Pressure. 10.10. Problems and Concept Questions. CHAPTER 11. DISCHARGES IN AEROSOLS, DUSTY PLASMAS. 11.1. Photo-Ionization Of Aerosols. 11.2.Thermal Ionization Of Aerosols. 11.3. Electric Breakdown Of Aerosols. 11.4. Steady-State Dc Electric Discharge In Heterogeneous Medium. 11.5. Dusty Plasma Formation, Evolution Of Nano-Particles In Plasma. 11.6. Critical Phenomena In Dusty Plasma Kinetics. 11.7. Non-Equilibrium Clusterization In Centrifugal Field. 11.8. Dusty Plasma Structures: Phase Transitions, Coulomb Crystals, Special Oscillations. 11.9. Problems and Concept Questions. CHAPTER 12. ELECTRON BEAM PLASMAS. 12.1.Generation And Properties Of Electron-Beam Plasmas. 12.2. Kinetics Of Degradation Processes, Degradation Spectrum. 12.3. Plasma-Beam Discharge. 12.4. Non-Equilibrium High-Pressure Discharges Sustained By High-Energy Electron Beams. 12.5. Plasma In Tracks Of Nuclear Fission Fragments, Plasma Radiolysis. 12.6. Dusty Plasma Generation By A Relativistic Electron Beam. 12.7. Problems and Concept Questions.",
+    "url": "https://www.semanticscholar.org/paper/060a3c0274fb07daeeb85aa46b191f862abd8a09",
+    "source": "semantic_scholar",
+    "timestamp": 2021
+  },
+  {
+    "title": "Sparse regression for plasma physics",
+    "text": "Many scientific problems can be formulated as sparse regression, i.e., regression onto a set of parameters when there is a desire or expectation that some of the parameters are exactly zero or do not substantially contribute. This includes many problems in signal and image processing, system identification, optimization, and parameter estimation methods such as Gaussian process regression. Sparsity facilitates exploring high-dimensional spaces while finding parsimonious and interpretable solutions. In the present work, we illustrate some of the important ways in which sparse regression appears in plasma physics and point out recent contributions and remaining challenges to solving these problems in this field. A brief review is provided for the optimization problem and the state-of-the-art solvers, especially for constrained and high-dimensional sparse regression.",
+    "url": "https://www.semanticscholar.org/paper/dc7bbc934efbd8d9d4b5a78f4e6b00ca00976d82",
+    "source": "semantic_scholar",
+    "timestamp": 2023
+  },
+  {
+    "title": "Data-driven science and machine learning methods in laser–plasma physics",
+    "text": "Abstract Laser-plasma physics has developed rapidly over the past few decades as lasers have become both more powerful and more widely available. Early experimental and numerical research in this field was dominated by single-shot experiments with limited parameter exploration. However, recent technological improvements make it possible to gather data for hundreds or thousands of different settings in both experiments and simulations. This has sparked interest in using advanced techniques from mathematics, statistics and computer science to deal with, and benefit from, big data. At the same time, sophisticated modeling techniques also provide new ways for researchers to deal effectively with situation where still only sparse data are available. This paper aims to present an overview of relevant machine learning methods with focus on applicability to laser-plasma physics and its important sub-fields of laser-plasma acceleration and inertial confinement fusion.",
+    "url": "https://www.semanticscholar.org/paper/006b0712143c55ada6ef5ec5f384af4c32eac27b",
+    "source": "semantic_scholar",
+    "timestamp": 2022
+  },
+  {
+    "title": "Generalized fifth-order nonlinear evolution equation for the Sawada-Kotera, Lax, and Caudrey-Dodd-Gibbon equations in plasma physics: Painlevé analysis and multi-soliton solutions",
+    "text": "This research aims to investigate a generalized fifth-order nonlinear partial differential equation for the Sawada-Kotera (SK), Lax, and Caudrey-Dodd-Gibbon (CDG) equations to study the nonlinear wave phenomena in shallow water, ion-acoustic waves in plasma physics, and other nonlinear sciences. The Painlevé analysis is used to determine the integrability of the equation, and the simplified Hirota technique is applied to construct multiple soliton solutions with an investigation of the dispersion relation and phase shift of the equation. We utilize a linear combination approach to construct a system of equations to obtain a general logarithmic transformation for the dependent variable. We generate one-soliton, two-soliton, and three-soliton wave solutions using the simplified Hirota method and showcase the dynamics of these solutions graphically through interaction between one, two, and three solitons. We investigate the impact of the system’s parameters on the solitons and periodic waves. The SK, Lax, and CDG equations have a wide range of applications in nonlinear dynamics, plasma physics, oceanography, soliton theory, fluid dynamics, and other sciences.",
+    "url": "https://www.semanticscholar.org/paper/d8b718347a37937a082a1c5e63737e0014506888",
+    "source": "semantic_scholar",
+    "timestamp": 2022
+  },
+  {
+    "title": "Pfaffian, breather, and hybrid solutions for a (2 + 1)-dimensional generalized nonlinear system in fluid mechanics and plasma physics",
+    "text": "Fluid mechanics is seen as the study on the underlying mechanisms of liquids, gases and plasmas, and the forces on them. In this paper, we investigate a (2 + 1)-dimensional generalized nonlinear system in fluid mechanics and plasma physics. By virtue of the Pfaffian technique, the Nth-order Pfaffian solutions are derived and proved, where N is a positive integer. Based on the Nth-order Pfaffian solutions, the first- and second-order breather solutions are obtained. In addition, Y-type and X-type breather solutions are constructed. Furthermore, we investigate the influence of the coefficients in the system on those breathers as follows: The locations and periods of those breathers are related to δ1, δ2, δ3, δ4, and δ5, where δc's [Formula: see text] are the constant coefficients in the system. Moreover, hybrid solutions composed of the breathers and solitons are derived. Interactions between the Y/X-type breather and Y-type soliton are illustrated graphically, respectively. Then, we show the influence of the coefficients in the system on the interactions between the Y/X-type breather and Y-type soliton.",
+    "url": "https://www.semanticscholar.org/paper/b13fc6fa815fc8bf493b8efbdbd86678facf623b",
+    "source": "semantic_scholar",
+    "timestamp": 2022
+  },
+  {
+    "title": "Space Plasma Physics: A Review",
+    "text": "Owing to the ever-present solar wind, our vast solar system is full of plasmas. The turbulent solar wind, together with sporadic solar eruptions, introduces various space plasma processes and phenomena in the solar atmosphere all the way to Earth’s ionosphere and atmosphere and outward to interact with the interstellar media to form the heliopause and termination shock. Remarkable progress has been made in space plasma physics in the last 65 years, mainly due to sophisticated in situ measurements of plasmas, plasma waves, neutral particles, energetic particles, and dust via space-borne satellite instrumentation. Additionally, high-technology ground-based instrumentation has led to new and greater knowledge of solar and auroral features. As a result, a new branch of space physics, i.e., space weather, has emerged since many of the space physics processes have a direct or indirect influence on humankind. After briefly reviewing the major space physics discoveries before rockets and satellites (<xref ref-type=\"sec\" rid=\"sec1\">Section I</xref>), we aim to review all our updated understanding on coronal holes, solar flares, and coronal mass ejections, which are central to space weather events at Earth (<xref ref-type=\"sec\" rid=\"sec2\">Section II</xref>), solar wind (<xref ref-type=\"sec\" rid=\"sec3\">Section III</xref>), storms and substorms (<xref ref-type=\"sec\" rid=\"sec4\">Section IV</xref>), magnetotail and substorms, emphasizing the role of the magnetotail in substorm dynamics (<xref ref-type=\"sec\" rid=\"sec5\">Section V</xref>), radiation belts/energetic magnetospheric particles (<xref ref-type=\"sec\" rid=\"sec6\">Section VI</xref>), structures and space weather dynamics in the ionosphere (<xref ref-type=\"sec\" rid=\"sec7\">Section VII</xref>), plasma waves, instabilities, and wave-particle interactions (<xref ref-type=\"sec\" rid=\"sec8\">Section VIII</xref>), long-period geomagnetic pulsations (<xref ref-type=\"sec\" rid=\"sec9\">Section IX</xref>), auroras (<xref ref-type=\"sec\" rid=\"sec10\">Section X</xref>), geomagnetically induced currents (GICs, <xref ref-type=\"sec\" rid=\"sec11\">Section XI</xref>), planetary magnetospheres and solar/stellar wind interactions with comets, moons and asteroids (<xref ref-type=\"sec\" rid=\"sec12\">Section XII</xref>), interplanetary discontinuities, shocks and waves (<xref ref-type=\"sec\" rid=\"sec13\">Section XIII</xref>), interplanetary dust (<xref ref-type=\"sec\" rid=\"sec14\">Section XIV</xref>), space dusty plasmas (<xref ref-type=\"sec\" rid=\"sec15\">Section XV</xref>), and solar energetic particles and shocks, including the heliospheric termination shock (<xref ref-type=\"sec\" rid=\"sec16\">Section XVI</xref>). This article is aimed to provide a panoramic view of space physics and space weather.",
+    "url": "https://www.semanticscholar.org/paper/bcd5c4f0652056e4618d1c7980033853b6e54d8f",
+    "source": "semantic_scholar",
+    "timestamp": 2022
+  },
+  {
+    "title": "A new structure of solutions to the coupled nonlinear Maccari's systems in plasma physics",
+    "text": "The nonlinear Maccari's systems depict the dynamics of isolated waves, detained in a small part of space, in optical communications, hydrodynamics and plasma physics. In this paper, we construct some new solutions for the Maccari's systems, using the unified solver technique based on He's variations technique. These solutions prescribe some vital complex phenomena in plasma physics. The proposed solver will be used as a box solver for considering various models in applied science and new physics. Some graphs are presented in order to display the dynamical behaviour of the gained solutions.",
+    "url": "https://www.semanticscholar.org/paper/4dbe22a28161b2b99d976b04f95706d6c82b4197",
+    "source": "semantic_scholar",
+    "timestamp": 2022
+  },
+  {
+    "title": "Introduction to Plasma Physics and Controlled Fusion",
+    "text": null,
+    "url": "https://www.semanticscholar.org/paper/5184aa9320c42e8a42de16c14187c730057ae570",
+    "source": "semantic_scholar",
+    "timestamp": 2015
+  },
+  {
+    "title": "Transformation plasma physics",
+    "text": "\n Plasma technology has been broadly utilized in many fields, whereas the methods for manipulating plasma transport are limited to magnetic control. In this work, we choose a simplified diffusion-migration approach to describing plasma transport. On this basis, we show the feasibility of the transformation theory for plasma transport. As potential applications, we design three model devices functioning as cloaking, concentrating, and rotating plasmas without obviously disturbing the density profile of plasmas in the background. This research may be helpful in improving plasma technology in practical fields, such as medicine and chemistry.",
+    "url": "https://www.semanticscholar.org/paper/da6818c20c87258426947b6288897d213ffe7ffb",
+    "source": "semantic_scholar",
+    "timestamp": 2022
+  },
+  {
+    "title": "Plasma Physics for Astrophysics",
+    "text": "In this book, a distinguished expert introduces plasma physics from the ground up, presenting it as a comprehensible field that can be grasped largely on the basis of physical intuition and qualitative reasoning, similar to other fields of physics. Plasmas are ionized gases that can be found in a hydrogen bomb explosion, the confinement chamber of an experimental fusion reactor, the solar corona, the aurora borealis, the interstellar medium, and the immediate vicinity of a gravitational black hole. Not surprisingly, plasma physics appears to consist of numerous topics arising independently from astrophysics, fusion physics, and other practical applications, and hence it remains a field poorly understood even by many astrophysicists. But, in fact, most of these topics can be approached from the same perspective, with a simple, physical intuition. Selecting simple examples and presenting them in a simultaneously intuitive and rigorous manner, Russell Kulsrud guides readers through a careful derivation of the results and allows them to think through the physics for themselves. Thus, they are better prepared for complex cases and more general results. The first eleven chapters present topics by their importance to plasma physics while the last three chapters emphasize the field's astrophysical applications, applying the results accrued earlier. Throughout, many problems illustrate the field's applications. Based on a course the author taught for many years, Plasma Physics for Astrophysics is intended for graduate students as well as for working astrophysicists.",
+    "url": "https://www.semanticscholar.org/paper/c07398123784c0fe9c80468cd9d8af688bdc53fe",
+    "source": "semantic_scholar",
+    "timestamp": 2020
+  },
+  {
+    "title": "The fractional analysis of fusion and fission process in plasma physics",
+    "text": "The space-time fractional non-linear Phi-4 equation is a significant equation to describes the fission and fusion process that ensued in chemical kinematics, solid-state physics, astrophysical fusion plasma, plasma physics, and electromagnetic interactions, etc. The Phi-4 non-linear partial differential equation is reshaped utilizing the three different fractional-order derivatives and constructed transformations corresponding to every fractional-order derivative to convert the partial differential equation into an ordinary differential equation. A new extended direct algebraic equation method was successfully applied to extract the solitons solutions. The solitons solutions are developed with the exponential, trigonometric, rational, and hyperbolic functions including different unknown constant parameters. The graphical interpretations of obtained solutions are also depicted by allocating the feasible values to unknown constant parameters. The proposed scheme is an effective and functional scientific technique to investigate different fractional systems and models in engineering and physics referenced to real physical problems.",
+    "url": "https://www.semanticscholar.org/paper/53ee10a7e42d025d3fe4d508488067f80a668fed",
+    "source": "semantic_scholar",
+    "timestamp": 2021
+  },
+  {
+    "title": "Relativistic plasma physics in supercritical fields",
+    "text": "Since the invention of chirped pulse amplification, which was recognized by a Nobel prize in physics in 2018, there has been a continuing increase in available laser intensity. Combined with advances in our understanding of the kinetics of relativistic plasma, studies of laser-plasma interactions are entering a new regime where the physics of relativistic plasmas is strongly affected by strong-field quantum electrodynamics (QED) processes, including hard photon emission and electron-positron ($e^+$-$e^-$) pair production. This coupling of quantum emission processes and relativistic collective particle dynamics can result in dramatically new plasma physics phenomena, such as the generation of dense $e^+$-$e^-$ pair plasma from near vacuum, complete laser energy absorption by QED processes or the stopping of an ultrarelativistic electron beam, which could penetrate a cm of lead, by a hair's breadth of laser light. In addition to being of fundamental interest, it is crucial to study this new regime to understand the next generation of ultra-high intensity laser-matter experiments and their resulting applications, such as high energy ion, electron, positron, and photon sources for fundamental physics studies, medical radiotherapy, and next generation radiography for homeland security and industry.",
+    "url": "https://www.semanticscholar.org/paper/ac8bc3e7dae0c19cd5f77a4270203a6c212eebcb",
+    "source": "semantic_scholar",
+    "timestamp": 2020
+  },
+  {
+    "title": "Contributions to Plasma Physics",
+    "text": null,
+    "url": "https://www.semanticscholar.org/paper/19c9d1e077a5f5b864556e0815b84dd6b12abbda",
+    "source": "semantic_scholar",
+    "timestamp": 2021
+  },
+  {
+    "title": "Some new families of spiky solitary waves of one-dimensional higher-order K-dV equation with power law nonlinearity in plasma physics",
+    "text": null,
+    "url": "https://www.semanticscholar.org/paper/713d4634bf2bcfda9f079a2180b9f3f2783c93ba",
+    "source": "semantic_scholar",
+    "timestamp": 2020
+  },
+  {
+    "title": "Data-driven discovery of reduced plasma physics models from fully kinetic simulations",
+    "text": "At the core of some of the most important problems in plasma physics -- from controlled nuclear fusion to the acceleration of cosmic rays -- is the challenge to describe nonlinear, multi-scale plasma dynamics. The development of reduced plasma models that balance between accuracy and complexity is critical to advancing theoretical comprehension and enabling holistic computational descriptions of these problems. Here, we report the data-driven discovery of accurate reduced plasma models, in the form of partial differential equations, directly from first-principles particle-in-cell simulations. We achieve this by using an integral formulation of sparsity-based model-discovery techniques and show that this is crucial to robustly identify the governing equations in the presence of discrete particle noise. We demonstrate the potential of this approach by recovering the fundamental hierarchy of plasma physics models -- from the Vlasov equation to magnetohydrodynamics. Our findings show that this data-driven methodology offers a promising new route to accelerate the development of reduced theoretical models of complex nonlinear plasma phenomena and to design computationally efficient algorithms for multi-scale plasma simulations.",
+    "url": "https://www.semanticscholar.org/paper/c9fecf864f6a39a5128672f4b18a56aabe1a5dd4",
+    "source": "semantic_scholar",
+    "timestamp": 2020
+  },
+  {
+    "title": "Analytical and numerical investigation for Kadomtsev–Petviashvili equation arising in plasma physics",
+    "text": "Essentially, this article is written to present and analyse the analytical and numerical solutions of the Kadomtsev–Petviashvili (KP) equation arising in plasma physics. We derive the basic set of fluid equations governing the KP equation. The analytical solution, presented on forms of rational functions, hyperbolic functions and trigonometric functions, was analytically investigated while the numerical solution is examined here by utilizing the adaptive moving mesh method on finite differences. The stability of the obtained exact solutions is also presented and analysed. All solutions are found stable on specific intervals. The exact and numerical solutions are compared with each other to show the accuracy of the numerical solution. Under an appropriate choice of parameters, some 2D and 3D figures for the obtained analytical and numerical results are illustrated in order to compare between their accuracy.",
+    "url": "https://www.semanticscholar.org/paper/30effba519048240f3c13735e25bb7cfbd87c91a",
+    "source": "semantic_scholar",
+    "timestamp": 2020
+  },
+  {
+    "title": "Introduction to Plasma Physics",
+    "text": "These notes are intended to provide a brief primer in plasma physics, introducing common definitions, basic properties, and typical processes found in plasmas. These concepts are inherent in contemporary plasma-based accelerator schemes, and thus provide a foundation for the more advanced expositions that follow in this volume. No prior knowledge of plasma physics is required, but the reader is assumed to be familiar with basic electrodynamics and fluid mechanics.",
+    "url": "https://www.semanticscholar.org/paper/4bf27ae49936bbdf47c28c26747fb7870d0d7fcf",
+    "source": "semantic_scholar",
+    "timestamp": 2017
+  },
+  {
+    "title": "Solitons and periodic waves for a generalized (3+1)-dimensional Kadomtsev–Petviashvili equation in fluid dynamics and plasma physics",
+    "text": "Under investigation in this paper is a generalized (3+1)-dimensional Kadomtsev–Petviashvili equation in fluid dynamics and plasma physics. Soliton and one-periodic-wave solutions are obtained via the Hirota bilinear method and Hirota–Riemann method. Magnitude and velocity of the one soliton are derived. Graphs are presented to discuss the solitons and one-periodic waves: the coefficients in the equation can determine the velocity components of the one soliton, but cannot alter the soliton magnitude; the interaction between the two solitons is elastic; the coefficients in the equation can influence the periods and velocities of the periodic waves. Relation between the one-soliton solution and one-periodic wave solution is investigated.",
+    "url": "https://www.semanticscholar.org/paper/3d9dc691d83e38fa30e90f3d3bd849de0320f595",
+    "source": "semantic_scholar",
+    "timestamp": 2020
+  },
+  {
+    "title": "Plasma (physics)",
+    "text": "Plasma is a state of matter that results from a gaseous state having undergone some degree of ionization. It thus consists of a significant portion of charged particles. While rarely encountered on Earth, it is estimated that 99.9% of all ordinary matter in the universe is plasma. Stars are almost pure balls of plasma, and plasma dominates the rarefied intracluster medium and intergalactic medium. Plasma can be artificially generated, for example, by heating a neutral gas or subjecting it to a strong electromagnetic field.",
+    "url": "https://en.wikipedia.org/wiki/Plasma_(physics)",
+    "source": "wikipedia",
+    "timestamp": "2025-11-02"
+  }
+]

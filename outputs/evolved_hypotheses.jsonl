@@ -40,3 +40,4 @@
 {"event": "ingest", "cycle": 1, "hypothesis": "and beam commissioning --related_to--> dijkgraaf", "ts": 1761064810.5081651}
 {"event": "ingest", "cycle": 1, "hypothesis": "all accepted requests --related_to--> client", "ts": 1761064810.508414}
 {"event": "ingest", "cycle": 1, "hypothesis": "all accepted requests --related_to--> commissioning", "ts": 1761064810.508668}
+{"event": "ingest", "cycle": 1, "hypothesis": "temporal dynamics --of--> kelt", "ts": 1761690584.042783}

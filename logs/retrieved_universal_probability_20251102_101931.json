@@ -1,0 +1,240 @@
+[
+  {
+    "title": "Types of Probability",
+    "text": "",
+    "url": "https://doi.org/10.4135/9781529686975",
+    "source": "crossref",
+    "timestamp": 2022
+  },
+  {
+    "title": "Probability",
+    "text": "",
+    "url": "https://doi.org/10.1002/9780470191590.ch2",
+    "source": "crossref",
+    "timestamp": 2007
+  },
+  {
+    "title": "An Introduction to Probability, Hyper-Probability, and Super-Hyper-Probability",
+    "text": "",
+    "url": "https://doi.org/10.36227/techrxiv.175416659.92538019/v1",
+    "source": "crossref",
+    "timestamp": 2025
+  },
+  {
+    "title": "Introduction to Probability",
+    "text": "",
+    "url": "https://doi.org/10.4135/9781529694512",
+    "source": "crossref",
+    "timestamp": 2016
+  },
+  {
+    "title": "Probability Statements",
+    "text": "",
+    "url": "https://doi.org/10.4135/9781473996809",
+    "source": "crossref",
+    "timestamp": 2014
+  },
+  {
+    "title": "Intersubjective probability and pluralist views of probability",
+    "text": "",
+    "url": "https://doi.org/10.4324/9780203132241-14",
+    "source": "crossref",
+    "timestamp": 2012
+  },
+  {
+    "title": "Conditional Probability; Independence",
+    "text": "",
+    "url": "https://doi.org/10.1002/9780470191590.ch4",
+    "source": "crossref",
+    "timestamp": 2007
+  },
+  {
+    "title": "Physical Probability",
+    "text": "<p>Probability theorists divide into two camps-the proponents of subjective probability and the proponents of objective probability. Opinion has it that subjective probability has carried the day, but I think that such a judgment is premature. I have argued elsewhere that there are deep incoherencies in the notion of subjective probability. Accordingly, I find myself in the camp of objective probability. The consensus is, however, that the armies of objective probability are in even worse disarray. The purpose of this book is to construct a theory of objective probability that rectifies that. Such a theory must explain the meaning of objective probability, show how we can discover the values of objective probabilities, clarify their use in decision theory, and demonstrate how they can be used for epistemological purposes. The theory of nomic probability aims to do all that. This book has two main objectives. First, it will propose a general theory of objective probability. Second, it will, in a sense to be explained, propose a solution to the problem of induction. These two goals are intimately connected. I will argue that a solution to the problem of induction is forthcoming, ultimately, from an analysis of probabilistic reasoning. Under some circumstances, probabilistic reasoning justifies us in drawing non-probabilistic conclusions, and this kind of reasoning underlies induction. Conversely, an essential part of understanding probability consists of providing an account of how we can ascertain the values of probabilities, and the most fundamental way of doing that is by using a species of induction. In statistical induction we observe the relative frequency (the proportion) of A's in a limited sample of B's, and then infer that the probability of a B being an A is approximately the same as that relative frequency. To provide philosophical foundations for probability we must, among other things, explain precisely how statistical induction works and what justifies it. Probability is important both in and out of philosophy. Much of the reasoning of everyday life is probabilistic. We look at the clouds and judge whether it is going to rain by considering how often clouds like that have spawned rain in the past.</p>",
+    "url": "https://doi.org/10.1093/oso/9780195060133.003.0005",
+    "source": "crossref",
+    "timestamp": 1990
+  },
+  {
+    "title": "Probability, Randomness, Probability Distributions and Sampling Distributions",
+    "text": "",
+    "url": "https://doi.org/10.4135/9781529682748.n2",
+    "source": "crossref",
+    "timestamp": 2022
+  },
+  {
+    "title": "Conditional Probability",
+    "text": "",
+    "url": "https://doi.org/10.4135/9781473996847",
+    "source": "crossref",
+    "timestamp": 2014
+  },
+  {
+    "title": "Journal of Probability",
+    "text": "",
+    "url": "https://doi.org/10.1155/4050",
+    "source": "crossref",
+    "timestamp": null
+  },
+  {
+    "title": "Advances in Applied Probability Volume 45 (2013): Index",
+    "text": "General Applied Probability ",
+    "url": "https://doi.org/10.1017/s0001867800006832",
+    "source": "crossref",
+    "timestamp": 2013
+  },
+  {
+    "title": "Combinatorial Probability",
+    "text": "",
+    "url": "https://doi.org/10.1017/cbo9780511841521.003",
+    "source": "crossref",
+    "timestamp": 2009
+  },
+  {
+    "title": "Advances in Applied Probability Volume 44 (2012): Index",
+    "text": "General Applied Probability ",
+    "url": "https://doi.org/10.1017/s0001867800006091",
+    "source": "crossref",
+    "timestamp": 2012
+  },
+  {
+    "title": "Basic Probability",
+    "text": "",
+    "url": "https://doi.org/10.1109/9780470546604.ch1",
+    "source": "crossref",
+    "timestamp": 2009
+  },
+  {
+    "title": "Advances in Applied Probability Volume 46 (2014): Index",
+    "text": "General Applied Probability ",
+    "url": "https://doi.org/10.1017/s0001867800007606",
+    "source": "crossref",
+    "timestamp": 2014
+  },
+  {
+    "title": "High-Dimensional Probability: An Introduction with Applications in Data Science",
+    "text": "© 2018, Cambridge University Press Let us summarize our findings. A random projection of a set T in R n onto an m-dimensional subspace approximately preserves the geometry of T if m ⪆ d ( T ) . For...",
+    "url": "https://www.semanticscholar.org/paper/fa5853fdef7d2f6bb68203d187ddacbbddc63a8b",
+    "source": "semantic_scholar",
+    "timestamp": 2020
+  },
+  {
+    "title": "Probability Theory",
+    "text": null,
+    "url": "https://www.semanticscholar.org/paper/1711036ab09561ce9a2cd1716ad10786959dee5c",
+    "source": "semantic_scholar",
+    "timestamp": 2016
+  },
+  {
+    "title": "Foundations of Modern Probability",
+    "text": "* Measure Theory-Basic Notions * Measure Theory-Key Results * Processes, Distributions, and Independence * Random Sequences, Series, and Averages * Characteristic Functions and Classical Limit Theorems * Conditioning and Disintegration * Martingales and Optional Times * Markov Processes and Discrete-Time Chains * Random Walks and Renewal Theory * Stationary Processes and Ergodic Theory * Special Notions of Symmetry and Invariance * Poisson and Pure Jump-Type Markov Processes * Gaussian Processes and Brownian Motion * Skorohod Embedding and Invariance Principles * Independent Increments and Infinite Divisibility * Convergence of Random Processes, Measures, and Sets * Stochastic Integrals and Quadratic Variation * Continuous Martingales and Brownian Motion * Feller Processes and Semigroups * Ergodic Properties of Markov Processes * Stochastic Differential Equations and Martingale Problems * Local Time, Excursions, and Additive Functionals * One-Dimensional SDEs and Diffusions * Connections with PDEs and Potential Theory * Predictability, Compensation, and Excessive Functions * Semimartingales and General Stochastic Integration * Large Deviations * Appendix 1: Advanced Measure Theory * Appendix 2: Some Special Spaces * Historical and Bibliographical Notes * Bibliography * Indices",
+    "url": "https://www.semanticscholar.org/paper/1389c7cab2057653537bca4870ec87cc67fd697e",
+    "source": "semantic_scholar",
+    "timestamp": 2021
+  },
+  {
+    "title": "An Introduction to Probability Theory and Its Applications",
+    "text": null,
+    "url": "https://www.semanticscholar.org/paper/a6a449b72942b7a6ffd14bd75e92e6656e317736",
+    "source": "semantic_scholar",
+    "timestamp": 1959
+  },
+  {
+    "title": "On Estimation of a Probability Density Function and Mode",
+    "text": null,
+    "url": "https://www.semanticscholar.org/paper/de28c165623adabcdba0fdb18b65eba685aaf31d",
+    "source": "semantic_scholar",
+    "timestamp": 1962
+  },
+  {
+    "title": "Probability, random variables and stochastic processes",
+    "text": null,
+    "url": "https://www.semanticscholar.org/paper/7eeb730524a8e980f91c923b8e1d026b17883e38",
+    "source": "semantic_scholar",
+    "timestamp": 1985
+  },
+  {
+    "title": "A method for estimating the probability of adverse drug reactions",
+    "text": null,
+    "url": "https://www.semanticscholar.org/paper/b06bc6be30a72280501a7ada2b1f14c3fb41f481",
+    "source": "semantic_scholar",
+    "timestamp": 1981
+  },
+  {
+    "title": "Gradient Flows: In Metric Spaces and in the Space of Probability Measures",
+    "text": null,
+    "url": "https://www.semanticscholar.org/paper/6d971c3f1860e360b75b3b6c76e5a3722ab22d82",
+    "source": "semantic_scholar",
+    "timestamp": 2005
+  },
+  {
+    "title": "Probability: Theory and Examples",
+    "text": null,
+    "url": "https://www.semanticscholar.org/paper/aaaae6628c9c33e165e5cd5538b27d9275c24347",
+    "source": "semantic_scholar",
+    "timestamp": 1993
+  },
+  {
+    "title": "Probability theory: the logic of science",
+    "text": null,
+    "url": "https://www.semanticscholar.org/paper/6f7c1d384c87e4527ff004de0bde80b07bbd3f58",
+    "source": "semantic_scholar",
+    "timestamp": 2005
+  },
+  {
+    "title": "Probability Inequalities for Sums of Bounded Random Variables",
+    "text": null,
+    "url": "https://www.semanticscholar.org/paper/30ffd4a8e479d04b1dea5749eac4a466dccde64b",
+    "source": "semantic_scholar",
+    "timestamp": 1994
+  },
+  {
+    "title": "Moving towards best practice when using inverse probability of treatment weighting (IPTW) using the propensity score to estimate causal treatment effects in observational studies",
+    "text": "The propensity score is defined as a subject's probability of treatment selection, conditional on observed baseline covariates. Weighting subjects by the inverse probability of treatment received creates a synthetic sample in which treatment assignment is independent of measured baseline covariates. Inverse probability of treatment weighting (IPTW) using the propensity score allows one to obtain unbiased estimates of average treatment effects. However, these estimates are only valid if there are no residual systematic differences in observed baseline characteristics between treated and control subjects in the sample weighted by the estimated inverse probability of treatment. We report on a systematic literature review, in which we found that the use of IPTW has increased rapidly in recent years, but that in the most recent year, a majority of studies did not formally examine whether weighting balanced measured covariates between treatment groups. We then proceed to describe a suite of quantitative and qualitative methods that allow one to assess whether measured baseline covariates are balanced between treatment groups in the weighted sample. The quantitative methods use the weighted standardized difference to compare means, prevalences, higher‐order moments, and interactions. The qualitative methods employ graphical methods to compare the distribution of continuous baseline covariates between treated and control subjects in the weighted sample. Finally, we illustrate the application of these methods in an empirical case study. We propose a formal set of balance diagnostics that contribute towards an evolving concept of ‘best practice’ when using IPTW to estimate causal treatment effects using observational data. © 2015 The Authors. Statistics in Medicine Published by John Wiley & Sons Ltd.",
+    "url": "https://www.semanticscholar.org/paper/0b0ee409ce4cb35bdec885d960282338094a4509",
+    "source": "semantic_scholar",
+    "timestamp": 2015
+  },
+  {
+    "title": "Monographs on statistics and applied probability",
+    "text": null,
+    "url": "https://www.semanticscholar.org/paper/80156204bc2d89450fb7ae70d2549ff25ea5c6a0",
+    "source": "semantic_scholar",
+    "timestamp": 1990
+  },
+  {
+    "title": "Introduction to probability models",
+    "text": null,
+    "url": "https://www.semanticscholar.org/paper/3d3c82d8989b0053da3fc7b0598cb72457442fd1",
+    "source": "semantic_scholar",
+    "timestamp": 1975
+  },
+  {
+    "title": "Convergence of Probability Measures",
+    "text": null,
+    "url": "https://www.semanticscholar.org/paper/588f47357f6da3682d641504addce068f36e2848",
+    "source": "semantic_scholar",
+    "timestamp": 1970
+  },
+  {
+    "title": "Availability: A heuristic for judging frequency and probability",
+    "text": null,
+    "url": "https://www.semanticscholar.org/paper/4140e7481c2599604b14fcd04625274022583631",
+    "source": "semantic_scholar",
+    "timestamp": 1973
+  },
+  {
+    "title": "Decision, probability, and utility: Risk, ambiguity, and the Savage axioms",
+    "text": null,
+    "url": "https://www.semanticscholar.org/paper/60f70bd0af43dca413d87424e36f300a902fef78",
+    "source": "semantic_scholar",
+    "timestamp": 1988
+  },
+  {
+    "title": "Review: P. Billingsley, Convergence of probability measures",
+    "text": null,
+    "url": "https://www.semanticscholar.org/paper/bc55639dcb2d8cb372643c2336ed2dc85ddcaaed",
+    "source": "semantic_scholar",
+    "timestamp": 1971
+  }
+]

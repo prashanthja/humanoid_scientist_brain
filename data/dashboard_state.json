@@ -2,28 +2,28 @@
   "cycle": 1,
   "device": "mps",
   "kg": {
-    "nodes": 556,
-    "edges": 578
+    "nodes": 854,
+    "edges": 892
   },
   "training": {
-    "online_loss": 1.1409710329025984,
-    "online_sim": 0.9528634548187256,
-    "vocab_size": 1061
+    "online_loss": 0.8064670106396079,
+    "online_sim": 0.9085984528064728,
+    "vocab_size": 3013
   },
   "recent_papers": [
-    "Title Pending 17587",
-    "Title Pending 15280",
-    "Title Pending 11715",
-    "Title Pending 11714",
-    "Title Pending 8881"
+    "PRISM-Bench: A Benchmark of Puzzle-Based Visual Tasks with CoT Error Detection",
+    "On Terwilliger $\\mathbb{F}$-algebras of factorial association schemes",
+    "Title Pending 6507",
+    "Sheaves on Quivers via a Grothendieck Topology on the Path Category",
+    "Tests of independence for pairs of paths of non-stationary Gaussian processes"
   ],
   "concepts_learned": [
+    "reasoning, prism, bench, visual, models",
+    "algebras, mathbb, terwilliger, association, schemes",
     "title, pending",
-    "title, pending",
-    "title, pending",
-    "title, pending",
-    "title, pending"
+    "representations, sheaves, grothendieck, coarse, discrete",
+    "brownian, motion, current, provide, theoretical"
   ],
-  "visualization": "visualization/graphs/kg_cycle_1_20251021_114008.png",
-  "timestamp": 1761064810
+  "visualization": "visualization/graphs/kg_cycle_1_20251028_172941.png",
+  "timestamp": 1761690587
 }

@@ -1,0 +1,128 @@
+[
+  {
+    "title": "The foundations of quantum mechanics",
+    "text": "<p>Operators in quantum mechanics</p>\n               <p>Linear operators</p>\n               <p>Eigenfunctions and eigenvalues</p>\n               <p>Representations</p>\n               <p>Commutation and non-commutation</p>\n               <p>The construction of operators</p>\n               <p>Integrals over operators</p>\n               <p>Dirac bracket and matrix notation</p>\n               <p>Hermitian operators</p>\n               <p>\n                  <bold>The postulates of quantum mechanics</bold>\n               </p>\n               <p>States and wavefunctions</p>",
+    "url": "https://doi.org/10.1093/hesc/9780199541423.003.0001",
+    "source": "crossref",
+    "timestamp": 2010
+  },
+  {
+    "title": "Fundamentals of Quantum Mechanics",
+    "text": "<p>The laws of quantum mechanics were formulated in the year 1925 through the work of Werner Heisenberg, followed by Max Born, Pascual Jordan, Paul Dirac, and Wolfgang Pauli. A separate but equivalent approach was independently developed by Erwin Schrödinger in early 1926. The laws governing quantum mechanics were highly mathematical and their aim was to explain many unresolved problems within the framework of a formal theory. The conceptual foundation emerged in the subsequent 2–3 years that indicated how radically different the new laws were from classical physics. In this chapter some of these salient features of quantum mechanics are discussed. The topics include the quantization of energy, wave–particle duality, the probabilistic nature of quantum mechanics, Heisenberg uncertainty relations, Bohr’s principle of complementarity, and quantum superposition and entanglement. This discussion should indicate how different and counterintuitive its fundamentals are from those of classical physics.</p>",
+    "url": "https://doi.org/10.1093/oso/9780198854227.003.0005",
+    "source": "crossref",
+    "timestamp": 2020
+  },
+  {
+    "title": "From classical mechanics to quantum mechanics",
+    "text": "",
+    "url": "https://doi.org/10.1017/cbo9780511813955.002",
+    "source": "crossref",
+    "timestamp": 2009
+  },
+  {
+    "title": "Relativity and quantum mechanics",
+    "text": "",
+    "url": "https://doi.org/10.1887/0750308397/b1107c11",
+    "source": "crossref",
+    "timestamp": null
+  },
+  {
+    "title": "Relativistic Quantum Mechanics",
+    "text": "",
+    "url": "https://doi.org/10.1017/9781108499996.012",
+    "source": "crossref",
+    "timestamp": null
+  },
+  {
+    "title": "Wave Mechanics",
+    "text": "<p>This chapter develops the wave mechanics formalism. The emphasis here is on symmetries and conservation laws: parity, linear and angular momentum, and the electromagnetic interaction. The only specific physical application is the completion of the study of an isolated hydrogen atom, with some discussion of the motion of a particle in a magnetic field. The chapter also outlines the general assumptions of quantum wave mechanics, which may be summarized as follows: the state of a physical system is represented by a wave function and each measurable attribute of the system is represented by a linear self-adjoint operator in the space of functions. To apply these general assumptions to a given physical system, one must give a specific prescription for the observables and their algebra, and one must adopt a definite form for the Hamiltonians as a function of the observables.</p>",
+    "url": "https://doi.org/10.23943/princeton/9780691209821.003.0002",
+    "source": "crossref",
+    "timestamp": 2019
+  },
+  {
+    "title": "The basic postulates of quantum mechanics",
+    "text": "",
+    "url": "https://doi.org/10.1887/0750308397/b1107c4",
+    "source": "crossref",
+    "timestamp": null
+  },
+  {
+    "title": "Symmetry in quantum mechanics",
+    "text": "",
+    "url": "https://doi.org/10.1887/0750304081/b368c2",
+    "source": "crossref",
+    "timestamp": null
+  },
+  {
+    "title": "Emergent Quantum Mechanics",
+    "text": "Emergent Quantum Mechanics ",
+    "url": "https://doi.org/10.3390/books978-3-03897-617-2",
+    "source": "crossref",
+    "timestamp": 2019
+  },
+  {
+    "title": "Principles of Quantum Mechanics",
+    "text": "",
+    "url": "https://doi.org/10.1007/3-540-28805-8_5",
+    "source": "crossref",
+    "timestamp": null
+  },
+  {
+    "title": "Non-relativistic quantum mechanics",
+    "text": "",
+    "url": "https://doi.org/10.1088/978-0-7503-2167-9ch2",
+    "source": "crossref",
+    "timestamp": 2021
+  },
+  {
+    "title": "The conceptual problems of quantum mechanics",
+    "text": "",
+    "url": "https://doi.org/10.1887/0750308397/b1107c13",
+    "source": "crossref",
+    "timestamp": null
+  },
+  {
+    "title": "Birth of Quantum Mechanics—Planck, Einstein, Bohr",
+    "text": "<p>In this chapter, three problems whose resolution laid the foundation of quantum mechanics are discussed. First the pioneering work of Max Planck is described who explained the spectrum of light emitted from a so-called blackbody by making a bold ansatz that the energy associated with the oscillations of electrons comes in packets or quanta of energy. Second it is shown how Einstein invoked Planck’s hypothesis to explain the photoelectric effect by arguing that light should come in packets or quanta of energy and this energy should be proportional to the frequency. Electrons are emitted if the energy of the quantum of light, which has come to be known as a photon, is higher than a critical value. The third problem relates to the atomic structure of hydrogen. A full description is given of how Bohr applied a quantization condition to explain the emission of light at certain specific frequencies.</p>",
+    "url": "https://doi.org/10.1093/oso/9780198854227.003.0006",
+    "source": "crossref",
+    "timestamp": 2020
+  },
+  {
+    "title": "Quantum Mechanics (Inception)",
+    "text": "",
+    "url": "https://doi.org/10.1201/9781003459781-2",
+    "source": "crossref",
+    "timestamp": 2024
+  },
+  {
+    "title": "Quantum Mechanics (Conception)",
+    "text": "",
+    "url": "https://doi.org/10.1201/9781003459781-10",
+    "source": "crossref",
+    "timestamp": 2024
+  },
+  {
+    "title": "Quantum mechanics",
+    "text": "",
+    "url": "https://doi.org/10.1017/cbo9780511793349.005",
+    "source": "crossref",
+    "timestamp": 2011
+  },
+  {
+    "title": "Elementary Quantum Mechanics",
+    "text": "",
+    "url": "https://doi.org/10.2307/j.ctv346qpb.5",
+    "source": "crossref",
+    "timestamp": null
+  },
+  {
+    "title": "Old Quantum Mechanics",
+    "text": "",
+    "url": "https://doi.org/10.1007/1-4020-3688-4_8",
+    "source": "crossref",
+    "timestamp": null
+  }
+]

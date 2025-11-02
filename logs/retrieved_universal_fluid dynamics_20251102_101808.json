@@ -1,0 +1,268 @@
+[
+  {
+    "title": "Hamiltonian Fluid Dynamics",
+    "text": "<p> In this final chapter, we return to the subject of the first: the fundamental principles of fluid mechanics. In chapter 1, we derived the equations of fluid motion from Hamilton’s principle of stationary action, emphasizing its logical simplicity and the resulting close correspondence between mechanics and thermodynamics. Now we explore the Hamiltonian approach more fully, discovering its other advantages. The most important of these advantages arise from the correspondence between the symmetry properties of the Lagrangian and the conservation laws of the resulting dynamical equations. Therefore, we begin with a very brief introduction to symmetry and conservation laws. Noether’s theorem applies to the equations that arise from variational principles like Hamilton’s principle. According to Noether’s theorem : If a variational principle is invariant to a continuous transformation of its dependent and independent variables, then the equations arising from the variational principle possess a divergence-form conservation law. The invariance property is also called a symmetry property. Thus Noether’s theorem connects symmetry properties and conservation laws. We shall neither state nor prove the general form of Noether’s theorem; to do so would require a lengthy digression on continuous groups. Instead we illustrate the connection between symmetry and conservation laws with a series of increasingly complex and important examples. These examples convey the flavor of the general theory. Our first example is very simple. Consider a body of mass m moving in one dimension. The body is attached to the end of a spring with spring-constant K. Let x(t) be the displacement of the body from its location when the spring is unstretched. </p>",
+    "url": "https://doi.org/10.1093/oso/9780195108088.003.0010",
+    "source": "crossref",
+    "timestamp": 1998
+  },
+  {
+    "title": "Statistical Fluid Dynamics",
+    "text": "<p>In the previous chapter, we  considered fluid turbulence from a heuristic viewpoint, combining ideas based on fundamental conservation laws with more qualitative ideas about irreversible behavior. However, there have been many attempts to study turbulence in a more quantitative and deductive fashion, beginning with the governing dynamical equations for a fluid. None of these attempts is, or could be, mathematically rigorous; all involve approximations that are difficult to justify and hard to test. In fact, these more deductive theories are perhaps best viewed as approximations in which the exact dynamical equations are replaced by stochastic-model equations having some (but not all) of the same physical properties as the exact equations, in much the same way as the quasigeostrophic equations contain only a part of the physics in the more exact primitive equations. In this chapter, we examine fluid turbulence from the standpoint of equilibrium and nonequilibrium statistical mechanics. This is a complicated and controversial subject, and our discussion will be introductory and elementary. In fact, we shall be much more concerned with the philosophy behind the statistical methods than with the detailed structure of the theory or with its successes and failures at describing real turbulence. This philosophy appears to be applicable to a much wider range of problems than so far considered. Readers who want a more thorough and complete description of statistical turbulence theory should consult more specialized sources. This chapter continues a theme, begun in chapter 4, to be continued in chapter 6, that much of our understanding of turbulence is based on two general principles: the conservation principle, which states that quantities like energy and potential vorticity are conserved (apart from the effects of dissipation), and the irreversibility principle, which holds that a turbulent system tends toward ever greater complexity. In chapter 4, we met the irreversibility principle in the assumptions that a narrow spectral peak spreads out and that nearby fluid particles tend to move apart. In this chapter, we encounter the irreversibility principle again, as a kind of macroscopic form of the Second Law of Thermodynamics. </p>",
+    "url": "https://doi.org/10.1093/oso/9780195108088.003.0008",
+    "source": "crossref",
+    "timestamp": 1998
+  },
+  {
+    "title": "Introduction to Geophysical Fluid Dynamics",
+    "text": "<p> This second chapter offers a brief introduction to geophysical fluid dynamics—the dynamics of rotating, stratified flows. We start with the shallow water equations, which govern columnar motion in a thin layer of homogeneous fluid. Roughly speaking, the solutions of the shallow-water equations comprise two types of motion: ageostrophic motions, including inertia-gravity waves, on the one hand, and nearly geostrophic motions on the other. In rapidly rotating flow, these two types of motion may, in some sense, decouple. We seek simpler equations that describe only the nearly geostrophic motion. The simplest such equations are the quasigeostrophic equations. In the quasigcostrophic equations, potential vorticity plays the key role: The potential vorticity completely determines the velocity field that transports it, thereby controlling the whole dynamics. We begin by generalizing our previously derived fluid equations to a rotating coordinate frame. </p>",
+    "url": "https://doi.org/10.1093/oso/9780195108088.003.0005",
+    "source": "crossref",
+    "timestamp": 1998
+  },
+  {
+    "title": "NFDC National fluid dynamics congress",
+    "text": "",
+    "url": "https://doi.org/10.1016/0169-5983(90)90063-5",
+    "source": "crossref",
+    "timestamp": 1990
+  },
+  {
+    "title": "Fluid Dynamics Ground Test Facilities",
+    "text": "",
+    "url": "https://doi.org/10.1002/9780470172643.ch16",
+    "source": "crossref",
+    "timestamp": 1996
+  },
+  {
+    "title": "Modern Fluid Dynamics Topics",
+    "text": "",
+    "url": "https://doi.org/10.1201/b22066-5",
+    "source": "crossref",
+    "timestamp": null
+  },
+  {
+    "title": "Microscale Fluid Dynamics",
+    "text": "",
+    "url": "https://doi.org/10.1201/b22066-9",
+    "source": "crossref",
+    "timestamp": 2018
+  },
+  {
+    "title": "Fundamentals of Fluid Dynamics",
+    "text": "<jats:title>Abstract</jats:title>\n               <jats:p>This chapter starts with a discussion of the continuum hypothesis and the conditions under which it can be used. The origin of the internal forces acting in moving fluids is then identified and the notion of the surface stress and the stress tensor are introduced, as is the rate-of-strain tensor. The constitutive equation, which relates the surface stress to the deformational motion of a fluid, is then derived. Newton’s Second Law and the law of conservation of energy are applied to deduce the equations governing fluid motion. These are known as the Navier–Stokes equations. They are derived for both incompressible fluid flows and compressible flows of a perfect gas. The chapter concludes with a demonstration of how the Navier–Stokes equations can be expressed in curvilinear coordinates.</jats:p>",
+    "url": "https://doi.org/10.1093/acprof:oso/9780199681730.003.0002",
+    "source": "crossref",
+    "timestamp": 2014
+  },
+  {
+    "title": "Videotapes and Movies on Fluid Dynamics and Fluid Machines",
+    "text": "",
+    "url": "https://doi.org/10.1002/9780470172643.ch17",
+    "source": "crossref",
+    "timestamp": 1996
+  },
+  {
+    "title": "OS23-6 Thermo-Fluid Dynamics of Pulsating Heat Pipes for LED Lightings(Thermo-fluid dynamics(2),OS23 Thermo-fluid dynamics,FLUID AND THERMODYNAMICS)",
+    "text": "",
+    "url": "https://doi.org/10.1299/jsmeatem.2015.14.283",
+    "source": "crossref",
+    "timestamp": 2015
+  },
+  {
+    "title": "Computational Fluid Dynamics",
+    "text": "",
+    "url": "https://doi.org/10.5772/28614",
+    "source": "crossref",
+    "timestamp": 2012
+  },
+  {
+    "title": "Engineering Fluid Dynamics 2019-2020",
+    "text": "Engineering Fluid Dynamics 2019-2020 ",
+    "url": "https://doi.org/10.3390/books978-3-0365-0251-9",
+    "source": "crossref",
+    "timestamp": 2021
+  },
+  {
+    "title": "Index",
+    "text": "",
+    "url": "https://doi.org/10.1002/9780470172650.index",
+    "source": "crossref",
+    "timestamp": 1996
+  },
+  {
+    "title": "Frontmatter",
+    "text": "",
+    "url": "https://doi.org/10.1002/9780470172636.fmatter",
+    "source": "crossref",
+    "timestamp": 1996
+  },
+  {
+    "title": "Fluid Dynamics Fundamentals with Applications",
+    "text": "",
+    "url": "https://doi.org/10.1201/b22066-1",
+    "source": "crossref",
+    "timestamp": null
+  },
+  {
+    "title": "Rarefied Gas Dynamics",
+    "text": "",
+    "url": "https://doi.org/10.1002/9780470172636.ch11",
+    "source": "crossref",
+    "timestamp": 1996
+  },
+  {
+    "title": "Preface",
+    "text": "",
+    "url": "https://doi.org/10.1093/acprof:oso/9780199681730.002.0004",
+    "source": "crossref",
+    "timestamp": 2014
+  },
+  {
+    "title": "Incorporation of Computational Fluid Dynamics into a Fluid Mechanics Curriculum",
+    "text": "",
+    "url": "https://doi.org/10.5772/39217",
+    "source": "crossref",
+    "timestamp": 2012
+  },
+  {
+    "title": "Investigating Non-Newtonian Fluid Behavior in Hydrocyclones Via Computational Fluid Dynamics",
+    "text": "Expert researchers examine complex patterns of pressure, viscosity, and velocity in a CFD study of viscoelastic food inside hydrocyclones to obtain a detailed grasp of particle behavior and fluid dynamics. Velocity profiles show how fluids and particles flow through the hydrocyclone in complex ways, while pressure distributions show where high and low pressure is found, regions that are critical for maximizing separation efficiency. Furthermore, the analysis of viscosity fluctuations clarifies the intricate relationship between fluid rheology and flow dynamics, providing information on how food's viscoelastic characteristics affect particle trajectories and separation efficiency. Utilizing this comprehensive examination, scientists hope to optimize the design and functioning parameters of the hydrocyclones, which will in turn improve the efficacy and efficiency of particle separation procedures in viscoelastic food solutions. This will ultimately lead to improvements in food processing technology and product quality. Researchers look into the impact of geometric elements on flow patterns and separation efficiency in addition to these characteristics, such as hydrocyclone size and inlet configurations. Additionally, they investigate how different operating parameters, such rotational speed and flow rate, affect how well the hydrocyclone handles viscoelastic food items. Through the integration of these complex analyses, researchers hope to create all encompassing models that can precisely forecast and optimize the behavior of viscoelastic food flows inside hydrocyclones, opening the door to improved process control and food sector product quality.",
+    "url": "https://www.semanticscholar.org/paper/19608a977aaaf81c3999d03dc1e80f457eb6ffc3",
+    "source": "semantic_scholar",
+    "timestamp": 2024
+  },
+  {
+    "title": "Introduction to Computational Fluid Dynamics",
+    "text": "A projected frontal area or planform area of an object b span or depth of a flat plate (into the page when viewed from the edge) CD drag coefficient: CD = 2FD /VA D height (2-dimensional) or diameter (axisymmetric) of a block or other object in the flow FD drag force FL lift force H height of computational domain L length of the block in the flow direction R radial extent of computational domain ReD Reynolds number based on length D: ReD = VD/ (other Reynolds numbers defined similarly) Rex Reynolds number based on axial distance x: Rex = Vx/ (other Reynolds numbers defined similarly) u streamwise component of velocity at some location inside the boundary layer (in x-direction) V or U freestream velocity x flow direction y coordinate normal to flow direction, usually normal to a wall  coefficient of dynamic viscosity (also called simply the viscosity)  coefficient of kinematic viscosity (for water,   1.0  10-6 m2/s at room temperature)  density of the fluid (for water,   998 kg/m3 at room temperature)",
+    "url": "https://www.semanticscholar.org/paper/958b3e2e4c3e2928f813949018da91fd8d31ae72",
+    "source": "semantic_scholar",
+    "timestamp": 2023
+  },
+  {
+    "title": "A comprehensive review of advances in physics-informed neural networks and their applications in complex fluid dynamics",
+    "text": "Physics-informed neural networks (PINNs) represent an emerging computational paradigm that incorporates observed data patterns and the fundamental physical laws of a given problem domain. This approach provides significant advantages in addressing diverse difficulties in the field of complex fluid dynamics. We thoroughly investigated the design of the model architecture, the optimization of the convergence rate, and the development of computational modules for PINNs. However, efficiently and accurately utilizing PINNs to resolve complex fluid dynamics problems remain an enormous barrier. For instance, rapidly deriving surrogate models for turbulence from known data and accurately characterizing flow details in multiphase flow fields present substantial difficulties. Additionally, the prediction of parameters in multi-physics coupled models, achieving balance across all scales in multiscale modeling, and developing standardized test sets encompassing complex fluid dynamic problems are urgent technical breakthroughs needed. This paper discusses the latest advancements in PINNs and their potential applications in complex fluid dynamics, including turbulence, multiphase flows, multi-field coupled flows, and multiscale flows. Furthermore, we analyze the challenges that PINNs face in addressing these fluid dynamics problems and outline future trends in their growth. Our objective is to enhance the integration of deep learning and complex fluid dynamics, facilitating the resolution of more realistic and complex flow problems.",
+    "url": "https://www.semanticscholar.org/paper/b77c913d9b143498d5e43bc2dcb31ef430d0ed72",
+    "source": "semantic_scholar",
+    "timestamp": 2024
+  },
+  {
+    "title": "An introduction to computational fluid dynamics - the finite volume method",
+    "text": null,
+    "url": "https://www.semanticscholar.org/paper/08236a76e2355ee36c154f51b6b2159e054a3191",
+    "source": "semantic_scholar",
+    "timestamp": 2007
+  },
+  {
+    "title": "Computational methods for fluid dynamics",
+    "text": null,
+    "url": "https://www.semanticscholar.org/paper/83f1b137f2528e8a5c8a26771dd91cf970a0789c",
+    "source": "semantic_scholar",
+    "timestamp": 1996
+  },
+  {
+    "title": "An Introduction to Fluid Dynamics",
+    "text": null,
+    "url": "https://www.semanticscholar.org/paper/3573904ecc46de1cb5227c99aaf630b25073a9da",
+    "source": "semantic_scholar",
+    "timestamp": 1968
+  },
+  {
+    "title": "Machine learning–accelerated computational fluid dynamics",
+    "text": "Significance Accurate simulation of fluids is important for many science and engineering problems but is very computationally demanding. In contrast, machine-learning models can approximate physics very quickly but at the cost of accuracy. Here we show that using machine learning inside traditional fluid simulations can improve both accuracy and speed, even on examples very different from the training data. Our approach opens the door to applying machine learning to large-scale physical modeling tasks like airplane design and climate prediction. Numerical simulation of fluids plays an essential role in modeling many physical phenomena, such as weather, climate, aerodynamics, and plasma physics. Fluids are well described by the Navier–Stokes equations, but solving these equations at scale remains daunting, limited by the computational cost of resolving the smallest spatiotemporal features. This leads to unfavorable trade-offs between accuracy and tractability. Here we use end-to-end deep learning to improve approximations inside computational fluid dynamics for modeling two-dimensional turbulent flows. For both direct numerical simulation of turbulence and large-eddy simulation, our results are as accurate as baseline solvers with 8 to 10× finer resolution in each spatial dimension, resulting in 40- to 80-fold computational speedups. Our method remains stable during long simulations and generalizes to forcing functions and Reynolds numbers outside of the flows where it is trained, in contrast to black-box machine-learning approaches. Our approach exemplifies how scientific computing can leverage machine learning and hardware accelerators to improve simulations without sacrificing accuracy or generalization.",
+    "url": "https://www.semanticscholar.org/paper/2afa490dde7a8c582d889530c7f8b042fef6a8b7",
+    "source": "semantic_scholar",
+    "timestamp": 2021
+  },
+  {
+    "title": "Riemann Solvers and Numerical Methods for Fluid Dynamics",
+    "text": null,
+    "url": "https://www.semanticscholar.org/paper/8705e8fe0632bd11f200455a5125692a2547a018",
+    "source": "semantic_scholar",
+    "timestamp": 1997
+  },
+  {
+    "title": "A Perspective on the State of Aerospace Computational Fluid Dynamics Technology",
+    "text": "Over the past several decades, computational fluid dynamics has been increasingly used in the aerospace industry for the design and study of new and derivative aircraft. In this review we survey the CFD application process and note its place and importance within the everyday work of industry. Furthermore, the centrality of geometry and importance of turbulence models, higher-order numerical algorithms, output-based mesh adaptation, and numerical design optimization are discussed. Challenges in each area are noted and specific suggestions for investment are made. The review concludes with an outlook toward a future in which certification by analysis and model-based design are standard practice, along with a reminder of the steps necessary to lead the industry there.",
+    "url": "https://www.semanticscholar.org/paper/4070d7a9986c189af6d48c51941f7d17380e9a51",
+    "source": "semantic_scholar",
+    "timestamp": 2023
+  },
+  {
+    "title": "Current and emerging deep-learning methods for the simulation of fluid dynamics",
+    "text": "Over the last decade, deep learning (DL), a branch of machine learning, has experienced rapid progress. Powerful tools for tasks that have been traditionally complex to automate have been developed, such as image synthesis and natural language processing. In the context of simulating fluid dynamics, this has led to a series of novel DL methods for replacing or augmenting conventional numerical solvers. We broadly classify these methods into physics- and data-driven methods. Physics-driven methods, generally, tune a DL model to provide an analytical and differentiable solution to a given fluid dynamics problem by minimizing the residuals of the governing partial differential equations. Data-driven methods provide a fast and approximate solution to any fluid dynamics problem that shares some physical properties with the observations used when tuning the DL model’s parameters. Meanwhile, the symbiosis of numerical solvers and DL has led to promising results in turbulence modelling and accelerating iterative solvers. However, these methods present some challenges. Exclusively data-driven flow simulators often suffer from poor extrapolation, error accumulation in time-dependent simulations, as well as difficulties in training against turbulent flows. Substantial effort is, therefore, being invested into approaches that may improve the current state of the art.",
+    "url": "https://www.semanticscholar.org/paper/be0915303821de07a8e370413ab2b1225e231ee5",
+    "source": "semantic_scholar",
+    "timestamp": 2023
+  },
+  {
+    "title": "Potential quantum advantage for simulation of fluid dynamics",
+    "text": "Numerical simulation of turbulent fluid dynamics needs to either parametrize turbulence—which introduces large uncertainties—or explicitly resolve the smallest scales—which is prohibitively expensive. Here, we provide evidence through analytic bounds and numerical studies that a potential quantum speedup can be achieved to simulate fluid dynamics using quantum computing. Specifically, we provide a lattice Boltzmann formulation of fluid dynamics for which we give evidence that low-order Carleman linearization is much more accurate than previously believed for these systems. This is achieved via a combination of reformulating the Navier-Stokes nonlinearity (u·∇u) to lattice-Boltzmann nonlinearity (u2) and accurately linearizing the dynamical equations, which effectively trades nonlinearity for additional degrees of freedom that add negligible expense in the quantum solver. Based on this, we apply a quantum algorithm for simulating the Carleman-linearized lattice Boltzmann equation and provide evidence that its cost scales logarithmically with system size compared with polynomial scaling in the best known classical algorithms. In this paper, we suggest that a quantum advantage may exist for simulating fluid dynamics, paving the way for simulating nonlinear multiscale transport phenomena in a wide range of disciplines using quantum computing.\n \n \n \n \n Published by the American Physical Society\n 2025\n \n \n",
+    "url": "https://www.semanticscholar.org/paper/162bb4f3164f2732b1d16e56bf7c092a4dd749f0",
+    "source": "semantic_scholar",
+    "timestamp": 2023
+  },
+  {
+    "title": "Theories of Relativistic Dissipative Fluid Dynamics",
+    "text": "Relativistic dissipative fluid dynamics finds widespread applications in high-energy nuclear physics and astrophysics. However, formulating a causal and stable theory of relativistic dissipative fluid dynamics is far from trivial; efforts to accomplish this reach back more than 50 years. In this review, we give an overview of the field and attempt a comparative assessment of (at least most of) the theories for relativistic dissipative fluid dynamics proposed until today and used in applications.",
+    "url": "https://www.semanticscholar.org/paper/7439820374267c50a87b86bc90f4b53095353f77",
+    "source": "semantic_scholar",
+    "timestamp": 2023
+  },
+  {
+    "title": "Fluid Dynamics of Squirmers and Ciliated Microorganisms",
+    "text": "The fluid dynamics of microswimmers has received attention from the fields of microbiology, microrobotics, and active matter. Microorganisms have evolved organelles termed cilia for propulsion through liquids. Each cilium periodically performs effective and recovery strokes, creating a metachronal wave as a whole and developing a propulsive force. One well-established mathematical model of ciliary swimming is the squirmer model, which focuses on surface squirming velocities. This model is also useful when studying active colloids and droplets. The squirmer model has been recently used to investigate the behaviors of microswimmers in complex environments, their collective dynamics, and the characteristics of active fluids. Efforts have also been made to broaden the range of applications beyond the assortment permitted by the squirmer model, which was established to specifically represent ciliary flow and incorporate biological features. The stress swimmer model imposes stresses above the cell body surface that enforce the no-slip condition. The ciliated swimmer model precisely reproduces the behaviors of each cilium that engages in mutual hydrodynamic interactions. Mathematical models have improved our understanding of various microbial phenomena, including cell–cell and cell–wall interactions and energetics. Here, I review recent advances in the hydrodynamics of ciliary swimming and then discuss future challenges. Expected final online publication date for the Annual Review of Fluid Mechanics, Volume 56 is January 2024. Please see http://www.annualreviews.org/page/journal/pubdates for revised estimates.",
+    "url": "https://www.semanticscholar.org/paper/d5c1867c7872c07996d0ebdcf136eaf30917764a",
+    "source": "semantic_scholar",
+    "timestamp": 2023
+  },
+  {
+    "title": "Spectral methods for fluid dynamics",
+    "text": null,
+    "url": "https://www.semanticscholar.org/paper/d9a5c17a17c29bc5b50f55c1fe4f168034ae0279",
+    "source": "semantic_scholar",
+    "timestamp": 1987
+  },
+  {
+    "title": "Fluid mechanics",
+    "text": "The author discusses some basic questions in fluid dynamics. He describes Newton's contribution to fluid dynamics in the second volume of the Principia. He presents a brief review of fluid dynamics since Newton, and discusses the nature and content of physics curricula in schools and universities. He also outlines some aspects of modern research.",
+    "url": "https://www.semanticscholar.org/paper/8f3b87be44a8a83984a01bcebe0dd91d222627cc",
+    "source": "semantic_scholar",
+    "timestamp": 2021
+  },
+  {
+    "title": "The Lattice Boltzmann Equation for Fluid Dynamics and Beyond",
+    "text": null,
+    "url": "https://www.semanticscholar.org/paper/e0069fc257328c8f362a5e4c37c59f19eb719523",
+    "source": "semantic_scholar",
+    "timestamp": 2003
+  },
+  {
+    "title": "Enhancing computational fluid dynamics with machine learning",
+    "text": "Machine learning is rapidly becoming a core technology for scientific computing, with numerous opportunities to advance the field of computational fluid dynamics. Here we highlight some of the areas of highest potential impact, including to accelerate direct numerical simulations, to improve turbulence closure modeling and to develop enhanced reduced-order models. We also discuss emerging areas of machine learning that are promising for computational fluid dynamics, as well as some potential limitations that should be taken into account. Machine learning has been used to accelerate the simulation of fluid dynamics. However, despite the recent developments in this field, there are still challenges to be addressed by the community, a fact that creates research opportunities.",
+    "url": "https://www.semanticscholar.org/paper/f8ec29fb9933219e0949c59ddd7220fd1e2a1b89",
+    "source": "semantic_scholar",
+    "timestamp": 2021
+  },
+  {
+    "title": "DualSPHysics: from fluid dynamics to multiphysics problems",
+    "text": "DualSPHysics is a weakly compressible smoothed particle hydrodynamics (SPH) Navier–Stokes solver initially conceived to deal with coastal engineering problems, especially those related to wave impact with coastal structures. Since the first release back in 2011, DualSPHysics has shown to be robust and accurate for simulating extreme wave events along with a continuous improvement in efficiency thanks to the exploitation of hardware such as graphics processing units for scientific computing or the coupling with wave propagating models such as SWASH and OceanWave3D. Numerous additional functionalities have also been included in the DualSPHysics package over the last few years which allow the simulation of fluid-driven objects. The use of the discrete element method has allowed the solver to simulate the interaction among different bodies (sliding rocks, for example), which provides a unique tool to analyse debris flows. In addition, the recent coupling with other solvers like Project Chrono or MoorDyn has been a milestone in the development of the solver. Project Chrono allows the simulation of articulated structures with joints, hinges, sliders and springs and MoorDyn allows simulating moored structures. Both functionalities make DualSPHysics especially suited for the simulation of offshore energy harvesting devices. Lately, the present state of maturity of the solver goes beyond single-phase simulations, allowing multi-phase simulations with gas–liquid and a combination of Newtonian and non-Newtonian models expanding further the capabilities and range of applications for the DualSPHysics solver. These advances and functionalities make DualSPHysics an advanced meshless solver with emphasis on free-surface flow modelling.",
+    "url": "https://www.semanticscholar.org/paper/0eaa4c8a0cad85c5e5183b0d2c30a57891b3937e",
+    "source": "semantic_scholar",
+    "timestamp": 2021
+  },
+  {
+    "title": "The Fluid Dynamics of Disease Transmission",
+    "text": "For an infectious disease such as the coronavirus disease 2019 (COVID-19) to spread, contact needs to be established between an infected host and a susceptible one. In a range of populations and infectious diseases, peer-to-peer contact modes involve complex interactions of a pathogen with a fluid phase, such as isolated complex fluid droplets or a multiphase cloud of droplets. This is true for exhalations including coughs or sneezes in humans and animals, bursting bubbles leading to micron-sized droplets in a range of indoor and outdoor settings, or impacting raindrops and airborne pathogens in foliar diseases transferring pathogens from water to air via splashes. Our mechanistic understanding of how pathogens actually transfer from one host or reservoir to the next remains woefully limited, with the global consequences that we are all experiencing with the ongoing COVID-19 pandemic. This review discusses the emergent area of the fluid dynamics of disease transmission. It highlights a new frontier and the rich multiscale fluid physics, from interfacial to multiphase and complex flows, that govern contact between an infected source and a susceptible target in a range of diseases.",
+    "url": "https://www.semanticscholar.org/paper/ef8dbb70e96a53a9665f3115ce89583f6b0854b8",
+    "source": "semantic_scholar",
+    "timestamp": 2021
+  },
+  {
+    "title": "Fluid dynamics",
+    "text": "In physics, physical chemistry, and engineering, fluid dynamics is a subdiscipline of fluid mechanics that describes the flow of fluids – liquids and gases. It has several subdisciplines, including aerodynamics and hydrodynamics. Fluid dynamics has a wide range of applications, including calculating forces and moments on aircraft, determining the mass flow rate of petroleum through pipelines, predicting weather patterns, understanding nebulae in interstellar space, understanding large scale geophysical flows involving oceans/atmosphere and modelling fission weapon detonation.",
+    "url": "https://en.wikipedia.org/wiki/Fluid_dynamics",
+    "source": "wikipedia",
+    "timestamp": "2025-11-02"
+  }
+]
