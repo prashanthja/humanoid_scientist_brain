@@ -1,11 +1,13 @@
 # reasoning_module/evidence_evaluator.py
 # ------------------------------------------------------------
 # Advanced Evidence Evaluator with EmbeddingBridge Integration
+# - Stable output schema (never missing keys)
+# - Safe cache rebuild + embedding dim handling
 # ------------------------------------------------------------
 
 from __future__ import annotations
 import os, re, json, time, hashlib
-from typing import List, Dict, Any, Tuple, Optional
+from typing import List, Dict, Any, Optional
 import numpy as np
 
 NEGATION_PATTERNS = [
@@ -16,26 +18,51 @@ NEGATION_PATTERNS = [
 ]
 
 
-def _now() -> str: return time.strftime("%Y-%m-%d %H:%M:%S")
+def _now() -> str:
+    return time.strftime("%Y-%m-%d %H:%M:%S")
+
+
 def _safe_text(x: Any) -> str:
     if isinstance(x, dict):
         return str(x.get("text") or x.get("paper_title") or "")
     return str(x or "")
-def _hash_key(t: str) -> str: return hashlib.sha1(t.encode("utf-8", errors="ignore")).hexdigest()
+
+
+def _hash_key(t: str) -> str:
+    return hashlib.sha1(t.encode("utf-8", errors="ignore")).hexdigest()
+
+
 def _polarity_is_contradiction(text: str) -> bool:
-    t = text.lower(); return any(re.search(p, t) for p in NEGATION_PATTERNS)
-def _cosine(a, b): return float(np.dot(a, b) / ((np.linalg.norm(a)+1e-8)*(np.linalg.norm(b)+1e-8)))
+    t = (text or "").lower()
+    return any(re.search(p, t) for p in NEGATION_PATTERNS)
 
 
 class EvidenceEvaluator:
-    def __init__(self, kb, encoder, kg=None, cache_dir="data", log_path="logs/evidence_reports.jsonl"):
+    def __init__(
+        self,
+        kb,
+        encoder,
+        kg=None,
+        cache_dir="data",
+        log_path="logs/evidence_reports.jsonl",
+        max_index_items: int = 5000,
+        top_k: int = 10,
+    ):
         self.kb, self.encoder, self.kg = kb, encoder, kg
         self.cache_dir, self.log_path = cache_dir, log_path
         self.idx_meta_path = os.path.join(cache_dir, "kb_embed_index.json")
         self.idx_vec_path = os.path.join(cache_dir, "kb_embeddings.npy")
+
+        self.max_index_items = int(max_index_items)
+        self.top_k = int(top_k)
+
         os.makedirs(cache_dir, exist_ok=True)
         os.makedirs(os.path.dirname(log_path), exist_ok=True)
-        self._meta, self._emb, self._dim = [], None, None
+
+        self._meta: List[Dict[str, Any]] = []
+        self._emb: np.ndarray = np.zeros((0, 256), dtype=np.float32)
+        self._dim: int = 256
+
         self._ensure_cache()
 
     # ==========================================================
@@ -45,9 +72,15 @@ class EvidenceEvaluator:
         try:
             if os.path.exists(self.idx_meta_path) and os.path.exists(self.idx_vec_path):
                 with open(self.idx_meta_path, "r", encoding="utf-8") as f:
-                    self._meta = json.load(f)
+                    self._meta = json.load(f) or []
                 self._emb = np.load(self.idx_vec_path)
-                self._dim = self._emb.shape[1]
+                if self._emb.ndim != 2:
+                    raise ValueError("Embeddings file is not 2D.")
+                self._dim = int(self._emb.shape[1])
+
+                # If meta/emb mismatch, rebuild
+                if len(self._meta) != int(self._emb.shape[0]):
+                    raise ValueError("Meta and embedding row count mismatch.")
             else:
                 self._rebuild_cache()
         except Exception:
@@ -56,72 +89,191 @@ class EvidenceEvaluator:
     def _rebuild_cache(self):
         items = self.kb.query("") or []
         texts, meta = [], []
-        for it in items[:1000]:
+
+        for it in items[: self.max_index_items]:
             text = _safe_text(it)
-            if not text:
+            if not isinstance(text, str) or not text.strip():
                 continue
-            key = it.get("id") if isinstance(it, dict) and "id" in it else _hash_key(text)
-            meta.append({"key": key, "text": text[:1000], "source": it.get("source", ""), "title": it.get("paper_title", "")})
+
+            key = None
+            if isinstance(it, dict):
+                key = it.get("id")
+            if not key:
+                key = _hash_key(text)
+
+            meta.append({
+                "key": key,
+                "text": text[:1000],
+                "source": (it.get("source", "") if isinstance(it, dict) else ""),
+                "title": (it.get("paper_title", "") if isinstance(it, dict) else ""),
+            })
             texts.append(text)
-        vecs = self._encode(texts)
-        self._meta, self._emb = meta, vecs
-        self._dim = self._emb.shape[1] if self._emb.size else 256
-        np.save(self.idx_vec_path, self._emb.astype("float32"))
+
+        # ---- CHUNKED ENCODE to avoid OOM ----
+        vec_chunks = []
+        chunk = 64  # safe default; lower if needed
+        for i in range(0, len(texts), chunk):
+            vec_chunks.append(self._encode(texts[i:i+chunk]))
+
+        vecs = np.concatenate(vec_chunks, axis=0) if vec_chunks else np.zeros((0, self._dim), dtype=np.float32)
+
+        # If encode returned empty, keep safe shape
+        if vecs.size == 0:
+            vecs = np.zeros((0, self._dim), dtype=np.float32)
+
+        self._meta, self._emb = meta, vecs.astype("float32", copy=False)
+        self._dim = int(self._emb.shape[1]) if self._emb.ndim == 2 else self._dim
+
+        np.save(self.idx_vec_path, self._emb)
         with open(self.idx_meta_path, "w", encoding="utf-8") as f:
-            json.dump(self._meta, f, indent=2)
+            json.dump(self._meta, f, indent=2, ensure_ascii=False)
 
     # ==========================================================
     # Embedding Calls
     # ==========================================================
     def _encode(self, texts: List[str]) -> np.ndarray:
-        texts = [t for t in texts if isinstance(t, str) and t.strip()]
-        if not texts:
-            return np.zeros((0, self._dim or 256), dtype=np.float32)
+        clean = [t for t in texts if isinstance(t, str) and t.strip()]
+        if not clean:
+            return np.zeros((0, self._dim), dtype=np.float32)
+
+        # EmbeddingBridge style
         if hasattr(self.encoder, "encode_texts"):
-            return np.asarray(self.encoder.encode_texts(texts), dtype=np.float32)
+            arr = np.asarray(self.encoder.encode_texts(clean), dtype=np.float32)
+            return arr
+
+        # OnlineTrainer style
         if hasattr(self.encoder, "embed"):
-            return np.asarray(self.encoder.embed(texts), dtype=np.float32)
+            arr = np.asarray(self.encoder.embed(clean), dtype=np.float32)
+            return arr
+
+        # custom encoders
         if hasattr(self.encoder, "get_vector"):
-            vecs = [np.asarray(self.encoder.get_vector(t), dtype=np.float32) for t in texts]
+            vecs = [np.asarray(self.encoder.get_vector(t), dtype=np.float32) for t in clean]
             return np.stack(vecs, axis=0)
+
         raise RuntimeError("Encoder does not expose encode_texts/embed/get_vector")
 
     # ==========================================================
     # Evaluation
     # ==========================================================
     def evaluate_batch(self, hypotheses: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
-        out = []
-        for h in hypotheses:
+        out: List[Dict[str, Any]] = []
+
+        # Ensure cache exists and is not stale shape-wise
+        if self._emb is None or self._emb.ndim != 2:
+            self._rebuild_cache()
+
+        for h in (hypotheses or []):
+            base_hyp = ""
+            if isinstance(h, dict):
+                base_hyp = str(h.get("hypothesis") or "")
+            else:
+                base_hyp = str(h or "")
+
             try:
-                out.append(self.evaluate_one(h))
+                res = self.evaluate_one(h if isinstance(h, dict) else {"hypothesis": base_hyp})
             except Exception as e:
-                bad = dict(h)
-                bad["evidence_error"] = str(e)
-                out.append(bad)
+                res = {
+                    "hypothesis": base_hyp,
+                    "verdict": "error",
+                    "evidence_confidence": 0.0,
+                    "evaluated_at": _now(),
+                    "evidence_error": str(e),
+                }
+
+            # enforce stable schema
+            res.setdefault("hypothesis", base_hyp)
+            res.setdefault("verdict", "unknown")
+            res.setdefault("evidence_confidence", 0.0)
+            res.setdefault("evaluated_at", _now())
+            out.append(res)
+
+            # log each result (optional, but useful)
+            try:
+                with open(self.log_path, "a", encoding="utf-8") as f:
+                    f.write(json.dumps(res, ensure_ascii=False) + "\n")
+            except Exception:
+                pass
+
         print("🧩 Evidence evaluation complete. Verdicts summary:")
         for x in out[:5]:
-            print(f"  - {x['hypothesis'][:60]}... → {x['verdict']} (conf={x.get('evidence_confidence',0):.3f})")
+            hyp = str(x.get("hypothesis", ""))[:60]
+            verdict = str(x.get("verdict", "unknown"))
+            conf = float(x.get("evidence_confidence", 0.0))
+            print(f"  - {hyp}... → {verdict} (conf={conf:.3f})")
+
         return out
 
     def evaluate_one(self, hypothesis: Dict[str, Any]) -> Dict[str, Any]:
-        text = hypothesis.get("hypothesis", "")
+        text = str(hypothesis.get("hypothesis") or "")
         if not text.strip():
-            return {"verdict": "invalid", "evidence_confidence": 0.0}
-        vec = self._encode([text])[0]
-        sims = self._emb @ (vec / (np.linalg.norm(vec) + 1e-8))
-        top_idx = np.argsort(-sims)[:10]
+            return {
+                "hypothesis": text,
+                "verdict": "invalid",
+                "evidence_confidence": 0.0,
+                "evaluated_at": _now(),
+            }
+
+        # If KB index empty, can't evaluate
+        if self._emb is None or self._emb.shape[0] == 0:
+            return {
+                "hypothesis": text,
+                "verdict": "no_index",
+                "evidence_confidence": 0.0,
+                "evaluated_at": _now(),
+            }
+
+        q = self._encode([text])
+        if q.size == 0:
+            return {
+                "hypothesis": text,
+                "verdict": "encode_failed",
+                "evidence_confidence": 0.0,
+                "evaluated_at": _now(),
+            }
+
+        vec = q[0]
+        # Dimension mismatch? Rebuild cache with current encoder
+        if vec.shape[0] != self._dim:
+            self._rebuild_cache()
+            if self._emb.shape[0] == 0:
+                return {
+                    "hypothesis": text,
+                    "verdict": "no_index",
+                    "evidence_confidence": 0.0,
+                    "evaluated_at": _now(),
+                }
+            self._dim = int(self._emb.shape[1])
+            vec = self._encode([text])[0]
+
+        # cosine sim: normalize query only; assume _emb already float32
+        denom = (np.linalg.norm(vec) + 1e-8)
+        sims = (self._emb @ (vec / denom)).astype(np.float32, copy=False)
+
+        k = min(self.top_k, sims.shape[0])
+        top_idx = np.argsort(-sims)[:k]
+
         support, contra = 0.0, 0.0
         for i in top_idx:
-            sim = sims[i]
-            meta = self._meta[i]
-            if _polarity_is_contradiction(meta["text"]):
+            sim = float(sims[i])
+            meta = self._meta[i] if i < len(self._meta) else {"text": ""}
+            if _polarity_is_contradiction(meta.get("text", "")):
                 contra += sim
             else:
                 support += sim
+
         total = support + contra
-        if total == 0:
-            conf = 0.0
-        else:
-            conf = support / total
-        verdict = "supported" if conf > 0.6 else "contradicted" if conf < 0.4 else "inconclusive"
-        return {"hypothesis": text, "verdict": verdict, "evidence_confidence": round(conf, 3), "evaluated_at": _now()}
+        conf = 0.0 if total <= 1e-12 else (support / total)
+
+        verdict = (
+            "supported" if conf > 0.60 else
+            "contradicted" if conf < 0.40 else
+            "inconclusive"
+        )
+
+        return {
+            "hypothesis": text,
+            "verdict": verdict,
+            "evidence_confidence": round(float(conf), 3),
+            "evaluated_at": _now(),
+        }

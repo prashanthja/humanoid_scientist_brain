@@ -584,13 +584,34 @@ class OnlineTrainer:
 
     # ---------- embedding interface ----------
     @torch.no_grad()
-    def embed(self, texts: Sequence[str]) -> "np.ndarray":
+    def embed(self, texts, batch_size: int = 16, max_len: int | None = None):
+        """
+        Embed texts in small batches to avoid OOM.
+        """
         import numpy as np
         self.model.eval()
-        clean = [t if isinstance(t, str) else str(t) for t in texts if t]
+
+        clean = [t if isinstance(t, str) else str(t) for t in texts if t and str(t).strip()]
         if not clean:
             return np.zeros((0, self.model.d_model), dtype=np.float32)
 
-        toks, attn = collate_batch(clean, self.tokenizer, self.max_len, self.device)
-        z = self.model.sentence_embedding(toks, attn)
-        return z.detach().cpu().numpy().astype("float32")
+        use_max_len = int(max_len or self.max_len)
+        vecs = []
+
+        # IMPORTANT: batch it
+        for i in range(0, len(clean), batch_size):
+            batch = clean[i : i + batch_size]
+
+            toks, attn = collate_batch(batch, self.tokenizer, use_max_len, self.device)
+
+            # optional: reduce memory pressure a bit
+            z = self.model.sentence_embedding(toks, attn)
+            vecs.append(z.detach().cpu().numpy().astype("float32"))
+
+            # free GPU temp
+            del toks, attn, z
+            if self.device.type == "cuda":
+                torch.cuda.empty_cache()
+
+        return np.concatenate(vecs, axis=0)
+
