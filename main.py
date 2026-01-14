@@ -72,7 +72,12 @@ def main():
     memory = TrainingMemory()
     bridge = EmbeddingBridge(trainer)
     reflection = ReflectionEngine(omni, safety, kb, trainer)
-    evaluator = EvidenceEvaluator(kb, bridge, reflection.kg)
+    evaluator = EvidenceEvaluator(
+        kb,
+        bridge,
+        reflection.kg,
+        max_index_items=800,   # start small; scale later
+        top_k=10)
     reasoner = GraphReasoner(reflection.kg, online_trainer=trainer)
     hypgen = HypothesisGenerator(reflection.kg, bridge, kb)
     validator = HypothesisValidator(kb, bridge, reflection.kg)
