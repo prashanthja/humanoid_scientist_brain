@@ -582,36 +582,34 @@ class OnlineTrainer:
         # Adjust epochs for next call (self-tuning)
         self.adjust_epochs()
 
-    # ---------- embedding interface ----------
+        # ---------- embedding interface ----------
+    
     @torch.no_grad()
-    def embed(self, texts, batch_size: int = 16, max_len: int | None = None):
-        """
-        Embed texts in small batches to avoid OOM.
-        """
+    def embed(self, texts, *, max_len: int = 192, batch_size: int = 16, force_cpu: bool = False):
         import numpy as np
-        self.model.eval()
 
-        clean = [t if isinstance(t, str) else str(t) for t in texts if t and str(t).strip()]
+        self.model.eval()
+        clean = [t if isinstance(t, str) else str(t) for t in (texts or []) if t]
         if not clean:
             return np.zeros((0, self.model.d_model), dtype=np.float32)
 
-        use_max_len = int(max_len or self.max_len)
-        vecs = []
+        device = torch.device("cpu") if force_cpu else self.device
 
-        # IMPORTANT: batch it
-        for i in range(0, len(clean), batch_size):
-            batch = clean[i : i + batch_size]
+        # IMPORTANT: temporarily move model only if forced CPU
+        moved = False
+        if force_cpu and self.device.type != "cpu":
+            self.model.to(device)
+            moved = True
 
-            toks, attn = collate_batch(batch, self.tokenizer, use_max_len, self.device)
-
-            # optional: reduce memory pressure a bit
-            z = self.model.sentence_embedding(toks, attn)
-            vecs.append(z.detach().cpu().numpy().astype("float32"))
-
-            # free GPU temp
-            del toks, attn, z
-            if self.device.type == "cuda":
-                torch.cuda.empty_cache()
-
-        return np.concatenate(vecs, axis=0)
+        try:
+            outs = []
+            for i in range(0, len(clean), batch_size):
+                batch = clean[i : i + batch_size]
+                toks, attn = collate_batch(batch, self.tokenizer, max_len, device)
+                z = self.model.sentence_embedding(toks, attn)
+                outs.append(z.detach().cpu().numpy().astype("float32"))
+            return np.concatenate(outs, axis=0)
+        finally:
+            if moved:
+                self.model.to(self.device)
 
