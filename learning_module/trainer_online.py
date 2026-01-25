@@ -4,9 +4,9 @@
 # - Dual Objective: InfoNCE (contrastive) + MLM (masked LM)
 # - Continual learning with vocab growth & safe resize
 # - Per-epoch metrics → logs/training_history.jsonl
-# - MPS CPU fallback; AMP on CUDA
+# - MPS CPU fallback; AMP on CUDA (torch.amp.* API)
 # - Adaptive Epoch Scaling (self-tuning)
-# - Env-tunable model size (see notes near top)
+# - Checkpoint stores model_config; loader rebuilds model to avoid shape mismatch
 # ------------------------------------------------------------
 
 from __future__ import annotations
@@ -16,7 +16,7 @@ import math
 import random
 import time
 from dataclasses import dataclass
-from typing import List, Dict, Any, Tuple, Sequence
+from typing import List, Dict, Any, Tuple, Sequence, Optional
 
 import torch
 import torch.nn as nn
@@ -115,6 +115,7 @@ class AdaptiveBPETokenizer:
         """Incrementally learn merges up to target vocab."""
         if self.vocab_size >= self.cfg.target_vocab:
             return
+
         pair_freq: Dict[Tuple[int, int], int] = {}
         for t in texts:
             if not t:
@@ -143,7 +144,7 @@ class AdaptiveBPETokenizer:
         if merges_added > 0:
             self._save()
 
-    def encode(self, text: str, add_special=True, max_len: int = 512) -> List[int]:
+    def encode(self, text: str, add_special: bool = True, max_len: int = 512) -> List[int]:
         ids = self._bytes_to_ids(text or "")
         merged = self._apply_merges(ids)
         if add_special:
@@ -170,7 +171,8 @@ class AdaptiveBPETokenizer:
                         i += 2
                         merged = True
                         continue
-                out.append(ids[i]); i += 1
+                out.append(ids[i])
+                i += 1
             ids = out
         return ids
 
@@ -204,49 +206,54 @@ class ContinualTransformerEncoder(nn.Module):
     def __init__(
         self,
         vocab_size: int,
-        d_model=512,
-        n_heads=8,
-        n_layers=8,
-        ff_mult=4,
-        dropout=0.1,
-        max_len=2048,
+        d_model: int = 512,
+        n_heads: int = 8,
+        n_layers: int = 8,
+        ff_mult: int = 4,
+        dropout: float = 0.1,
+        max_len: int = 2048,
     ):
         super().__init__()
-        self.vocab_size = vocab_size
-        self.d_model = d_model
+        self.vocab_size = int(vocab_size)
+        self.d_model = int(d_model)
 
-        self.tok_emb = nn.Embedding(vocab_size, d_model)
-        self.pos = PositionalEncoding(d_model, max_len)
+        self.tok_emb = nn.Embedding(self.vocab_size, self.d_model)
+        self.pos = PositionalEncoding(self.d_model, max_len)
+
         layer = nn.TransformerEncoderLayer(
-            d_model,
+            self.d_model,
             n_heads,
-            d_model * ff_mult,
+            self.d_model * ff_mult,
             dropout,
             batch_first=True,
             norm_first=True,
         )
         self.enc = nn.TransformerEncoder(layer, num_layers=n_layers)
-        self.proj = nn.Sequential(nn.Linear(d_model, d_model), nn.Tanh())
+        self.proj = nn.Sequential(nn.Linear(self.d_model, self.d_model), nn.Tanh())
 
         # LM head for MLM (weight-tying with token embedding)
-        self.lm_head = nn.Linear(d_model, vocab_size, bias=False)
+        self.lm_head = nn.Linear(self.d_model, self.vocab_size, bias=False)
         self._tie_weights()
 
     def _tie_weights(self):
-        # tie lm_head weight to token embedding
         self.lm_head.weight = self.tok_emb.weight
 
-    def forward(self, x: torch.Tensor, attn_mask=None) -> torch.Tensor:
+    def forward(self, x: torch.Tensor, attn_mask: Optional[torch.Tensor] = None) -> torch.Tensor:
         h = self.tok_emb(x)
         h = self.pos(h)
-        h = self.enc(h, src_key_padding_mask=~attn_mask if attn_mask is not None else None)
+        # src_key_padding_mask expects True for padding positions
+        h = self.enc(h, src_key_padding_mask=(~attn_mask) if attn_mask is not None else None)
         return h
+    
+    def sentence_embedding(self, x: torch.Tensor, attn_mask: torch.Tensor) -> torch.Tensor:
+            h = self.forward(x, attn_mask)  # [B, L, D]
 
-    def sentence_embedding(self, x, attn_mask):
-        h = self.forward(x, attn_mask)
-        bos = h[:, 0, :]
-        z = F.normalize(self.proj(bos), dim=-1)
-        return z
+            # masked mean pooling over real tokens (prevents BOS collapse)
+            m = attn_mask.unsqueeze(-1).float()  # [B, L, 1]
+            pooled = (h * m).sum(dim=1) / m.sum(dim=1).clamp(min=1.0)  # [B, D]
+
+            z = F.normalize(self.proj(pooled), dim=-1)
+            return z
 
     def mlm_logits(self, h: torch.Tensor) -> torch.Tensor:
         return self.lm_head(h)
@@ -256,82 +263,98 @@ class ContinualTransformerEncoder(nn.Module):
 # Helper Functions
 # =========================
 
-def _mask_for_mlm(tokens: torch.Tensor, attn: torch.Tensor, mlm_prob=0.12) -> Tuple[torch.Tensor, torch.Tensor]:
+def _mask_for_mlm(
+    tokens: torch.Tensor,
+    attn: torch.Tensor,
+    mlm_prob: float = 0.12
+) -> Tuple[torch.Tensor, torch.Tensor]:
     """
     Create MLM inputs and targets:
       - 12% of visible (non-special) positions are masked for prediction
-      - 80% MASK, 10% random token, 10% keep (BERT-style light heuristic)
+      - 80% MASK, 10% random token, 10% keep (BERT-style heuristic)
     """
     device = tokens.device
     B, L = tokens.size()
+
     maskable = attn.clone()
-    # Do not mask BOS/EOS
+    # Do not mask BOS
     maskable[:, 0] = False
+
     eos_id = SPECIAL_TOKENS["EOS"]
     eos_positions = (tokens == eos_id).int().argmax(dim=1)
     for b in range(B):
+        # Do not mask EOS
         maskable[b, eos_positions[b]] = False
 
     prob = torch.rand(B, L, device=device)
     mlm_positions = (prob < mlm_prob) & maskable
+
     targets = tokens.clone()
     targets[~mlm_positions] = -100  # ignore index
 
     # Apply 80/10/10
     mask_id = SPECIAL_TOKENS["MASK"]
     rand = torch.rand(B, L, device=device)
-    # 80% --> MASK
+
     mask80 = (rand < 0.8) & mlm_positions
-    # 10% --> random token (excluding specials)
     rand10 = (rand >= 0.8) & (rand < 0.9) & mlm_positions
-    # 10% --> keep original (do nothing)
 
     tokens_masked = tokens.clone()
     tokens_masked[mask80] = mask_id
+
     if rand10.any():
-        # random IDs in [SPECIAL_COUNT, vocab_size)
+        # Random IDs in [SPECIAL_COUNT, vocab_size)
         low = SPECIAL_COUNT
-        high = int(tokens.max().item() + 1)  # quick bound; safe but not perfect
-        if high <= low: high = low + 1
-        tokens_masked[rand10] = torch.randint(low, high, size=(rand10.sum(),), device=device)
+        high = int(tokens.max().item() + 1)
+        if high <= low:
+            high = low + 1
+        tokens_masked[rand10] = torch.randint(low, high, size=(int(rand10.sum().item()),), device=device)
 
     return tokens_masked, targets
 
 
-def make_views(tokens, mask, drop_prob=0.06, span_mask_prob=0.06):
+def make_views(tokens: torch.Tensor, mask: torch.Tensor, drop_prob: float = 0.06, span_mask_prob: float = 0.06):
     """Augmentations for contrastive views (keeps BOS/EOS)."""
     B, L = tokens.size()
     out = tokens.clone()
+
     if drop_prob > 0:
         keep = torch.rand(B, L, device=out.device) > drop_prob
         keep[:, 0] = True
+
         eos_id = SPECIAL_TOKENS["EOS"]
         eos_pos = (out == eos_id).int().argmax(dim=1)
         for b in range(B):
-            keep[b, eos_pos[b].item()] = True
+            keep[b, int(eos_pos[b].item())] = True
+
         out = torch.where(keep, out, torch.tensor(SPECIAL_TOKENS["PAD"], device=out.device))
+
     if span_mask_prob > 0:
         mask_id = SPECIAL_TOKENS["MASK"]
         rnd = torch.rand(B, L, device=out.device)
         span_mask = (rnd < span_mask_prob) & mask
         out = torch.where(span_mask, torch.tensor(mask_id, device=out.device), out)
+
     return out
 
 
-def collate_batch(batch_texts, tokenizer, max_len, device):
+def collate_batch(batch_texts, tokenizer: AdaptiveBPETokenizer, max_len: int, device: torch.device):
     ids = [tokenizer.encode(t, add_special=True, max_len=max_len) for t in batch_texts]
     L = min(max(len(x) for x in ids), max_len)
+
     pad_id = SPECIAL_TOKENS["PAD"]
     toks = torch.full((len(ids), L), pad_id, dtype=torch.long)
     attn = torch.zeros((len(ids), L), dtype=torch.bool)
+
     for i, seq in enumerate(ids):
         s = seq[:L]
         toks[i, : len(s)] = torch.tensor(s, dtype=torch.long)
         attn[i, : len(s)] = True
+
     return toks.to(device), attn.to(device)
 
 
-def avg_in_batch_cosine(z1, z2):
+def avg_in_batch_cosine(z1: torch.Tensor, z2: torch.Tensor) -> float:
     with torch.no_grad():
         return float((z1 * z2).sum(dim=-1).mean().item())
 
@@ -353,6 +376,7 @@ class OnlineTrainer:
     def __init__(
         self,
         encoder=None,
+        min_train_samples: int = int(os.environ.get("UT_MIN_SAMPLES", "8")),
         batch_size: int = int(os.environ.get("UT_BATCH", "24")),
         epochs: int = int(os.environ.get("UT_EPOCHS", "2")),
         lr: float = float(os.environ.get("UT_LR", "3e-4")),
@@ -367,30 +391,40 @@ class OnlineTrainer:
     ):
         set_seed(1337)
         self.device = get_device()
-        self.batch_size, self.epochs, self.lr, self.max_len = batch_size, epochs, lr, max_len
 
-        self.alpha_infonce = alpha_infonce
-        self.beta_mlm = beta_mlm
+        self.batch_size = int(batch_size)
+        self.epochs = int(epochs)
+        self.lr = float(lr)
+        self.max_len = int(max_len)
 
-        self.tokenizer = AdaptiveBPETokenizer(BPETokenizerConfig(target_vocab=target_vocab))
-        self.model = ContinualTransformerEncoder(
-            self.tokenizer.vocab_size,
-            d_model=model_dim,
-            n_heads=n_heads,
-            n_layers=n_layers,
-            max_len=max_len,
-        ).to(self.device)
+        self.alpha_infonce = float(alpha_infonce)
+        self.beta_mlm = float(beta_mlm)
 
-        # Optional gradient checkpointing
+        # Keep model hyperparams for ckpt config
+        self.model_dim = int(model_dim)
+        self.n_heads = int(n_heads)
+        self.n_layers = int(n_layers)
+        self.ff_mult = 4
+        self.dropout = 0.1
+
+        self.tokenizer = AdaptiveBPETokenizer(BPETokenizerConfig(target_vocab=int(target_vocab)))
+
+        # Build initial model from current env/config
+        self._build_model(
+            vocab_size=self.tokenizer.vocab_size,
+            d_model=self.model_dim,
+            n_heads=self.n_heads,
+            n_layers=self.n_layers,
+            max_len=self.max_len,
+        )
+
+        # Optional gradient checkpointing flag (placeholder)
         if use_checkpointing:
             try:
                 for m in self.model.enc.layers:
-                    m.gradient_checkpointing = True  # harmless flag; PyTorch uses torch.utils.checkpoint if you wrap
+                    m.gradient_checkpointing = True
             except Exception:
-                pass  # keep running; we aren't wrapping submodules here to avoid extra deps
-
-        self.opt = torch.optim.AdamW(self.model.parameters(), lr=self.lr)
-        self.scaler = torch.cuda.amp.GradScaler(enabled=(self.device.type == "cuda"))
+                pass
 
         self.last_avg_loss = None
         self.last_similarity = None
@@ -404,18 +438,82 @@ class OnlineTrainer:
         self.ckpt_path = "models/continual_transformer.pt"
         self._try_load_ckpt()
 
+    # ---------- model build / rebuild ----------
+    def _build_model(self, *, vocab_size: int, d_model: int, n_heads: int, n_layers: int, max_len: int):
+        self.model = ContinualTransformerEncoder(
+            vocab_size=int(vocab_size),
+            d_model=int(d_model),
+            n_heads=int(n_heads),
+            n_layers=int(n_layers),
+            ff_mult=int(self.ff_mult),
+            dropout=float(self.dropout),
+            max_len=int(max_len),
+        ).to(self.device)
+
+        # Recreate optimizer for current parameter set
+        self.opt = torch.optim.AdamW(self.model.parameters(), lr=self.lr)
+
+        # AMP scaler (new API)
+        self.scaler = torch.amp.GradScaler("cuda", enabled=(self.device.type == "cuda"))
+
     # ---------- persistence ----------
     def _try_load_ckpt(self):
         if not os.path.exists(self.ckpt_path):
             return
+
         try:
-            payload = torch.load(self.ckpt_path, map_location=self.device)
-            self.model.load_state_dict(payload["model"], strict=False)
-            self.opt.load_state_dict(payload["opt"])
-            # resize if tokenizer grew
-            if payload.get("vocab_size") and payload["vocab_size"] != self.tokenizer.vocab_size:
+            payload = torch.load(self.ckpt_path, map_location="cpu")
+            cfg = payload.get("model_config", None)
+
+            if cfg is None:
+                # Backward compatible legacy load (best-effort)
+                print("⚠️ Checkpoint missing model_config. Loading best-effort (may reset optimizer).")
+                self.model.load_state_dict(payload["model"], strict=False)
+
+                if "opt" in payload:
+                    try:
+                        self.opt.load_state_dict(payload["opt"])
+                    except Exception:
+                        print("⚠️ Optimizer state mismatch; skipping optimizer load.")
+
+                if payload.get("vocab_size") and int(payload["vocab_size"]) != int(self.tokenizer.vocab_size):
+                    self._maybe_resize_embeddings()
+
+                self.model.to(self.device)
+                print("💾 Loaded checkpoint (legacy).")
+                return
+
+            # Config-aware restore: rebuild model exactly like ckpt
+            ckpt_vocab = int(cfg["vocab_size"])
+            ckpt_d = int(cfg["d_model"])
+            ckpt_heads = int(cfg["n_heads"])
+            ckpt_layers = int(cfg["n_layers"])
+            ckpt_max_len = int(cfg.get("max_len", self.max_len))
+
+            self._build_model(
+                vocab_size=ckpt_vocab,
+                d_model=ckpt_d,
+                n_heads=ckpt_heads,
+                n_layers=ckpt_layers,
+                max_len=ckpt_max_len,
+            )
+
+            self.model.load_state_dict(payload["model"], strict=True)
+
+            # Resize embeddings if tokenizer grew beyond ckpt vocab
+            if int(self.tokenizer.vocab_size) != int(self.model.vocab_size):
                 self._maybe_resize_embeddings()
-            print("💾 Loaded continual transformer checkpoint.")
+
+            # Optimizer is safe to load only if no vocab resize broke param groups
+            if "opt" in payload:
+                try:
+                    self.opt.load_state_dict(payload["opt"])
+                except Exception:
+                    print("⚠️ Optimizer state mismatch (likely vocab resize); skipping optimizer load.")
+
+            self.model.to(self.device)
+            print(f"💾 Loaded continual transformer checkpoint (cfg: d={ckpt_d}, heads={ckpt_heads}, layers={ckpt_layers}, vocab={ckpt_vocab}).")
+
         except Exception as e:
             print(f"⚠️ Failed to load checkpoint: {e}")
 
@@ -423,22 +521,32 @@ class OnlineTrainer:
         torch.save({
             "model": self.model.state_dict(),
             "opt": self.opt.state_dict(),
-            "vocab_size": self.tokenizer.vocab_size
+            "vocab_size": int(self.tokenizer.vocab_size),
+            "model_config": {
+                "vocab_size": int(self.model.vocab_size),
+                "d_model": int(self.model.d_model),
+                "n_heads": int(self.n_heads),
+                "n_layers": int(self.n_layers),
+                "max_len": int(self.max_len),
+            },
         }, self.ckpt_path)
 
     def _maybe_resize_embeddings(self):
         """Resize token embedding & LM head if vocab grew."""
-        if self.model.vocab_size == self.tokenizer.vocab_size:
+        if int(self.model.vocab_size) == int(self.tokenizer.vocab_size):
             return
+
         old_tok = self.model.tok_emb
-        new_tok = nn.Embedding(self.tokenizer.vocab_size, old_tok.embedding_dim).to(self.device)
+        new_tok = nn.Embedding(int(self.tokenizer.vocab_size), int(old_tok.embedding_dim)).to(self.device)
+
         with torch.no_grad():
-            n = min(old_tok.num_embeddings, new_tok.num_embeddings)
+            n = min(int(old_tok.num_embeddings), int(new_tok.num_embeddings))
             new_tok.weight[:n].copy_(old_tok.weight[:n])
-            if n < new_tok.num_embeddings:
+            if n < int(new_tok.num_embeddings):
                 nn.init.normal_(new_tok.weight[n:], mean=0.0, std=0.02)
+
         self.model.tok_emb = new_tok
-        self.model.vocab_size = self.tokenizer.vocab_size
+        self.model.vocab_size = int(self.tokenizer.vocab_size)
 
         # lm_head is tied — re-tie after replacing tok_emb
         self.model._tie_weights()
@@ -452,16 +560,18 @@ class OnlineTrainer:
             self.prev_loss = self.last_avg_loss
             return self.epochs
 
-        prev, curr = self.prev_loss, self.last_avg_loss
+        prev, curr = float(self.prev_loss), float(self.last_avg_loss)
         improvement = (prev - curr) / max(prev, 1e-6)
+
         if improvement < 0.02:
-            self.epochs = min(self.epochs + 1, 8)
+            self.epochs = min(int(self.epochs) + 1, 8)
             print(f"🧩 Slow improvement ({improvement:.2%}) → increasing epochs → {self.epochs}")
         elif improvement > 0.15:
-            self.epochs = max(self.epochs - 1, 2)
+            self.epochs = max(int(self.epochs) - 1, 2)
             print(f"⚡ Strong improvement ({improvement:.2%}) → reducing epochs → {self.epochs}")
         else:
             print(f"🔁 Stable training ({improvement:.2%}) → keeping epochs = {self.epochs}")
+
         self.prev_loss = curr
         return self.epochs
 
@@ -480,10 +590,12 @@ class OnlineTrainer:
         self.model.train()
         self.epoch_history = []
 
-        epochs_to_run = self.epochs
+        epochs_to_run = int(self.epochs)
         print(f"\n🚀 Training on {len(texts)} new samples for {epochs_to_run} epochs...")
+
         for ep in range(1, epochs_to_run + 1):
             random.shuffle(texts)
+
             ep_loss, ep_sim, ep_acc, steps = 0.0, 0.0, 0.0, 0
             t0 = time.time()
 
@@ -502,31 +614,36 @@ class OnlineTrainer:
                     # -------- MLM prep --------
                     mlm_inputs, mlm_targets = _mask_for_mlm(toks, attn, mlm_prob=0.12)
 
-                    # AMP only on CUDA (MPS/CPU stays FP32)
                     use_amp = (self.device.type == "cuda")
-                    ctx = torch.cuda.amp.autocast(enabled=use_amp)
 
-                    with ctx:
+                    with torch.amp.autocast("cuda", enabled=use_amp):
                         # Contrastive embeddings
                         z1 = self.model.sentence_embedding(t1, attn)
                         z2 = self.model.sentence_embedding(t2, attn)
-                        logits = (z1 @ z2.t()) / 0.07
-                        labels = torch.arange(logits.size(0), device=self.device)
-                        loss_nce = F.cross_entropy(logits, labels)
+
+                        logits12 = (z1 @ z2.t()) / 0.07
+                        logits21 = (z2 @ z1.t()) / 0.07
+                        labels = torch.arange(logits12.size(0), device=self.device)
+
+                        loss_nce = 0.5 * (
+                            F.cross_entropy(logits12, labels) +
+                            F.cross_entropy(logits21, labels)
+                        )
 
                         # MLM logits on full sequence
                         h = self.model(mlm_inputs, attn)
                         vocab_logits = self.model.mlm_logits(h)
                         loss_mlm = F.cross_entropy(
-                            vocab_logits.view(-1, self.tokenizer.vocab_size),
+                            vocab_logits.view(-1, int(self.tokenizer.vocab_size)),
                             mlm_targets.view(-1),
-                            ignore_index=-100
+                            ignore_index=-100,
                         )
 
                         # Combined loss
                         loss = self.alpha_infonce * loss_nce + self.beta_mlm * loss_mlm
 
                     self.opt.zero_grad(set_to_none=True)
+
                     if use_amp:
                         self.scaler.scale(loss).backward()
                         torch.nn.utils.clip_grad_norm_(self.model.parameters(), 1.0)
@@ -537,53 +654,63 @@ class OnlineTrainer:
                         torch.nn.utils.clip_grad_norm_(self.model.parameters(), 1.0)
                         self.opt.step()
 
-                    # simple alignment accuracy for logging
-                    pred = logits.argmax(dim=1)
+                    # alignment accuracy (logging)
+                    pred = logits12.argmax(dim=1)
                     acc = (pred == labels).float().mean().item()
+
 
                     ep_loss += float(loss.item())
                     ep_sim += avg_in_batch_cosine(z1, z2)
-                    ep_acc += acc
+                    ep_acc += float(acc)
                     steps += 1
 
                     pbar.update(len(batch))
-                    pbar.set_postfix(loss=f"{loss.item():.3f}", nce=f"{loss_nce.item():.3f}", mlm=f"{loss_mlm.item():.3f}")
+                    pbar.set_postfix(
+                        loss=f"{loss.item():.3f}",
+                        nce=f"{loss_nce.item():.3f}",
+                        mlm=f"{loss_mlm.item():.3f}",
+                    )
 
             duration = time.time() - t0
             if steps > 0:
                 rec = {
                     "timestamp": time.strftime("%Y-%m-%d %H:%M:%S"),
-                    "epoch": ep,
-                    "loss_total": ep_loss / steps,
-                    "similarity": ep_sim / steps,
-                    "align_acc": ep_acc / steps,
-                    "alpha_infonce": self.alpha_infonce,
-                    "beta_mlm": self.beta_mlm,
-                    "vocab_size": self.tokenizer.vocab_size,
-                    "device": self.device.type,
-                    "duration_s": round(duration, 2),
+                    "epoch": int(ep),
+                    "loss_total": float(ep_loss / steps),
+                    "similarity": float(ep_sim / steps),
+                    "align_acc": float(ep_acc / steps),
+                    "alpha_infonce": float(self.alpha_infonce),
+                    "beta_mlm": float(self.beta_mlm),
+                    "vocab_size": int(self.tokenizer.vocab_size),
+                    "device": str(self.device.type),
+                    "duration_s": round(float(duration), 2),
                 }
                 self.epoch_history.append(rec)
+
                 with open(self.metrics_log_path, "a", encoding="utf-8") as f:
                     f.write(json.dumps(rec) + "\n")
 
-                print(f"✅ Epoch {ep}/{epochs_to_run} — "
-                      f"loss={rec['loss_total']:.4f} sim={rec['similarity']:.4f} "
-                      f"acc={rec['align_acc']:.4f} ({rec['duration_s']}s)")
+                print(
+                    f"✅ Epoch {ep}/{epochs_to_run} — "
+                    f"loss={rec['loss_total']:.4f} sim={rec['similarity']:.4f} "
+                    f"acc={rec['align_acc']:.4f} ({rec['duration_s']}s)"
+                )
 
         if self.epoch_history:
-            self.last_avg_loss = self.epoch_history[-1]["loss_total"]
-            self.last_similarity = self.epoch_history[-1]["similarity"]
+            self.last_avg_loss = float(self.epoch_history[-1]["loss_total"])
+            self.last_similarity = float(self.epoch_history[-1]["similarity"])
 
         self._save_ckpt()
-        print(f"🧪 Online train: epochs={epochs_to_run}, last_loss={self.last_avg_loss:.4f} "
-              f"sim={self.last_similarity:.4f}, vocab={self.tokenizer.vocab_size}, device={self.device.type}")
+
+        print(
+            f"🧪 Online train: epochs={epochs_to_run}, last_loss={self.last_avg_loss:.4f} "
+            f"sim={self.last_similarity:.4f}, vocab={int(self.tokenizer.vocab_size)}, device={self.device.type}"
+        )
 
         # Adjust epochs for next call (self-tuning)
         self.adjust_epochs()
 
-        # ---------- embedding interface ----------
-    
+    # ---------- embedding interface ----------
     @torch.no_grad()
     def embed(self, texts, *, max_len: int = 192, batch_size: int = 16, force_cpu: bool = False):
         import numpy as np
@@ -591,11 +718,10 @@ class OnlineTrainer:
         self.model.eval()
         clean = [t if isinstance(t, str) else str(t) for t in (texts or []) if t]
         if not clean:
-            return np.zeros((0, self.model.d_model), dtype=np.float32)
+            return np.zeros((0, int(self.model.d_model)), dtype=np.float32)
 
         device = torch.device("cpu") if force_cpu else self.device
 
-        # IMPORTANT: temporarily move model only if forced CPU
         moved = False
         if force_cpu and self.device.type != "cpu":
             self.model.to(device)
@@ -604,7 +730,7 @@ class OnlineTrainer:
         try:
             outs = []
             for i in range(0, len(clean), batch_size):
-                batch = clean[i : i + batch_size]
+                batch = clean[i: i + batch_size]
                 toks, attn = collate_batch(batch, self.tokenizer, max_len, device)
                 z = self.model.sentence_embedding(toks, attn)
                 outs.append(z.detach().cpu().numpy().astype("float32"))
@@ -612,4 +738,3 @@ class OnlineTrainer:
         finally:
             if moved:
                 self.model.to(self.device)
-
