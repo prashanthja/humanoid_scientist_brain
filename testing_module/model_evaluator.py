@@ -4,16 +4,16 @@
 """
 ModelEvaluator — Retrieval-grounded benchmark for Humanoid Scientist Brain.
 
-Fixes vs your current version:
-- Pre-embeds KB ONCE (huge speed + avoids GPU OOM)
-- Dedupe KB items + dedupe retrieved items (prevents fake top-k)
-- Adds random-baseline sanity check (catches embedding collapse / bogus retrieval)
-- Adds reporting for duplicate rate + discrimination gap
+Fixes:
+- Keeps KB embedding rows aligned with kb_items (no silent dropping)
+- Dedupe KB items + dedupe retrieved items
+- Adds random-baseline sanity check + simple collapse diagnostics
+- Adds quality gates to prevent title-only poison in benchmark retrieval
 """
 
 from __future__ import annotations
 import os, json, time, hashlib, random
-from typing import List, Dict, Any, Optional, Tuple
+from typing import List, Dict, Any, Tuple
 import numpy as np
 
 
@@ -30,13 +30,12 @@ def _safe_text(x: Any) -> str:
 def _norm_rows(mat: np.ndarray) -> np.ndarray:
     if mat.size == 0:
         return mat.astype(np.float32)
-    mat = mat.astype(np.float32)
+    mat = mat.astype(np.float32, copy=False)
     norms = np.linalg.norm(mat, axis=1, keepdims=True) + 1e-8
     return mat / norms
 
 
 def _stable_key(it: Dict[str, Any]) -> str:
-    # Prefer true IDs if present
     pid = it.get("paper_id") or it.get("id")
     if pid not in (None, "", "unknown"):
         return f"id:{pid}"
@@ -45,10 +44,18 @@ def _stable_key(it: Dict[str, Any]) -> str:
     if title and title not in ("unknown",):
         return f"title:{title}"
 
-    # fallback: hash a prefix of text
     txt = (it.get("text") or "").strip()
     h = hashlib.sha1(txt[:500].encode("utf-8", errors="ignore")).hexdigest()
     return f"hash:{h}"
+
+
+def _is_low_signal_row(text: str, title: str) -> bool:
+    t = (text or "").strip()
+    if len(t) < 180:
+        return True
+    if title and title.strip().lower() == t.lower():
+        return True
+    return False
 
 
 class ModelEvaluator:
@@ -65,6 +72,8 @@ class ModelEvaluator:
         random_baseline_k: int = 64,
         seed: int = 1337,
         force_cpu_embeddings: bool = False,
+        # quality gates
+        drop_low_signal_kb_rows: bool = True,
     ):
         self.trainer = trainer
         self.kb = kb
@@ -77,6 +86,7 @@ class ModelEvaluator:
         self.random_baseline_k = int(random_baseline_k)
         self.seed = int(seed)
         self.force_cpu_embeddings = bool(force_cpu_embeddings)
+        self.drop_low_signal_kb_rows = bool(drop_low_signal_kb_rows)
 
         os.makedirs(os.path.dirname(report_path), exist_ok=True)
         random.seed(self.seed)
@@ -84,9 +94,6 @@ class ModelEvaluator:
 
         self.benchmarks = self._load_benchmarks()
 
-    # ----------------------------
-    # Benchmarks
-    # ----------------------------
     def _load_benchmarks(self) -> List[Dict[str, Any]]:
         return [
             {
@@ -127,27 +134,34 @@ class ModelEvaluator:
         ]
 
     # ----------------------------
-    # Encoding
+    # Encoding (alignment-safe)
     # ----------------------------
     def _encode_texts(self, texts: List[str]) -> np.ndarray:
-        clean = [t for t in texts if isinstance(t, str) and t.strip()]
-        if not clean:
-            # keep a safe empty 2D array
+        """
+        IMPORTANT: do NOT drop empty items silently; it breaks alignment.
+        For empties, we embed a placeholder and then zero it out.
+        """
+        if not texts:
             return np.zeros((0, 256), dtype=np.float32)
 
-        # Preferred: bridge.encode_texts
+        clean = []
+        empty_mask = []
+        for t in texts:
+            s = t if isinstance(t, str) else str(t or "")
+            s = s.strip()
+            if not s:
+                clean.append("[EMPTY]")
+                empty_mask.append(True)
+            else:
+                clean.append(s)
+                empty_mask.append(False)
+
+        # Bridge preferred
         if hasattr(self.bridge, "encode_texts"):
-            # If your bridge uses trainer.embed under the hood, you can’t pass force_cpu here.
             arr = np.asarray(self.bridge.encode_texts(clean), dtype=np.float32)
-            return arr
-
-        # Fallback: bridge.embed
-        if hasattr(self.bridge, "embed"):
+        elif hasattr(self.bridge, "embed"):
             arr = np.asarray(self.bridge.embed(clean), dtype=np.float32)
-            return arr
-
-        # Fallback: trainer.embed (lets you force CPU if your trainer supports it)
-        if self.trainer is not None and hasattr(self.trainer, "embed"):
+        elif self.trainer is not None and hasattr(self.trainer, "embed"):
             try:
                 arr = np.asarray(
                     self.trainer.embed(clean, force_cpu=self.force_cpu_embeddings),
@@ -155,12 +169,24 @@ class ModelEvaluator:
                 )
             except TypeError:
                 arr = np.asarray(self.trainer.embed(clean), dtype=np.float32)
-            return arr
+        else:
+            raise RuntimeError("No embedding interface found on bridge or trainer.")
 
-        raise RuntimeError("No embedding interface found on bridge or trainer.")
+        # Defensive: mean-pool if sequence
+        if arr.ndim == 3:
+            arr = arr.mean(axis=1)
+        if arr.ndim == 1:
+            arr = arr.reshape(1, -1)
+
+        # Zero out embeddings for empties
+        for i, is_empty in enumerate(empty_mask):
+            if is_empty and i < arr.shape[0]:
+                arr[i, :] = 0.0
+
+        return arr.astype(np.float32, copy=False)
 
     # ----------------------------
-    # KB Loading + Dedupe
+    # KB loading + dedupe
     # ----------------------------
     def _load_kb_items(self) -> Tuple[List[Dict[str, Any]], float]:
         raw = self.kb.query("") or []
@@ -171,15 +197,20 @@ class ModelEvaluator:
         for it in raw[: self.max_kb_items]:
             if not isinstance(it, dict):
                 it = {"text": str(it)}
+
             text = _safe_text(it).strip()
+            title = (it.get("paper_title") or "") if isinstance(it, dict) else ""
             if not text:
+                continue
+
+            if self.drop_low_signal_kb_rows and _is_low_signal_row(text, title):
                 continue
 
             row = {
                 "id": it.get("id"),
                 "paper_id": it.get("paper_id"),
-                "paper_title": (it.get("paper_title") or ""),
-                "source": (it.get("source") or ""),
+                "paper_title": (title or ""),
+                "source": (it.get("source") or "") if isinstance(it, dict) else "",
                 "text": text,
             }
             k = _stable_key(row)
@@ -190,7 +221,8 @@ class ModelEvaluator:
             row["_dedupe_key"] = k
             out.append(row)
 
-        dup_rate = dup / max(len(raw[: self.max_kb_items]), 1)
+        denom = max(len(raw[: self.max_kb_items]), 1)
+        dup_rate = dup / denom
         return out, float(dup_rate)
 
     # ----------------------------
@@ -205,9 +237,9 @@ class ModelEvaluator:
         qv = self._encode_texts([query])
         if qv.size == 0:
             return []
-        qv = _norm_rows(qv)[0]  # (D,)
+        qv = _norm_rows(qv)[0]
 
-        sims = (kb_emb_norm @ qv).astype(np.float32)  # (N,)
+        sims = (kb_emb_norm @ qv).astype(np.float32)
         top_idx = np.argsort(-sims)[: self.top_k]
 
         retrieved = []
@@ -218,10 +250,7 @@ class ModelEvaluator:
             if k in used:
                 continue
             used.add(k)
-            retrieved.append({
-                **row,
-                "similarity_to_question": float(sims[int(i)]),
-            })
+            retrieved.append({**row, "similarity_to_question": float(sims[int(i)])})
 
         return retrieved
 
@@ -259,13 +288,43 @@ class ModelEvaluator:
         texts = [x["text"] for x in sample]
         return self._best_sim_expected_vs_evidence(expected, texts)
 
+    def _collapse_diagnostics(self, kb_emb_norm: np.ndarray) -> Dict[str, Any]:
+        """
+        Quick sanity metrics to detect embedding collapse:
+        - mean row norm (should be ~1 after norm, but if many zeros => low)
+        - variance of embedding dims
+        - mean pairwise cosine on a small sample (collapsed => very high)
+        """
+        if kb_emb_norm.size == 0:
+            return {"ok": False, "reason": "empty_kb_emb"}
+
+        norms = np.linalg.norm(kb_emb_norm, axis=1)
+        mean_norm = float(np.mean(norms))
+
+        var = float(np.mean(np.var(kb_emb_norm, axis=0)))
+
+        n = kb_emb_norm.shape[0]
+        m = min(200, n)
+        idx = np.random.choice(n, size=m, replace=False) if n >= m else np.arange(n)
+        sample = kb_emb_norm[idx]
+        # approximate pairwise mean cosine by dotting vs mean vector
+        mu = sample.mean(axis=0)
+        mu = mu / (np.linalg.norm(mu) + 1e-8)
+        mean_cos_to_mu = float(np.mean(sample @ mu))
+
+        return {
+            "ok": True,
+            "mean_norm": round(mean_norm, 4),
+            "mean_dim_variance": round(var, 6),
+            "mean_cosine_to_meanvec": round(mean_cos_to_mu, 4),
+        }
+
     # ----------------------------
     # Main eval
     # ----------------------------
     def evaluate_on_benchmark(self) -> Dict[str, Any]:
         kb_items, dup_rate = self._load_kb_items()
 
-        # Pre-embed KB once
         kb_texts = [x["text"] for x in kb_items]
         kb_emb_chunks = []
         for i in range(0, len(kb_texts), self.kb_embed_batch):
@@ -273,11 +332,13 @@ class ModelEvaluator:
         kb_emb = np.concatenate(kb_emb_chunks, axis=0) if kb_emb_chunks else np.zeros((0, 256), dtype=np.float32)
         kb_emb_norm = _norm_rows(kb_emb) if kb_emb.size else kb_emb
 
+        diag = self._collapse_diagnostics(kb_emb_norm)
+
         results = []
         recall_hits = 0
         best_sims = []
         kw_hits = []
-        discr_gaps = []  # retrieved best - random best
+        discr_gaps = []
 
         for b in self.benchmarks:
             q = b["question"]
@@ -285,7 +346,6 @@ class ModelEvaluator:
 
             retrieved = self._retrieve_topk(q, kb_items, kb_emb_norm)
 
-            # Score against expected
             evidence_texts = [r["text"] for r in retrieved]
             best_sim = self._best_sim_expected_vs_evidence(exp, evidence_texts)
 
@@ -293,15 +353,12 @@ class ModelEvaluator:
             recall_hits += int(hit)
             best_sims.append(best_sim)
 
-            # sanity: compare to random
             rand_best = self._random_baseline_best_sim(exp, kb_items)
             gap = best_sim - rand_best
             discr_gaps.append(gap)
 
-            # keyword hit on best evidence (by expected sim)
             kh = 0.0
             if retrieved:
-                # compute which evidence is best vs expected
                 ev = self._encode_texts(evidence_texts)
                 ex = self._encode_texts([exp])
                 if ev.size and ex.size:
@@ -332,7 +389,6 @@ class ModelEvaluator:
         avg_kw = float(np.mean(kw_hits)) if kw_hits else 0.0
         avg_gap = float(np.mean(discr_gaps)) if discr_gaps else 0.0
 
-        # verdict now depends on discrimination gap too (prevents “perfect” fake scores)
         if recall_at_k >= 0.8 and avg_best_sim >= 0.70 and avg_gap >= 0.05:
             verdict = "Strong retrieval-grounded understanding"
         elif recall_at_k >= 0.4 and avg_gap >= 0.02:
@@ -346,6 +402,7 @@ class ModelEvaluator:
             "evidence_sim_threshold": self.th,
             "kb_items_used": len(kb_items),
             "kb_duplicate_drop_rate": round(float(dup_rate), 4),
+            "collapse_diagnostics": diag,
             "recall_at_k": round(float(recall_at_k), 4),
             "avg_best_evidence_similarity": round(float(avg_best_sim), 4),
             "avg_keyword_hit_rate": round(float(avg_kw), 4),

@@ -3,25 +3,27 @@ import sqlite3
 import time
 import numpy as np
 import io
-from typing import List, Tuple
+from typing import List, Tuple, Optional
 
 DB_PATH = "knowledge_base/knowledge.db"
+
 
 def _to_blob(np_array: np.ndarray) -> bytes:
     """Serialize numpy array to bytes for SQLite BLOB."""
     memfile = io.BytesIO()
-    # Use np.save to preserve shape and dtype
     np.save(memfile, np_array)
     memfile.seek(0)
     return memfile.read()
 
+
 def _from_blob(blob: bytes) -> np.ndarray:
     memfile = io.BytesIO(blob)
     memfile.seek(0)
-    return np.load(memfile)
+    return np.load(memfile, allow_pickle=False)
+
 
 class KnowledgeStorage:
-    def __init__(self, db_path=DB_PATH):
+    def __init__(self, db_path: str = DB_PATH):
         self.db_path = db_path
         self.conn = sqlite3.connect(self.db_path, check_same_thread=False)
         self._create_tables()
@@ -45,34 +47,35 @@ class KnowledgeStorage:
         """)
         self.conn.commit()
 
-    def store(self, content: str, source: str = None, embedding: np.ndarray = None) -> int:
+    def store(self, content: str, source: Optional[str] = None, embedding: Optional[np.ndarray] = None) -> int:
         """Store content and optional embedding. Returns inserted knowledge id."""
         cur = self.conn.cursor()
         ts = time.time()
-        cur.execute("INSERT INTO knowledge (content, source, timestamp) VALUES (?, ?, ?)",
-                    (content, source, ts))
+        cur.execute(
+            "INSERT INTO knowledge (content, source, timestamp) VALUES (?, ?, ?)",
+            (content, source, ts),
+        )
         k_id = cur.lastrowid
         if embedding is not None:
-            blob = _to_blob(embedding.astype(np.float32))
+            blob = _to_blob(np.asarray(embedding, dtype=np.float32))
             cur.execute("INSERT INTO embeddings (id, vector) VALUES (?, ?)", (k_id, blob))
         self.conn.commit()
         return k_id
 
     def update_embedding(self, k_id: int, embedding: np.ndarray):
         cur = self.conn.cursor()
-        blob = _to_blob(embedding.astype(np.float32))
+        blob = _to_blob(np.asarray(embedding, dtype=np.float32))
         cur.execute("REPLACE INTO embeddings (id, vector) VALUES (?, ?)", (k_id, blob))
         self.conn.commit()
 
-    def bulk_store(self, items: List[Tuple[str, str, np.ndarray]]) -> List[int]:
+    def bulk_store(self, items: List[Tuple[str, Optional[str], Optional[np.ndarray]]]) -> List[int]:
         """
         items: list of (content, source, embedding) where embedding may be None.
         Returns list of inserted ids.
         """
         ids = []
         for content, source, embedding in items:
-            k_id = self.store(content, source, embedding)
-            ids.append(k_id)
+            ids.append(self.store(content, source, embedding))
         return ids
 
     def fetch_all_with_embeddings(self) -> List[Tuple[int, str, np.ndarray]]:
@@ -84,26 +87,33 @@ class KnowledgeStorage:
         JOIN embeddings e ON k.id = e.id
         """)
         rows = cur.fetchall()
-        results = []
+        out: List[Tuple[int, str, np.ndarray]] = []
         for k_id, content, blob in rows:
-            vec = _from_blob(blob)
-            results.append((k_id, content, vec))
-        return results
+            out.append((int(k_id), str(content), _from_blob(blob)))
+        return out
 
     def fetch_all_contents(self) -> List[Tuple[int, str]]:
         cur = self.conn.cursor()
         cur.execute("SELECT id, content FROM knowledge")
-        return cur.fetchall()
+        rows = cur.fetchall()
+        return [(int(i), str(c)) for i, c in rows]
 
     def query_keyword(self, keyword: str, limit: int = 10) -> List[Tuple[int, str]]:
         cur = self.conn.cursor()
-        cur.execute("SELECT id, content FROM knowledge WHERE content LIKE ? LIMIT ?", (f"%{keyword}%", limit))
-        return cur.fetchall()
+        cur.execute(
+            "SELECT id, content FROM knowledge WHERE content LIKE ? LIMIT ?",
+            (f"%{keyword}%", int(limit)),
+        )
+        rows = cur.fetchall()
+        return [(int(i), str(c)) for i, c in rows]
 
     def get(self, k_id: int) -> Tuple[int, str]:
         cur = self.conn.cursor()
-        cur.execute("SELECT id, content FROM knowledge WHERE id = ?", (k_id,))
-        return cur.fetchone()
+        cur.execute("SELECT id, content FROM knowledge WHERE id = ?", (int(k_id),))
+        row = cur.fetchone()
+        if not row:
+            return (-1, "")
+        return (int(row[0]), str(row[1]))
 
     def close(self):
         self.conn.close()

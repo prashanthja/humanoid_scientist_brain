@@ -1,3 +1,4 @@
+# knowledge_base/database.py
 """
 Knowledge Base — Stores Text, Paper Metadata, and Source Traceability
 --------------------------------------------------------------------
@@ -15,7 +16,7 @@ from __future__ import annotations
 import os
 import sqlite3
 import hashlib
-from typing import List, Dict, Any, Optional
+from typing import List, Dict, Any
 
 DB_PATH = "knowledge_base/knowledge.db"
 
@@ -23,9 +24,13 @@ DB_PATH = "knowledge_base/knowledge.db"
 class KnowledgeBase:
     def __init__(self, db_path: str = DB_PATH):
         os.makedirs(os.path.dirname(db_path) or "knowledge_base", exist_ok=True)
-        self.conn = sqlite3.connect(db_path)
-        self.conn.execute("PRAGMA journal_mode=WAL;")  # more robust for frequent writes
+
+        # timeout + check_same_thread helps with frequent writes + multiple modules/threads
+        self.conn = sqlite3.connect(db_path, timeout=30, check_same_thread=False)
+        self.conn.execute("PRAGMA journal_mode=WAL;")        # better concurrency
+        self.conn.execute("PRAGMA synchronous=NORMAL;")      # WAL-friendly
         self.cursor = self.conn.cursor()
+
         self._create_or_migrate()
         self.current_source = "unknown"
 
@@ -33,11 +38,11 @@ class KnowledgeBase:
     # Schema creation + migration
     # -------------------------------------------------------------
     def _create_or_migrate(self):
-        # Create base table if missing (includes text_hash)
+        # Create table with modern schema
         self.cursor.execute("""
             CREATE TABLE IF NOT EXISTS knowledge (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
-                text TEXT,
+                text TEXT NOT NULL,
                 text_hash TEXT,
                 paper_title TEXT DEFAULT 'unknown',
                 concepts TEXT DEFAULT 'unknown',
@@ -47,26 +52,33 @@ class KnowledgeBase:
         """)
         self.conn.commit()
 
-        # Migrate older DBs that don't have text_hash
+        # Detect existing columns
         try:
             cols = {row[1] for row in self.cursor.execute("PRAGMA table_info(knowledge)").fetchall()}
-            if "text_hash" not in cols:
-                self.cursor.execute("ALTER TABLE knowledge ADD COLUMN text_hash TEXT")
-                self.conn.commit()
         except Exception:
-            pass
+            cols = set()
 
-        # Unique index for deduplication
+        # Migrate missing columns (older DBs)
+        def _add_col(name: str, ddl: str):
+            if name not in cols:
+                try:
+                    self.cursor.execute(ddl)
+                    self.conn.commit()
+                except Exception:
+                    pass
+
+        _add_col("text_hash", "ALTER TABLE knowledge ADD COLUMN text_hash TEXT")
+        _add_col("paper_title", "ALTER TABLE knowledge ADD COLUMN paper_title TEXT DEFAULT 'unknown'")
+        _add_col("concepts", "ALTER TABLE knowledge ADD COLUMN concepts TEXT DEFAULT 'unknown'")
+        _add_col("source", "ALTER TABLE knowledge ADD COLUMN source TEXT DEFAULT 'unknown'")
+        _add_col("timestamp", "ALTER TABLE knowledge ADD COLUMN timestamp DATETIME DEFAULT CURRENT_TIMESTAMP")
+
+        # Indices
         try:
             self.cursor.execute("CREATE UNIQUE INDEX IF NOT EXISTS idx_knowledge_text_hash ON knowledge(text_hash)")
-            self.conn.commit()
-        except Exception:
-            pass
-
-        # Helpful indices
-        try:
             self.cursor.execute("CREATE INDEX IF NOT EXISTS idx_knowledge_title ON knowledge(paper_title)")
             self.cursor.execute("CREATE INDEX IF NOT EXISTS idx_knowledge_source ON knowledge(source)")
+            self.cursor.execute("CREATE INDEX IF NOT EXISTS idx_knowledge_timestamp ON knowledge(timestamp)")
             self.conn.commit()
         except Exception:
             pass
@@ -74,9 +86,12 @@ class KnowledgeBase:
     # -------------------------------------------------------------
     # Helpers
     # -------------------------------------------------------------
+    def set_source(self, source: str):
+        self.current_source = self._clean(source, default="unknown") or "unknown"
+
     def _clean(self, x: Any, default: str = "") -> str:
         s = str(x) if x is not None else ""
-        s = s.strip()
+        s = " ".join(s.replace("\u00a0", " ").split()).strip()
         return s if s else default
 
     def _hash_text(self, text: str) -> str:
@@ -112,7 +127,8 @@ class KnowledgeBase:
             # Insert with UNIQUE(text_hash). If already exists -> skip.
             try:
                 cur.execute(
-                    "INSERT INTO knowledge (text, text_hash, paper_title, concepts, source) VALUES (?, ?, ?, ?, ?)",
+                    "INSERT INTO knowledge (text, text_hash, paper_title, concepts, source) "
+                    "VALUES (?, ?, ?, ?, ?)",
                     (text, text_hash, title, concepts, source),
                 )
                 added += 1
@@ -135,7 +151,10 @@ class KnowledgeBase:
         kw = self._clean(keyword, default="")
 
         if not kw:
-            cur.execute("SELECT id, text, text_hash, paper_title, concepts, source FROM knowledge")
+            cur.execute(
+                "SELECT id, text, text_hash, paper_title, concepts, source "
+                "FROM knowledge"
+            )
         else:
             like = f"%{kw}%"
             cur.execute(
@@ -159,8 +178,8 @@ class KnowledgeBase:
 
     def fetch_all_with_embeddings(self):
         """
-        Fetch all items with metadata.
-        (This name is legacy; it fetches rows used for embedding rebuild.)
+        Legacy name: used by embedding rebuild logic.
+        Returns rows with stable ids.
         """
         return self.query("")
 

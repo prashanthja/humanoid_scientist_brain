@@ -56,7 +56,7 @@ os.makedirs("data", exist_ok=True)
 os.makedirs("visualization/graphs", exist_ok=True)
 
 MAX_CYCLES = 5
-SLEEP_INTERVAL = 60 * 60 * 24 * 7  # 1 week
+SLEEP_INTERVAL = 5  # DEBUG: 5 seconds
 
 # retrieval/indexing
 MAX_DOCS_PER_TOPIC = 60          # safety valve
