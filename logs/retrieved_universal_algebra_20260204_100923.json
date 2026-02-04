@@ -1,0 +1,16 @@
+[
+  {
+    "title": "Rota-Baxter TD Algebra and Quinquedendriform Algebra",
+    "text": "<jats:p>A dendriform algebra defined by Loday has two binary operations that give a two-part splitting of the associativity in the sense that their sum is associative. Similar dendriform type algebras with three-part and four-part splitting of the associativity were later obtained. These structures can also be derived from actions of suitable linear operators, such as a Rota-Baxter operator or TD operator, on an associative algebra. Motivated by finding a five-part splitting of the associativity, we consider the Rota-Baxter TD (RBTD) operator, an operator combining the Rota-Baxter operator and TD operator, and coming from a recent study of Rota’s problem concerning linear operators on associative algebras. Free RBTD algebras on rooted forests are constructed. We then introduce the concept of a quinquedendriform algebra and show that its defining relations are characterized by the action of an RBTD operator, similar to the cases of dendriform and tridendriform algebras.</jats:p>",
+    "url": "https://doi.org/10.1142/s1005386717000037",
+    "source": "crossref",
+    "timestamp": 2017
+  },
+  {
+    "title": "Algebra",
+    "text": "Algebra is a branch of mathematics that deals with abstract systems, known as algebraic structures, and the manipulation of expressions within those systems. It is a generalization of arithmetic that introduces variables and algebraic operations other than the standard arithmetic operations, such as addition and multiplication.",
+    "url": "https://en.wikipedia.org/wiki/Algebra",
+    "source": "wikipedia",
+    "timestamp": "2026-02-04"
+  }
+]

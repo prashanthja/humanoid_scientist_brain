@@ -188,3 +188,18 @@ def _guess_domain(text: str) -> str:
     if p == m and p > 0:
         return "mixed"
     return "unknown"
+
+# ---- Compatibility wrapper (so imports like `from ... import ClaimExtractor` work) ----
+
+class ClaimExtractor:
+    """
+    Thin wrapper over extract_claims() for compatibility with older imports.
+    Usage:
+        ce = ClaimExtractor()
+        claims = ce.extract(text, provenance=SourceTrace(...))
+    """
+    def extract(self, text: str, *, provenance: SourceTrace | None = None) -> List[Claim]:
+        return extract_claims(text, provenance=provenance)
+
+
+__all__ = ["extract_claims", "ClaimExtractor"]

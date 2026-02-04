@@ -1,0 +1,23 @@
+[
+  {
+    "title": "5. Flavours of topology",
+    "text": "<p>From the mid-19th century, topological understanding progressed on various fronts. ‘Flavours of topology’ considers other areas such as differential topology, algebraic topology, and combinatorial topology. Geometric topology concerned surfaces and grew out of the work of Euler, Möbius, Riemann, and others. General topology was more analytical and foundational in nature; Hausdorff was its most significant progenitor and its growth mirrored other fundamental work being done in set theory. The chapter introduces the hairy ball theorem, and the work of great French mathematician and physicist Henri Poincaré, which has been rigorously advanced over the last century, making algebraic topology a major theme of modern mathematics.</p>",
+    "url": "https://doi.org/10.1093/actrade/9780198832683.003.0005",
+    "source": "crossref",
+    "timestamp": 2019
+  },
+  {
+    "title": "1. What is topology?",
+    "text": "<p>Topology is now a major area of modern mathematics, but an appreciation of topology came late in the history of mathematics. The word topology—meaning ‘the study of place’—was not coined until 1836. ‘What is topology?’ aims to provide a sense of topology’s ideas and its technical vocabulary. It discusses the concepts of letters being topologically the same or homeomorphic and then moves on to Euler’s formula, which shows that there are only five Platonic solids: tetrahedron, cube, octahedron, dodecahedron, and icosahedron. Early problems in topology included defining what dimension means and point-set topology, which sought to address what it means to be a set or to be a space.</p>",
+    "url": "https://doi.org/10.1093/actrade/9780198832683.003.0001",
+    "source": "crossref",
+    "timestamp": 2019
+  },
+  {
+    "title": "Topology",
+    "text": "Topology is the branch of mathematics concerned with the properties of a geometric object that are preserved under continuous deformations, such as stretching, twisting, crumpling, and bending; that is, without closing holes, opening holes, tearing, gluing, or passing through itself.",
+    "url": "https://en.wikipedia.org/wiki/Topology",
+    "source": "wikipedia",
+    "timestamp": "2026-02-03"
+  }
+]

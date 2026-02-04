@@ -1,0 +1,65 @@
+[
+  {
+    "title": "The foundations of quantum mechanics",
+    "text": "<p>Operators in quantum mechanics</p> <p>Linear operators</p> <p>Eigenfunctions and eigenvalues</p> <p>Representations</p> <p>Commutation and non-commutation</p> <p>The construction of operators</p> <p>Integrals over operators</p> <p>Dirac bracket and matrix notation</p> <p>Hermitian operators</p> <p> <bold>The postulates of quantum mechanics</bold> </p> <p>States and wavefunctions</p>",
+    "url": "https://doi.org/10.1093/hesc/9780199541423.003.0001",
+    "source": "crossref",
+    "timestamp": 2010
+  },
+  {
+    "title": "Fundamentals of Quantum Mechanics",
+    "text": "<p>The laws of quantum mechanics were formulated in the year 1925 through the work of Werner Heisenberg, followed by Max Born, Pascual Jordan, Paul Dirac, and Wolfgang Pauli. A separate but equivalent approach was independently developed by Erwin Schrödinger in early 1926. The laws governing quantum mechanics were highly mathematical and their aim was to explain many unresolved problems within the framework of a formal theory. The conceptual foundation emerged in the subsequent 2–3 years that indicated how radically different the new laws were from classical physics. In this chapter some of these salient features of quantum mechanics are discussed. The topics include the quantization of energy, wave–particle duality, the probabilistic nature of quantum mechanics, Heisenberg uncertainty relations, Bohr’s principle of complementarity, and quantum superposition and entanglement. This discussion should indicate how different and counterintuitive its fundamentals are from those of classical physics.</p>",
+    "url": "https://doi.org/10.1093/oso/9780198854227.003.0005",
+    "source": "crossref",
+    "timestamp": 2020
+  },
+  {
+    "title": "Wave Mechanics",
+    "text": "<p>This chapter develops the wave mechanics formalism. The emphasis here is on symmetries and conservation laws: parity, linear and angular momentum, and the electromagnetic interaction. The only specific physical application is the completion of the study of an isolated hydrogen atom, with some discussion of the motion of a particle in a magnetic field. The chapter also outlines the general assumptions of quantum wave mechanics, which may be summarized as follows: the state of a physical system is represented by a wave function and each measurable attribute of the system is represented by a linear self-adjoint operator in the space of functions. To apply these general assumptions to a given physical system, one must give a specific prescription for the observables and their algebra, and one must adopt a definite form for the Hamiltonians as a function of the observables.</p>",
+    "url": "https://doi.org/10.23943/princeton/9780691209821.003.0002",
+    "source": "crossref",
+    "timestamp": 2019
+  },
+  {
+    "title": "Birth of Quantum Mechanics—Planck, Einstein, Bohr",
+    "text": "<p>In this chapter, three problems whose resolution laid the foundation of quantum mechanics are discussed. First the pioneering work of Max Planck is described who explained the spectrum of light emitted from a so-called blackbody by making a bold ansatz that the energy associated with the oscillations of electrons comes in packets or quanta of energy. Second it is shown how Einstein invoked Planck’s hypothesis to explain the photoelectric effect by arguing that light should come in packets or quanta of energy and this energy should be proportional to the frequency. Electrons are emitted if the energy of the quantum of light, which has come to be known as a photon, is higher than a critical value. The third problem relates to the atomic structure of hydrogen. A full description is given of how Bohr applied a quantization condition to explain the emission of light at certain specific frequencies.</p>",
+    "url": "https://doi.org/10.1093/oso/9780198854227.003.0006",
+    "source": "crossref",
+    "timestamp": 2020
+  },
+  {
+    "title": "Quantum Mechanics Helps in Searching for a Needle in a Haystack",
+    "text": "Quantum mechanics can speed up a range of search applications over unsorted data. For example, imagine a phone directory containing $N$ names arranged in completely random order. To find someone's phone number with a probability of 50%, any classical algorithm (whether deterministic or probabilistic) will need to access the database a minimum of $0.5N$ times. Quantum mechanical systems can be in a superposition of states and simultaneously examine multiple names. By properly adjusting the phases of various operations, successful computations reinforce each other while others interfere randomly. As a result, the desired phone number can be obtained in only $O(\\sqrt{N})$ accesses to the database.",
+    "url": "https://www.semanticscholar.org/paper/222291b43d1837f09b1fc5433969f4f569c7abc8",
+    "source": "semantic_scholar",
+    "timestamp": 1997
+  },
+  {
+    "title": "Statistical Mechanics",
+    "text": "Professor Chen Ning Yang has made seminal and influential contributions in many different areas in theoretical physics. This talk focuses on his contributions in statistical mechanics, a field in which Professor Yang has held a continual interest for over sixty years. His Master’s thesis was on a theory of binary alloys with multi-site interactions, some 30 years before others studied the problem. Likewise, his other works opened the door and led to subsequent developments in many areas of modern day statistical mechanics and mathematical physics. He made seminal contributions in a wide array of topics, ranging from the fundamental theory of phase transitions, the Ising model, Heisenberg spin chains, lattice models, and the Yang-Baxter equation, to the emergence of Yangian in quantum groups. These topics and their ramifications will be discussed in this talk. PACS numbers: 01.65.+g, 05.50.+q",
+    "url": "https://www.semanticscholar.org/paper/5c96465c7c5a291b16d134db6bd1dbaa79ad8d1b",
+    "source": "semantic_scholar",
+    "timestamp": 2021
+  },
+  {
+    "title": "Overview of the Phase Space Formulation of Quantum Mechanics with Application to Quantum Technologies",
+    "text": "The phase‐space formulation of quantum mechanics has recently seen increased use in testing quantum technologies, including methods of tomography for state verification and device validation. Here, an overview of quantum mechanics in phase space is presented. The formulation to generate a generalized phase‐space function for any arbitrary quantum system is shown, such as the Wigner and Weyl functions along with the associated Q and P functions. Examples of how these different formulations are used in quantum technologies are provided, with a focus on discrete quantum systems, qubits in particular. Also provided are some results that, to the authors' knowledge, have not been published elsewhere. These results provide insight into the relation between different representations of phase space and how the phase‐space representation is a powerful tool in understanding quantum information and quantum technologies.",
+    "url": "https://www.semanticscholar.org/paper/032c9e9b4f6bc8b659fe93184b41125d64e98a3f",
+    "source": "semantic_scholar",
+    "timestamp": 2021
+  },
+  {
+    "title": "Foundations of the Quaternion Quantum Mechanics",
+    "text": "We show that quaternion quantum mechanics has well-founded mathematical roots and can be derived from the model of the elastic continuum by French mathematician Augustin Cauchy, i.e., it can be regarded as representing the physical reality of elastic continuum. Starting from the Cauchy theory (classical balance equations for isotropic Cauchy-elastic material) and using the Hamilton quaternion algebra, we present a rigorous derivation of the quaternion form of the non- and relativistic wave equations. The family of the wave equations and the Poisson equation are a straightforward consequence of the quaternion representation of the Cauchy model of the elastic continuum. This is the most general kind of quantum mechanics possessing the same kind of calculus of assertions as conventional quantum mechanics. The problem of the Schrödinger equation, where imaginary ‘i’ should emerge, is solved. This interpretation is a serious attempt to describe the ontology of quantum mechanics, and demonstrates that, besides Bohmian mechanics, the complete ontological interpretations of quantum theory exists. The model can be generalized and falsified. To ensure this theory to be true, we specified problems, allowing exposing its falsity.",
+    "url": "https://www.semanticscholar.org/paper/78294120acac402f9928bf39e5f65b280bc5a41b",
+    "source": "semantic_scholar",
+    "timestamp": 2020
+  },
+  {
+    "title": "Quantum mechanics",
+    "text": "Quantum mechanics is the fundamental physical theory that describes the behavior of matter and of light; its unusual characteristics typically occur at and below the scale of atoms. It is the foundation of all quantum physics, which includes quantum chemistry, quantum biology, quantum field theory, quantum technology, and quantum information science.",
+    "url": "https://en.wikipedia.org/wiki/Quantum_mechanics",
+    "source": "wikipedia",
+    "timestamp": "2026-02-04"
+  }
+]

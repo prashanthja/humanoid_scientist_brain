@@ -7,9 +7,11 @@
 # - MPS CPU fallback; AMP on CUDA (torch.amp.* API)
 # - Adaptive Epoch Scaling (self-tuning)
 # - Checkpoint stores model_config; loader rebuilds model to avoid shape mismatch
+# - Adds collapse diagnostics to detect embedding collapse early
 # ------------------------------------------------------------
 
 from __future__ import annotations
+
 import os
 import json
 import math
@@ -244,16 +246,16 @@ class ContinualTransformerEncoder(nn.Module):
         # src_key_padding_mask expects True for padding positions
         h = self.enc(h, src_key_padding_mask=(~attn_mask) if attn_mask is not None else None)
         return h
-    
+
     def sentence_embedding(self, x: torch.Tensor, attn_mask: torch.Tensor) -> torch.Tensor:
-            h = self.forward(x, attn_mask)  # [B, L, D]
+        h = self.forward(x, attn_mask)  # [B, L, D]
 
-            # masked mean pooling over real tokens (prevents BOS collapse)
-            m = attn_mask.unsqueeze(-1).float()  # [B, L, 1]
-            pooled = (h * m).sum(dim=1) / m.sum(dim=1).clamp(min=1.0)  # [B, D]
+        # masked mean pooling over real tokens (prevents BOS collapse)
+        m = attn_mask.unsqueeze(-1).float()  # [B, L, 1]
+        pooled = (h * m).sum(dim=1) / m.sum(dim=1).clamp(min=1.0)  # [B, D]
 
-            z = F.normalize(self.proj(pooled), dim=-1)
-            return z
+        z = F.normalize(self.proj(pooled), dim=-1)
+        return z
 
     def mlm_logits(self, h: torch.Tensor) -> torch.Tensor:
         return self.lm_head(h)
@@ -270,7 +272,7 @@ def _mask_for_mlm(
 ) -> Tuple[torch.Tensor, torch.Tensor]:
     """
     Create MLM inputs and targets:
-      - 12% of visible (non-special) positions are masked for prediction
+      - mlm_prob of visible (non-special) positions are masked for prediction
       - 80% MASK, 10% random token, 10% keep (BERT-style heuristic)
     """
     device = tokens.device
@@ -284,7 +286,7 @@ def _mask_for_mlm(
     eos_positions = (tokens == eos_id).int().argmax(dim=1)
     for b in range(B):
         # Do not mask EOS
-        maskable[b, eos_positions[b]] = False
+        maskable[b, int(eos_positions[b].item())] = False
 
     prob = torch.rand(B, L, device=device)
     mlm_positions = (prob < mlm_prob) & maskable
@@ -303,7 +305,8 @@ def _mask_for_mlm(
     tokens_masked[mask80] = mask_id
 
     if rand10.any():
-        # Random IDs in [SPECIAL_COUNT, vocab_size)
+        # Random IDs in [SPECIAL_COUNT, vocab_size_range)
+        # Use tokenizer vocab size upper bound where possible.
         low = SPECIAL_COUNT
         high = int(tokens.max().item() + 1)
         if high <= low:
@@ -313,7 +316,7 @@ def _mask_for_mlm(
     return tokens_masked, targets
 
 
-def make_views(tokens: torch.Tensor, mask: torch.Tensor, drop_prob: float = 0.06, span_mask_prob: float = 0.06):
+def make_views(tokens: torch.Tensor, mask: torch.Tensor, drop_prob: float = 0.15, span_mask_prob: float = 0.15):
     """Augmentations for contrastive views (keeps BOS/EOS)."""
     B, L = tokens.size()
     out = tokens.clone()
@@ -359,6 +362,23 @@ def avg_in_batch_cosine(z1: torch.Tensor, z2: torch.Tensor) -> float:
         return float((z1 * z2).sum(dim=-1).mean().item())
 
 
+def collapse_stats(z: torch.Tensor) -> Dict[str, float]:
+    """
+    z: [B, D] normalized embeddings.
+    Collapse symptoms:
+      - mean_cos_to_meanvec → close to 1.0 means everything points same direction
+      - mean_dim_variance   → near 0 means dimensions carry little signal
+    """
+    with torch.no_grad():
+        mean = z.mean(dim=0, keepdim=True)          # [1, D]
+        cos_to_mean = (z @ mean.t()).squeeze(-1)    # [B]
+        dim_var = z.var(dim=0).mean().item()
+        return {
+            "mean_cos_to_meanvec": float(cos_to_mean.mean().item()),
+            "mean_dim_variance": float(dim_var),
+        }
+
+
 # =========================
 # Online Trainer
 # =========================
@@ -392,6 +412,7 @@ class OnlineTrainer:
         set_seed(1337)
         self.device = get_device()
 
+        self.min_train_samples = int(min_train_samples)
         self.batch_size = int(batch_size)
         self.epochs = int(epochs)
         self.lr = float(lr)
@@ -512,24 +533,30 @@ class OnlineTrainer:
                     print("⚠️ Optimizer state mismatch (likely vocab resize); skipping optimizer load.")
 
             self.model.to(self.device)
-            print(f"💾 Loaded continual transformer checkpoint (cfg: d={ckpt_d}, heads={ckpt_heads}, layers={ckpt_layers}, vocab={ckpt_vocab}).")
+            print(
+                f"💾 Loaded continual transformer checkpoint "
+                f"(cfg: d={ckpt_d}, heads={ckpt_heads}, layers={ckpt_layers}, vocab={ckpt_vocab})."
+            )
 
         except Exception as e:
             print(f"⚠️ Failed to load checkpoint: {e}")
 
     def _save_ckpt(self):
-        torch.save({
-            "model": self.model.state_dict(),
-            "opt": self.opt.state_dict(),
-            "vocab_size": int(self.tokenizer.vocab_size),
-            "model_config": {
-                "vocab_size": int(self.model.vocab_size),
-                "d_model": int(self.model.d_model),
-                "n_heads": int(self.n_heads),
-                "n_layers": int(self.n_layers),
-                "max_len": int(self.max_len),
+        torch.save(
+            {
+                "model": self.model.state_dict(),
+                "opt": self.opt.state_dict(),
+                "vocab_size": int(self.tokenizer.vocab_size),
+                "model_config": {
+                    "vocab_size": int(self.model.vocab_size),
+                    "d_model": int(self.model.d_model),
+                    "n_heads": int(self.n_heads),
+                    "n_layers": int(self.n_layers),
+                    "max_len": int(self.max_len),
+                },
             },
-        }, self.ckpt_path)
+            self.ckpt_path,
+        )
 
     def _maybe_resize_embeddings(self):
         """Resize token embedding & LM head if vocab grew."""
@@ -580,7 +607,7 @@ class OnlineTrainer:
         # Normalize inputs
         texts = [i if isinstance(i, str) else (i.get("text") or "") for i in new_items]
         texts = [t.strip() for t in texts if isinstance(t, str) and t and t.strip()]
-        if len(texts) < 4:
+        if len(texts) < int(self.min_train_samples):
             return
 
         # Tokenizer growth and model resize if needed
@@ -607,9 +634,9 @@ class OnlineTrainer:
 
                     toks, attn = collate_batch(batch, self.tokenizer, self.max_len, self.device)
 
-                    # -------- Contrastive views --------
-                    t1 = make_views(toks, attn)
-                    t2 = make_views(toks, attn)
+                    # -------- Contrastive views (stronger) --------
+                    t1 = make_views(toks, attn, drop_prob=0.15, span_mask_prob=0.15)
+                    t2 = make_views(toks, attn, drop_prob=0.15, span_mask_prob=0.15)
 
                     # -------- MLM prep --------
                     mlm_inputs, mlm_targets = _mask_for_mlm(toks, attn, mlm_prob=0.12)
@@ -658,6 +685,8 @@ class OnlineTrainer:
                     pred = logits12.argmax(dim=1)
                     acc = (pred == labels).float().mean().item()
 
+                    # collapse diagnostics (use z1)
+                    cs = collapse_stats(z1)
 
                     ep_loss += float(loss.item())
                     ep_sim += avg_in_batch_cosine(z1, z2)
@@ -684,6 +713,8 @@ class OnlineTrainer:
                     "vocab_size": int(self.tokenizer.vocab_size),
                     "device": str(self.device.type),
                     "duration_s": round(float(duration), 2),
+                    "mean_cos_to_meanvec": float(cs["mean_cos_to_meanvec"]),
+                    "mean_dim_variance": float(cs["mean_dim_variance"]),
                 }
                 self.epoch_history.append(rec)
 
@@ -693,7 +724,9 @@ class OnlineTrainer:
                 print(
                     f"✅ Epoch {ep}/{epochs_to_run} — "
                     f"loss={rec['loss_total']:.4f} sim={rec['similarity']:.4f} "
-                    f"acc={rec['align_acc']:.4f} ({rec['duration_s']}s)"
+                    f"acc={rec['align_acc']:.4f} ({rec['duration_s']}s) "
+                    f"collapse_cos={rec['mean_cos_to_meanvec']:.4f} "
+                    f"dim_var={rec['mean_dim_variance']:.2e}"
                 )
 
         if self.epoch_history:

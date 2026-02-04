@@ -1,0 +1,16 @@
+[
+  {
+    "title": "Physical Probability",
+    "text": "<p>Probability theorists divide into two camps-the proponents of subjective probability and the proponents of objective probability. Opinion has it that subjective probability has carried the day, but I think that such a judgment is premature. I have argued elsewhere that there are deep incoherencies in the notion of subjective probability. Accordingly, I find myself in the camp of objective probability. The consensus is, however, that the armies of objective probability are in even worse disarray. The purpose of this book is to construct a theory of objective probability that rectifies that. Such a theory must explain the meaning of objective probability, show how we can discover the values of objective probabilities, clarify their use in decision theory, and demonstrate how they can be used for epistemological purposes. The theory of nomic probability aims to do all that. This book has two main objectives. First, it will propose a general theory of objective probability. Second, it will, in a sense to be explained, propose a solution to the problem of induction. These two goals are intimately connected. I will argue that a solution to the problem of induction is forthcoming, ultimately, from an analysis of probabilistic reasoning. Under some circumstances, probabilistic reasoning justifies us in drawing non-probabilistic conclusions, and this kind of reasoning underlies induction. Conversely, an essential part of understanding probability consists of providing an account of how we can ascertain the values of probabilities, and the most fundamental way of doing that is by using a species of induction. In statistical induction we observe the relative frequency (the proportion) of A's in a limited sample of B's, and then infer that the probability of a B being an A is approximately the same as that relative frequency. To provide philosophical foundations for probability we must, among other things, explain precisely how statistical induction works and what justifies it. Probability is important both in and out of philosophy. Much of the reasoning of everyday life is probabilistic. We look at the clouds and judge whether it is going to rain by considering how often clouds like that have spawned rain in the past.</p>",
+    "url": "https://doi.org/10.1093/oso/9780195060133.003.0005",
+    "source": "crossref",
+    "timestamp": 1990
+  },
+  {
+    "title": "Probability",
+    "text": "Probability is a branch of mathematics and statistics concerning events and numerical descriptions of how likely they are to occur. The probability of an event is a number between 0 and 1; the larger the probability, the more likely an event is to occur. This number is often expressed as a percentage (%), ranging from 0% to 100%. A simple example is the tossing of a fair (unbiased) coin. Since the coin is fair, the two outcomes are both equally probable; the probability of \"heads\" equals the probability of \"tails\"; and since no other outcomes are possible, the probability of either \"heads\" or \"tails\" is 1/2.",
+    "url": "https://en.wikipedia.org/wiki/Probability",
+    "source": "wikipedia",
+    "timestamp": "2026-02-03"
+  }
+]

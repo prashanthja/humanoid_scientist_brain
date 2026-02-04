@@ -1,16 +1,17 @@
 # reasoning_module/proposal_evaluator.py
 # ------------------------------------------------------------
-# Proposal Evaluator (v1)
+# Proposal Evaluator (v2 grounded)
 # - Takes a proposal (any text)
 # - Extracts structured claims
 # - Runs sanity checks
-# - Retrieves evidence from KB using embeddings
-# - Produces a verdict object (stable schema)
+# - Evaluates ONLY against provided evidence (chunks/texts)
+#   (prevents "quantum paper supports microplastics" failures)
 # ------------------------------------------------------------
 
 from __future__ import annotations
-from typing import Dict, Any, List, Optional
+from typing import Dict, Any, List, Optional, Sequence
 import numpy as np
+import re
 
 from .claim_schema import (
     Claim, ProposalVerdict, SanityCheckResult, EvidenceItem, SourceTrace
@@ -21,12 +22,56 @@ from .physics_sanity import run_sanity_checks
 
 def _normalize_rows(mat: np.ndarray) -> np.ndarray:
     if mat.size == 0:
-        return mat
+        return mat.astype(np.float32)
     norms = np.linalg.norm(mat, axis=1, keepdims=True) + 1e-8
     return (mat / norms).astype(np.float32)
 
 
+# -------------------------
+# Simple domain heuristics
+# -------------------------
+_DOMAIN_KEYWORDS = {
+    "water_microplastics": [
+        "microplastic", "nanoplastic", "plastic", "polyethylene", "polypropylene", "pet",
+        "drinking water", "water treatment", "coagulation", "flocculation", "sedimentation",
+        "filtration", "membrane", "ultrafiltration", "nanofiltration", "reverse osmosis",
+        "activated carbon", "gac", "sand filter", "turbidity"
+    ],
+    "quantum": ["quantum", "qubit", "hamiltonian", "superconduct", "decoherence", "entanglement"],
+    "math_physics_generic": ["tensor", "theorem", "lemma", "relativity", "entropy", "thermo", "electromagnet"],
+}
+
+
+def _guess_topic_bucket(text: str) -> str:
+    low = (text or "").lower()
+    scores = {}
+    for k, kws in _DOMAIN_KEYWORDS.items():
+        scores[k] = sum(1 for w in kws if w in low)
+    best = max(scores.items(), key=lambda x: x[1])
+    if best[1] <= 0:
+        return "unknown"
+    return best[0]
+
+
+def _jaccard_keywords(a: str, b: str) -> float:
+    # crude but effective to penalize nonsense matches
+    def toks(x: str) -> set[str]:
+        words = re.findall(r"\b[a-zA-Z]{4,}\b", (x or "").lower())
+        stop = {"this", "that", "with", "from", "into", "have", "been", "were", "their", "which", "also"}
+        return {w for w in words if w not in stop}
+
+    A = toks(a)
+    B = toks(b)
+    if not A or not B:
+        return 0.0
+    return float(len(A & B)) / float(len(A | B))
+
+
 class ProposalEvaluator:
+    """
+    v2: Evidence must be supplied (chunks/texts). This stops false support.
+    """
+
     def __init__(
         self,
         kb,
@@ -35,6 +80,9 @@ class ProposalEvaluator:
         top_k: int = 10,
         evidence_threshold: float = 0.60,
         max_kb_items: int = 3000,
+        require_evidence: bool = True,   # NEW: default True (safer)
+        domain_mismatch_penalty: float = 0.25,  # NEW
+        min_keyword_overlap: float = 0.02,      # NEW: light filter
     ):
         self.kb = kb
         self.bridge = bridge
@@ -42,10 +90,26 @@ class ProposalEvaluator:
         self.th = float(evidence_threshold)
         self.max_kb_items = int(max_kb_items)
 
-    def evaluate(self, proposal_text: str, *, provenance: Optional[SourceTrace] = None) -> Dict[str, Any]:
+        self.require_evidence = bool(require_evidence)
+        self.domain_mismatch_penalty = float(domain_mismatch_penalty)
+        self.min_keyword_overlap = float(min_keyword_overlap)
+
+    # -------------------------
+    # Public API
+    # -------------------------
+    def evaluate(
+        self,
+        proposal_text: str,
+        *,
+        provenance: Optional[SourceTrace] = None,
+        evidence_chunks: Optional[Sequence[Dict[str, Any]]] = None,
+        evidence_texts: Optional[Sequence[str]] = None,
+    ) -> Dict[str, Any]:
         prov = provenance or SourceTrace(source_type="user_proposal", source_name="local")
 
-        claims = extract_claims(proposal_text, provenance=prov)
+        proposal = (proposal_text or "").strip()
+        claims = extract_claims(proposal, provenance=prov)
+
         if not claims:
             verdict = ProposalVerdict(
                 verdict="needs_info",
@@ -55,14 +119,31 @@ class ProposalEvaluator:
             )
             return {"claims": [], "verdict": verdict.to_dict()}
 
-        # For v1, evaluate the "primary" claim = first extracted
         primary = claims[0]
         sanity = run_sanity_checks(primary)
 
-        # Evidence retrieval
-        evidence = self._retrieve_evidence(primary.claim_text)
+        # Build evidence candidates ONLY from provided evidence
+        candidates = self._evidence_candidates(evidence_chunks=evidence_chunks, evidence_texts=evidence_texts)
 
-        # Decide verdict
+        if self.require_evidence and not candidates:
+            verdict = ProposalVerdict(
+                verdict="inconclusive",
+                confidence=0.25,
+                explanation="No evidence provided to ground the proposal. Retrieve/ingest domain chunks first, then re-evaluate.",
+                sanity=sanity,
+                evidence=[],
+                required_to_convince=[
+                    "Pass retrieved chunk evidence into ProposalEvaluator (evidence_chunks/evidence_texts).",
+                    "Ingest domain sources relevant to this proposal and rebuild ChunkIndex.",
+                ],
+            )
+            return {
+                "claims": [c.to_dict() for c in claims],
+                "primary_claim_id": primary.claim_id,
+                "verdict": verdict.to_dict(),
+            }
+
+        evidence = self._rank_evidence(primary.claim_text, candidates)
         verdict = self._decide(primary, sanity, evidence)
 
         return {
@@ -72,7 +153,7 @@ class ProposalEvaluator:
         }
 
     # -------------------------
-    # Evidence retrieval
+    # Embeddings
     # -------------------------
     def _encode(self, texts: List[str]) -> np.ndarray:
         if hasattr(self.bridge, "encode_texts"):
@@ -81,26 +162,49 @@ class ProposalEvaluator:
             return np.asarray(self.bridge.embed(texts), dtype=np.float32)
         raise RuntimeError("Bridge has no encode_texts/embed")
 
-    def _load_kb(self) -> List[Dict[str, Any]]:
-        items = self.kb.query("") or []
-        out = []
-        for it in items[: self.max_kb_items]:
-            if not isinstance(it, dict):
+    # -------------------------
+    # Evidence handling (grounded)
+    # -------------------------
+    def _evidence_candidates(
+        self,
+        *,
+        evidence_chunks: Optional[Sequence[Dict[str, Any]]],
+        evidence_texts: Optional[Sequence[str]],
+    ) -> List[Dict[str, Any]]:
+        out: List[Dict[str, Any]] = []
+
+        # 1) Prefer chunks (with metadata)
+        for c in (evidence_chunks or []):
+            if not isinstance(c, dict):
                 continue
-            text = str(it.get("text") or "").strip()
-            if not text:
+            txt = (c.get("text") or c.get("chunk_text") or c.get("full_text") or c.get("text_preview") or "").strip()
+            if not txt:
                 continue
             out.append({
-                "id": it.get("id"),
-                "text": text,
-                "paper_title": str(it.get("paper_title") or ""),
-                "source": str(it.get("source") or ""),
+                "id": c.get("chunk_id"),
+                "text": txt,
+                "paper_title": str(c.get("paper_title") or ""),
+                "source": str(c.get("source") or ""),
+                "similarity_hint": c.get("similarity", None),
             })
+
+        # 2) Raw texts (no metadata)
+        for t in (evidence_texts or []):
+            tt = (t or "").strip()
+            if not tt:
+                continue
+            out.append({
+                "id": None,
+                "text": tt,
+                "paper_title": "",
+                "source": "provided_text",
+                "similarity_hint": None,
+            })
+
         return out
 
-    def _retrieve_evidence(self, query: str) -> List[EvidenceItem]:
-        kb_items = self._load_kb()
-        if not kb_items:
+    def _rank_evidence(self, query: str, candidates: List[Dict[str, Any]]) -> List[EvidenceItem]:
+        if not candidates:
             return []
 
         qv = self._encode([query])
@@ -108,42 +212,57 @@ class ProposalEvaluator:
             return []
         qv = _normalize_rows(qv)[0]
 
-        texts = [x["text"] for x in kb_items]
+        texts = [x["text"] for x in candidates]
         X = self._encode(texts)
         if X.size == 0:
             return []
         Xn = _normalize_rows(X)
 
         sims = Xn @ qv
-        top_idx = np.argsort(-sims)[: self.top_k]
+        top_idx = np.argsort(-sims)[: min(self.top_k, int(sims.shape[0]))]
 
         out: List[EvidenceItem] = []
         for i in top_idx:
-            it = kb_items[int(i)]
+            it = candidates[int(i)]
             out.append(EvidenceItem(
-                kb_id=it["id"],
-                text=it["text"][:600],
-                paper_title=it["paper_title"],
-                source=it["source"],
+                kb_id=it.get("id"),
+                text=(it.get("text") or "")[:600],
+                paper_title=it.get("paper_title", ""),
+                source=it.get("source", ""),
                 similarity_to_question=float(sims[int(i)]),
-                similarity_to_expected=0.0,  # v1: no gold expected
+                similarity_to_expected=0.0,
             ))
         return out
 
     # -------------------------
-    # Verdict logic (v1)
+    # Verdict logic (grounded)
     # -------------------------
     def _decide(self, claim: Claim, sanity: List[SanityCheckResult], evidence: List[EvidenceItem]) -> ProposalVerdict:
-        # Any FAIL sanity => mostly block
         fails = [s for s in sanity if s.status == "fail"]
         warns = [s for s in sanity if s.status == "warn"]
 
         best_ev_sim = max([e.similarity_to_question for e in evidence], default=0.0)
 
+        # Domain mismatch penalty (simple but effective)
+        proposal_bucket = _guess_topic_bucket(claim.claim_text)
+        evidence_bucket = _guess_topic_bucket(" ".join([(e.paper_title or "") + " " + (e.text or "") for e in evidence[:3]]))
+
+        mismatch = (proposal_bucket != "unknown" and evidence_bucket != "unknown" and proposal_bucket != evidence_bucket)
+
+        # Keyword overlap sanity check: if overlap is near-zero, treat as weak grounding
+        overlap = 0.0
+        if evidence:
+            overlap = max(_jaccard_keywords(claim.claim_text, e.text) for e in evidence[:5])
+
+        # 1) Failing sanity checks blocks
         if fails:
+            conf = min(0.85, 0.60 + 0.10 * len(fails))
+            if mismatch:
+                conf = max(0.10, conf - self.domain_mismatch_penalty)
+
             return ProposalVerdict(
                 verdict="contradicted",
-                confidence=min(0.85, 0.60 + 0.10 * len(fails)),
+                confidence=conf,
                 explanation="Claim fails basic physics/math sanity checks (v1). Fix dimensional consistency or define symbols/assumptions.",
                 sanity=sanity,
                 evidence=evidence,
@@ -154,31 +273,49 @@ class ProposalEvaluator:
                 ],
             )
 
-        # If no evidence at all, or low similarity, we can't judge
-        if not evidence or best_ev_sim < self.th:
+        # 2) Weak evidence -> inconclusive
+        if (not evidence) or (best_ev_sim < self.th) or (overlap < self.min_keyword_overlap):
+            base = 0.40 if not warns else 0.30
+            if mismatch:
+                base = max(0.10, base - self.domain_mismatch_penalty)
+
+            why = []
+            if not evidence:
+                why.append("no evidence candidates")
+            if best_ev_sim < self.th:
+                why.append(f"best_sim {best_ev_sim:.3f} < {self.th:.3f}")
+            if overlap < self.min_keyword_overlap:
+                why.append(f"keyword_overlap {overlap:.3f} < {self.min_keyword_overlap:.3f}")
+            if mismatch:
+                why.append(f"domain_mismatch ({proposal_bucket} vs {evidence_bucket})")
+
             return ProposalVerdict(
                 verdict="inconclusive",
-                confidence=0.35 if warns else 0.45,
-                explanation="Not enough strong matching evidence in KB to support or refute. Retrieval does not ground this claim yet.",
+                confidence=base,
+                explanation="Not enough strong grounded evidence to support/refute. " + ("; ".join(why) if why else ""),
                 sanity=sanity,
                 evidence=evidence,
                 required_to_convince=[
-                    "Add high-quality sources relevant to this claim (textbooks/papers) into KB.",
-                    "Provide measurable predictions or derivation steps.",
-                    "Provide an experiment or calculation pathway that could falsify the claim.",
+                    "Retrieve higher-quality evidence chunks (methods + numeric results).",
+                    "Tighten the proposal into a measurable claim (e.g., % removal under conditions).",
+                    "Add sources explicitly about the same domain/mechanism.",
                 ],
             )
 
-        # Evidence seems relevant; if also warnings exist, reduce confidence
+        # 3) Evidence seems relevant
         base_conf = 0.70 if not warns else 0.55
+        conf = min(0.90, base_conf + 0.10 * (best_ev_sim - self.th))
+        if mismatch:
+            conf = max(0.10, conf - self.domain_mismatch_penalty)
+
         return ProposalVerdict(
             verdict="supported",
-            confidence=min(0.90, base_conf + 0.10 * (best_ev_sim - self.th)),
-            explanation="Evidence retrieved from KB is semantically close to the claim. v1 cannot guarantee truth—only retrieval-grounded support.",
+            confidence=conf,
+            explanation="Evidence is semantically aligned to the claim (grounded to provided chunks). This is retrieval-grounded support, not a proof.",
             sanity=sanity,
             evidence=evidence,
             required_to_convince=[
-                "Provide derivation steps or a falsifiable prediction.",
-                "Add citations that explicitly state the relationship in a canonical source.",
+                "Provide a falsifiable prediction or quantitative threshold.",
+                "Cite a source that explicitly reports the method + outcome.",
             ],
         )

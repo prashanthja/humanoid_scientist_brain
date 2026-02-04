@@ -1,0 +1,16 @@
+[
+  {
+    "title": "Electromagnetism and special relativity",
+    "text": "<p>In 1905, when Einstein published his theory of special relativity, Maxwell’s work was already about forty years old. It is therefore both remarkable and ironic (recalling the old arguments about the aether being the ‘preferred’ reference frame for describing wave propagation) that classical electrodynamics turned out to be a relativistically correct theory. In this chapter, a range of questions in electromagnetism are considered as they relate to special relativity. In Questions 12.1–12.4 the behaviour of various physical quantities under Lorentz transformation is considered. This leads to the important concept of an <italic>invariant</italic>. Several of these are encountered, and used frequently throughout this chapter. Other topics considered include the transformationof <bold>E</bold>- and <bold>B-</bold>fields between inertial reference frames, the validity of Gauss’s law for an arbitrarily moving point charge (demonstrated numerically), the electromagnetic field tensor, Maxwell’s equations in covariant form and Larmor’s formula for a relativistic charge.</p>",
+    "url": "https://doi.org/10.1093/oso/9780198821915.003.0012",
+    "source": "crossref",
+    "timestamp": 2018
+  },
+  {
+    "title": "Electromagnetism",
+    "text": "In physics, electromagnetism is an interaction that occurs between particles with electric charge via electromagnetic fields. The electromagnetic force is one of the four fundamental forces of nature. It is the dominant force in the interactions of atoms and molecules. Electromagnetism can be thought of as a combination of electrostatics and magnetism, which are distinct but closely intertwined phenomena. Electromagnetic forces occur between any two charged particles. Electric forces cause an attraction between particles with opposite charges and repulsion between particles with the same charge, while magnetism is an interaction that occurs between charged particles in relative motion. These two forces are described in terms of electromagnetic fields. Macroscopic charged objects are described in terms of Coulomb's law for electricity and Ampère's force law for magnetism; the Lorentz force describes microscopic charged particles.",
+    "url": "https://en.wikipedia.org/wiki/Electromagnetism",
+    "source": "wikipedia",
+    "timestamp": "2026-02-03"
+  }
+]

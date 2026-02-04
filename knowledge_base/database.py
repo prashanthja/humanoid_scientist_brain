@@ -83,6 +83,47 @@ class KnowledgeBase:
         except Exception:
             pass
 
+        # -----------------------------
+        # Backfill + dedupe old rows
+        # -----------------------------
+        try:
+            # Backfill missing/empty text_hash
+            self.cursor.execute("SELECT id, text, text_hash FROM knowledge")
+            rows = self.cursor.fetchall()
+            updated = 0
+            for _id, text, th in rows:
+                if th and str(th).strip():
+                    continue
+                t = self._clean(text, default="")
+                if not t:
+                    continue
+                th2 = self._hash_text(t)
+                try:
+                    self.cursor.execute(
+                        "UPDATE knowledge SET text_hash = ? WHERE id = ?",
+                        (th2, int(_id)),
+                    )
+                    updated += 1
+                except Exception:
+                    pass
+
+            # Delete duplicates (keep earliest id per text_hash)
+            self.cursor.execute("""
+                DELETE FROM knowledge
+                WHERE id NOT IN (
+                    SELECT MIN(id) FROM knowledge
+                    WHERE text_hash IS NOT NULL AND text_hash != ''
+                    GROUP BY text_hash
+                )
+                AND text_hash IS NOT NULL AND text_hash != ''
+            """)
+
+            self.conn.commit()
+            if updated:
+                print(f"📌 KB migrated: backfilled text_hash for {updated} rows and deduped.")
+        except Exception:
+            pass
+
     # -------------------------------------------------------------
     # Helpers
     # -------------------------------------------------------------
@@ -142,25 +183,38 @@ class KnowledgeBase:
     # -------------------------------------------------------------
     # Query / utilities
     # -------------------------------------------------------------
-    def query(self, keyword: str):
+
+    def query(self, keyword: str, *, limit: int = 2000):
         """
         Return list of entries matching keyword (case-insensitive).
-        IMPORTANT: includes id + text_hash for stable downstream embedding caches.
+        - Deterministic ordering (newest first)
+        - Filters out broken rows (missing text_hash)
+        - Bounded (limit)
         """
         cur = self.conn.cursor()
         kw = self._clean(keyword, default="")
 
+        # Always ignore rows with missing hash (these are usually legacy dupes)
+        base_where = "WHERE text_hash IS NOT NULL AND text_hash != ''"
+
         if not kw:
             cur.execute(
                 "SELECT id, text, text_hash, paper_title, concepts, source "
-                "FROM knowledge"
+                "FROM knowledge "
+                f"{base_where} "
+                "ORDER BY timestamp DESC, id DESC "
+                "LIMIT ?",
+                (int(limit),),
             )
         else:
             like = f"%{kw}%"
             cur.execute(
                 "SELECT id, text, text_hash, paper_title, concepts, source "
-                "FROM knowledge WHERE text LIKE ? OR paper_title LIKE ? OR concepts LIKE ?",
-                (like, like, like),
+                "FROM knowledge "
+                f"{base_where} AND (text LIKE ? OR paper_title LIKE ? OR concepts LIKE ?) "
+                "ORDER BY timestamp DESC, id DESC "
+                "LIMIT ?",
+                (like, like, like, int(limit)),
             )
 
         rows = cur.fetchall()
@@ -175,7 +229,6 @@ class KnowledgeBase:
             }
             for r in rows
         ]
-
     def fetch_all_with_embeddings(self):
         """
         Legacy name: used by embedding rebuild logic.
