@@ -1,0 +1,44 @@
+[
+  {
+    "title": "Non-linear plasma physics",
+    "text": "<jats:title>Abstract</jats:title> <jats:p>We shall now consider the connection between the two major ways of describing plasma that have been used so far. First, we considered the dynamics of a single particle in the plasma, which leads directly to a simple model for the dielectric properties of the plasma. By including the single-particle dynamics of ions as well as of electrons, it is possible to predict the normal modes of the plasma over a wide range of frequencies. There is also the magneto hydrodynamic approach. By treating the plasma as a magnetized conducting fluid, whose inertia is provided by the mass of the ions, we can describe the bulk stability of the plasma and its lower-frequency normal modes-those modes which do not involve the movement of electrons independently of ions.</jats:p>",
+    "url": "https://doi.org/10.1093/oso/9780198519911.003.0007",
+    "source": "crossref",
+    "timestamp": 1990
+  },
+  {
+    "title": "Basic plasma characteristics",
+    "text": "<jats:title>Abstract</jats:title> <jats:p>We start by considering an assembly that consists of an equal number of electrons with charge -e and ions (atomic nuclei) with charge +e. Suppose that these particles are initially uniformly distributed, so that the plasma is initially electrically neutral everywhere. Furthermore, let us assume that there is no random thermal motion, so that the electrons and ions are initially motionless. This idealized assembly is referred to as a cold plasma. We now perturb this system by transferring a group of electrons from a given region of space, leaving a net positive charge behind, to a neighbouring region which acquires net negative charge; see Fig. 1.1.</jats:p>",
+    "url": "https://doi.org/10.1093/oso/9780198519911.003.0002",
+    "source": "crossref",
+    "timestamp": 1990
+  },
+  {
+    "title": "Kinetic description of plasma",
+    "text": "<jats:title>Abstract</jats:title> <jats:p>Let us first look back at the different approaches that we have used for describing plasmas. After emphasizing the collective nature of plasma behaviour in Chapter 1, we considered the dynamics of single particles in Chapter 2. In order to achieve a collective description, we needed to sum the effects of single-particle dynamics for all the particles in the plasma. This summation was carried out in a simplistic, but nevertheless successful, way at eqn (3.21). By considering the current created by the sum of the individual electron velocities, we constructed the dielectric tensor of the plasma. This tensor was then employed in Maxwell's equations to yield the normal modes of the plasma. By including the contribution of the ions, this approach was extended to low frequencies.</jats:p>",
+    "url": "https://doi.org/10.1093/oso/9780198519911.003.0006",
+    "source": "crossref",
+    "timestamp": 1990
+  },
+  {
+    "title": "Magnetohydrodynamic description of plasma",
+    "text": "<jats:title>Abstract</jats:title> <jats:p>So far, we have based our study of plasmas on the single particle dynamics of the constituent electrons and ions. We have used these dynamics as the basis for a dielectric description of the plasma. This approach has been very effective. The understanding of any physical system is aided by knowledge of its normal modes, and the dielectric approach has enabled us to formulate the normal modes of plasmas over a very wide range of frequencies. In Section 3.4, we studied normal modes with phase velocity VA defined by eqn (3.82), whose frequencies w lie well below the lowest characteristic single particle frequency, the ion cyclotron frequency Wei· Two features of these modes suggest that an alternative approach to low frequency plasma behaviour might be fruitful.</jats:p>",
+    "url": "https://doi.org/10.1093/oso/9780198519911.003.0005",
+    "source": "crossref",
+    "timestamp": 1990
+  },
+  {
+    "title": "Dielectric description of cold plasma",
+    "text": "<jats:title>Abstract</jats:title> <jats:p>The macroscopic response of any medium to an applied electric field is determined by the sum of the microscopic responses of the individual particles that make up the medium. In a conducting medium, the macroscopic response is determined at a microscopic level by the separation between positive and negative charges that is produced by the applied electric field. If the applied field varies with time, so too will the microscopic state of the medium: the separation between the positive and negative charges will change with time, as will the electric field that is produced by their separation. Thus, particle currents and displacement currents are produced.</jats:p>",
+    "url": "https://doi.org/10.1093/oso/9780198519911.003.0004",
+    "source": "crossref",
+    "timestamp": 1990
+  },
+  {
+    "title": "Plasma (physics)",
+    "text": "Plasma is a state of matter that results from a gaseous state having undergone some degree of ionization. It thus consists of a significant portion of charged particles. While rarely encountered on Earth, it is estimated that 99.9% of all ordinary matter in the universe is plasma. Stars are almost pure balls of plasma, and plasma dominates the rarefied intracluster medium and intergalactic medium. Plasma can be artificially generated, for example, by heating a neutral gas or subjecting it to a strong electromagnetic field.",
+    "url": "https://en.wikipedia.org/wiki/Plasma_(physics)",
+    "source": "wikipedia",
+    "timestamp": "2026-02-03"
+  }
+]

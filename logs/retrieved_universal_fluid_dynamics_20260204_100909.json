@@ -1,0 +1,37 @@
+[
+  {
+    "title": "Statistical Fluid Dynamics",
+    "text": "<p>In the previous chapter, we considered fluid turbulence from a heuristic viewpoint, combining ideas based on fundamental conservation laws with more qualitative ideas about irreversible behavior. However, there have been many attempts to study turbulence in a more quantitative and deductive fashion, beginning with the governing dynamical equations for a fluid. None of these attempts is, or could be, mathematically rigorous; all involve approximations that are difficult to justify and hard to test. In fact, these more deductive theories are perhaps best viewed as approximations in which the exact dynamical equations are replaced by stochastic-model equations having some (but not all) of the same physical properties as the exact equations, in much the same way as the quasigeostrophic equations contain only a part of the physics in the more exact primitive equations. In this chapter, we examine fluid turbulence from the standpoint of equilibrium and nonequilibrium statistical mechanics. This is a complicated and controversial subject, and our discussion will be introductory and elementary. In fact, we shall be much more concerned with the philosophy behind the statistical methods than with the detailed structure of the theory or with its successes and failures at describing real turbulence. This philosophy appears to be applicable to a much wider range of problems than so far considered. Readers who want a more thorough and complete description of statistical turbulence theory should consult more specialized sources. This chapter continues a theme, begun in chapter 4, to be continued in chapter 6, that much of our understanding of turbulence is based on two general principles: the conservation principle, which states that quantities like energy and potential vorticity are conserved (apart from the effects of dissipation), and the irreversibility principle, which holds that a turbulent system tends toward ever greater complexity. In chapter 4, we met the irreversibility principle in the assumptions that a narrow spectral peak spreads out and that nearby fluid particles tend to move apart. In this chapter, we encounter the irreversibility principle again, as a kind of macroscopic form of the Second Law of Thermodynamics. </p>",
+    "url": "https://doi.org/10.1093/oso/9780195108088.003.0008",
+    "source": "crossref",
+    "timestamp": 1998
+  },
+  {
+    "title": "Hamiltonian Fluid Dynamics",
+    "text": "<p> In this final chapter, we return to the subject of the first: the fundamental principles of fluid mechanics. In chapter 1, we derived the equations of fluid motion from Hamilton’s principle of stationary action, emphasizing its logical simplicity and the resulting close correspondence between mechanics and thermodynamics. Now we explore the Hamiltonian approach more fully, discovering its other advantages. The most important of these advantages arise from the correspondence between the symmetry properties of the Lagrangian and the conservation laws of the resulting dynamical equations. Therefore, we begin with a very brief introduction to symmetry and conservation laws. Noether’s theorem applies to the equations that arise from variational principles like Hamilton’s principle. According to Noether’s theorem : If a variational principle is invariant to a continuous transformation of its dependent and independent variables, then the equations arising from the variational principle possess a divergence-form conservation law. The invariance property is also called a symmetry property. Thus Noether’s theorem connects symmetry properties and conservation laws. We shall neither state nor prove the general form of Noether’s theorem; to do so would require a lengthy digression on continuous groups. Instead we illustrate the connection between symmetry and conservation laws with a series of increasingly complex and important examples. These examples convey the flavor of the general theory. Our first example is very simple. Consider a body of mass m moving in one dimension. The body is attached to the end of a spring with spring-constant K. Let x(t) be the displacement of the body from its location when the spring is unstretched. </p>",
+    "url": "https://doi.org/10.1093/oso/9780195108088.003.0010",
+    "source": "crossref",
+    "timestamp": 1998
+  },
+  {
+    "title": "Introduction to Geophysical Fluid Dynamics",
+    "text": "<p> This second chapter offers a brief introduction to geophysical fluid dynamics—the dynamics of rotating, stratified flows. We start with the shallow water equations, which govern columnar motion in a thin layer of homogeneous fluid. Roughly speaking, the solutions of the shallow-water equations comprise two types of motion: ageostrophic motions, including inertia-gravity waves, on the one hand, and nearly geostrophic motions on the other. In rapidly rotating flow, these two types of motion may, in some sense, decouple. We seek simpler equations that describe only the nearly geostrophic motion. The simplest such equations are the quasigeostrophic equations. In the quasigcostrophic equations, potential vorticity plays the key role: The potential vorticity completely determines the velocity field that transports it, thereby controlling the whole dynamics. We begin by generalizing our previously derived fluid equations to a rotating coordinate frame. </p>",
+    "url": "https://doi.org/10.1093/oso/9780195108088.003.0005",
+    "source": "crossref",
+    "timestamp": 1998
+  },
+  {
+    "title": "Fundamentals of Fluid Dynamics",
+    "text": "<jats:title>Abstract</jats:title> <jats:p>This chapter starts with a discussion of the continuum hypothesis and the conditions under which it can be used. The origin of the internal forces acting in moving fluids is then identified and the notion of the surface stress and the stress tensor are introduced, as is the rate-of-strain tensor. The constitutive equation, which relates the surface stress to the deformational motion of a fluid, is then derived. Newton’s Second Law and the law of conservation of energy are applied to deduce the equations governing fluid motion. These are known as the Navier–Stokes equations. They are derived for both incompressible fluid flows and compressible flows of a perfect gas. The chapter concludes with a demonstration of how the Navier–Stokes equations can be expressed in curvilinear coordinates.</jats:p>",
+    "url": "https://doi.org/10.1093/acprof:oso/9780199681730.003.0002",
+    "source": "crossref",
+    "timestamp": 2014
+  },
+  {
+    "title": "Fluid dynamics",
+    "text": "In physics, physical chemistry, and engineering, fluid dynamics is a subdiscipline of fluid mechanics that describes the flow of fluids – liquids and gases. It has several subdisciplines, including aerodynamics and hydrodynamics. Fluid dynamics has a wide range of applications, including calculating forces and moments on aircraft, determining the mass flow rate of petroleum through pipelines, predicting weather patterns, understanding nebulae in interstellar space, understanding large scale geophysical flows involving oceans/atmosphere and modelling fission weapon detonation.",
+    "url": "https://en.wikipedia.org/wiki/Fluid_dynamics",
+    "source": "wikipedia",
+    "timestamp": "2026-02-04"
+  }
+]

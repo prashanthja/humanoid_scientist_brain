@@ -1,0 +1,450 @@
+{
+  "timestamp": "2026-02-04 10:10:24",
+  "top_k": 8,
+  "evidence_sim_threshold": 0.55,
+  "kb_items_used": 398,
+  "kb_duplicate_drop_rate": 0.0,
+  "collapse_diagnostics": {
+    "ok": true,
+    "mean_norm": 1.0,
+    "mean_dim_variance": 7.5e-05,
+    "mean_cosine_to_meanvec": 0.9807
+  },
+  "recall_at_k": 1.0,
+  "avg_best_evidence_similarity": 0.8415,
+  "avg_keyword_hit_rate": 0.1,
+  "avg_discrimination_gap": 0.0095,
+  "verdict": "Weak — retrieval not discriminative (likely duplicates or embedding collapse)",
+  "benchmarks": [
+    {
+      "id": "newton2",
+      "topic": "classical mechanics",
+      "question": "What is Newton's second law?",
+      "expected": "Force equals mass times acceleration (F = m a).",
+      "top_k": [
+        {
+          "id": 7088,
+          "paper_id": null,
+          "paper_title": "unknown",
+          "source": "semantic_scholar",
+          "text": "The author discusses some basic questions in fluid dynamics. He describes Newton's contribution to fluid dynamics in the second volume of the Principia. He presents a brief review of fluid dynamics since Newton, and discusses the nature and content of physics curricula in schools and universities. He also outlines some aspects of modern research.",
+          "_dedupe_key": "id:7088",
+          "similarity_to_question": 0.78151535987854
+        },
+        {
+          "id": 6961,
+          "paper_id": null,
+          "paper_title": "unknown",
+          "source": "crossref",
+          "text": "<jats:p>The editorial team greatly appreciates the reviewers who have dedicated their considerable time and expertise to the journal’s rigorous editorial process over the past 12 months, regardless of whether the papers are finally published or not [...]</jats:p>",
+          "_dedupe_key": "id:6961",
+          "similarity_to_question": 0.7776503562927246
+        },
+        {
+          "id": 7519,
+          "paper_id": null,
+          "paper_title": "Mathematics",
+          "source": "wikipedia",
+          "text": "Mathematics is a field of study that discovers and organizes methods, theories, and theorems that are developed and proved for the needs of empirical sciences and mathematics itself. There are many areas of mathematics, which include number theory, algebra, geometry, analysis, and set theory.",
+          "_dedupe_key": "id:7519",
+          "similarity_to_question": 0.7698144316673279
+        },
+        {
+          "id": 6894,
+          "paper_id": null,
+          "paper_title": "unknown",
+          "source": "crossref",
+          "text": "<p>What is quantum physics?</p>\n               <p>\nQuantum physics is the study of matter and energy—the basic constituents of the physical world—in the ‘quantum realm.’ The quantum realm encompasses those aspects of Nature that cannot be explained using classical physics. By ‘classical physics’ we physicists mean the...</p>",
+          "_dedupe_key": "id:6894",
+          "similarity_to_question": 0.7692914009094238
+        },
+        {
+          "id": 7247,
+          "paper_id": null,
+          "paper_title": "unknown",
+          "source": "semantic_scholar",
+          "text": "Symmetry plays a central role in quantum field theory. Recent developments include symmetries that act on defects and other subsystems, and symmetries that are categorical rather than group-like. These generalized notions of symmetry allow for new kinds of anomalies that constrain dynamics. We review some transformative instances of these novel aspects of symmetry in quantum field theory, and give a broad-brush overview of recent applications.",
+          "_dedupe_key": "id:7247",
+          "similarity_to_question": 0.7675268054008484
+        },
+        {
+          "id": 6561,
+          "paper_id": null,
+          "paper_title": "Action-Angle Variables in Quantum Gravity",
+          "source": "internet",
+          "text": "We formulate an argument, based on the use of the action-angle variables and the Bohr-Sommerfeld quantization rule, to the effect that if there exists the smallest possible non-zero area, there also exists, for massive particles, the largest possible observable speed, which is a bit less than the speed of light.",
+          "_dedupe_key": "id:6561",
+          "similarity_to_question": 0.7616214752197266
+        },
+        {
+          "id": 7329,
+          "paper_id": null,
+          "paper_title": "unknown",
+          "source": "semantic_scholar",
+          "text": "In this paper, we briefly discuss the dynamic and functional approach to computer symbolic tensor analysis. The ccgrg package for Wolfram Language/Mathematica is used to illustrate this approach. Some examples of applications are attached.",
+          "_dedupe_key": "id:7329",
+          "similarity_to_question": 0.7556238174438477
+        },
+        {
+          "id": 7308,
+          "paper_id": null,
+          "paper_title": "unknown",
+          "source": "semantic_scholar",
+          "text": "© 2018, Cambridge University Press Let us summarize our findings. A random projection of a set T in R n onto an m-dimensional subspace approximately preserves the geometry of T if m ⪆ d ( T ) . For...",
+          "_dedupe_key": "id:7308",
+          "similarity_to_question": 0.7547680735588074
+        }
+      ],
+      "best_evidence_similarity_to_expected": 0.7781,
+      "random_baseline_best_sim": 0.8068,
+      "discrimination_gap": -0.0287,
+      "recall_hit": true,
+      "keyword_hit_rate": 0.5,
+      "unique_in_top_k": 8
+    },
+    {
+      "id": "schrodinger",
+      "topic": "quantum mechanics",
+      "question": "What does the Schrödinger equation describe?",
+      "expected": "It describes how a quantum state (wavefunction) evolves over time.",
+      "top_k": [
+        {
+          "id": 7218,
+          "paper_id": null,
+          "paper_title": "unknown",
+          "source": "crossref",
+          "text": "<jats:p>We report on the application of the emerging micromachining technology for fabrication of micro-optics as well as its integration with microactuators for adaptive control and dynamic alignment.</jats:p>",
+          "_dedupe_key": "id:7218",
+          "similarity_to_question": 0.807893693447113
+        },
+        {
+          "id": 6962,
+          "paper_id": null,
+          "paper_title": "unknown",
+          "source": "crossref",
+          "text": "<jats:p>Peer review is the driving force of journal development, and reviewers are gatekeepers who ensure that Mathematics maintains its standards for the high quality of its published papers [...]</jats:p>",
+          "_dedupe_key": "id:6962",
+          "similarity_to_question": 0.7978547811508179
+        },
+        {
+          "id": 7216,
+          "paper_id": null,
+          "paper_title": "unknown",
+          "source": "crossref",
+          "text": "<jats:p>Peer review is the driving force of journal development, and reviewers are gatekeepers who ensure that Optics maintains its standards for the high quality of its published papers [...]</jats:p>",
+          "_dedupe_key": "id:7216",
+          "similarity_to_question": 0.7967967391014099
+        },
+        {
+          "id": 7519,
+          "paper_id": null,
+          "paper_title": "Mathematics",
+          "source": "wikipedia",
+          "text": "Mathematics is a field of study that discovers and organizes methods, theories, and theorems that are developed and proved for the needs of empirical sciences and mathematics itself. There are many areas of mathematics, which include number theory, algebra, geometry, analysis, and set theory.",
+          "_dedupe_key": "id:7519",
+          "similarity_to_question": 0.7929641604423523
+        },
+        {
+          "id": 6961,
+          "paper_id": null,
+          "paper_title": "unknown",
+          "source": "crossref",
+          "text": "<jats:p>The editorial team greatly appreciates the reviewers who have dedicated their considerable time and expertise to the journal’s rigorous editorial process over the past 12 months, regardless of whether the papers are finally published or not [...]</jats:p>",
+          "_dedupe_key": "id:6961",
+          "similarity_to_question": 0.789962887763977
+        },
+        {
+          "id": 7518,
+          "paper_id": null,
+          "paper_title": "Physics",
+          "source": "wikipedia",
+          "text": "Physics is the scientific study of matter, its fundamental constituents, its motion and behavior through space and time, and the related entities of energy and force. It is one of the most fundamental scientific disciplines. A scientist who specializes in the field of physics is called a physicist.",
+          "_dedupe_key": "id:7518",
+          "similarity_to_question": 0.7877160310745239
+        },
+        {
+          "id": 6940,
+          "paper_id": null,
+          "paper_title": "unknown",
+          "source": "crossref",
+          "text": "<jats:p>Peer review is the driving force of journal development, and reviewers are gatekeepers who ensure that Physics maintains its standards for the high quality of its published papers [...]</jats:p>",
+          "_dedupe_key": "id:6940",
+          "similarity_to_question": 0.7874124646186829
+        },
+        {
+          "id": 7329,
+          "paper_id": null,
+          "paper_title": "unknown",
+          "source": "semantic_scholar",
+          "text": "In this paper, we briefly discuss the dynamic and functional approach to computer symbolic tensor analysis. The ccgrg package for Wolfram Language/Mathematica is used to illustrate this approach. Some examples of applications are attached.",
+          "_dedupe_key": "id:7329",
+          "similarity_to_question": 0.7857763171195984
+        }
+      ],
+      "best_evidence_similarity_to_expected": 0.8573,
+      "random_baseline_best_sim": 0.8573,
+      "discrimination_gap": -0.0,
+      "recall_hit": true,
+      "keyword_hit_rate": 0.0,
+      "unique_in_top_k": 8
+    },
+    {
+      "id": "entropy",
+      "topic": "thermodynamics",
+      "question": "What is entropy in thermodynamics?",
+      "expected": "A measure related to the number of microstates (often interpreted as disorder).",
+      "top_k": [
+        {
+          "id": 7519,
+          "paper_id": null,
+          "paper_title": "Mathematics",
+          "source": "wikipedia",
+          "text": "Mathematics is a field of study that discovers and organizes methods, theories, and theorems that are developed and proved for the needs of empirical sciences and mathematics itself. There are many areas of mathematics, which include number theory, algebra, geometry, analysis, and set theory.",
+          "_dedupe_key": "id:7519",
+          "similarity_to_question": 0.7648497819900513
+        },
+        {
+          "id": 7088,
+          "paper_id": null,
+          "paper_title": "unknown",
+          "source": "semantic_scholar",
+          "text": "The author discusses some basic questions in fluid dynamics. He describes Newton's contribution to fluid dynamics in the second volume of the Principia. He presents a brief review of fluid dynamics since Newton, and discusses the nature and content of physics curricula in schools and universities. He also outlines some aspects of modern research.",
+          "_dedupe_key": "id:7088",
+          "similarity_to_question": 0.7616188526153564
+        },
+        {
+          "id": 7520,
+          "paper_id": null,
+          "paper_title": "Quantum mechanics",
+          "source": "wikipedia",
+          "text": "Quantum mechanics is the fundamental physical theory that describes the behavior of matter and of light; its unusual characteristics typically occur at and below the scale of atoms. It is the foundation of all quantum physics, which includes quantum chemistry, quantum biology, quantum field theory, quantum technology, and quantum information science.",
+          "_dedupe_key": "id:7520",
+          "similarity_to_question": 0.7585660219192505
+        },
+        {
+          "id": 6961,
+          "paper_id": null,
+          "paper_title": "unknown",
+          "source": "crossref",
+          "text": "<jats:p>The editorial team greatly appreciates the reviewers who have dedicated their considerable time and expertise to the journal’s rigorous editorial process over the past 12 months, regardless of whether the papers are finally published or not [...]</jats:p>",
+          "_dedupe_key": "id:6961",
+          "similarity_to_question": 0.7549428939819336
+        },
+        {
+          "id": 6962,
+          "paper_id": null,
+          "paper_title": "unknown",
+          "source": "crossref",
+          "text": "<jats:p>Peer review is the driving force of journal development, and reviewers are gatekeepers who ensure that Mathematics maintains its standards for the high quality of its published papers [...]</jats:p>",
+          "_dedupe_key": "id:6962",
+          "similarity_to_question": 0.7526536583900452
+        },
+        {
+          "id": 7467,
+          "paper_id": null,
+          "paper_title": "unknown",
+          "source": "semantic_scholar",
+          "text": "1. Fundamental Concepts. 2. Quantum Dynamics. 3. Theory of Angular Momentum. 4. Symmetry in Quantum Mechanics. 5. Approximation Methods. 6. Identical Particles. 7. Scattering Theory. Appendices. Supplements. Bibliography. Index.",
+          "_dedupe_key": "id:7467",
+          "similarity_to_question": 0.7525538206100464
+        },
+        {
+          "id": 7218,
+          "paper_id": null,
+          "paper_title": "unknown",
+          "source": "crossref",
+          "text": "<jats:p>We report on the application of the emerging micromachining technology for fabrication of micro-optics as well as its integration with microactuators for adaptive control and dynamic alignment.</jats:p>",
+          "_dedupe_key": "id:7218",
+          "similarity_to_question": 0.7511624097824097
+        },
+        {
+          "id": 7216,
+          "paper_id": null,
+          "paper_title": "unknown",
+          "source": "crossref",
+          "text": "<jats:p>Peer review is the driving force of journal development, and reviewers are gatekeepers who ensure that Optics maintains its standards for the high quality of its published papers [...]</jats:p>",
+          "_dedupe_key": "id:7216",
+          "similarity_to_question": 0.7504259347915649
+        }
+      ],
+      "best_evidence_similarity_to_expected": 0.8579,
+      "random_baseline_best_sim": 0.8268,
+      "discrimination_gap": 0.0311,
+      "recall_hit": true,
+      "keyword_hit_rate": 0.0,
+      "unique_in_top_k": 8
+    },
+    {
+      "id": "tensor",
+      "topic": "mathematics",
+      "question": "Define tensor.",
+      "expected": "A mathematical object that generalizes scalars, vectors, and matrices.",
+      "top_k": [
+        {
+          "id": 7218,
+          "paper_id": null,
+          "paper_title": "unknown",
+          "source": "crossref",
+          "text": "<jats:p>We report on the application of the emerging micromachining technology for fabrication of micro-optics as well as its integration with microactuators for adaptive control and dynamic alignment.</jats:p>",
+          "_dedupe_key": "id:7218",
+          "similarity_to_question": 0.7291868925094604
+        },
+        {
+          "id": 6961,
+          "paper_id": null,
+          "paper_title": "unknown",
+          "source": "crossref",
+          "text": "<jats:p>The editorial team greatly appreciates the reviewers who have dedicated their considerable time and expertise to the journal’s rigorous editorial process over the past 12 months, regardless of whether the papers are finally published or not [...]</jats:p>",
+          "_dedupe_key": "id:6961",
+          "similarity_to_question": 0.7209956645965576
+        },
+        {
+          "id": 6962,
+          "paper_id": null,
+          "paper_title": "unknown",
+          "source": "crossref",
+          "text": "<jats:p>Peer review is the driving force of journal development, and reviewers are gatekeepers who ensure that Mathematics maintains its standards for the high quality of its published papers [...]</jats:p>",
+          "_dedupe_key": "id:6962",
+          "similarity_to_question": 0.7206374406814575
+        },
+        {
+          "id": 7216,
+          "paper_id": null,
+          "paper_title": "unknown",
+          "source": "crossref",
+          "text": "<jats:p>Peer review is the driving force of journal development, and reviewers are gatekeepers who ensure that Optics maintains its standards for the high quality of its published papers [...]</jats:p>",
+          "_dedupe_key": "id:7216",
+          "similarity_to_question": 0.7183095812797546
+        },
+        {
+          "id": 7519,
+          "paper_id": null,
+          "paper_title": "Mathematics",
+          "source": "wikipedia",
+          "text": "Mathematics is a field of study that discovers and organizes methods, theories, and theorems that are developed and proved for the needs of empirical sciences and mathematics itself. There are many areas of mathematics, which include number theory, algebra, geometry, analysis, and set theory.",
+          "_dedupe_key": "id:7519",
+          "similarity_to_question": 0.7174307703971863
+        },
+        {
+          "id": 7520,
+          "paper_id": null,
+          "paper_title": "Quantum mechanics",
+          "source": "wikipedia",
+          "text": "Quantum mechanics is the fundamental physical theory that describes the behavior of matter and of light; its unusual characteristics typically occur at and below the scale of atoms. It is the foundation of all quantum physics, which includes quantum chemistry, quantum biology, quantum field theory, quantum technology, and quantum information science.",
+          "_dedupe_key": "id:7520",
+          "similarity_to_question": 0.7170810699462891
+        },
+        {
+          "id": 7467,
+          "paper_id": null,
+          "paper_title": "unknown",
+          "source": "semantic_scholar",
+          "text": "1. Fundamental Concepts. 2. Quantum Dynamics. 3. Theory of Angular Momentum. 4. Symmetry in Quantum Mechanics. 5. Approximation Methods. 6. Identical Particles. 7. Scattering Theory. Appendices. Supplements. Bibliography. Index.",
+          "_dedupe_key": "id:7467",
+          "similarity_to_question": 0.7154207229614258
+        },
+        {
+          "id": 7088,
+          "paper_id": null,
+          "paper_title": "unknown",
+          "source": "semantic_scholar",
+          "text": "The author discusses some basic questions in fluid dynamics. He describes Newton's contribution to fluid dynamics in the second volume of the Principia. He presents a brief review of fluid dynamics since Newton, and discusses the nature and content of physics curricula in schools and universities. He also outlines some aspects of modern research.",
+          "_dedupe_key": "id:7088",
+          "similarity_to_question": 0.7141419053077698
+        }
+      ],
+      "best_evidence_similarity_to_expected": 0.8477,
+      "random_baseline_best_sim": 0.8025,
+      "discrimination_gap": 0.0451,
+      "recall_hit": true,
+      "keyword_hit_rate": 0.0,
+      "unique_in_top_k": 8
+    },
+    {
+      "id": "maxwell",
+      "topic": "electromagnetism",
+      "question": "What are Maxwell’s equations about?",
+      "expected": "They describe how electric and magnetic fields are generated and how they propagate.",
+      "top_k": [
+        {
+          "id": 7218,
+          "paper_id": null,
+          "paper_title": "unknown",
+          "source": "crossref",
+          "text": "<jats:p>We report on the application of the emerging micromachining technology for fabrication of micro-optics as well as its integration with microactuators for adaptive control and dynamic alignment.</jats:p>",
+          "_dedupe_key": "id:7218",
+          "similarity_to_question": 0.7855696678161621
+        },
+        {
+          "id": 7329,
+          "paper_id": null,
+          "paper_title": "unknown",
+          "source": "semantic_scholar",
+          "text": "In this paper, we briefly discuss the dynamic and functional approach to computer symbolic tensor analysis. The ccgrg package for Wolfram Language/Mathematica is used to illustrate this approach. Some examples of applications are attached.",
+          "_dedupe_key": "id:7329",
+          "similarity_to_question": 0.772432804107666
+        },
+        {
+          "id": 7518,
+          "paper_id": null,
+          "paper_title": "Physics",
+          "source": "wikipedia",
+          "text": "Physics is the scientific study of matter, its fundamental constituents, its motion and behavior through space and time, and the related entities of energy and force. It is one of the most fundamental scientific disciplines. A scientist who specializes in the field of physics is called a physicist.",
+          "_dedupe_key": "id:7518",
+          "similarity_to_question": 0.7716898322105408
+        },
+        {
+          "id": 7520,
+          "paper_id": null,
+          "paper_title": "Quantum mechanics",
+          "source": "wikipedia",
+          "text": "Quantum mechanics is the fundamental physical theory that describes the behavior of matter and of light; its unusual characteristics typically occur at and below the scale of atoms. It is the foundation of all quantum physics, which includes quantum chemistry, quantum biology, quantum field theory, quantum technology, and quantum information science.",
+          "_dedupe_key": "id:7520",
+          "similarity_to_question": 0.7671779990196228
+        },
+        {
+          "id": 6961,
+          "paper_id": null,
+          "paper_title": "unknown",
+          "source": "crossref",
+          "text": "<jats:p>The editorial team greatly appreciates the reviewers who have dedicated their considerable time and expertise to the journal’s rigorous editorial process over the past 12 months, regardless of whether the papers are finally published or not [...]</jats:p>",
+          "_dedupe_key": "id:6961",
+          "similarity_to_question": 0.7654637098312378
+        },
+        {
+          "id": 6962,
+          "paper_id": null,
+          "paper_title": "unknown",
+          "source": "crossref",
+          "text": "<jats:p>Peer review is the driving force of journal development, and reviewers are gatekeepers who ensure that Mathematics maintains its standards for the high quality of its published papers [...]</jats:p>",
+          "_dedupe_key": "id:6962",
+          "similarity_to_question": 0.7634798884391785
+        },
+        {
+          "id": 7275,
+          "paper_id": null,
+          "paper_title": "unknown",
+          "source": "semantic_scholar",
+          "text": "Abstract algebra is the study of algebraic structures and include groups, rings, fields, modules, vector spaces, lattices, and algebras. The term abstract algebra was coined in the early 20th century to distinguish this area of study from the other parts of algebra.",
+          "_dedupe_key": "id:7275",
+          "similarity_to_question": 0.7621040940284729
+        },
+        {
+          "id": 7519,
+          "paper_id": null,
+          "paper_title": "Mathematics",
+          "source": "wikipedia",
+          "text": "Mathematics is a field of study that discovers and organizes methods, theories, and theorems that are developed and proved for the needs of empirical sciences and mathematics itself. There are many areas of mathematics, which include number theory, algebra, geometry, analysis, and set theory.",
+          "_dedupe_key": "id:7519",
+          "similarity_to_question": 0.7607182860374451
+        }
+      ],
+      "best_evidence_similarity_to_expected": 0.8668,
+      "random_baseline_best_sim": 0.8668,
+      "discrimination_gap": 0.0,
+      "recall_hit": true,
+      "keyword_hit_rate": 0.0,
+      "unique_in_top_k": 8
+    }
+  ]
+}

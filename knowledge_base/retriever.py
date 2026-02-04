@@ -1,7 +1,17 @@
+import hashlib
 import numpy as np
 from typing import List, Tuple
 from embedding.encoder import TextEncoder
 from .storage import KnowledgeStorage
+
+
+def _clean(t: str) -> str:
+    t = (t or "").strip()
+    return " ".join(t.split())
+
+
+def _hash(t: str) -> str:
+    return hashlib.sha1(_clean(t).lower().encode("utf-8", errors="ignore")).hexdigest()
 
 
 class Retriever:
@@ -9,46 +19,50 @@ class Retriever:
         self.storage = storage
         self.encoder = encoder
 
-    @staticmethod
-    def _cosine_similarity(a: np.ndarray, b: np.ndarray):
-        # a: (d,), b: (n, d) or (d,)
-        if b.ndim == 1:
-            b = b.reshape(1, -1)
-        scores = np.dot(b, a)  # (n,)
-        return scores  # since vectors are normalized, dot = cosine
-
-    def semantic_search(self, query: str, top_k: int = 5) -> List[Tuple[int, str, float]]:
+    def semantic_search(self, query: str, top_k: int = 5, dedupe: bool = True) -> List[Tuple[int, str, float]]:
         """
         Returns list of (id, content, score) sorted by descending score.
-        Automatically handles string or list input.
+        Dedupe prevents the same content appearing multiple times.
         """
-        # --- Fix: Ensure query is always a list ---
-        if isinstance(query, str):
-            query = [query]
+        q = [query] if isinstance(query, str) else list(query)
+        q_vec = self.encoder.encode_texts(q)[0]  # (d,)
 
-        # encode query text(s)
-        q_vec = self.encoder.encode_texts(query)[0]  # shape (d,)
-
-        # fetch all stored embeddings
         all_items = self.storage.fetch_all_with_embeddings()  # list of (id, content, vec)
         if not all_items:
             return []
 
         ids, contents, vecs = [], [], []
+        seen = set()
+
         for k_id, content, vec in all_items:
-            if vec is not None:
-                ids.append(k_id)
-                contents.append(content)
-                vecs.append(vec)
+            if vec is None:
+                continue
+            content = _clean(content)
+            if not content:
+                continue
+            if dedupe:
+                h = _hash(content)
+                if h in seen:
+                    continue
+                seen.add(h)
+
+            ids.append(k_id)
+            contents.append(content)
+            vecs.append(vec)
 
         if not vecs:
             return []
 
-        vecs = np.vstack(vecs)  # (n, d)
-        # cosine similarity (assuming normalized)
-        scores = np.dot(vecs, q_vec)  # (n,)
-        # top k
-        idx = np.argsort(-scores)[:top_k]
-        results = [(ids[i], contents[i], float(scores[i])) for i in idx]
+        vecs = np.vstack(vecs).astype(np.float32)  # (n, d)
 
-        return results
+        # If vectors are not normalized, normalize once here (safe)
+        denom = np.linalg.norm(vecs, axis=1, keepdims=True) + 1e-8
+        vecs = vecs / denom
+
+        q_norm = np.linalg.norm(q_vec) + 1e-8
+        q_vec = q_vec / q_norm
+
+        scores = np.dot(vecs, q_vec)  # (n,)
+        k = min(int(top_k), int(scores.shape[0]))
+        idx = np.argsort(-scores)[:k]
+        return [(ids[i], contents[i], float(scores[i])) for i in idx]

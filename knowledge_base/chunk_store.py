@@ -138,6 +138,47 @@ class ChunkStore:
         self.conn.commit()
         return {"added": added, "skipped": skipped}
 
+    def fetch_by_ids(self, chunk_ids: List[int]) -> List[Dict[str, Any]]:
+        """
+        Fetch full chunks by chunk_id.
+        Returns list[dict] with keys:
+        chunk_id, text, paper_title, source, meta_json
+        Preserves the order of chunk_ids (important for retrieval ranking).
+        """
+        if not chunk_ids:
+            return []
+
+        ids = [int(x) for x in chunk_ids]
+        placeholders = ",".join(["?"] * len(ids))
+
+        self.cur.execute(
+            f"""
+            SELECT chunk_id, text, paper_title, source, meta_json
+            FROM chunks
+            WHERE chunk_id IN ({placeholders})
+            """,
+            ids,
+        )
+        rows = self.cur.fetchall()
+
+        # Map for fast lookup
+        by_id: Dict[int, Dict[str, Any]] = {}
+        for chunk_id, text, paper_title, source, meta_json in rows:
+            by_id[int(chunk_id)] = {
+                "chunk_id": int(chunk_id),
+                "text": str(text or ""),
+                "paper_title": str(paper_title or "unknown"),
+                "source": str(source or "unknown"),
+                "meta_json": str(meta_json or "{}"),
+            }
+
+        # Return in the same order as requested ids
+        out = []
+        for cid in ids:
+            if cid in by_id:
+                out.append(by_id[cid])
+        return out
+
     def fetch_recent(self, limit: int = 5000) -> List[Dict[str, Any]]:
         self.cur.execute(
             "SELECT chunk_id, text, paper_title, source, meta_json "

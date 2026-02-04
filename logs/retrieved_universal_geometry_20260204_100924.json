@@ -1,0 +1,37 @@
+[
+  {
+    "title": "2. Euclidean geometry",
+    "text": "<p>‘Euclidean geometry’ talks about the cultures that grew up in the arid region of Mesopotamia in the fourth millennium BC that needed to find geometrical solutions to their problems. Dividing and surveying the land after periodic floods relied on measuring distances and computing areas. Euclidean geometry forms geometric intuition that gives an accurate description of the space of land. Euclid of Alexandria put geometry in a logical framework and used axioms to define complicated objects such as triangles. The theorems are logical consequences of axioms that take a long time to prove.</p>",
+    "url": "https://doi.org/10.1093/actrade/9780199683680.003.0002",
+    "source": "crossref",
+    "timestamp": 2022
+  },
+  {
+    "title": "5. Projective geometry",
+    "text": "<p>‘Projective geometry’ focuses on the points in projective geometry that are added to the Euclidean plane and are regarded on an equal footing with all other points. In Euclidean geometry two lines intersect at a unique point unless they are parallel, while the parallel lines from the projective perspective intersect at one of the points at infinity. The Renaissance painting of Canaletto depicts three-dimensional space and distortion of the Euclidean geometric proportions. The discovery of perspective led the Renaissance artists to seek geometric schemes that enable them to represent three-dimensional space. The key concept underlying the perspective drawing is the projection.</p>",
+    "url": "https://doi.org/10.1093/actrade/9780199683680.003.0005",
+    "source": "crossref",
+    "timestamp": 2022
+  },
+  {
+    "title": "3. Non-Euclidean geometry",
+    "text": "<p>‘Non-Euclidean geometry’ begins with a discussion on spherical geometry, which is the study of objects on the sphere and has lines that are defined as great circles. Spherical geometry is an example of a non-Euclidean geometry, as the lines do not satisfy Euclid’s parallel postulate. Hyperbolic geometry is another example of a non-Euclidean geometry, as it violates the parallel axiom and cannot be embedded in ordinary space. Hyperbolic geometry can be introduced as an abstract surface wherein lines are singled out and the distance which makes these lines the shortest are shown. With hyperbolic geometry, the apparent paradoxes of M. C. Escher’s angels and devils can be revealed.</p>",
+    "url": "https://doi.org/10.1093/actrade/9780199683680.003.0003",
+    "source": "crossref",
+    "timestamp": 2022
+  },
+  {
+    "title": "1. What is geometry?",
+    "text": "<p>‘What is geometry?’ mentions the Greek philosopher Pythagoras of Samos and his followers, the Pythagoreans, who spent their time unveiling the relationship between numbers and geometric forms. They were credited for what is now known as the Pythagorean theorem, wherein for any right-angled triangle the square of the hypotenuse is equal to the sum of the squares of the other two sides. Geometry stands out from most other branches of mathematics, as the proof of a theorem can be given in pictorial terms. The Pythagorean theorem is valid in Euclidean geometry and relies on concepts that play a central role in the theorem.</p>",
+    "url": "https://doi.org/10.1093/actrade/9780199683680.003.0001",
+    "source": "crossref",
+    "timestamp": 2022
+  },
+  {
+    "title": "Geometry",
+    "text": "Geometry is a branch of mathematics concerned with properties of space such as the distance, shape, size, and relative position of figures. Geometry is, along with arithmetic, one of the oldest branches of mathematics. A mathematician who works in the field of geometry is called a geometer. Until the 19th century, geometry was almost exclusively devoted to Euclidean geometry, which includes the notions of point, line, plane, distance, angle, surface, and curve, as fundamental concepts.",
+    "url": "https://en.wikipedia.org/wiki/Geometry",
+    "source": "wikipedia",
+    "timestamp": "2026-02-04"
+  }
+]

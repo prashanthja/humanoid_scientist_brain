@@ -1,0 +1,16 @@
+[
+  {
+    "title": "Dynamic Set Theory",
+    "text": "<p>The dynamic abstractionist approach to set theory canvassed in Chapter 3 is properly developed. We begin with a plural version of Frege’s Basic Law V. While this law is inconsistent in the ordinary static setting, it becomes consistent when transposed to a dynamic setting. Thus transposed, the law ensures that any objects whatsoever can be used to define a set. This is an intuitive and highly explanatory principle of set formation, which traces its roots back to Cantor. The resulting dynamic approach to set theory justifies all of ordinary ZF set theory and provides an explication of the celebrated iterative conception of sets.</p>",
+    "url": "https://doi.org/10.1093/oso/9780199641314.003.0012",
+    "source": "crossref",
+    "timestamp": 2018
+  },
+  {
+    "title": "Set theory",
+    "text": "Set theory is the branch of mathematical logic that studies sets, which can be informally described as collections of objects. Although objects of any kind can be collected into a set, set theory – as a branch of mathematics – is mostly concerned with those that are relevant to mathematics as a whole.",
+    "url": "https://en.wikipedia.org/wiki/Set_theory",
+    "source": "wikipedia",
+    "timestamp": "2026-02-04"
+  }
+]

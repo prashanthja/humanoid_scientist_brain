@@ -1,0 +1,16 @@
+[
+  {
+    "title": "The Contemporary Object III: Chaos Theory",
+    "text": "<p>This chapter discusses the third contribution to the loop theory of the object that emerged in the 1970s with the study of nonlinear and complex dynamical systems, or “chaos theory.” Chaos theory showed that tiny differences in the initial conditions of how an object began moving or how someone measured it could create widely diverging outputs over time. Each object seems to follow a unique evolution that renders its precise prediction impossible. This chapter proposes an <italic>indeterministic</italic> interpretation of chaos theory. Some chaos theory interpretations say that there is an objective set of initial conditions, but we can’t know them. However, this chapter explains that we cannot know the precise initial conditions of any object <italic>in principle,</italic> due in part to quantum indeterminacy and entanglement. Chaos theory teaches us that each object has a singular trajectory that we cannot know in advance but <italic>tends</italic> to produce dynamic patterns over time. Studying these patterns of motion across different macroscopic scales can help us understand physical systems’ common features. This chapter shows that interpreting kinetic indeterminacy at the heart of the initial conditions of things is entirely consistent with and even beneficial for chaos theory.</p>",
+    "url": "https://doi.org/10.3366/edinburgh/9781474487924.003.0019",
+    "source": "crossref",
+    "timestamp": 2021
+  },
+  {
+    "title": "Chaos theory",
+    "text": "Chaos theory is an interdisciplinary area of scientific study and branch of mathematics. It focuses on underlying patterns and deterministic laws of dynamical systems that are highly sensitive to initial conditions. These were once thought to have completely random states of disorder and irregularities. Chaos theory states that within the apparent randomness of chaotic complex systems, there are underlying patterns, interconnection, constant feedback loops, repetition, self-similarity, fractals and self-organization. The butterfly effect, an underlying principle of chaos, describes how a small change in one state of a deterministic nonlinear system can result in large differences in a later state. A metaphor for this behavior is that a butterfly flapping its wings in Brazil can cause or prevent a tornado in Texas.",
+    "url": "https://en.wikipedia.org/wiki/Chaos_theory",
+    "source": "wikipedia",
+    "timestamp": "2026-02-03"
+  }
+]

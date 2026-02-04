@@ -1,0 +1,23 @@
+[
+  {
+    "title": "The ideas of statistical mechanics",
+    "text": "<p>This chapter discusses the microscopic basis of entropy, how to calculate the equation of state for a system, and the physical basis of the second law that ensures that entropy increases as a function of time. It cites Ludwig Boltzmann's hypothesis, which states that the entropy of a system is related to the probability of its state and its basis is statistical. The chapter also focuses on statistical mechanics, wherein thermal properties are calculated by using statistical ideas together with a knowledge of the laws of mechanics obeyed by the particles that make up a system. The chapter highlights that the power of statistical mechanics is grounded in the fact that it uses simple ideas and involves general techniques. It demonstrates the notion of statistical probability, which is obtained by considering a series of identical measurements made over a period of time on a single system.</p>",
+    "url": "https://doi.org/10.1093/hesc/9780198505761.003.0004",
+    "source": "crossref",
+    "timestamp": 1999
+  },
+  {
+    "title": "Ensembles in Classical Statistical Mechanics",
+    "text": "<p>This chapter explores more powerful methods of calculation than were seen previously. Among them are Molecular Dynamics (MD) and Monte Carlo (MC) computer simulations. Another is the canonical partition function, which is related to the Helmholtz free energy. The derivation of thermodynamic identities within statistical mechanics is illustrated by the relationship between the specific heat and the fluctuations of the energy. It is shown how the canonical ensemble allows us to integrate out the momentum variables for many classical models. The factorization of the partition function is presented as the best trick in statistical mechanics, because of its central role in solving problems. Finally, the problem of many simple harmonic oscillators is solved, both for its importance and as an illustration of the best trick.</p>",
+    "url": "https://doi.org/10.1093/oso/9780198853237.003.0019",
+    "source": "crossref",
+    "timestamp": 2019
+  },
+  {
+    "title": "Statistical mechanics",
+    "text": "In physics, statistical mechanics is a mathematical framework that applies statistical methods and probability theory to large assemblies of microscopic entities. Sometimes called statistical physics or statistical thermodynamics, its applications include many problems in a wide variety of fields such as biology, neuroscience, computer science, information theory and sociology. Its main purpose is to clarify the properties of matter in aggregate, in terms of physical laws governing atomic motion.",
+    "url": "https://en.wikipedia.org/wiki/Statistical_mechanics",
+    "source": "wikipedia",
+    "timestamp": "2026-02-03"
+  }
+]

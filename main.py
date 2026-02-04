@@ -15,6 +15,7 @@ NOTE:
 
 import os, time, json, gc, re
 from typing import Dict, Any, List
+import argparse
 
 # Enable automatic CPU fallback for MPS
 os.environ["PYTORCH_ENABLE_MPS_FALLBACK"] = "1"
@@ -170,8 +171,13 @@ def main():
     model_tester = ModelEvaluator(trainer, kb, bridge)
 
     # NEW: proposal judge engine
-    proposal_engine = ProposalEvaluator(kb, bridge, top_k=10, evidence_threshold=0.60, max_kb_items=3000)
-
+    proposal_engine = ProposalEvaluator(
+    kb, bridge,
+    top_k=10,
+    evidence_threshold=0.60,
+    max_kb_items=3000,
+    require_evidence=True,          # ✅ force grounded behavior
+)
     # NEW: chunk index (real retrieval)
     chunk_index = ChunkIndex(
         chunk_store=chunk_store,
@@ -284,9 +290,11 @@ def main():
         # ----------------------------
         demo_proposal = "F = m a assuming classical mechanics and low speeds."
         print("\n🧾 Proposal Judge Demo:")
+        demo_hits = chunk_index.retrieve("Newton's second law", top_k=5, use_mmr=True)
         judged = proposal_engine.evaluate(
             demo_proposal,
-            provenance=SourceTrace(source_type="user_proposal", source_name="main_demo")
+            provenance=SourceTrace(source_type="user_proposal", source_name="main_demo"),
+            evidence_chunks=demo_hits,
         )
         print(json.dumps(judged["verdict"], indent=2))
 
@@ -320,4 +328,65 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    parser = argparse.ArgumentParser()
+    sub = parser.add_subparsers(dest="cmd")
+
+    sub.add_parser("run", help="Run universal learning cycles (current behavior).")
+
+    p = sub.add_parser("discover", help="Generate a Discovery Report for a query.")
+    p.add_argument("query", type=str, help="Discovery question / goal")
+
+    args = parser.parse_args()
+
+    if args.cmd == "discover":
+        # --- Build subsystems once (same as your main, but no cycle loop) ---
+        device = get_device()
+        print(f"🤖 Starting Discovery Mode on {device}")
+
+        omni = OmniRetriever()
+        safety = SafetyFilter()
+
+        kb = KnowledgeBase()
+        chunk_store = ChunkStore()
+
+        trainer = OnlineTrainer()
+        memory = TrainingMemory()
+        bridge = EmbeddingBridge(trainer)
+
+        reflection = ReflectionEngine(omni, safety, kb, trainer)
+
+        evaluator = EvidenceEvaluator(
+            kb,
+            bridge,
+            reflection.kg,
+            max_index_items=KB_INDEX_ITEMS_FOR_EVIDENCE,
+            top_k=10
+        )
+
+        hypgen = HypothesisGenerator(reflection.kg, bridge, kb)
+        validator = HypothesisValidator(kb, bridge, reflection.kg)
+        proposal_engine = ProposalEvaluator(kb, bridge, top_k=10, evidence_threshold=0.60, max_kb_items=3000)
+        print("ProposalEvaluator loaded from:", ProposalEvaluator.__module__)
+
+        chunk_index = ChunkIndex(
+            chunk_store=chunk_store,
+            encoder=bridge,
+            cache_dir="data",
+            max_items=MAX_CHUNKS_TO_INDEX,
+            chunk_batch=CHUNK_INDEX_BATCH,
+        )
+
+        from reasoning_module.discover import DiscoveryEngine, DiscoveryConfig
+        discover = DiscoveryEngine(
+            chunk_index=chunk_index,
+            proposal_engine=proposal_engine,
+            evidence_evaluator=evaluator,
+            hypgen=hypgen,
+            validator=validator,
+            config=DiscoveryConfig(top_k_chunks=12, evidence_threshold=0.60, max_hypotheses=8),
+        )
+
+        report = discover.run(args.query, source_name="cli")
+        print(json.dumps(report, indent=2))
+    else:
+        main()
