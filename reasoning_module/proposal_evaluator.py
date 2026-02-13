@@ -9,6 +9,7 @@
 # ------------------------------------------------------------
 
 from __future__ import annotations
+
 from typing import Dict, Any, List, Optional, Sequence
 import numpy as np
 import re
@@ -67,6 +68,28 @@ def _jaccard_keywords(a: str, b: str) -> float:
     return float(len(A & B)) / float(len(A | B))
 
 
+def _is_definitionish(text: str) -> bool:
+    """
+    For broad definition-style claims, keyword overlap can be low even when evidence is good.
+    We relax overlap gating for these.
+    """
+    low = (text or "").lower().strip()
+    if not low:
+        return False
+    patterns = [
+        r"\bwhat is\b",
+        r"\bwhat are\b",
+        r"\bis defined as\b",
+        r"\bdefined as\b",
+        r"\brefers to\b",
+        r"\bmeans\b",
+        r"\bis the study of\b",
+        r"\bis a\b",
+        r"\bare a\b",
+    ]
+    return any(re.search(p, low) for p in patterns)
+
+
 class ProposalEvaluator:
     """
     v2: Evidence must be supplied (chunks/texts). This stops false support.
@@ -80,9 +103,9 @@ class ProposalEvaluator:
         top_k: int = 10,
         evidence_threshold: float = 0.60,
         max_kb_items: int = 3000,
-        require_evidence: bool = True,   # NEW: default True (safer)
-        domain_mismatch_penalty: float = 0.25,  # NEW
-        min_keyword_overlap: float = 0.02,      # NEW: light filter
+        require_evidence: bool = True,   # default True (safer)
+        domain_mismatch_penalty: float = 0.25,
+        min_keyword_overlap: float = 0.02,
     ):
         self.kb = kb
         self.bridge = bridge
@@ -125,6 +148,11 @@ class ProposalEvaluator:
         # Build evidence candidates ONLY from provided evidence
         candidates = self._evidence_candidates(evidence_chunks=evidence_chunks, evidence_texts=evidence_texts)
 
+        # DEBUG: prove we are using provided chunks (chunk_id should appear here)
+        print("DEBUG candidates_count =", len(candidates))
+        print("DEBUG candidate_ids(sample) =", [c.get("id") for c in candidates[:5]])
+        print("DEBUG candidate_sources(sample) =", [c.get("source") for c in candidates[:3]])
+
         if self.require_evidence and not candidates:
             verdict = ProposalVerdict(
                 verdict="inconclusive",
@@ -165,43 +193,32 @@ class ProposalEvaluator:
     # -------------------------
     # Evidence handling (grounded)
     # -------------------------
-    def _evidence_candidates(
-        self,
-        *,
-        evidence_chunks: Optional[Sequence[Dict[str, Any]]],
-        evidence_texts: Optional[Sequence[str]],
-    ) -> List[Dict[str, Any]]:
-        out: List[Dict[str, Any]] = []
+    def _evidence_candidates(self, *, evidence_chunks=None, evidence_texts=None):
+        candidates: List[Dict[str, Any]] = []
 
-        # 1) Prefer chunks (with metadata)
-        for c in (evidence_chunks or []):
-            if not isinstance(c, dict):
-                continue
-            txt = (c.get("text") or c.get("chunk_text") or c.get("full_text") or c.get("text_preview") or "").strip()
-            if not txt:
-                continue
-            out.append({
-                "id": c.get("chunk_id"),
-                "text": txt,
-                "paper_title": str(c.get("paper_title") or ""),
-                "source": str(c.get("source") or ""),
-                "similarity_hint": c.get("similarity", None),
-            })
+        # 1) Prefer explicit chunk evidence if provided
+        if evidence_chunks:
+            for c in evidence_chunks:
+                text = (c.get("text") or c.get("chunk_text") or c.get("text_preview") or "").strip()
+                if not text:
+                    continue
+                candidates.append({
+                    "id": c.get("chunk_id"),  # chunk id
+                    "text": text,
+                    "paper_title": c.get("paper_title", ""),
+                    "source": c.get("source", "chunk_index"),
+                    "kind": "chunk",
+                    "similarity_to_question": float(c.get("similarity", 0.0) or 0.0),
+                })
+            return candidates  # CRITICAL: stop here. Do NOT fall back to KB.
 
-        # 2) Raw texts (no metadata)
-        for t in (evidence_texts or []):
-            tt = (t or "").strip()
-            if not tt:
-                continue
-            out.append({
-                "id": None,
-                "text": tt,
-                "paper_title": "",
-                "source": "provided_text",
-                "similarity_hint": None,
-            })
+        # 2) Optional: if no chunks provided, use raw evidence texts
+        if evidence_texts:
+            for t in evidence_texts:
+                if t and str(t).strip():
+                    candidates.append({"id": None, "text": str(t).strip(), "kind": "text", "source": "text"})
 
-        return out
+        return candidates
 
     def _rank_evidence(self, query: str, candidates: List[Dict[str, Any]]) -> List[EvidenceItem]:
         if not candidates:
@@ -224,8 +241,11 @@ class ProposalEvaluator:
         out: List[EvidenceItem] = []
         for i in top_idx:
             it = candidates[int(i)]
+            kind = it.get("kind")
+
             out.append(EvidenceItem(
-                kb_id=it.get("id"),
+                kb_id=it.get("id") if kind != "chunk" else None,
+                chunk_id=it.get("id") if kind == "chunk" else None,
                 text=(it.get("text") or "")[:600],
                 paper_title=it.get("paper_title", ""),
                 source=it.get("source", ""),
@@ -243,16 +263,20 @@ class ProposalEvaluator:
 
         best_ev_sim = max([e.similarity_to_question for e in evidence], default=0.0)
 
-        # Domain mismatch penalty (simple but effective)
+        # Domain mismatch penalty
         proposal_bucket = _guess_topic_bucket(claim.claim_text)
-        evidence_bucket = _guess_topic_bucket(" ".join([(e.paper_title or "") + " " + (e.text or "") for e in evidence[:3]]))
-
+        evidence_bucket = _guess_topic_bucket(
+            " ".join([(e.paper_title or "") + " " + (e.text or "") for e in evidence[:3]])
+        )
         mismatch = (proposal_bucket != "unknown" and evidence_bucket != "unknown" and proposal_bucket != evidence_bucket)
 
-        # Keyword overlap sanity check: if overlap is near-zero, treat as weak grounding
+        # Keyword overlap check (relaxed for definition-style claims)
         overlap = 0.0
         if evidence:
             overlap = max(_jaccard_keywords(claim.claim_text, e.text) for e in evidence[:5])
+
+        definitionish = _is_definitionish(claim.claim_text)
+        overlap_fail = (overlap < self.min_keyword_overlap) and (not definitionish)
 
         # 1) Failing sanity checks blocks
         if fails:
@@ -274,7 +298,7 @@ class ProposalEvaluator:
             )
 
         # 2) Weak evidence -> inconclusive
-        if (not evidence) or (best_ev_sim < self.th) or (overlap < self.min_keyword_overlap):
+        if (not evidence) or (best_ev_sim < self.th) or overlap_fail:
             base = 0.40 if not warns else 0.30
             if mismatch:
                 base = max(0.10, base - self.domain_mismatch_penalty)
@@ -284,7 +308,7 @@ class ProposalEvaluator:
                 why.append("no evidence candidates")
             if best_ev_sim < self.th:
                 why.append(f"best_sim {best_ev_sim:.3f} < {self.th:.3f}")
-            if overlap < self.min_keyword_overlap:
+            if overlap_fail:
                 why.append(f"keyword_overlap {overlap:.3f} < {self.min_keyword_overlap:.3f}")
             if mismatch:
                 why.append(f"domain_mismatch ({proposal_bucket} vs {evidence_bucket})")

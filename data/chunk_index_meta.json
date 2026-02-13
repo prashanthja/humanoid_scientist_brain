@@ -1,7 +1,7 @@
 {
-  "built_at": "2026-02-04 10:09:32",
+  "built_at": "2026-02-13 10:59:22",
   "dim": 512,
-  "count": 78,
+  "count": 118,
   "items": [
     {
       "chunk_id": 1,
@@ -470,9 +470,253 @@
       "paper_title": "Unitary designs from statistical mechanics in random quantum circuits.",
       "source": "semantic_scholar",
       "text_preview": "esigns in $O(nk)$ depth and are thus essentially optimal in both $n$ and $k$. We can show this in the limit of large local dimension, but more generally rely on a conjecture about the dominance of certain domain wall configurations."
+    },
+    {
+      "chunk_id": 79,
+      "paper_title": "Llemma: An Open Language Model For Mathematics",
+      "source": "semantic_scholar",
+      "text_preview": "We present Llemma, a large language model for mathematics. We continue pretraining Code Llama on the Proof-Pile-2, a mixture of scientific papers, web data containing mathematics, and mathematical code, yielding Llemma. On the MATH benchmar"
+    },
+    {
+      "chunk_id": 80,
+      "paper_title": "Quantum Mechanics Helps in Searching for a Needle in a Haystack",
+      "source": "semantic_scholar",
+      "text_preview": "Quantum mechanics can speed up a range of search applications over unsorted data. For example, imagine a phone directory containing $N$ names arranged in completely random order. To find someone's phone number with a probability of 50%, any"
+    },
+    {
+      "chunk_id": 81,
+      "paper_title": "Overview of the Phase Space Formulation of Quantum Mechanics with Application to Quantum Technologies",
+      "source": "semantic_scholar",
+      "text_preview": "The phase‐space formulation of quantum mechanics has recently seen increased use in testing quantum technologies, including methods of tomography for state verification and device validation. Here, an overview of quantum mechanics in phase "
+    },
+    {
+      "chunk_id": 82,
+      "paper_title": "Overview of the Phase Space Formulation of Quantum Mechanics with Application to Quantum Technologies",
+      "source": "semantic_scholar",
+      "text_preview": "different representations of phase space and how the phase‐space representation is a powerful tool in understanding quantum information and quantum technologies."
+    },
+    {
+      "chunk_id": 83,
+      "paper_title": "Foundations of the Quaternion Quantum Mechanics",
+      "source": "semantic_scholar",
+      "text_preview": "We show that quaternion quantum mechanics has well-founded mathematical roots and can be derived from the model of the elastic continuum by French mathematician Augustin Cauchy, i.e., it can be regarded as representing the physical reality "
+    },
+    {
+      "chunk_id": 84,
+      "paper_title": "Foundations of the Quaternion Quantum Mechanics",
+      "source": "semantic_scholar",
+      "text_preview": "ulus of assertions as conventional quantum mechanics. The problem of the Schrödinger equation, where imaginary ‘i’ should emerge, is solved. This interpretation is a serious attempt to describe the ontology of quantum mechanics, and demonst"
+    },
+    {
+      "chunk_id": 85,
+      "paper_title": "Enhancing Computational Fluid Dynamics with Machine Learning",
+      "source": "crossref",
+      "text_preview": "<jats:p>In this video we discuss the recent article published in Nature Computational Science by Ricardo Vinuesa and Steve Brunton, where the potential of machine learning (ML) to improve numerical simulations of fluid flows is discussed. I"
+    },
+    {
+      "chunk_id": 86,
+      "paper_title": "Enhancing Computational Fluid Dynamics with Machine Learning",
+      "source": "crossref",
+      "text_preview": "y numerical database of a simplified urban environment. The proposed technique relies on β-variational autoencoders (β-VAEs) and convolutional neural networks (CNNs), which enable extracting non-linear modes while encouraging the learning o"
+    },
+    {
+      "chunk_id": 87,
+      "paper_title": "The Atacama Cosmology Telescope: DR6 constraints on extended cosmological models",
+      "source": "semantic_scholar",
+      "text_preview": "We use new cosmic microwave background (CMB) primary temperature and polarization anisotropy measurements from the Atacama Cosmology Telescope (ACT) Data Release 6 (DR6) to test foundational assumptions of the standard cosmological model, Λ"
+    },
+    {
+      "chunk_id": 88,
+      "paper_title": "The Atacama Cosmology Telescope: DR6 constraints on extended cosmological models",
+      "source": "semantic_scholar",
+      "text_preview": "te-time expansion history. We verify the near-scale-invariance (running of the spectral index dns /d ln k = 0.0062 ± 0.0052) and adiabaticity of the primordial perturbations. Neutrino properties are consistent with Standard Model prediction"
+    },
+    {
+      "chunk_id": 89,
+      "paper_title": "The Atacama Cosmology Telescope: DR6 constraints on extended cosmological models",
+      "source": "semantic_scholar",
+      "text_preview": "0017) and the electron mass (me /me,0 = 1.0063 ± 0.0056). Our data are consistent with standard big bang nucleosynthesis (we find Yp = 0.2312 ± 0.0092), the COBE/FIRAS-inferred CMB temperature (we find T CMB = 2.698 ± 0.016 K), a dark matte"
+    },
+    {
+      "chunk_id": 90,
+      "paper_title": "The Atacama Cosmology Telescope: DR6 constraints on extended cosmological models",
+      "source": "semantic_scholar",
+      "text_preview": "; using BOSS instead of DESI BAO data reduces the central values of these constraints by 1–1.5 km/s/Mpc while only slightly increasing the error bars. In general, models introduced to increase the Hubble constant or to decrease the amplitud"
+    },
+    {
+      "chunk_id": 91,
+      "paper_title": "Cosmology of axion dark matter",
+      "source": "semantic_scholar",
+      "text_preview": "I present an introduction and topical review on axions as a dark matter candidate. Emphasis is placed on issues surrounding the cosmology of axion dark matter that are relevant for present-day searches, including: early-Universe production "
+    },
+    {
+      "chunk_id": 92,
+      "paper_title": "Neutrino cosmology after DESI: tightest mass upper limits, preference for the normal ordering, and tension with terrestrial observations",
+      "source": "semantic_scholar",
+      "text_preview": "The recent DESI Baryon Acoustic Oscillation measurements have led to tight upper limits on the neutrino mass sum, potentially in tension with oscillation constraints requiring ∑ mν ≳ 0.06 eV. Under the physically motivated assumption of pos"
+    },
+    {
+      "chunk_id": 93,
+      "paper_title": "Neutrino cosmology after DESI: tightest mass upper limits, preference for the normal ordering, and tension with terrestrial observations",
+      "source": "semantic_scholar",
+      "text_preview": ", with Bayes factor relative to the inverted one of 46.5. Depending on the dataset combination and tension metric adopted, we quantify the tension between cosmological and terrestrial observations as ranging between 2.5σ and 5σ. These resul"
+    },
+    {
+      "chunk_id": 94,
+      "paper_title": "KiDS-1000 Cosmology: Multi-probe weak gravitational lensing and spectroscopic galaxy clustering constraints",
+      "source": "semantic_scholar",
+      "text_preview": "We present a joint cosmological analysis of weak gravitational lensing observations from the Kilo-Degree Survey (KiDS-1000), with redshift-space galaxy clustering observations from the Baryon Oscillation Spectroscopic Survey (BOSS) and gala"
+    },
+    {
+      "chunk_id": 95,
+      "paper_title": "KiDS-1000 Cosmology: Multi-probe weak gravitational lensing and spectroscopic galaxy clustering constraints",
+      "source": "semantic_scholar",
+      "text_preview": "ver, by 8.3 ± 2.6% relative to Planck. This result builds from a series of KiDS-1000 analyses where we validate our methodology with variable depth mock galaxy surveys, our lensing calibration with image simulations and null-tests, and our "
+    },
+    {
+      "chunk_id": 96,
+      "paper_title": "KiDS-1000 Cosmology: Multi-probe weak gravitational lensing and spectroscopic galaxy clustering constraints",
+      "source": "semantic_scholar",
+      "text_preview": "ound and our large-scale structure constraints using a series of different metrics, finding differences with a significance ranging between ∼3σ, when considering the offset in S8, and ∼2σ, when considering the full multi-dimensional paramet"
+    },
+    {
+      "chunk_id": 97,
+      "paper_title": "Particle Physics and Inflationary Cosmology",
+      "source": "semantic_scholar",
+      "text_preview": "With the invention of unified theories of strong, weak, electromagnetic and gravitational interactions, elementaryparticle physics has entered a very interesting and unusual stage of its development. The end of the 1960s saw the introductio"
+    },
+    {
+      "chunk_id": 98,
+      "paper_title": "Charge pumping and photovoltaic effect in open quantum dots",
+      "source": "semantic_scholar",
+      "text_preview": "We propose a random matrix theory to describe the influence of a time-dependent external field on electron transport through open quantum dots. We describe the generation of the current by an oscillating field for the dot, connected to two "
+    },
+    {
+      "chunk_id": 99,
+      "paper_title": "Elasticity of nanometer-sized objects",
+      "source": "semantic_scholar",
+      "text_preview": "We initiate the development of a theory of the elasticity of nanoscale objects based upon physical concepts which remain properly defined on the nanoscale. This theory provides a powerful way of understanding nanoscale elasticity in terms o"
+    },
+    {
+      "chunk_id": 100,
+      "paper_title": "Ab initio approach for high-pressure systems with application to high-pressure phases of boron: Perturbative momentum-space potentials",
+      "source": "semantic_scholar",
+      "text_preview": "Through the use of perturbation theory, in this work we develop a method which allows for a substantial reduction in the size of the plane-wave basis used in density-functional calculations. This method may be used for both pseudopotentials"
+    },
+    {
+      "chunk_id": 101,
+      "paper_title": "Ab initio approach for high-pressure systems with application to high-pressure phases of boron: Perturbative momentum-space potentials",
+      "source": "semantic_scholar",
+      "text_preview": "re to the ${\\ensuremath{\\alpha}}_{\\mathrm{ga}}\\ensuremath{-}B$ structure, both of which are semiconducting. The ${\\ensuremath{\\alpha}}_{\\mathrm{ga}}\\ensuremath{-}B$ structure has lower energy than traditional monoatomic structures, which su"
+    },
+    {
+      "chunk_id": 102,
+      "paper_title": "CRYSTAL23: A Program for Computational Solid State Physics and Chemistry",
+      "source": "semantic_scholar",
+      "text_preview": "The Crystal program for quantum-mechanical simulations of materials has been bridging the realm of molecular quantum chemistry to the realm of solid state physics for many years, since its first public version released back in 1988. This pe"
+    },
+    {
+      "chunk_id": 103,
+      "paper_title": "CRYSTAL23: A Program for Computational Solid State Physics and Chemistry",
+      "source": "semantic_scholar",
+      "text_preview": "the density functional theory is key to a better description of many properties of materials (electronic, magnetic, mechanical, spintronic, lattice-dynamical, etc.). Here, the main developments made to the program in the last five years (i."
+    },
+    {
+      "chunk_id": 104,
+      "paper_title": "Attosecond spectroscopy for the investigation of ultrafast dynamics in atomic, molecular and solid-state physics",
+      "source": "semantic_scholar",
+      "text_preview": "Since the first demonstration of the generation of attosecond pulses (1 as = 10−18 s) in the extreme-ultraviolet spectral region, several measurement techniques have been introduced, at the beginning for the temporal characterization of the"
+    },
+    {
+      "chunk_id": 105,
+      "paper_title": "Attosecond spectroscopy for the investigation of ultrafast dynamics in atomic, molecular and solid-state physics",
+      "source": "semantic_scholar",
+      "text_preview": "in molecules after prompt ionization which precede any notable nuclear motion, the temporal evolution of the tunneling process in dielectrics, and many others. This review focused on applications of attosecond techniques to the investigatio"
+    },
+    {
+      "chunk_id": 106,
+      "paper_title": "M06-SX screened-exchange density functional for chemistry and solid-state physics",
+      "source": "semantic_scholar",
+      "text_preview": "Significance Density functionals with Hartree–Fock exchange have been widely used for a wide range of chemical applications, but the nonlocal character of exchange makes long-range exchange computationally expensive for solid-state calculat"
+    },
+    {
+      "chunk_id": 107,
+      "paper_title": "M06-SX screened-exchange density functional for chemistry and solid-state physics",
+      "source": "semantic_scholar",
+      "text_preview": "accuracy for plane wave calculations on band gaps and lattice constants of solids. Screened-exchange hybrid density functionals are especially recommended for solid-state systems because they combine the advantages of hybrid functionals wit"
+    },
+    {
+      "chunk_id": 108,
+      "paper_title": "M06-SX screened-exchange density functional for chemistry and solid-state physics",
+      "source": "semantic_scholar",
+      "text_preview": "l is 2.85 kcal/mol for 418 atomic and molecular energies (AME418) in Minnesota Database 2019, which is better than all five other screened-exchange hybrid functionals tested in this work. The M06-SX functional also gives especially good res"
+    },
+    {
+      "chunk_id": 109,
+      "paper_title": "Solid State Physics",
+      "source": "semantic_scholar",
+      "text_preview": "By identifying unifying concepts across solid state physics, this text covers theory in an accessible way to provide graduate students with an intuitive understanding of effects and the basis for making quantitative calculations. Each chapt"
+    },
+    {
+      "chunk_id": 110,
+      "paper_title": "Solid State Physics",
+      "source": "semantic_scholar",
+      "text_preview": "photoemission spectroscopy, 2D spectroscopy, transistor device physics, thermoelectricity, metamaterials, spintronics, exciton-polaritons, and flux quantization in superconductors. Exercises are provided to help put knowledge into practice,"
+    },
+    {
+      "chunk_id": 111,
+      "paper_title": "Development of E-Modules Based on Multi-representations in Solid-State Physics Introductory Subject",
+      "source": "semantic_scholar",
+      "text_preview": "This study also aims to produce e-modules based on multi-representations in solid-state physics introductory subjects with good validity and practicality. The products produced are in the form of e-modules in the form of 3D flipbooks, inclu"
+    },
+    {
+      "chunk_id": 112,
+      "paper_title": "Development of E-Modules Based on Multi-representations in Solid-State Physics Introductory Subject",
+      "source": "semantic_scholar",
+      "text_preview": "und that the average result of the student questionnaire's impression on the use of teaching materials was 89%, with the category very practical. At the small group evaluation trial stage, the average score of the students' questionnaire as"
+    },
+    {
+      "chunk_id": 113,
+      "paper_title": "Solid State Physics",
+      "source": "semantic_scholar",
+      "text_preview": "solid state physics by is just one of the very best vendor publications on the planet? Have you had it? Never? Ridiculous of you. Currently, you could get this impressive publication merely below. Locate them is layout of ppt, kindle, pdf, "
+    },
+    {
+      "chunk_id": 114,
+      "paper_title": "Solid State Physics",
+      "source": "semantic_scholar",
+      "text_preview": "o uncover solid state physics Digitalbook. Correct here it is possible to locate as well as download solid state physics Book. We've got ebooks for every single topic solid state physics accessible for download cost-free. Search the site al"
+    },
+    {
+      "chunk_id": 115,
+      "paper_title": "ELEMENTS OF SOLID STATE PHYSICS",
+      "source": "semantic_scholar",
+      "text_preview": "Provides a basic introduction to the principles of solid state physics and, unlike many other introductory texts on the subject, it assumes no prior knowledge of quantum or statistical mechanics but relies on simple models to illustrate the"
+    },
+    {
+      "chunk_id": 116,
+      "paper_title": "Emergence in Solid State Physics and Biology",
+      "source": "semantic_scholar",
+      "text_preview": "There has been much controversy over weak and strong emergence in physics and biology. As pointed out by Phil Anderson in many papers, the existence of broken symmetries is the key to emergence of properties in much of solid state physics. "
+    },
+    {
+      "chunk_id": 117,
+      "paper_title": "Emergence in Solid State Physics and Biology",
+      "source": "semantic_scholar",
+      "text_preview": "ong emergence, as is the emergence of properties of life out of the underlying physics. A useful result emerges: standard physics theories and the emergent theories arising out of them are all effective theories that are equally valid."
+    },
+    {
+      "chunk_id": 118,
+      "paper_title": "Solid-State Physics",
+      "source": "semantic_scholar",
+      "text_preview": "This short chapter gives a glimpse of how concepts studied in other areas of physics, e.g., energy losses of ionizing particles in matter, connect to solid-state physics. The basic ideas behind transistors are discussed, and a topic of curr"
     }
   ],
   "dedupe": true,
   "mmr_lambda": 0.75,
-  "embed_max_len": 256
+  "embed_max_len": 256,
+  "hybrid_alpha": 0.75,
+  "bm25_beta": 0.25,
+  "gate_keyword_overlap": 0.02,
+  "bm25_enabled": true
 }

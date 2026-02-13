@@ -388,5 +388,16 @@ if __name__ == "__main__":
 
         report = discover.run(args.query, source_name="cli")
         print(json.dumps(report, indent=2))
+
+        evidence = report.get("proposal_verdict", {}).get("evidence", []) or []
+        print("\n===== TOP 3 PROPOSAL EVIDENCE =====")
+        for e in evidence[:3]:
+            print("\n---")
+            print("chunk_id:", e.get("chunk_id"))
+            print("source:", e.get("source"))
+            print("similarity:", round(float(e.get("similarity_to_question", 0.0) or 0.0), 4))
+            print("title:", e.get("paper_title"))
+            print("preview:", (e.get("text","")[:200]).replace("\n"," "))
+
     else:
         main()
