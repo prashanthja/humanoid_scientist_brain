@@ -64,15 +64,14 @@ class DiscoveryEngine:
         # 1) Retrieve evidence chunks
         chunks = self._retrieve_chunks(q)
 
-        # 2) Extract claims from evidence chunks
-        claims = self._extract_claims_from_chunks(chunks, source_name=source_name),
-        
+        # 2) Extract claims from evidence chunks ✅ FIX: no trailing comma
+        claims = self._extract_claims_from_chunks(chunks, source_name=source_name)
 
-        # 3) Judge the query as a proposal
+        # 3) Judge the query as a proposal (grounded to provided chunks)
         judged = self.proposal_engine.evaluate(
             q,
             provenance=SourceTrace(source_type="user_query", source_name=source_name),
-            evidence_chunks=chunks,              # ✅ THIS IS THE CRITICAL FIX
+            evidence_chunks=chunks,
         )
         verdict_obj = judged.get("verdict", judged) if isinstance(judged, dict) else judged
 
@@ -197,7 +196,7 @@ class DiscoveryEngine:
         ]
 
         if not chunks:
-            actions.insert(0, "No evidence chunks were retrieved — ingest domain papers first (microplastics, membranes, UF/NF/RO, coagulation/flocculation, activated carbon).")
+            actions.insert(0, "No evidence chunks were retrieved — ingest domain papers first and rebuild ChunkIndex.")
 
         if chunks and not claims:
             actions.insert(0, "Evidence retrieved but no claims extracted — confirm ChunkIndex returns full chunk text (not only previews).")

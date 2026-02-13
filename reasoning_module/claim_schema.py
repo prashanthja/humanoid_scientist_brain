@@ -67,6 +67,7 @@ class SanityCheckResult:
 @dataclass
 class EvidenceItem:
     kb_id: Optional[int] = None
+    chunk_id: Optional[int] = None   # ✅ add this
     text: str = ""
     paper_title: str = ""
     source: str = ""

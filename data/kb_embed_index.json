@@ -1,5 +1,5 @@
 {
-  "built_at": "2026-02-04 10:49:43",
+  "built_at": "2026-02-10 11:14:42",
   "dim": 512,
   "items": [
     {
@@ -10403,6 +10403,69 @@
       "title": "Tests of general relativity with GWTC-3",
       "source": "semantic_scholar",
       "text_preview": "The ever-increasing number of detections of gravitational waves (GWs) from compact binaries by the Advanced LIGO and Advanced Virgo detectors allows us to perform ever-more sensitive tests of general relativity (GR) in the dynamical and strong-field regime of gravity. We perform a suite of tests of GR using the compact binary signals observed during the second half of the third observing run of those detectors. We restrict our analysis to the 15 confident signals that have false alarm rates $\\le"
+    },
+    {
+      "key": "7544",
+      "kb_id": 7544,
+      "title": "Solid State Physics",
+      "source": "semantic_scholar",
+      "text_preview": "solid state physics by is just one of the very best vendor publications on the planet? Have you had it? Never? Ridiculous of you. Currently, you could get this impressive publication merely below. Locate them is layout of ppt, kindle, pdf, word, txt, rar, and also zip. Just how? Merely download and install or even read online in this site. Now, never ever late to read this solid state physics. This is really going to save you time and your money in something should think about. If you're seeking"
+    },
+    {
+      "key": "7543",
+      "kb_id": 7543,
+      "title": "Solid State Physics",
+      "source": "semantic_scholar",
+      "text_preview": "By identifying unifying concepts across solid state physics, this text covers theory in an accessible way to provide graduate students with an intuitive understanding of effects and the basis for making quantitative calculations. Each chapter focuses on a different set of theoretical tools, using examples from specific systems and demonstrating practical applications to real experimental topics. Advanced theoretical methods including group theory, many-body theory, and phase transitions are intr"
+    },
+    {
+      "key": "7542",
+      "kb_id": 7542,
+      "title": "Particle Physics and Inflationary Cosmology",
+      "source": "semantic_scholar",
+      "text_preview": "With the invention of unified theories of strong, weak, electromagnetic and gravitational interactions, elementaryparticle physics has entered a very interesting and unusual stage of its development. The end of the 1960s saw the introduction of the Glashow‐Weinberg‐Salam unification of the weak and electromagnetic interactions. In 1974 came the grand unified theories of the strong, weak and electromagnetic interactions. Two years later we had supergravity, giving us the first hope of unifying al"
+    },
+    {
+      "key": "7541",
+      "kb_id": 7541,
+      "title": "Neutrino cosmology after DESI: tightest mass upper limits, preference for the normal ordering, and tension with terrestrial observations",
+      "source": "semantic_scholar",
+      "text_preview": "The recent DESI Baryon Acoustic Oscillation measurements have led to tight upper limits on the neutrino mass sum, potentially in tension with oscillation constraints requiring ∑ mν ≳ 0.06 eV. Under the physically motivated assumption of positive ∑ mν , we study the extent to which these limits are tightened by adding other available cosmological probes, and robustly quantify the preference for the normal mass ordering over the inverted one, as well as the tension between cosmological and terrest"
+    },
+    {
+      "key": "7540",
+      "kb_id": 7540,
+      "title": "Cosmology of axion dark matter",
+      "source": "semantic_scholar",
+      "text_preview": "I present an introduction and topical review on axions as a dark matter candidate. Emphasis is placed on issues surrounding the cosmology of axion dark matter that are relevant for present-day searches, including: early-Universe production mechanisms, predictions of the axion mass, bounds on axion properties derived from cosmological data, as well as the direct and indirect detection of relic axion populations."
+    },
+    {
+      "key": "7539",
+      "kb_id": 7539,
+      "title": "The Atacama Cosmology Telescope: DR6 constraints on extended cosmological models",
+      "source": "semantic_scholar",
+      "text_preview": "We use new cosmic microwave background (CMB) primary temperature and polarization anisotropy measurements from the Atacama Cosmology Telescope (ACT) Data Release 6 (DR6) to test foundational assumptions of the standard cosmological model, ΛCDM, and set constraints on extensions to it. We derive constraints from the ACT DR6 power spectra alone, as well as in combination with legacy data from the Planck mission. To break geometric degeneracies, we include ACT and Planck CMB lensing data and baryon"
+    },
+    {
+      "key": "7538",
+      "kb_id": 7538,
+      "title": "Enhancing Computational Fluid Dynamics with Machine Learning",
+      "source": "crossref",
+      "text_preview": "<jats:p>In this video we discuss the recent article published in Nature Computational Science by Ricardo Vinuesa and Steve Brunton, where the potential of machine learning (ML) to improve numerical simulations of fluid flows is discussed. In particular, we show the possibilities enabled by ML in the context of 1) accelerating direct numerical simulations (DNSs); 2) improving turbulence modeling for large-eddy simulations (LESs) and Reynolds-averaged Navier–Stokes (RANS) simulations; and also enh"
+    },
+    {
+      "key": "7537",
+      "kb_id": 7537,
+      "title": "Overview of the Phase Space Formulation of Quantum Mechanics with Application to Quantum Technologies",
+      "source": "semantic_scholar",
+      "text_preview": "The phase‐space formulation of quantum mechanics has recently seen increased use in testing quantum technologies, including methods of tomography for state verification and device validation. Here, an overview of quantum mechanics in phase space is presented. The formulation to generate a generalized phase‐space function for any arbitrary quantum system is shown, such as the Wigner and Weyl functions along with the associated Q and P functions. Examples of how these different formulations are us"
+    },
+    {
+      "key": "7536",
+      "kb_id": 7536,
+      "title": "Llemma: An Open Language Model For Mathematics",
+      "source": "semantic_scholar",
+      "text_preview": "We present Llemma, a large language model for mathematics. We continue pretraining Code Llama on the Proof-Pile-2, a mixture of scientific papers, web data containing mathematics, and mathematical code, yielding Llemma. On the MATH benchmark Llemma outperforms all known open base models, as well as the unreleased Minerva model suite on an equi-parameter basis. Moreover, Llemma is capable of tool use and formal theorem proving without any further finetuning. We openly release all artifacts, inclu"
     }
   ]
 }
