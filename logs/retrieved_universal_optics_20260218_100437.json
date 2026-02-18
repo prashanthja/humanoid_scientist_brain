@@ -1,0 +1,23 @@
+[
+  {
+    "title": "Geometrical Optics",
+    "text": "<p>Discuss the limits imposed by the paraxial approximation. Define the sign convention based on the cartesian coordinate system, the foiundation of analytic geometery. Demonstrate ray tracing technique to derive the ABCD maxtrix which will generate both the gaussian and Newtonian form of the thin lens equation and the lens maker’s equation. The cardinal points of a lens are also derived. The ABCD matrix is used to explore the methods used in ray tracing to locate the aperture stop of a Cooke’s triplet lens system. In the problem set, the student is asked to use the aperture stop to locate the entrance and exit pupil of a Cooke’s triplet.</p>",
+    "url": "https://doi.org/10.1093/oso/9780198842859.003.0006",
+    "source": "crossref",
+    "timestamp": 2019
+  },
+  {
+    "title": "Blazed Diffractive Optics",
+    "text": "<jats:p>The diffractive optics community has embraced the lithographic methods used in the electronics industry<jats:sup>1</jats:sup>. Typically, binary transmission masks are used to expose resist and produce stepped structures which approximate the ideal, continuous profiles. Since these profiles are approximations of the ideal, continuous profiles, the diffraction efficiency is less than 100%: in theory, a four-level DOE has a first-order efficiency of 81%; an 8-level DOE, 95%<jats:sup>1</jats:sup>. Although the efficiency can be increased by increasing the number of levels and computer-based optimization, the process is limited by the resolutions of the binary masks and of the mask registration to the substrate.</jats:p>",
+    "url": "https://doi.org/10.1364/domo.1996.dthb.1",
+    "source": "crossref",
+    "timestamp": 1996
+  },
+  {
+    "title": "Optics",
+    "text": "Optics is the branch of physics that studies the behaviour, manipulation, and detection of electromagnetic radiation, including its interactions with matter and instruments that use or detect it. Optics usually describes the behaviour of visible, ultraviolet, and infrared light. The study of optics extends to other forms of electromagnetic radiation, including radio waves, microwaves, and X-rays. The term optics is also applied to technology for manipulating beams of elementary charged particles.",
+    "url": "https://en.wikipedia.org/wiki/Optics",
+    "source": "wikipedia",
+    "timestamp": "2026-02-18"
+  }
+]

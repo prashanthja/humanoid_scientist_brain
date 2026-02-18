@@ -20,6 +20,19 @@ from .claim_schema import (
 from .claim_extractor import extract_claims
 from .physics_sanity import run_sanity_checks
 
+_NUM_RE = re.compile(r"(\b\d+(\.\d+)?\b|%|σ|p<|p=|CI\b|\bconfidence\b)", re.IGNORECASE)
+_METHOD_RE = re.compile(r"\b(we (find|show|measure|observe|evaluate)|experiment|dataset|method|results?|analysis|simulation)\b", re.IGNORECASE)
+_DEFINITION_RE = re.compile(r"\b(is the study of|is a field of|refers to|defined as)\b", re.IGNORECASE)
+
+def _evidence_quality(text: str) -> float:
+    t = (text or "")
+    score = 0.0
+    if _NUM_RE.search(t): score += 0.45
+    if _METHOD_RE.search(t): score += 0.45
+    if _DEFINITION_RE.search(t): score -= 0.25
+    # punish very short snippets (often just blurbs)
+    if len(t) < 220: score -= 0.15
+    return float(max(0.0, min(1.0, score)))
 
 def _normalize_rows(mat: np.ndarray) -> np.ndarray:
     if mat.size == 0:
@@ -257,20 +270,29 @@ class ProposalEvaluator:
     # -------------------------
     # Verdict logic (grounded)
     # -------------------------
+
     def _decide(self, claim: Claim, sanity: List[SanityCheckResult], evidence: List[EvidenceItem]) -> ProposalVerdict:
         fails = [s for s in sanity if s.status == "fail"]
         warns = [s for s in sanity if s.status == "warn"]
 
         best_ev_sim = max([e.similarity_to_question for e in evidence], default=0.0)
 
+        # -----------------------------
         # Domain mismatch penalty
+        # -----------------------------
         proposal_bucket = _guess_topic_bucket(claim.claim_text)
         evidence_bucket = _guess_topic_bucket(
             " ".join([(e.paper_title or "") + " " + (e.text or "") for e in evidence[:3]])
         )
-        mismatch = (proposal_bucket != "unknown" and evidence_bucket != "unknown" and proposal_bucket != evidence_bucket)
+        mismatch = (
+            proposal_bucket != "unknown"
+            and evidence_bucket != "unknown"
+            and proposal_bucket != evidence_bucket
+        )
 
-        # Keyword overlap check (relaxed for definition-style claims)
+        # -----------------------------
+        # Keyword overlap
+        # -----------------------------
         overlap = 0.0
         if evidence:
             overlap = max(_jaccard_keywords(claim.claim_text, e.text) for e in evidence[:5])
@@ -278,7 +300,17 @@ class ProposalEvaluator:
         definitionish = _is_definitionish(claim.claim_text)
         overlap_fail = (overlap < self.min_keyword_overlap) and (not definitionish)
 
-        # 1) Failing sanity checks blocks
+        # -----------------------------
+        # Evidence quality scoring
+        # -----------------------------
+        qualities = [_evidence_quality(e.text) for e in evidence[:5]]
+        strong = [q for q in qualities if q >= 0.55]
+        n_strong = len(strong)
+        best_q = max(qualities, default=0.0)
+
+        # -----------------------------
+        # 1) Hard fail: sanity checks
+        # -----------------------------
         if fails:
             conf = min(0.85, 0.60 + 0.10 * len(fails))
             if mismatch:
@@ -287,59 +319,87 @@ class ProposalEvaluator:
             return ProposalVerdict(
                 verdict="contradicted",
                 confidence=conf,
-                explanation="Claim fails basic physics/math sanity checks (v1). Fix dimensional consistency or define symbols/assumptions.",
+                explanation="Claim fails physics/math sanity checks.",
                 sanity=sanity,
                 evidence=evidence,
                 required_to_convince=[
-                    "Provide a corrected equation with dimensionally consistent terms.",
-                    "Define every symbol and units.",
-                    "State regime/assumptions (limits, approximations, conditions).",
+                    "Provide dimensionally consistent equation.",
+                    "Define variables and units.",
+                    "State assumptions/regime clearly.",
                 ],
             )
 
-        # 2) Weak evidence -> inconclusive
+        # -----------------------------
+        # 2) Weak retrieval or poor grounding
+        # -----------------------------
         if (not evidence) or (best_ev_sim < self.th) or overlap_fail:
             base = 0.40 if not warns else 0.30
             if mismatch:
                 base = max(0.10, base - self.domain_mismatch_penalty)
 
-            why = []
-            if not evidence:
-                why.append("no evidence candidates")
-            if best_ev_sim < self.th:
-                why.append(f"best_sim {best_ev_sim:.3f} < {self.th:.3f}")
-            if overlap_fail:
-                why.append(f"keyword_overlap {overlap:.3f} < {self.min_keyword_overlap:.3f}")
+            return ProposalVerdict(
+                verdict="inconclusive",
+                confidence=base,
+                explanation=(
+                    f"Weak grounding. best_sim={best_ev_sim:.3f} "
+                    f"overlap={overlap:.3f} strong_evidence={n_strong}"
+                ),
+                sanity=sanity,
+                evidence=evidence,
+                required_to_convince=[
+                    "Retrieve chunks with explicit method/results.",
+                    "Avoid pure definitions.",
+                    "Make the claim measurable.",
+                ],
+            )
+
+        # -----------------------------
+        # 3) Require STRONG evidence
+        # -----------------------------
+        if n_strong < 2:
+            base = 0.35 if not warns else 0.25
             if mismatch:
-                why.append(f"domain_mismatch ({proposal_bucket} vs {evidence_bucket})")
+                base = max(0.10, base - self.domain_mismatch_penalty)
 
             return ProposalVerdict(
                 verdict="inconclusive",
                 confidence=base,
-                explanation="Not enough strong grounded evidence to support/refute. " + ("; ".join(why) if why else ""),
+                explanation=(
+                    "Semantic similarity exists but evidence lacks strength "
+                    f"(strong_chunks={n_strong}/2 best_quality={best_q:.2f})"
+                ),
                 sanity=sanity,
                 evidence=evidence,
                 required_to_convince=[
-                    "Retrieve higher-quality evidence chunks (methods + numeric results).",
-                    "Tighten the proposal into a measurable claim (e.g., % removal under conditions).",
-                    "Add sources explicitly about the same domain/mechanism.",
+                    "Provide at least 2 chunks with numeric results or experimental methods.",
+                    "Cite papers reporting measurable outcomes.",
                 ],
             )
 
-        # 3) Evidence seems relevant
-        base_conf = 0.70 if not warns else 0.55
-        conf = min(0.90, base_conf + 0.10 * (best_ev_sim - self.th))
+        # -----------------------------
+        # 4) Supported (STRICT)
+        # -----------------------------
+        base_conf = 0.62 if not warns else 0.50
+
+        conf = (
+            base_conf
+            + 0.12 * min(1.0, (best_ev_sim - self.th))
+            + 0.10 * min(1.0, best_q)
+        )
+
+        conf = min(0.85, conf)  # hard cap until you build verifier
+
         if mismatch:
             conf = max(0.10, conf - self.domain_mismatch_penalty)
 
         return ProposalVerdict(
             verdict="supported",
-            confidence=conf,
-            explanation="Evidence is semantically aligned to the claim (grounded to provided chunks). This is retrieval-grounded support, not a proof.",
+            confidence=float(conf),
+            explanation="Supported by >=2 strong evidence chunks (methods/results detected).",
             sanity=sanity,
             evidence=evidence,
             required_to_convince=[
-                "Provide a falsifiable prediction or quantitative threshold.",
-                "Cite a source that explicitly reports the method + outcome.",
+                "Convert into falsifiable quantitative prediction.",
+                "Report exact thresholds or expected values.",
             ],
         )
