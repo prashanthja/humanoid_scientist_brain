@@ -221,36 +221,36 @@
       "count": 4
     },
     "a branch --related_to--> a new branch": {
-      "ema": 0.7763174419503456,
-      "count": 11
+      "ema": 0.7766640907996016,
+      "count": 16
     },
     "a basic knowledge of calculus and linear algebra with some commonly used mathematical terminology --related_to--> a crucial step toward developing autonomous agents that can learn and generalize across the open web continuously": {
-      "ema": 0.9301082805365332,
-      "count": 11
+      "ema": 0.9304108617069271,
+      "count": 13
     },
     "a basic knowledge of calculus and linear algebra with some commonly used mathematical terminology --related_to--> a desire or expectation that some of the parameters are exactly zero or do not substantially contribute": {
-      "ema": 0.924234465717207,
-      "count": 11
+      "ema": 0.9245351360286183,
+      "count": 13
     },
     "a basic knowledge of calculus and linear algebra with some commonly used mathematical terminology --related_to--> a description of the challenges in the definition of heat from the perspective of fluctuating thermodynamical potentials": {
-      "ema": 0.9361078993889228,
-      "count": 11
+      "ema": 0.9364124323446434,
+      "count": 13
     },
     "a number of the most central algorithms are described in enough detail that the main results --related_to--> a significant fraction of highly connected nodes that play an important role in the connectivity of the network": {
-      "ema": 0.8453382803271378,
-      "count": 11
+      "ema": 0.8456132842719393,
+      "count": 13
     },
     "a best practice for prioritizing zincophilic sites in a more practical metric --related_to--> alexandria put geometry in a logical framework and used axioms to define complicated objects such as triangles": {
-      "ema": 0.8919144406167125,
-      "count": 11
+      "ema": 0.892204596635082,
+      "count": 13
     },
     "a best practice for prioritizing zincophilic sites in a more practical metric --related_to--> a state of matter that results from a gaseous state having undergone some degree of ionization": {
-      "ema": 0.8850757389795476,
-      "count": 11
+      "ema": 0.8853636702436721,
+      "count": 13
     },
     "a best practice for prioritizing zincophilic sites in a more practical metric --related_to--> a promising material for infrared optical fibers due to its wide transmission window and low theoretical attenuation": {
-      "ema": 0.8801767601995325,
-      "count": 11
+      "ema": 0.8804630977365997,
+      "count": 13
     },
     "a number of the most central algorithms are described in enough detail that the main results --related_to--> a quasiclassical domain is emergent in the universe as a consequence of the initial condition and the action function": {
       "ema": 0.6600896172761918,
@@ -265,8 +265,8 @@
       "count": 1
     },
     "a cause --related_to--> a range": {
-      "ema": 0.4063410939276219,
-      "count": 1
+      "ema": 0.7043005271165038,
+      "count": 4
     },
     "a branch of physics and metaphysics dealing with the nature of the universe --related_to--> an evolving physics tool used to answer fundamental questions in particle physics": {
       "ema": 0.4757031638920307,
@@ -299,6 +299,30 @@
     "a bit less than the speed of light --related_to--> a possible version of the unification": {
       "ema": 0.4586735135316849,
       "count": 1
+    },
+    "a challenge for exactly --related_to--> a majority": {
+      "ema": 0.6810800667343141,
+      "count": 3
+    },
+    "a challenge for exactly --related_to--> a type of nonrelativistic reduction": {
+      "ema": 0.7009703020750582,
+      "count": 3
+    },
+    "a challenge for exactly --related_to--> a theory of quantum gravity": {
+      "ema": 0.6996279868429304,
+      "count": 3
+    },
+    "a cause --related_to--> a pre": {
+      "ema": 0.6549163359341026,
+      "count": 3
+    },
+    "a case of strong emergence --related_to--> a metaphor for this behavior": {
+      "ema": 0.6997768268851339,
+      "count": 3
+    },
+    "a branch --related_to--> a brief review": {
+      "ema": 0.6856875679587127,
+      "count": 3
     }
   }
 }

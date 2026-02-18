@@ -1,3 +1,4 @@
+# main.py
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
@@ -119,8 +120,7 @@ def to_enriched_items(docs: List[Dict[str, Any]], topic: str) -> List[Dict[str, 
         })
     return enriched
 
-
-def to_chunks(enriched_docs: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+def to_chunks(enriched_docs: List[Dict[str, Any]], topic: str) -> List[Dict[str, Any]]:
     chunks = []
     for it in enriched_docs:
         parts = chunk_text(it.get("text", ""))
@@ -129,9 +129,14 @@ def to_chunks(enriched_docs: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
                 "text": p,
                 "paper_title": it.get("paper_title", "unknown"),
                 "source": it.get("source", "unknown"),
-                "meta_json": json.dumps({"concepts": it.get("concepts","")}),
+                "meta_json": json.dumps({
+                    "concepts": it.get("concepts", ""),
+                    "domain": topic
+                }),
             })
     return chunks
+
+
 
 
 # ---------------------------------------------------------------------
@@ -154,30 +159,6 @@ def main():
 
     reflection = ReflectionEngine(omni, safety, kb, trainer)
 
-    # Evidence evaluator (kept) — uses KB embeddings cache; set higher later
-    evaluator = EvidenceEvaluator(
-        kb,
-        bridge,
-        reflection.kg,
-        max_index_items=KB_INDEX_ITEMS_FOR_EVIDENCE,
-        top_k=10
-    )
-
-    hypgen = HypothesisGenerator(reflection.kg, bridge, kb)
-    validator = HypothesisValidator(kb, bridge, reflection.kg)
-    evolver = HypothesisEvolver(kb, reflection.kg)
-
-    # Benchmark evaluator (your retrieval-grounded benchmark)
-    model_tester = ModelEvaluator(trainer, kb, bridge)
-
-    # NEW: proposal judge engine
-    proposal_engine = ProposalEvaluator(
-    kb, bridge,
-    top_k=10,
-    evidence_threshold=0.60,
-    max_kb_items=3000,
-    require_evidence=True,          # ✅ force grounded behavior
-)
     # NEW: chunk index (real retrieval)
     chunk_index = ChunkIndex(
         chunk_store=chunk_store,
@@ -187,7 +168,35 @@ def main():
         chunk_batch=CHUNK_INDEX_BATCH,
     )
 
-    # Topic seed set
+    # Evidence evaluator — IMPORTANT: pass chunk_index + enable chunk mode
+    evaluator = EvidenceEvaluator(
+        kb,
+        bridge,
+        reflection.kg,
+        max_index_items=KB_INDEX_ITEMS_FOR_EVIDENCE,
+        top_k=10,
+        chunk_index=chunk_index,
+        use_chunk_index=True,
+    )
+    print("EvidenceEvaluator chunk_mode:", bool(evaluator.chunk_index) and bool(evaluator.use_chunk_index))
+
+    hypgen = HypothesisGenerator(reflection.kg, bridge, kb)
+    validator = HypothesisValidator(kb, bridge, reflection.kg)
+    evolver = HypothesisEvolver(kb, reflection.kg)
+
+    # Benchmark evaluator
+    model_tester = ModelEvaluator(trainer, kb, bridge)
+
+    # Proposal judge engine
+    proposal_engine = ProposalEvaluator(
+        kb,
+        bridge,
+        top_k=10,
+        evidence_threshold=0.60,
+        max_kb_items=3000,
+        require_evidence=True,  # keep grounded behavior
+    )
+
     topics = [
         "physics", "mathematics", "quantum mechanics", "relativity",
         "thermodynamics", "electromagnetism", "nuclear physics", "fluid dynamics",
@@ -206,32 +215,24 @@ def main():
         total_new_for_training = 0
         total_chunks_added = 0
 
-        # ----------------------------
-        # Retrieve → Filter → Store → Chunk → Train
-        # ----------------------------
         for topic in topics:
             docs = omni.retrieve_universal(topic)[:MAX_DOCS_PER_TOPIC]
             safe_docs = safety.filter(docs)
 
-            # Track only unseen by TrainingMemory (so we don't retrain same doc)
             new_docs = memory.filter_new(safe_docs)
-
             if not new_docs:
                 print(f"⚙️ Skipping '{topic}' (no unseen docs).")
                 continue
 
             enriched = to_enriched_items(new_docs, topic)
 
-            # Store into KB ONCE (enriched form)
             kb.store(enriched)
 
-            # Chunk them and store chunks (this powers retrieval)
-            chunks = to_chunks(enriched)
+            chunks = to_chunks(enriched, topic)
             res = chunk_store.upsert_chunks(chunks)
             total_chunks_added += res["added"]
             print(f"🧩 ChunkStore: +{res['added']} chunks (skipped {res['skipped']}) for '{topic}'")
 
-            # Train if enough new material
             if len(enriched) >= TRAIN_MIN_NEW:
                 trainer.incremental_train(enriched)
                 total_new_for_training += len(enriched)
@@ -241,7 +242,7 @@ def main():
             memory.mark_trained(enriched)
             all_docs_for_topic_mining.extend(enriched)
 
-        # After ingest, rebuild chunk index (simple + safe)
+        # Rebuild chunk index after ingest
         if total_chunks_added > 0:
             print("\n🔧 Rebuilding ChunkIndex (new chunks ingested)...")
             chunk_index.rebuild()
@@ -249,16 +250,14 @@ def main():
         else:
             print("\nℹ️ No new chunks ingested; keeping existing ChunkIndex.")
 
-        # ----------------------------
-        # Reflection: update KG
-        # ----------------------------
+        # Reflection
         print("\n🧠 Reflecting & updating Knowledge Graph...")
         reflection.review_knowledge()
 
-        # ----------------------------
-        # Hypothesis generation + validation + evidence eval
-        # ----------------------------
-        hyps = hypgen.generate(top_n=20)
+        # Hypotheses + evidence eval
+        hyps = [h for h in hyps if HypothesisGenerator.is_valid_hypothesis(h.get("hypothesis",""))]
+
+        
         if hyps:
             validated = validator.validate(hyps, cycle=cycle)
             evolver.update(validated, cycle=cycle)
@@ -269,25 +268,19 @@ def main():
             for e in evaluated[:5]:
                 print(f"  → {e.get('verdict')}: {str(e.get('hypothesis',''))[:80]}")
 
-        # ----------------------------
-        # Expand topic space dynamically
-        # ----------------------------
+        # Expand topic space
         new_topics = omni.extract_new_topics(all_docs_for_topic_mining)
         for t in new_topics:
             if t not in topics and len(t) > 4:
                 topics.append(t)
                 print(f"🌱 Discovered new topic: {t}")
 
-        # ----------------------------
         # Benchmark evaluation
-        # ----------------------------
         print("\n🧪 Evaluating model scientific understanding (benchmark)...")
         eval_report = model_tester.evaluate_on_benchmark()
         print(json.dumps(eval_report, indent=2))
 
-        # ----------------------------
-        # Demo: proposal judge (example)
-        # ----------------------------
+        # Demo: proposal judge
         demo_proposal = "F = m a assuming classical mechanics and low speeds."
         print("\n🧾 Proposal Judge Demo:")
         demo_hits = chunk_index.retrieve("Newton's second law", top_k=5, use_mmr=True)
@@ -298,14 +291,10 @@ def main():
         )
         print(json.dumps(judged["verdict"], indent=2))
 
-        # Also demo chunk retrieval:
         print("\n🔎 Chunk Retrieval Demo (Newton 2):")
         hits = chunk_index.retrieve("Newton's second law", top_k=5)
         print(json.dumps(hits, indent=2))
 
-        # ----------------------------
-        # Dashboard state
-        # ----------------------------
         dash_payload = {
             "cycle": cycle,
             "device": str(device),
@@ -350,24 +339,10 @@ if __name__ == "__main__":
         chunk_store = ChunkStore()
 
         trainer = OnlineTrainer()
-        memory = TrainingMemory()
         bridge = EmbeddingBridge(trainer)
-
         reflection = ReflectionEngine(omni, safety, kb, trainer)
 
-        evaluator = EvidenceEvaluator(
-            kb,
-            bridge,
-            reflection.kg,
-            max_index_items=KB_INDEX_ITEMS_FOR_EVIDENCE,
-            top_k=10
-        )
-
-        hypgen = HypothesisGenerator(reflection.kg, bridge, kb)
-        validator = HypothesisValidator(kb, bridge, reflection.kg)
-        proposal_engine = ProposalEvaluator(kb, bridge, top_k=10, evidence_threshold=0.60, max_kb_items=3000)
-        print("ProposalEvaluator loaded from:", ProposalEvaluator.__module__)
-
+        # ✅ Build ChunkIndex first
         chunk_index = ChunkIndex(
             chunk_store=chunk_store,
             encoder=bridge,
@@ -375,6 +350,31 @@ if __name__ == "__main__":
             max_items=MAX_CHUNKS_TO_INDEX,
             chunk_batch=CHUNK_INDEX_BATCH,
         )
+
+        # ✅ CRITICAL FIX: pass chunk_index + enable chunk mode here too
+        evaluator = EvidenceEvaluator(
+            kb,
+            bridge,
+            reflection.kg,
+            max_index_items=KB_INDEX_ITEMS_FOR_EVIDENCE,
+            top_k=10,
+            chunk_index=chunk_index,
+            use_chunk_index=True,
+        )
+        print("EvidenceEvaluator chunk_mode:", bool(evaluator.chunk_index) and bool(evaluator.use_chunk_index))
+
+        hypgen = HypothesisGenerator(reflection.kg, bridge, kb)
+        validator = HypothesisValidator(kb, bridge, reflection.kg)
+
+        proposal_engine = ProposalEvaluator(
+            kb,
+            bridge,
+            top_k=10,
+            evidence_threshold=0.60,
+            max_kb_items=3000,
+            require_evidence=True,
+        )
+        print("ProposalEvaluator loaded from:", ProposalEvaluator.__module__)
 
         from reasoning_module.discover import DiscoveryEngine, DiscoveryConfig
         discover = DiscoveryEngine(
@@ -397,7 +397,7 @@ if __name__ == "__main__":
             print("source:", e.get("source"))
             print("similarity:", round(float(e.get("similarity_to_question", 0.0) or 0.0), 4))
             print("title:", e.get("paper_title"))
-            print("preview:", (e.get("text","")[:200]).replace("\n"," "))
+            print("preview:", (e.get("text", "")[:200]).replace("\n", " "))
 
     else:
         main()

@@ -5,7 +5,7 @@
 
 from __future__ import annotations
 from dataclasses import dataclass
-from typing import Dict, Any, List
+from typing import Dict, Any, List, Optional
 
 from reasoning_module.proposal_evaluator import ProposalEvaluator
 from reasoning_module.claim_extractor import extract_claims
@@ -46,6 +46,23 @@ class DiscoveryEngine:
         # ✅ wire extractor
         self.claim_extractor = extract_claims
 
+        # ------------------------------------------------------------
+        # ✅ HARD WIRING GUARD (this fixes the exact bug you saw)
+        # If the passed EvidenceEvaluator wasn't constructed with chunk_index,
+        # force it to use ChunkIndex anyway so it can't fall back to KB mode.
+        # ------------------------------------------------------------
+        if getattr(self.evidence_evaluator, "chunk_index", None) is None and self.chunk_index is not None:
+            try:
+                self.evidence_evaluator.chunk_index = self.chunk_index
+            except Exception:
+                pass
+        try:
+            # force chunk grounded evaluation whenever we have a chunk_index
+            if self.chunk_index is not None:
+                self.evidence_evaluator.use_chunk_index = True
+        except Exception:
+            pass
+
     # ---------------------------
     # Core
     # ---------------------------
@@ -64,7 +81,7 @@ class DiscoveryEngine:
         # 1) Retrieve evidence chunks
         chunks = self._retrieve_chunks(q)
 
-        # 2) Extract claims from evidence chunks ✅ FIX: no trailing comma
+        # 2) Extract claims from evidence chunks
         claims = self._extract_claims_from_chunks(chunks, source_name=source_name)
 
         # 3) Judge the query as a proposal (grounded to provided chunks)
@@ -79,10 +96,10 @@ class DiscoveryEngine:
         hyps = self.hypgen.generate(top_n=max(self.cfg.max_hypotheses, 20)) or []
         validated = self.validator.validate(hyps[: self.cfg.max_hypotheses], cycle=0) if hyps else []
 
-        # 5) Evidence evaluate hypotheses
+        # 5) Evidence evaluate hypotheses (chunk-grounded if wired correctly)
         evaluated = self.evidence_evaluator.evaluate_batch(validated) if validated else []
 
-        # 6) Rank hypotheses
+        # 6) Rank hypotheses (use fields you ACTUALLY have)
         evaluated_sorted = sorted(evaluated, key=self._score_hypothesis, reverse=True)
 
         return {
@@ -113,16 +130,20 @@ class DiscoveryEngine:
                     "chunk_id": None,
                     "paper_title": "",
                     "source": "system",
+                    "text": f"Chunk retrieval failed: {e}",
                     "text_preview": f"Chunk retrieval failed: {e}",
                     "similarity": 0.0,
+                    "sim_embedding": 0.0,
                 }]
         except Exception as e:
             return [{
                 "chunk_id": None,
                 "paper_title": "",
                 "source": "system",
+                "text": f"Chunk retrieval failed: {e}",
                 "text_preview": f"Chunk retrieval failed: {e}",
                 "similarity": 0.0,
+                "sim_embedding": 0.0,
             }]
 
     # ---------------------------
@@ -139,6 +160,13 @@ class DiscoveryEngine:
             if not text:
                 continue
 
+            # Similarity field varies by retriever; normalize it
+            sim = (
+                c.get("sim_embedding")
+                if c.get("sim_embedding") is not None
+                else c.get("similarity")
+            )
+
             prov = SourceTrace(
                 source_type="chunk",
                 source_name=source_name,
@@ -146,7 +174,7 @@ class DiscoveryEngine:
                     "chunk_id": c.get("chunk_id"),
                     "paper_title": c.get("paper_title", ""),
                     "source": c.get("source", ""),
-                    "similarity": c.get("similarity", None),
+                    "similarity": sim,
                 },
             )
 
@@ -183,9 +211,30 @@ class DiscoveryEngine:
     # Scoring + Actions
     # ---------------------------
     def _score_hypothesis(self, h: Dict[str, Any]) -> float:
-        conf = float(h.get("confidence", h.get("evidence_confidence", 0.0)) or 0.0)
-        ev = float(h.get("evidence_score", 0.0) or 0.0)
-        return 0.6 * ev + 0.4 * conf
+        """
+        EvidenceEvaluator outputs:
+          - verdict
+          - evidence_confidence
+          - strong_chunks
+          - top_evidence (with weights)
+
+        So score with what we actually have (no fantasy 'evidence_score').
+        """
+        conf = float(h.get("evidence_confidence", 0.0) or 0.0)
+        strong = float(h.get("strong_chunks", 0) or 0)
+
+        # sum top evidence weights if present (works in both KB + chunk mode)
+        te = h.get("top_evidence") or []
+        wsum = 0.0
+        if isinstance(te, list) and te:
+            for e in te[:10]:
+                try:
+                    wsum += float(e.get("weight", 0.0) or 0.0)
+                except Exception:
+                    pass
+
+        # normalize-ish: weights usually are <= ~1 total; strong_chunks bumps ranking.
+        return (0.60 * conf) + (0.25 * min(1.0, wsum)) + (0.15 * min(1.0, strong / 3.0))
 
     def _next_actions(self, chunks: List[Dict[str, Any]], claims: List[Dict[str, Any]], verdict_obj: Dict[str, Any]) -> List[str]:
         actions = [

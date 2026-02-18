@@ -112,6 +112,14 @@ def _looks_like_concept(s: str) -> bool:
     if "--" in low and "-->" in low:
         return False
 
+    if low.startswith(("a ", "an ", "the ")):
+        # allow only if it's short and noun-like
+        if len(low) > 35:
+            return False
+    
+    if "best practice" in low or "a basic knowledge" in low:
+        return False
+
     return True
 
 
@@ -190,6 +198,21 @@ class HypothesisGenerator:
     def _has_edge(self, a: str, relation: str, c: str) -> bool:
         rels = self._neighbors(a)
         return c in rels.get(relation, [])
+    
+    BAD_PATTERNS = [
+    r"\b(a|the)\s+(pre|majority|range|brief review)\b",
+    r"--related_to-->\s*(a|the)\s*$",
+    r"\bexactly\b",
+]
+
+    def is_valid_hypothesis(text: str) -> bool:
+        if not text or len(text) < 20:
+            return False
+        for p in BAD_PATTERNS:
+            if re.search(p, text.lower()):
+                return False
+        return True
+
 
     def _all_nodes(self) -> List[str]:
         # Pull candidates from KG
@@ -301,10 +324,13 @@ class HypothesisGenerator:
                                 continue
 
                         # embedding score
-                        s_ab = _cos(self._cache.get(a) or self._get_vecs([a])[0],
-                                    self._cache.get(b) or self._get_vecs([b])[0])
-                        s_bc = _cos(self._cache.get(b) or self._get_vecs([b])[0],
-                                    self._cache.get(c) or self._get_vecs([c])[0])
+                        va = self._cache[a] if a in self._cache else self._get_vecs([a])[0]
+                        vb = self._cache[b] if b in self._cache else self._get_vecs([b])[0]
+                        vc = self._cache[c] if c in self._cache else self._get_vecs([c])[0]
+
+                        s_ab = _cos(va, vb)
+                        s_bc = _cos(vb, vc)
+
                         score = 0.5 * (s_ab + s_bc)
 
                         proposals.append({
