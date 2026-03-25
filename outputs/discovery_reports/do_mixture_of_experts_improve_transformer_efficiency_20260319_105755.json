@@ -1,0 +1,350 @@
+{
+  "query": "Do mixture-of-experts improve transformer efficiency?",
+  "timestamp": "2026-03-19 10:57:55",
+  "domain": "transformer_efficiency",
+  "proposal_verdict": "inconclusive",
+  "proposal_confidence": 0.35,
+  "proposal_explanation": "Semantic similarity exists but evidence lacks strength (strong_chunks=0/2 best_quality=0.45)",
+  "evidence_count": 10,
+  "top_papers": [
+    "Attention or Convolution: Transformer Encoders in Audio Language Models for Inference Efficiency",
+    "Cross-token Modeling with Conditional Computation",
+    "Untied Ulysses: Memory-Efficient Context Parallelism via Headwise Chunking",
+    "Linear Attention Sequence Parallelism",
+    "Efficient Large Language Model Inference with Neural Block Linearization",
+    "Union of Experts: Adapting Hierarchical Routing to Equivalently Decomposed Transformer",
+    "BAQET: BRAM-aware Quantization for Efficient Transformer Inference via Stream-based Architecture on an FPGA",
+    "Efficient Language Modeling with Sparse all-MLP"
+  ],
+  "extracted_claim_count": 10,
+  "top_claims": [
+    {
+      "claim": "it prevents propagating the errors between different quantized modules compared to recent speech transformers mixing quantized convolution and the quantized self-attention modules.",
+      "paper_title": "Attention or Convolution: Transformer Encoders in Audio Language Models for Inference Efficiency",
+      "domain": "transformer_efficiency"
+    },
+    {
+      "claim": "Our study suggests that we could pay attention to the architecture of audio language language to improve their inference efficiency.",
+      "paper_title": "Attention or Convolution: Transformer Encoders in Audio Language Models for Inference Efficiency",
+      "domain": "transformer_efficiency"
+    },
+    {
+      "claim": "Efficiently processing long sequences with Transformer models usually requires splitting the computations across accelerators via context parallelism.",
+      "paper_title": "Untied Ulysses: Memory-Efficient Context Parallelism via Headwise Chunking",
+      "domain": "transformer_efficiency"
+    },
+    {
+      "claim": "The dominant approaches in this family of methods, such as Ring Attention or DeepSpeed Ulysses, enable scaling over the context dimension but do not focus on memory efficiency, which limits the sequence lengths they can support.",
+      "paper_title": "Untied Ulysses: Memory-Efficient Context Parallelism via Headwise Chunking",
+      "domain": "transformer_efficiency"
+    },
+    {
+      "claim": "More advanced techniques, such as Fully Pipelined Distributed Transformer or activation offloading, can further extend the possible context length at the cost of training throughput.",
+      "paper_title": "Untied Ulysses: Memory-Efficient Context Parallelism via Headwise Chunking",
+      "domain": "transformer_efficiency"
+    }
+  ],
+  "grounded_claim_count": 5,
+  "supported_count": 3,
+  "contradicted_count": 0,
+  "inconclusive_count": 2,
+  "top_grounded": [
+    {
+      "claim": "In addition, by proposing importance-score routing strategy for MoE and redesigning the image representation shape, we further improve our model's computational efficiency.",
+      "claim_type": "statement",
+      "domain": "transformer_efficiency",
+      "grounding": {
+        "claim": "In addition, by proposing importance-score routing strategy for MoE and redesigning the image representation shape, we further improve our model's computational efficiency.",
+        "support_count": 4,
+        "contradict_count": 0,
+        "neutral_count": 1,
+        "total_evidence": 5,
+        "unique_sources": 2,
+        "unique_titles": 5,
+        "avg_support_score": 0.6323,
+        "avg_contradict_score": 0.0,
+        "diversity_score": 1.0,
+        "contradiction_penalty": 0.0,
+        "coverage_score": 0.8333,
+        "grounding_score": 0.9141,
+        "top_support": [
+          {
+            "text": "<jats:p>Mixture-of-Experts (MoE) enhances model performance while maintaining computational efficiency, making it well-suited for large-scale applications. In existing MoE paradigms, each expert works as an individual, leading to inadequate collaboration. Moreover, the MoE framework has not been effectively extended to attention blocks, which limits further efficiency improvements. To tackle these issues, we propose Union-of-Experts (UoE), which decomposes the transformer model into an equivalent group of experts and applies selective routing to input data and experts. Our approach advances MoE design with four key innovations: (1) We conduct equivalent expert decomposition on both MLP blocks and attention blocks based on matrix partitioning in tensor parallelism. (2) We develop two routing paradigms: patch-wise data selection and expert selection, to apply routing at different levels. (",
+            "paper_title": "Union of Experts: Adapting Hierarchical Routing to Equivalently Decomposed Transformer",
+            "source": "crossref",
+            "chunk_id": 22,
+            "verdict": "support",
+            "score": 0.6759412878751755,
+            "similarity": 0.8245250582695007,
+            "overlap": 0.4
+          },
+          {
+            "text": "it prevents propagating the errors between different quantized modules compared to recent speech transformers mixing quantized convolution and the quantized self-attention modules. Our study suggests that we could pay attention to the architecture of audio language language to improve their inference efficiency.",
+            "paper_title": "Attention or Convolution: Transformer Encoders in Audio Language Models for Inference Efficiency",
+            "source": "semantic_scholar",
+            "chunk_id": 413,
+            "verdict": "support",
+            "score": 0.6653310924768449,
+            "similarity": 0.8889709115028381,
+            "overlap": 0.25
+          },
+          {
+            "text": "g competitive accuracy on multiple reasoning benchmarks. For instance, applying NBL to 12 self-attention layers in DeepSeek-R1-Distill-Llama-8B increases the inference speed by 32% with less than 1% accuracy trade-off, making it a flexible and promising solution to improve the inference efficiency of LLMs. The implementation is available at: https://github.com/LIONS-EPFL/NBL.",
+            "paper_title": "Efficient Large Language Model Inference with Neural Block Linearization",
+            "source": "semantic_scholar",
+            "chunk_id": 306,
+            "verdict": "support",
+            "score": 0.59994584441185,
+            "similarity": 0.8153012990951538,
+            "overlap": 0.2
+          },
+          {
+            "text": "such as TensorRT, ONNX Runtime, and Hugging Face Optimum are highlighted for their ability to enable seamless model conversion and acceleration in production environments. Extensive benchmarking is conducted to evaluate trade-offs between latency, throughput, and accuracy, demonstrating that these optimizations can reduce inference time by up to 60% without compromising predictive performance compared to the original scikit-learn model. The insights provided herein are valuable for software engineers, AI practitioners, and researchers interested in deploying high-performance Transformer models for use in conversational AI, edge computing, and real-time systems. By integrating structured optimization techniques, organizations can enhance model efficiency, reduce operational costs, and improve responsiveness in mission-critical applications. The paper also suggests future research directi",
+            "paper_title": "Optimizing Transformer Models for Low-Latency Inference: Techniques, Architectures, and Code Implementations",
+            "source": "semantic_scholar",
+            "chunk_id": 168,
+            "verdict": "support",
+            "score": 0.5878255945444106,
+            "similarity": 0.7966547608375549,
+            "overlap": 0.2
+          }
+        ],
+        "top_contradict": []
+      },
+      "verdict": {
+        "claim": "In addition, by proposing importance-score routing strategy for MoE and redesigning the image representation shape, we further improve our model's computational efficiency.",
+        "verdict": "supported",
+        "confidence": 0.95,
+        "explanation": "Support outweighs contradiction (support=4, contradict=0) with strong grounding=0.91.",
+        "grounding_score": 0.9141,
+        "support_count": 4,
+        "contradict_count": 0,
+        "neutral_count": 1,
+        "total_evidence": 5
+      }
+    },
+    {
+      "claim": "it prevents propagating the errors between different quantized modules compared to recent speech transformers mixing quantized convolution and the quantized self-attention modules.",
+      "claim_type": "statement",
+      "domain": "transformer_efficiency",
+      "grounding": {
+        "claim": "it prevents propagating the errors between different quantized modules compared to recent speech transformers mixing quantized convolution and the quantized self-attention modules.",
+        "support_count": 4,
+        "contradict_count": 0,
+        "neutral_count": 3,
+        "total_evidence": 7,
+        "unique_sources": 2,
+        "unique_titles": 6,
+        "avg_support_score": 0.6862,
+        "avg_contradict_score": 0.0,
+        "diversity_score": 1.0,
+        "contradiction_penalty": 0.0,
+        "coverage_score": 1.0,
+        "grounding_score": 0.8421,
+        "top_support": [
+          {
+            "text": "it prevents propagating the errors between different quantized modules compared to recent speech transformers mixing quantized convolution and the quantized self-attention modules. Our study suggests that we could pay attention to the architecture of audio language language to improve their inference efficiency.",
+            "paper_title": "Attention or Convolution: Transformer Encoders in Audio Language Models for Inference Efficiency",
+            "source": "semantic_scholar",
+            "chunk_id": 413,
+            "verdict": "support",
+            "score": 0.9278310924768448,
+            "similarity": 0.8889709115028381,
+            "overlap": 1.0
+          },
+          {
+            "text": "<jats:p>Mixture-of-Experts (MoE) enhances model performance while maintaining computational efficiency, making it well-suited for large-scale applications. In existing MoE paradigms, each expert works as an individual, leading to inadequate collaboration. Moreover, the MoE framework has not been effectively extended to attention blocks, which limits further efficiency improvements. To tackle these issues, we propose Union-of-Experts (UoE), which decomposes the transformer model into an equivalent group of experts and applies selective routing to input data and experts. Our approach advances MoE design with four key innovations: (1) We conduct equivalent expert decomposition on both MLP blocks and attention blocks based on matrix partitioning in tensor parallelism. (2) We develop two routing paradigms: patch-wise data selection and expert selection, to apply routing at different levels. (",
+            "paper_title": "Union of Experts: Adapting Hierarchical Routing to Equivalently Decomposed Transformer",
+            "source": "crossref",
+            "chunk_id": 22,
+            "verdict": "support",
+            "score": 0.6137190656529532,
+            "similarity": 0.8245250582695007,
+            "overlap": 0.2222
+          },
+          {
+            "text": "g competitive accuracy on multiple reasoning benchmarks. For instance, applying NBL to 12 self-attention layers in DeepSeek-R1-Distill-Llama-8B increases the inference speed by 32% with less than 1% accuracy trade-off, making it a flexible and promising solution to improve the inference efficiency of LLMs. The implementation is available at: https://github.com/LIONS-EPFL/NBL.",
+            "paper_title": "Efficient Large Language Model Inference with Neural Block Linearization",
+            "source": "semantic_scholar",
+            "chunk_id": 306,
+            "verdict": "support",
+            "score": 0.6077236221896277,
+            "similarity": 0.8153012990951538,
+            "overlap": 0.2222
+          },
+          {
+            "text": "such as TensorRT, ONNX Runtime, and Hugging Face Optimum are highlighted for their ability to enable seamless model conversion and acceleration in production environments. Extensive benchmarking is conducted to evaluate trade-offs between latency, throughput, and accuracy, demonstrating that these optimizations can reduce inference time by up to 60% without compromising predictive performance compared to the original scikit-learn model. The insights provided herein are valuable for software engineers, AI practitioners, and researchers interested in deploying high-performance Transformer models for use in conversational AI, edge computing, and real-time systems. By integrating structured optimization techniques, organizations can enhance model efficiency, reduce operational costs, and improve responsiveness in mission-critical applications. The paper also suggests future research directi",
+            "paper_title": "Optimizing Transformer Models for Low-Latency Inference: Techniques, Architectures, and Code Implementations",
+            "source": "semantic_scholar",
+            "chunk_id": 168,
+            "verdict": "support",
+            "score": 0.5956033723221884,
+            "similarity": 0.7966547608375549,
+            "overlap": 0.2222
+          }
+        ],
+        "top_contradict": []
+      },
+      "verdict": {
+        "claim": "it prevents propagating the errors between different quantized modules compared to recent speech transformers mixing quantized convolution and the quantized self-attention modules.",
+        "verdict": "supported",
+        "confidence": 0.9421,
+        "explanation": "Support outweighs contradiction (support=4, contradict=0) with strong grounding=0.84.",
+        "grounding_score": 0.8421,
+        "support_count": 4,
+        "contradict_count": 0,
+        "neutral_count": 3,
+        "total_evidence": 7
+      }
+    },
+    {
+      "claim": "Our study suggests that we could pay attention to the architecture of audio language language to improve their inference efficiency.",
+      "claim_type": "statement",
+      "domain": "transformer_efficiency",
+      "grounding": {
+        "claim": "Our study suggests that we could pay attention to the architecture of audio language language to improve their inference efficiency.",
+        "support_count": 4,
+        "contradict_count": 0,
+        "neutral_count": 5,
+        "total_evidence": 9,
+        "unique_sources": 2,
+        "unique_titles": 8,
+        "avg_support_score": 0.7037,
+        "avg_contradict_score": 0.0,
+        "diversity_score": 1.0,
+        "contradiction_penalty": 0.0,
+        "coverage_score": 1.0,
+        "grounding_score": 0.7628,
+        "top_support": [
+          {
+            "text": "it prevents propagating the errors between different quantized modules compared to recent speech transformers mixing quantized convolution and the quantized self-attention modules. Our study suggests that we could pay attention to the architecture of audio language language to improve their inference efficiency.",
+            "paper_title": "Attention or Convolution: Transformer Encoders in Audio Language Models for Inference Efficiency",
+            "source": "semantic_scholar",
+            "chunk_id": 413,
+            "verdict": "support",
+            "score": 0.9278310924768448,
+            "similarity": 0.8889709115028381,
+            "overlap": 1.0
+          },
+          {
+            "text": "such as TensorRT, ONNX Runtime, and Hugging Face Optimum are highlighted for their ability to enable seamless model conversion and acceleration in production environments. Extensive benchmarking is conducted to evaluate trade-offs between latency, throughput, and accuracy, demonstrating that these optimizations can reduce inference time by up to 60% without compromising predictive performance compared to the original scikit-learn model. The insights provided herein are valuable for software engineers, AI practitioners, and researchers interested in deploying high-performance Transformer models for use in conversational AI, edge computing, and real-time systems. By integrating structured optimization techniques, organizations can enhance model efficiency, reduce operational costs, and improve responsiveness in mission-critical applications. The paper also suggests future research directi",
+            "paper_title": "Optimizing Transformer Models for Low-Latency Inference: Techniques, Architectures, and Code Implementations",
+            "source": "semantic_scholar",
+            "chunk_id": 168,
+            "verdict": "support",
+            "score": 0.6578255945444107,
+            "similarity": 0.7966547608375549,
+            "overlap": 0.4
+          },
+          {
+            "text": "g competitive accuracy on multiple reasoning benchmarks. For instance, applying NBL to 12 self-attention layers in DeepSeek-R1-Distill-Llama-8B increases the inference speed by 32% with less than 1% accuracy trade-off, making it a flexible and promising solution to improve the inference efficiency of LLMs. The implementation is available at: https://github.com/LIONS-EPFL/NBL.",
+            "paper_title": "Efficient Large Language Model Inference with Neural Block Linearization",
+            "source": "semantic_scholar",
+            "chunk_id": 306,
+            "verdict": "support",
+            "score": 0.6232791777451834,
+            "similarity": 0.8153012990951538,
+            "overlap": 0.2667
+          },
+          {
+            "text": "<jats:p>Mixture-of-Experts (MoE) enhances model performance while maintaining computational efficiency, making it well-suited for large-scale applications. In existing MoE paradigms, each expert works as an individual, leading to inadequate collaboration. Moreover, the MoE framework has not been effectively extended to attention blocks, which limits further efficiency improvements. To tackle these issues, we propose Union-of-Experts (UoE), which decomposes the transformer model into an equivalent group of experts and applies selective routing to input data and experts. Our approach advances MoE design with four key innovations: (1) We conduct equivalent expert decomposition on both MLP blocks and attention blocks based on matrix partitioning in tensor parallelism. (2) We develop two routing paradigms: patch-wise data selection and expert selection, to apply routing at different levels. (",
+            "paper_title": "Union of Experts: Adapting Hierarchical Routing to Equivalently Decomposed Transformer",
+            "source": "crossref",
+            "chunk_id": 22,
+            "verdict": "support",
+            "score": 0.6059412878751754,
+            "similarity": 0.8245250582695007,
+            "overlap": 0.2
+          }
+        ],
+        "top_contradict": []
+      },
+      "verdict": {
+        "claim": "Our study suggests that we could pay attention to the architecture of audio language language to improve their inference efficiency.",
+        "verdict": "supported",
+        "confidence": 0.8628,
+        "explanation": "Support outweighs contradiction (support=4, contradict=0) with strong grounding=0.76.",
+        "grounding_score": 0.7628,
+        "support_count": 4,
+        "contradict_count": 0,
+        "neutral_count": 5,
+        "total_evidence": 9
+      }
+    },
+    {
+      "claim": "Experimentally, we are more computation-efficient than Vision Transformers wi",
+      "claim_type": "statement",
+      "domain": "transformer_efficiency",
+      "grounding": {
+        "claim": "Experimentally, we are more computation-efficient than Vision Transformers wi",
+        "support_count": 0,
+        "contradict_count": 0,
+        "neutral_count": 4,
+        "total_evidence": 4,
+        "unique_sources": 1,
+        "unique_titles": 4,
+        "avg_support_score": 0.0,
+        "avg_contradict_score": 0.0,
+        "diversity_score": 0.75,
+        "contradiction_penalty": 0.0,
+        "coverage_score": 0.6667,
+        "grounding_score": 0.3167,
+        "top_support": [],
+        "top_contradict": []
+      },
+      "verdict": {
+        "claim": "Experimentally, we are more computation-efficient than Vision Transformers wi",
+        "verdict": "inconclusive",
+        "confidence": 0.3167,
+        "explanation": "Evidence is mixed or insufficient (support=0, contradict=0, neutral=4).",
+        "grounding_score": 0.3167,
+        "support_count": 0,
+        "contradict_count": 0,
+        "neutral_count": 4,
+        "total_evidence": 4
+      }
+    },
+    {
+      "claim": "Mixture-of-Experts (MoE), a conditional computation architecture, achieved promising performance by scaling local module (i.e.",
+      "claim_type": "statement",
+      "domain": "transformer_efficiency",
+      "grounding": {
+        "claim": "Mixture-of-Experts (MoE), a conditional computation architecture, achieved promising performance by scaling local module (i.e.",
+        "support_count": 0,
+        "contradict_count": 0,
+        "neutral_count": 2,
+        "total_evidence": 2,
+        "unique_sources": 1,
+        "unique_titles": 2,
+        "avg_support_score": 0.0,
+        "avg_contradict_score": 0.0,
+        "diversity_score": 0.75,
+        "contradiction_penalty": 0.0,
+        "coverage_score": 0.3333,
+        "grounding_score": 0.2333,
+        "top_support": [],
+        "top_contradict": []
+      },
+      "verdict": {
+        "claim": "Mixture-of-Experts (MoE), a conditional computation architecture, achieved promising performance by scaling local module (i.e.",
+        "verdict": "inconclusive",
+        "confidence": 0.2333,
+        "explanation": "Evidence is mixed or insufficient (support=0, contradict=0, neutral=2).",
+        "grounding_score": 0.2333,
+        "support_count": 0,
+        "contradict_count": 0,
+        "neutral_count": 2,
+        "total_evidence": 2
+      }
+    }
+  ],
+  "knowledge_gaps": [
+    "No contradicting evidence found — this may indicate limited coverage of papers reporting failure cases or trade-offs."
+  ],
+  "next_actions": [
+    "Pick 1 concrete intervention and convert it into a falsifiable claim (inputs → mechanism → measurable outputs).",
+    "Run targeted retrieval using 3–5 specific transformer-efficiency keywords and compare results.",
+    "Prioritize evidence chunks with benchmark numbers (latency, throughput, memory, perplexity, context length).",
+    "Generate an experiment plan: baseline, efficiency metric, quality metric, ablations, acceptance threshold."
+  ]
+}

@@ -13,8 +13,9 @@ import hashlib
 from typing import List, Dict, Any
 
 
-DB_PATH = "knowledge_base/knowledge.db"
-
+# knowledge_base/chunk_store.py
+BASE_DIR = os.path.dirname(__file__)
+DB_PATH = os.path.join(BASE_DIR, "knowledge.db")
 
 def _normalize_text(text: str) -> str:
     return " ".join((text or "").strip().split())
@@ -27,13 +28,16 @@ def _hash(text: str) -> str:
 
 class ChunkStore:
     def __init__(self, db_path: str = DB_PATH):
-        os.makedirs(os.path.dirname(db_path) or "knowledge_base", exist_ok=True)
-        self.conn = sqlite3.connect(db_path, timeout=30)
+        self.db_path = os.path.abspath(db_path)
+        os.makedirs(os.path.dirname(self.db_path), exist_ok=True)
+        self.conn = sqlite3.connect(self.db_path, timeout=30)
         self.conn.execute("PRAGMA journal_mode=WAL;")
         self.conn.execute("PRAGMA synchronous=NORMAL;")
         self.conn.execute("PRAGMA busy_timeout=30000;")
         self.cur = self.conn.cursor()
         self._create_or_migrate()
+        print("🧱 ChunkStore path:", self.db_path)
+        print("🧱 ChunkStore count:", self.count())
 
     def _table_cols(self, table: str) -> List[str]:
         self.cur.execute(f"PRAGMA table_info({table})")

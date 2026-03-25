@@ -1,0 +1,30 @@
+[
+  {
+    "title": "Neural Network Training Acceleration Based on Hybrid Data and Model Parallelism",
+    "text": "<jats:p>Nowadays, deep learning models are quickly increasing in complexity and size, making the training or inference phases unsuitable for most office computers or even high-performance computing servers. Examples of such models include, but are not limited to, large language models and image diffusion models, where the number of parameters to adjust can reach hundreds of billions. Although deep learning models are extremely useful tools, the need for powerful computers to train and use them might compromise the obtained results and also reduce accessibility for many researchers. In this work, we propose a general method to reduce the training time and computing resources (central processing unit and memory usage) by the division of a large-size model into several smaller submodels that are easier to handle but do not affect the final performance. This division depends on the original model and architecture, and hence we propose specific strategies for regression and classification problems. The main result of this work is the development of a public Python library called Skynnet to offer this alternative to deep learning computations.</jats:p>",
+    "url": "https://doi.org/10.14201/adcaij.32609",
+    "source": "crossref",
+    "timestamp": 2026
+  },
+  {
+    "title": "A snapshot of parallelism in distributed deep learning training",
+    "text": "<jats:p>The accelerated development of applications related to artificial intelligence has generated the creation of increasingly complex neural network models with enormous amounts of parameters, currently reaching up to trillions of parameters. Therefore, it makes your training almost impossible without the parallelization of training. Parallelism applied with different approaches is the mechanism that has been used to solve the problem of training on a large scale. This paper presents a glimpse of the state of the art related to parallelism in deep learning training from multiple points of view. The topics of pipeline parallelism, hybrid parallelism, mixture-of-experts and auto-parallelism are addressed in this study, which currently play a leading role in scientific research related to this area. Finally, we develop a series of experiments with data parallelism and model parallelism. The objective is that the reader can observe the performance of two types of parallelism and understand more clearly the approach of each one.</jats:p>",
+    "url": "https://doi.org/10.29375/25392115.5054",
+    "source": "crossref",
+    "timestamp": 2024
+  },
+  {
+    "title": "A Comprehensive Survey on Distributed Deep Learning Training: Parallelism Strategies, Frameworks, and Network Interconnects",
+    "text": "<jats:p>The rapid growth of large language models (LLMs) and deep neural networks has necessitated the development of sophisticated distributed training techniques. Models like GPT-4 with trillions of parameters cannot be trained on a single GPU, making distributed training across multiple GPUs and nodes essential. This survey provides a comprehensive overview of distributed deep learning training technologies, covering four key dimensions: (1) parallelism strategies including data parallelism, tensor parallelism, pipeline parallelism, and their combinations; (2) training frameworks such as DeepSpeed, Megatron-LM, GPipe, and PyTorch FSDP; (3) communication optimization techniques including collective operations, gradient compression, and computation-communication overlap; and (4) network interconnect technologies including NVLink, NVSwitch, InfiniBand, and RDMA over Converged Ethernet (RoCE). We analyze the trade-offs between memory efficiency, computational efficiency, and communication overhead for each approach. Furthermore, we discuss practical deployment considerations for single-node multi-GPU and multi-node multi-GPU configurations. Finally, we identify open challenges and future research directions in this rapidly evolving field.</jats:p>",
+    "url": "https://doi.org/10.20944/preprints202512.2207.v1",
+    "source": "crossref",
+    "timestamp": 2025
+  },
+  {
+    "title": "Optimal Distributed Training With Co-Adaptive Data Parallelism in Heterogeneous Environments",
+    "text": "<jats:p>The computational power required for training deep learning models has been skyrocketing in the past decade as they scale with big data, and has become a very expensive and scarce resource. Therefore, distributed training, which can leverage distributed available computational power, is vital for efficient large-scale model training. However, most previous distributed training frameworks like DDP and DeepSpeed are primarily designed for co-located clusters under homogeneous computing and communication conditions, and hence cannot account for geo-distributed clusters with both computing and communication heterogeneity. To address this challenge, we develop a new data parallel based distributed training framework called Co-Adaptive Data Parallelism (C-ADP). First, we consider a data owner and parameter server that distributes data to and coordinates the collaborative learning across all the computing devices. We employ local training and delayed parameter synchronization to reduce communication costs. Second, we formulate a data parallel scheduling optimization problem to minimize the training time by optimizing data distribution. Third, we devise an efficient algorithm to solve this scheduling problem, and formally prove that the obtained solution is optimal in the asymptotic sense. Experiments on the ImageNet100 dataset demonstrate that C-ADP achieves fast convergence in heterogeneous distributed training environments. Compared to Distributed Data Parallel (DDP) and DeepSpeed, C-ADP achieves 21.6 times and 26.3 times improvements in FLOPS, respectively, and a reduction in training time of about 72% and 47%, respectively.</jats:p>",
+    "url": "https://doi.org/10.24963/ijcai.2024/4",
+    "source": "crossref",
+    "timestamp": 2024
+  }
+]

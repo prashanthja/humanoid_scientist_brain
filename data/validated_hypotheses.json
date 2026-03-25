@@ -221,8 +221,8 @@
       "count": 4
     },
     "a branch --related_to--> a new branch": {
-      "ema": 0.7766640907996016,
-      "count": 16
+      "ema": 0.7810923954794193,
+      "count": 23
     },
     "a basic knowledge of calculus and linear algebra with some commonly used mathematical terminology --related_to--> a crucial step toward developing autonomous agents that can learn and generalize across the open web continuously": {
       "ema": 0.9304108617069271,
@@ -265,8 +265,8 @@
       "count": 1
     },
     "a cause --related_to--> a range": {
-      "ema": 0.7043005271165038,
-      "count": 4
+      "ema": 0.7385371634330578,
+      "count": 11
     },
     "a branch of physics and metaphysics dealing with the nature of the universe --related_to--> an evolving physics tool used to answer fundamental questions in particle physics": {
       "ema": 0.4757031638920307,
@@ -301,28 +301,144 @@
       "count": 1
     },
     "a challenge for exactly --related_to--> a majority": {
-      "ema": 0.6810800667343141,
-      "count": 3
+      "ema": 0.7538286031588841,
+      "count": 10
     },
     "a challenge for exactly --related_to--> a type of nonrelativistic reduction": {
-      "ema": 0.7009703020750582,
-      "count": 3
+      "ema": 0.7759623553049811,
+      "count": 10
     },
     "a challenge for exactly --related_to--> a theory of quantum gravity": {
-      "ema": 0.6996279868429304,
-      "count": 3
+      "ema": 0.766163364046651,
+      "count": 6
     },
     "a cause --related_to--> a pre": {
-      "ema": 0.6549163359341026,
-      "count": 3
+      "ema": 0.7264951086722233,
+      "count": 9
     },
     "a case of strong emergence --related_to--> a metaphor for this behavior": {
-      "ema": 0.6997768268851339,
-      "count": 3
+      "ema": 0.7745224294452249,
+      "count": 10
     },
     "a branch --related_to--> a brief review": {
-      "ema": 0.6856875679587127,
-      "count": 3
+      "ema": 0.7641893073972599,
+      "count": 9
+    },
+    "a concise and factual abstract --related_to--> abstract algebra is the study": {
+      "ema": 0.8422993284780235,
+      "count": 7
+    },
+    "a chance alignment is small --related_to--> a simplified urban environment": {
+      "ema": 0.762266000592169,
+      "count": 8
+    },
+    "a complete theory --related_to--> a majority": {
+      "ema": 0.7335362405277215,
+      "count": 7
+    },
+    "a concise and factual abstract --related_to--> a set t in r n onto an m": {
+      "ema": 0.817591783091945,
+      "count": 6
+    },
+    "a case of strong emergence --related_to--> a logarithmic variable transform": {
+      "ema": 0.7656302796430612,
+      "count": 7
+    },
+    "a concise and factual abstract --related_to--> abstract we suggest a means": {
+      "ema": 0.7830528696074978,
+      "count": 6
+    },
+    "a branch --related_to--> an abstract branch": {
+      "ema": 0.7667130665288318,
+      "count": 6
+    },
+    "a common shortcoming --related_to--> a logarithmic variable transform": {
+      "ema": 0.7782224670339217,
+      "count": 6
+    },
+    "a brief review --related_to--> a branch": {
+      "ema": 0.7604131700599615,
+      "count": 6
+    },
+    "a common shortcoming --related_to--> and coming from a recent study": {
+      "ema": 0.7488388499429711,
+      "count": 6
+    },
+    "a common shortcoming --related_to--> a tensor of the same type": {
+      "ema": 0.7656439340198424,
+      "count": 6
+    },
+    "a chance alignment is small --related_to--> abstract algebra is the study": {
+      "ema": 0.8095942949678971,
+      "count": 7
+    },
+    "a challenge for exactly --related_to--> a moving body": {
+      "ema": 0.7212177903208161,
+      "count": 4
+    },
+    "a common task in particle physics --related_to--> a thin metasurface composed": {
+      "ema": 0.4357112108170986,
+      "count": 1
+    },
+    "a common task in particle physics --related_to--> a translated imo theorem in": {
+      "ema": 0.4375652593374253,
+      "count": 1
+    },
+    "a difficult and expensive process --related_to--> a type of nonrelativistic reduction": {
+      "ema": 0.44427226185798646,
+      "count": 1
+    },
+    "a common task in particle physics --related_to--> a type of nonrelativistic reduction": {
+      "ema": 0.4379009182751179,
+      "count": 1
+    },
+    "a dark matter component that --related_to--> a single particle in the plasma": {
+      "ema": 0.4245006458461285,
+      "count": 1
+    },
+    "a case of strong emergence --related_to--> a line in parameter space": {
+      "ema": 0.42678561121225356,
+      "count": 1
+    },
+    "a classical spacetime --related_to--> a line in parameter space": {
+      "ema": 0.42553994625806807,
+      "count": 1
+    },
+    "a constant equal to the rest mass --related_to--> anomalies that constrain dynamics": {
+      "ema": 0.44014751166105276,
+      "count": 1
+    },
+    "a chance alignment is small --related_to--> a single particle in the plasma": {
+      "ema": 0.42333094954490663,
+      "count": 1
+    },
+    "a constant equal to the rest mass --related_to--> a human head": {
+      "ema": 0.401207757294178,
+      "count": 1
+    },
+    "a classical spacetime --related_to--> a single particle in the plasma": {
+      "ema": 0.4265933530032635,
+      "count": 1
+    },
+    "a dark matter component that --related_to--> a salient property": {
+      "ema": 0.4102555948495865,
+      "count": 1
+    },
+    "a dark matter component that --related_to--> and the most fundamental way of doing that": {
+      "ema": 0.4150713324546814,
+      "count": 1
+    },
+    "a differential equation --related_to--> a single particle in the plasma": {
+      "ema": 0.4398017098009587,
+      "count": 1
+    },
+    "a constant equal to the rest mass --related_to--> a dark matter component that": {
+      "ema": 0.4246923615038395,
+      "count": 1
+    },
+    "a conventional fermi --related_to--> also called a symmetry property": {
+      "ema": 0.41464235469698907,
+      "count": 1
     }
   }
 }

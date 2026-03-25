@@ -1,183 +1,648 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<title>🤖 Humanoid Scientist Brain — Phase F Dashboard</title>
-<link rel="stylesheet" href="/static/style.css" />
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>AI Scientist — Discovery Platform</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
 <style>
-  body { font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif; margin: 28px; color: #111; }
-  h1 { font-size: 28px; margin-bottom: 6px; }
-  h2 { margin-top: 30px; }
-  .metric { font-size: 16px; margin: 4px 0; }
-  .section { margin: 26px 0 40px; }
-  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; }
-  .card { border: 1px solid #e6e6e6; border-radius: 12px; padding: 14px 16px; background: #fff; }
-  .muted { color: #666; }
-  canvas { max-width: 100%; }
-  img.graph { border: 1px solid #ddd; border-radius: 10px; margin-top: 10px; width: 100%; max-width: 1000px; }
-  .pill { display:inline-block; padding: 2px 8px; border-radius: 999px; border: 1px solid #ddd; font-size: 12px; margin-left: 6px; }
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --bg:#050810;--surface:#0c1120;--border:#1a2340;
+  --accent:#3b82f6;--accent2:#06b6d4;--green:#22c55e;
+  --yellow:#eab308;--red:#ef4444;--purple:#a855f7;
+  --orange:#f97316;
+  --text:#e2e8f0;--muted:#64748b;
+  --mono:'DM Mono',monospace;--sans:'Syne',sans-serif;
+  --header:52px;--stats:82px;--tabs:40px;
+}
+html,body{height:100%;overflow:hidden;}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);display:flex;flex-direction:column;}
+body::before{
+  content:'';position:fixed;inset:0;
+  background-image:linear-gradient(rgba(59,130,246,.03) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(59,130,246,.03) 1px,transparent 1px);
+  background-size:40px 40px;pointer-events:none;z-index:0;
+}
+
+/* Header */
+header{position:relative;z-index:1;flex-shrink:0;height:var(--header);
+  display:flex;justify-content:space-between;align-items:center;
+  padding:0 16px;border-bottom:1px solid var(--border);}
+.brand-title{font-size:16px;font-weight:800;letter-spacing:-.3px;
+  background:linear-gradient(135deg,var(--accent),var(--accent2));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.brand-sub{font-family:var(--mono);font-size:9px;color:var(--muted);letter-spacing:2px;text-transform:uppercase;}
+.status-dot{display:flex;align-items:center;gap:6px;font-family:var(--mono);font-size:11px;color:var(--muted);}
+.dot{width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 7px var(--green);animation:pulse 2s ease-in-out infinite;}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+
+/* Stats bar */
+.stats-bar{position:relative;z-index:1;flex-shrink:0;height:var(--stats);
+  display:grid;grid-template-columns:repeat(5,1fr);gap:8px;padding:8px 16px;
+  border-bottom:1px solid var(--border);}
+.stat{background:var(--surface);border:1px solid var(--border);border-radius:8px;
+  padding:8px 12px;display:flex;flex-direction:column;justify-content:center;
+  position:relative;overflow:hidden;transition:border-color .2s;}
+.stat:hover{border-color:var(--accent);}
+.stat::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,var(--accent),var(--accent2));opacity:0;transition:opacity .2s;}
+.stat:hover::before{opacity:1;}
+.stat-label{font-family:var(--mono);font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:1.5px;}
+.stat-value{font-size:22px;font-weight:800;line-height:1.1;}
+.blue{color:var(--accent);}.cyan{color:var(--accent2);}.green{color:var(--green);}.purple{color:var(--purple);}.yellow{color:var(--yellow);}
+
+/* Tabs */
+.tabs{position:relative;z-index:1;flex-shrink:0;height:var(--tabs);
+  display:flex;align-items:center;gap:4px;padding:0 16px;
+  border-bottom:1px solid var(--border);background:var(--bg);}
+.tab{font-family:var(--mono);font-size:11px;padding:6px 14px;border-radius:6px;
+  cursor:pointer;color:var(--muted);transition:all .15s;border:1px solid transparent;}
+.tab:hover{color:var(--text);background:rgba(59,130,246,.08);}
+.tab.active{color:var(--accent);background:rgba(59,130,246,.12);border-color:rgba(59,130,246,.3);}
+
+/* Main content */
+.content{position:relative;z-index:1;flex:1;min-height:0;overflow:hidden;}
+.tab-pane{display:none;height:100%;}
+.tab-pane.active{display:flex;flex-direction:column;}
+
+/* Panel */
+.panel{background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden;display:flex;flex-direction:column;min-height:0;}
+.panel-header{flex-shrink:0;display:flex;justify-content:space-between;align-items:center;
+  padding:8px 14px;border-bottom:1px solid var(--border);}
+.panel-title{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--muted);}
+.panel-count{font-family:var(--mono);font-size:10px;color:var(--muted);background:var(--border);padding:1px 7px;border-radius:999px;}
+.panel-body{flex:1;min-height:0;overflow:hidden;padding:10px 14px;}
+.panel-body.no-pad{padding:0;}
+.scroll{height:100%;overflow-y:auto;}
+
+/* Grid layouts */
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;}
+
+/* ── Overview tab ── */
+#pane-overview{
+  display:none;
+  padding:10px 16px;
+  gap:10px;
+}
+#pane-overview.active{display:grid;grid-template-columns:1fr 1fr 1fr;grid-template-rows:1fr 1fr;gap:10px;}
+.p-kg      {grid-column:1/3;grid-row:1/2;}
+.p-charts  {grid-column:3/4;grid-row:1/2;}
+.p-reports {grid-column:1/2;grid-row:2/3;}
+.p-hypchart{grid-column:2/3;grid-row:2/3;}
+.p-hyps    {grid-column:3/4;grid-row:2/3;}
+
+/* KG */
+#kgSvg{width:100%;height:100%;display:block;}
+.kg-link-label{font-family:'DM Mono',monospace;font-size:8px;fill:#64748b;}
+.kg-node text{font-family:'DM Mono',monospace;font-size:9px;fill:#e2e8f0;pointer-events:none;}
+.kg-tooltip{position:absolute;background:#0c1120;border:1px solid #1a2340;border-radius:8px;
+  padding:7px 11px;font-family:'DM Mono',monospace;font-size:10px;color:#e2e8f0;
+  pointer-events:none;opacity:0;transition:opacity .15s;max-width:240px;line-height:1.5;z-index:10;}
+
+/* Charts stacked */
+.charts-stack{height:100%;display:flex;flex-direction:column;gap:6px;overflow:hidden;}
+.chart-slot{flex:1;min-height:0;position:relative;}
+.chart-slot canvas{position:absolute;inset:0;width:100%!important;height:100%!important;}
+
+/* Reports */
+.report-row{display:flex;align-items:flex-start;gap:10px;padding:8px;border-radius:6px;
+  cursor:pointer;transition:background .15s;border-bottom:1px solid var(--border);}
+.report-row:last-child{border-bottom:none;}
+.report-row:hover{background:rgba(59,130,246,.06);}
+.report-query{flex:1;font-size:11px;line-height:1.4;}
+.report-meta{font-family:var(--mono);font-size:9px;color:var(--muted);margin-top:2px;}
+.conf-wrap{width:50px;flex-shrink:0;}
+.conf-bg{background:var(--border);border-radius:2px;height:3px;margin-top:7px;}
+.conf-fill{height:3px;border-radius:2px;background:var(--accent);transition:width .5s;}
+
+/* Badges */
+.badge{display:inline-block;font-family:var(--mono);font-size:9px;font-weight:500;
+  padding:1px 6px;border-radius:3px;text-transform:uppercase;letter-spacing:.5px;}
+.badge-supported{background:rgba(34,197,94,.15);color:var(--green);}
+.badge-partial{background:rgba(234,179,8,.15);color:var(--yellow);}
+.badge-inconclusive{background:rgba(100,116,139,.2);color:var(--muted);}
+.badge-contradicted{background:rgba(239,68,68,.15);color:var(--red);}
+
+/* Hypotheses */
+.hyp-row{padding:8px;border-radius:6px;border:1px solid var(--border);
+  margin-bottom:6px;transition:border-color .2s;}
+.hyp-row:hover{border-color:var(--accent);}
+.hyp-type{font-family:var(--mono);font-size:9px;color:var(--accent2);text-transform:uppercase;letter-spacing:1px;margin-bottom:3px;}
+.hyp-text{font-size:11px;line-height:1.4;}
+.hyp-premise{font-family:var(--mono);font-size:9px;color:var(--muted);padding-left:8px;border-left:2px solid var(--border);margin-top:3px;}
+.hyp-score{font-family:var(--mono);font-size:9px;color:var(--muted);margin-top:4px;}
+
+/* ── SWMS tab ── */
+#pane-swms{display:none;padding:10px 16px;gap:10px;overflow:hidden;}
+#pane-swms.active{display:grid;grid-template-columns:340px 1fr;grid-template-rows:auto 1fr;gap:10px;}
+
+.sim-controls{grid-column:1/2;grid-row:1/2;}
+.sim-result-top{grid-column:2/3;grid-row:1/2;}
+.sim-left-bottom{grid-column:1/2;grid-row:2/3;display:flex;flex-direction:column;gap:10px;}
+.sim-right-bottom{grid-column:2/3;grid-row:2/3;display:flex;flex-direction:column;gap:10px;}
+
+.sim-input{
+  width:100%;background:var(--bg);border:1px solid var(--border);
+  border-radius:8px;padding:10px 12px;color:var(--text);
+  font-family:var(--mono);font-size:12px;resize:none;height:56px;
+  transition:border-color .2s;outline:none;
+}
+.sim-input:focus{border-color:var(--accent);}
+.sim-btn{
+  width:100%;margin-top:8px;padding:10px;border-radius:8px;
+  background:linear-gradient(135deg,var(--accent),var(--accent2));
+  border:none;color:#fff;font-family:var(--sans);font-size:12px;font-weight:700;
+  cursor:pointer;transition:opacity .2s;letter-spacing:.5px;
+}
+.sim-btn:hover{opacity:.85;}
+.sim-btn:disabled{opacity:.4;cursor:not-allowed;}
+.sim-btn.loading{animation:shimmer 1.5s infinite;}
+@keyframes shimmer{0%,100%{opacity:.6}50%{opacity:1}}
+
+.quick-queries{display:flex;flex-wrap:wrap;gap:5px;margin-top:8px;}
+.quick-q{
+  font-family:var(--mono);font-size:9px;padding:3px 8px;
+  border-radius:4px;border:1px solid var(--border);
+  color:var(--muted);cursor:pointer;transition:all .15s;background:transparent;
+}
+.quick-q:hover{border-color:var(--accent);color:var(--accent);}
+
+.score-ring{
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:16px;
+}
+.score-val{font-size:42px;font-weight:800;color:var(--accent);}
+.score-label{font-family:var(--mono);font-size:10px;color:var(--muted);margin-top:4px;}
+
+.focus-tags{display:flex;flex-wrap:wrap;gap:4px;margin-top:6px;}
+.focus-tag{
+  font-family:var(--mono);font-size:9px;padding:2px 7px;
+  border-radius:999px;background:rgba(59,130,246,.15);color:var(--accent);
+  border:1px solid rgba(59,130,246,.3);
+}
+
+.dom-bar-row{display:flex;align-items:center;gap:8px;padding:4px 0;}
+.dom-bar-label{font-family:var(--mono);font-size:10px;color:var(--text);width:150px;flex-shrink:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.dom-bar-track{flex:1;background:var(--border);border-radius:3px;height:6px;overflow:hidden;}
+.dom-bar-fill{height:6px;border-radius:3px;background:linear-gradient(90deg,var(--accent),var(--accent2));transition:width .8s ease;}
+.dom-bar-pct{font-family:var(--mono);font-size:10px;color:var(--muted);width:36px;text-align:right;}
+
+.risk-item{padding:6px 0;border-bottom:1px solid var(--border);font-size:11px;color:var(--yellow);}
+.risk-item:last-child{border-bottom:none;}
+.exp-item{padding:5px 0;border-bottom:1px solid var(--border);font-size:11px;line-height:1.4;}
+.exp-item:last-child{border-bottom:none;}
+.exp-num{font-family:var(--mono);font-size:10px;color:var(--accent);margin-right:6px;}
+
+.roadmap-step{
+  display:flex;align-items:flex-start;gap:10px;padding:6px 0;
+  border-bottom:1px solid var(--border);
+}
+.roadmap-step:last-child{border-bottom:none;}
+.roadmap-time{font-family:var(--mono);font-size:9px;color:var(--muted);width:52px;flex-shrink:0;}
+.roadmap-score{
+  font-family:var(--mono);font-size:9px;width:36px;flex-shrink:0;
+  padding:1px 5px;border-radius:3px;text-align:center;
+}
+.roadmap-label{font-size:11px;color:var(--text);flex:1;}
+
+.sim-placeholder{
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  height:100%;gap:8px;color:var(--muted);font-family:var(--mono);font-size:12px;
+}
+.sim-placeholder svg{opacity:.3;}
+
+/* Modal */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);
+  backdrop-filter:blur(4px);z-index:100;align-items:center;justify-content:center;}
+.modal-overlay.open{display:flex;}
+.modal{background:var(--surface);border:1px solid var(--border);border-radius:16px;
+  width:90%;max-width:640px;max-height:80vh;overflow-y:auto;padding:24px;}
+.modal-close{float:right;background:none;border:none;color:var(--muted);cursor:pointer;font-size:18px;}
+.modal-query{font-size:15px;font-weight:700;margin-bottom:14px;line-height:1.3;}
+.modal-sec{margin-top:16px;}
+.modal-sec-title{font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:1px;color:var(--muted);margin-bottom:6px;}
+.claim-item{padding:7px 10px;border-left:3px solid var(--border);margin-bottom:5px;font-size:12px;line-height:1.4;}
+.claim-item.supported{border-color:var(--green);}
+.claim-item.partial{border-color:var(--yellow);}
+.claim-item.inconclusive{border-color:var(--muted);}
+
+.loading{color:var(--muted);font-family:var(--mono);font-size:11px;padding:10px 0;}
+::-webkit-scrollbar{width:4px;}
+::-webkit-scrollbar-track{background:transparent;}
+::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px;}
 </style>
-<!-- Chart.js CDN -->
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script>
-async function loadState() {
-  const res = await fetch("/state");
-  return await res.json();
-}
-async function loadHistory() {
-  const res = await fetch("/history");
-  return await res.json();
-}
-async function loadValidated() {
-  const res = await fetch("/validated");
-  return await res.json();
-}
-
-function asFixed(x, n=4) {
-  if (x === null || x === undefined) return "–";
-  const f = Number(x);
-  return Number.isFinite(f) ? f.toFixed(n) : "–";
-}
-
-let trainChart = null;
-
-async function render() {
-  try {
-    const [state, hist, val] = await Promise.all([loadState(), loadHistory(), loadValidated()]);
-
-    // Header stats
-    document.getElementById("cycle").textContent = state.cycle ?? "–";
-    document.getElementById("device").textContent = state.device ?? hist.device ?? "–";
-    document.getElementById("nodes").textContent = state.kg?.nodes ?? 0;
-    document.getElementById("edges").textContent = state.kg?.edges ?? 0;
-    document.getElementById("loss").textContent = asFixed(state.training?.online_loss);
-    document.getElementById("sim").textContent = asFixed(state.training?.online_sim);
-    document.getElementById("vocab").textContent = state.training?.vocab_size ?? (hist.vocab?.slice(-1)[0] ?? "–");
-
-    // Recent papers
-    const papers = document.getElementById("papers");
-    papers.innerHTML = "";
-    (state.recent_papers || []).forEach(p => {
-      const li = document.createElement("li");
-      li.textContent = p;
-      papers.appendChild(li);
-    });
-
-    // KG Visualization
-    const vis = document.getElementById("graphImg");
-    if (state.latest_graph) {
-      vis.src = state.latest_graph + "?cb=" + Date.now();
-      vis.style.display = "block";
-    } else if (state.visualization) {
-      vis.src = "/" + state.visualization + "?cb=" + Date.now();
-      vis.style.display = "block";
-    } else {
-      vis.style.display = "none";
-    }
-
-    // Training chart
-    const ctx = document.getElementById("trainChart").getContext("2d");
-    if (trainChart) trainChart.destroy();
-    trainChart = new Chart(ctx, {
-      type: "line",
-      data: {
-        labels: hist.epochs || [],
-        datasets: [
-          { label: "Loss", data: hist.loss || [], fill: false },
-          { label: "Similarity", data: hist.similarity || [], fill: false },
-          { label: "Accuracy", data: hist.accuracy || [], fill: false }
-        ]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        interaction: { mode: "index", intersect: false },
-        plugins: { legend: { position: "top" } },
-        scales: {
-          x: { title: { display: true, text: "Epoch" } },
-          y: { title: { display: true, text: "Value" }, suggestedMin: 0.0, suggestedMax: 1.0 }
-        }
-      }
-    });
-
-    // Hypothesis snapshot
-    document.getElementById("hypTotal").textContent = val.total ?? 0;
-    document.getElementById("hypPromoted").textContent = val.promoted ?? 0;
-    document.getElementById("hypAvg").textContent = asFixed(val.avg_confidence, 3);
-
-    const hypList = document.getElementById("hypList");
-    hypList.innerHTML = "";
-    (val.items || []).forEach(row => {
-      const div = document.createElement("div");
-      div.className = "card";
-      const p = document.createElement("div");
-      p.textContent = row.hypothesis;
-      const meta = document.createElement("div");
-      meta.className = "muted";
-      meta.innerHTML = `persistence=${asFixed(row.persistence,3)} <span class="pill">obs ${row.observations}</span>`;
-      div.appendChild(p);
-      div.appendChild(meta);
-      hypList.appendChild(div);
-    });
-  } catch (err) {
-    console.error("Dashboard error:", err);
-  }
-}
-
-window.onload = () => {
-  render();
-  // refresh every 20s
-  setInterval(render, 20000);
-};
-</script>
 </head>
 <body>
-  <h1>🤖 Humanoid Scientist Brain — Phase F Dashboard</h1>
-  <div class="muted">Live: training metrics, knowledge graph, and hypothesis snapshot</div>
 
-  <div class="section grid">
-    <div class="card">
-      <h2>Run</h2>
-      <div class="metric">Cycle: <b id="cycle">–</b></div>
-      <div class="metric">Device: <b id="device">–</b></div>
-      <div class="metric">Vocab size: <b id="vocab">–</b></div>
+<header>
+  <div>
+    <div class="brand-title">AI Scientist Platform</div>
+    <div class="brand-sub">Transformer Efficiency Research · MVP</div>
+  </div>
+  <div class="status-dot"><div class="dot"></div><span id="timestamp">–</span></div>
+</header>
+
+<div class="stats-bar">
+  <div class="stat"><div class="stat-label">Evidence Chunks</div><div class="stat-value blue" id="statChunks">–</div></div>
+  <div class="stat"><div class="stat-label">Reports</div><div class="stat-value cyan" id="statReports">–</div></div>
+  <div class="stat"><div class="stat-label">KG Nodes</div><div class="stat-value green" id="statNodes">–</div></div>
+  <div class="stat"><div class="stat-label">KG Edges</div><div class="stat-value purple" id="statEdges">–</div></div>
+  <div class="stat"><div class="stat-label">Avg Confidence</div><div class="stat-value yellow" id="statConf">–</div></div>
+</div>
+
+<div class="tabs">
+  <div class="tab active" onclick="switchTab('overview')">Overview</div>
+  <div class="tab" onclick="switchTab('swms')">🔬 SWMS Simulator</div>
+</div>
+
+<div class="content">
+
+  <!-- ── Overview tab ── -->
+  <div class="tab-pane active" id="pane-overview">
+
+    <div class="panel p-kg">
+      <div class="panel-header">
+        <div class="panel-title">Knowledge Graph — Interactive Network</div>
+        <div class="panel-count" id="kgLabel">–</div>
+      </div>
+      <div class="panel-body no-pad" style="position:relative;">
+        <svg id="kgSvg"></svg>
+        <div class="kg-tooltip" id="kgTooltip"></div>
+      </div>
     </div>
-    <div class="card">
-      <h2>Knowledge Graph</h2>
-      <div class="metric"><b id="nodes">0</b> nodes / <b id="edges">0</b> edges</div>
+
+    <div class="panel p-charts">
+      <div class="panel-header"><div class="panel-title">Analytics</div></div>
+      <div class="panel-body">
+        <div class="charts-stack">
+          <div class="chart-slot"><canvas id="chartVerdicts"></canvas></div>
+          <div class="chart-slot"><canvas id="chartConf"></canvas></div>
+          <div class="chart-slot"><canvas id="chartEvidence"></canvas></div>
+        </div>
+      </div>
     </div>
-    <div class="card">
-      <h2>Training (latest)</h2>
-      <div class="metric">Loss: <b id="loss">–</b></div>
-      <div class="metric">Similarity: <b id="sim">–</b></div>
+
+    <div class="panel p-reports">
+      <div class="panel-header">
+        <div class="panel-title">Discovery Reports</div>
+        <div class="panel-count" id="reportCount">0</div>
+      </div>
+      <div class="panel-body no-pad">
+        <div class="scroll" style="padding:8px 14px;" id="reportList">
+          <div class="loading">Loading…</div>
+        </div>
+      </div>
     </div>
+
+    <div class="panel p-hypchart">
+      <div class="panel-header"><div class="panel-title">Hypothesis Scores</div></div>
+      <div class="panel-body">
+        <div style="position:relative;height:100%;">
+          <canvas id="chartHypScores" style="position:absolute;inset:0;width:100%!important;height:100%!important;"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel p-hyps">
+      <div class="panel-header">
+        <div class="panel-title">Hypotheses</div>
+        <div class="panel-count" id="hypCount">0</div>
+      </div>
+      <div class="panel-body no-pad">
+        <div class="scroll" style="padding:8px 14px;" id="hypList">
+          <div class="loading">Loading…</div>
+        </div>
+      </div>
+    </div>
+
   </div>
 
-  <div class="section">
-    <h2>🧪 Training History</h2>
-    <div class="card" style="height: 360px;">
-      <canvas id="trainChart"></canvas>
+  <!-- ── SWMS tab ── -->
+  <div class="tab-pane" id="pane-swms">
+
+    <!-- Controls -->
+    <div class="panel sim-controls">
+      <div class="panel-header"><div class="panel-title">Simulate Research Field</div></div>
+      <div class="panel-body">
+        <textarea class="sim-input" id="simQuery" placeholder="Enter a research question…">How will transformer efficiency research evolve?</textarea>
+        <button class="sim-btn" id="simBtn" onclick="runSimulation()">▶ Run Simulation</button>
+        <div class="quick-queries" id="quickQueries">
+          <div class="quick-q" onclick="setQuery(this)">Does MoE improve efficiency?</div>
+          <div class="quick-q" onclick="setQuery(this)">Does FlashAttention reduce memory?</div>
+          <div class="quick-q" onclick="setQuery(this)">Does KV cache compression help?</div>
+          <div class="quick-q" onclick="setQuery(this)">Does LoRA reduce fine-tuning cost?</div>
+          <div class="quick-q" onclick="setQuery(this)">Does speculative decoding speed up inference?</div>
+          <div class="quick-q" onclick="setQuery(this)">Does sparse attention preserve quality?</div>
+        </div>
+      </div>
     </div>
-  </div>
 
-  <div class="section">
-    <h2>📰 Recent Papers</h2>
-    <ul id="papers"><li class="muted">Loading…</li></ul>
-  </div>
-
-  <div class="section">
-    <h2>🕸️ Knowledge Graph Visualization</h2>
-    <img id="graphImg" class="graph" src="" alt="Graph visualization" style="display:none;">
-  </div>
-
-  <div class="section">
-    <h2>✅ Hypothesis Snapshot</h2>
-    <div class="grid">
-      <div class="card"><div class="metric">Total tracked: <b id="hypTotal">0</b></div></div>
-      <div class="card"><div class="metric">Promoted (persistence≥0.7): <b id="hypPromoted">0</b></div></div>
-      <div class="card"><div class="metric">Avg persistence: <b id="hypAvg">0.000</b></div></div>
+    <!-- Top result: score + focus + summary -->
+    <div class="panel sim-result-top" id="simResultTop">
+      <div class="panel-header"><div class="panel-title">Simulation Result</div><div class="panel-count" id="simSims">–</div></div>
+      <div class="panel-body" id="simResultBody">
+        <div class="sim-placeholder">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/>
+          </svg>
+          Run a simulation to see results
+        </div>
+      </div>
     </div>
-    <div id="hypList" class="grid" style="margin-top:12px;"></div>
+
+    <!-- Bottom left: dominance + risks -->
+    <div class="sim-left-bottom">
+      <div class="panel" style="flex:1;min-height:0;">
+        <div class="panel-header"><div class="panel-title">Method Dominance</div></div>
+        <div class="panel-body no-pad">
+          <div class="scroll" style="padding:8px 14px;" id="simDominance">
+            <div class="loading">–</div>
+          </div>
+        </div>
+      </div>
+      <div class="panel" style="flex:1;min-height:0;">
+        <div class="panel-header"><div class="panel-title">Contradiction Risks</div></div>
+        <div class="panel-body no-pad">
+          <div class="scroll" style="padding:8px 14px;" id="simRisks">
+            <div class="loading">–</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bottom right: roadmap + experiments -->
+    <div class="sim-right-bottom">
+      <div class="panel" style="flex:1;min-height:0;">
+        <div class="panel-header"><div class="panel-title">Field Trajectory</div></div>
+        <div class="panel-body">
+          <div style="position:relative;height:100%;">
+            <canvas id="chartTrajectory" style="position:absolute;inset:0;width:100%!important;height:100%!important;"></canvas>
+          </div>
+        </div>
+      </div>
+      <div class="panel" style="flex:1;min-height:0;">
+        <div class="panel-header"><div class="panel-title">Best Next Experiments</div></div>
+        <div class="panel-body no-pad">
+          <div class="scroll" style="padding:8px 14px;" id="simExperiments">
+            <div class="loading">–</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
   </div>
+</div>
+
+<!-- Modal -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div class="modal-query" id="modalQuery"></div>
+    <div id="modalBody"></div>
+  </div>
+</div>
+
+<script>
+Chart.defaults.color='#64748b';
+Chart.defaults.borderColor='#1a2340';
+Chart.defaults.font.family="'DM Mono',monospace";
+Chart.defaults.font.size=9;
+
+const C={supported:'#22c55e',partially_supported:'#eab308',inconclusive:'#64748b',contradicted:'#ef4444',blue:'#3b82f6',cyan:'#06b6d4',purple:'#a855f7'};
+function bClass(v){return v==='supported'?'badge-supported':v==='partially_supported'?'badge-partial':v==='contradicted'?'badge-contradicted':'badge-inconclusive';}
+function bLabel(v){return(v||'').replace(/_/g,' ');}
+async function fj(u,opts){const r=await fetch(u,opts);return r.json();}
+
+/* ── Tab switching ── */
+function switchTab(name){
+  document.querySelectorAll('.tab').forEach((t,i)=>t.classList.toggle('active',['overview','swms'][i]===name));
+  document.querySelectorAll('.tab-pane').forEach(p=>p.classList.toggle('active',p.id==='pane-'+name));
+}
+
+/* ── Stats ── */
+function renderStats(o){
+  document.getElementById('statChunks').textContent=o.chunk_count??'–';
+  document.getElementById('statReports').textContent=o.report_count??'–';
+  document.getElementById('statNodes').textContent=o.kg_nodes??'–';
+  document.getElementById('statEdges').textContent=o.kg_edges??'–';
+  document.getElementById('statConf').textContent=o.avg_confidence!=null?o.avg_confidence.toFixed(2):'–';
+  document.getElementById('timestamp').textContent=o.timestamp??'';
+}
+
+/* ── Charts ── */
+let cV=null,cC=null,cE=null,cH=null,cT=null;
+
+function renderVerdicts(v){
+  const ctx=document.getElementById('chartVerdicts').getContext('2d');
+  if(cV)cV.destroy();
+  cV=new Chart(ctx,{type:'doughnut',data:{labels:['Supported','Partial','Inconclusive','Contradicted'],datasets:[{data:[v.supported||0,v.partially_supported||0,v.inconclusive||0,v.contradicted||0],backgroundColor:[C.supported,C.partially_supported,C.inconclusive,C.contradicted],borderWidth:0,hoverOffset:4}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'right',labels:{boxWidth:8,padding:8,font:{size:9}}},tooltip:{callbacks:{label:c=>`${c.label}: ${c.parsed}`}}},cutout:'60%'}});
+}
+
+function renderConf(reports){
+  const bins=[0,0,0,0,0,0,0,0,0,0];
+  reports.forEach(r=>{const i=Math.min(Math.floor((r.confidence||0)*10),9);bins[i]++;});
+  const ctx=document.getElementById('chartConf').getContext('2d');
+  if(cC)cC.destroy();
+  cC=new Chart(ctx,{type:'bar',data:{labels:['0','1','2','3','4','5','6','7','8','9'],datasets:[{label:'Reports',data:bins,backgroundColor:'rgba(59,130,246,.7)',borderRadius:3,borderWidth:0}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},title:{display:true,text:'Confidence ×10',font:{size:9},color:'#64748b',padding:{bottom:2}}},scales:{x:{grid:{color:'#1a2340'},ticks:{font:{size:8}}},y:{grid:{color:'#1a2340'},ticks:{stepSize:1,font:{size:8}}}}}});
+}
+
+function renderEvidence(reports){
+  const top=reports.slice(0,6);
+  const ctx=document.getElementById('chartEvidence').getContext('2d');
+  if(cE)cE.destroy();
+  cE=new Chart(ctx,{type:'bar',data:{labels:top.map(r=>(r.query||'').slice(0,16)+'…'),datasets:[{label:'S',data:top.map(r=>r.supported_count||0),backgroundColor:'rgba(34,197,94,.7)',borderWidth:0},{label:'C',data:top.map(r=>r.contradicted_count||0),backgroundColor:'rgba(239,68,68,.7)',borderWidth:0},{label:'N',data:top.map(r=>Math.max(0,(r.evidence_count||0)-(r.supported_count||0)-(r.contradicted_count||0))),backgroundColor:'rgba(100,116,139,.35)',borderWidth:0}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{boxWidth:8,padding:6,font:{size:8}}},title:{display:true,text:'Evidence Coverage',font:{size:9},color:'#64748b',padding:{bottom:2}}},scales:{x:{stacked:true,grid:{color:'#1a2340'},ticks:{font:{size:7},maxRotation:25}},y:{stacked:true,grid:{color:'#1a2340'},ticks:{font:{size:8}}}}}});
+}
+
+function renderHypChart(hyps){
+  const top=hyps.slice(0,10);
+  const ctx=document.getElementById('chartHypScores').getContext('2d');
+  if(cH)cH.destroy();
+  cH=new Chart(ctx,{type:'bar',data:{labels:top.map(h=>(h.hypothesis||'').slice(0,26)+'…'),datasets:[{label:'Score',data:top.map(h=>parseFloat(h.score||0)),backgroundColor:top.map(h=>h.type==='graph_transitivity'?'rgba(168,85,247,.8)':'rgba(6,182,212,.8)'),borderRadius:3,borderWidth:0}]},options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{title:c=>top[c[0].dataIndex]?.hypothesis||'',label:c=>`score: ${c.parsed.x.toFixed(3)}`}}},scales:{x:{grid:{color:'#1a2340'},min:0,max:1,ticks:{font:{size:8}}},y:{grid:{display:false},ticks:{font:{size:8}}}}}});
+}
+
+/* ── KG Network ── */
+function renderKG(kg){
+  document.getElementById('kgLabel').textContent=`${kg.nodes} nodes · ${kg.edges} edges`;
+  const svg=d3.select('#kgSvg');svg.selectAll('*').remove();
+  const rels=kg.relations||[];
+  if(!rels.length){svg.append('text').attr('x',20).attr('y',30).attr('fill','#64748b').attr('font-family','DM Mono,monospace').attr('font-size',11).text('No relations yet.');return;}
+  const el=document.getElementById('kgSvg');
+  const W=el.clientWidth||700,H=el.clientHeight||280;
+  svg.attr('viewBox',`0 0 ${W} ${H}`);
+  const nodeMap={};
+  rels.forEach(r=>{nodeMap[r.subject]=nodeMap[r.subject]||{id:r.subject,count:0};nodeMap[r.object]=nodeMap[r.object]||{id:r.object,count:0};nodeMap[r.subject].count++;});
+  const nodes=Object.values(nodeMap),links=rels.map(r=>({source:r.subject,target:r.object,rel:r.relation}));
+  const relC={supports_efficiency:'#22c55e',reduces:'#3b82f6',improves:'#06b6d4',has_tradeoff:'#ef4444',partially_supports:'#eab308',related_to:'#64748b',contradicts:'#ef4444'};
+  const defs=svg.append('defs');
+  Object.entries(relC).forEach(([k,c])=>defs.append('marker').attr('id','arr-'+k).attr('viewBox','0 -3 6 6').attr('refX',16).attr('refY',0).attr('markerWidth',5).attr('markerHeight',5).attr('orient','auto').append('path').attr('d','M0,-3L6,0L0,3').attr('fill',c).attr('opacity',.7));
+  svg.append('rect').attr('width',W).attr('height',H).attr('fill','transparent');
+  const g=svg.append('g');
+  svg.call(d3.zoom().scaleExtent([.25,3]).on('zoom',e=>g.attr('transform',e.transform)));
+  const link=g.append('g').selectAll('line').data(links).join('line').attr('stroke',d=>relC[d.rel]||'#64748b').attr('stroke-width',1.5).attr('stroke-opacity',.5).attr('marker-end',d=>`url(#arr-${relC[d.rel]?d.rel:'related_to'})`);
+  const llabel=g.append('g').selectAll('text').data(links).join('text').attr('class','kg-link-label').attr('text-anchor','middle').text(d=>d.rel.replace(/_/g,' '));
+  const tooltip=document.getElementById('kgTooltip');
+  const node=g.append('g').selectAll('g').data(nodes).join('g')
+    .call(d3.drag().on('start',(e,d)=>{if(!e.active)sim.alphaTarget(.3).restart();d.fx=d.x;d.fy=d.y;}).on('drag',(e,d)=>{d.fx=e.x;d.fy=e.y;}).on('end',(e,d)=>{if(!e.active)sim.alphaTarget(0);d.fx=null;d.fy=null;}));
+  node.append('circle').attr('r',d=>8+Math.min(d.count*3,16))
+    .attr('fill',d=>d.id.includes('Flash')?'rgba(59,130,246,.25)':d.id.includes('MoE')||d.id.includes('Mixture')?'rgba(168,85,247,.25)':d.id.includes('KV')||d.id.includes('Cache')?'rgba(6,182,212,.25)':d.id.includes('LoRA')?'rgba(234,179,8,.25)':'rgba(100,116,139,.2)')
+    .attr('stroke',d=>d.id.includes('Flash')?'#3b82f6':d.id.includes('MoE')||d.id.includes('Mixture')?'#a855f7':d.id.includes('KV')||d.id.includes('Cache')?'#06b6d4':d.id.includes('LoRA')?'#eab308':'#64748b')
+    .attr('stroke-width',1.5).attr('cursor','pointer')
+    .on('mouseover',(e,d)=>{const r=links.filter(l=>l.source.id===d.id||l.target.id===d.id);tooltip.innerHTML=`<strong>${d.id}</strong><br>`+r.map(l=>`${l.source.id||l.source} → ${l.rel} → ${l.target.id||l.target}`).join('<br>');tooltip.style.opacity='1';})
+    .on('mousemove',e=>{const b=document.getElementById('kgSvg').getBoundingClientRect();tooltip.style.left=(e.clientX-b.left+12)+'px';tooltip.style.top=(e.clientY-b.top-8)+'px';})
+    .on('mouseout',()=>tooltip.style.opacity='0');
+  node.append('text').attr('dy',d=>-(10+Math.min(d.count*3,16))-2).attr('text-anchor','middle').text(d=>d.id.length>14?d.id.slice(0,14)+'…':d.id);
+  const sim=d3.forceSimulation(nodes).force('link',d3.forceLink(links).id(d=>d.id).distance(100).strength(.5)).force('charge',d3.forceManyBody().strength(-250)).force('center',d3.forceCenter(W/2,H/2)).force('collision',d3.forceCollide().radius(d=>20+Math.min(d.count*3,16))).on('tick',()=>{link.attr('x1',d=>d.source.x).attr('y1',d=>d.source.y).attr('x2',d=>d.target.x).attr('y2',d=>d.target.y);llabel.attr('x',d=>(d.source.x+d.target.x)/2).attr('y',d=>(d.source.y+d.target.y)/2);node.attr('transform',d=>`translate(${d.x},${d.y})`);});
+}
+
+/* ── Reports ── */
+function renderReports(reports){
+  document.getElementById('reportCount').textContent=reports.length;
+  if(!reports.length){document.getElementById('reportList').innerHTML='<div class="loading">No reports yet.</div>';return;}
+  document.getElementById('reportList').innerHTML=reports.map(r=>`
+    <div class="report-row" onclick="openReport('${r.file}')">
+      <div style="flex:1"><div class="report-query">${r.query}</div>
+      <div class="report-meta"><span class="badge ${bClass(r.verdict)}">${bLabel(r.verdict)}</span>&nbsp;${r.confidence.toFixed(2)}&nbsp;·&nbsp;${r.evidence_count}ch&nbsp;·&nbsp;${(r.timestamp||'').slice(0,16)}</div></div>
+      <div class="conf-wrap"><div class="conf-bg"><div class="conf-fill" style="width:${Math.round(r.confidence*100)}%"></div></div></div>
+    </div>`).join('');
+}
+
+/* ── Hypotheses ── */
+function renderHyps(hyps){
+  document.getElementById('hypCount').textContent=hyps.length;
+  if(!hyps.length){document.getElementById('hypList').innerHTML='<div class="loading">No hypotheses yet.</div>';return;}
+  document.getElementById('hypList').innerHTML=hyps.map(h=>`
+    <div class="hyp-row">
+      <div class="hyp-type">${(h.type||'').replace(/_/g,' ')}</div>
+      <div class="hyp-text">${h.hypothesis}</div>
+      ${(h.premises||[]).map(p=>`<div class="hyp-premise">${p}</div>`).join('')}
+      <div class="hyp-score">score: ${h.score??'–'}</div>
+    </div>`).join('');
+}
+
+/* ── SWMS ── */
+function setQuery(el){document.getElementById('simQuery').value=el.textContent.trim();}
+
+async function runSimulation(){
+  const btn=document.getElementById('simBtn');
+  const query=document.getElementById('simQuery').value.trim();
+  if(!query)return;
+  btn.disabled=true;btn.classList.add('loading');btn.textContent='⏳ Simulating…';
+  try{
+    const r=await fj('/api/simulate',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({query})});
+    if(r.error){alert('Simulation error: '+r.error);return;}
+    renderSimResult(r);
+  }catch(e){alert('Error: '+e);}
+  finally{btn.disabled=false;btn.classList.remove('loading');btn.textContent='▶ Run Simulation';}
+}
+
+function renderSimResult(r){
+  document.getElementById('simSims').textContent=`${r.n_simulations||0} sims`;
+
+  // Top panel
+  const score=r.avg_field_score||0;
+  const scoreColor=score>0.7?'var(--green)':score>0.55?'var(--yellow)':'var(--red)';
+  const focusTags=(r.focus_nodes||[]).map(n=>`<span class="focus-tag">${n}</span>`).join('');
+  document.getElementById('simResultBody').innerHTML=`
+    <div style="display:flex;gap:16px;align-items:center;flex-wrap:wrap;">
+      <div class="score-ring">
+        <div class="score-val" style="color:${scoreColor}">${(score*100).toFixed(0)}</div>
+        <div class="score-label">field score</div>
+      </div>
+      <div style="flex:1;min-width:180px;">
+        <div style="font-size:13px;line-height:1.5;margin-bottom:8px;">${r.summary||''}</div>
+        <div style="font-family:var(--mono);font-size:10px;color:var(--muted);margin-bottom:6px;">Focus nodes:</div>
+        <div class="focus-tags">${focusTags||'<span style="color:var(--muted);font-size:10px">none detected</span>'}</div>
+      </div>
+    </div>`;
+
+  // Dominance
+  const dom=r.dominant_methods||[];
+  document.getElementById('simDominance').innerHTML=dom.length
+    ?dom.map(d=>`<div class="dom-bar-row">
+      <div class="dom-bar-label">${d.method}</div>
+      <div class="dom-bar-track"><div class="dom-bar-fill" style="width:${Math.round(d.probability*100)}%"></div></div>
+      <div class="dom-bar-pct">${Math.round(d.probability*100)}%</div>
+    </div>`).join('')
+    :'<div class="loading">No dominant methods detected</div>';
+
+  // Risks
+  const risks=r.contradiction_risks||[];
+  document.getElementById('simRisks').innerHTML=risks.length
+    ?risks.map(risk=>`<div class="risk-item">⚠ ${risk}</div>`).join('')
+    :'<div class="loading" style="color:var(--green)">No contradiction risks detected</div>';
+
+  // Trajectory chart
+  renderTrajectory(r.field_trajectory||[],r.query||'');
+
+  // Experiments
+  const exps=r.best_experiments||[];
+  document.getElementById('simExperiments').innerHTML=exps.length
+    ?exps.map((e,i)=>`<div class="exp-item"><span class="exp-num">${i+1}.</span>${e}</div>`).join('')
+    :'<div class="loading">–</div>';
+}
+
+function renderTrajectory(trajectory, query){
+  const ctx=document.getElementById('chartTrajectory').getContext('2d');
+  if(cT)cT.destroy();
+  const labels=trajectory.map(t=>`+${t.year_offset}yr`);
+  const data=trajectory.map(t=>t.avg_field_score);
+  cT=new Chart(ctx,{
+    type:'line',
+    data:{labels,datasets:[{
+      label:'Field Score',data,
+      borderColor:'#3b82f6',backgroundColor:'rgba(59,130,246,.1)',
+      borderWidth:2,pointRadius:3,pointBackgroundColor:'#3b82f6',fill:true,tension:.3
+    }]},
+    options:{
+      responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>`score: ${c.parsed.y.toFixed(3)}`}}},
+      scales:{
+        x:{grid:{color:'#1a2340'},ticks:{font:{size:9}}},
+        y:{grid:{color:'#1a2340'},min:0.4,max:1.0,ticks:{font:{size:9}}}
+      }
+    }
+  });
+}
+
+/* ── Modal ── */
+async function openReport(file){
+  const r=await fj(`/api/report/${file}`);
+  document.getElementById('modalQuery').textContent=r.query||'';
+  const grounded=(r.top_grounded||[]).map(gc=>{const v=gc.verdict||{};const cls=v.verdict==='supported'?'supported':v.verdict==='partially_supported'?'partial':'inconclusive';return`<div class="claim-item ${cls}"><span class="badge ${bClass(v.verdict)}">${bLabel(v.verdict||'')}</span><span style="font-size:10px;color:#64748b;font-family:'DM Mono',monospace;margin-left:6px">conf ${(v.confidence||0).toFixed(2)}</span><div style="margin-top:3px;font-size:12px">${gc.claim||''}</div></div>`;}).join('');
+  const papers=(r.top_papers||[]).map(p=>`<div style="font-size:11px;color:#94a3b8;padding:3px 0;border-bottom:1px solid #1a2340">${p}</div>`).join('');
+  const gaps=(r.knowledge_gaps||[]).map(g=>`<div style="font-size:11px;color:#64748b;padding:2px 0">⚠ ${g}</div>`).join('');
+  document.getElementById('modalBody').innerHTML=`
+    <div style="display:flex;gap:8px;align-items:center;margin-bottom:12px;flex-wrap:wrap">
+      <span class="badge ${bClass(r.proposal_verdict)}">${bLabel(r.proposal_verdict||'')}</span>
+      <span style="font-family:'DM Mono',monospace;font-size:10px;color:#64748b">conf ${(r.proposal_confidence||0).toFixed(2)} · ${r.domain||''} · ${r.evidence_count||0} chunks</span>
+    </div>
+    ${papers?`<div class="modal-sec"><div class="modal-sec-title">Sources</div>${papers}</div>`:''}
+    <div class="modal-sec"><div class="modal-sec-title">Grounded Claims</div>${grounded||'<div style="color:#64748b;font-size:11px">None</div>'}</div>
+    ${gaps?`<div class="modal-sec"><div class="modal-sec-title">Knowledge Gaps</div>${gaps}</div>`:''}`;
+  document.getElementById('modalOverlay').classList.add('open');
+}
+function closeModal(){document.getElementById('modalOverlay').classList.remove('open');}
+document.getElementById('modalOverlay').addEventListener('click',function(e){if(e.target===this)closeModal();});
+
+/* ── Refresh ── */
+async function refresh(){
+  try{
+    const [ov,rd,kg,hd]=await Promise.all([fj('/api/overview'),fj('/api/reports'),fj('/api/kg'),fj('/api/hypotheses')]);
+    const reports=rd.reports||[],hyps=hd.hypotheses||[];
+    renderStats(ov);renderVerdicts(ov.verdicts||{});renderConf(reports);
+    renderEvidence(reports);renderKG(kg);renderReports(reports);
+    renderHypChart(hyps);renderHyps(hyps);
+  }catch(e){console.error(e);}
+}
+refresh();
+setInterval(refresh,30000);
+
+// Allow Enter key in sim input
+document.getElementById('simQuery').addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();runSimulation();}});
+</script>
 </body>
 </html>

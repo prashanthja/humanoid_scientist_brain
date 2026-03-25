@@ -1,0 +1,16 @@
+[
+  {
+    "title": "Optimizing Robotic Manipulation With Decision-RWKV: A Recurrent Sequence Modeling Approach for Lifelong Learning",
+    "text": "<jats:title>Abstract</jats:title> <jats:p>Models based on the transformer architecture have seen widespread application across fields such as natural language processing (NLP), computer vision, and robotics, with large language models (LLMs) like ChatGPT revolutionizing machine understanding of human language and demonstrating impressive memory capacity and reproduction capabilities. Traditional machine learning algorithms struggle with catastrophic forgetting, detrimental to the diverse and generalized abilities required for robotic deployment. This article investigates the receptance weighted key value (RWKV) framework, known for its advanced capabilities in efficient and effective sequence modeling, integration with the decision transformer (DT), and experience replay architectures. It focuses on potential performance enhancements in sequence decision-making and lifelong robotic learning tasks. We introduce the decision-RWKV (DRWKV) model and conduct extensive experiments using the D4RL database within the OpenAI Gym environment and on the D’Claw platform to assess the DRWKV model’s performance in single-task tests and lifelong learning scenarios, showing its ability to handle multiple subtasks efficiently. The code for all algorithms, training, and image rendering in this study is available online (open source).</jats:p>",
+    "url": "https://doi.org/10.1115/1.4067524",
+    "source": "crossref",
+    "timestamp": 2025
+  },
+  {
+    "title": "Investigation and Analysis Efficiency of a Sinusoidaly and Non-Sinusoidaly Supplied Transformer under Linear and Non-Linear Loading",
+    "text": "<jats:p>The single line diagram of the transformer is shown in Figure 1. Primary and secondary voltage supply and current load harmonic values are also measured to determine transformer parameters. When Figure 4, Figure 5, Figure 6 and Figure 7 are examined, the results obtained are examined for the efficiency of the transformer and the annual cost of losses for 4 operating conditions.</jats:p>",
+    "url": "https://doi.org/10.38124/ijisrt/ijisrt24may163",
+    "source": "crossref",
+    "timestamp": 2024
+  }
+]

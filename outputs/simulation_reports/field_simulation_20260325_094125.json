@@ -1,0 +1,218 @@
+{
+  "n_simulations": 500,
+  "avg_field_score": 0.7115,
+  "summary": "Across 500 simulations, the field advances to score 0.71. Strong momentum detected. Top method: unknown.",
+  "dominance_probabilities": {
+    "MixtureOfExperts": 1.0,
+    "KVCache": 1.0,
+    "LoRA": 1.0,
+    "MemoryOverhead": 1.0,
+    "TransformerEfficiency": 0.998,
+    "FlashAttention": 0.994,
+    "Latency": 0.604,
+    "InferenceSpeed": 0.302
+  },
+  "mean_final_beliefs": {
+    "MemoryOverhead": 0.996,
+    "TransformerEfficiency": 0.861,
+    "LoRA": 0.846,
+    "KVCache": 0.846,
+    "MixtureOfExperts": 0.846,
+    "FlashAttention": 0.796,
+    "Latency": 0.731,
+    "InferenceSpeed": 0.696
+  },
+  "dominant_methods": [],
+  "rising_nodes": [
+    {
+      "node": "MemoryOverhead",
+      "delta": 0.2574
+    },
+    {
+      "node": "TransformerEfficiency",
+      "delta": 0.2106
+    },
+    {
+      "node": "InferenceSpeed",
+      "delta": 0.1944
+    },
+    {
+      "node": "ParameterEfficiency",
+      "delta": 0.1777
+    },
+    {
+      "node": "ModelQuality",
+      "delta": 0.0936
+    },
+    {
+      "node": "Latency",
+      "delta": 0.0916
+    }
+  ],
+  "falling_nodes": [
+    {
+      "node": "Reasoning Language Model Inference Serving Unveile",
+      "delta": -0.0073
+    },
+    {
+      "node": "ContextLength",
+      "delta": -0.0077
+    },
+    {
+      "node": "Union of Experts: Adapting Hierarchical Routing to",
+      "delta": -0.0078
+    },
+    {
+      "node": "CORM: Cache Optimization with Recent Message for L",
+      "delta": -0.0079
+    }
+  ],
+  "dead_ends": [],
+  "contradiction_risks": [
+    "MixtureOfExperts (belief=0.85) faces has tradeoff with RoutingInstability",
+    "Quantization (belief=0.66) faces has tradeoff with ModelQuality",
+    "FlashAttention (belief=0.80) faces has tradeoff with MemoryOverhead",
+    "KVCache (belief=0.85) faces has tradeoff with MemoryOverhead"
+  ],
+  "hypothesis_outcomes": [
+    {
+      "hypothesis": "",
+      "success_probability": 0.585,
+      "type": "graph_transitivity"
+    },
+    {
+      "hypothesis": "",
+      "success_probability": 0.585,
+      "type": "graph_transitivity"
+    },
+    {
+      "hypothesis": "",
+      "success_probability": 0.585,
+      "type": "graph_transitivity"
+    },
+    {
+      "hypothesis": "",
+      "success_probability": 0.585,
+      "type": "graph_transitivity"
+    },
+    {
+      "hypothesis": "",
+      "success_probability": 0.585,
+      "type": "graph_transitivity"
+    },
+    {
+      "hypothesis": "",
+      "success_probability": 0.585,
+      "type": "graph_transitivity"
+    }
+  ],
+  "field_trajectory": [
+    {
+      "step": 0,
+      "year_offset": 0.0,
+      "avg_field_score": 0.6219
+    },
+    {
+      "step": 1,
+      "year_offset": 0.5,
+      "avg_field_score": 0.6358
+    },
+    {
+      "step": 2,
+      "year_offset": 1.0,
+      "avg_field_score": 0.6479
+    },
+    {
+      "step": 3,
+      "year_offset": 1.5,
+      "avg_field_score": 0.6597
+    },
+    {
+      "step": 4,
+      "year_offset": 2.0,
+      "avg_field_score": 0.6707
+    },
+    {
+      "step": 5,
+      "year_offset": 2.5,
+      "avg_field_score": 0.6816
+    },
+    {
+      "step": 6,
+      "year_offset": 3.0,
+      "avg_field_score": 0.6925
+    },
+    {
+      "step": 7,
+      "year_offset": 3.5,
+      "avg_field_score": 0.7027
+    },
+    {
+      "step": 8,
+      "year_offset": 4.0,
+      "avg_field_score": 0.7119
+    }
+  ],
+  "roadmap": [
+    {
+      "year_offset": 0.0,
+      "label": "Current state",
+      "avg_field_score": 0.6219
+    },
+    {
+      "year_offset": 0.5,
+      "label": "Key methods mature, integration challenges emerge",
+      "avg_field_score": 0.6358
+    },
+    {
+      "year_offset": 1.0,
+      "label": "Key methods mature, integration challenges emerge",
+      "avg_field_score": 0.6479
+    },
+    {
+      "year_offset": 1.5,
+      "label": "Key methods mature, integration challenges emerge",
+      "avg_field_score": 0.6597
+    },
+    {
+      "year_offset": 2.0,
+      "label": "Key methods mature, integration challenges emerge",
+      "avg_field_score": 0.6707
+    },
+    {
+      "year_offset": 2.5,
+      "label": "Strong efficiency gains broadly adopted",
+      "avg_field_score": 0.6816
+    },
+    {
+      "year_offset": 3.0,
+      "label": "Strong efficiency gains broadly adopted",
+      "avg_field_score": 0.6925
+    },
+    {
+      "year_offset": 3.5,
+      "label": "Strong efficiency gains broadly adopted",
+      "avg_field_score": 0.7027
+    },
+    {
+      "year_offset": 4.0,
+      "label": "Strong efficiency gains broadly adopted",
+      "avg_field_score": 0.7119
+    }
+  ],
+  "best_experiments": [
+    "Investigate failure modes of MixtureOfExperts under production load — failure probability 15%",
+    "Compare MoE vs dense on real inference cost, not just parameter count — routing instability remains a key bottleneck",
+    "Evaluate sparse attention methods at 128k+ context on reasoning-heavy tasks"
+  ],
+  "hypothesis": "How will transformer efficiency research evolve?",
+  "query": "How will transformer efficiency research evolve?",
+  "focus_nodes": [],
+  "data_source": "kg+domain",
+  "state_summary": {
+    "nodes": 36,
+    "edges": 61,
+    "transitions": 61,
+    "hypotheses_used": 10
+  }
+}

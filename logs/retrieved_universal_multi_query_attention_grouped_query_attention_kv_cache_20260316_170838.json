@@ -1,0 +1,9 @@
+[
+  {
+    "title": "Image Classification on Small Datasets using Query Attention Module",
+    "text": "<title>Abstract</title> <p>Vision Transformers (VTs) are increasingly popular in computer vision due to their robust global modeling. However, they do not have the same learning advantages as Convolutional Neural Networks (CNNs), which can be trained effectively with less data. This paper proposes a plug-and-play module, query attention. Without altering the backbone structure, it can be integrated with existing VTs and CNNs. Furthermore, to reduce the training cost of the VT backbone, we integrate query attention with a downsized backbone to construct a shrunk structure. We selected three classical VTs, ViT, Swin, and T2T-ViT, and tested them on four small datasets(CIFAR10, CIFAR100, Tiny-ImageNet, CINIC10). The results show that query attention can improve model performance, especially with the shrunk structure, where we can maintain competitive performance while reducing computational and memory complexity. For example, on the Tiny-ImageNet, after adding query attention to ViT, the classification accuracy increases by 5.77%. Additionally, based on the shrunk structure of the ViT, we achieved a 20% reduction in parameters and a 32.76% reduction in computation cost, while improving classification accuracy by 4.26%.</p>",
+    "url": "https://doi.org/10.21203/rs.3.rs-4447366/v2",
+    "source": "crossref",
+    "timestamp": 2024
+  }
+]

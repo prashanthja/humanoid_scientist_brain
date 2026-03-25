@@ -1,0 +1,86 @@
+[
+  {
+    "title": "2. Euclidean geometry",
+    "text": "<p>‘Euclidean geometry’ talks about the cultures that grew up in the arid region of Mesopotamia in the fourth millennium BC that needed to find geometrical solutions to their problems. Dividing and surveying the land after periodic floods relied on measuring distances and computing areas. Euclidean geometry forms geometric intuition that gives an accurate description of the space of land. Euclid of Alexandria put geometry in a logical framework and used axioms to define complicated objects such as triangles. The theorems are logical consequences of axioms that take a long time to prove.</p>",
+    "url": "https://doi.org/10.1093/actrade/9780199683680.003.0002",
+    "source": "crossref",
+    "timestamp": 2022
+  },
+  {
+    "title": "5. Projective geometry",
+    "text": "<p>‘Projective geometry’ focuses on the points in projective geometry that are added to the Euclidean plane and are regarded on an equal footing with all other points. In Euclidean geometry two lines intersect at a unique point unless they are parallel, while the parallel lines from the projective perspective intersect at one of the points at infinity. The Renaissance painting of Canaletto depicts three-dimensional space and distortion of the Euclidean geometric proportions. The discovery of perspective led the Renaissance artists to seek geometric schemes that enable them to represent three-dimensional space. The key concept underlying the perspective drawing is the projection.</p>",
+    "url": "https://doi.org/10.1093/actrade/9780199683680.003.0005",
+    "source": "crossref",
+    "timestamp": 2022
+  },
+  {
+    "title": "3. Non-Euclidean geometry",
+    "text": "<p>‘Non-Euclidean geometry’ begins with a discussion on spherical geometry, which is the study of objects on the sphere and has lines that are defined as great circles. Spherical geometry is an example of a non-Euclidean geometry, as the lines do not satisfy Euclid’s parallel postulate. Hyperbolic geometry is another example of a non-Euclidean geometry, as it violates the parallel axiom and cannot be embedded in ordinary space. Hyperbolic geometry can be introduced as an abstract surface wherein lines are singled out and the distance which makes these lines the shortest are shown. With hyperbolic geometry, the apparent paradoxes of M. C. Escher’s angels and devils can be revealed.</p>",
+    "url": "https://doi.org/10.1093/actrade/9780199683680.003.0003",
+    "source": "crossref",
+    "timestamp": 2022
+  },
+  {
+    "title": "1. What is geometry?",
+    "text": "<p>‘What is geometry?’ mentions the Greek philosopher Pythagoras of Samos and his followers, the Pythagoreans, who spent their time unveiling the relationship between numbers and geometric forms. They were credited for what is now known as the Pythagorean theorem, wherein for any right-angled triangle the square of the hypotenuse is equal to the sum of the squares of the other two sides. Geometry stands out from most other branches of mathematics, as the proof of a theorem can be given in pictorial terms. The Pythagorean theorem is valid in Euclidean geometry and relies on concepts that play a central role in the theorem.</p>",
+    "url": "https://doi.org/10.1093/actrade/9780199683680.003.0001",
+    "source": "crossref",
+    "timestamp": 2022
+  },
+  {
+    "title": "Algebraic Geometry",
+    "text": "We compute the fundamental group of an algebraic link. To cite this article: O. Neto, P.C. Silva, C. R. Acad. Sci. Paris, Ser. I 340 (2005).  2004 Académie des sciences. Published by Elsevier SAS. All rights reserved. Résumé Le groupe fondamental d’un entrelacs algébrique. On calcule le groupe fondamental d’un entrelacs algébrique. Pour citer cet article :O. Neto, P.C. Silva, C. R. Acad. Sci. Paris, Ser. I 340 (2005).  2004 Académie des sciences. Published by Elsevier SAS. All rights reserved.",
+    "url": "https://www.semanticscholar.org/paper/ef53f2b1f79cd1b53252dff1793aabb492849bae",
+    "source": "semantic_scholar",
+    "timestamp": 2022
+  },
+  {
+    "title": "VGGT: Visual Geometry Grounded Transformer",
+    "text": "We present VGGT, a feed-forward neural network that directly infers all key 3D attributes of a scene, including camera parameters, point maps, depth maps, and 3D point tracks, from one, a few, or hundreds of its views. This approach is a step forward in 3D computer vision, where models have typically been constrained to and specialized for single tasks. It is also simple and efficient, reconstructing images in under one second, and still outperforming alternatives that require post-processing with visual geometry optimization techniques. The network achieves state-of-the-art results in multiple 3D tasks, including camera parameter estimation, multi-view depth estimation, dense point cloud reconstruction, and 3D point tracking. We also show that using pretrained VGGT as a feature backbone significantly enhances downstream tasks, such as non-rigid point tracking and feed-forward novel view synthesis. Code and models are publicly available at https://github.com/facebookresearch/vggt.",
+    "url": "https://www.semanticscholar.org/paper/4356b46e5dd1a4ebd579b1cd6eb3eeedddd5a65c",
+    "source": "semantic_scholar",
+    "timestamp": 2025
+  },
+  {
+    "title": "Multi-task Learning Using Uncertainty to Weigh Losses for Scene Geometry and Semantics",
+    "text": "Numerous deep learning applications benefit from multitask learning with multiple regression and classification objectives. In this paper we make the observation that the performance of such systems is strongly dependent on the relative weighting between each task's loss. Tuning these weights by hand is a difficult and expensive process, making multi-task learning prohibitive in practice. We propose a principled approach to multi-task deep learning which weighs multiple loss functions by considering the homoscedastic uncertainty of each task. This allows us to simultaneously learn various quantities with different units or scales in both classification and regression settings. We demonstrate our model learning per-pixel depth regression, semantic and instance segmentation from a monocular input image. Perhaps surprisingly, we show our model can learn multi-task weightings and outperform separate models trained individually on each task.",
+    "url": "https://www.semanticscholar.org/paper/f98788f32b0d33d200c9bc7d900d0ef39519c927",
+    "source": "semantic_scholar",
+    "timestamp": 2017
+  },
+  {
+    "title": "Efficient Geometry-aware 3D Generative Adversarial Networks",
+    "text": "Unsupervised generation of high-quality multi-view-consistent images and 3D shapes using only collections of single-view 2D photographs has been a long-standing challenge. Existing 3D GANs are either compute intensive or make approximations that are not 3D-consistent; the former limits quality and resolution of the generated images and the latter adversely affects multi-view consistency and shape quality. In this work, we improve the computational efficiency and image quality of 3D GANs without overly relying on these approximations. We introduce an expressive hybrid explicit implicit network architecture that, together with other design choices, synthesizes not only high-resolution multi-view-consistent images in real time but also produces high-quality 3D geometry. By decoupling feature generation and neural rendering, our framework is able to leverage state-of-the-art 2D CNN generators, such as StyleGAN2, and inherit their efficiency and expressiveness. We demonstrate state-of-the-art 3D-aware synthesis with FFHQ and AFHQ Cats, among other experiments.",
+    "url": "https://www.semanticscholar.org/paper/7c0a7419114db2209c2f386bc1537e90417cf9d4",
+    "source": "semantic_scholar",
+    "timestamp": 2021
+  },
+  {
+    "title": "Solving olympiad geometry without human demonstrations",
+    "text": "Proving mathematical theorems at the olympiad level represents a notable milestone in human-level automated reasoning1–4, owing to their reputed difficulty among the world’s best talents in pre-university mathematics. Current machine-learning approaches, however, are not applicable to most mathematical domains owing to the high cost of translating human proofs into machine-verifiable format. The problem is even worse for geometry because of its unique translation challenges1,5, resulting in severe scarcity of training data. We propose AlphaGeometry, a theorem prover for Euclidean plane geometry that sidesteps the need for human demonstrations by synthesizing millions of theorems and proofs across different levels of complexity. AlphaGeometry is a neuro-symbolic system that uses a neural language model, trained from scratch on our large-scale synthetic data, to guide a symbolic deduction engine through infinite branching points in challenging problems. On a test set of 30 latest olympiad-level problems, AlphaGeometry solves 25, outperforming the previous best method that only solves ten problems and approaching the performance of an average International Mathematical Olympiad (IMO) gold medallist. Notably, AlphaGeometry produces human-readable proofs, solves all geometry problems in the IMO 2000 and 2015 under human expert evaluation and discovers a generalized version of a translated IMO theorem in 2004. A new neuro-symbolic theorem prover for Euclidean plane geometry trained from scratch on millions of synthesized theorems and proofs outperforms the previous best method and reaches the performance of an olympiad gold medallist.",
+    "url": "https://www.semanticscholar.org/paper/9b093787f9be3d480cd11f8ec6ca5b0e44050d6d",
+    "source": "semantic_scholar",
+    "timestamp": 2024
+  },
+  {
+    "title": "String theory and noncommutative geometry",
+    "text": "We extend earlier ideas about the appearance of noncommutative geometry in string theory with a nonzero B-field. We identify a limit in which the entire string dynamics is described by a minimally coupled (supersymmetric) gauge theory on a noncommutative space, and discuss the corrections away from this limit. Our analysis leads us to an equivalence between ordinary gauge fields and noncommutative gauge fields, which is realized by a change of variables that can be described explicitly. This change of variables is checked by comparing the ordinary Dirac-Born-Infeld theory with its noncommutative counterpart. We obtain a new perspective on noncommutative gauge theory on a torus, its T-duality, and Morita equivalence. We also discuss the D0/D4 system, the relation to M-theory in DLCQ, and a possible noncommutative version of the six-dimensional (2,0) theory.",
+    "url": "https://www.semanticscholar.org/paper/557bc7143ef3e00b011cefc7be683af8579b42e1",
+    "source": "semantic_scholar",
+    "timestamp": 1999
+  },
+  {
+    "title": "Fantasia3D: Disentangling Geometry and Appearance for High-quality Text-to-3D Content Creation",
+    "text": "Automatic 3D content creation has achieved rapid progress recently due to the availability of pre-trained, large language models and image diffusion models, forming the emerging topic of text-to-3D content creation. Existing text-to-3D methods commonly use implicit scene representations, which couple the geometry and appearance via volume rendering and are suboptimal in terms of recovering finer geometries and achieving photorealistic rendering; consequently, they are less effective for generating high-quality 3D assets. In this work, we propose a new method of Fantasia3D for high-quality text-to-3D content creation. Key to Fantasia3D is the disentangled modeling and learning of geometry and appearance. For geometry learning, we rely on a hybrid scene representation, and propose to encode surface normal extracted from the representation as the input of the image diffusion model. For appearance modeling, we introduce the spatially varying bidirectional reflectance distribution function (BRDF) into the text-to-3D task, and learn the surface material for photorealistic rendering of the generated surface. Our disentangled framework is more compatible with popular graphics engines, supporting relighting, editing, and physical simulation of the generated 3D assets. We conduct thorough experiments that show the advantages of our method over existing ones under different text-to-3D task settings. Project page and source codes: https://fantasia3d.github.io/.",
+    "url": "https://www.semanticscholar.org/paper/0cbb518c364067200476a51e5ce7476a4f582770",
+    "source": "semantic_scholar",
+    "timestamp": 2023
+  },
+  {
+    "title": "Geometry",
+    "text": "Geometry is a branch of mathematics concerned with properties of space such as the distance, shape, size, and relative position of figures. Geometry is, along with arithmetic, one of the oldest branches of mathematics. A mathematician who works in the field of geometry is called a geometer. Until the 19th century, geometry was almost exclusively devoted to Euclidean geometry, which includes the notions of point, line, plane, distance, angle, surface, and curve, as fundamental concepts.",
+    "url": "https://en.wikipedia.org/wiki/Geometry",
+    "source": "wikipedia",
+    "timestamp": "2026-03-04"
+  }
+]

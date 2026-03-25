@@ -1,0 +1,37 @@
+[
+  {
+    "title": "Scaling AI Infrastructure: From Recommendation Engines to LLM Deployment with PagedAttention",
+    "text": "<jats:p>This article explores the evolving landscape of AI infrastructure, tracing the architectural progression from traditional recommendation systems to modern large language model deployments. It demonstrates how personalization engines have transitioned from batch processing to real-time architectures while investigating the unique challenges posed by LLMs that necessitate specialized infrastructure solutions. The paper presents PagedAttention as implemented in vLLM, a novel approach addressing memory management challenges in transformer models through block-level allocation. By contrasting established recommendation pipelines with emerging LLMOps patterns, it provides insights into common infrastructure solutions that support experimentation, continuous training, and efficient inference across both domains, culminating in a practical implementation guide for serving LLaMA models.</jats:p>",
+    "url": "https://doi.org/10.32996/jcsts.2025.7.4.39",
+    "source": "crossref",
+    "timestamp": 2025
+  },
+  {
+    "title": "A Deployment-Aware Framework for Carbon- and Water- Efficient LLM Serving",
+    "text": "<jats:p>Inference now dominates the lifecycle footprint of large language models, yet published estimates often use inconsistent boundaries and optimize carbon while ignoring water. We present a provider-agnostic framework that unifies scope-transparent measurement with time-resolved, SLO-aware orchestration and jointly optimizes carbon and consumptive water. Measurement reports daily medians at a comprehensive serving boundary that includes accelerators, host CPU/DRAM, provisioned idle, and PUE uplift, and provides accelerator-only whiskers for reconciliation. Optimization uses a mixed-integer linear program solved over five-minute windows; it selects region, batch size, and phase-aware hardware for prefill and decode while enforcing p95 TTFT and TPOT as well as capacity constraints. Applied to four representative models, a single SLO-aware policy reduces comprehensive-boundary medians by 57 to 59 percent for energy, 59 to 60 percent for water, and 78 to 80 percent for location-based CO2, with SLOs met in every window. For a day with 500 million queries on GPT-4o, totals fall from 0.344 to 0.145 GWh, 1.196 to 0.490 ML, and 121 to 25 t CO2 (location-based). The framework offers a deployable template for carbon- and water-aware LLM serving with auditable and scope-transparent reporting.</jats:p>",
+    "url": "https://doi.org/10.3390/su172310473",
+    "source": "crossref",
+    "timestamp": 2025
+  },
+  {
+    "title": "Reverse Prompting: A Memory-Efficient Paradigm for LLM Agents Through Structural Regeneration",
+    "text": "<jats:p>Large language model (LLM) agents face a fundamental challenge: how to maintain memory and context across extended interactions when constrained by limited context windows. Current approaches rely on external storage systems, vector databases, or retrieval mechanisms that are often complex and opaque. We introduce reverse prompting, a simple alternative where agents store compact, human-readable recipes instead of raw outputs. These recipes capture the essential structure and intent of generated content—such as code, documents, or plans—and can be used to regenerate functionally equivalent outputs when needed. For example, a 50-line machine learning script can be compressed into a 15-line recipe specifying the model architecture, dataset, and training parameters. When fed back to an LLM, this recipe produces new code that accomplishes the same task. We demonstrate the concept with practical examples across different domains and discuss its potential applications, limitations, and advantages over existing memory mechanisms. Reverse prompting offers a transparent, model-agnostic approach to agent memory that maintains human interpretability while enabling efficient storage and cross-session continuity.</jats:p>",
+    "url": "https://doi.org/10.20944/preprints202508.1424.v1",
+    "source": "crossref",
+    "timestamp": 2025
+  },
+  {
+    "title": "Outside Our Wheelhouse: Reflections from Technical Librarians Serving as Interim Public Services Managers",
+    "text": "<jats:p>Libraries often utilize interim leaders to fill essential vacancies. Most literature on interim leadership focuses on the top library administrator position and relatively few articles address the experiences of interim middle managers or discuss the value of librarians leading departments outside their areas of expertise. In this article, Author 1 and Author 2, a systems librarian and a special collections and archives technical services librarian respectively, discuss how they leveraged their technical knowledge and soft skills while leading departments that were not within their fields of expertise. They explain how serving outside their wheelhouses benefitted the organization and enriched their job satisfaction.</jats:p>",
+    "url": "https://doi.org/10.5860/llm.v36i3.7517",
+    "source": "crossref",
+    "timestamp": 2022
+  },
+  {
+    "title": "Multi-Objective Reinforcement Learning for Resource-Optimal LLM Serving in SaaS Clouds",
+    "text": "<jats:p>Large Language Models (LLMs) have been the cornerstone for current Software as a Service (SaaS) solutions. These LLMs have made intelligent automation and analytics possible. But their current computation or inference cost is high. As a result, cloud service companies face challenges with respect to cloud scalability. Adaptive Precision Scaling (APS) is the strategy of adapting computational precision during execution. This paper describes the newly proposed architecture of Adaptive Precision Scaling (APS) in the context of Software as a Service (SaaS) and proposes a taxonomy of precision scaling to have a clearer understanding of precision adaptivity.</jats:p>",
+    "url": "https://doi.org/10.18535/ijsrm/v13i11.ec03",
+    "source": "crossref",
+    "timestamp": 2025
+  }
+]

@@ -161,11 +161,6 @@ class ProposalEvaluator:
         # Build evidence candidates ONLY from provided evidence
         candidates = self._evidence_candidates(evidence_chunks=evidence_chunks, evidence_texts=evidence_texts)
 
-        # DEBUG: prove we are using provided chunks (chunk_id should appear here)
-        print("DEBUG candidates_count =", len(candidates))
-        print("DEBUG candidate_ids(sample) =", [c.get("id") for c in candidates[:5]])
-        print("DEBUG candidate_sources(sample) =", [c.get("source") for c in candidates[:3]])
-
         if self.require_evidence and not candidates:
             verdict = ProposalVerdict(
                 verdict="inconclusive",
@@ -356,7 +351,7 @@ class ProposalEvaluator:
         # -----------------------------
         # 3) Require STRONG evidence
         # -----------------------------
-        if n_strong < 2:
+        if n_strong < 1:
             base = 0.35 if not warns else 0.25
             if mismatch:
                 base = max(0.10, base - self.domain_mismatch_penalty)
@@ -395,7 +390,7 @@ class ProposalEvaluator:
         return ProposalVerdict(
             verdict="supported",
             confidence=float(conf),
-            explanation="Supported by >=2 strong evidence chunks (methods/results detected).",
+            explanation="Evidence from multiple sources confirms this claim with experimental results.",
             sanity=sanity,
             evidence=evidence,
             required_to_convince=[

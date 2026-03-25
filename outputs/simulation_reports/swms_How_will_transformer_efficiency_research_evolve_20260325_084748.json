@@ -1,0 +1,676 @@
+{
+  "query": "How will transformer efficiency research evolve?",
+  "timestamp": "2026-03-25 08:47:48",
+  "elapsed_seconds": 1.24,
+  "state_source": "kg+domain",
+  "n_simulations": 500,
+  "n_steps": 8,
+  "domain": "transformer_efficiency",
+  "top_dominant_methods": [
+    [
+      "FlashAttention",
+      1.0
+    ],
+    [
+      "MixtureOfExperts",
+      1.0
+    ],
+    [
+      "KVCache",
+      1.0
+    ],
+    [
+      "LoRA",
+      1.0
+    ],
+    [
+      "MemoryOverhead",
+      1.0
+    ]
+  ],
+  "dominance_probabilities": {
+    "FlashAttention": 1.0,
+    "SparseAttention": 0.0,
+    "MixtureOfExperts": 1.0,
+    "KVCache": 1.0,
+    "LoRA": 1.0,
+    "SpeculativeDecoding": 0.042,
+    "Quantization": 0.264,
+    "LinearAttention": 0.0,
+    "Mamba": 0.0,
+    "MemoryOverhead": 1.0,
+    "InferenceSpeed": 1.0,
+    "ComputeCost": 0.988,
+    "ModelQuality": 0.996,
+    "ParameterEfficiency": 1.0,
+    "RoutingInstability": 0.0,
+    "TransformerEfficiency": 1.0,
+    "TrainingCost": 0.998,
+    "ContextLength": 0.0,
+    "Energy-Efficient FlashAttention Acceleration on CG": 0.0,
+    "ModelAccuracy": 1.0,
+    "Latency": 1.0,
+    "EMPIRIC: Exploring Missing Pieces in KV Cache Comp": 0.0,
+    "Towards More Economical Context-Augmented LLM Gene": 0.0,
+    "Open-AI model Efficient Memory Reduce Management f": 0.0,
+    "CORM: Cache Optimization with Recent Message for L": 0.0,
+    "Reasoning Language Model Inference Serving Unveile": 0.0,
+    "FLASepformer: Efficient Speech Separation with Gat": 0.0,
+    "Low-Rank Adaptation for Scalable Fine-Tuning of Pr": 0.0,
+    "Union of Experts: Adapting Hierarchical Routing to": 0.0,
+    "Cross-token Modeling with Conditional Computation": 0.0,
+    "Dense Backpropagation Improves Training for Sparse": 0.0,
+    "Switch Transformers: Scaling to Trillion Parameter": 0.0,
+    "GeneralLimitation": 0.0,
+    "RoPE": 0.184,
+    "Tensor Product Attention Is All You Need": 0.0,
+    "Throughput": 0.59
+  },
+  "adoption_probabilities": {
+    "FlashAttention": 1.0,
+    "SparseAttention": 0.088,
+    "MixtureOfExperts": 1.0,
+    "KVCache": 1.0,
+    "LoRA": 1.0,
+    "SpeculativeDecoding": 0.816,
+    "Quantization": 0.978,
+    "LinearAttention": 0.002,
+    "Mamba": 0.0,
+    "MemoryOverhead": 1.0,
+    "InferenceSpeed": 1.0,
+    "ComputeCost": 1.0,
+    "ModelQuality": 1.0,
+    "ParameterEfficiency": 1.0,
+    "RoutingInstability": 0.0,
+    "TransformerEfficiency": 1.0,
+    "TrainingCost": 1.0,
+    "ContextLength": 0.024,
+    "Energy-Efficient FlashAttention Acceleration on CG": 0.12,
+    "ModelAccuracy": 1.0,
+    "Latency": 1.0,
+    "EMPIRIC: Exploring Missing Pieces in KV Cache Comp": 0.104,
+    "Towards More Economical Context-Augmented LLM Gene": 0.108,
+    "Open-AI model Efficient Memory Reduce Management f": 0.092,
+    "CORM: Cache Optimization with Recent Message for L": 0.098,
+    "Reasoning Language Model Inference Serving Unveile": 0.116,
+    "FLASepformer: Efficient Speech Separation with Gat": 0.142,
+    "Low-Rank Adaptation for Scalable Fine-Tuning of Pr": 0.118,
+    "Union of Experts: Adapting Hierarchical Routing to": 0.106,
+    "Cross-token Modeling with Conditional Computation": 0.116,
+    "Dense Backpropagation Improves Training for Sparse": 0.098,
+    "Switch Transformers: Scaling to Trillion Parameter": 0.094,
+    "GeneralLimitation": 0.002,
+    "RoPE": 0.966,
+    "Tensor Product Attention Is All You Need": 0.112,
+    "Throughput": 0.998
+  },
+  "failure_probabilities": {
+    "FlashAttention": 0.0,
+    "SparseAttention": 0.0,
+    "MixtureOfExperts": 0.0,
+    "KVCache": 0.0,
+    "LoRA": 0.0,
+    "SpeculativeDecoding": 0.0,
+    "Quantization": 0.0,
+    "LinearAttention": 0.188,
+    "Mamba": 0.096,
+    "MemoryOverhead": 0.0,
+    "InferenceSpeed": 0.0,
+    "ComputeCost": 0.0,
+    "ModelQuality": 0.0,
+    "ParameterEfficiency": 0.0,
+    "RoutingInstability": 0.404,
+    "TransformerEfficiency": 0.0,
+    "TrainingCost": 0.0,
+    "ContextLength": 0.008,
+    "Energy-Efficient FlashAttention Acceleration on CG": 0.0,
+    "ModelAccuracy": 0.0,
+    "Latency": 0.0,
+    "EMPIRIC: Exploring Missing Pieces in KV Cache Comp": 0.0,
+    "Towards More Economical Context-Augmented LLM Gene": 0.002,
+    "Open-AI model Efficient Memory Reduce Management f": 0.0,
+    "CORM: Cache Optimization with Recent Message for L": 0.0,
+    "Reasoning Language Model Inference Serving Unveile": 0.0,
+    "FLASepformer: Efficient Speech Separation with Gat": 0.0,
+    "Low-Rank Adaptation for Scalable Fine-Tuning of Pr": 0.0,
+    "Union of Experts: Adapting Hierarchical Routing to": 0.0,
+    "Cross-token Modeling with Conditional Computation": 0.002,
+    "Dense Backpropagation Improves Training for Sparse": 0.0,
+    "Switch Transformers: Scaling to Trillion Parameter": 0.0,
+    "GeneralLimitation": 0.104,
+    "RoPE": 0.0,
+    "Tensor Product Attention Is All You Need": 0.0,
+    "Throughput": 0.0
+  },
+  "rising_methods": [
+    [
+      "ParameterEfficiency",
+      0.424
+    ],
+    [
+      "InferenceSpeed",
+      0.396
+    ],
+    [
+      "TrainingCost",
+      0.351
+    ],
+    [
+      "ComputeCost",
+      0.344
+    ]
+  ],
+  "declining_methods": [
+    [
+      "GeneralLimitation",
+      -0.09
+    ],
+    [
+      "ContextLength",
+      -0.092
+    ],
+    [
+      "RoutingInstability",
+      -0.122
+    ]
+  ],
+  "trajectories": {
+    "FlashAttention": [
+      0.91,
+      0.91,
+      0.912,
+      0.909,
+      0.908,
+      0.908,
+      0.909,
+      0.908
+    ],
+    "SparseAttention": [
+      0.529,
+      0.53,
+      0.529,
+      0.529,
+      0.528,
+      0.527,
+      0.526,
+      0.526
+    ],
+    "MixtureOfExperts": [
+      0.992,
+      0.987,
+      0.982,
+      0.978,
+      0.975,
+      0.973,
+      0.969,
+      0.966
+    ],
+    "KVCache": [
+      0.996,
+      0.993,
+      0.99,
+      0.988,
+      0.988,
+      0.987,
+      0.987,
+      0.988
+    ],
+    "LoRA": [
+      0.991,
+      0.986,
+      0.982,
+      0.979,
+      0.975,
+      0.971,
+      0.967,
+      0.963
+    ],
+    "SpeculativeDecoding": [
+      0.65,
+      0.65,
+      0.649,
+      0.649,
+      0.648,
+      0.649,
+      0.65,
+      0.651
+    ],
+    "Quantization": [
+      0.718,
+      0.719,
+      0.718,
+      0.717,
+      0.718,
+      0.717,
+      0.716,
+      0.716
+    ],
+    "LinearAttention": [
+      0.401,
+      0.399,
+      0.4,
+      0.401,
+      0.402,
+      0.401,
+      0.401,
+      0.4
+    ],
+    "Mamba": [
+      0.421,
+      0.421,
+      0.421,
+      0.421,
+      0.422,
+      0.423,
+      0.421,
+      0.421
+    ],
+    "MemoryOverhead": [
+      0.954,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0
+    ],
+    "InferenceSpeed": [
+      0.604,
+      0.713,
+      0.822,
+      0.931,
+      0.995,
+      1.0,
+      1.0,
+      1.0
+    ],
+    "ComputeCost": [
+      0.548,
+      0.597,
+      0.647,
+      0.694,
+      0.743,
+      0.793,
+      0.842,
+      0.891
+    ],
+    "ModelQuality": [
+      0.629,
+      0.668,
+      0.707,
+      0.747,
+      0.785,
+      0.821,
+      0.858,
+      0.895
+    ],
+    "ParameterEfficiency": [
+      0.576,
+      0.666,
+      0.758,
+      0.848,
+      0.935,
+      0.99,
+      1.0,
+      1.0
+    ],
+    "RoutingInstability": [
+      0.483,
+      0.463,
+      0.446,
+      0.427,
+      0.411,
+      0.394,
+      0.377,
+      0.361
+    ],
+    "TransformerEfficiency": [
+      0.757,
+      0.877,
+      0.986,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0
+    ],
+    "TrainingCost": [
+      0.55,
+      0.601,
+      0.653,
+      0.703,
+      0.754,
+      0.804,
+      0.852,
+      0.901
+    ],
+    "ContextLength": [
+      0.581,
+      0.568,
+      0.554,
+      0.54,
+      0.527,
+      0.516,
+      0.502,
+      0.489
+    ],
+    "Energy-Efficient FlashAttention Acceleration on CG": [
+      0.529,
+      0.528,
+      0.528,
+      0.529,
+      0.528,
+      0.529,
+      0.529,
+      0.529
+    ],
+    "ModelAccuracy": [
+      0.67,
+      0.703,
+      0.737,
+      0.769,
+      0.802,
+      0.834,
+      0.866,
+      0.896
+    ],
+    "Latency": [
+      0.684,
+      0.727,
+      0.77,
+      0.815,
+      0.858,
+      0.899,
+      0.941,
+      0.971
+    ],
+    "EMPIRIC: Exploring Missing Pieces in KV Cache Comp": [
+      0.529,
+      0.529,
+      0.53,
+      0.53,
+      0.531,
+      0.532,
+      0.531,
+      0.531
+    ],
+    "Towards More Economical Context-Augmented LLM Gene": [
+      0.529,
+      0.531,
+      0.532,
+      0.532,
+      0.532,
+      0.532,
+      0.535,
+      0.535
+    ],
+    "Open-AI model Efficient Memory Reduce Management f": [
+      0.53,
+      0.53,
+      0.531,
+      0.529,
+      0.529,
+      0.529,
+      0.528,
+      0.529
+    ],
+    "CORM: Cache Optimization with Recent Message for L": [
+      0.529,
+      0.529,
+      0.529,
+      0.528,
+      0.528,
+      0.528,
+      0.529,
+      0.529
+    ],
+    "Reasoning Language Model Inference Serving Unveile": [
+      0.529,
+      0.529,
+      0.529,
+      0.531,
+      0.532,
+      0.531,
+      0.53,
+      0.53
+    ],
+    "FLASepformer: Efficient Speech Separation with Gat": [
+      0.531,
+      0.53,
+      0.531,
+      0.531,
+      0.532,
+      0.532,
+      0.533,
+      0.534
+    ],
+    "Low-Rank Adaptation for Scalable Fine-Tuning of Pr": [
+      0.529,
+      0.53,
+      0.529,
+      0.53,
+      0.53,
+      0.531,
+      0.532,
+      0.531
+    ],
+    "Union of Experts: Adapting Hierarchical Routing to": [
+      0.531,
+      0.531,
+      0.53,
+      0.529,
+      0.529,
+      0.529,
+      0.529,
+      0.529
+    ],
+    "Cross-token Modeling with Conditional Computation": [
+      0.531,
+      0.53,
+      0.531,
+      0.53,
+      0.532,
+      0.533,
+      0.532,
+      0.531
+    ],
+    "Dense Backpropagation Improves Training for Sparse": [
+      0.529,
+      0.53,
+      0.531,
+      0.532,
+      0.531,
+      0.531,
+      0.531,
+      0.532
+    ],
+    "Switch Transformers: Scaling to Trillion Parameter": [
+      0.528,
+      0.528,
+      0.527,
+      0.527,
+      0.528,
+      0.527,
+      0.526,
+      0.525
+    ],
+    "GeneralLimitation": [
+      0.517,
+      0.503,
+      0.49,
+      0.477,
+      0.464,
+      0.45,
+      0.438,
+      0.427
+    ],
+    "RoPE": [
+      0.701,
+      0.699,
+      0.699,
+      0.698,
+      0.697,
+      0.697,
+      0.698,
+      0.698
+    ],
+    "Tensor Product Attention Is All You Need": [
+      0.531,
+      0.532,
+      0.532,
+      0.534,
+      0.532,
+      0.532,
+      0.531,
+      0.532
+    ],
+    "Throughput": [
+      0.586,
+      0.612,
+      0.639,
+      0.664,
+      0.691,
+      0.715,
+      0.74,
+      0.766
+    ]
+  },
+  "contradiction_emergence": [],
+  "hypothesis_outcomes": [
+    {
+      "hypothesis": "ContextLength and ModelAccuracy may be related",
+      "type": "graph_transitivity",
+      "base_score": 0.5,
+      "success_probability": 0.525,
+      "failure_probability": 0.3
+    },
+    {
+      "hypothesis": "ContextLength and Latency may be related",
+      "type": "graph_transitivity",
+      "base_score": 0.5,
+      "success_probability": 0.525,
+      "failure_probability": 0.3
+    },
+    {
+      "hypothesis": "ContextLength --partially_supports--> Latency",
+      "type": "graph_transitivity",
+      "base_score": 0.5,
+      "success_probability": 0.525,
+      "failure_probability": 0.3
+    },
+    {
+      "hypothesis": "ContextLength introduces tradeoffs with MemoryOverhead",
+      "type": "graph_transitivity",
+      "base_score": 0.5,
+      "success_probability": 0.525,
+      "failure_probability": 0.3
+    },
+    {
+      "hypothesis": "ContextLength introduces tradeoffs with ModelAccuracy",
+      "type": "graph_transitivity",
+      "base_score": 0.5,
+      "success_probability": 0.525,
+      "failure_probability": 0.3
+    }
+  ],
+  "research_roadmap": [
+    {
+      "timeframe": "~6 months",
+      "leading_methods": [
+        [
+          "KVCache",
+          1.0
+        ],
+        [
+          "MixtureOfExperts",
+          0.99
+        ],
+        [
+          "LoRA",
+          0.99
+        ]
+      ],
+      "description": "KVCache leads with adoption=1.0"
+    },
+    {
+      "timeframe": "~12 months",
+      "leading_methods": [
+        [
+          "MemoryOverhead",
+          1.0
+        ],
+        [
+          "MixtureOfExperts",
+          0.99
+        ],
+        [
+          "KVCache",
+          0.99
+        ]
+      ],
+      "description": "MemoryOverhead leads with adoption=1.0"
+    },
+    {
+      "timeframe": "~18 months",
+      "leading_methods": [
+        [
+          "MemoryOverhead",
+          1.0
+        ],
+        [
+          "KVCache",
+          0.99
+        ],
+        [
+          "TransformerEfficiency",
+          0.99
+        ]
+      ],
+      "description": "MemoryOverhead leads with adoption=1.0"
+    },
+    {
+      "timeframe": "~24 months",
+      "leading_methods": [
+        [
+          "MemoryOverhead",
+          1.0
+        ],
+        [
+          "TransformerEfficiency",
+          1.0
+        ],
+        [
+          "KVCache",
+          0.99
+        ]
+      ],
+      "description": "MemoryOverhead leads with adoption=1.0"
+    },
+    {
+      "timeframe": "~30 months",
+      "leading_methods": [
+        [
+          "MemoryOverhead",
+          1.0
+        ],
+        [
+          "TransformerEfficiency",
+          1.0
+        ],
+        [
+          "KVCache",
+          0.99
+        ]
+      ],
+      "description": "MemoryOverhead leads with adoption=1.0"
+    }
+  ],
+  "best_experiments": [
+    "Benchmark FlashAttention on real inference cost (wall-clock latency, not just FLOPs) — dominance probability 100%",
+    "Benchmark MixtureOfExperts on real inference cost (wall-clock latency, not just FLOPs) — dominance probability 100%",
+    "Benchmark KVCache on real inference cost (wall-clock latency, not just FLOPs) — dominance probability 100%",
+    "Investigate failure modes of RoutingInstability under production load — failure probability 40%",
+    "Compare MoE vs dense on real inference cost, not just parameter count — routing instability remains a key bottleneck"
+  ]
+}

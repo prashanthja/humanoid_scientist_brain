@@ -1,0 +1,30 @@
+[
+  {
+    "title": "Advancements in Large Language Model Efficiency: A Literature Review on 1-bit Quantization",
+    "text": "<jats:p>Large Language Models suffer from most of the challenges regarding computational cost, memory, and energy consumption, which makes their scaling difficult. BitNet b1.58 addresses these issues by introducing a novel 1.58-bit quantization with ternary weights {-1, 0, 1}. This can achieve performance comparable to FP16 models with much lower resource requirements. BitNet b1.58 provides 2.71x faster inference and 3.55x less memory usage than FP16 baselines. Its ternary weights allow for efficient feature filtering, making it a versatile choice for many AI applications. This makes it a standout solution, balancing high performance with resource efficiency. While BitNet b1.58 has its 1-bit mover heads that make it affordable for edge and mobile devices, it also allows longer sequences. This will mark further developments toward making AI scalable and resource-aware for various applications.</jats:p>",
+    "url": "https://doi.org/10.36948/ijfmr.2024.v06i06.32856",
+    "source": "crossref",
+    "timestamp": 2024
+  },
+  {
+    "title": "ORPTQ: An Improved Large Model Quantization Method Based on Optimal Quantization Range",
+    "text": "<jats:p>Quantization reduces model storage by representing model in low bits. It can help to improve the application capability of transformer-based large models and make them possible to be deployed on resource-limited systems such as PCs and mobile devices. The best weight-only quantization method currently is to use second-order information to fine-tune the weight step by step during the quantization process, compensating for the quantization errors that have occurred. The method can minimize the functional loss of weight due to quantization by adjusting the remaining elements through algebraic transformations in each step. However, the performance of this quantization method will deteriorate rapidly when the adjustment for weight deviates too far from the starting point, especially in low-bit quantization (e.g. 4 bits or fewer). To meet the mathematical prerequisite of this method in the quantization, this paper introduces two parameters α, β to adjust the quantization range based on the second-order method, and presents three approaches to seek their optimal values. The experimental results show that the performance of the proposed method significantly outperforms the original second-order method in low-bit quantization. The code of this paper is available on github.com/t-scen/ORPTQ. </jats:p>",
+    "url": "https://doi.org/10.5755/j01.itc.54.2.40573",
+    "source": "crossref",
+    "timestamp": 2025
+  },
+  {
+    "title": "Width-Induced Functional Redundancy in Large Language Models",
+    "text": "Why Pruning, Early-Exit, and Quantization Leave “Low-Resolution Reasoning” Intact <jats:p>Recent observations show that large language models (LLMs) often retain non-trivial functionality even after aggressive pruning, early-exit, sparse routing, or low-precision quantization. While these phenomena are individually well-documented, a unifying explanation remains under-articulated. This research note proposes a conceptual framework linking model width to functional redundancy, arguing that increasing width induces overlapping approximations of similar functions across parameters. As a result, partial removal or degradation of components does not immediately annihilate functionality but instead yields a low-resolution inference regime.We formalize this intuition through definitions, hypotheses, and testable predictions, and outline experimental designs to validate or falsify the framework.</jats:p>",
+    "url": "https://doi.org/10.31224/6261",
+    "source": "crossref",
+    "timestamp": 2026
+  },
+  {
+    "title": "ASER: Activation Smoothing and Error Reconstruction for Large Language Model Quantization",
+    "text": "<jats:p>Quantization stands as a pivotal technique for large language model (LLM) serving, yet it poses significant challenges particularly in achieving effective low-bit quantization. The limited numerical mapping makes the quantized model produce a non-trivial error, bringing out intolerable performance degration. This paper is anchored in the basic idea of model compression objectives, and delves into the layer-wise error distribution of LLMs during post-training quantization. Subsequently, we introduce ASER, an algorithm consisting of (1) Error Reconstruction: low-rank compensation for quantization error with LoRA-style matrices constructed by whitening SVD; (2) Activation Smoothing: outlier extraction to gain smooth activation and better error compensation. ASER is capable of quantizing typical LLMs to low-bit ones, particularly preserving accuracy even in W4A8 per-channel setup. Experimental results show that ASER is competitive among the state-of-the-art quantization algorithms, showing potential to activation quantization, with minor overhead.</jats:p>",
+    "url": "https://doi.org/10.1609/aaai.v39i21.34443",
+    "source": "crossref",
+    "timestamp": 2025
+  }
+]

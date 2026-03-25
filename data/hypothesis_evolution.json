@@ -9,7 +9,7 @@
       "consistency": 1.0,
       "confidence": 1.0,
       "persistence": 0.8,
-      "cycles_seen": 13,
+      "cycles_seen": 20,
       "mentions": 32,
       "last_score": 0.82,
       "last_cycle": 1,
@@ -73,6 +73,41 @@
           "cycle": 1,
           "score": 0.82,
           "stage": "theory"
+        },
+        {
+          "cycle": 1,
+          "score": 0.82,
+          "stage": "theory"
+        },
+        {
+          "cycle": 1,
+          "score": 0.82,
+          "stage": "theory"
+        },
+        {
+          "cycle": 1,
+          "score": 0.82,
+          "stage": "theory"
+        },
+        {
+          "cycle": 1,
+          "score": 0.82,
+          "stage": "theory"
+        },
+        {
+          "cycle": 1,
+          "score": 0.82,
+          "stage": "theory"
+        },
+        {
+          "cycle": 1,
+          "score": 0.82,
+          "stage": "theory"
+        },
+        {
+          "cycle": 1,
+          "score": 0.82,
+          "stage": "theory"
         }
       ]
     },
@@ -84,7 +119,7 @@
       "consistency": 1.0,
       "confidence": 1.0,
       "persistence": 0.8,
-      "cycles_seen": 13,
+      "cycles_seen": 20,
       "mentions": 16,
       "last_score": 0.82,
       "last_cycle": 1,
@@ -148,6 +183,41 @@
           "cycle": 1,
           "score": 0.82,
           "stage": "theory"
+        },
+        {
+          "cycle": 1,
+          "score": 0.82,
+          "stage": "theory"
+        },
+        {
+          "cycle": 1,
+          "score": 0.82,
+          "stage": "theory"
+        },
+        {
+          "cycle": 1,
+          "score": 0.82,
+          "stage": "theory"
+        },
+        {
+          "cycle": 1,
+          "score": 0.82,
+          "stage": "theory"
+        },
+        {
+          "cycle": 1,
+          "score": 0.82,
+          "stage": "theory"
+        },
+        {
+          "cycle": 1,
+          "score": 0.82,
+          "stage": "theory"
+        },
+        {
+          "cycle": 1,
+          "score": 0.82,
+          "stage": "theory"
         }
       ]
     },
@@ -159,11 +229,46 @@
       "consistency": 1.0,
       "confidence": 0.725,
       "persistence": 0.58,
-      "cycles_seen": 5,
+      "cycles_seen": 12,
       "mentions": 1,
       "last_score": 0.596,
       "last_cycle": 1,
       "history": [
+        {
+          "cycle": 1,
+          "score": 0.596,
+          "stage": "candidate"
+        },
+        {
+          "cycle": 1,
+          "score": 0.596,
+          "stage": "candidate"
+        },
+        {
+          "cycle": 1,
+          "score": 0.596,
+          "stage": "candidate"
+        },
+        {
+          "cycle": 1,
+          "score": 0.596,
+          "stage": "candidate"
+        },
+        {
+          "cycle": 1,
+          "score": 0.596,
+          "stage": "candidate"
+        },
+        {
+          "cycle": 1,
+          "score": 0.596,
+          "stage": "candidate"
+        },
+        {
+          "cycle": 1,
+          "score": 0.596,
+          "stage": "candidate"
+        },
         {
           "cycle": 1,
           "score": 0.596,
@@ -194,11 +299,46 @@
       "consistency": 1.0,
       "confidence": 0.725,
       "persistence": 0.58,
-      "cycles_seen": 5,
+      "cycles_seen": 12,
       "mentions": 1,
       "last_score": 0.596,
       "last_cycle": 1,
       "history": [
+        {
+          "cycle": 1,
+          "score": 0.596,
+          "stage": "candidate"
+        },
+        {
+          "cycle": 1,
+          "score": 0.596,
+          "stage": "candidate"
+        },
+        {
+          "cycle": 1,
+          "score": 0.596,
+          "stage": "candidate"
+        },
+        {
+          "cycle": 1,
+          "score": 0.596,
+          "stage": "candidate"
+        },
+        {
+          "cycle": 1,
+          "score": 0.596,
+          "stage": "candidate"
+        },
+        {
+          "cycle": 1,
+          "score": 0.596,
+          "stage": "candidate"
+        },
+        {
+          "cycle": 1,
+          "score": 0.596,
+          "stage": "candidate"
+        },
         {
           "cycle": 1,
           "score": 0.596,
@@ -229,11 +369,46 @@
       "consistency": 1.0,
       "confidence": 0.672,
       "persistence": 0.537,
-      "cycles_seen": 5,
+      "cycles_seen": 12,
       "mentions": 1,
       "last_score": 0.552,
       "last_cycle": 1,
       "history": [
+        {
+          "cycle": 1,
+          "score": 0.552,
+          "stage": "candidate"
+        },
+        {
+          "cycle": 1,
+          "score": 0.552,
+          "stage": "candidate"
+        },
+        {
+          "cycle": 1,
+          "score": 0.552,
+          "stage": "candidate"
+        },
+        {
+          "cycle": 1,
+          "score": 0.552,
+          "stage": "candidate"
+        },
+        {
+          "cycle": 1,
+          "score": 0.552,
+          "stage": "candidate"
+        },
+        {
+          "cycle": 1,
+          "score": 0.552,
+          "stage": "candidate"
+        },
+        {
+          "cycle": 1,
+          "score": 0.552,
+          "stage": "candidate"
+        },
         {
           "cycle": 1,
           "score": 0.552,
@@ -264,11 +439,46 @@
       "consistency": 1.0,
       "confidence": 0.667,
       "persistence": 0.534,
-      "cycles_seen": 5,
+      "cycles_seen": 12,
       "mentions": 2,
       "last_score": 0.548,
       "last_cycle": 1,
       "history": [
+        {
+          "cycle": 1,
+          "score": 0.548,
+          "stage": "candidate"
+        },
+        {
+          "cycle": 1,
+          "score": 0.548,
+          "stage": "candidate"
+        },
+        {
+          "cycle": 1,
+          "score": 0.548,
+          "stage": "candidate"
+        },
+        {
+          "cycle": 1,
+          "score": 0.548,
+          "stage": "candidate"
+        },
+        {
+          "cycle": 1,
+          "score": 0.548,
+          "stage": "candidate"
+        },
+        {
+          "cycle": 1,
+          "score": 0.548,
+          "stage": "candidate"
+        },
+        {
+          "cycle": 1,
+          "score": 0.548,
+          "stage": "candidate"
+        },
         {
           "cycle": 1,
           "score": 0.548,
@@ -299,11 +509,46 @@
       "consistency": 1.0,
       "confidence": 0.664,
       "persistence": 0.531,
-      "cycles_seen": 5,
+      "cycles_seen": 12,
       "mentions": 1,
       "last_score": 0.546,
       "last_cycle": 1,
       "history": [
+        {
+          "cycle": 1,
+          "score": 0.546,
+          "stage": "candidate"
+        },
+        {
+          "cycle": 1,
+          "score": 0.546,
+          "stage": "candidate"
+        },
+        {
+          "cycle": 1,
+          "score": 0.546,
+          "stage": "candidate"
+        },
+        {
+          "cycle": 1,
+          "score": 0.546,
+          "stage": "candidate"
+        },
+        {
+          "cycle": 1,
+          "score": 0.546,
+          "stage": "candidate"
+        },
+        {
+          "cycle": 1,
+          "score": 0.546,
+          "stage": "candidate"
+        },
+        {
+          "cycle": 1,
+          "score": 0.546,
+          "stage": "candidate"
+        },
         {
           "cycle": 1,
           "score": 0.546,
@@ -334,11 +579,46 @@
       "consistency": 1.0,
       "confidence": 0.633,
       "persistence": 0.507,
-      "cycles_seen": 5,
+      "cycles_seen": 12,
       "mentions": 1,
       "last_score": 0.521,
       "last_cycle": 1,
       "history": [
+        {
+          "cycle": 1,
+          "score": 0.521,
+          "stage": "candidate"
+        },
+        {
+          "cycle": 1,
+          "score": 0.521,
+          "stage": "candidate"
+        },
+        {
+          "cycle": 1,
+          "score": 0.521,
+          "stage": "candidate"
+        },
+        {
+          "cycle": 1,
+          "score": 0.521,
+          "stage": "candidate"
+        },
+        {
+          "cycle": 1,
+          "score": 0.521,
+          "stage": "candidate"
+        },
+        {
+          "cycle": 1,
+          "score": 0.521,
+          "stage": "candidate"
+        },
+        {
+          "cycle": 1,
+          "score": 0.521,
+          "stage": "candidate"
+        },
         {
           "cycle": 1,
           "score": 0.521,
@@ -369,11 +649,46 @@
       "consistency": 1.0,
       "confidence": 0.45,
       "persistence": 0.36,
-      "cycles_seen": 5,
+      "cycles_seen": 12,
       "mentions": 2,
       "last_score": 0.371,
       "last_cycle": 1,
       "history": [
+        {
+          "cycle": 1,
+          "score": 0.371,
+          "stage": "seed"
+        },
+        {
+          "cycle": 1,
+          "score": 0.371,
+          "stage": "seed"
+        },
+        {
+          "cycle": 1,
+          "score": 0.371,
+          "stage": "seed"
+        },
+        {
+          "cycle": 1,
+          "score": 0.371,
+          "stage": "seed"
+        },
+        {
+          "cycle": 1,
+          "score": 0.371,
+          "stage": "seed"
+        },
+        {
+          "cycle": 1,
+          "score": 0.371,
+          "stage": "seed"
+        },
+        {
+          "cycle": 1,
+          "score": 0.371,
+          "stage": "seed"
+        },
         {
           "cycle": 1,
           "score": 0.371,
@@ -404,11 +719,46 @@
       "consistency": 1.0,
       "confidence": 0.45,
       "persistence": 0.36,
-      "cycles_seen": 5,
+      "cycles_seen": 12,
       "mentions": 2,
       "last_score": 0.371,
       "last_cycle": 1,
       "history": [
+        {
+          "cycle": 1,
+          "score": 0.371,
+          "stage": "seed"
+        },
+        {
+          "cycle": 1,
+          "score": 0.371,
+          "stage": "seed"
+        },
+        {
+          "cycle": 1,
+          "score": 0.371,
+          "stage": "seed"
+        },
+        {
+          "cycle": 1,
+          "score": 0.371,
+          "stage": "seed"
+        },
+        {
+          "cycle": 1,
+          "score": 0.371,
+          "stage": "seed"
+        },
+        {
+          "cycle": 1,
+          "score": 0.371,
+          "stage": "seed"
+        },
+        {
+          "cycle": 1,
+          "score": 0.371,
+          "stage": "seed"
+        },
         {
           "cycle": 1,
           "score": 0.371,
@@ -439,11 +789,46 @@
       "consistency": 1.0,
       "confidence": 0.45,
       "persistence": 0.36,
-      "cycles_seen": 5,
+      "cycles_seen": 12,
       "mentions": 2,
       "last_score": 0.371,
       "last_cycle": 1,
       "history": [
+        {
+          "cycle": 1,
+          "score": 0.371,
+          "stage": "seed"
+        },
+        {
+          "cycle": 1,
+          "score": 0.371,
+          "stage": "seed"
+        },
+        {
+          "cycle": 1,
+          "score": 0.371,
+          "stage": "seed"
+        },
+        {
+          "cycle": 1,
+          "score": 0.371,
+          "stage": "seed"
+        },
+        {
+          "cycle": 1,
+          "score": 0.371,
+          "stage": "seed"
+        },
+        {
+          "cycle": 1,
+          "score": 0.371,
+          "stage": "seed"
+        },
+        {
+          "cycle": 1,
+          "score": 0.371,
+          "stage": "seed"
+        },
         {
           "cycle": 1,
           "score": 0.371,
@@ -474,11 +859,46 @@
       "consistency": 1.0,
       "confidence": 0.45,
       "persistence": 0.36,
-      "cycles_seen": 5,
+      "cycles_seen": 12,
       "mentions": 2,
       "last_score": 0.371,
       "last_cycle": 1,
       "history": [
+        {
+          "cycle": 1,
+          "score": 0.371,
+          "stage": "seed"
+        },
+        {
+          "cycle": 1,
+          "score": 0.371,
+          "stage": "seed"
+        },
+        {
+          "cycle": 1,
+          "score": 0.371,
+          "stage": "seed"
+        },
+        {
+          "cycle": 1,
+          "score": 0.371,
+          "stage": "seed"
+        },
+        {
+          "cycle": 1,
+          "score": 0.371,
+          "stage": "seed"
+        },
+        {
+          "cycle": 1,
+          "score": 0.371,
+          "stage": "seed"
+        },
+        {
+          "cycle": 1,
+          "score": 0.371,
+          "stage": "seed"
+        },
         {
           "cycle": 1,
           "score": 0.371,
@@ -509,11 +929,46 @@
       "consistency": 1.0,
       "confidence": 0.45,
       "persistence": 0.36,
-      "cycles_seen": 5,
+      "cycles_seen": 12,
       "mentions": 2,
       "last_score": 0.371,
       "last_cycle": 1,
       "history": [
+        {
+          "cycle": 1,
+          "score": 0.371,
+          "stage": "seed"
+        },
+        {
+          "cycle": 1,
+          "score": 0.371,
+          "stage": "seed"
+        },
+        {
+          "cycle": 1,
+          "score": 0.371,
+          "stage": "seed"
+        },
+        {
+          "cycle": 1,
+          "score": 0.371,
+          "stage": "seed"
+        },
+        {
+          "cycle": 1,
+          "score": 0.371,
+          "stage": "seed"
+        },
+        {
+          "cycle": 1,
+          "score": 0.371,
+          "stage": "seed"
+        },
+        {
+          "cycle": 1,
+          "score": 0.371,
+          "stage": "seed"
+        },
         {
           "cycle": 1,
           "score": 0.371,
@@ -544,11 +999,46 @@
       "consistency": 1.0,
       "confidence": 0.45,
       "persistence": 0.36,
-      "cycles_seen": 5,
+      "cycles_seen": 12,
       "mentions": 2,
       "last_score": 0.371,
       "last_cycle": 1,
       "history": [
+        {
+          "cycle": 1,
+          "score": 0.371,
+          "stage": "seed"
+        },
+        {
+          "cycle": 1,
+          "score": 0.371,
+          "stage": "seed"
+        },
+        {
+          "cycle": 1,
+          "score": 0.371,
+          "stage": "seed"
+        },
+        {
+          "cycle": 1,
+          "score": 0.371,
+          "stage": "seed"
+        },
+        {
+          "cycle": 1,
+          "score": 0.371,
+          "stage": "seed"
+        },
+        {
+          "cycle": 1,
+          "score": 0.371,
+          "stage": "seed"
+        },
+        {
+          "cycle": 1,
+          "score": 0.371,
+          "stage": "seed"
+        },
         {
           "cycle": 1,
           "score": 0.371,
@@ -579,11 +1069,46 @@
       "consistency": 1.0,
       "confidence": 0.45,
       "persistence": 0.36,
-      "cycles_seen": 5,
+      "cycles_seen": 12,
       "mentions": 1,
       "last_score": 0.371,
       "last_cycle": 1,
       "history": [
+        {
+          "cycle": 1,
+          "score": 0.371,
+          "stage": "seed"
+        },
+        {
+          "cycle": 1,
+          "score": 0.371,
+          "stage": "seed"
+        },
+        {
+          "cycle": 1,
+          "score": 0.371,
+          "stage": "seed"
+        },
+        {
+          "cycle": 1,
+          "score": 0.371,
+          "stage": "seed"
+        },
+        {
+          "cycle": 1,
+          "score": 0.371,
+          "stage": "seed"
+        },
+        {
+          "cycle": 1,
+          "score": 0.371,
+          "stage": "seed"
+        },
+        {
+          "cycle": 1,
+          "score": 0.371,
+          "stage": "seed"
+        },
         {
           "cycle": 1,
           "score": 0.371,
@@ -614,11 +1139,46 @@
       "consistency": 1.0,
       "confidence": 0.45,
       "persistence": 0.36,
-      "cycles_seen": 5,
+      "cycles_seen": 12,
       "mentions": 1,
       "last_score": 0.371,
       "last_cycle": 1,
       "history": [
+        {
+          "cycle": 1,
+          "score": 0.371,
+          "stage": "seed"
+        },
+        {
+          "cycle": 1,
+          "score": 0.371,
+          "stage": "seed"
+        },
+        {
+          "cycle": 1,
+          "score": 0.371,
+          "stage": "seed"
+        },
+        {
+          "cycle": 1,
+          "score": 0.371,
+          "stage": "seed"
+        },
+        {
+          "cycle": 1,
+          "score": 0.371,
+          "stage": "seed"
+        },
+        {
+          "cycle": 1,
+          "score": 0.371,
+          "stage": "seed"
+        },
+        {
+          "cycle": 1,
+          "score": 0.371,
+          "stage": "seed"
+        },
         {
           "cycle": 1,
           "score": 0.371,
@@ -649,11 +1209,46 @@
       "consistency": 1.0,
       "confidence": 0.45,
       "persistence": 0.36,
-      "cycles_seen": 5,
+      "cycles_seen": 12,
       "mentions": 1,
       "last_score": 0.371,
       "last_cycle": 1,
       "history": [
+        {
+          "cycle": 1,
+          "score": 0.371,
+          "stage": "seed"
+        },
+        {
+          "cycle": 1,
+          "score": 0.371,
+          "stage": "seed"
+        },
+        {
+          "cycle": 1,
+          "score": 0.371,
+          "stage": "seed"
+        },
+        {
+          "cycle": 1,
+          "score": 0.371,
+          "stage": "seed"
+        },
+        {
+          "cycle": 1,
+          "score": 0.371,
+          "stage": "seed"
+        },
+        {
+          "cycle": 1,
+          "score": 0.371,
+          "stage": "seed"
+        },
+        {
+          "cycle": 1,
+          "score": 0.371,
+          "stage": "seed"
+        },
         {
           "cycle": 1,
           "score": 0.371,
@@ -684,11 +1279,46 @@
       "consistency": 1.0,
       "confidence": 0.45,
       "persistence": 0.36,
-      "cycles_seen": 5,
+      "cycles_seen": 12,
       "mentions": 1,
       "last_score": 0.371,
       "last_cycle": 1,
       "history": [
+        {
+          "cycle": 1,
+          "score": 0.371,
+          "stage": "seed"
+        },
+        {
+          "cycle": 1,
+          "score": 0.371,
+          "stage": "seed"
+        },
+        {
+          "cycle": 1,
+          "score": 0.371,
+          "stage": "seed"
+        },
+        {
+          "cycle": 1,
+          "score": 0.371,
+          "stage": "seed"
+        },
+        {
+          "cycle": 1,
+          "score": 0.371,
+          "stage": "seed"
+        },
+        {
+          "cycle": 1,
+          "score": 0.371,
+          "stage": "seed"
+        },
+        {
+          "cycle": 1,
+          "score": 0.371,
+          "stage": "seed"
+        },
         {
           "cycle": 1,
           "score": 0.371,
@@ -719,11 +1349,46 @@
       "consistency": 1.0,
       "confidence": 0.45,
       "persistence": 0.36,
-      "cycles_seen": 5,
+      "cycles_seen": 12,
       "mentions": 1,
       "last_score": 0.371,
       "last_cycle": 1,
       "history": [
+        {
+          "cycle": 1,
+          "score": 0.371,
+          "stage": "seed"
+        },
+        {
+          "cycle": 1,
+          "score": 0.371,
+          "stage": "seed"
+        },
+        {
+          "cycle": 1,
+          "score": 0.371,
+          "stage": "seed"
+        },
+        {
+          "cycle": 1,
+          "score": 0.371,
+          "stage": "seed"
+        },
+        {
+          "cycle": 1,
+          "score": 0.371,
+          "stage": "seed"
+        },
+        {
+          "cycle": 1,
+          "score": 0.371,
+          "stage": "seed"
+        },
+        {
+          "cycle": 1,
+          "score": 0.371,
+          "stage": "seed"
+        },
         {
           "cycle": 1,
           "score": 0.371,
@@ -754,11 +1419,46 @@
       "consistency": 1.0,
       "confidence": 0.45,
       "persistence": 0.36,
-      "cycles_seen": 5,
+      "cycles_seen": 12,
       "mentions": 1,
       "last_score": 0.371,
       "last_cycle": 1,
       "history": [
+        {
+          "cycle": 1,
+          "score": 0.371,
+          "stage": "seed"
+        },
+        {
+          "cycle": 1,
+          "score": 0.371,
+          "stage": "seed"
+        },
+        {
+          "cycle": 1,
+          "score": 0.371,
+          "stage": "seed"
+        },
+        {
+          "cycle": 1,
+          "score": 0.371,
+          "stage": "seed"
+        },
+        {
+          "cycle": 1,
+          "score": 0.371,
+          "stage": "seed"
+        },
+        {
+          "cycle": 1,
+          "score": 0.371,
+          "stage": "seed"
+        },
+        {
+          "cycle": 1,
+          "score": 0.371,
+          "stage": "seed"
+        },
         {
           "cycle": 1,
           "score": 0.371,
@@ -789,11 +1489,46 @@
       "consistency": 1.0,
       "confidence": 0.45,
       "persistence": 0.36,
-      "cycles_seen": 5,
+      "cycles_seen": 12,
       "mentions": 1,
       "last_score": 0.371,
       "last_cycle": 1,
       "history": [
+        {
+          "cycle": 1,
+          "score": 0.371,
+          "stage": "seed"
+        },
+        {
+          "cycle": 1,
+          "score": 0.371,
+          "stage": "seed"
+        },
+        {
+          "cycle": 1,
+          "score": 0.371,
+          "stage": "seed"
+        },
+        {
+          "cycle": 1,
+          "score": 0.371,
+          "stage": "seed"
+        },
+        {
+          "cycle": 1,
+          "score": 0.371,
+          "stage": "seed"
+        },
+        {
+          "cycle": 1,
+          "score": 0.371,
+          "stage": "seed"
+        },
+        {
+          "cycle": 1,
+          "score": 0.371,
+          "stage": "seed"
+        },
         {
           "cycle": 1,
           "score": 0.371,
@@ -824,7 +1559,7 @@
       "consistency": 0.888,
       "confidence": 0.95,
       "persistence": 0.76,
-      "cycles_seen": 4,
+      "cycles_seen": 11,
       "mentions": 1,
       "last_score": 0.778,
       "last_cycle": 1,
@@ -843,6 +1578,41 @@
           "cycle": 1,
           "score": 0.778,
           "stage": "theory"
+        },
+        {
+          "cycle": 1,
+          "score": 0.778,
+          "stage": "theory"
+        },
+        {
+          "cycle": 1,
+          "score": 0.778,
+          "stage": "theory"
+        },
+        {
+          "cycle": 1,
+          "score": 0.778,
+          "stage": "theory"
+        },
+        {
+          "cycle": 1,
+          "score": 0.778,
+          "stage": "theory"
+        },
+        {
+          "cycle": 1,
+          "score": 0.778,
+          "stage": "theory"
+        },
+        {
+          "cycle": 1,
+          "score": 0.778,
+          "stage": "theory"
+        },
+        {
+          "cycle": 1,
+          "score": 0.778,
+          "stage": "theory"
         }
       ]
     },
@@ -854,11 +1624,46 @@
       "consistency": 1.0,
       "confidence": 0.45,
       "persistence": 0.36,
-      "cycles_seen": 4,
+      "cycles_seen": 11,
       "mentions": 2,
       "last_score": 0.371,
       "last_cycle": 1,
       "history": [
+        {
+          "cycle": 1,
+          "score": 0.371,
+          "stage": "seed"
+        },
+        {
+          "cycle": 1,
+          "score": 0.371,
+          "stage": "seed"
+        },
+        {
+          "cycle": 1,
+          "score": 0.371,
+          "stage": "seed"
+        },
+        {
+          "cycle": 1,
+          "score": 0.371,
+          "stage": "seed"
+        },
+        {
+          "cycle": 1,
+          "score": 0.371,
+          "stage": "seed"
+        },
+        {
+          "cycle": 1,
+          "score": 0.371,
+          "stage": "seed"
+        },
+        {
+          "cycle": 1,
+          "score": 0.371,
+          "stage": "seed"
+        },
         {
           "cycle": 1,
           "score": 0.371,
@@ -884,11 +1689,46 @@
       "consistency": 1.0,
       "confidence": 0.45,
       "persistence": 0.36,
-      "cycles_seen": 4,
+      "cycles_seen": 11,
       "mentions": 2,
       "last_score": 0.371,
       "last_cycle": 1,
       "history": [
+        {
+          "cycle": 1,
+          "score": 0.371,
+          "stage": "seed"
+        },
+        {
+          "cycle": 1,
+          "score": 0.371,
+          "stage": "seed"
+        },
+        {
+          "cycle": 1,
+          "score": 0.371,
+          "stage": "seed"
+        },
+        {
+          "cycle": 1,
+          "score": 0.371,
+          "stage": "seed"
+        },
+        {
+          "cycle": 1,
+          "score": 0.371,
+          "stage": "seed"
+        },
+        {
+          "cycle": 1,
+          "score": 0.371,
+          "stage": "seed"
+        },
+        {
+          "cycle": 1,
+          "score": 0.371,
+          "stage": "seed"
+        },
         {
           "cycle": 1,
           "score": 0.371,
@@ -914,11 +1754,46 @@
       "consistency": 1.0,
       "confidence": 0.45,
       "persistence": 0.36,
-      "cycles_seen": 4,
+      "cycles_seen": 11,
       "mentions": 2,
       "last_score": 0.371,
       "last_cycle": 1,
       "history": [
+        {
+          "cycle": 1,
+          "score": 0.371,
+          "stage": "seed"
+        },
+        {
+          "cycle": 1,
+          "score": 0.371,
+          "stage": "seed"
+        },
+        {
+          "cycle": 1,
+          "score": 0.371,
+          "stage": "seed"
+        },
+        {
+          "cycle": 1,
+          "score": 0.371,
+          "stage": "seed"
+        },
+        {
+          "cycle": 1,
+          "score": 0.371,
+          "stage": "seed"
+        },
+        {
+          "cycle": 1,
+          "score": 0.371,
+          "stage": "seed"
+        },
+        {
+          "cycle": 1,
+          "score": 0.371,
+          "stage": "seed"
+        },
         {
           "cycle": 1,
           "score": 0.371,
@@ -944,11 +1819,46 @@
       "consistency": 0.952,
       "confidence": 0.428,
       "persistence": 0.343,
-      "cycles_seen": 4,
+      "cycles_seen": 11,
       "mentions": 2,
       "last_score": 0.354,
       "last_cycle": 1,
       "history": [
+        {
+          "cycle": 1,
+          "score": 0.354,
+          "stage": "seed"
+        },
+        {
+          "cycle": 1,
+          "score": 0.354,
+          "stage": "seed"
+        },
+        {
+          "cycle": 1,
+          "score": 0.354,
+          "stage": "seed"
+        },
+        {
+          "cycle": 1,
+          "score": 0.354,
+          "stage": "seed"
+        },
+        {
+          "cycle": 1,
+          "score": 0.354,
+          "stage": "seed"
+        },
+        {
+          "cycle": 1,
+          "score": 0.354,
+          "stage": "seed"
+        },
+        {
+          "cycle": 1,
+          "score": 0.354,
+          "stage": "seed"
+        },
         {
           "cycle": 1,
           "score": 0.354,
@@ -974,11 +1884,46 @@
       "consistency": 0.939,
       "confidence": 0.422,
       "persistence": 0.338,
-      "cycles_seen": 4,
+      "cycles_seen": 11,
       "mentions": 6,
       "last_score": 0.349,
       "last_cycle": 1,
       "history": [
+        {
+          "cycle": 1,
+          "score": 0.349,
+          "stage": "seed"
+        },
+        {
+          "cycle": 1,
+          "score": 0.349,
+          "stage": "seed"
+        },
+        {
+          "cycle": 1,
+          "score": 0.349,
+          "stage": "seed"
+        },
+        {
+          "cycle": 1,
+          "score": 0.349,
+          "stage": "seed"
+        },
+        {
+          "cycle": 1,
+          "score": 0.349,
+          "stage": "seed"
+        },
+        {
+          "cycle": 1,
+          "score": 0.349,
+          "stage": "seed"
+        },
+        {
+          "cycle": 1,
+          "score": 0.349,
+          "stage": "seed"
+        },
         {
           "cycle": 1,
           "score": 0.349,
@@ -1004,11 +1949,46 @@
       "consistency": 0.924,
       "confidence": 0.416,
       "persistence": 0.333,
-      "cycles_seen": 4,
+      "cycles_seen": 11,
       "mentions": 2,
       "last_score": 0.343,
       "last_cycle": 1,
       "history": [
+        {
+          "cycle": 1,
+          "score": 0.343,
+          "stage": "seed"
+        },
+        {
+          "cycle": 1,
+          "score": 0.343,
+          "stage": "seed"
+        },
+        {
+          "cycle": 1,
+          "score": 0.343,
+          "stage": "seed"
+        },
+        {
+          "cycle": 1,
+          "score": 0.343,
+          "stage": "seed"
+        },
+        {
+          "cycle": 1,
+          "score": 0.343,
+          "stage": "seed"
+        },
+        {
+          "cycle": 1,
+          "score": 0.343,
+          "stage": "seed"
+        },
+        {
+          "cycle": 1,
+          "score": 0.343,
+          "stage": "seed"
+        },
         {
           "cycle": 1,
           "score": 0.343,
@@ -1034,11 +2014,46 @@
       "consistency": 0.924,
       "confidence": 0.416,
       "persistence": 0.333,
-      "cycles_seen": 4,
+      "cycles_seen": 11,
       "mentions": 1,
       "last_score": 0.343,
       "last_cycle": 1,
       "history": [
+        {
+          "cycle": 1,
+          "score": 0.343,
+          "stage": "seed"
+        },
+        {
+          "cycle": 1,
+          "score": 0.343,
+          "stage": "seed"
+        },
+        {
+          "cycle": 1,
+          "score": 0.343,
+          "stage": "seed"
+        },
+        {
+          "cycle": 1,
+          "score": 0.343,
+          "stage": "seed"
+        },
+        {
+          "cycle": 1,
+          "score": 0.343,
+          "stage": "seed"
+        },
+        {
+          "cycle": 1,
+          "score": 0.343,
+          "stage": "seed"
+        },
+        {
+          "cycle": 1,
+          "score": 0.343,
+          "stage": "seed"
+        },
         {
           "cycle": 1,
           "score": 0.343,
@@ -1064,11 +2079,46 @@
       "consistency": 0.909,
       "confidence": 0.409,
       "persistence": 0.327,
-      "cycles_seen": 4,
+      "cycles_seen": 11,
       "mentions": 1,
       "last_score": 0.338,
       "last_cycle": 1,
       "history": [
+        {
+          "cycle": 1,
+          "score": 0.338,
+          "stage": "seed"
+        },
+        {
+          "cycle": 1,
+          "score": 0.338,
+          "stage": "seed"
+        },
+        {
+          "cycle": 1,
+          "score": 0.338,
+          "stage": "seed"
+        },
+        {
+          "cycle": 1,
+          "score": 0.338,
+          "stage": "seed"
+        },
+        {
+          "cycle": 1,
+          "score": 0.338,
+          "stage": "seed"
+        },
+        {
+          "cycle": 1,
+          "score": 0.338,
+          "stage": "seed"
+        },
+        {
+          "cycle": 1,
+          "score": 0.338,
+          "stage": "seed"
+        },
         {
           "cycle": 1,
           "score": 0.338,
@@ -1094,11 +2144,46 @@
       "consistency": 0.909,
       "confidence": 0.409,
       "persistence": 0.327,
-      "cycles_seen": 4,
+      "cycles_seen": 11,
       "mentions": 1,
       "last_score": 0.338,
       "last_cycle": 1,
       "history": [
+        {
+          "cycle": 1,
+          "score": 0.338,
+          "stage": "seed"
+        },
+        {
+          "cycle": 1,
+          "score": 0.338,
+          "stage": "seed"
+        },
+        {
+          "cycle": 1,
+          "score": 0.338,
+          "stage": "seed"
+        },
+        {
+          "cycle": 1,
+          "score": 0.338,
+          "stage": "seed"
+        },
+        {
+          "cycle": 1,
+          "score": 0.338,
+          "stage": "seed"
+        },
+        {
+          "cycle": 1,
+          "score": 0.338,
+          "stage": "seed"
+        },
+        {
+          "cycle": 1,
+          "score": 0.338,
+          "stage": "seed"
+        },
         {
           "cycle": 1,
           "score": 0.338,
@@ -1124,7 +2209,7 @@
       "consistency": 0.0,
       "confidence": NaN,
       "persistence": NaN,
-      "cycles_seen": 3,
+      "cycles_seen": 10,
       "mentions": 1,
       "last_score": 0.0,
       "last_cycle": 1,
@@ -1138,18 +2223,53 @@
           "cycle": 1,
           "score": 0.0,
           "stage": "decayed"
+        },
+        {
+          "cycle": 1,
+          "score": 0.0,
+          "stage": "decayed"
+        },
+        {
+          "cycle": 1,
+          "score": 0.0,
+          "stage": "decayed"
+        },
+        {
+          "cycle": 1,
+          "score": 0.0,
+          "stage": "decayed"
+        },
+        {
+          "cycle": 1,
+          "score": 0.0,
+          "stage": "decayed"
+        },
+        {
+          "cycle": 1,
+          "score": 0.0,
+          "stage": "decayed"
+        },
+        {
+          "cycle": 1,
+          "score": 0.0,
+          "stage": "decayed"
+        },
+        {
+          "cycle": 1,
+          "score": 0.0,
+          "stage": "decayed"
         }
       ]
     },
     "a basic knowledge of calculus and linear algebra with some commonly used mathematical terminology --related_to--> a description of the challenges in the definition of heat from the perspective of fluctuating thermodynamical potentials": {
       "text": "a basic knowledge of calculus and linear algebra with some commonly used mathematical terminology --related_to--> a description of the challenges in the definition of heat from the perspective of fluctuating thermodynamical potentials",
-      "stage": "candidate",
+      "stage": "maturing",
       "gen_score": 0.0,
       "support": 0.934,
       "consistency": 0.941,
       "confidence": 0.937,
       "persistence": 0.515,
-      "cycles_seen": 2,
+      "cycles_seen": 9,
       "mentions": 1,
       "last_score": 0.733,
       "last_cycle": 1,
@@ -1158,18 +2278,53 @@
           "cycle": 1,
           "score": 0.733,
           "stage": "candidate"
+        },
+        {
+          "cycle": 1,
+          "score": 0.733,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.733,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.733,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.733,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.733,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.733,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.733,
+          "stage": "maturing"
         }
       ]
     },
     "a basic knowledge of calculus and linear algebra with some commonly used mathematical terminology --related_to--> a crucial step toward developing autonomous agents that can learn and generalize across the open web continuously": {
       "text": "a basic knowledge of calculus and linear algebra with some commonly used mathematical terminology --related_to--> a crucial step toward developing autonomous agents that can learn and generalize across the open web continuously",
-      "stage": "candidate",
+      "stage": "maturing",
       "gen_score": 0.0,
       "support": 0.922,
       "consistency": 0.947,
       "confidence": 0.931,
       "persistence": 0.512,
-      "cycles_seen": 2,
+      "cycles_seen": 9,
       "mentions": 1,
       "last_score": 0.73,
       "last_cycle": 1,
@@ -1178,18 +2333,53 @@
           "cycle": 1,
           "score": 0.73,
           "stage": "candidate"
+        },
+        {
+          "cycle": 1,
+          "score": 0.73,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.73,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.73,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.73,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.73,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.73,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.73,
+          "stage": "maturing"
         }
       ]
     },
     "a basic knowledge of calculus and linear algebra with some commonly used mathematical terminology --related_to--> a desire or expectation that some of the parameters are exactly zero or do not substantially contribute": {
       "text": "a basic knowledge of calculus and linear algebra with some commonly used mathematical terminology --related_to--> a desire or expectation that some of the parameters are exactly zero or do not substantially contribute",
-      "stage": "candidate",
+      "stage": "maturing",
       "gen_score": 0.0,
       "support": 0.913,
       "consistency": 0.946,
       "confidence": 0.925,
       "persistence": 0.509,
-      "cycles_seen": 2,
+      "cycles_seen": 9,
       "mentions": 1,
       "last_score": 0.726,
       "last_cycle": 1,
@@ -1198,18 +2388,53 @@
           "cycle": 1,
           "score": 0.726,
           "stage": "candidate"
+        },
+        {
+          "cycle": 1,
+          "score": 0.726,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.726,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.726,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.726,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.726,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.726,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.726,
+          "stage": "maturing"
         }
       ]
     },
     "a best practice for prioritizing zincophilic sites in a more practical metric --related_to--> alexandria put geometry in a logical framework and used axioms to define complicated objects such as triangles": {
       "text": "a best practice for prioritizing zincophilic sites in a more practical metric --related_to--> alexandria put geometry in a logical framework and used axioms to define complicated objects such as triangles",
-      "stage": "candidate",
+      "stage": "maturing",
       "gen_score": 0.0,
       "support": 0.868,
       "consistency": 0.938,
       "confidence": 0.892,
       "persistence": 0.491,
-      "cycles_seen": 2,
+      "cycles_seen": 9,
       "mentions": 1,
       "last_score": 0.702,
       "last_cycle": 1,
@@ -1218,18 +2443,53 @@
           "cycle": 1,
           "score": 0.702,
           "stage": "candidate"
+        },
+        {
+          "cycle": 1,
+          "score": 0.702,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.702,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.702,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.702,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.702,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.702,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.702,
+          "stage": "maturing"
         }
       ]
     },
     "a best practice for prioritizing zincophilic sites in a more practical metric --related_to--> a state of matter that results from a gaseous state having undergone some degree of ionization": {
       "text": "a best practice for prioritizing zincophilic sites in a more practical metric --related_to--> a state of matter that results from a gaseous state having undergone some degree of ionization",
-      "stage": "candidate",
+      "stage": "maturing",
       "gen_score": 0.0,
       "support": 0.859,
       "consistency": 0.934,
       "confidence": 0.885,
       "persistence": 0.487,
-      "cycles_seen": 2,
+      "cycles_seen": 9,
       "mentions": 1,
       "last_score": 0.697,
       "last_cycle": 1,
@@ -1238,18 +2498,53 @@
           "cycle": 1,
           "score": 0.697,
           "stage": "candidate"
+        },
+        {
+          "cycle": 1,
+          "score": 0.697,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.697,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.697,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.697,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.697,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.697,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.697,
+          "stage": "maturing"
         }
       ]
     },
     "a best practice for prioritizing zincophilic sites in a more practical metric --related_to--> a promising material for infrared optical fibers due to its wide transmission window and low theoretical attenuation": {
       "text": "a best practice for prioritizing zincophilic sites in a more practical metric --related_to--> a promising material for infrared optical fibers due to its wide transmission window and low theoretical attenuation",
-      "stage": "candidate",
+      "stage": "maturing",
       "gen_score": 0.0,
       "support": 0.853,
       "consistency": 0.933,
       "confidence": 0.881,
       "persistence": 0.484,
-      "cycles_seen": 2,
+      "cycles_seen": 9,
       "mentions": 1,
       "last_score": 0.694,
       "last_cycle": 1,
@@ -1258,18 +2553,53 @@
           "cycle": 1,
           "score": 0.694,
           "stage": "candidate"
+        },
+        {
+          "cycle": 1,
+          "score": 0.694,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.694,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.694,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.694,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.694,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.694,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.694,
+          "stage": "maturing"
         }
       ]
     },
     "a branch of physics and metaphysics dealing with the nature of the universe --related_to--> an evolving physics tool used to answer fundamental questions in particle physics": {
       "text": "a branch of physics and metaphysics dealing with the nature of the universe --related_to--> an evolving physics tool used to answer fundamental questions in particle physics",
-      "stage": "candidate",
+      "stage": "maturing",
       "gen_score": 0.0,
       "support": 0.832,
       "consistency": 0.926,
       "confidence": 0.865,
       "persistence": 0.476,
-      "cycles_seen": 2,
+      "cycles_seen": 9,
       "mentions": 1,
       "last_score": 0.682,
       "last_cycle": 1,
@@ -1278,18 +2608,53 @@
           "cycle": 1,
           "score": 0.682,
           "stage": "candidate"
+        },
+        {
+          "cycle": 1,
+          "score": 0.682,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.682,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.682,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.682,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.682,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.682,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.682,
+          "stage": "maturing"
         }
       ]
     },
     "a number of the most central algorithms are described in enough detail that the main results --related_to--> a key concern is the efficiency of evaluating the expressions and their derivatives that hinges on the representation": {
       "text": "a number of the most central algorithms are described in enough detail that the main results --related_to--> a key concern is the efficiency of evaluating the expressions and their derivatives that hinges on the representation",
-      "stage": "candidate",
+      "stage": "maturing",
       "gen_score": 0.0,
       "support": 0.81,
       "consistency": 0.931,
       "confidence": 0.853,
       "persistence": 0.469,
-      "cycles_seen": 2,
+      "cycles_seen": 9,
       "mentions": 1,
       "last_score": 0.674,
       "last_cycle": 1,
@@ -1298,18 +2663,53 @@
           "cycle": 1,
           "score": 0.674,
           "stage": "candidate"
+        },
+        {
+          "cycle": 1,
+          "score": 0.674,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.674,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.674,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.674,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.674,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.674,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.674,
+          "stage": "maturing"
         }
       ]
     },
     "a branch of physics and metaphysics dealing with the nature of the universe --related_to--> a weakly compressible smoothed particle hydrodynamics": {
       "text": "a branch of physics and metaphysics dealing with the nature of the universe --related_to--> a weakly compressible smoothed particle hydrodynamics",
-      "stage": "candidate",
+      "stage": "maturing",
       "gen_score": 0.0,
       "support": 0.81,
       "consistency": 0.925,
       "confidence": 0.85,
       "persistence": 0.468,
-      "cycles_seen": 2,
+      "cycles_seen": 9,
       "mentions": 1,
       "last_score": 0.672,
       "last_cycle": 1,
@@ -1318,18 +2718,53 @@
           "cycle": 1,
           "score": 0.672,
           "stage": "candidate"
+        },
+        {
+          "cycle": 1,
+          "score": 0.672,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.672,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.672,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.672,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.672,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.672,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.672,
+          "stage": "maturing"
         }
       ]
     },
     "a number of the most central algorithms are described in enough detail that the main results --related_to--> a significant fraction of highly connected nodes that play an important role in the connectivity of the network": {
       "text": "a number of the most central algorithms are described in enough detail that the main results --related_to--> a significant fraction of highly connected nodes that play an important role in the connectivity of the network",
-      "stage": "candidate",
+      "stage": "maturing",
       "gen_score": 0.0,
       "support": 0.796,
       "consistency": 0.938,
       "confidence": 0.846,
       "persistence": 0.465,
-      "cycles_seen": 2,
+      "cycles_seen": 9,
       "mentions": 1,
       "last_score": 0.67,
       "last_cycle": 1,
@@ -1338,18 +2773,53 @@
           "cycle": 1,
           "score": 0.67,
           "stage": "candidate"
+        },
+        {
+          "cycle": 1,
+          "score": 0.67,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.67,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.67,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.67,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.67,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.67,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.67,
+          "stage": "maturing"
         }
       ]
     },
     "a branch of physics and metaphysics dealing with the nature of the universe --related_to--> a lack of reviews from diverse perspectives to help researchers": {
       "text": "a branch of physics and metaphysics dealing with the nature of the universe --related_to--> a lack of reviews from diverse perspectives to help researchers",
-      "stage": "candidate",
+      "stage": "maturing",
       "gen_score": 0.0,
       "support": 0.797,
       "consistency": 0.928,
       "confidence": 0.843,
       "persistence": 0.464,
-      "cycles_seen": 2,
+      "cycles_seen": 9,
       "mentions": 1,
       "last_score": 0.667,
       "last_cycle": 1,
@@ -1358,18 +2828,53 @@
           "cycle": 1,
           "score": 0.667,
           "stage": "candidate"
+        },
+        {
+          "cycle": 1,
+          "score": 0.667,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.667,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.667,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.667,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.667,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.667,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.667,
+          "stage": "maturing"
         }
       ]
     },
     "a branch of physics that deals with heat --related_to--> a branch of physics and metaphysics dealing with the nature of the universe": {
       "text": "a branch of physics that deals with heat --related_to--> a branch of physics and metaphysics dealing with the nature of the universe",
-      "stage": "candidate",
+      "stage": "maturing",
       "gen_score": 0.0,
       "support": 0.799,
       "consistency": 0.923,
       "confidence": 0.842,
       "persistence": 0.463,
-      "cycles_seen": 2,
+      "cycles_seen": 9,
       "mentions": 1,
       "last_score": 0.666,
       "last_cycle": 1,
@@ -1378,18 +2883,53 @@
           "cycle": 1,
           "score": 0.666,
           "stage": "candidate"
+        },
+        {
+          "cycle": 1,
+          "score": 0.666,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.666,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.666,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.666,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.666,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.666,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.666,
+          "stage": "maturing"
         }
       ]
     },
     "a branch of physics that deals with heat --related_to--> a hallmark of universality far from equilibrium": {
       "text": "a branch of physics that deals with heat --related_to--> a hallmark of universality far from equilibrium",
-      "stage": "candidate",
+      "stage": "maturing",
       "gen_score": 0.0,
       "support": 0.797,
       "consistency": 0.919,
       "confidence": 0.84,
       "persistence": 0.462,
-      "cycles_seen": 2,
+      "cycles_seen": 9,
       "mentions": 1,
       "last_score": 0.664,
       "last_cycle": 1,
@@ -1398,18 +2938,53 @@
           "cycle": 1,
           "score": 0.664,
           "stage": "candidate"
+        },
+        {
+          "cycle": 1,
+          "score": 0.664,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.664,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.664,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.664,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.664,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.664,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.664,
+          "stage": "maturing"
         }
       ]
     },
     "a bit less than the speed of light --related_to--> a possible version of the unification": {
       "text": "a bit less than the speed of light --related_to--> a possible version of the unification",
-      "stage": "candidate",
+      "stage": "maturing",
       "gen_score": 0.0,
       "support": 0.795,
       "consistency": 0.907,
       "confidence": 0.834,
       "persistence": 0.459,
-      "cycles_seen": 2,
+      "cycles_seen": 9,
       "mentions": 1,
       "last_score": 0.659,
       "last_cycle": 1,
@@ -1418,18 +2993,53 @@
           "cycle": 1,
           "score": 0.659,
           "stage": "candidate"
+        },
+        {
+          "cycle": 1,
+          "score": 0.659,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.659,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.659,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.659,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.659,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.659,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.659,
+          "stage": "maturing"
         }
       ]
     },
     "a number of the most central algorithms are described in enough detail that the main results --related_to--> a quasiclassical domain is emergent in the universe as a consequence of the initial condition and the action function": {
       "text": "a number of the most central algorithms are described in enough detail that the main results --related_to--> a quasiclassical domain is emergent in the universe as a consequence of the initial condition and the action function",
-      "stage": "candidate",
+      "stage": "maturing",
       "gen_score": 0.0,
       "support": 0.779,
       "consistency": 0.931,
       "confidence": 0.832,
       "persistence": 0.458,
-      "cycles_seen": 2,
+      "cycles_seen": 9,
       "mentions": 1,
       "last_score": 0.66,
       "last_cycle": 1,
@@ -1438,18 +3048,53 @@
           "cycle": 1,
           "score": 0.66,
           "stage": "candidate"
+        },
+        {
+          "cycle": 1,
+          "score": 0.66,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.66,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.66,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.66,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.66,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.66,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.66,
+          "stage": "maturing"
         }
       ]
     },
     "a branch of physics that deals with heat --related_to--> a phase space analysis reveals the existence": {
       "text": "a branch of physics that deals with heat --related_to--> a phase space analysis reveals the existence",
-      "stage": "candidate",
+      "stage": "maturing",
       "gen_score": 0.0,
       "support": 0.775,
       "consistency": 0.919,
       "confidence": 0.825,
       "persistence": 0.454,
-      "cycles_seen": 2,
+      "cycles_seen": 9,
       "mentions": 1,
       "last_score": 0.654,
       "last_cycle": 1,
@@ -1458,18 +3103,53 @@
           "cycle": 1,
           "score": 0.654,
           "stage": "candidate"
+        },
+        {
+          "cycle": 1,
+          "score": 0.654,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.654,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.654,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.654,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.654,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.654,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.654,
+          "stage": "maturing"
         }
       ]
     },
     "a body to resist acceleration or deceleration --related_to--> a type of nonrelativistic reduction of the relativistic fluid equations": {
       "text": "a body to resist acceleration or deceleration --related_to--> a type of nonrelativistic reduction of the relativistic fluid equations",
-      "stage": "candidate",
+      "stage": "maturing",
       "gen_score": 0.0,
       "support": 0.725,
       "consistency": 0.908,
       "confidence": 0.789,
       "persistence": 0.434,
-      "cycles_seen": 2,
+      "cycles_seen": 9,
       "mentions": 1,
       "last_score": 0.628,
       "last_cycle": 1,
@@ -1478,18 +3158,53 @@
           "cycle": 1,
           "score": 0.628,
           "stage": "candidate"
+        },
+        {
+          "cycle": 1,
+          "score": 0.628,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.628,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.628,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.628,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.628,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.628,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.628,
+          "stage": "maturing"
         }
       ]
     },
     "a body to resist acceleration or deceleration --related_to--> a transition from a long to a short transport regime": {
       "text": "a body to resist acceleration or deceleration --related_to--> a transition from a long to a short transport regime",
-      "stage": "candidate",
+      "stage": "maturing",
       "gen_score": 0.0,
       "support": 0.71,
       "consistency": 0.912,
       "confidence": 0.781,
       "persistence": 0.429,
-      "cycles_seen": 2,
+      "cycles_seen": 9,
       "mentions": 1,
       "last_score": 0.623,
       "last_cycle": 1,
@@ -1498,26 +3213,96 @@
           "cycle": 1,
           "score": 0.623,
           "stage": "candidate"
+        },
+        {
+          "cycle": 1,
+          "score": 0.623,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.623,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.623,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.623,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.623,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.623,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.623,
+          "stage": "maturing"
         }
       ]
     },
     "a branch --related_to--> a new branch": {
       "text": "a branch --related_to--> a new branch",
-      "stage": "candidate",
+      "stage": "maturing",
       "gen_score": 0.0,
-      "support": 0.67,
+      "support": 0.68,
       "consistency": 0.974,
       "confidence": 0.777,
       "persistence": 0.427,
-      "cycles_seen": 2,
-      "mentions": 1,
-      "last_score": 0.625,
+      "cycles_seen": 9,
+      "mentions": 7,
+      "last_score": 0.628,
       "last_cycle": 1,
       "history": [
         {
           "cycle": 1,
           "score": 0.625,
           "stage": "candidate"
+        },
+        {
+          "cycle": 1,
+          "score": 0.625,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.625,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.625,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.625,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.628,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.628,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.628,
+          "stage": "maturing"
         }
       ]
     },
@@ -1529,8 +3314,8 @@
       "consistency": 0.928,
       "confidence": 0.739,
       "persistence": 0.406,
-      "cycles_seen": 2,
-      "mentions": 1,
+      "cycles_seen": 9,
+      "mentions": 7,
       "last_score": 0.595,
       "last_cycle": 1,
       "history": [
@@ -1538,9 +3323,1249 @@
           "cycle": 1,
           "score": 0.595,
           "stage": "candidate"
+        },
+        {
+          "cycle": 1,
+          "score": 0.595,
+          "stage": "candidate"
+        },
+        {
+          "cycle": 1,
+          "score": 0.595,
+          "stage": "candidate"
+        },
+        {
+          "cycle": 1,
+          "score": 0.595,
+          "stage": "candidate"
+        },
+        {
+          "cycle": 1,
+          "score": 0.595,
+          "stage": "candidate"
+        },
+        {
+          "cycle": 1,
+          "score": 0.595,
+          "stage": "candidate"
+        },
+        {
+          "cycle": 1,
+          "score": 0.595,
+          "stage": "candidate"
+        },
+        {
+          "cycle": 1,
+          "score": 0.595,
+          "stage": "candidate"
+        }
+      ]
+    },
+    "a concise and factual abstract --related_to--> abstract algebra is the study": {
+      "text": "a concise and factual abstract --related_to--> abstract algebra is the study",
+      "stage": "maturing",
+      "gen_score": 0.0,
+      "support": 0.801,
+      "consistency": 0.932,
+      "confidence": 0.847,
+      "persistence": 0.466,
+      "cycles_seen": 8,
+      "mentions": 6,
+      "last_score": 0.67,
+      "last_cycle": 1,
+      "history": [
+        {
+          "cycle": 1,
+          "score": 0.67,
+          "stage": "candidate"
+        },
+        {
+          "cycle": 1,
+          "score": 0.67,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.67,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.67,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.67,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.67,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.67,
+          "stage": "maturing"
+        }
+      ]
+    },
+    "a concise and factual abstract --related_to--> a set t in r n onto an m": {
+      "text": "a concise and factual abstract --related_to--> a set t in r n onto an m",
+      "stage": "maturing",
+      "gen_score": 0.0,
+      "support": 0.785,
+      "consistency": 0.905,
+      "confidence": 0.827,
+      "persistence": 0.455,
+      "cycles_seen": 8,
+      "mentions": 6,
+      "last_score": 0.654,
+      "last_cycle": 1,
+      "history": [
+        {
+          "cycle": 1,
+          "score": 0.654,
+          "stage": "candidate"
+        },
+        {
+          "cycle": 1,
+          "score": 0.654,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.654,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.654,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.654,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.654,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.654,
+          "stage": "maturing"
+        }
+      ]
+    },
+    "a chance alignment is small --related_to--> abstract algebra is the study": {
+      "text": "a chance alignment is small --related_to--> abstract algebra is the study",
+      "stage": "maturing",
+      "gen_score": 0.0,
+      "support": 0.771,
+      "consistency": 0.894,
+      "confidence": 0.814,
+      "persistence": 0.448,
+      "cycles_seen": 8,
+      "mentions": 7,
+      "last_score": 0.644,
+      "last_cycle": 1,
+      "history": [
+        {
+          "cycle": 1,
+          "score": 0.644,
+          "stage": "candidate"
+        },
+        {
+          "cycle": 1,
+          "score": 0.644,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.644,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.644,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.644,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.644,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.644,
+          "stage": "maturing"
+        }
+      ]
+    },
+    "a concise and factual abstract --related_to--> abstract we suggest a means": {
+      "text": "a concise and factual abstract --related_to--> abstract we suggest a means",
+      "stage": "maturing",
+      "gen_score": 0.0,
+      "support": 0.734,
+      "consistency": 0.9,
+      "confidence": 0.792,
+      "persistence": 0.436,
+      "cycles_seen": 8,
+      "mentions": 6,
+      "last_score": 0.629,
+      "last_cycle": 1,
+      "history": [
+        {
+          "cycle": 1,
+          "score": 0.629,
+          "stage": "candidate"
+        },
+        {
+          "cycle": 1,
+          "score": 0.629,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.629,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.629,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.629,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.629,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.629,
+          "stage": "maturing"
+        }
+      ]
+    },
+    "a common shortcoming --related_to--> a logarithmic variable transform": {
+      "text": "a common shortcoming --related_to--> a logarithmic variable transform",
+      "stage": "maturing",
+      "gen_score": 0.0,
+      "support": 0.727,
+      "consistency": 0.899,
+      "confidence": 0.787,
+      "persistence": 0.433,
+      "cycles_seen": 8,
+      "mentions": 6,
+      "last_score": 0.626,
+      "last_cycle": 1,
+      "history": [
+        {
+          "cycle": 1,
+          "score": 0.626,
+          "stage": "candidate"
+        },
+        {
+          "cycle": 1,
+          "score": 0.626,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.626,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.626,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.626,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.626,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.626,
+          "stage": "maturing"
+        }
+      ]
+    },
+    "a challenge for exactly --related_to--> a type of nonrelativistic reduction": {
+      "text": "a challenge for exactly --related_to--> a type of nonrelativistic reduction",
+      "stage": "maturing",
+      "gen_score": 0.0,
+      "support": 0.703,
+      "consistency": 0.913,
+      "confidence": 0.777,
+      "persistence": 0.74,
+      "cycles_seen": 8,
+      "mentions": 6,
+      "last_score": 0.667,
+      "last_cycle": 1,
+      "history": [
+        {
+          "cycle": 1,
+          "score": 0.667,
+          "stage": "candidate"
+        },
+        {
+          "cycle": 1,
+          "score": 0.667,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.667,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.667,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.667,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.667,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.667,
+          "stage": "maturing"
+        }
+      ]
+    },
+    "a challenge for exactly --related_to--> a theory of quantum gravity": {
+      "text": "a challenge for exactly --related_to--> a theory of quantum gravity",
+      "stage": "maturing",
+      "gen_score": 0.0,
+      "support": 0.702,
+      "consistency": 0.91,
+      "confidence": 0.775,
+      "persistence": 0.739,
+      "cycles_seen": 8,
+      "mentions": 3,
+      "last_score": 0.665,
+      "last_cycle": 1,
+      "history": [
+        {
+          "cycle": 1,
+          "score": 0.665,
+          "stage": "candidate"
+        },
+        {
+          "cycle": 1,
+          "score": 0.665,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.665,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.665,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.665,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.665,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.665,
+          "stage": "maturing"
+        }
+      ]
+    },
+    "a case of strong emergence --related_to--> a metaphor for this behavior": {
+      "text": "a case of strong emergence --related_to--> a metaphor for this behavior",
+      "stage": "maturing",
+      "gen_score": 0.0,
+      "support": 0.708,
+      "consistency": 0.9,
+      "confidence": 0.775,
+      "persistence": 0.739,
+      "cycles_seen": 8,
+      "mentions": 7,
+      "last_score": 0.664,
+      "last_cycle": 1,
+      "history": [
+        {
+          "cycle": 1,
+          "score": 0.664,
+          "stage": "candidate"
+        },
+        {
+          "cycle": 1,
+          "score": 0.664,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.664,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.664,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.664,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.664,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.664,
+          "stage": "maturing"
+        }
+      ]
+    },
+    "a common shortcoming --related_to--> a tensor of the same type": {
+      "text": "a common shortcoming --related_to--> a tensor of the same type",
+      "stage": "maturing",
+      "gen_score": 0.0,
+      "support": 0.71,
+      "consistency": 0.895,
+      "confidence": 0.775,
+      "persistence": 0.426,
+      "cycles_seen": 8,
+      "mentions": 6,
+      "last_score": 0.617,
+      "last_cycle": 1,
+      "history": [
+        {
+          "cycle": 1,
+          "score": 0.617,
+          "stage": "candidate"
+        },
+        {
+          "cycle": 1,
+          "score": 0.617,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.617,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.617,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.617,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.617,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.617,
+          "stage": "maturing"
+        }
+      ]
+    },
+    "a branch --related_to--> an abstract branch": {
+      "text": "a branch --related_to--> an abstract branch",
+      "stage": "maturing",
+      "gen_score": 0.0,
+      "support": 0.711,
+      "consistency": 0.899,
+      "confidence": 0.772,
+      "persistence": 0.425,
+      "cycles_seen": 8,
+      "mentions": 6,
+      "last_score": 0.618,
+      "last_cycle": 1,
+      "history": [
+        {
+          "cycle": 1,
+          "score": 0.615,
+          "stage": "candidate"
+        },
+        {
+          "cycle": 1,
+          "score": 0.615,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.615,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.615,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.618,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.618,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.618,
+          "stage": "maturing"
+        }
+      ]
+    },
+    "a case of strong emergence --related_to--> a logarithmic variable transform": {
+      "text": "a case of strong emergence --related_to--> a logarithmic variable transform",
+      "stage": "maturing",
+      "gen_score": 0.0,
+      "support": 0.7,
+      "consistency": 0.9,
+      "confidence": 0.77,
+      "persistence": 0.424,
+      "cycles_seen": 8,
+      "mentions": 7,
+      "last_score": 0.614,
+      "last_cycle": 1,
+      "history": [
+        {
+          "cycle": 1,
+          "score": 0.614,
+          "stage": "candidate"
+        },
+        {
+          "cycle": 1,
+          "score": 0.614,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.614,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.614,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.614,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.614,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.614,
+          "stage": "maturing"
+        }
+      ]
+    },
+    "a chance alignment is small --related_to--> a simplified urban environment": {
+      "text": "a chance alignment is small --related_to--> a simplified urban environment",
+      "stage": "maturing",
+      "gen_score": 0.0,
+      "support": 0.687,
+      "consistency": 0.908,
+      "confidence": 0.765,
+      "persistence": 0.421,
+      "cycles_seen": 8,
+      "mentions": 7,
+      "last_score": 0.611,
+      "last_cycle": 1,
+      "history": [
+        {
+          "cycle": 1,
+          "score": 0.611,
+          "stage": "candidate"
+        },
+        {
+          "cycle": 1,
+          "score": 0.611,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.611,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.611,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.611,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.611,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.611,
+          "stage": "maturing"
+        }
+      ]
+    },
+    "a brief review --related_to--> a branch": {
+      "text": "a brief review --related_to--> a branch",
+      "stage": "maturing",
+      "gen_score": 0.0,
+      "support": 0.703,
+      "consistency": 0.898,
+      "confidence": 0.763,
+      "persistence": 0.42,
+      "cycles_seen": 8,
+      "mentions": 12,
+      "last_score": 0.613,
+      "last_cycle": 1,
+      "history": [
+        {
+          "cycle": 1,
+          "score": 0.609,
+          "stage": "candidate"
+        },
+        {
+          "cycle": 1,
+          "score": 0.609,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.609,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.609,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.613,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.613,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.613,
+          "stage": "maturing"
+        }
+      ]
+    },
+    "a common shortcoming --related_to--> and coming from a recent study": {
+      "text": "a common shortcoming --related_to--> and coming from a recent study",
+      "stage": "maturing",
+      "gen_score": 0.0,
+      "support": 0.683,
+      "consistency": 0.895,
+      "confidence": 0.758,
+      "persistence": 0.417,
+      "cycles_seen": 8,
+      "mentions": 6,
+      "last_score": 0.605,
+      "last_cycle": 1,
+      "history": [
+        {
+          "cycle": 1,
+          "score": 0.605,
+          "stage": "candidate"
+        },
+        {
+          "cycle": 1,
+          "score": 0.605,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.605,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.605,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.605,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.605,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.605,
+          "stage": "maturing"
+        }
+      ]
+    },
+    "a challenge for exactly --related_to--> a majority": {
+      "text": "a challenge for exactly --related_to--> a majority",
+      "stage": "maturing",
+      "gen_score": 0.0,
+      "support": 0.663,
+      "consistency": 0.925,
+      "confidence": 0.754,
+      "persistence": 0.719,
+      "cycles_seen": 8,
+      "mentions": 6,
+      "last_score": 0.651,
+      "last_cycle": 1,
+      "history": [
+        {
+          "cycle": 1,
+          "score": 0.651,
+          "stage": "candidate"
+        },
+        {
+          "cycle": 1,
+          "score": 0.651,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.651,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.651,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.651,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.651,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.651,
+          "stage": "maturing"
+        }
+      ]
+    },
+    "a complete theory --related_to--> a majority": {
+      "text": "a complete theory --related_to--> a majority",
+      "stage": "candidate",
+      "gen_score": 0.0,
+      "support": 0.647,
+      "consistency": 0.907,
+      "confidence": 0.738,
+      "persistence": 0.406,
+      "cycles_seen": 8,
+      "mentions": 6,
+      "last_score": 0.592,
+      "last_cycle": 1,
+      "history": [
+        {
+          "cycle": 1,
+          "score": 0.592,
+          "stage": "candidate"
+        },
+        {
+          "cycle": 1,
+          "score": 0.592,
+          "stage": "candidate"
+        },
+        {
+          "cycle": 1,
+          "score": 0.592,
+          "stage": "candidate"
+        },
+        {
+          "cycle": 1,
+          "score": 0.592,
+          "stage": "candidate"
+        },
+        {
+          "cycle": 1,
+          "score": 0.592,
+          "stage": "candidate"
+        },
+        {
+          "cycle": 1,
+          "score": 0.592,
+          "stage": "candidate"
+        },
+        {
+          "cycle": 1,
+          "score": 0.592,
+          "stage": "candidate"
+        }
+      ]
+    },
+    "a cause --related_to--> a pre": {
+      "text": "a cause --related_to--> a pre",
+      "stage": "maturing",
+      "gen_score": 0.0,
+      "support": 0.634,
+      "consistency": 0.902,
+      "confidence": 0.728,
+      "persistence": 0.693,
+      "cycles_seen": 8,
+      "mentions": 6,
+      "last_score": 0.629,
+      "last_cycle": 1,
+      "history": [
+        {
+          "cycle": 1,
+          "score": 0.629,
+          "stage": "candidate"
+        },
+        {
+          "cycle": 1,
+          "score": 0.629,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.629,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.629,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.629,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.629,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.629,
+          "stage": "maturing"
+        }
+      ]
+    },
+    "a challenge for exactly --related_to--> a moving body": {
+      "text": "a challenge for exactly --related_to--> a moving body",
+      "stage": "maturing",
+      "gen_score": 0.0,
+      "support": 0.672,
+      "consistency": 0.914,
+      "confidence": 0.757,
+      "persistence": 0.416,
+      "cycles_seen": 5,
+      "mentions": 3,
+      "last_score": 0.606,
+      "last_cycle": 1,
+      "history": [
+        {
+          "cycle": 1,
+          "score": 0.606,
+          "stage": "candidate"
+        },
+        {
+          "cycle": 1,
+          "score": 0.606,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.606,
+          "stage": "maturing"
+        },
+        {
+          "cycle": 1,
+          "score": 0.606,
+          "stage": "maturing"
+        }
+      ]
+    },
+    "a difficult and expensive process --related_to--> a type of nonrelativistic reduction": {
+      "text": "a difficult and expensive process --related_to--> a type of nonrelativistic reduction",
+      "stage": "candidate",
+      "gen_score": 0.0,
+      "support": 0.756,
+      "consistency": 0.904,
+      "confidence": 0.808,
+      "persistence": 0.444,
+      "cycles_seen": 2,
+      "mentions": 1,
+      "last_score": 0.641,
+      "last_cycle": 1,
+      "history": [
+        {
+          "cycle": 1,
+          "score": 0.641,
+          "stage": "candidate"
+        }
+      ]
+    },
+    "a constant equal to the rest mass --related_to--> anomalies that constrain dynamics": {
+      "text": "a constant equal to the rest mass --related_to--> anomalies that constrain dynamics",
+      "stage": "candidate",
+      "gen_score": 0.0,
+      "support": 0.751,
+      "consistency": 0.892,
+      "confidence": 0.8,
+      "persistence": 0.44,
+      "cycles_seen": 2,
+      "mentions": 1,
+      "last_score": 0.634,
+      "last_cycle": 1,
+      "history": [
+        {
+          "cycle": 1,
+          "score": 0.634,
+          "stage": "candidate"
+        }
+      ]
+    },
+    "a differential equation --related_to--> a single particle in the plasma": {
+      "text": "a differential equation --related_to--> a single particle in the plasma",
+      "stage": "candidate",
+      "gen_score": 0.0,
+      "support": 0.754,
+      "consistency": 0.885,
+      "confidence": 0.8,
+      "persistence": 0.44,
+      "cycles_seen": 2,
+      "mentions": 1,
+      "last_score": 0.633,
+      "last_cycle": 1,
+      "history": [
+        {
+          "cycle": 1,
+          "score": 0.633,
+          "stage": "candidate"
+        }
+      ]
+    },
+    "a common task in particle physics --related_to--> a translated imo theorem in": {
+      "text": "a common task in particle physics --related_to--> a translated imo theorem in",
+      "stage": "candidate",
+      "gen_score": 0.0,
+      "support": 0.733,
+      "consistency": 0.912,
+      "confidence": 0.796,
+      "persistence": 0.438,
+      "cycles_seen": 2,
+      "mentions": 1,
+      "last_score": 0.633,
+      "last_cycle": 1,
+      "history": [
+        {
+          "cycle": 1,
+          "score": 0.633,
+          "stage": "candidate"
+        }
+      ]
+    },
+    "a common task in particle physics --related_to--> a type of nonrelativistic reduction": {
+      "text": "a common task in particle physics --related_to--> a type of nonrelativistic reduction",
+      "stage": "candidate",
+      "gen_score": 0.0,
+      "support": 0.739,
+      "consistency": 0.902,
+      "confidence": 0.796,
+      "persistence": 0.438,
+      "cycles_seen": 2,
+      "mentions": 1,
+      "last_score": 0.632,
+      "last_cycle": 1,
+      "history": [
+        {
+          "cycle": 1,
+          "score": 0.632,
+          "stage": "candidate"
+        }
+      ]
+    },
+    "a common task in particle physics --related_to--> a thin metasurface composed": {
+      "text": "a common task in particle physics --related_to--> a thin metasurface composed",
+      "stage": "candidate",
+      "gen_score": 0.0,
+      "support": 0.726,
+      "consistency": 0.915,
+      "confidence": 0.792,
+      "persistence": 0.436,
+      "cycles_seen": 2,
+      "mentions": 1,
+      "last_score": 0.631,
+      "last_cycle": 1,
+      "history": [
+        {
+          "cycle": 1,
+          "score": 0.631,
+          "stage": "candidate"
+        }
+      ]
+    },
+    "a case of strong emergence --related_to--> a line in parameter space": {
+      "text": "a case of strong emergence --related_to--> a line in parameter space",
+      "stage": "candidate",
+      "gen_score": 0.0,
+      "support": 0.713,
+      "consistency": 0.893,
+      "confidence": 0.776,
+      "persistence": 0.427,
+      "cycles_seen": 2,
+      "mentions": 1,
+      "last_score": 0.618,
+      "last_cycle": 1,
+      "history": [
+        {
+          "cycle": 1,
+          "score": 0.618,
+          "stage": "candidate"
+        }
+      ]
+    },
+    "a classical spacetime --related_to--> a single particle in the plasma": {
+      "text": "a classical spacetime --related_to--> a single particle in the plasma",
+      "stage": "candidate",
+      "gen_score": 0.0,
+      "support": 0.716,
+      "consistency": 0.887,
+      "confidence": 0.776,
+      "persistence": 0.427,
+      "cycles_seen": 2,
+      "mentions": 1,
+      "last_score": 0.617,
+      "last_cycle": 1,
+      "history": [
+        {
+          "cycle": 1,
+          "score": 0.617,
+          "stage": "candidate"
+        }
+      ]
+    },
+    "a classical spacetime --related_to--> a line in parameter space": {
+      "text": "a classical spacetime --related_to--> a line in parameter space",
+      "stage": "candidate",
+      "gen_score": 0.0,
+      "support": 0.71,
+      "consistency": 0.892,
+      "confidence": 0.774,
+      "persistence": 0.426,
+      "cycles_seen": 2,
+      "mentions": 1,
+      "last_score": 0.616,
+      "last_cycle": 1,
+      "history": [
+        {
+          "cycle": 1,
+          "score": 0.616,
+          "stage": "candidate"
+        }
+      ]
+    },
+    "a dark matter component that --related_to--> a single particle in the plasma": {
+      "text": "a dark matter component that --related_to--> a single particle in the plasma",
+      "stage": "candidate",
+      "gen_score": 0.0,
+      "support": 0.705,
+      "consistency": 0.895,
+      "confidence": 0.772,
+      "persistence": 0.425,
+      "cycles_seen": 2,
+      "mentions": 1,
+      "last_score": 0.615,
+      "last_cycle": 1,
+      "history": [
+        {
+          "cycle": 1,
+          "score": 0.615,
+          "stage": "candidate"
+        }
+      ]
+    },
+    "a constant equal to the rest mass --related_to--> a dark matter component that": {
+      "text": "a constant equal to the rest mass --related_to--> a dark matter component that",
+      "stage": "candidate",
+      "gen_score": 0.0,
+      "support": 0.712,
+      "consistency": 0.884,
+      "confidence": 0.772,
+      "persistence": 0.425,
+      "cycles_seen": 2,
+      "mentions": 1,
+      "last_score": 0.614,
+      "last_cycle": 1,
+      "history": [
+        {
+          "cycle": 1,
+          "score": 0.614,
+          "stage": "candidate"
+        }
+      ]
+    },
+    "a chance alignment is small --related_to--> a single particle in the plasma": {
+      "text": "a chance alignment is small --related_to--> a single particle in the plasma",
+      "stage": "candidate",
+      "gen_score": 0.0,
+      "support": 0.704,
+      "consistency": 0.891,
+      "confidence": 0.77,
+      "persistence": 0.423,
+      "cycles_seen": 2,
+      "mentions": 1,
+      "last_score": 0.613,
+      "last_cycle": 1,
+      "history": [
+        {
+          "cycle": 1,
+          "score": 0.613,
+          "stage": "candidate"
+        }
+      ]
+    },
+    "a dark matter component that --related_to--> and the most fundamental way of doing that": {
+      "text": "a dark matter component that --related_to--> and the most fundamental way of doing that",
+      "stage": "candidate",
+      "gen_score": 0.0,
+      "support": 0.685,
+      "consistency": 0.885,
+      "confidence": 0.755,
+      "persistence": 0.415,
+      "cycles_seen": 2,
+      "mentions": 1,
+      "last_score": 0.602,
+      "last_cycle": 1,
+      "history": [
+        {
+          "cycle": 1,
+          "score": 0.602,
+          "stage": "candidate"
+        }
+      ]
+    },
+    "a conventional fermi --related_to--> also called a symmetry property": {
+      "text": "a conventional fermi --related_to--> also called a symmetry property",
+      "stage": "candidate",
+      "gen_score": 0.0,
+      "support": 0.684,
+      "consistency": 0.884,
+      "confidence": 0.754,
+      "persistence": 0.415,
+      "cycles_seen": 2,
+      "mentions": 1,
+      "last_score": 0.602,
+      "last_cycle": 1,
+      "history": [
+        {
+          "cycle": 1,
+          "score": 0.602,
+          "stage": "candidate"
+        }
+      ]
+    },
+    "a dark matter component that --related_to--> a salient property": {
+      "text": "a dark matter component that --related_to--> a salient property",
+      "stage": "candidate",
+      "gen_score": 0.0,
+      "support": 0.671,
+      "consistency": 0.885,
+      "confidence": 0.746,
+      "persistence": 0.41,
+      "cycles_seen": 2,
+      "mentions": 1,
+      "last_score": 0.596,
+      "last_cycle": 1,
+      "history": [
+        {
+          "cycle": 1,
+          "score": 0.596,
+          "stage": "candidate"
+        }
+      ]
+    },
+    "a constant equal to the rest mass --related_to--> a human head": {
+      "text": "a constant equal to the rest mass --related_to--> a human head",
+      "stage": "candidate",
+      "gen_score": 0.0,
+      "support": 0.643,
+      "consistency": 0.89,
+      "confidence": 0.729,
+      "persistence": 0.401,
+      "cycles_seen": 2,
+      "mentions": 1,
+      "last_score": 0.585,
+      "last_cycle": 1,
+      "history": [
+        {
+          "cycle": 1,
+          "score": 0.585,
+          "stage": "candidate"
         }
       ]
     }
   },
-  "ts": 1770221414.343849
+  "ts": 1772900851.057842
 }

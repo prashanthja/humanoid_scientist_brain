@@ -1,0 +1,79 @@
+[
+  {
+    "title": "1. What is number theory?",
+    "text": "<p>‘What is number theory?’ puts number theory in its historical context, from the Pythagoreans to the present, explaining integers (whole numbers), prime numbers (the building blocks of number theory) squares and cubes, and perfect numbers (numbers whose factors add up to the number itself). How long can gaps between prime numbers be? Is there a formula for producing perfect numbers? Which primes can be expressed as a sum of squares? Other questions arise when we start adding primes.</p>",
+    "url": "https://doi.org/10.1093/actrade/9780198798095.003.0001",
+    "source": "crossref",
+    "timestamp": 2020
+  },
+  {
+    "title": "Algebraic Number Theory and Fermat's Last Theorem",
+    "text": "Algebraic Methods Algebraic Background Rings and Fields Factorization of Polynomials Field Extensions Symmetric Polynomials Modules Free Abelian Groups Algebraic Numbers Algebraic Numbers Conjugates and Discriminants Algebraic Integers Integral Bases Norms and Traces Rings of Integers Quadratic and Cyclotomic Fields Quadratic Fields Cyclotomic Fields Factorization into Irreducibles Historical Background Trivial Factorizations Factorization into Irreducibles Examples of Non-Unique Factorization into Irreducibles Prime Factorization Euclidean Domains Euclidean Quadratic Fields Consequences of Unique Factorization The Ramanujan-Nagell Theorem Ideals Historical Background Prime Factorization of Ideals The Norm of an Ideal Nonunique Factorization in Cyclotomic Fields Geometric Methods Lattices Lattices The Quotient Torus Minkowski's Theorem Minkowski's Theorem The Two-Squares Theorem The Four-Squares Theorem Geometric Representation of Algebraic Numbers The Space Lst Class-Group and Class-Number The Class-Group An Existence Theorem Finiteness of the Class-Group How to Make an Ideal Principal Unique Factorization of Elements in an Extension Ring Number-Theoretic Applications Computational Methods Factorization of a Rational Prime Minkowski Constants Some Class-Number Calculations Table of Class-Numbers Kummer's Special Case of Fermat's Last Theorem Some History Elementary Considerations Kummer's Lemma Kummer's Theorem Regular Primes The Path to the Final Breakthrough The Wolfskehl Prize Other Directions Modular Functions and Elliptic Curves The Taniyama-Shimura-Weil Conjecture Frey's Elliptic Equation The Amateur Who Became a Model Professional Technical Hitch Flash of Inspiration Elliptic Curves Review of Conics Projective Space Rational Conics and the Pythagorean Equation Elliptic Curves The Tangent/Secant Process Group Structure on an Elliptic Curve Applications to Diophantine Equations Elliptic Functions Trigonometry Meets Diophantus Elliptic Functions Legendre and Weierstrass Modular Functions Wiles's Strategy and Recent Developments The Frey Elliptic Curve The Taniyama-Shimura-Weil Conjecture Sketch Proof of Fermat's Last Theorem Recent Developments Appendices Quadratic Residues Quadratic Equations in Zm The Units of Zm Quadratic Residues Dirichlet's Units Theorem Introduction Logarithmic Space Embedding the Unit Group in Logarithmic Space Dirichlet's Theorem Bibliography Index Exercises appear at the end of each chapter.",
+    "url": "https://www.semanticscholar.org/paper/0661c9373294758968b8f8dd7fea9e3144ff19f8",
+    "source": "semantic_scholar",
+    "timestamp": 2025
+  },
+  {
+    "title": "Probability theory for random groups arising in number theory",
+    "text": "We consider the probability theory, and in particular the moment problem and universality theorems, for random groups of the sort of that arise or are conjectured to arise in number theory, and in related situations in topology and combinatorics. The distributions of random groups that are discussed include those conjectured in the Cohen-Lenstra-Martinet heuristics to be the distributions of class groups of random number fields, as well as distributions of non-abelian generalizations, and those conjectured to be the distributions of Selmer groups of random elliptic curves. For these sorts of distributions on finite and profinite groups, we survey what is known about the moment problem and universality, give a few new results including new applications, and suggest open problems.",
+    "url": "https://www.semanticscholar.org/paper/b4285286b2ad9cb854cb35e49519b8a1c5669462",
+    "source": "semantic_scholar",
+    "timestamp": 2023
+  },
+  {
+    "title": "Transcendental Number Theory",
+    "text": "First published in 1975, this classic book gives a systematic account of transcendental number theory, that is, the theory of those numbers that cannot be expressed as the roots of algebraic equations having rational coefficients. Their study has developed into a fertile and extensive theory, which continues to see rapid progress today. Expositions are presented of theories relating to linear forms in the logarithms of algebraic numbers, of Schmidt's generalization of the Thue–Siegel–Roth theorem, of Shidlovsky's work on Siegel's E-functions and of Sprindžuk's solution to the Mahler conjecture. This edition includes an introduction written by David Masser describing Baker's achievement, surveying the content of each chapter and explaining the main argument of Baker's method in broad strokes. A new afterword lists recent developments related to Baker's work.",
+    "url": "https://www.semanticscholar.org/paper/a47a1325240c0955edc0d7a316fcb3a0d00ee3f9",
+    "source": "semantic_scholar",
+    "timestamp": 2022
+  },
+  {
+    "title": "An Introduction to Probabilistic Number Theory",
+    "text": "Despite its seemingly deterministic nature, the study of whole numbers, especially prime numbers, has many interactions with probability theory, the theory of random processes and events. This surprising connection was first discovered around 1920, but in recent years the links have become much deeper and better understood. Aimed at beginning graduate students, this textbook is the first to explain some of the most modern parts of the story. Such topics include the Chebychev bias, universality of the Riemann zeta function, exponential sums and the bewitching shapes known as Kloosterman paths. Emphasis is given throughout to probabilistic ideas in the arguments, not just the final statements, and the focus is on key examples over technicalities. The book develops probabilistic number theory from scratch, with short appendices summarizing the most important background results from number theory, analysis and probability, making it a readable and incisive introduction to this beautiful area of mathematics.",
+    "url": "https://www.semanticscholar.org/paper/13d666b09d9ce9cbbdd97a1b716dc6edce8b6ea8",
+    "source": "semantic_scholar",
+    "timestamp": 2021
+  },
+  {
+    "title": "Number theory",
+    "text": "Number theory, an abstract branch of mathematics that deals with relationships between whole numbers, has provided highly useful answers to numerous real-world problems. The author briefly reviews earlier uses of number theory and then examines recent applications to music, cryptography, and error-correction codes.<<ETX>>",
+    "url": "https://www.semanticscholar.org/paper/37223160fd148c3956f866f27e4e7d4198a64d4f",
+    "source": "semantic_scholar",
+    "timestamp": 1989
+  },
+  {
+    "title": "An Invitation to Modern Number Theory",
+    "text": "Give us 5 minutes and we will show you the best book to read today. This is it, the an invitation to modern number theory that will be your best choice for better reading book. Your five times will not spend wasted by reading this website. You can take the book as a source to make better concept. Referring the books that can be situated with your needs is sometime difficult. But here, this is so easy. You can find the best thing of book that you can read.",
+    "url": "https://www.semanticscholar.org/paper/6b102e4e47e98c25aa8bd97116782ed5edbe37ed",
+    "source": "semantic_scholar",
+    "timestamp": 2020
+  },
+  {
+    "title": "D number theory based game-theoretic framework in adversarial decision making under a fuzzy environment",
+    "text": "Abstract Adversarial decision making is a particular type of decision making problem where the gain a decision maker obtains as a result of his decisions is affected by the actions taken by others. Representation of evaluation of alternatives and methods to find the optimal alternative are two important aspects in adversarial decision making. The aim of this study is to develop a general framework for solving the adversarial decision making problem under an uncertain environment. By combining fuzzy set theory, game theory and D number theory (DNT), we present a DNT-based game-theoretic framework for adversarial decision making under a fuzzy environment. Within the proposed framework or model, fuzzy set theory is used to model uncertain evaluations by decision makers of alternatives, the non-exclusiveness among fuzzy evaluations is taken into account by use of DNT, and the conflict of interests among decision makers is considered by means of a two-person non-constant sum game. An illustrative application is given to demonstrate the effectiveness of the proposed model. This work, on the one hand, has developed an effective framework for adversarial decision making under a fuzzy environment and, on the other hand, has further improved the basis of DNT as a generalization of Dempster–Shafer theory for uncertainty reasoning.",
+    "url": "https://www.semanticscholar.org/paper/7264f49f6322b9016c62c72fbec72f783d9106a3",
+    "source": "semantic_scholar",
+    "timestamp": 2019
+  },
+  {
+    "title": "On certain sums of number theory",
+    "text": "We study sums of the shape $\\sum_{n \\leqslant x} f \\left( \\lfloor x/n \\rfloor \\right)$ where $f$ is either the von Mangoldt function or the Dirichlet-Piltz divisor functions. We improve previous estimates when $f = \\Lambda$ and $f = \\tau$, and provide new results when $f = \\tau_r$ with $r \\geqslant 3$, breaking the $\\frac{1}{2}$-barrier in each case. The functions $f=\\mu^2$ and $f=2^\\omega$ are also investigated.",
+    "url": "https://www.semanticscholar.org/paper/75b93919ba3f007570965dd65dab294e169c57ca",
+    "source": "semantic_scholar",
+    "timestamp": 2020
+  },
+  {
+    "title": "Nemo/Hecke: Computer Algebra and Number Theory Packages for the Julia Programming Language",
+    "text": "We introduce two new packages, Nemo and Hecke, written in the Julia programming language for computer algebra and number theory. We demonstrate that high performance generic algorithms can be implemented in Julia, without the need to resort to a low-level C implementation. For specialised algorithms, we use Julia's efficient native C interface to wrap existing C/C++ libraries such as Flint, Arb, Antic and Singular. We give examples of how to use Hecke and Nemo and discuss some algorithms that we have implemented to provide high performance basic arithmetic.",
+    "url": "https://www.semanticscholar.org/paper/05272de903f0d6ce2bfe6651b53e9147d0d233a5",
+    "source": "semantic_scholar",
+    "timestamp": 2017
+  },
+  {
+    "title": "Number theory",
+    "text": "Number theory is a branch of pure mathematics devoted primarily to the study of the integers and arithmetic functions. Number theorists study prime numbers as well as the properties of mathematical objects constructed from integers, or defined as generalizations of the integers.",
+    "url": "https://en.wikipedia.org/wiki/Number_theory",
+    "source": "wikipedia",
+    "timestamp": "2026-03-04"
+  }
+]

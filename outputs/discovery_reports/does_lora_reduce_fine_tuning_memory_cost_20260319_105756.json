@@ -1,0 +1,322 @@
+{
+  "query": "Does LoRA reduce fine-tuning memory cost?",
+  "timestamp": "2026-03-19 10:57:56",
+  "domain": "transformer_efficiency",
+  "proposal_verdict": "supported",
+  "proposal_confidence": 0.7377026643753052,
+  "proposal_explanation": "Evidence from multiple sources confirms this claim with experimental results.",
+  "evidence_count": 10,
+  "top_papers": [
+    "MLPMoE: Zero-Shot Architectural Metamorphosis of Dense LLM MLPs into Static Mixture-of-Experts",
+    "Low-Rank Adaptation for Scalable Fine-Tuning of Pre-Trained Language Models",
+    "CORM: Cache Optimization with Recent Message for Large Language Model Inference",
+    "Adaptive Multi-Objective Tiered Storage Configuration for KV Cache in LLM Service",
+    "Mixture of Attention Schemes (MoAS): Learning to Route Between MHA, GQA, and MQA",
+    "End-to-End On-Device Quantization-Aware Training for LLMs at Inference Cost",
+    "LLaVA-MoLE: Sparse Mixture of LoRA Experts for Mitigating Data Conflicts in Instruction Finetuning MLLMs",
+    "DiJiang: Efficient Large Language Models through Compact Kernelization"
+  ],
+  "extracted_claim_count": 10,
+  "top_claims": [
+    {
+      "claim": "The method operates entirely post hoc on existing checkpoints and does not require gradients, calibration sets, or router training.",
+      "paper_title": "MLPMoE: Zero-Shot Architectural Metamorphosis of Dense LLM MLPs into Static Mixture-of-Experts",
+      "domain": "transformer_efficiency"
+    },
+    {
+      "claim": "Our validation shows that CORM reduces the inference memory usage of KV cache by up to 70\\% with negligible performance degradation across six tasks in LongBench.",
+      "paper_title": "CORM: Cache Optimization with Recent Message for Large Language Model Inference",
+      "domain": "transformer_efficiency"
+    },
+    {
+      "claim": "Compared to the fixed setup with 1024 GB DRAM, Kareto can improve throughput by up to 9.3%, or reduce latency by up to 58.3%, or lower cost by up to 20.2% under respective optimization objectives.",
+      "paper_title": "Adaptive Multi-Objective Tiered Storage Configuration for KV Cache in LLM Service",
+      "domain": "transformer_efficiency"
+    },
+    {
+      "claim": "The choice of attention mechanism in Transformer models involves a critical trade-off between modeling quality and inference efficiency.",
+      "paper_title": "Mixture of Attention Schemes (MoAS): Learning to Route Between MHA, GQA, and MQA",
+      "domain": "transformer_efficiency"
+    },
+    {
+      "claim": "Multi-Head Attention (MHA) offers the best quality but suffers from large Key-Value (KV) cache memory requirements during inference.",
+      "paper_title": "Mixture of Attention Schemes (MoAS): Learning to Route Between MHA, GQA, and MQA",
+      "domain": "transformer_efficiency"
+    }
+  ],
+  "grounded_claim_count": 5,
+  "supported_count": 3,
+  "contradicted_count": 0,
+  "inconclusive_count": 2,
+  "top_grounded": [
+    {
+      "claim": "Additionally, it incorporates a fine-grained adaptive tuner that uses eviction policies in tier storage and KV block access patterns for group-specific cache management, improving cache efficiency.",
+      "claim_type": "statement",
+      "domain": "math",
+      "grounding": {
+        "claim": "Additionally, it incorporates a fine-grained adaptive tuner that uses eviction policies in tier storage and KV block access patterns for group-specific cache management, improving cache efficiency.",
+        "support_count": 2,
+        "contradict_count": 0,
+        "neutral_count": 0,
+        "total_evidence": 2,
+        "unique_sources": 1,
+        "unique_titles": 2,
+        "avg_support_score": 0.7226,
+        "avg_contradict_score": 0.0,
+        "diversity_score": 0.75,
+        "contradiction_penalty": 0.0,
+        "coverage_score": 0.3333,
+        "grounding_score": 0.9559,
+        "top_support": [
+          {
+            "text": "approximate analytically. To obtain the frontier, we introduce Kareto, a KV-cache Adaptive REsource managemenT Optimizer. Kareto leverages a diminishing-return-guided pruning method to efficiently navigate the large configuration space and approximate the Pareto frontier. Additionally, it incorporates a fine-grained adaptive tuner that uses eviction policies in tier storage and KV block access patterns for group-specific cache management, improving cache efficiency. Experiments on real-world traces show that Kareto adapts to workload and can identify configurations of better cost efficiency, covering static strategies. Compared to the fixed setup with 1024 GB DRAM, Kareto can improve throughput by up to 9.3%, or reduce latency by up to 58.3%, or lower cost by up to 20.2% under respective optimization objectives.",
+            "paper_title": "Adaptive Multi-Objective Tiered Storage Configuration for KV Cache in LLM Service",
+            "source": "semantic_scholar",
+            "chunk_id": 342,
+            "verdict": "support",
+            "score": 0.8598587900400162,
+            "similarity": 0.7843981385231018,
+            "overlap": 1.0
+          },
+          {
+            "text": "ries. Based on these observations, we present CORM, a KV cache eviction policy that dynamically retains essential key-value pairs for inference without the need for model fine-tuning. Our validation shows that CORM reduces the inference memory usage of KV cache by up to 70\\% with negligible performance degradation across six tasks in LongBench. Furthermore, we demonstrate that CORM is compatible with GQA for further compression rate.",
+            "paper_title": "CORM: Cache Optimization with Recent Message for Large Language Model Inference",
+            "source": "semantic_scholar",
+            "chunk_id": 310,
+            "verdict": "support",
+            "score": 0.5852548035590546,
+            "similarity": 0.7833351492881775,
+            "overlap": 0.2174
+          }
+        ],
+        "top_contradict": []
+      },
+      "verdict": {
+        "claim": "Additionally, it incorporates a fine-grained adaptive tuner that uses eviction policies in tier storage and KV block access patterns for group-specific cache management, improving cache efficiency.",
+        "verdict": "supported",
+        "confidence": 0.95,
+        "explanation": "Support outweighs contradiction (support=2, contradict=0) with strong grounding=0.96.",
+        "grounding_score": 0.9559,
+        "support_count": 2,
+        "contradict_count": 0,
+        "neutral_count": 0,
+        "total_evidence": 2
+      }
+    },
+    {
+      "claim": "Furthermore, we demonstrate that CORM is compatible with GQA for further compression rate.",
+      "claim_type": "statement",
+      "domain": "physics",
+      "grounding": {
+        "claim": "Furthermore, we demonstrate that CORM is compatible with GQA for further compression rate.",
+        "support_count": 3,
+        "contradict_count": 0,
+        "neutral_count": 3,
+        "total_evidence": 6,
+        "unique_sources": 1,
+        "unique_titles": 6,
+        "avg_support_score": 0.6879,
+        "avg_contradict_score": 0.0,
+        "diversity_score": 0.75,
+        "contradiction_penalty": 0.0,
+        "coverage_score": 1.0,
+        "grounding_score": 0.744,
+        "top_support": [
+          {
+            "text": "ries. Based on these observations, we present CORM, a KV cache eviction policy that dynamically retains essential key-value pairs for inference without the need for model fine-tuning. Our validation shows that CORM reduces the inference memory usage of KV cache by up to 70\\% with negligible performance degradation across six tasks in LongBench. Furthermore, we demonstrate that CORM is compatible with GQA for further compression rate.",
+            "paper_title": "CORM: Cache Optimization with Recent Message for Large Language Model Inference",
+            "source": "semantic_scholar",
+            "chunk_id": 310,
+            "verdict": "support",
+            "score": 0.8591678470373154,
+            "similarity": 0.7833351492881775,
+            "overlap": 1.0
+          },
+          {
+            "text": "approximate analytically. To obtain the frontier, we introduce Kareto, a KV-cache Adaptive REsource managemenT Optimizer. Kareto leverages a diminishing-return-guided pruning method to efficiently navigate the large configuration space and approximate the Pareto frontier. Additionally, it incorporates a fine-grained adaptive tuner that uses eviction policies in tier storage and KV block access patterns for group-specific cache management, improving cache efficiency. Experiments on real-world traces show that Kareto adapts to workload and can identify configurations of better cost efficiency, covering static strategies. Compared to the fixed setup with 1024 GB DRAM, Kareto can improve throughput by up to 9.3%, or reduce latency by up to 58.3%, or lower cost by up to 20.2% under respective optimization objectives.",
+            "paper_title": "Adaptive Multi-Objective Tiered Storage Configuration for KV Cache in LLM Service",
+            "source": "semantic_scholar",
+            "chunk_id": 342,
+            "verdict": "support",
+            "score": 0.6053133354945617,
+            "similarity": 0.7843981385231018,
+            "overlap": 0.2727
+          },
+          {
+            "text": ", and route each token to the top-1 expert based on a routing function, allowing adaptive choices for tokens from different domains. Since the LoRA experts are sparsely activated, the training and inference cost are kept roughly constant compared to the original LoRA method. By replacing the plain-LoRA of LLaVA-1.5 with our MoE design, our final model is named LLaVA-MoLE. Extensive experiments proved that LLaVA-MoLE effectively mitigates the data conflict issue when mixing multiple distinct instruction datasets with various configurations, and achieves consistent performance gains over the strong plain-LoRA baselines. Most importantly, on the mixed datasets, LLaVA-MoLE can even outperform the plain-LoRA baseline trained with twice the samples.",
+            "paper_title": "LLaVA-MoLE: Sparse Mixture of LoRA Experts for Mitigating Data Conflicts in Instruction Finetuning MLLMs",
+            "source": "semantic_scholar",
+            "chunk_id": 107,
+            "verdict": "support",
+            "score": 0.5992718653245406,
+            "similarity": 0.7751035690307617,
+            "overlap": 0.2727
+          }
+        ],
+        "top_contradict": []
+      },
+      "verdict": {
+        "claim": "Furthermore, we demonstrate that CORM is compatible with GQA for further compression rate.",
+        "verdict": "supported",
+        "confidence": 0.844,
+        "explanation": "Support outweighs contradiction (support=3, contradict=0) with strong grounding=0.74.",
+        "grounding_score": 0.744,
+        "support_count": 3,
+        "contradict_count": 0,
+        "neutral_count": 3,
+        "total_evidence": 6
+      }
+    },
+    {
+      "claim": "Our validation shows that CORM reduces the inference memory usage of KV cache by up to 70\\% with negligible performance degradation across six tasks in LongBench.",
+      "claim_type": "statement",
+      "domain": "transformer_efficiency",
+      "grounding": {
+        "claim": "Our validation shows that CORM reduces the inference memory usage of KV cache by up to 70\\% with negligible performance degradation across six tasks in LongBench.",
+        "support_count": 3,
+        "contradict_count": 0,
+        "neutral_count": 3,
+        "total_evidence": 6,
+        "unique_sources": 1,
+        "unique_titles": 6,
+        "avg_support_score": 0.6826,
+        "avg_contradict_score": 0.0,
+        "diversity_score": 0.75,
+        "contradiction_penalty": 0.0,
+        "coverage_score": 1.0,
+        "grounding_score": 0.7413,
+        "top_support": [
+          {
+            "text": "ries. Based on these observations, we present CORM, a KV cache eviction policy that dynamically retains essential key-value pairs for inference without the need for model fine-tuning. Our validation shows that CORM reduces the inference memory usage of KV cache by up to 70\\% with negligible performance degradation across six tasks in LongBench. Furthermore, we demonstrate that CORM is compatible with GQA for further compression rate.",
+            "paper_title": "CORM: Cache Optimization with Recent Message for Large Language Model Inference",
+            "source": "semantic_scholar",
+            "chunk_id": 310,
+            "verdict": "support",
+            "score": 0.8591678470373154,
+            "similarity": 0.7833351492881775,
+            "overlap": 1.0
+          },
+          {
+            "text": ", and route each token to the top-1 expert based on a routing function, allowing adaptive choices for tokens from different domains. Since the LoRA experts are sparsely activated, the training and inference cost are kept roughly constant compared to the original LoRA method. By replacing the plain-LoRA of LLaVA-1.5 with our MoE design, our final model is named LLaVA-MoLE. Extensive experiments proved that LLaVA-MoLE effectively mitigates the data conflict issue when mixing multiple distinct instruction datasets with various configurations, and achieves consistent performance gains over the strong plain-LoRA baselines. Most importantly, on the mixed datasets, LLaVA-MoLE can even outperform the plain-LoRA baseline trained with twice the samples.",
+            "paper_title": "LLaVA-MoLE: Sparse Mixture of LoRA Experts for Mitigating Data Conflicts in Instruction Finetuning MLLMs",
+            "source": "semantic_scholar",
+            "chunk_id": 107,
+            "verdict": "support",
+            "score": 0.6088173198699951,
+            "similarity": 0.7751035690307617,
+            "overlap": 0.3
+          },
+          {
+            "text": "approximate analytically. To obtain the frontier, we introduce Kareto, a KV-cache Adaptive REsource managemenT Optimizer. Kareto leverages a diminishing-return-guided pruning method to efficiently navigate the large configuration space and approximate the Pareto frontier. Additionally, it incorporates a fine-grained adaptive tuner that uses eviction policies in tier storage and KV block access patterns for group-specific cache management, improving cache efficiency. Experiments on real-world traces show that Kareto adapts to workload and can identify configurations of better cost efficiency, covering static strategies. Compared to the fixed setup with 1024 GB DRAM, Kareto can improve throughput by up to 9.3%, or reduce latency by up to 58.3%, or lower cost by up to 20.2% under respective optimization objectives.",
+            "paper_title": "Adaptive Multi-Objective Tiered Storage Configuration for KV Cache in LLM Service",
+            "source": "semantic_scholar",
+            "chunk_id": 342,
+            "verdict": "support",
+            "score": 0.5798587900400162,
+            "similarity": 0.7843981385231018,
+            "overlap": 0.2
+          }
+        ],
+        "top_contradict": []
+      },
+      "verdict": {
+        "claim": "Our validation shows that CORM reduces the inference memory usage of KV cache by up to 70\\% with negligible performance degradation across six tasks in LongBench.",
+        "verdict": "supported",
+        "confidence": 0.8413,
+        "explanation": "Support outweighs contradiction (support=3, contradict=0) with strong grounding=0.74.",
+        "grounding_score": 0.7413,
+        "support_count": 3,
+        "contradict_count": 0,
+        "neutral_count": 3,
+        "total_evidence": 6
+      }
+    },
+    {
+      "claim": "We explore how LoRA enables efficient task adaptation in scenarios such as domain adaptation, few-shot learning, transfer learning, and zero-shot learning.",
+      "claim_type": "statement",
+      "domain": "unknown",
+      "grounding": {
+        "claim": "We explore how LoRA enables efficient task adaptation in scenarios such as domain adaptation, few-shot learning, transfer learning, and zero-shot learning.",
+        "support_count": 0,
+        "contradict_count": 0,
+        "neutral_count": 1,
+        "total_evidence": 1,
+        "unique_sources": 1,
+        "unique_titles": 1,
+        "avg_support_score": 0.0,
+        "avg_contradict_score": 0.0,
+        "diversity_score": 0.5,
+        "contradiction_penalty": 0.0,
+        "coverage_score": 0.1667,
+        "grounding_score": 0.1417,
+        "top_support": [],
+        "top_contradict": []
+      },
+      "verdict": {
+        "claim": "We explore how LoRA enables efficient task adaptation in scenarios such as domain adaptation, few-shot learning, transfer learning, and zero-shot learning.",
+        "verdict": "inconclusive",
+        "confidence": 0.2,
+        "explanation": "Evidence is mixed or insufficient (support=0, contradict=0, neutral=1).",
+        "grounding_score": 0.1417,
+        "support_count": 0,
+        "contradict_count": 0,
+        "neutral_count": 1,
+        "total_evidence": 1
+      }
+    },
+    {
+      "claim": "The method operates entirely post hoc on existing checkpoints and does not require gradients, calibration sets, or router training.",
+      "claim_type": "statement",
+      "domain": "transformer_efficiency",
+      "grounding": {
+        "claim": "The method operates entirely post hoc on existing checkpoints and does not require gradients, calibration sets, or router training.",
+        "support_count": 0,
+        "contradict_count": 1,
+        "neutral_count": 1,
+        "total_evidence": 2,
+        "unique_sources": 1,
+        "unique_titles": 2,
+        "avg_support_score": 0.0,
+        "avg_contradict_score": 0.9022,
+        "diversity_score": 0.75,
+        "contradiction_penalty": 0.4511,
+        "coverage_score": 0.3333,
+        "grounding_score": 0.0,
+        "top_support": [],
+        "top_contradict": [
+          {
+            "text": "out 2 percent of the dense baseline. The method operates entirely post hoc on existing checkpoints and does not require gradients, calibration sets, or router training. Code is available at https://gist.github.com/iwallarm/fc2ef1eddf226ca7814f9e5e2ae9bad1",
+            "paper_title": "MLPMoE: Zero-Shot Architectural Metamorphosis of Dense LLM MLPs into Static Mixture-of-Experts",
+            "source": "semantic_scholar",
+            "chunk_id": 112,
+            "verdict": "contradict",
+            "score": 0.9022223055362701,
+            "similarity": 0.8495727777481079,
+            "overlap": 1.0
+          }
+        ]
+      },
+      "verdict": {
+        "claim": "The method operates entirely post hoc on existing checkpoints and does not require gradients, calibration sets, or router training.",
+        "verdict": "inconclusive",
+        "confidence": 0.2,
+        "explanation": "Evidence is mixed or insufficient (support=0, contradict=1, neutral=1).",
+        "grounding_score": 0.0,
+        "support_count": 0,
+        "contradict_count": 1,
+        "neutral_count": 1,
+        "total_evidence": 2
+      }
+    }
+  ],
+  "knowledge_gaps": [
+    "No contradicting evidence found — this may indicate limited coverage of papers reporting failure cases or trade-offs.",
+    "Some retrieved chunks appear off-domain — retrieval may benefit from stricter domain filtering."
+  ],
+  "next_actions": [
+    "Pick 1 concrete intervention and convert it into a falsifiable claim (inputs → mechanism → measurable outputs).",
+    "Run targeted retrieval using 3–5 specific transformer-efficiency keywords and compare results.",
+    "Prioritize evidence chunks with benchmark numbers (latency, throughput, memory, perplexity, context length).",
+    "Generate an experiment plan: baseline, efficiency metric, quality metric, ablations, acceptance threshold."
+  ]
+}

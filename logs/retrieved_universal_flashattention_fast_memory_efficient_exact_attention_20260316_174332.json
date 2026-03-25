@@ -1,0 +1,16 @@
+[
+  {
+    "title": "Analog In-Memory Computing Attention Mechanism for Fast and Energy-Efficient Large Language Models",
+    "text": "<title>Abstract</title> <p>Transformer networks, driven by self-attention, are central to Large Language Models. In generative Transformers, self-attention uses cache memory to store token projections, avoiding recomputation at each time step. However, GPU-stored projections must be loaded into SRAM for each new generation step, causing latency and energy bottlenecks. We present a custom self-attention in-memory computing architecture based on emerging charge-based memories called gain cells, which can be efficiently written to store new tokens during sequence generation and enable parallel analog dot-product computation required for self-attention. However, the analog gain cell circuits introduce non-idealities and constraints preventing the direct mapping of pre-trained models. To circumvent this problem, we design an initialization algorithm achieving text processing performance comparable to GPT-2 without training from scratch. Our architecture respectively reduces attention latency and energy consumption by up to two and five orders of magnitude compared to GPUs, marking a significant step toward ultra-fast, low-power generative Transformers.</p>",
+    "url": "https://doi.org/10.21203/rs.3.rs-5461915/v1",
+    "source": "crossref",
+    "timestamp": 2024
+  },
+  {
+    "title": "SwiftOrtho: a Fast, Memory-Efficient, Multiple Genome Orthology Classifier",
+    "text": "<jats:title>Abstract</jats:title> <jats:sec> <jats:title>Introduction</jats:title> <jats:p>Gene homology type classification is a requisite for many types of genome analyses, including comparative genomics, phylogenetics, and protein function annotation. A large variety of tools have been developed to perform homology classification across genomes of different species. However, when applied to large genomic datasets, these tools require high memory and CPU usage, typically available only in costly computational clusters. To address this problem, we developed a new graph-based orthology analysis tool, SwiftOrtho, which is optimized for speed and memory usage when applied to large-scale data.</jats:p> </jats:sec> <jats:sec> <jats:title>Results</jats:title> <jats:p>In our tests, SwiftOrtho is the only tool that completed orthology analysis of 1,760 bacterial genomes on a computer with only 4GB RAM. Using various standard orthology datasets, we also show that SwiftOrtho has a high accuracy. SwiftOrtho enables the accurate comparative genomic analyses of thousands of genomes using low memory computers.</jats:p> </jats:sec> <jats:sec> <jats:title>Availability</jats:title> <jats:p> <jats:ext-link xmlns:xlink=\"http://www.w3.org/1999/xlink\" ext-link-type=\"uri\" xlink:href=\"https://github.com/Rinoahu/SwiftOrtho\">https://github.com/Rinoahu/SwiftOrtho</jats:ext-link> </jats:p> </jats:sec>",
+    "url": "https://doi.org/10.1101/543223",
+    "source": "crossref",
+    "timestamp": 2019
+  }
+]

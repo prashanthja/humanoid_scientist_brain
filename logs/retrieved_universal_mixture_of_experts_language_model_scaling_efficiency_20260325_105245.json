@@ -1,0 +1,23 @@
+[
+  {
+    "title": "Scaling Molecular Representation Learning with Hierarchical Mixture-of-Experts",
+    "text": "<jats:title>Abstract</jats:title> <jats:p>Recent advancements in large-scale self-supervised pretraining have significantly improved molecular representation learning, yet challenges persist, particularly when addressing distributional shifts (e.g., under scaffold-split). Drawing inspiration from the success of Mixture-of-Experts (MoE) networks in NLP, we introduce H-MoE, a hierarchical MoE model tailored for molecular representation learning. Since conventional routing strategies struggle to capture global molecular information—such as scaffold structures, which are crucial for enhancing generalization—we propose a hierarchical routing mechanism. This mechanism first utilizes scaffold-level structural guidance before refining molecular characteristics at the atomic level. To optimize expert assignment, we incorporate scaffold routing contrastive loss, ensuring scaffold-consistent routing while preserving discriminability across molecular categories. Furthermore, a curriculum learning approach and dynamic expert allocation strategy are employed to enhance adaptability. Extensive experiments on molecular property prediction tasks demonstrate the effectiveness of our method in capturing molecular diversity and improving generalization across different tasks.</jats:p>",
+    "url": "https://doi.org/10.1101/2025.08.09.669511",
+    "source": "crossref",
+    "timestamp": 2025
+  },
+  {
+    "title": "Reducing Hallucinations in Large Language Models: A Consensus Voting Approach Using Mixture of Experts",
+    "text": "<jats:p id=\"p1\">The proliferation of advanced natural language processing applications has demonstrated the critical importance of ensuring the accuracy and reliability of generated text, particularly in domains where erroneous information can have significant consequences. The novel integration of a majority voting mechanism within a Mixture of Experts (MoE) framework, specifically in the Mistral 8x7b model, offers a significant advancement by leveraging the collective expertise of multiple specialized experts to mitigate hallucinations and enhance output precision. Through a rigorous experimental setup, the research demonstrated that the application of majority voting substantially reduced the incidence of hallucinations while improving the overall accuracy of the model’s outputs. Detailed analysis revealed that the consensus-based approach effectively filtered out erroneous responses, providing a more reliable and trustworthy output. The methodology encompassed comprehensive mechanisms for input processing, expert output collection, and dynamic expert selection, further refining the model’s contextual adaptability and robustness. Results indicated a notable improvement in accuracy and a manageable increase in computational overhead, validating the practical viability of the approach. This study’s findings significantly contribute to the ongoing efforts to enhance the reliability of large language models, presenting a robust framework with broad applications in various critical fields.</jats:p>",
+    "url": "https://doi.org/10.36227/techrxiv.171863632.29206743/v1",
+    "source": "crossref",
+    "timestamp": 2024
+  },
+  {
+    "title": "DiTEA: Mixture-of-Experts for Vision-Language-Action Model in Robotic Manipulation",
+    "text": "<jats:p>The current diffusion-based Vision-Language-Action (VLA) models have faster inference speed and the ability to solve the action muti-modality problem in robot manipulation tasks compared to traditional autoregressive models after large-scale pre-training and post-training. However, the diffusion-based VLA models were found to have poor instruction-following ability, and after fine-tuning training on multiple tasks, them often suffer from \"skill forgetting\" due to conflicting model weights on each task. To address this problem, we propose DiTEA, a Diffusion Transformer-based Mixture-of-Experts (MoE) VLA model. Specifically, it fuses the MoE module into the action head of VLA to form Action MoE, and in addition, we design the Task-Instruction Gate, which uses language instructions to select specific experts for tasks they specialize in, in order to improve the VLA's instruction-following ability. We conducted comprehensive experiments and ablation study to evaluate the efficacy of our model under different designs. Experimental results from simulation and real-world show that our DiTEA has excellent improvement in multi-task compared to baseline and other VLAs.</jats:p>",
+    "url": "https://doi.org/10.1609/aaai.v40i22.38902",
+    "source": "crossref",
+    "timestamp": 2026
+  }
+]

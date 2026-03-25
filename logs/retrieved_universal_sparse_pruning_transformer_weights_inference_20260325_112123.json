@@ -1,0 +1,37 @@
+[
+  {
+    "title": "Figure 8—figure supplement 1. Importance of weight magnitudes for learning with sparse weights.",
+    "text": "Plot of test error across 20 epochs of training on MNIST of a one hidden layer network, with regular feedback weights (gray), sparse feedback weights that were amplified (red), and sparse feedback weights that were not amplified (blue). The network with amplified sparse feedback weights is the same as in Figure 8A and B, where feedback weights were multiplied by a factor of 5. While sparse feedback weights that were amplified led to improved training performance, sparse weights without amplification impaired the network’s learning ability. Right: Spreads (min – max) of the results of repeated weight tests (n=20) after 20 epochs for each of the networks. Percentages indicate means (two-tailed t-test, regular vs. sparse, amplified: t38=44.96, p=4.4×10−34; regular vs. sparse, not amplified: t38=-51.30, p=3.2×10−36; sparse, amplified vs. sparse, not amplified: t38=-100.73, p=2.8×10−47, Bonferroni correction for multiple comparisons).",
+    "url": "https://doi.org/10.7554/elife.22901.016",
+    "source": "crossref",
+    "timestamp": null
+  },
+  {
+    "title": "Efficient inference of Vision Transformer with structural pruning and operator fusion on GPU",
+    "text": "<jats:title>Abstract</jats:title> <jats:p>Currently, Vision Transformer (ViT) has been widely applied in computer vision tasks and has achieved remarkable results. However, its storage, memory, and computational requirements hinder its deployment on general and common GPUs. We propose a framework for accelerating the inference of ViT models, which takes into account both model compression and hardware-friendly operator fusion. This framework facilitates the efficient execution of the model on a single GPU while minimizing any substantial reduction in model accuracy. Our approach consists of two stages. The first stage entails structured pruning, whereby an automated approach is employed to determine the dependency relationships among layers within ViT models. By leveraging these relationships, group pruning is implemented on the interdependent parameters, resulting in a pruned model. In the second stage, hardware-specific acceleration algorithms, tailored to the unique characteristics of the pruned model, are introduced. These algorithms aim to further enhance the performance of the pruned ViT models, enabling them to achieve inference speedup on GPUs. We conducted experiments on various ViT models, and the results indicate that our designed acceleration framework achieves a significant improvement in inference speed, ranging from 1.05 times to 3.08 times, while maintaining accuracy loss within a tolerable range of 3%.</jats:p>",
+    "url": "https://doi.org/10.1088/1742-6596/2897/1/012005",
+    "source": "crossref",
+    "timestamp": 2024
+  },
+  {
+    "title": "Pruning DETR: Efficient End-to-End Object Detection With Sparse Structured Pruning",
+    "text": "<jats:title>Abstract</jats:title> <jats:p>Deep learning methods in the field of object detection have made significant progress in terms of performance, but end-to-end implementations still face challenges. Recently, the Transformer-based DETR model successfully introduced the attention mechanism into object detection tasks, achieving end-to-end object detection. However, despite its competitive accuracy, DETR still falls short in terms of inference speed and computational costs. To address this issue, this paper proposes an optimization of the DETR model using structured pruning through sparsity-induced pruning, aiming to improve its inference speed and reduce computational costs. We adjust the importance of module outputs through parameter scaling factors and sparse regularization terms, and optimize the parameter scaling factors using an improved Accelerated Proximal Gradient (APG) method. Experimental results on the COCO dataset demonstrate that our approach achieves a computational cost reduction of over 32% while maintaining an AP value of 42.7%, resulting in an inference speed improvement of over 17% to reach 32.7 FPS. This study provides an effective solution for further enhancing the real-time capability of Transformer-based object detection models.</jats:p>",
+    "url": "https://doi.org/10.21203/rs.3.rs-3071897/v1",
+    "source": "crossref",
+    "timestamp": 2023
+  },
+  {
+    "title": "Transformer tricks: Removing weights for skipless transformers",
+    "text": "<jats:p>&#x0D; &#x0D; &#x0D; &#x0D; He and Hofmann [1] detailed a skipless transformer without the V and P (post-attention projection) linear layers, which reduces the total number of weights. However, this scheme is only applicable to MHA (multi-head attention), but not for MQA (multi-query attention) and GQA (grouped- query attention). The latter schemes are used by many popular LLMs such as Llama 2, Mistral, Mixtral, PaLM, and Gemma. Therefore, this micro-paper proposes mathematically equivalent versions that are suitable for MQA and GQA. For example, removing Q and P from a skipless version of Mistral-7B would remove 15% of its weights (and thus reduce its compute and memory complexity).&#x0D; &#x0D; &#x0D; &#x0D; </jats:p>",
+    "url": "https://doi.org/10.31224/3629",
+    "source": "crossref",
+    "timestamp": 2024
+  },
+  {
+    "title": "Robust recovery of sparse non-negative weights from mixtures of positive-semi-definite matrices",
+    "text": "<jats:title>Abstract</jats:title><jats:p>We consider a structured estimation problem where an observed matrix is assumed to be generated as an $s$-sparse linear combination of $N$ given $n\\times n$ positive-semi-definite matrices. Recovering the unknown $N$-dimensional and $s$-sparse weights from noisy observations is an important problem in various fields of signal processing and also a relevant preprocessing step in covariance estimation. We will present related recovery guarantees and focus on the case of non-negative weights. The problem is formulated as a convex program and can be solved without further tuning. Such robust, non-Bayesian and parameter-free approaches are important for applications where prior distributions and further model parameters are unknown. Motivated by explicit applications in wireless communication, we will consider the particular rank-one case, where the known matrices are outer products of iid. zero-mean sub-Gaussian $n$-dimensional complex vectors. We show that, for given $n$ and $N$, one can recover non-negative $s$-sparse weights with a parameter-free convex program once $s\\leq O(n^2 / \\log ^2(N/n^2)$. Our error estimate scales linearly in the instantaneous noise power whereby the convex algorithm does not need prior bounds on the noise. Such estimates are important if the magnitude of the additive distortion depends on the unknown itself.</jats:p>",
+    "url": "https://doi.org/10.1093/imaiai/iaab024",
+    "source": "crossref",
+    "timestamp": 2021
+  }
+]
