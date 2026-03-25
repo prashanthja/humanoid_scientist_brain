@@ -1,0 +1,245 @@
+{
+  "n_simulations": 500,
+  "avg_field_score": 0.7814,
+  "summary": "Across 500 simulations, the field advances to score 0.78. Strong momentum detected. Top method: MixtureOfExperts.",
+  "dominance_probabilities": {
+    "MixtureOfExperts": 1.0,
+    "KVCache": 1.0,
+    "LoRA": 1.0,
+    "MemoryOverhead": 1.0,
+    "TransformerEfficiency": 1.0,
+    "Latency": 1.0,
+    "ModelQuality": 0.998,
+    "FlashAttention": 0.994
+  },
+  "mean_final_beliefs": {
+    "TransformerEfficiency": 1.0,
+    "MemoryOverhead": 0.996,
+    "Latency": 0.924,
+    "ModelQuality": 0.875,
+    "LoRA": 0.846,
+    "KVCache": 0.846,
+    "MixtureOfExperts": 0.846,
+    "ParameterEfficiency": 0.8
+  },
+  "dominant_methods": [
+    {
+      "method": "MixtureOfExperts",
+      "probability": 1.0
+    },
+    {
+      "method": "LoRA",
+      "probability": 1.0
+    },
+    {
+      "method": "KVCache",
+      "probability": 1.0
+    },
+    {
+      "method": "FlashAttention",
+      "probability": 0.994
+    },
+    {
+      "method": "Quantization",
+      "probability": 0.032
+    }
+  ],
+  "rising_nodes": [
+    {
+      "node": "TransformerEfficiency",
+      "delta": 0.3497
+    },
+    {
+      "node": "ParameterEfficiency",
+      "delta": 0.3055
+    },
+    {
+      "node": "ModelQuality",
+      "delta": 0.2877
+    },
+    {
+      "node": "Latency",
+      "delta": 0.2851
+    },
+    {
+      "node": "MemoryOverhead",
+      "delta": 0.2574
+    },
+    {
+      "node": "InferenceSpeed",
+      "delta": 0.1944
+    }
+  ],
+  "falling_nodes": [
+    {
+      "node": "Reasoning Language Model Inference Serving Unveile",
+      "delta": -0.0073
+    },
+    {
+      "node": "ContextLength",
+      "delta": -0.0077
+    },
+    {
+      "node": "Union of Experts: Adapting Hierarchical Routing to",
+      "delta": -0.0078
+    },
+    {
+      "node": "CORM: Cache Optimization with Recent Message for L",
+      "delta": -0.0079
+    }
+  ],
+  "dead_ends": [],
+  "contradiction_risks": [
+    "MixtureOfExperts (belief=0.85) faces has tradeoff with RoutingInstability",
+    "Quantization (belief=0.66) faces has tradeoff with ModelQuality",
+    "FlashAttention (belief=0.80) faces has tradeoff with MemoryOverhead",
+    "KVCache (belief=0.85) faces has tradeoff with MemoryOverhead"
+  ],
+  "hypothesis_outcomes": [
+    {
+      "hypothesis": "ContextLength and ModelAccuracy may be related",
+      "success_probability": 0.613,
+      "type": "graph_transitivity"
+    },
+    {
+      "hypothesis": "ContextLength and Latency may be related",
+      "success_probability": 0.613,
+      "type": "graph_transitivity"
+    },
+    {
+      "hypothesis": "ContextLength --partially_supports--> Latency",
+      "success_probability": 0.613,
+      "type": "graph_transitivity"
+    },
+    {
+      "hypothesis": "ContextLength introduces tradeoffs with MemoryOverhead",
+      "success_probability": 0.613,
+      "type": "graph_transitivity"
+    },
+    {
+      "hypothesis": "ContextLength introduces tradeoffs with ModelAccuracy",
+      "success_probability": 0.613,
+      "type": "graph_transitivity"
+    },
+    {
+      "hypothesis": "ContextLength supports efficiency improvements in Latency",
+      "success_probability": 0.613,
+      "type": "graph_transitivity"
+    }
+  ],
+  "field_trajectory": [
+    {
+      "step": 0,
+      "year_offset": 0.0,
+      "avg_field_score": 0.6219
+    },
+    {
+      "step": 1,
+      "year_offset": 0.5,
+      "avg_field_score": 0.6541
+    },
+    {
+      "step": 2,
+      "year_offset": 1.0,
+      "avg_field_score": 0.6831
+    },
+    {
+      "step": 3,
+      "year_offset": 1.5,
+      "avg_field_score": 0.71
+    },
+    {
+      "step": 4,
+      "year_offset": 2.0,
+      "avg_field_score": 0.7319
+    },
+    {
+      "step": 5,
+      "year_offset": 2.5,
+      "avg_field_score": 0.7471
+    },
+    {
+      "step": 6,
+      "year_offset": 3.0,
+      "avg_field_score": 0.7596
+    },
+    {
+      "step": 7,
+      "year_offset": 3.5,
+      "avg_field_score": 0.7711
+    },
+    {
+      "step": 8,
+      "year_offset": 4.0,
+      "avg_field_score": 0.7817
+    }
+  ],
+  "roadmap": [
+    {
+      "year_offset": 0.0,
+      "label": "Current state",
+      "avg_field_score": 0.6219
+    },
+    {
+      "year_offset": 0.5,
+      "label": "Key methods mature, integration challenges emerge",
+      "avg_field_score": 0.6541
+    },
+    {
+      "year_offset": 1.0,
+      "label": "Strong efficiency gains broadly adopted",
+      "avg_field_score": 0.6831
+    },
+    {
+      "year_offset": 1.5,
+      "label": "Strong efficiency gains broadly adopted",
+      "avg_field_score": 0.71
+    },
+    {
+      "year_offset": 2.0,
+      "label": "Strong efficiency gains broadly adopted",
+      "avg_field_score": 0.7319
+    },
+    {
+      "year_offset": 2.5,
+      "label": "Strong efficiency gains broadly adopted",
+      "avg_field_score": 0.7471
+    },
+    {
+      "year_offset": 3.0,
+      "label": "Strong efficiency gains broadly adopted",
+      "avg_field_score": 0.7596
+    },
+    {
+      "year_offset": 3.5,
+      "label": "Strong efficiency gains broadly adopted",
+      "avg_field_score": 0.7711
+    },
+    {
+      "year_offset": 4.0,
+      "label": "Strong efficiency gains broadly adopted",
+      "avg_field_score": 0.7817
+    }
+  ],
+  "best_experiments": [
+    "Benchmark MixtureOfExperts on real inference cost (wall-clock latency, not just FLOPs) — dominance probability 100%",
+    "Benchmark LoRA on real inference cost (wall-clock latency, not just FLOPs) — dominance probability 100%",
+    "Investigate failure modes of MixtureOfExperts under production load — failure probability 15%",
+    "Compare MoE vs dense on real inference cost, not just parameter count — routing instability remains a key bottleneck",
+    "Evaluate sparse attention methods at 128k+ context on reasoning-heavy tasks"
+  ],
+  "hypothesis": "Does MoE improve transformer efficiency?",
+  "query": "Does MoE improve transformer efficiency?",
+  "focus_nodes": [
+    "MixtureOfExperts",
+    "TransformerEfficiency",
+    "Latency"
+  ],
+  "data_source": "kg+domain",
+  "state_summary": {
+    "nodes": 36,
+    "edges": 61,
+    "transitions": 61,
+    "hypotheses_used": 10
+  }
+}

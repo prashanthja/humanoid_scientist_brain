@@ -1,0 +1,313 @@
+{
+  "query": "Does speculative decoding improve LLM inference throughput?",
+  "timestamp": "2026-03-18 15:15:02",
+  "domain": "transformer_efficiency",
+  "proposal_verdict": "inconclusive",
+  "proposal_confidence": 0.35,
+  "proposal_explanation": "Semantic similarity exists but evidence lacks strength (strong_chunks=0/2 best_quality=0.45)",
+  "evidence_count": 10,
+  "top_papers": [
+    "Semi-Clairvoyant Scheduling of Speculative Decoding Requests to Minimize LLM Inference Latency",
+    "Open-AI model Efficient Memory Reduce Management for the Large Language Models (LLMs) Serving with Paged Attention of sharing the KV Cashes",
+    "Dynamic Adaptive Reasoning: Optimizing LLM Inference-Time Thinking via Intent-Aware Scheduling",
+    "FLASepformer: Efficient Speech Separation with Gated Focused Linear Attention Transformer",
+    "FinFormer: A Novel Transformer Architecture with Probabilistic Sparse Attention and Temporal Decay for Long-Range Stock Price Forecasting",
+    "EMPIRIC: Exploring Missing Pieces in KV Cache Compression for Reducing Computation, Storage, and Latency in Long-Context LLM Inference",
+    "Low-Rank SVD Compression for Memory-Efficient Transformer Attention",
+    "Competitive Non-Clairvoyant KV-Cache Scheduling for LLM Inference"
+  ],
+  "extracted_claim_count": 10,
+  "top_claims": [
+    {
+      "claim": "show that LLM improves the throughput of popular LLMs by 2-4× with the same level of latency compared to the state-of-the-art systems, such as Faster Transformer and Orca.",
+      "paper_title": "Open-AI model Efficient Memory Reduce Management for the Large Language Models (LLMs) Serving with Paged Attention of sharing the KV Cashes",
+      "domain": "transformer_efficiency"
+    },
+    {
+      "claim": "Experiments on diverse reasoning benchmarks show that IARS achieves higher reasoning quality with fewer tokens, while human evaluation and ablation studies confirm its interpretability and efficiency.",
+      "paper_title": "Dynamic Adaptive Reasoning: Optimizing LLM Inference-Time Thinking via Intent-Aware Scheduling",
+      "domain": "transformer_efficiency"
+    },
+    {
+      "claim": "Furthermore, FinFormer’s disclosed attention scores improve comprehension and accessibility of the forecasts and highlight long-range dependencies that span over 120 trading days and are nearly often overlooked by the current models.",
+      "paper_title": "FinFormer: A Novel Transformer Architecture with Probabilistic Sparse Attention and Temporal Decay for Long-Range Stock Price Forecasting",
+      "domain": "transformer_efficiency"
+    },
+    {
+      "claim": "Building upon our recent work, RocketKV, this paper introduces EMPIRIC as an oracle-based vision study, which explicitly defines theoretical bounds for accuracy, computation, and storage in KV cache compression.",
+      "paper_title": "EMPIRIC: Exploring Missing Pieces in KV Cache Compression for Reducing Computation, Storage, and Latency in Long-Context LLM Inference",
+      "domain": "transformer_efficiency"
+    },
+    {
+      "claim": "By analyzing intrinsic patterns in KV cache attention heads, EMPIRIC provides novel insights into effective token pruning without accuracy degradation.",
+      "paper_title": "EMPIRIC: Exploring Missing Pieces in KV Cache Compression for Reducing Computation, Storage, and Latency in Long-Context LLM Inference",
+      "domain": "transformer_efficiency"
+    }
+  ],
+  "grounded_claim_count": 5,
+  "supported_count": 2,
+  "contradicted_count": 0,
+  "inconclusive_count": 3,
+  "top_grounded": [
+    {
+      "claim": "Experiments on diverse reasoning benchmarks show that IARS achieves higher reasoning quality with fewer tokens, while human evaluation and ablation studies confirm its interpretability and efficiency.",
+      "claim_type": "statement",
+      "domain": "transformer_efficiency",
+      "grounding": {
+        "claim": "Experiments on diverse reasoning benchmarks show that IARS achieves higher reasoning quality with fewer tokens, while human evaluation and ablation studies confirm its interpretability and efficiency.",
+        "support_count": 1,
+        "contradict_count": 0,
+        "neutral_count": 0,
+        "total_evidence": 1,
+        "unique_sources": 1,
+        "unique_titles": 1,
+        "avg_support_score": 0.8561,
+        "avg_contradict_score": 0.0,
+        "diversity_score": 0.5,
+        "contradiction_penalty": 0.0,
+        "coverage_score": 0.1667,
+        "grounding_score": 0.9978,
+        "top_support": [
+          {
+            "text": "retraining, operating purely during inference through lightweight decoding and prompt adjustments. Experiments on diverse reasoning benchmarks show that IARS achieves higher reasoning quality with fewer tokens, while human evaluation and ablation studies confirm its interpretability and efficiency. The results demonstrate that intent-aware scheduling provides a more adaptive and effective mechanism for steering model reasoning.</jats:p>",
+            "paper_title": "Dynamic Adaptive Reasoning: Optimizing LLM Inference-Time Thinking via Intent-Aware Scheduling",
+            "source": "crossref",
+            "chunk_id": 42,
+            "verdict": "support",
+            "score": 0.8561421722173691,
+            "similarity": 0.7786802649497986,
+            "overlap": 1.0
+          }
+        ],
+        "top_contradict": []
+      },
+      "verdict": {
+        "claim": "Experiments on diverse reasoning benchmarks show that IARS achieves higher reasoning quality with fewer tokens, while human evaluation and ablation studies confirm its interpretability and efficiency.",
+        "verdict": "partially_supported",
+        "confidence": 0.95,
+        "explanation": "Evidence leans supportive but remains mixed (support=1, contradict=0, neutral=0).",
+        "grounding_score": 0.9978,
+        "support_count": 1,
+        "contradict_count": 0,
+        "neutral_count": 0,
+        "total_evidence": 1
+      }
+    },
+    {
+      "claim": "FLA-SepReformer-T/B/L increases speed by 2.29x, 1.91x, and 1.49x, with 15.8%, 20.9%, and 31.9% GPU memory usage, proving our model's effectiveness.",
+      "claim_type": "statement",
+      "domain": "unknown",
+      "grounding": {
+        "claim": "FLA-SepReformer-T/B/L increases speed by 2.29x, 1.91x, and 1.49x, with 15.8%, 20.9%, and 31.9% GPU memory usage, proving our model's effectiveness.",
+        "support_count": 1,
+        "contradict_count": 0,
+        "neutral_count": 0,
+        "total_evidence": 1,
+        "unique_sources": 1,
+        "unique_titles": 1,
+        "avg_support_score": 0.8409,
+        "avg_contradict_score": 0.0,
+        "diversity_score": 0.5,
+        "contradiction_penalty": 0.0,
+        "coverage_score": 0.1667,
+        "grounding_score": 0.9825,
+        "top_support": [
+          {
+            "text": "tion and faster inference. FLA-SepReformer-T/B/L increases speed by 2.29x, 1.91x, and 1.49x, with 15.8%, 20.9%, and 31.9% GPU memory usage, proving our model's effectiveness.",
+            "paper_title": "FLASepformer: Efficient Speech Separation with Gated Focused Linear Attention Transformer",
+            "source": "semantic_scholar",
+            "chunk_id": 12,
+            "verdict": "support",
+            "score": 0.8408810257911682,
+            "similarity": 0.7552015781402588,
+            "overlap": 1.0
+          }
+        ],
+        "top_contradict": []
+      },
+      "verdict": {
+        "claim": "FLA-SepReformer-T/B/L increases speed by 2.29x, 1.91x, and 1.49x, with 15.8%, 20.9%, and 31.9% GPU memory usage, proving our model's effectiveness.",
+        "verdict": "partially_supported",
+        "confidence": 0.95,
+        "explanation": "Evidence leans supportive but remains mixed (support=1, contradict=0, neutral=0).",
+        "grounding_score": 0.9825,
+        "support_count": 1,
+        "contradict_count": 0,
+        "neutral_count": 0,
+        "total_evidence": 1
+      }
+    },
+    {
+      "claim": "show that LLM improves the throughput of popular LLMs by 2-4× with the same level of latency compared to the state-of-the-art systems, such as Faster Transformer and Orca.",
+      "claim_type": "statement",
+      "domain": "transformer_efficiency",
+      "grounding": {
+        "claim": "show that LLM improves the throughput of popular LLMs by 2-4× with the same level of latency compared to the state-of-the-art systems, such as Faster Transformer and Orca.",
+        "support_count": 3,
+        "contradict_count": 0,
+        "neutral_count": 1,
+        "total_evidence": 4,
+        "unique_sources": 1,
+        "unique_titles": 3,
+        "avg_support_score": 0.7229,
+        "avg_contradict_score": 0.0,
+        "diversity_score": 0.75,
+        "contradiction_penalty": 0.0,
+        "coverage_score": 0.6667,
+        "grounding_score": 0.8588,
+        "top_support": [
+          {
+            "text": "show that LLM improves the throughput of popular LLMs by 2-4× with the same level of latency compared to the state-of-the-art systems, such as Faster Transformer and Orca. The improvement is more pronounced with longer sequences, larger models, and more complex decoding algorithms</jats:p>",
+            "paper_title": "Open-AI model Efficient Memory Reduce Management for the Large Language Models (LLMs) Serving with Paged Attention of sharing the KV Cashes",
+            "source": "crossref",
+            "chunk_id": 31,
+            "verdict": "support",
+            "score": 0.9190194189548493,
+            "similarity": 0.8754144906997681,
+            "overlap": 1.0
+          },
+          {
+            "text": "d-Service for Speculative Decoding (LAPS-SD). Given a number of inference requests, LAPS-SD can effectively minimize average inference latency by adaptively scheduling requests according to their features during decoding. When token acceptance rate is dynamic and execution time is difficult to estimate, LAPS-SD maintains multiple priority queues and allows request execution preemption across different queues. Once the token acceptance rate becomes stable, LAPS-SD can accurately estimate the execution time and schedule requests accordingly. Extensive experiments show that LAPS-SD reduces inference latency by approximately 39% compared to state-of-the-art scheduling methods.</jats:p>",
+            "paper_title": "Semi-Clairvoyant Scheduling of Speculative Decoding Requests to Minimize LLM Inference Latency",
+            "source": "crossref",
+            "chunk_id": 74,
+            "verdict": "support",
+            "score": 0.6602340539296468,
+            "similarity": 0.8106164932250977,
+            "overlap": 0.381
+          },
+          {
+            "text": "retraining, operating purely during inference through lightweight decoding and prompt adjustments. Experiments on diverse reasoning benchmarks show that IARS achieves higher reasoning quality with fewer tokens, while human evaluation and ablation studies confirm its interpretability and efficiency. The results demonstrate that intent-aware scheduling provides a more adaptive and effective mechanism for steering model reasoning.</jats:p>",
+            "paper_title": "Dynamic Adaptive Reasoning: Optimizing LLM Inference-Time Thinking via Intent-Aware Scheduling",
+            "source": "crossref",
+            "chunk_id": 42,
+            "verdict": "support",
+            "score": 0.5894755055507025,
+            "similarity": 0.7786802649497986,
+            "overlap": 0.2381
+          }
+        ],
+        "top_contradict": []
+      },
+      "verdict": {
+        "claim": "show that LLM improves the throughput of popular LLMs by 2-4× with the same level of latency compared to the state-of-the-art systems, such as Faster Transformer and Orca.",
+        "verdict": "supported",
+        "confidence": 0.95,
+        "explanation": "Support outweighs contradiction (support=3, contradict=0) with strong grounding=0.86.",
+        "grounding_score": 0.8588,
+        "support_count": 3,
+        "contradict_count": 0,
+        "neutral_count": 1,
+        "total_evidence": 4
+      }
+    },
+    {
+      "claim": "However, existing systems struggle because the key-value cache (KV cache) memory for each request is huge and grows and shrinks dynamically.",
+      "claim_type": "statement",
+      "domain": "transformer_efficiency",
+      "grounding": {
+        "claim": "However, existing systems struggle because the key-value cache (KV cache) memory for each request is huge and grows and shrinks dynamically.",
+        "support_count": 2,
+        "contradict_count": 0,
+        "neutral_count": 2,
+        "total_evidence": 4,
+        "unique_sources": 1,
+        "unique_titles": 3,
+        "avg_support_score": 0.5798,
+        "avg_contradict_score": 0.0,
+        "diversity_score": 0.75,
+        "contradiction_penalty": 0.0,
+        "coverage_score": 0.6667,
+        "grounding_score": 0.6066,
+        "top_support": [
+          {
+            "text": "d-Service for Speculative Decoding (LAPS-SD). Given a number of inference requests, LAPS-SD can effectively minimize average inference latency by adaptively scheduling requests according to their features during decoding. When token acceptance rate is dynamic and execution time is difficult to estimate, LAPS-SD maintains multiple priority queues and allows request execution preemption across different queues. Once the token acceptance rate becomes stable, LAPS-SD can accurately estimate the execution time and schedule requests accordingly. Extensive experiments show that LAPS-SD reduces inference latency by approximately 39% compared to state-of-the-art scheduling methods.</jats:p>",
+            "paper_title": "Semi-Clairvoyant Scheduling of Speculative Decoding Requests to Minimize LLM Inference Latency",
+            "source": "crossref",
+            "chunk_id": 74,
+            "verdict": "support",
+            "score": 0.5969007205963135,
+            "similarity": 0.8106164932250977,
+            "overlap": 0.2
+          },
+          {
+            "text": "512 tokens). Building upon our recent work, RocketKV, this paper introduces EMPIRIC as an oracle-based vision study, which explicitly defines theoretical bounds for accuracy, computation, and storage in KV cache compression. By analyzing intrinsic patterns in KV cache attention heads, EMPIRIC provides novel insights into effective token pruning without accuracy degradation. This work clarifies the overlooked elements critical to KV cache compression during decoding and optimally balances computational efficiency, storage optimization, inference latency, and accuracy. We envision that EMPIRIC will guide future research efforts toward creating scalable, efficient KV cache compression techniques, significantly improving inference performance for long context LLM inference.</jats:p>",
+            "paper_title": "EMPIRIC: Exploring Missing Pieces in KV Cache Compression for Reducing Computation, Storage, and Latency in Long-Context LLM Inference",
+            "source": "crossref",
+            "chunk_id": 36,
+            "verdict": "support",
+            "score": 0.5626461964845657,
+            "similarity": 0.7579172253608704,
+            "overlap": 0.2
+          }
+        ],
+        "top_contradict": []
+      },
+      "verdict": {
+        "claim": "However, existing systems struggle because the key-value cache (KV cache) memory for each request is huge and grows and shrinks dynamically.",
+        "verdict": "supported",
+        "confidence": 0.7066,
+        "explanation": "Support outweighs contradiction (support=2, contradict=0) with strong grounding=0.61.",
+        "grounding_score": 0.6066,
+        "support_count": 2,
+        "contradict_count": 0,
+        "neutral_count": 2,
+        "total_evidence": 4
+      }
+    },
+    {
+      "claim": "Given a number of inference requests, LAPS-SD can effectively minimize average inference latency by adaptively scheduling requests according to their features during decoding.",
+      "claim_type": "statement",
+      "domain": "transformer_efficiency",
+      "grounding": {
+        "claim": "Given a number of inference requests, LAPS-SD can effectively minimize average inference latency by adaptively scheduling requests according to their features during decoding.",
+        "support_count": 1,
+        "contradict_count": 0,
+        "neutral_count": 1,
+        "total_evidence": 2,
+        "unique_sources": 1,
+        "unique_titles": 1,
+        "avg_support_score": 0.8769,
+        "avg_contradict_score": 0.0,
+        "diversity_score": 0.5,
+        "contradiction_penalty": 0.0,
+        "coverage_score": 0.3333,
+        "grounding_score": 0.6218,
+        "top_support": [
+          {
+            "text": "d-Service for Speculative Decoding (LAPS-SD). Given a number of inference requests, LAPS-SD can effectively minimize average inference latency by adaptively scheduling requests according to their features during decoding. When token acceptance rate is dynamic and execution time is difficult to estimate, LAPS-SD maintains multiple priority queues and allows request execution preemption across different queues. Once the token acceptance rate becomes stable, LAPS-SD can accurately estimate the execution time and schedule requests accordingly. Extensive experiments show that LAPS-SD reduces inference latency by approximately 39% compared to state-of-the-art scheduling methods.</jats:p>",
+            "paper_title": "Semi-Clairvoyant Scheduling of Speculative Decoding Requests to Minimize LLM Inference Latency",
+            "source": "crossref",
+            "chunk_id": 74,
+            "verdict": "support",
+            "score": 0.8769007205963135,
+            "similarity": 0.8106164932250977,
+            "overlap": 1.0
+          }
+        ],
+        "top_contradict": []
+      },
+      "verdict": {
+        "claim": "Given a number of inference requests, LAPS-SD can effectively minimize average inference latency by adaptively scheduling requests according to their features during decoding.",
+        "verdict": "partially_supported",
+        "confidence": 0.6218,
+        "explanation": "Evidence leans supportive but remains mixed (support=1, contradict=0, neutral=1).",
+        "grounding_score": 0.6218,
+        "support_count": 1,
+        "contradict_count": 0,
+        "neutral_count": 1,
+        "total_evidence": 2
+      }
+    }
+  ],
+  "knowledge_gaps": [
+    "Many claims are inconclusive — evidence exists but lacks benchmark numbers or experimental results.",
+    "No contradicting evidence found — this may indicate limited coverage of papers reporting failure cases or trade-offs."
+  ],
+  "next_actions": [
+    "Pick 1 concrete intervention and convert it into a falsifiable claim (inputs → mechanism → measurable outputs).",
+    "Run targeted retrieval using 3–5 specific transformer-efficiency keywords and compare results.",
+    "Prioritize evidence chunks with benchmark numbers (latency, throughput, memory, perplexity, context length).",
+    "Generate an experiment plan: baseline, efficiency metric, quality metric, ablations, acceptance threshold."
+  ]
+}

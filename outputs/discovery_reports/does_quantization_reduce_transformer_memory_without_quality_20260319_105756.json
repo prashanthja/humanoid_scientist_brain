@@ -1,0 +1,228 @@
+{
+  "query": "Does quantization reduce transformer memory without quality loss?",
+  "timestamp": "2026-03-19 10:57:56",
+  "domain": "transformer_efficiency",
+  "proposal_verdict": "supported",
+  "proposal_confidence": 0.7430371131896972,
+  "proposal_explanation": "Evidence from multiple sources confirms this claim with experimental results.",
+  "evidence_count": 10,
+  "top_papers": [
+    "Mixture of Attention Schemes (MoAS): Learning to Route Between MHA, GQA, and MQA",
+    "Optimizing Inference in Transformer-Based Models: A Multi-Method Benchmark",
+    "MLPMoE: Zero-Shot Architectural Metamorphosis of Dense LLM MLPs into Static Mixture-of-Experts",
+    "MLKV: Multi-Layer Key-Value Heads for Memory Efficient Transformer Decoding",
+    "End-to-End On-Device Quantization-Aware Training for LLMs at Inference Cost",
+    "Low-Rank SVD Compression for Memory-Efficient Transformer Attention",
+    "Oaken: Fast and Efficient LLM Serving with Online-Offline Hybrid KV Cache Quantization",
+    "A Quantization-Aware Optimization Framework for Efficient Deep Neural Network Inference"
+  ],
+  "extracted_claim_count": 10,
+  "top_claims": [
+    {
+      "claim": "The method operates entirely post hoc on existing checkpoints and does not require gradients, calibration sets, or router training.",
+      "paper_title": "MLPMoE: Zero-Shot Architectural Metamorphosis of Dense LLM MLPs into Static Mixture-of-Experts",
+      "domain": "transformer_efficiency"
+    },
+    {
+      "claim": "Efficient inference is a critical challenge in deep generative modeling, particularly as diffusion models grow in capacity and complexity.",
+      "paper_title": "Optimizing Inference in Transformer-Based Models: A Multi-Method Benchmark",
+      "domain": "transformer_efficiency"
+    },
+    {
+      "claim": "While increased complexity often improves accuracy, it raises compute costs, latency, and memory requirements.",
+      "paper_title": "Optimizing Inference in Transformer-Based Models: A Multi-Method Benchmark",
+      "domain": "transformer_efficiency"
+    },
+    {
+      "claim": "This work investigates techniques such as pruning, quantization, knowledge distillation, and simplified attention to reduce computational overhead without impacting performance.",
+      "paper_title": "Optimizing Inference in Transformer-Based Models: A Multi-Method Benchmark",
+      "domain": "transformer_efficiency"
+    },
+    {
+      "claim": "The choice of attention mechanism in Transformer models involves a critical trade-off between modeling quality and inference efficiency.",
+      "paper_title": "Mixture of Attention Schemes (MoAS): Learning to Route Between MHA, GQA, and MQA",
+      "domain": "transformer_efficiency"
+    }
+  ],
+  "grounded_claim_count": 5,
+  "supported_count": 0,
+  "contradicted_count": 0,
+  "inconclusive_count": 5,
+  "top_grounded": [
+    {
+      "claim": "The choice of attention mechanism in Transformer models involves a critical trade-off between modeling quality and inference efficiency.",
+      "claim_type": "statement",
+      "domain": "transformer_efficiency",
+      "grounding": {
+        "claim": "The choice of attention mechanism in Transformer models involves a critical trade-off between modeling quality and inference efficiency.",
+        "support_count": 0,
+        "contradict_count": 0,
+        "neutral_count": 6,
+        "total_evidence": 6,
+        "unique_sources": 1,
+        "unique_titles": 6,
+        "avg_support_score": 0.0,
+        "avg_contradict_score": 0.0,
+        "diversity_score": 0.75,
+        "contradiction_penalty": 0.0,
+        "coverage_score": 1.0,
+        "grounding_score": 0.4,
+        "top_support": [],
+        "top_contradict": []
+      },
+      "verdict": {
+        "claim": "The choice of attention mechanism in Transformer models involves a critical trade-off between modeling quality and inference efficiency.",
+        "verdict": "inconclusive",
+        "confidence": 0.4,
+        "explanation": "Evidence is mixed or insufficient (support=0, contradict=0, neutral=6).",
+        "grounding_score": 0.4,
+        "support_count": 0,
+        "contradict_count": 0,
+        "neutral_count": 6,
+        "total_evidence": 6
+      }
+    },
+    {
+      "claim": "Multi-Query Attention (MQA) and Grouped-Query Attention (GQA) reduce memory usage but often at the cost of model performance.",
+      "claim_type": "statement",
+      "domain": "transformer_efficiency",
+      "grounding": {
+        "claim": "Multi-Query Attention (MQA) and Grouped-Query Attention (GQA) reduce memory usage but often at the cost of model performance.",
+        "support_count": 0,
+        "contradict_count": 0,
+        "neutral_count": 5,
+        "total_evidence": 5,
+        "unique_sources": 1,
+        "unique_titles": 5,
+        "avg_support_score": 0.0,
+        "avg_contradict_score": 0.0,
+        "diversity_score": 0.75,
+        "contradiction_penalty": 0.0,
+        "coverage_score": 0.8333,
+        "grounding_score": 0.3583,
+        "top_support": [],
+        "top_contradict": []
+      },
+      "verdict": {
+        "claim": "Multi-Query Attention (MQA) and Grouped-Query Attention (GQA) reduce memory usage but often at the cost of model performance.",
+        "verdict": "inconclusive",
+        "confidence": 0.3583,
+        "explanation": "Evidence is mixed or insufficient (support=0, contradict=0, neutral=5).",
+        "grounding_score": 0.3583,
+        "support_count": 0,
+        "contradict_count": 0,
+        "neutral_count": 5,
+        "total_evidence": 5
+      }
+    },
+    {
+      "claim": "Multi-Head Attention (MHA) offers the best quality but suffers from large Key-Value (KV) cache memory requirements during inference.",
+      "claim_type": "statement",
+      "domain": "transformer_efficiency",
+      "grounding": {
+        "claim": "Multi-Head Attention (MHA) offers the best quality but suffers from large Key-Value (KV) cache memory requirements during inference.",
+        "support_count": 0,
+        "contradict_count": 0,
+        "neutral_count": 3,
+        "total_evidence": 3,
+        "unique_sources": 1,
+        "unique_titles": 3,
+        "avg_support_score": 0.0,
+        "avg_contradict_score": 0.0,
+        "diversity_score": 0.75,
+        "contradiction_penalty": 0.0,
+        "coverage_score": 0.5,
+        "grounding_score": 0.275,
+        "top_support": [],
+        "top_contradict": []
+      },
+      "verdict": {
+        "claim": "Multi-Head Attention (MHA) offers the best quality but suffers from large Key-Value (KV) cache memory requirements during inference.",
+        "verdict": "inconclusive",
+        "confidence": 0.275,
+        "explanation": "Evidence is mixed or insufficient (support=0, contradict=0, neutral=3).",
+        "grounding_score": 0.275,
+        "support_count": 0,
+        "contradict_count": 0,
+        "neutral_count": 3,
+        "total_evidence": 3
+      }
+    },
+    {
+      "claim": "Efficient inference is a critical challenge in deep generative modeling, particularly as diffusion models grow in capacity and complexity.",
+      "claim_type": "statement",
+      "domain": "transformer_efficiency",
+      "grounding": {
+        "claim": "Efficient inference is a critical challenge in deep generative modeling, particularly as diffusion models grow in capacity and complexity.",
+        "support_count": 0,
+        "contradict_count": 0,
+        "neutral_count": 3,
+        "total_evidence": 3,
+        "unique_sources": 1,
+        "unique_titles": 3,
+        "avg_support_score": 0.0,
+        "avg_contradict_score": 0.0,
+        "diversity_score": 0.75,
+        "contradiction_penalty": 0.0,
+        "coverage_score": 0.5,
+        "grounding_score": 0.275,
+        "top_support": [],
+        "top_contradict": []
+      },
+      "verdict": {
+        "claim": "Efficient inference is a critical challenge in deep generative modeling, particularly as diffusion models grow in capacity and complexity.",
+        "verdict": "inconclusive",
+        "confidence": 0.275,
+        "explanation": "Evidence is mixed or insufficient (support=0, contradict=0, neutral=3).",
+        "grounding_score": 0.275,
+        "support_count": 0,
+        "contradict_count": 0,
+        "neutral_count": 3,
+        "total_evidence": 3
+      }
+    },
+    {
+      "claim": "While increased complexity often improves accuracy, it raises compute costs, latency, and memory requirements.",
+      "claim_type": "statement",
+      "domain": "transformer_efficiency",
+      "grounding": {
+        "claim": "While increased complexity often improves accuracy, it raises compute costs, latency, and memory requirements.",
+        "support_count": 0,
+        "contradict_count": 0,
+        "neutral_count": 3,
+        "total_evidence": 3,
+        "unique_sources": 1,
+        "unique_titles": 3,
+        "avg_support_score": 0.0,
+        "avg_contradict_score": 0.0,
+        "diversity_score": 0.75,
+        "contradiction_penalty": 0.0,
+        "coverage_score": 0.5,
+        "grounding_score": 0.275,
+        "top_support": [],
+        "top_contradict": []
+      },
+      "verdict": {
+        "claim": "While increased complexity often improves accuracy, it raises compute costs, latency, and memory requirements.",
+        "verdict": "inconclusive",
+        "confidence": 0.275,
+        "explanation": "Evidence is mixed or insufficient (support=0, contradict=0, neutral=3).",
+        "grounding_score": 0.275,
+        "support_count": 0,
+        "contradict_count": 0,
+        "neutral_count": 3,
+        "total_evidence": 3
+      }
+    }
+  ],
+  "knowledge_gaps": [
+    "Many claims are inconclusive — evidence exists but lacks benchmark numbers or experimental results.",
+    "No contradicting evidence found — this may indicate limited coverage of papers reporting failure cases or trade-offs."
+  ],
+  "next_actions": [
+    "Pick 1 concrete intervention and convert it into a falsifiable claim (inputs → mechanism → measurable outputs).",
+    "Run targeted retrieval using 3–5 specific transformer-efficiency keywords and compare results.",
+    "Prioritize evidence chunks with benchmark numbers (latency, throughput, memory, perplexity, context length).",
+    "Generate an experiment plan: baseline, efficiency metric, quality metric, ablations, acceptance threshold."
+  ]
+}

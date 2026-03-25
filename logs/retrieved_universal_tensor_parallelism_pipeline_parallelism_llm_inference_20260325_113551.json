@@ -1,0 +1,23 @@
+[
+  {
+    "title": "Optimizing Large Language Model Scaling with Micro Batch Pipeline and Inference Parallelism",
+    "text": "<title>Abstract</title> <p>Natural language processing has seen transformative progress with the development of sophisticated models capable of generating and understanding human language with high accuracy. The novel concept of integrating micro batch pipeline and inference parallelism represents a significant leap in optimizing the scalability and efficiency of these models. Through comprehensive experimentation with a modified GPT-Neo, substantial improvements were achieved in throughput, latency, perplexity, and BLEU scores, highlighting the effectiveness of the proposed methodologies. The enhanced model demonstrated superior performance in processing large datasets, maintaining high accuracy and quality of outputs, thereby addressing critical bottlenecks in computational load and resource constraints. The study demonstrates the potential of advanced parallelism techniques in revolutionizing model training and deployment, contributing valuable insights into the future of natural language processing and artificial intelligence.</p>",
+    "url": "https://doi.org/10.21203/rs.3.rs-4575587/v1",
+    "source": "crossref",
+    "timestamp": 2024
+  },
+  {
+    "title": "Pipeline Parallelism with Reduced Network Communications for Efficient Compute-intensive Neural Network Training",
+    "text": "<jats:title>Abstract</jats:title> <jats:p>Pipeline parallelism is a distributed deep neural network training method suitable for tasks that consume large amounts of memory. However, this method entails a large amount of overhead because of the dependency between devices in performing forward and backward steps through multiple devices. A method to remove forward step dependency through the all-to-all approach has been proposed for the compute-intensive models; however, this method incurs large overhead when training with a large number of devices and is inefficient in terms of weight memory consumption. Therefore, we propose a pipeline parallelism method that reduces network communication using a self-generation concept and simultaneously reduces overhead by minimizing the weight memory used for acceleration. In a Darknet53 training throughput experiment using six devices, the proposed method showed excellent performance of approximately 63.7% compared to the baseline by reduced overhead and communication costs and showed less memory consumption of approximately 17.0%.</jats:p>",
+    "url": "https://doi.org/10.21203/rs.3.rs-3596530/v1",
+    "source": "crossref",
+    "timestamp": 2023
+  },
+  {
+    "title": "Tensor Fields and Their Parallelism",
+    "text": "<jats:p>Much has been studied about an almost complex structure these ten years. One of the problems about the structure is to find an affine connection which makes a given almost complex tensor field parallel. A Riemannian connection is a one without torsion for which the fundamental tensor field of a Riemannian manifold is parallel. Affine connections on the group manifold were investigated fully by E. Cartan in [1]. In this paper we treat in general some tensor fields and affine connections which make the fields parallel. Moreover some studies about certain tensor fields are given.</jats:p>",
+    "url": "https://doi.org/10.1017/s0027763000002282",
+    "source": "crossref",
+    "timestamp": 1961
+  }
+]

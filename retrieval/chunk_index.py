@@ -1,13 +1,11 @@
 # retrieval/chunk_index.py
 # ------------------------------------------------------------
 # ChunkIndex — embed + retrieve chunk evidence (dedupe + Hybrid + MMR)
-# - Saves meta.json and vecs.npy
-# - NEW:
-#   * Dedupe chunks by text hash
-#   * BM25 lexical index with disk cache (data/bm25_index.pkl)
-#   * Hybrid scoring: 0.75*embedding + 0.25*bm25_norm
-#   * Lexical gate: drop items with bm25==0 AND keyword_overlap < threshold
-#   * MMR on hybrid relevance (diversity penalty via embedding cosine)
+# MVP upgrade:
+# - domain-aware retrieval for transformer-efficiency queries
+# - stronger lexical gating
+# - domain score bonus / off-domain penalty
+# - wider candidate pool from both embedding and BM25
 # ------------------------------------------------------------
 
 from __future__ import annotations
@@ -17,7 +15,7 @@ import time
 import hashlib
 import pickle
 import re
-from typing import List, Dict, Any, Optional
+from typing import List, Dict, Any, Optional, Tuple
 
 import numpy as np
 
@@ -25,7 +23,7 @@ from retrieval.bm25 import BM25Index
 
 BM25_PATH = "data/bm25_index.pkl"
 
-_WORD_RE = re.compile(r"\b[a-zA-Z]{4,}\b")
+_WORD_RE = re.compile(r"\b[a-zA-Z][a-zA-Z0-9_\-]{2,}\b")
 
 
 def _now() -> str:
@@ -50,53 +48,153 @@ def _text_hash(t: str) -> str:
     return hashlib.sha1(t.encode("utf-8", errors="ignore")).hexdigest()
 
 
-def _keyword_overlap(a: str, b: str) -> float:
-    # Very small + fast overlap gate (NOT semantics, just sanity)
-    def toks(x: str) -> set[str]:
-        words = _WORD_RE.findall((x or "").lower())
-        stop = {
-            "this", "that", "with", "from", "into", "have", "been", "were", "their",
-            "which", "also", "there", "these", "those", "about", "under", "between",
-            "while", "where", "when", "what", "will", "would", "could", "should"
-        }
-        return {w for w in words if w not in stop}
+def _tokenize(x: str) -> set[str]:
+    words = _WORD_RE.findall((x or "").lower())
+    stop = {
+        "this", "that", "with", "from", "into", "have", "been", "were", "their",
+        "which", "also", "there", "these", "those", "about", "under", "between",
+        "while", "where", "when", "what", "will", "would", "could", "should",
+        "using", "used", "than", "then", "they", "them", "such", "much", "more",
+        "less", "some", "many", "most", "very", "does", "doesnt", "over",
+        "improve", "improves", "improved", "quality", "efficient", "efficiency",
+        "reduce", "reduces", "reduced", "performance"
+    }
+    return {w for w in words if w not in stop and len(w) >= 3}
 
-    A = toks(a)
-    B = toks(b)
+
+def _keyword_overlap(a: str, b: str) -> float:
+    A = _tokenize(a)
+    B = _tokenize(b)
     if not A or not B:
         return 0.0
     return float(len(A & B)) / float(len(A | B))
 
-def _anchor_terms_from_query(q: str) -> set[str]:
-    ql = (q or "").lower()
 
-    anchors = {
-        # quantum anchors
-        "schrodinger", "schrödinger", "wavefunction", "born",
-        "measurement", "superposition", "collapse",
-        "postulate", "eigenstate", "eigenvalue",
-        "operator", "hilbert", "commutator",
+# ------------------------------------------------------------
+# Domain profiles
+# ------------------------------------------------------------
 
-        # physics/math anchors (generic safety)
-        "lagrangian", "hamiltonian", "tensor",
-        "entropy", "thermodynamics", "relativity",
-    }
+_TRANSFORMER_TERMS = {
+    "transformer", "attention", "self-attention", "self attention",
+    "flashattention", "flash-attention",
+    "sparse", "sparse attention", "linear attention",
+    "long-context", "long context", "context length",
+    "mixture-of-experts", "mixture of experts", "moe",
+    "router", "routing", "expert", "experts",
+    "kv", "kv-cache", "kv cache", "cache",
+    "inference", "latency", "throughput", "memory",
+    "token", "tokens", "sequence", "context",
+    "prefill", "decode", "decoding",
+    "bandwidth", "quadratic", "subquadratic",
+    "llm", "language model", "language models",
+    "benchmark", "perplexity"
+}
 
-    present = {a for a in anchors if a in ql}
+_SPACE_TERMS = {
+    "space", "orbital", "orbit", "satellite", "propulsion", "rocket",
+    "spacecraft", "astrodynamics", "planetary", "mars", "moon",
+    "lunar", "deep space", "launch", "gravity assist", "payload",
+    "thruster", "aerospace", "trajectory"
+}
 
-    # if quantum mentioned, force quantum anchor
-    if "quantum" in ql:
-        present.add("quantum")
 
-    return present
+def _detect_domain_profile(query: str) -> str:
+    q = (query or "").lower()
+
+    if any(t in q for t in _TRANSFORMER_TERMS):
+        return "transformer_efficiency"
+
+    if any(t in q for t in _SPACE_TERMS):
+        return "space"
+
+    return "generic"
+
+
+def _profile_terms(profile: str) -> set[str]:
+    if profile == "transformer_efficiency":
+        return _TRANSFORMER_TERMS
+    if profile == "space":
+        return _SPACE_TERMS
+    return set()
+
+
+def _count_profile_hits(text: str, profile_terms: set[str]) -> int:
+    low = (text or "").lower()
+    return sum(1 for t in profile_terms if t in low)
+
+
+def _domain_score(query: str, title: str, preview: str, full_text: str = "") -> Tuple[float, int]:
+    """
+    Returns:
+      (domain_score, hit_count)
+
+    domain_score:
+      + positive if query/chunk domain align
+      - penalty if obviously off-domain for targeted MVP queries
+    """
+    profile = _detect_domain_profile(query)
+    if profile == "generic":
+        return 0.0, 0
+
+    terms = _profile_terms(profile)
+    hay = f"{title} {preview} {full_text}".lower()
+    hits = _count_profile_hits(hay, terms)
+
+    if profile == "transformer_efficiency":
+        # strong preference for chunks that actually mention the domain
+        if hits >= 4:
+            return 0.22, hits
+        if hits >= 2:
+            return 0.12, hits
+        if hits == 1:
+            return 0.04, hits
+        return -0.22, hits
+
+    if profile == "space":
+        if hits >= 4:
+            return 0.22, hits
+        if hits >= 2:
+            return 0.12, hits
+        if hits == 1:
+            return 0.04, hits
+        return -0.22, hits
+
+    return 0.0, hits
+
+
+def _query_anchor_terms(query: str) -> set[str]:
+    """
+    Extract a stronger set of must-care anchor terms from the query itself.
+    """
+    q = (query or "").lower()
+    anchors = set()
+
+    anchor_candidates = [
+        "flashattention", "flash-attention",
+        "mixture-of-experts", "mixture of experts", "moe",
+        "sparse attention", "linear attention",
+        "kv-cache", "kv cache",
+        "long context", "long-context", "context length",
+        "transformer", "attention", "latency", "throughput", "memory",
+        "inference", "perplexity"
+    ]
+    for a in anchor_candidates:
+        if a in q:
+            anchors.add(a)
+
+    # generic fallback for targeted profile
+    if not anchors and _detect_domain_profile(query) == "transformer_efficiency":
+        anchors.update({"transformer", "attention"})
+
+    return anchors
+
 
 def _mmr(
-    rel: np.ndarray,           # (N,) relevance scores (use hybrid)
-    vecs: np.ndarray,          # (N, D) normalized embedding vecs
+    rel: np.ndarray,
+    vecs: np.ndarray,
     k: int,
-    lambda_mult: float = 0.75,  # higher = more relevance, lower = more diversity
+    lambda_mult: float = 0.75,
 ) -> List[int]:
-    """Maximal Marginal Relevance selection indices."""
     N = int(rel.shape[0])
     if N == 0 or k <= 0:
         return []
@@ -110,7 +208,7 @@ def _mmr(
     remaining.remove(first)
 
     while len(selected) < k and remaining:
-        sel_vecs = vecs[np.array(selected, dtype=int)]  # (S, D)
+        sel_vecs = vecs[np.array(selected, dtype=int)]
         best_i = None
         best_score = -1e9
 
@@ -134,18 +232,17 @@ class ChunkIndex:
     def __init__(
         self,
         chunk_store,
-        encoder,               # EmbeddingBridge or OnlineTrainer
+        encoder,
         cache_dir: str = "data",
         max_items: int = 8000,
         chunk_batch: int = 64,
-        embed_max_len: int = 256,   # keep consistent across index + query
+        embed_max_len: int = 256,
         dedupe: bool = True,
         mmr_lambda: float = 0.75,
-
-        # Hybrid retrieval knobs (Option A)
-        hybrid_alpha: float = 0.75,         # weight for embedding similarity
-        bm25_beta: float = 0.25,            # weight for normalized bm25
-        gate_keyword_overlap: float = 0.02  # lexical gate threshold
+        hybrid_alpha: float = 0.62,
+        bm25_beta: float = 0.23,
+        domain_gamma: float = 1.0,
+        gate_keyword_overlap: float = 0.03,
     ):
         self.chunk_store = chunk_store
         self.encoder = encoder
@@ -159,6 +256,7 @@ class ChunkIndex:
 
         self.hybrid_alpha = float(hybrid_alpha)
         self.bm25_beta = float(bm25_beta)
+        self.domain_gamma = float(domain_gamma)
         self.gate_keyword_overlap = float(gate_keyword_overlap)
 
         os.makedirs(cache_dir, exist_ok=True)
@@ -169,14 +267,10 @@ class ChunkIndex:
         self.items: List[Dict[str, Any]] = []
         self.vecs: np.ndarray = np.zeros((0, 256), dtype=np.float32)
         self.dim: int = 256
-
         self.bm25: Optional[BM25Index] = None
 
         self._load_or_rebuild()
 
-    # -----------------------
-    # Encoding
-    # -----------------------
     def _encode(self, texts: List[str]) -> np.ndarray:
         texts = [str(t or "") for t in texts]
 
@@ -198,9 +292,6 @@ class ChunkIndex:
 
         raise RuntimeError("encoder must expose encode_texts() or embed()")
 
-    # -----------------------
-    # Load / rebuild
-    # -----------------------
     def _load_or_rebuild(self):
         try:
             if os.path.exists(self.meta_path) and os.path.exists(self.vec_path):
@@ -225,14 +316,12 @@ class ChunkIndex:
                 self.vecs = vecs.astype(np.float32)
                 self.dim = dim
 
-                # load bm25 if present
                 if os.path.exists(self.bm25_path):
                     try:
                         with open(self.bm25_path, "rb") as f:
                             self.bm25 = pickle.load(f)
                     except Exception:
                         self.bm25 = None
-
                 return
         except Exception:
             pass
@@ -240,11 +329,12 @@ class ChunkIndex:
         self.rebuild()
 
     def rebuild(self):
-        raw = self.chunk_store.fetch_recent(limit=self.max_items)  # expects list[dict]
+        raw = self.chunk_store.fetch_recent(limit=self.max_items)
 
-        # --- Dedupe by normalized text hash ---
         items: List[Dict[str, Any]] = []
         seen = set()
+        texts: List[str] = []
+
         for x in raw:
             txt = _clean_text(x.get("text", ""))
             if not txt:
@@ -254,9 +344,10 @@ class ChunkIndex:
                 if h in seen:
                     continue
                 seen.add(h)
-            items.append(x)
 
-        texts = [x["text"] for x in items]
+            items.append(x)
+            texts.append(txt)
+
         meta_items = [{
             "chunk_id": int(x["chunk_id"]),
             "paper_title": x.get("paper_title", "") or "",
@@ -264,7 +355,6 @@ class ChunkIndex:
             "text_preview": (x.get("text", "") or "")[:240],
         } for x in items]
 
-        # embed
         vec_chunks: List[np.ndarray] = []
         for i in range(0, len(texts), self.chunk_batch):
             vec_chunks.append(self._encode(texts[i:i + self.chunk_batch]))
@@ -279,16 +369,13 @@ class ChunkIndex:
         self.items = meta_items
         self.vecs = _normalize_rows(vecs)
 
-        # build BM25
         try:
-            bm25 = BM25Index().build(texts)
-            self.bm25 = bm25
+            self.bm25 = BM25Index().build(texts)
             with open(self.bm25_path, "wb") as f:
-                pickle.dump(bm25, f)
+                pickle.dump(self.bm25, f)
         except Exception:
             self.bm25 = None
 
-        # persist vecs + meta
         np.save(self.vec_path, self.vecs)
         with open(self.meta_path, "w", encoding="utf-8") as f:
             json.dump({
@@ -301,13 +388,10 @@ class ChunkIndex:
                 "embed_max_len": int(self.embed_max_len),
                 "hybrid_alpha": float(self.hybrid_alpha),
                 "bm25_beta": float(self.bm25_beta),
+                "domain_gamma": float(self.domain_gamma),
                 "gate_keyword_overlap": float(self.gate_keyword_overlap),
                 "bm25_enabled": bool(self.bm25 is not None),
             }, f, indent=2, ensure_ascii=False)
-
-    # -----------------------
-    # Retrieval
-    # -----------------------
 
     def retrieve(
         self,
@@ -316,16 +400,14 @@ class ChunkIndex:
         use_mmr: bool = True,
         mmr_lambda: Optional[float] = None,
         gate: bool = True,
+        debug: bool = False,
     ) -> List[Dict[str, Any]]:
-
         if self.vecs is None or self.vecs.shape[0] == 0:
             return []
 
         q = (query or "").strip()
         if not q:
             return []
-
-        anchors = _anchor_terms_from_query(q)
 
         qv = self._encode([q])
         if qv.size == 0:
@@ -339,14 +421,8 @@ class ChunkIndex:
                 return []
             qv = _normalize_rows(self._encode([q]))[0]
 
-        # ----------------------------
-        # Embedding similarity
-        # ----------------------------
         sim_emb_all = (self.vecs @ qv).astype(np.float32)
 
-        # ----------------------------
-        # BM25 lexical similarity
-        # ----------------------------
         bm25_scores_sparse: Dict[int, float] = {}
         if self.bm25 is not None:
             try:
@@ -354,53 +430,72 @@ class ChunkIndex:
             except Exception:
                 bm25_scores_sparse = {}
 
-        if bm25_scores_sparse:
-            max_bm25 = max(bm25_scores_sparse.values())
-            max_bm25 = max(max_bm25, 1e-8)
-        else:
-            max_bm25 = 1.0
+        max_bm25 = max(bm25_scores_sparse.values()) if bm25_scores_sparse else 1.0
+        max_bm25 = max(max_bm25, 1e-8)
 
-        # ----------------------------
-        # Candidate selection
-        # ----------------------------
+        # use BOTH emb and bm25 to build candidate set
+        emb_pre_k = min(int(top_k) * 80, int(sim_emb_all.shape[0]))
+        emb_pre = set(np.argsort(-sim_emb_all)[:emb_pre_k].tolist())
+
+        bm25_pre = set()
+        if bm25_scores_sparse:
+            bm25_sorted = sorted(bm25_scores_sparse.items(), key=lambda kv: kv[1], reverse=True)
+            bm25_pre = {int(i) for i, _ in bm25_sorted[:emb_pre_k]}
+
+        pre = list(emb_pre | bm25_pre)
+        if not pre:
+            return []
+
+        anchors = _query_anchor_terms(q)
+        profile = _detect_domain_profile(q)
+
         cand_idx = []
         sim_emb = []
         sim_bm25 = []
         rel_hyb = []
-
-        pre_k = min(int(top_k) * 50, int(sim_emb_all.shape[0]))
-        pre = np.argsort(-sim_emb_all)[:pre_k].tolist()
+        domain_scores = []
+        profile_hits_list = []
 
         for i in pre:
             emb_score = float(sim_emb_all[i])
             bm25_raw = float(bm25_scores_sparse.get(i, 0.0))
             bm25_norm = float(bm25_raw / max_bm25)
 
-            hyb = self.hybrid_alpha * emb_score + self.bm25_beta * bm25_norm
-
             preview = (self.items[i].get("text_preview") or "")
             title = (self.items[i].get("paper_title") or "")
-            hay = (title + " " + preview).lower()
+            hay = f"{title} {preview}".lower()
 
-            # ----------------------------
-            # Anchor gate (NEW — critical)
-            # ----------------------------
+            # anchor gate for targeted MVP
             if anchors:
-                if not any(a in hay for a in anchors):
+                anchor_hit = any(a in hay for a in anchors)
+                if not anchor_hit and profile != "generic":
+                    # allow only if bm25 is strong enough to justify survival
+                    if bm25_norm < 0.18:
+                        continue
+
+            # lexical sanity gate
+            if gate and (bm25_raw <= 0.0):
+                ov = _keyword_overlap(q, hay)
+                if ov < self.gate_keyword_overlap and profile != "generic":
                     continue
 
-            # ----------------------------
-            # Lexical sanity gate
-            # ----------------------------
-            if gate and (bm25_raw <= 0.0):
-                ov = _keyword_overlap(q, preview)
-                if ov < self.gate_keyword_overlap:
-                    continue
+            d_score, hit_count = _domain_score(q, title, preview, "")
+            hyb = (
+                self.hybrid_alpha * emb_score
+                + self.bm25_beta * bm25_norm
+                + self.domain_gamma * d_score
+            )
+
+            # hard off-domain rejection for targeted profile if both semantic+lexical are weak
+            if profile != "generic" and hit_count == 0 and emb_score < 0.68 and bm25_norm < 0.12:
+                continue
 
             cand_idx.append(int(i))
             sim_emb.append(emb_score)
             sim_bm25.append(bm25_norm)
             rel_hyb.append(hyb)
+            domain_scores.append(float(d_score))
+            profile_hits_list.append(int(hit_count))
 
         if not cand_idx:
             return []
@@ -409,9 +504,6 @@ class ChunkIndex:
         sim_bm25 = np.asarray(sim_bm25, dtype=np.float32)
         rel_hyb = np.asarray(rel_hyb, dtype=np.float32)
 
-        # ----------------------------
-        # MMR selection (diversity)
-        # ----------------------------
         k = min(int(top_k), int(rel_hyb.shape[0]))
 
         if use_mmr:
@@ -423,16 +515,17 @@ class ChunkIndex:
             chosen_emb = [float(sim_emb[j]) for j in chosen_local]
             chosen_bm25 = [float(sim_bm25[j]) for j in chosen_local]
             chosen_hyb = [float(rel_hyb[j]) for j in chosen_local]
+            chosen_dom = [float(domain_scores[j]) for j in chosen_local]
+            chosen_hits = [int(profile_hits_list[j]) for j in chosen_local]
         else:
             order = np.argsort(-rel_hyb)[:k].tolist()
             chosen = [cand_idx[j] for j in order]
             chosen_emb = [float(sim_emb[j]) for j in order]
             chosen_bm25 = [float(sim_bm25[j]) for j in order]
             chosen_hyb = [float(rel_hyb[j]) for j in order]
+            chosen_dom = [float(domain_scores[j]) for j in order]
+            chosen_hits = [int(profile_hits_list[j]) for j in order]
 
-        # ----------------------------
-        # Hydrate full chunk text
-        # ----------------------------
         chunk_ids = [int(self.items[i]["chunk_id"]) for i in chosen]
         full = {int(x["chunk_id"]): x for x in self.chunk_store.fetch_by_ids(chunk_ids)}
 
@@ -442,7 +535,7 @@ class ChunkIndex:
             cid = int(m["chunk_id"])
             text = (full.get(cid, {}).get("text") or "").strip()
 
-            out.append({
+            row = {
                 "chunk_id": cid,
                 "paper_title": m.get("paper_title", ""),
                 "source": m.get("source", ""),
@@ -451,6 +544,16 @@ class ChunkIndex:
                 "similarity": float(chosen_hyb[pos]),
                 "sim_embedding": float(chosen_emb[pos]),
                 "sim_bm25": float(chosen_bm25[pos]),
-            })
+                "domain_score": float(chosen_dom[pos]),
+                "profile_hits": int(chosen_hits[pos]),
+            }
+
+            if debug:
+                row["debug"] = {
+                    "profile": profile,
+                    "keyword_overlap": _keyword_overlap(q, f"{row['paper_title']} {row['text_preview']}"),
+                }
+
+            out.append(row)
 
         return out

@@ -1,0 +1,16 @@
+[
+  {
+    "title": "AWQ: Activation-aware Weight Quantization for On-Device LLM Compression and Acceleration",
+    "text": "<jats:p>Large language models (LLMs) have transformed numerous AI applications. On-device LLM is becoming increasingly important: running LLMs locally on edge devices can reduce cloud computing costs and protect users' privacy. However, the astronomical model size and the limited hardware resources pose significant deployment challenges. To solve these issues, we propose Activation-aware Weight Quantization (AWQ) and TinyChat, an algorithm-system full-stack solution for efficient on-device LLM deployment. AWQ is a novel quantization method that identifies and protects salient weights based on activation distribution, significantly reducing model size while preserving performance. TinyChat, an optimized inference framework, translates AWQ's theoretical memory savings into practical speedups through techniques such as on-the-fly dequantization, SIMD-aware weight packing, and kernel fusion. Together, they enable 4x model size reduction and 3-4x acceleration across various edge platforms, from high-end desktop GPUs to resource-constrained IoT devices. This solution democratizes on-device LLM deployment, offering privacy-preserving, low-latency AI capabilities across a wide range of applications.</jats:p>",
+    "url": "https://doi.org/10.1145/3714983.3714987",
+    "source": "crossref",
+    "timestamp": 2025
+  },
+  {
+    "title": "Approximation-Aware and Quantization-Aware Training for Graph Neural Networks",
+    "text": "<jats:p>&lt;p&gt;Graph Neural Networks (GNNs) are one of the best-performing models for processing graph data. They are known to have considerable computational complexity, despite the smaller number of parameters compared to traditional Deep Neural Networks (DNNs). Operations-to-parameters ratio for GNNs can be tens and hundreds of times higher than for DNNs, depending on the input graph size. This complexity indicates the importance of arithmetic operation optimization within GNNs through model quantization and approximation. In this work, for the first time, we combine both approaches and implement quantization- and approximation-aware training for GNNs to sustain their accuracy under the errors induced by inexact multiplications. We employ matrix multiplication CUDA kernel to speed up the simulation of approximate multiplication within GNNs. Further, we demonstrate the execution speed, accuracy, and energy efficiency of GNNs with approximate multipliers in comparison with quantized low-bit GNNs. We evaluate the performance of state-of-the-art GNN architectures (i.e., GIN, SAGE, GCN, and GAT) on various datasets and tasks (i.e., Reddit-Binary, Collab for graph classification, Cora and PubMed for node classification) with a wide range of approximate multipliers. &lt;/p&gt;</jats:p>",
+    "url": "https://doi.org/10.36227/techrxiv.24076236",
+    "source": "crossref",
+    "timestamp": 2023
+  }
+]

@@ -1,0 +1,16 @@
+[
+  {
+    "title": "Rethinking position embedding methods in the Transformer architecture",
+    "text": "<jats:title>Abstract</jats:title> <jats:p>In the transformer architecture, as self-attention reads entire image patches at once, the context of the sequence between patches is omitted. Therefore, the position embedding method is employed to assist the self-attention layers in computing the ordering information of tokens. Although most works directly add the position vector into the corresponding token vector instead of concatenating, fewer papers give a detailed explanation except for dimensional reduction. Actually, the addition method makes no sense because token vectors and position vectors are different physical quantities and can not be simply added together. Thus, we investigate the discrepancy of learned position information in both embedding methods(concatenation and addition) and compare their performance for models. Experiments demonstrate that the concatenation method can learn more spatial information(horizontal, vertical, and angle) than the addition method and learn smoother position information in the multi-scale model. Also, an appropriate concatenating strategy can easily bring 0.1% to 0.4% performance gain for soft-of-the-art models without extra computation overhead.</jats:p>",
+    "url": "https://doi.org/10.21203/rs.3.rs-2525471/v1",
+    "source": "crossref",
+    "timestamp": 2023
+  },
+  {
+    "title": "Improved model building for cryo-EM maps using local attention and 3D rotary position embedding",
+    "text": "<jats:title>Abstract</jats:title> <jats:p> Constructing atomic models from cryogenic electron microscopy (cryo-EM) density maps is essential for interpreting molecular mechanisms. In this study, we present CryFold, an approach for <jats:italic>de novo</jats:italic> model building for cryo-EM maps, leveraging recent advancements in AlphaFold2 (1) to improve the state-of-the-art method ModelAngelo (2). To accommodate the cryo-EM map information, CryFold replaces the global attention mechanism in AlphaFold2 with local attention, which is further enhanced by a novel 3D rotary position embedding. CryFold produces more complete models, reduces the resolution requirement, and accelerates the modeling. The application of CryFold to three new maps with unknown structure demonstrates its ability to accurately distinguish between paralog sequences in noisy regions, detect previously uncharacterized proteins with unknown functions, precisely compartmentalize the map to isolate non-protein components, and improve the modeling of conformational changes. A particular case includes a 104-protein complex that has been modeled within a few hours, and a minor conformational change of a single protein domain has been detected at the periphery when models from two different maps were compared. CryFold stands as an accurate method currently available for model building of proteins in cryo-EM structure determination. The source code and model parameters are available at <jats:ext-link xmlns:xlink=\"http://www.w3.org/1999/xlink\" ext-link-type=\"uri\" xlink:href=\"https://github.com/SBQ-1999/CryFold\">https://github.com/SBQ-1999/CryFold</jats:ext-link> . </jats:p>",
+    "url": "https://doi.org/10.1101/2024.11.13.623164",
+    "source": "crossref",
+    "timestamp": 2024
+  }
+]

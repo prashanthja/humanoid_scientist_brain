@@ -1,0 +1,51 @@
+[
+  {
+    "title": "Hilbert mathematics versus Gödel mathematics. IV. The new approach of Hilbert mathematics easily resolving the most difficult problems of Gödel mathematics",
+    "text": "<jats:p>The paper continues the consideration of Hilbert mathematics to mathematics itself as an additional “dimension” allowing for the most difficult and fundamental problems to be attacked in a new general and universal way shareable between all of them. That dimension consists in the parameter of the “distance between finiteness and infinity”, particularly able to interpret standard mathematics as a particular case, the basis of which are arithmetic, set theory and propositional logic: that is as a special “flat” case of Hilbert mathematics. The following four essential problems are considered for the idea to be elucidated: Fermat’s last theorem proved by Andrew Wiles; Poincaré’s conjecture proved by Grigori Perelman and the only resolved from the seven Millennium problems offered by CMI; the four-color theorem proved “machine-likely” by enumerating all cases and the crucial software assistance; the Yang-Mills existence and mass gap problem also suggested by CMI and yet unresolved</jats:p>",
+    "url": "https://doi.org/10.33774/coe-2023-jt4vq",
+    "source": "crossref",
+    "timestamp": 2023
+  },
+  {
+    "title": "Acknowledgement to Reviewers of Mathematics in 2019",
+    "text": "<jats:p>The editorial team greatly appreciates the reviewers who have dedicated their considerable time and expertise to the journal’s rigorous editorial process over the past 12 months, regardless of whether the papers are finally published or not [...]</jats:p>",
+    "url": "https://doi.org/10.3390/math8010145",
+    "source": "crossref",
+    "timestamp": 2020
+  },
+  {
+    "title": "Hilbert mathematics versus Gödel mathematics III. Hilbert mathematics by itself, and Gödel mathematics versus the physical world within it: both as its particular cases",
+    "text": "<jats:p>The paper discusses Hilbert mathematics, a kind of Pythagorean mathematics, to which the physical world is a particular case. The parameter of the “distance between finiteness and infinity” is crucial. Any nonzero finite value of it features the particular case in the frameworks of Hilbert mathematics where the physical world appears “ex nihilo” by virtue of an only mathematical necessity or quantum information conservation physically. One does not need the mythical Big Bang which serves to concentrate all the violations of energy conservation in a “safe”, maximally remote point in the alleged “beginning of the universe”. On the contrary, an omnipresent and omnitemporal medium obeying quantum information conservation rather than energy conservation permanently generates action and thus the physical world. The utilization of that creation “ex nihilo” is accessible to humankind, at least theoretically, as long as one observes the physical laws, which admit it in their new generalization</jats:p>",
+    "url": "https://doi.org/10.33774/coe-2023-fl6vn",
+    "source": "crossref",
+    "timestamp": 2023
+  },
+  {
+    "title": "Llemma: An Open Language Model For Mathematics",
+    "text": "We present Llemma, a large language model for mathematics. We continue pretraining Code Llama on the Proof-Pile-2, a mixture of scientific papers, web data containing mathematics, and mathematical code, yielding Llemma. On the MATH benchmark Llemma outperforms all known open base models, as well as the unreleased Minerva model suite on an equi-parameter basis. Moreover, Llemma is capable of tool use and formal theorem proving without any further finetuning. We openly release all artifacts, including 7 billion and 34 billion parameter models, the Proof-Pile-2, and code to replicate our experiments.",
+    "url": "https://www.semanticscholar.org/paper/b16c7d45183b9d595ab64301be019741b1528860",
+    "source": "semantic_scholar",
+    "timestamp": 2023
+  },
+  {
+    "title": "ChatGPT: A revolutionary tool for teaching and learning mathematics",
+    "text": "This study aims to examine the perspectives of various stakeholders, such as students and educators, on the use of artificial intelligence in teaching mathematics, specifically after the launch of ChatGPT. The study adopts a qualitative case study approach consisting of two stages: content analysis of interviews and investigation of user experience. The first stage of the study shows that ChatGPT is recognized for its improved math capabilities and ability to increase educational success by providing users with basic knowledge of mathematics and various topics. ChatGPT can offer comprehensive instruction and assistance in the study of geometry, and the public discourse on social media is generally positive, with enthusiasm for the use of ChatGPT in teaching mathematics and educational settings. However, there are also voices that approach using ChatGPT in educational settings with caution. In the second stage of the study, the investigation of user experiences through three educational scenarios revealed various issues. ChatGPT lacks a deep understanding of geometry and cannot effectively correct misconceptions. The accuracy and effectiveness of ChatGPT solutions may depend on the complexity of the equation, input data, and the instructions given to ChatGPT. ChatGPT is expected to become more efficient in resolving increasingly complex mathematical problems. The results of this investigation propose a number of avenues for research that ought to be explored in order to guarantee the secure and conscientious integration of chatbots, especially ChatGPT, into mathematics education and learning.",
+    "url": "https://www.semanticscholar.org/paper/d84a3276181a12eabc62e01ad9c2457b66e4b7e5",
+    "source": "semantic_scholar",
+    "timestamp": 2023
+  },
+  {
+    "title": "Advancing mathematics by guiding human intuition with AI",
+    "text": "The practice of mathematics involves discovering patterns and using these to formulate and prove conjectures, resulting in theorems. Since the 1960s, mathematicians have used computers to assist in the discovery of patterns and formulation of conjectures1, most famously in the Birch and Swinnerton-Dyer conjecture2, a Millennium Prize Problem3. Here we provide examples of new fundamental results in pure mathematics that have been discovered with the assistance of machine learning—demonstrating a method by which machine learning can aid mathematicians in discovering new conjectures and theorems. We propose a process of using machine learning to discover potential patterns and relations between mathematical objects, understanding them with attribution techniques and using these observations to guide intuition and propose conjectures. We outline this machine-learning-guided framework and demonstrate its successful application to current research questions in distinct areas of pure mathematics, in each case showing how it led to meaningful mathematical contributions on important open problems: a new connection between the algebraic and geometric structure of knots, and a candidate algorithm predicted by the combinatorial invariance conjecture for symmetric groups4. Our work may serve as a model for collaboration between the fields of mathematics and artificial intelligence (AI) that can achieve surprising results by leveraging the respective strengths of mathematicians and machine learning. A framework through which machine learning can guide mathematicians in discovering new conjectures and theorems is presented and shown to yield mathematical insight on important open problems in different areas of pure mathematics.",
+    "url": "https://www.semanticscholar.org/paper/c0cd4b4844c31a27a7900a754d0a91b160b00e55",
+    "source": "semantic_scholar",
+    "timestamp": 2021
+  },
+  {
+    "title": "Mathematics",
+    "text": "Mathematics is a field of study that discovers and organizes methods, theories, and theorems that are developed and proved for the needs of empirical sciences and mathematics itself. There are many areas of mathematics, which include number theory, algebra, geometry, analysis, and set theory.",
+    "url": "https://en.wikipedia.org/wiki/Mathematics",
+    "source": "wikipedia",
+    "timestamp": "2026-03-04"
+  }
+]

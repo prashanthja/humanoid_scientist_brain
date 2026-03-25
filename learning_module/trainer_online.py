@@ -8,17 +8,19 @@
 # - Adaptive Epoch Scaling (self-tuning)
 # - Checkpoint stores model_config; loader rebuilds model to avoid shape mismatch
 # - Adds collapse diagnostics to detect embedding collapse early
+# - Prevents BrokenPipeError when piping output (e.g. | head)
 # ------------------------------------------------------------
 
 from __future__ import annotations
 
 import os
+import sys
 import json
 import math
 import random
 import time
 from dataclasses import dataclass
-from typing import List, Dict, Any, Tuple, Sequence, Optional
+from typing import Dict, Any, Tuple, Sequence, Optional, List
 
 import torch
 import torch.nn as nn
@@ -233,7 +235,6 @@ class ContinualTransformerEncoder(nn.Module):
         self.enc = nn.TransformerEncoder(layer, num_layers=n_layers)
         self.proj = nn.Sequential(nn.Linear(self.d_model, self.d_model), nn.Tanh())
 
-        # LM head for MLM (weight-tying with token embedding)
         self.lm_head = nn.Linear(self.d_model, self.vocab_size, bias=False)
         self._tie_weights()
 
@@ -243,17 +244,13 @@ class ContinualTransformerEncoder(nn.Module):
     def forward(self, x: torch.Tensor, attn_mask: Optional[torch.Tensor] = None) -> torch.Tensor:
         h = self.tok_emb(x)
         h = self.pos(h)
-        # src_key_padding_mask expects True for padding positions
         h = self.enc(h, src_key_padding_mask=(~attn_mask) if attn_mask is not None else None)
         return h
 
     def sentence_embedding(self, x: torch.Tensor, attn_mask: torch.Tensor) -> torch.Tensor:
-        h = self.forward(x, attn_mask)  # [B, L, D]
-
-        # masked mean pooling over real tokens (prevents BOS collapse)
-        m = attn_mask.unsqueeze(-1).float()  # [B, L, 1]
-        pooled = (h * m).sum(dim=1) / m.sum(dim=1).clamp(min=1.0)  # [B, D]
-
+        h = self.forward(x, attn_mask)
+        m = attn_mask.unsqueeze(-1).float()
+        pooled = (h * m).sum(dim=1) / m.sum(dim=1).clamp(min=1.0)
         z = F.normalize(self.proj(pooled), dim=-1)
         return z
 
@@ -265,36 +262,24 @@ class ContinualTransformerEncoder(nn.Module):
 # Helper Functions
 # =========================
 
-def _mask_for_mlm(
-    tokens: torch.Tensor,
-    attn: torch.Tensor,
-    mlm_prob: float = 0.12
-) -> Tuple[torch.Tensor, torch.Tensor]:
-    """
-    Create MLM inputs and targets:
-      - mlm_prob of visible (non-special) positions are masked for prediction
-      - 80% MASK, 10% random token, 10% keep (BERT-style heuristic)
-    """
+def _mask_for_mlm(tokens: torch.Tensor, attn: torch.Tensor, mlm_prob: float = 0.12) -> Tuple[torch.Tensor, torch.Tensor]:
     device = tokens.device
     B, L = tokens.size()
 
     maskable = attn.clone()
-    # Do not mask BOS
-    maskable[:, 0] = False
+    maskable[:, 0] = False  # BOS
 
     eos_id = SPECIAL_TOKENS["EOS"]
     eos_positions = (tokens == eos_id).int().argmax(dim=1)
     for b in range(B):
-        # Do not mask EOS
         maskable[b, int(eos_positions[b].item())] = False
 
     prob = torch.rand(B, L, device=device)
     mlm_positions = (prob < mlm_prob) & maskable
 
     targets = tokens.clone()
-    targets[~mlm_positions] = -100  # ignore index
+    targets[~mlm_positions] = -100
 
-    # Apply 80/10/10
     mask_id = SPECIAL_TOKENS["MASK"]
     rand = torch.rand(B, L, device=device)
 
@@ -305,19 +290,21 @@ def _mask_for_mlm(
     tokens_masked[mask80] = mask_id
 
     if rand10.any():
-        # Random IDs in [SPECIAL_COUNT, vocab_size_range)
-        # Use tokenizer vocab size upper bound where possible.
         low = SPECIAL_COUNT
         high = int(tokens.max().item() + 1)
         if high <= low:
             high = low + 1
-        tokens_masked[rand10] = torch.randint(low, high, size=(int(rand10.sum().item()),), device=device)
+        tokens_masked[rand10] = torch.randint(
+            low,
+            high,
+            size=(int(rand10.sum().item()),),
+            device=device,
+        )
 
     return tokens_masked, targets
 
 
 def make_views(tokens: torch.Tensor, mask: torch.Tensor, drop_prob: float = 0.15, span_mask_prob: float = 0.15):
-    """Augmentations for contrastive views (keeps BOS/EOS)."""
     B, L = tokens.size()
     out = tokens.clone()
 
@@ -363,15 +350,9 @@ def avg_in_batch_cosine(z1: torch.Tensor, z2: torch.Tensor) -> float:
 
 
 def collapse_stats(z: torch.Tensor) -> Dict[str, float]:
-    """
-    z: [B, D] normalized embeddings.
-    Collapse symptoms:
-      - mean_cos_to_meanvec → close to 1.0 means everything points same direction
-      - mean_dim_variance   → near 0 means dimensions carry little signal
-    """
     with torch.no_grad():
-        mean = z.mean(dim=0, keepdim=True)          # [1, D]
-        cos_to_mean = (z @ mean.t()).squeeze(-1)    # [B]
+        mean = z.mean(dim=0, keepdim=True)
+        cos_to_mean = (z @ mean.t()).squeeze(-1)
         dim_var = z.var(dim=0).mean().item()
         return {
             "mean_cos_to_meanvec": float(cos_to_mean.mean().item()),
@@ -388,9 +369,6 @@ class OnlineTrainer:
     Universal continual trainer with dual loss:
       - InfoNCE contrastive loss across two augmented views
       - MLM token prediction loss on masked positions
-    Exposes:
-      - incremental_train(new_items)
-      - embed(texts) -> np.ndarray [N, D]
     """
 
     def __init__(
@@ -421,7 +399,6 @@ class OnlineTrainer:
         self.alpha_infonce = float(alpha_infonce)
         self.beta_mlm = float(beta_mlm)
 
-        # Keep model hyperparams for ckpt config
         self.model_dim = int(model_dim)
         self.n_heads = int(n_heads)
         self.n_layers = int(n_layers)
@@ -430,7 +407,6 @@ class OnlineTrainer:
 
         self.tokenizer = AdaptiveBPETokenizer(BPETokenizerConfig(target_vocab=int(target_vocab)))
 
-        # Build initial model from current env/config
         self._build_model(
             vocab_size=self.tokenizer.vocab_size,
             d_model=self.model_dim,
@@ -439,7 +415,6 @@ class OnlineTrainer:
             max_len=self.max_len,
         )
 
-        # Optional gradient checkpointing flag (placeholder)
         if use_checkpointing:
             try:
                 for m in self.model.enc.layers:
@@ -459,7 +434,6 @@ class OnlineTrainer:
         self.ckpt_path = "models/continual_transformer.pt"
         self._try_load_ckpt()
 
-    # ---------- model build / rebuild ----------
     def _build_model(self, *, vocab_size: int, d_model: int, n_heads: int, n_layers: int, max_len: int):
         self.model = ContinualTransformerEncoder(
             vocab_size=int(vocab_size),
@@ -471,13 +445,9 @@ class OnlineTrainer:
             max_len=int(max_len),
         ).to(self.device)
 
-        # Recreate optimizer for current parameter set
         self.opt = torch.optim.AdamW(self.model.parameters(), lr=self.lr)
-
-        # AMP scaler (new API)
         self.scaler = torch.amp.GradScaler("cuda", enabled=(self.device.type == "cuda"))
 
-    # ---------- persistence ----------
     def _try_load_ckpt(self):
         if not os.path.exists(self.ckpt_path):
             return
@@ -487,7 +457,6 @@ class OnlineTrainer:
             cfg = payload.get("model_config", None)
 
             if cfg is None:
-                # Backward compatible legacy load (best-effort)
                 print("⚠️ Checkpoint missing model_config. Loading best-effort (may reset optimizer).")
                 self.model.load_state_dict(payload["model"], strict=False)
 
@@ -504,7 +473,6 @@ class OnlineTrainer:
                 print("💾 Loaded checkpoint (legacy).")
                 return
 
-            # Config-aware restore: rebuild model exactly like ckpt
             ckpt_vocab = int(cfg["vocab_size"])
             ckpt_d = int(cfg["d_model"])
             ckpt_heads = int(cfg["n_heads"])
@@ -521,11 +489,9 @@ class OnlineTrainer:
 
             self.model.load_state_dict(payload["model"], strict=True)
 
-            # Resize embeddings if tokenizer grew beyond ckpt vocab
             if int(self.tokenizer.vocab_size) != int(self.model.vocab_size):
                 self._maybe_resize_embeddings()
 
-            # Optimizer is safe to load only if no vocab resize broke param groups
             if "opt" in payload:
                 try:
                     self.opt.load_state_dict(payload["opt"])
@@ -559,7 +525,6 @@ class OnlineTrainer:
         )
 
     def _maybe_resize_embeddings(self):
-        """Resize token embedding & LM head if vocab grew."""
         if int(self.model.vocab_size) == int(self.tokenizer.vocab_size):
             return
 
@@ -574,13 +539,9 @@ class OnlineTrainer:
 
         self.model.tok_emb = new_tok
         self.model.vocab_size = int(self.tokenizer.vocab_size)
-
-        # lm_head is tied — re-tie after replacing tok_emb
         self.model._tie_weights()
 
-    # ---------- adaptive epoch scaling ----------
     def adjust_epochs(self):
-        """Adaptively adjust epoch count based on loss improvements."""
         if self.last_avg_loss is None:
             return self.epochs
         if self.prev_loss is None:
@@ -602,15 +563,12 @@ class OnlineTrainer:
         self.prev_loss = curr
         return self.epochs
 
-    # ---------- main ----------
     def incremental_train(self, new_items: Sequence[str | Dict[str, Any]]):
-        # Normalize inputs
         texts = [i if isinstance(i, str) else (i.get("text") or "") for i in new_items]
         texts = [t.strip() for t in texts if isinstance(t, str) and t and t.strip()]
         if len(texts) < int(self.min_train_samples):
             return
 
-        # Tokenizer growth and model resize if needed
         self.tokenizer.fit(texts)
         self._maybe_resize_embeddings()
 
@@ -620,13 +578,21 @@ class OnlineTrainer:
         epochs_to_run = int(self.epochs)
         print(f"\n🚀 Training on {len(texts)} new samples for {epochs_to_run} epochs...")
 
+        use_tqdm = sys.stdout.isatty()
+
         for ep in range(1, epochs_to_run + 1):
             random.shuffle(texts)
 
             ep_loss, ep_sim, ep_acc, steps = 0.0, 0.0, 0.0, 0
             t0 = time.time()
 
-            with tqdm(total=len(texts), desc=f"Epoch {ep}/{epochs_to_run}", ncols=80) as pbar:
+            with tqdm(
+                total=len(texts),
+                desc=f"Epoch {ep}/{epochs_to_run}",
+                ncols=80,
+                disable=not use_tqdm,
+                leave=True,
+            ) as pbar:
                 for i in range(0, len(texts), self.batch_size):
                     batch = texts[i:i + self.batch_size]
                     if len(batch) < 2:
@@ -634,17 +600,14 @@ class OnlineTrainer:
 
                     toks, attn = collate_batch(batch, self.tokenizer, self.max_len, self.device)
 
-                    # -------- Contrastive views (stronger) --------
                     t1 = make_views(toks, attn, drop_prob=0.15, span_mask_prob=0.15)
                     t2 = make_views(toks, attn, drop_prob=0.15, span_mask_prob=0.15)
 
-                    # -------- MLM prep --------
                     mlm_inputs, mlm_targets = _mask_for_mlm(toks, attn, mlm_prob=0.12)
 
                     use_amp = (self.device.type == "cuda")
 
                     with torch.amp.autocast("cuda", enabled=use_amp):
-                        # Contrastive embeddings
                         z1 = self.model.sentence_embedding(t1, attn)
                         z2 = self.model.sentence_embedding(t2, attn)
 
@@ -657,7 +620,6 @@ class OnlineTrainer:
                             F.cross_entropy(logits21, labels)
                         )
 
-                        # MLM logits on full sequence
                         h = self.model(mlm_inputs, attn)
                         vocab_logits = self.model.mlm_logits(h)
                         loss_mlm = F.cross_entropy(
@@ -666,7 +628,6 @@ class OnlineTrainer:
                             ignore_index=-100,
                         )
 
-                        # Combined loss
                         loss = self.alpha_infonce * loss_nce + self.beta_mlm * loss_mlm
 
                     self.opt.zero_grad(set_to_none=True)
@@ -681,11 +642,9 @@ class OnlineTrainer:
                         torch.nn.utils.clip_grad_norm_(self.model.parameters(), 1.0)
                         self.opt.step()
 
-                    # alignment accuracy (logging)
                     pred = logits12.argmax(dim=1)
                     acc = (pred == labels).float().mean().item()
 
-                    # collapse diagnostics (use z1)
                     cs = collapse_stats(z1)
 
                     ep_loss += float(loss.item())
@@ -693,12 +652,13 @@ class OnlineTrainer:
                     ep_acc += float(acc)
                     steps += 1
 
-                    pbar.update(len(batch))
-                    pbar.set_postfix(
-                        loss=f"{loss.item():.3f}",
-                        nce=f"{loss_nce.item():.3f}",
-                        mlm=f"{loss_mlm.item():.3f}",
-                    )
+                    if use_tqdm:
+                        pbar.update(len(batch))
+                        pbar.set_postfix(
+                            loss=f"{loss.item():.3f}",
+                            nce=f"{loss_nce.item():.3f}",
+                            mlm=f"{loss_mlm.item():.3f}",
+                        )
 
             duration = time.time() - t0
             if steps > 0:
@@ -740,10 +700,8 @@ class OnlineTrainer:
             f"sim={self.last_similarity:.4f}, vocab={int(self.tokenizer.vocab_size)}, device={self.device.type}"
         )
 
-        # Adjust epochs for next call (self-tuning)
         self.adjust_epochs()
 
-    # ---------- embedding interface ----------
     @torch.no_grad()
     def embed(self, texts, *, max_len: int = 192, batch_size: int = 16, force_cpu: bool = False):
         import numpy as np

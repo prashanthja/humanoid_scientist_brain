@@ -1,0 +1,51 @@
+[
+  {
+    "title": "Physics-informed neural networks: A deep learning framework for solving forward and inverse problems involving nonlinear partial differential equations",
+    "text": "Abstract We introduce physics-informed neural networks – neural networks that are trained to solve supervised learning tasks while respecting any given laws of physics described by general nonlinear partial differential equations. In this work, we present our developments in the context of solving two main classes of problems: data-driven solution and data-driven discovery of partial differential equations. Depending on the nature and arrangement of the available data, we devise two distinct types of algorithms, namely continuous time and discrete time models. The first type of models forms a new family of data-efficient spatio-temporal function approximators, while the latter type allows the use of arbitrarily accurate implicit Runge–Kutta time stepping schemes with unlimited number of stages. The effectiveness of the proposed framework is demonstrated through a collection of classical problems in fluids, quantum mechanics, reaction–diffusion systems, and the propagation of nonlinear shallow-water waves.",
+    "url": "https://www.semanticscholar.org/paper/d86084808994ac54ef4840ae65295f3c0ec4decd",
+    "source": "semantic_scholar",
+    "timestamp": 2019
+  },
+  {
+    "title": "Score-Based Generative Modeling through Stochastic Differential Equations",
+    "text": "Creating noise from data is easy; creating data from noise is generative modeling. We present a stochastic differential equation (SDE) that smoothly transforms a complex data distribution to a known prior distribution by slowly injecting noise, and a corresponding reverse-time SDE that transforms the prior distribution back into the data distribution by slowly removing the noise. Crucially, the reverse-time SDE depends only on the time-dependent gradient field (\\aka, score) of the perturbed data distribution. By leveraging advances in score-based generative modeling, we can accurately estimate these scores with neural networks, and use numerical SDE solvers to generate samples. We show that this framework encapsulates previous approaches in score-based generative modeling and diffusion probabilistic modeling, allowing for new sampling procedures and new modeling capabilities. In particular, we introduce a predictor-corrector framework to correct errors in the evolution of the discretized reverse-time SDE. We also derive an equivalent neural ODE that samples from the same distribution as the SDE, but additionally enables exact likelihood computation, and improved sampling efficiency. In addition, we provide a new way to solve inverse problems with score-based models, as demonstrated with experiments on class-conditional generation, image inpainting, and colorization. Combined with multiple architectural improvements, we achieve record-breaking performance for unconditional image generation on CIFAR-10 with an Inception score of 9.89 and FID of 2.20, a competitive likelihood of 2.99 bits/dim, and demonstrate high fidelity generation of 1024 x 1024 images for the first time from a score-based generative model.",
+    "url": "https://www.semanticscholar.org/paper/633e2fbfc0b21e959a244100937c5853afca4853",
+    "source": "semantic_scholar",
+    "timestamp": 2020
+  },
+  {
+    "title": "Neural Ordinary Differential Equations",
+    "text": "We introduce a new family of deep neural network models. Instead of specifying a discrete sequence of hidden layers, we parameterize the derivative of the hidden state using a neural network. The output of the network is computed using a black-box differential equation solver. These continuous-depth models have constant memory cost, adapt their evaluation strategy to each input, and can explicitly trade numerical precision for speed. We demonstrate these properties in continuous-depth residual networks and continuous-time latent variable models. We also construct continuous normalizing flows, a generative model that can train by maximum likelihood, without partitioning or ordering the data dimensions. For training, we show how to scalably backpropagate through any ODE solver, without access to its internal operations. This allows end-to-end training of ODEs within larger models.",
+    "url": "https://www.semanticscholar.org/paper/449310e3538b08b43227d660227dfd2875c3c3c1",
+    "source": "semantic_scholar",
+    "timestamp": 2018
+  },
+  {
+    "title": "Fourier Neural Operator for Parametric Partial Differential Equations",
+    "text": "The classical development of neural networks has primarily focused on learning mappings between finite-dimensional Euclidean spaces. Recently, this has been generalized to neural operators that learn mappings between function spaces. For partial differential equations (PDEs), neural operators directly learn the mapping from any functional parametric dependence to the solution. Thus, they learn an entire family of PDEs, in contrast to classical methods which solve one instance of the equation. In this work, we formulate a new neural operator by parameterizing the integral kernel directly in Fourier space, allowing for an expressive and efficient architecture. We perform experiments on Burgers' equation, Darcy flow, and the Navier-Stokes equation (including the turbulent regime). Our Fourier neural operator shows state-of-the-art performance compared to existing neural network methodologies and it is up to three orders of magnitude faster compared to traditional PDE solvers.",
+    "url": "https://www.semanticscholar.org/paper/2f7dc1ee85e9f6a97810c66016e09ffeed684f03",
+    "source": "semantic_scholar",
+    "timestamp": 2020
+  },
+  {
+    "title": "SDEdit: Guided Image Synthesis and Editing with Stochastic Differential Equations",
+    "text": "Guided image synthesis enables everyday users to create and edit photo-realistic images with minimum effort. The key challenge is balancing faithfulness to the user input (e.g., hand-drawn colored strokes) and realism of the synthesized image. Existing GAN-based methods attempt to achieve such balance using either conditional GANs or GAN inversions, which are challenging and often require additional training data or loss functions for individual applications. To address these issues, we introduce a new image synthesis and editing method, Stochastic Differential Editing (SDEdit), based on a diffusion model generative prior, which synthesizes realistic images by iteratively denoising through a stochastic differential equation (SDE). Given an input image with user guide of any type, SDEdit first adds noise to the input, then subsequently denoises the resulting image through the SDE prior to increase its realism. SDEdit does not require task-specific training or inversions and can naturally achieve the balance between realism and faithfulness. SDEdit significantly outperforms state-of-the-art GAN-based methods by up to 98.09% on realism and 91.72% on overall satisfaction scores, according to a human perception study, on multiple tasks, including stroke-based image synthesis and editing as well as image compositing.",
+    "url": "https://www.semanticscholar.org/paper/f671a09e3e5922e6d38cb77dda8d76d5ceac2a27",
+    "source": "semantic_scholar",
+    "timestamp": 2021
+  },
+  {
+    "title": "Partial Differential Equations",
+    "text": "In this Note, we establish new estimates for the long time behavior of the solutions to the Navier–Stokes Equations for a compressible barotropic ﬂuid in 1D, with homogeneous Dirichlet boundary conditions, with large initial data, and under the inﬂuence of a large mass force in the case when the stationary density admits vacua: a highly singular problem. As a consequence we bring new answers to the question of the stabilizing rate of convergence. To cite this article: P. Penel, I. Straškraba, C. R. Acad. Sci. Paris, Ser. I 345 (2007).",
+    "url": "https://www.semanticscholar.org/paper/580d39f78e095b207098ca51365f7ab369ec058b",
+    "source": "semantic_scholar",
+    "timestamp": 1995
+  },
+  {
+    "title": "Differential equation",
+    "text": "In mathematics, a differential equation is an equation that relates one or more unknown functions and their derivatives. In applications, the functions generally represent physical quantities, the derivatives represent their rates of change, and the differential equation defines a relationship between the two. Such relations are common in mathematical models and scientific laws; therefore, differential equations play a prominent role in many disciplines including engineering, physics, economics, and biology.",
+    "url": "https://en.wikipedia.org/wiki/Differential_equation",
+    "source": "wikipedia",
+    "timestamp": "2026-03-07"
+  }
+]

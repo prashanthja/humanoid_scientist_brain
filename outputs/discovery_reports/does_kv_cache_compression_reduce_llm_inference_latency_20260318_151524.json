@@ -1,0 +1,325 @@
+{
+  "query": "Does KV cache compression reduce LLM inference latency?",
+  "timestamp": "2026-03-18 15:15:24",
+  "domain": "transformer_efficiency",
+  "proposal_verdict": "supported",
+  "proposal_confidence": 0.7509724249839782,
+  "proposal_explanation": "Evidence from multiple sources confirms this claim with experimental results.",
+  "evidence_count": 10,
+  "top_papers": [
+    "EMPIRIC: Exploring Missing Pieces in KV Cache Compression for Reducing Computation, Storage, and Latency in Long-Context LLM Inference",
+    "Towards More Economical Context-Augmented LLM Generation by Reusing Stored KV Cache",
+    "Open-AI model Efficient Memory Reduce Management for the Large Language Models (LLMs) Serving with Paged Attention of sharing the KV Cashes",
+    "Low-Rank SVD Compression for Memory-Efficient Transformer Attention",
+    "Competitive Non-Clairvoyant KV-Cache Scheduling for LLM Inference",
+    "FLASepformer: Efficient Speech Separation with Gated Focused Linear Attention Transformer",
+    "Survey: Training-Free Structured Compression of Large Language Models"
+  ],
+  "extracted_claim_count": 10,
+  "top_claims": [
+    {
+      "claim": "Preliminary results show that KV cache reusing is able to save both delay and cloud cost across a range of workloads with long context.",
+      "paper_title": "Towards More Economical Context-Augmented LLM Generation by Reusing Stored KV Cache",
+      "domain": "transformer_efficiency"
+    },
+    {
+      "claim": "Building upon our recent work, RocketKV, this paper introduces EMPIRIC as an oracle-based vision study, which explicitly defines theoretical bounds for accuracy, computation, and storage in KV cache compression.",
+      "paper_title": "EMPIRIC: Exploring Missing Pieces in KV Cache Compression for Reducing Computation, Storage, and Latency in Long-Context LLM Inference",
+      "domain": "transformer_efficiency"
+    },
+    {
+      "claim": "By analyzing intrinsic patterns in KV cache attention heads, EMPIRIC provides novel insights into effective token pruning without accuracy degradation.",
+      "paper_title": "EMPIRIC: Exploring Missing Pieces in KV Cache Compression for Reducing Computation, Storage, and Latency in Long-Context LLM Inference",
+      "domain": "transformer_efficiency"
+    },
+    {
+      "claim": "This work clarifies the overlooked elements critical to KV cache compression during decoding and optimally balances computational efficiency, storage optimization, inference latency, and accuracy.",
+      "paper_title": "EMPIRIC: Exploring Missing Pieces in KV Cache Compression for Reducing Computation, Storage, and Latency in Long-Context LLM Inference",
+      "domain": "transformer_efficiency"
+    },
+    {
+      "claim": "However, the size of the KV cache grows linearly with the input sequence length, increasingly straining system memory, computational resources, bandwidth, and latency during decoding.",
+      "paper_title": "EMPIRIC: Exploring Missing Pieces in KV Cache Compression for Reducing Computation, Storage, and Latency in Long-Context LLM Inference",
+      "domain": "transformer_efficiency"
+    }
+  ],
+  "grounded_claim_count": 5,
+  "supported_count": 0,
+  "contradicted_count": 0,
+  "inconclusive_count": 5,
+  "top_grounded": [
+    {
+      "claim": "By analyzing intrinsic patterns in KV cache attention heads, EMPIRIC provides novel insights into effective token pruning without accuracy degradation.",
+      "claim_type": "statement",
+      "domain": "transformer_efficiency",
+      "grounding": {
+        "claim": "By analyzing intrinsic patterns in KV cache attention heads, EMPIRIC provides novel insights into effective token pruning without accuracy degradation.",
+        "support_count": 1,
+        "contradict_count": 0,
+        "neutral_count": 1,
+        "total_evidence": 2,
+        "unique_sources": 1,
+        "unique_titles": 1,
+        "avg_support_score": 0.9472,
+        "avg_contradict_score": 0.0,
+        "diversity_score": 0.5,
+        "contradiction_penalty": 0.0,
+        "coverage_score": 0.3333,
+        "grounding_score": 0.6569,
+        "top_support": [
+          {
+            "text": "512 tokens). Building upon our recent work, RocketKV, this paper introduces EMPIRIC as an oracle-based vision study, which explicitly defines theoretical bounds for accuracy, computation, and storage in KV cache compression. By analyzing intrinsic patterns in KV cache attention heads, EMPIRIC provides novel insights into effective token pruning without accuracy degradation. This work clarifies the overlooked elements critical to KV cache compression during decoding and optimally balances computational efficiency, storage optimization, inference latency, and accuracy. We envision that EMPIRIC will guide future research efforts toward creating scalable, efficient KV cache compression techniques, significantly improving inference performance for long context LLM inference.</jats:p>",
+            "paper_title": "EMPIRIC: Exploring Missing Pieces in KV Cache Compression for Reducing Computation, Storage, and Latency in Long-Context LLM Inference",
+            "source": "crossref",
+            "chunk_id": 36,
+            "verdict": "support",
+            "score": 0.9472332864999771,
+            "similarity": 0.9188204407691956,
+            "overlap": 1.0
+          }
+        ],
+        "top_contradict": []
+      },
+      "verdict": {
+        "claim": "By analyzing intrinsic patterns in KV cache attention heads, EMPIRIC provides novel insights into effective token pruning without accuracy degradation.",
+        "verdict": "partially_supported",
+        "confidence": 0.6569,
+        "explanation": "Evidence leans supportive but remains mixed (support=1, contradict=0, neutral=1).",
+        "grounding_score": 0.6569,
+        "support_count": 1,
+        "contradict_count": 0,
+        "neutral_count": 1,
+        "total_evidence": 2
+      }
+    },
+    {
+      "claim": "This work clarifies the overlooked elements critical to KV cache compression during decoding and optimally balances computational efficiency, storage optimization, inference latency, and accuracy.",
+      "claim_type": "statement",
+      "domain": "transformer_efficiency",
+      "grounding": {
+        "claim": "This work clarifies the overlooked elements critical to KV cache compression during decoding and optimally balances computational efficiency, storage optimization, inference latency, and accuracy.",
+        "support_count": 1,
+        "contradict_count": 0,
+        "neutral_count": 2,
+        "total_evidence": 3,
+        "unique_sources": 2,
+        "unique_titles": 2,
+        "avg_support_score": 0.9472,
+        "avg_contradict_score": 0.0,
+        "diversity_score": 1.0,
+        "contradiction_penalty": 0.0,
+        "coverage_score": 0.5,
+        "grounding_score": 0.6407,
+        "top_support": [
+          {
+            "text": "512 tokens). Building upon our recent work, RocketKV, this paper introduces EMPIRIC as an oracle-based vision study, which explicitly defines theoretical bounds for accuracy, computation, and storage in KV cache compression. By analyzing intrinsic patterns in KV cache attention heads, EMPIRIC provides novel insights into effective token pruning without accuracy degradation. This work clarifies the overlooked elements critical to KV cache compression during decoding and optimally balances computational efficiency, storage optimization, inference latency, and accuracy. We envision that EMPIRIC will guide future research efforts toward creating scalable, efficient KV cache compression techniques, significantly improving inference performance for long context LLM inference.</jats:p>",
+            "paper_title": "EMPIRIC: Exploring Missing Pieces in KV Cache Compression for Reducing Computation, Storage, and Latency in Long-Context LLM Inference",
+            "source": "crossref",
+            "chunk_id": 36,
+            "verdict": "support",
+            "score": 0.9472332864999771,
+            "similarity": 0.9188204407691956,
+            "overlap": 1.0
+          }
+        ],
+        "top_contradict": []
+      },
+      "verdict": {
+        "claim": "This work clarifies the overlooked elements critical to KV cache compression during decoding and optimally balances computational efficiency, storage optimization, inference latency, and accuracy.",
+        "verdict": "partially_supported",
+        "confidence": 0.6407,
+        "explanation": "Evidence leans supportive but remains mixed (support=1, contradict=0, neutral=2).",
+        "grounding_score": 0.6407,
+        "support_count": 1,
+        "contradict_count": 0,
+        "neutral_count": 2,
+        "total_evidence": 3
+      }
+    },
+    {
+      "claim": "Preliminary results show that KV cache reusing is able to save both delay and cloud cost across a range of workloads with long context.",
+      "claim_type": "statement",
+      "domain": "transformer_efficiency",
+      "grounding": {
+        "claim": "Preliminary results show that KV cache reusing is able to save both delay and cloud cost across a range of workloads with long context.",
+        "support_count": 2,
+        "contradict_count": 1,
+        "neutral_count": 3,
+        "total_evidence": 6,
+        "unique_sources": 1,
+        "unique_titles": 3,
+        "avg_support_score": 0.6279,
+        "avg_contradict_score": 0.6723,
+        "diversity_score": 0.75,
+        "contradiction_penalty": 0.1121,
+        "coverage_score": 1.0,
+        "grounding_score": 0.4804,
+        "top_support": [
+          {
+            "text": "512 tokens). Building upon our recent work, RocketKV, this paper introduces EMPIRIC as an oracle-based vision study, which explicitly defines theoretical bounds for accuracy, computation, and storage in KV cache compression. By analyzing intrinsic patterns in KV cache attention heads, EMPIRIC provides novel insights into effective token pruning without accuracy degradation. This work clarifies the overlooked elements critical to KV cache compression during decoding and optimally balances computational efficiency, storage optimization, inference latency, and accuracy. We envision that EMPIRIC will guide future research efforts toward creating scalable, efficient KV cache compression techniques, significantly improving inference performance for long context LLM inference.</jats:p>",
+            "paper_title": "EMPIRIC: Exploring Missing Pieces in KV Cache Compression for Reducing Computation, Storage, and Latency in Long-Context LLM Inference",
+            "source": "crossref",
+            "chunk_id": 36,
+            "verdict": "support",
+            "score": 0.6709174970262929,
+            "similarity": 0.9188204407691956,
+            "overlap": 0.2105
+          },
+          {
+            "text": "show that LLM improves the throughput of popular LLMs by 2-4× with the same level of latency compared to the state-of-the-art systems, such as Faster Transformer and Orca. The improvement is more pronounced with longer sequences, larger models, and more complex decoding algorithms</jats:p>",
+            "paper_title": "Open-AI model Efficient Memory Reduce Management for the Large Language Models (LLMs) Serving with Paged Attention of sharing the KV Cashes",
+            "source": "crossref",
+            "chunk_id": 31,
+            "verdict": "support",
+            "score": 0.5848940083855078,
+            "similarity": 0.7864766120910645,
+            "overlap": 0.2105
+          }
+        ],
+        "top_contradict": [
+          {
+            "text": "<jats:p>Across large language model (LLM) applications, we observe an emerging trend for reusing KV caches to save the prefill delays of processing repeated input texts in different LLM inputs. This has led to a broad design space, including colocating stored KV caches with (or close to) GPUs to various KV cache compression. However, a key question remains unanswered: can these delay reductions also be economically favorable? Specifically, we ask whether a developer can use public cloud services to store precomputed KV caches and reuse them to save delay without incurring more costs in terms of compute, storage, and network. To answer this question, we propose an validated analytical model for the cloud cost (in compute, storage, and network) of storing and reusing KV caches based on various workload parameters, such as reuse frequency, generated text lengths, model sizes, etc. Prelimina",
+            "paper_title": "Towards More Economical Context-Augmented LLM Generation by Reusing Stored KV Cache",
+            "source": "crossref",
+            "chunk_id": 33,
+            "verdict": "contradict",
+            "score": 0.672335012649235,
+            "similarity": 0.8076409101486206,
+            "overlap": 0.4211
+          }
+        ]
+      },
+      "verdict": {
+        "claim": "Preliminary results show that KV cache reusing is able to save both delay and cloud cost across a range of workloads with long context.",
+        "verdict": "partially_supported",
+        "confidence": 0.4804,
+        "explanation": "Evidence leans supportive but remains mixed (support=2, contradict=1, neutral=3).",
+        "grounding_score": 0.4804,
+        "support_count": 2,
+        "contradict_count": 1,
+        "neutral_count": 3,
+        "total_evidence": 6
+      }
+    },
+    {
+      "claim": "However, existing systems struggle because the key-value cache (KV cache) memory for each request is huge and grows and shrinks dynamically.",
+      "claim_type": "statement",
+      "domain": "transformer_efficiency",
+      "grounding": {
+        "claim": "However, existing systems struggle because the key-value cache (KV cache) memory for each request is huge and grows and shrinks dynamically.",
+        "support_count": 1,
+        "contradict_count": 1,
+        "neutral_count": 4,
+        "total_evidence": 6,
+        "unique_sources": 2,
+        "unique_titles": 5,
+        "avg_support_score": 0.6672,
+        "avg_contradict_score": 0.63,
+        "diversity_score": 1.0,
+        "contradiction_penalty": 0.105,
+        "coverage_score": 1.0,
+        "grounding_score": 0.4405,
+        "top_support": [
+          {
+            "text": "512 tokens). Building upon our recent work, RocketKV, this paper introduces EMPIRIC as an oracle-based vision study, which explicitly defines theoretical bounds for accuracy, computation, and storage in KV cache compression. By analyzing intrinsic patterns in KV cache attention heads, EMPIRIC provides novel insights into effective token pruning without accuracy degradation. This work clarifies the overlooked elements critical to KV cache compression during decoding and optimally balances computational efficiency, storage optimization, inference latency, and accuracy. We envision that EMPIRIC will guide future research efforts toward creating scalable, efficient KV cache compression techniques, significantly improving inference performance for long context LLM inference.</jats:p>",
+            "paper_title": "EMPIRIC: Exploring Missing Pieces in KV Cache Compression for Reducing Computation, Storage, and Latency in Long-Context LLM Inference",
+            "source": "crossref",
+            "chunk_id": 36,
+            "verdict": "support",
+            "score": 0.667233286499977,
+            "similarity": 0.9188204407691956,
+            "overlap": 0.2
+          }
+        ],
+        "top_contradict": [
+          {
+            "text": "<jats:p>Across large language model (LLM) applications, we observe an emerging trend for reusing KV caches to save the prefill delays of processing repeated input texts in different LLM inputs. This has led to a broad design space, including colocating stored KV caches with (or close to) GPUs to various KV cache compression. However, a key question remains unanswered: can these delay reductions also be economically favorable? Specifically, we ask whether a developer can use public cloud services to store precomputed KV caches and reuse them to save delay without incurring more costs in terms of compute, storage, and network. To answer this question, we propose an validated analytical model for the cloud cost (in compute, storage, and network) of storing and reusing KV caches based on various workload parameters, such as reuse frequency, generated text lengths, model sizes, etc. Prelimina",
+            "paper_title": "Towards More Economical Context-Augmented LLM Generation by Reusing Stored KV Cache",
+            "source": "crossref",
+            "chunk_id": 33,
+            "verdict": "contradict",
+            "score": 0.6299665915966034,
+            "similarity": 0.8076409101486206,
+            "overlap": 0.3
+          }
+        ]
+      },
+      "verdict": {
+        "claim": "However, existing systems struggle because the key-value cache (KV cache) memory for each request is huge and grows and shrinks dynamically.",
+        "verdict": "inconclusive",
+        "confidence": 0.4405,
+        "explanation": "Evidence is mixed or insufficient (support=1, contradict=1, neutral=4).",
+        "grounding_score": 0.4405,
+        "support_count": 1,
+        "contradict_count": 1,
+        "neutral_count": 4,
+        "total_evidence": 6
+      }
+    },
+    {
+      "claim": "Building upon our recent work, RocketKV, this paper introduces EMPIRIC as an oracle-based vision study, which explicitly defines theoretical bounds for accuracy, computation, and storage in KV cache compression.",
+      "claim_type": "statement",
+      "domain": "transformer_efficiency",
+      "grounding": {
+        "claim": "Building upon our recent work, RocketKV, this paper introduces EMPIRIC as an oracle-based vision study, which explicitly defines theoretical bounds for accuracy, computation, and storage in KV cache compression.",
+        "support_count": 1,
+        "contradict_count": 1,
+        "neutral_count": 1,
+        "total_evidence": 3,
+        "unique_sources": 1,
+        "unique_titles": 2,
+        "avg_support_score": 0.9472,
+        "avg_contradict_score": 0.6057,
+        "diversity_score": 0.75,
+        "contradiction_penalty": 0.2019,
+        "coverage_score": 0.5,
+        "grounding_score": 0.3585,
+        "top_support": [
+          {
+            "text": "512 tokens). Building upon our recent work, RocketKV, this paper introduces EMPIRIC as an oracle-based vision study, which explicitly defines theoretical bounds for accuracy, computation, and storage in KV cache compression. By analyzing intrinsic patterns in KV cache attention heads, EMPIRIC provides novel insights into effective token pruning without accuracy degradation. This work clarifies the overlooked elements critical to KV cache compression during decoding and optimally balances computational efficiency, storage optimization, inference latency, and accuracy. We envision that EMPIRIC will guide future research efforts toward creating scalable, efficient KV cache compression techniques, significantly improving inference performance for long context LLM inference.</jats:p>",
+            "paper_title": "EMPIRIC: Exploring Missing Pieces in KV Cache Compression for Reducing Computation, Storage, and Latency in Long-Context LLM Inference",
+            "source": "crossref",
+            "chunk_id": 36,
+            "verdict": "support",
+            "score": 0.9472332864999771,
+            "similarity": 0.9188204407691956,
+            "overlap": 1.0
+          }
+        ],
+        "top_contradict": [
+          {
+            "text": "<jats:p>Across large language model (LLM) applications, we observe an emerging trend for reusing KV caches to save the prefill delays of processing repeated input texts in different LLM inputs. This has led to a broad design space, including colocating stored KV caches with (or close to) GPUs to various KV cache compression. However, a key question remains unanswered: can these delay reductions also be economically favorable? Specifically, we ask whether a developer can use public cloud services to store precomputed KV caches and reuse them to save delay without incurring more costs in terms of compute, storage, and network. To answer this question, we propose an validated analytical model for the cloud cost (in compute, storage, and network) of storing and reusing KV caches based on various workload parameters, such as reuse frequency, generated text lengths, model sizes, etc. Prelimina",
+            "paper_title": "Towards More Economical Context-Augmented LLM Generation by Reusing Stored KV Cache",
+            "source": "crossref",
+            "chunk_id": 33,
+            "verdict": "contradict",
+            "score": 0.6057358223658342,
+            "similarity": 0.8076409101486206,
+            "overlap": 0.2308
+          }
+        ]
+      },
+      "verdict": {
+        "claim": "Building upon our recent work, RocketKV, this paper introduces EMPIRIC as an oracle-based vision study, which explicitly defines theoretical bounds for accuracy, computation, and storage in KV cache compression.",
+        "verdict": "inconclusive",
+        "confidence": 0.3585,
+        "explanation": "Evidence is mixed or insufficient (support=1, contradict=1, neutral=1).",
+        "grounding_score": 0.3585,
+        "support_count": 1,
+        "contradict_count": 1,
+        "neutral_count": 1,
+        "total_evidence": 3
+      }
+    }
+  ],
+  "knowledge_gaps": [
+    "Many claims are inconclusive — evidence exists but lacks benchmark numbers or experimental results.",
+    "No contradicting evidence found — this may indicate limited coverage of papers reporting failure cases or trade-offs."
+  ],
+  "next_actions": [
+    "Pick 1 concrete intervention and convert it into a falsifiable claim (inputs → mechanism → measurable outputs).",
+    "Run targeted retrieval using 3–5 specific transformer-efficiency keywords and compare results.",
+    "Prioritize evidence chunks with benchmark numbers (latency, throughput, memory, perplexity, context length).",
+    "Generate an experiment plan: baseline, efficiency metric, quality metric, ablations, acceptance threshold."
+  ]
+}

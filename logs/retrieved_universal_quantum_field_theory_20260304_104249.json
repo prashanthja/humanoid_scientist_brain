@@ -1,0 +1,107 @@
+[
+  {
+    "title": "Entanglement entropy and quantum field theory",
+    "text": "We carry out a systematic study of entanglement entropy in relativistic quantum field theory. This is defined as the von Neumann entropy SA = −Tr ρAlogρA corresponding to the reduced density matrix ρA of a subsystem A. For the case of a 1+1-dimensional critical system, whose continuum limit is a conformal field theory with central charge c, we re-derive the result of Holzhey et al when A is a finite interval of length in an infinite system, and extend it to many other cases: finite systems, finite temperatures, and when A consists of an arbitrary number of disjoint intervals. For such a system away from its critical point, when the correlation length ξ is large but finite, we show that , where is the number of boundary points of A. These results are verified for a free massive field theory, which is also used to confirm a scaling ansatz for the case of finite size off-critical systems, and for integrable lattice models, such as the Ising and XXZ models, which are solvable by corner transfer matrix methods. Finally the free field results are extended to higher dimensions, and used to motivate a scaling form for the singular part of the entanglement entropy near a quantum phase transition.",
+    "url": "https://www.semanticscholar.org/paper/d31eb786774a0d6460971df91df3714fb945dd00",
+    "source": "semantic_scholar",
+    "timestamp": 2004
+  },
+  {
+    "title": "Review on Quantum Computing for Lattice Field Theory",
+    "text": "In these proceedings, we review recent advances in applying quantum computing to lattice field theory. Quantum computing offers the prospect to simulate lattice field theories in parameter regimes that are largely inaccessible with the conventional Monte Carlo approach, such as the sign-problem afflicted regimes of finite baryon density, topological terms, and out-of-equilibrium dynamics. First proof-of-concept quantum computations of lattice gauge theories in (1+1) dimensions have been accomplished, and first resource-efficient quantum algorithms for lattice gauge theories in (1+1) and (2+1) dimensions have been developed. The path towards quantum computations of (3+1)-dimensional lattice gauge theories, including Lattice QCD, requires many incremental steps of improving both quantum hardware and quantum algorithms. After reviewing these requirements and recent advances, we discuss the main challenges and future directions.",
+    "url": "https://www.semanticscholar.org/paper/8eceb6ae13f3328d20a992a39b459fcd5e520f10",
+    "source": "semantic_scholar",
+    "timestamp": 2023
+  },
+  {
+    "title": "Snowmass White Paper: Generalized Symmetries in Quantum Field Theory and Beyond",
+    "text": "Symmetry plays a central role in quantum field theory. Recent developments include symmetries that act on defects and other subsystems, and symmetries that are categorical rather than group-like. These generalized notions of symmetry allow for new kinds of anomalies that constrain dynamics. We review some transformative instances of these novel aspects of symmetry in quantum field theory, and give a broad-brush overview of recent applications.",
+    "url": "https://www.semanticscholar.org/paper/9b5a93ae2ef31c2271153a942ae948345c7d2293",
+    "source": "semantic_scholar",
+    "timestamp": 2022
+  },
+  {
+    "title": "Topological symmetry in quantum field theory",
+    "text": "We introduce a definition and framework for internal topological symmetries in quantum field theory, including “noninvertible symmetries” and “categorical symmetries”. We outline a calculus of topological defects which takes advantage of well-developed theorems and techniques in topological field theory. Our discussion focuses on finite symmetries, and we give indications for a generalization to other symmetries. We treat quotients and quotient defects (often called “gauging” and “condensation defects”), finite electromagnetic duality, and duality defects, among other topics. We include an appendix on finite homotopy theories, which are often used to encode finite symmetries and for which computations can be carried out using methods of algebraic topology. Throughout we emphasize exposition and examples over a detailed technical treatment.",
+    "url": "https://www.semanticscholar.org/paper/76a6b78e7c477540f5900d0fb7a9555c52bd46f1",
+    "source": "semantic_scholar",
+    "timestamp": 2022
+  },
+  {
+    "title": "Quantum Field Theory and Critical Phenomena",
+    "text": "Introduced as a quantum extension of Maxwell's classical theory, quantum electrodynamic (QED) has been the first example of a quantum field theory (QFT). Eventually, QFT has become the framework for the discussion of all fundamental interactions at the microscopic scale except, possibly, gravity. More surprisingly, it has also provided a framework for the understanding of second order phase transitions in statistical mechanics. In fact, as hopefully this work illustrates, QFT is the natural framework for the discussion of most systems involving an infinite number of degrees of freedom with local couplings. These systems range from cold Bose gases at the condensation temperature (about ten nanokelvin) to conventional phase transitions (from a few degrees to several hundred) and high energy particle physics up to a TeV, altogether more than twenty orders of magnitude in the energy scale. Therefore, although excellent textbooks about QFT had already been published, I thought, many years ago, that it might not be completely worthless to present a work in which the strong formal relations between particle physics and the theory of critical phenomena are systematically emphasized. This option explains some of the choices made in the presentation. A formulation in terms of field integrals has been adopted to study the properties of QFT. The language of partition and correlation functions has been used throughout, even in applications of QFT to particle physics. Renormalization and renormalization group (RG) properties are systematically discussed. The notion of effective field theory (EFT) and the emergence of renormalizable theories are described. The consequences for fine-tuning and triviality issue are emphasized. This fifth edition has been updated and fully revised.",
+    "url": "https://www.semanticscholar.org/paper/45079a4dfb5360c348d8f6987058d7110a7c579f",
+    "source": "semantic_scholar",
+    "timestamp": 2002
+  },
+  {
+    "title": "Factorization Algebras in Quantum Field Theory",
+    "text": "Factorization algebras are local-to-global objects that play a role in classical and quantum field theory that is similar to the role of sheaves in geometry: they conveniently organize complicated information. Their local structure encompasses examples like associative and vertex algebras; in these examples, their global structure encompasses Hochschild homology and conformal blocks. In this second volume, the authors show how factorization algebras arise from interacting field theories, both classical and quantum, and how they encode essential information such as operator product expansions, Noether currents, and anomalies. Along with a systematic reworking of the Batalin–Vilkovisky formalism via derived geometry and factorization algebras, this book offers concrete examples from physics, ranging from angular momentum and Virasoro symmetries to a five-dimensional gauge theory.",
+    "url": "https://www.semanticscholar.org/paper/a1651101e78fd716ca32af9d01f6803d5c9a1eb2",
+    "source": "semantic_scholar",
+    "timestamp": 2021
+  },
+  {
+    "title": "Classical Gravitational Bremsstrahlung from a Worldline Quantum Field Theory.",
+    "text": "Using the recently established formalism of a worldline quantum field theory description of the classical scattering of two spinless black holes, we compute the far-field time-domain waveform of the gravitational waves produced in the encounter at leading order in the post-Minkowskian (weak field but generic velocity) expansion. We reproduce the previous results of Kovacs and Thorne in a highly economic way. Then, using the waveform, we extract the leading-order total radiated angular momentum and energy (including differential results). Our work may enable crucial improvements of gravitational-wave predictions in the regime of large relative velocities.",
+    "url": "https://www.semanticscholar.org/paper/a7ff80fab3a1c6d30955602e69c52eae6ca788bd",
+    "source": "semantic_scholar",
+    "timestamp": 2021
+  },
+  {
+    "title": "Krylov complexity in quantum field theory, and beyond",
+    "text": "We study Krylov complexity in various models of quantum field theory: free massive bosons and fermions on flat space and on spheres, holographic models, and lattice models with a UV-cutoff. In certain cases, we observe asymptotic behavior in Lanczos coefficients that extends beyond the previously observed universality. We confirm that, in all cases, the exponential growth of Krylov complexity satisfies the conjectured inequality, which generalizes the Maldacena-Shenker-Stanford bound on chaos. We discuss the temperature dependence of Lanczos coefficients and note that the relationship between the growth of Lanczos coefficients and chaos may only hold for the sufficiently late, truly asymptotic regime, governed by physics at the UV cutoff. Contrary to previous suggestions, we demonstrate scenarios in which Krylov complexity in quantum field theory behaves qualitatively differently from holographic complexity.",
+    "url": "https://www.semanticscholar.org/paper/8bf0b3c15bad8991bb941439a7bc9fc158db3609",
+    "source": "semantic_scholar",
+    "timestamp": 2022
+  },
+  {
+    "title": "Wick Rotation and the Positivity of Energy in Quantum Field Theory",
+    "text": "We propose a new axiom system for unitary quantum field theories on curved space-time backgrounds, by postulating that the partition function and the correlators extend analytically to a certain domain of complex-valued metrics. Ordinary Riemannian metrics are contained in the allowable domain, while Lorentzian metrics lie on its boundary.",
+    "url": "https://www.semanticscholar.org/paper/24a8fbc2b7c983ddbbe1fdfd6f6762dc1d0defef",
+    "source": "semantic_scholar",
+    "timestamp": 2021
+  },
+  {
+    "title": "Krylov Complexity in Quantum Field Theory",
+    "text": "In this paper, we study the Krylov complexity in quantum field theory and make a connection with the holographic\"Complexity equals Volume\"conjecture. When Krylov basis matches with Fock basis, for several interesting settings, we observe that the Krylov complexity equals the average particle number showing that complexity scales with volume. Using similar formalism, we compute the Krylov complexity for free scalar field theory and find surprising similarities with holography. We also extend this framework for field theory where an inverted oscillator appears naturally and explore its chaotic behavior.",
+    "url": "https://www.semanticscholar.org/paper/6963038f9f2854ed2933f8fabd0f24dfabbb0b54",
+    "source": "semantic_scholar",
+    "timestamp": 2022
+  },
+  {
+    "title": "Introduction to Quantum Field Theory with Applications to Quantum Gravity",
+    "text": "This book focuses on quantum field theory and its application to gravitational physics, in both semiclassical and full quantum frameworks, with special attention paid to renormalization, gauge theories and, especially, effective action formalism. Part I provides both conceptual and technical introductions to quantum field theory, starting from elements of group theory, through classical fields, up to effective action formalism in general gauge theories. Compared to other books on this topic, this book describes the general formalism of renormalization in more detail and pays more attention to gauge theories. Part II discusses basic aspects of quantum field theory in curved spacetime and perturbative quantum gravity. More than half of this part is written with a full exposition of details, including well-explained examples with simple calculations. All chapters include exercises, which range from very simple ones to those requiring small original investigations. The material in the second part was selected on the basis of the “must-know” principle: while detailed expositions are provided for relatively simple techniques and calculations, it is expected that the interested reader will be able to learn more advanced issues independently after learning the basic material and working through the exercises provided. In some cases, when more complicated subjects were discussed, the book only provides references for the original publications, where the reader can find the full details of the calculations used.",
+    "url": "https://www.semanticscholar.org/paper/1190d97a4b9a8d88c3d88e47628dd9fc7c2101c1",
+    "source": "semantic_scholar",
+    "timestamp": 2021
+  },
+  {
+    "title": "Lectures on entanglement in quantum field theory",
+    "text": "These notes grew from a series of lectures given by the authors during the last decade. They will be published in the proceedings of TASI 2021. After a brief introduction to quantum information theory tools, they are organized in four chapters covering the following subjects: Entanglement in quantum field theory, Irreversibility theorems, Energy-entropy bounds, Entanglement and symmetries.",
+    "url": "https://www.semanticscholar.org/paper/3afe57f6550140f7c62de3c0d94c3860c62aa3b8",
+    "source": "semantic_scholar",
+    "timestamp": 2022
+  },
+  {
+    "title": "APS Medal for Exceptional Achievement in Research: Invited article on entanglement properties of quantum field theory",
+    "text": "The 2016 APS Medal for Excellence in Physics was given to Edward Witten. This contribution was invited in conjunction with this award. These original notes contain concise explanations of some key results in the axiomatic and algebraic approaches to quantum field theory, which are relevant to quantum entanglement. They serve to put the connection between quantum field theory and quantum information theory on a precise and rigorous footing.",
+    "url": "https://www.semanticscholar.org/paper/7e49b1f89e5256f3883b7afa283de33d1259dc52",
+    "source": "semantic_scholar",
+    "timestamp": 2018
+  },
+  {
+    "title": "A detector-based measurement theory for quantum field theory",
+    "text": "We propose a measurement theory for quantum fields based on measurements made with localized non-relativistic systems that couple covariantly to quantum fields (like the Unruh-DeWitt detector). Concretely, we analyze the positive operator-valued measure (POVM) induced on the field when an idealized measurement is carried out on the detector after it coupled to the field. Using an information-theoretic approach, we provide a relativistic analogue to the quantum mechanical L\\\"uders update rule to update the field state following the measurement on the detector. We argue that this proposal has all the desirable characteristics of a proper measurement theory. In particular it does not suffer from the\"impossible measurements\"problem pointed out by Rafael Sorkin in the 90s which shows that idealized measurements cannot be used in quantum field theory.",
+    "url": "https://www.semanticscholar.org/paper/4af91484f187e40a41fbad539dc76d992ba90277",
+    "source": "semantic_scholar",
+    "timestamp": 2021
+  },
+  {
+    "title": "Quantum field theory",
+    "text": "In theoretical physics, quantum field theory (QFT) is a theoretical framework that combines field theory, special relativity and quantum mechanics. QFT is used in particle physics to construct physical models of subatomic particles and in condensed matter physics to construct models of quasiparticles. The current standard model of particle physics is based on QFT.",
+    "url": "https://en.wikipedia.org/wiki/Quantum_field_theory",
+    "source": "wikipedia",
+    "timestamp": "2026-03-04"
+  }
+]

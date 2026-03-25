@@ -69,17 +69,49 @@ def to_chunks(enriched_docs: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
             })
     return chunks
 
+def rebuild_index(chunk_store: ChunkStore):
+    trainer = OnlineTrainer()
+    bridge = EmbeddingBridge(trainer)
+    idx = ChunkIndex(
+        chunk_store=chunk_store,
+        encoder=bridge,
+        cache_dir="data",
+        max_items=8000,
+        chunk_batch=32,
+    )
+    idx.rebuild()
+    print(f"✅ Index rebuilt. items={len(idx.items)} dim={idx.dim}")
+
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("topic", type=str)
+    ap.add_argument("topic", type=str, nargs="?", default=None,
+                    help="Topic to fetch. Omit if using --rebuild_only.")
     ap.add_argument("--limit", type=int, default=40)
-    ap.add_argument("--rebuild_index", action="store_true")
+    ap.add_argument("--rebuild_index", action="store_true",
+                    help="Rebuild index after fetching.")
+    ap.add_argument("--rebuild_only", action="store_true",
+                    help="Skip fetching. Just rebuild index from existing chunks.")
     args = ap.parse_args()
+
+    chunk_store = ChunkStore()
+
+    # ── Rebuild only — no fetch ──────────────
+    if args.rebuild_only:
+        print(f"📦 Chunks in store: {chunk_store.count()}")
+        if chunk_store.count() == 0:
+            print("⚠️  No chunks in store. Run ingestion first.")
+            return
+        print("🔧 Rebuilding index from existing chunks...")
+        rebuild_index(chunk_store)
+        return
+
+    # ── Normal fetch + optional rebuild ──────
+    if not args.topic:
+        ap.error("topic is required unless --rebuild_only is set.")
 
     omni = OmniRetriever()
     safety = SafetyFilter()
     kb = KnowledgeBase()
-    chunk_store = ChunkStore()
 
     print(f"🔎 Retrieving docs for: {args.topic}")
     docs = omni.retrieve_universal(args.topic)[: args.limit]
@@ -89,6 +121,9 @@ def main():
     enriched = to_enriched_items(safe_docs, args.topic)
     if not enriched:
         print("⚠️ No enriched docs. Nothing to store.")
+        if args.rebuild_index:
+            print("🔧 Rebuilding index from existing chunks anyway...")
+            rebuild_index(chunk_store)
         return
 
     kb.store(enriched)
@@ -98,11 +133,7 @@ def main():
     print(f"📦 chunks_in_store={chunk_store.count()}  kb_count={kb.count()}")
 
     if args.rebuild_index:
-        trainer = OnlineTrainer()
-        bridge = EmbeddingBridge(trainer)
-        idx = ChunkIndex(chunk_store=chunk_store, encoder=bridge, cache_dir="data", max_items=8000, chunk_batch=32)
-        idx.rebuild()
-        print(f"✅ Index rebuilt. items={len(idx.items)} dim={idx.dim}")
+        rebuild_index(chunk_store)
 
 if __name__ == "__main__":
     main()

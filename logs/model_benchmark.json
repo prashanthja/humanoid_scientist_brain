@@ -1,20 +1,20 @@
 {
-  "timestamp": "2026-02-04 10:10:24",
+  "timestamp": "2026-03-07 10:27:42",
   "top_k": 8,
   "evidence_sim_threshold": 0.55,
-  "kb_items_used": 398,
+  "kb_items_used": 518,
   "kb_duplicate_drop_rate": 0.0,
   "collapse_diagnostics": {
     "ok": true,
     "mean_norm": 1.0,
-    "mean_dim_variance": 7.5e-05,
-    "mean_cosine_to_meanvec": 0.9807
+    "mean_dim_variance": 7.6e-05,
+    "mean_cosine_to_meanvec": 0.981
   },
   "recall_at_k": 1.0,
   "avg_best_evidence_similarity": 0.8415,
   "avg_keyword_hit_rate": 0.1,
-  "avg_discrimination_gap": 0.0095,
-  "verdict": "Weak — retrieval not discriminative (likely duplicates or embedding collapse)",
+  "avg_discrimination_gap": 0.0346,
+  "verdict": "Moderate — retrieval somewhat discriminative, improve KB + embeddings",
   "benchmarks": [
     {
       "id": "newton2",
@@ -68,6 +68,15 @@
           "similarity_to_question": 0.7675268054008484
         },
         {
+          "id": 7548,
+          "paper_id": null,
+          "paper_title": "Modern Cosmology",
+          "source": "semantic_scholar",
+          "text": "I review in these lectures our present understanding of the origin and evolution of the universe, making emphasis on the most recent observations of the acceleration of the universe, the precise measurements of the microwave background anisotropies, and the formation of structure like galaxies and clusters of galaxies from tiny primodial fluctuations generated during inflation.",
+          "_dedupe_key": "id:7548",
+          "similarity_to_question": 0.767216682434082
+        },
+        {
           "id": 6561,
           "paper_id": null,
           "paper_title": "Action-Angle Variables in Quantum Gravity",
@@ -84,20 +93,11 @@
           "text": "In this paper, we briefly discuss the dynamic and functional approach to computer symbolic tensor analysis. The ccgrg package for Wolfram Language/Mathematica is used to illustrate this approach. Some examples of applications are attached.",
           "_dedupe_key": "id:7329",
           "similarity_to_question": 0.7556238174438477
-        },
-        {
-          "id": 7308,
-          "paper_id": null,
-          "paper_title": "unknown",
-          "source": "semantic_scholar",
-          "text": "© 2018, Cambridge University Press Let us summarize our findings. A random projection of a set T in R n onto an m-dimensional subspace approximately preserves the geometry of T if m ⪆ d ( T ) . For...",
-          "_dedupe_key": "id:7308",
-          "similarity_to_question": 0.7547680735588074
         }
       ],
       "best_evidence_similarity_to_expected": 0.7781,
-      "random_baseline_best_sim": 0.8068,
-      "discrimination_gap": -0.0287,
+      "random_baseline_best_sim": 0.811,
+      "discrimination_gap": -0.033,
       "recall_hit": true,
       "keyword_hit_rate": 0.5,
       "unique_in_top_k": 8
@@ -182,8 +182,8 @@
         }
       ],
       "best_evidence_similarity_to_expected": 0.8573,
-      "random_baseline_best_sim": 0.8573,
-      "discrimination_gap": -0.0,
+      "random_baseline_best_sim": 0.8211,
+      "discrimination_gap": 0.0361,
       "recall_hit": true,
       "keyword_hit_rate": 0.0,
       "unique_in_top_k": 8
@@ -268,8 +268,8 @@
         }
       ],
       "best_evidence_similarity_to_expected": 0.8579,
-      "random_baseline_best_sim": 0.8268,
-      "discrimination_gap": 0.0311,
+      "random_baseline_best_sim": 0.8155,
+      "discrimination_gap": 0.0424,
       "recall_hit": true,
       "keyword_hit_rate": 0.0,
       "unique_in_top_k": 8
@@ -354,8 +354,8 @@
         }
       ],
       "best_evidence_similarity_to_expected": 0.8477,
-      "random_baseline_best_sim": 0.8025,
-      "discrimination_gap": 0.0451,
+      "random_baseline_best_sim": 0.7591,
+      "discrimination_gap": 0.0885,
       "recall_hit": true,
       "keyword_hit_rate": 0.0,
       "unique_in_top_k": 8
@@ -440,8 +440,8 @@
         }
       ],
       "best_evidence_similarity_to_expected": 0.8668,
-      "random_baseline_best_sim": 0.8668,
-      "discrimination_gap": 0.0,
+      "random_baseline_best_sim": 0.8281,
+      "discrimination_gap": 0.0387,
       "recall_hit": true,
       "keyword_hit_rate": 0.0,
       "unique_in_top_k": 8

@@ -1,0 +1,16 @@
+[
+  {
+    "title": "DGRNA: a long-context RNA foundation model with bidirectional attention Mamba2",
+    "text": "<jats:title>Abstract</jats:title> <jats:p>Ribonucleic acid (RNA) is an important biomolecule with diverse functions i.e. genetic information transfer, regulation of gene expression and cellular functions. In recent years, the rapid development of sequencing technology has significantly enhanced our understanding of RNA biology and advanced RNA-based therapies, resulting in a huge volume of RNA data. Data-driven methods, particularly unsupervised large language models, have been used to automatically hidden semantic information from these RNA data. Current RNA large language models are primarily based on Transformer architecture, which cannot efficiently process long RNA sequences, while the Mamba architecture can effectively alleviate the quadratic complexity associated with Transformers. In this study, we propose a large foundational model DGRNA based on the bidirectional Mamba trained on 100 million RNA sequences, which has demonstrated exceptional performance across six RNA downstream tasks compared to existing RNA language models.</jats:p>",
+    "url": "https://doi.org/10.1101/2024.10.31.621427",
+    "source": "crossref",
+    "timestamp": 2024
+  },
+  {
+    "title": "A long-context language model for deciphering and generating bacteriophage genomes",
+    "text": "<jats:title> <jats:bold>Abstract</jats:bold> </jats:title> <jats:p> Inspired by the success of large language models, we develop a long-context generative model for genomes. Our multiscale transformer model was pre-trained on unannotated bacteriophage genomes with byte-level tokenization. We demonstrate the foundational capabilities of our model including the prediction of essential genes, genetic variant effects, regulatory element activity and taxonomy of unannotated sequences. Furthermore, it generates <jats:italic>de novo</jats:italic> sequences up to 96K base pairs, which contain functional regulatory elements and novel proteins with phage-related functions. </jats:p>",
+    "url": "https://doi.org/10.1101/2023.12.18.572218",
+    "source": "crossref",
+    "timestamp": 2023
+  }
+]
