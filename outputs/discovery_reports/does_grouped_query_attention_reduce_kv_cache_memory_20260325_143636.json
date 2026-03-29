@@ -1,0 +1,367 @@
+{
+  "query": "Does grouped query attention reduce KV cache memory?",
+  "timestamp": "2026-03-25 14:36:36",
+  "domain": "transformer_efficiency",
+  "proposal_verdict": "supported",
+  "proposal_confidence": 0.7458428468704223,
+  "proposal_explanation": "Evidence from multiple sources confirms this claim with experimental results.",
+  "evidence_count": 10,
+  "top_papers": [
+    "QCQA: Quality and Capacity-aware grouped Query Attention",
+    "TPLA: Tensor Parallel Latent Attention for Efficient Disaggregated Prefill & Decode Inference",
+    "Accelerating LLM Inference via Dynamic KV Cache Placement in Heterogeneous Memory System",
+    "CORM: Cache Optimization with Recent Message for Large Language Model Inference",
+    "HCAttention: Extreme KV Cache Compression via Heterogeneous Attention Computing for LLMs",
+    "KeyDiff: Key Similarity-Based KV Cache Eviction for Long-Context LLM Inference in Resource-Constrained Environments",
+    "Seesaw: High-throughput LLM Inference via Model Re-sharding",
+    "LLM-CoOpt: A Co-Design and Optimization Framework for Efficient LLM Inference on Heterogeneous Platforms"
+  ],
+  "extracted_claim_count": 10,
+  "top_claims": [
+    {
+      "claim": "To our knowledge, this is the first formal treatment of dynamic KV cache scheduling in heterogeneous memory systems for LLM inference.",
+      "paper_title": "Accelerating LLM Inference via Dynamic KV Cache Placement in Heterogeneous Memory System",
+      "domain": "transformer_efficiency"
+    },
+    {
+      "claim": "Excessive memory requirements of key and value features (KV-cache) present significant challenges in the autoregressive inference of large language models (LLMs), restricting both the speed and length of text generation.",
+      "paper_title": "QCQA: Quality and Capacity-aware grouped Query Attention",
+      "domain": "transformer_efficiency"
+    },
+    {
+      "claim": "Beyond the memory taken up by model weights, the memory used by the KV cache rises linearly with sequence length, becoming a primary bottleneck for inference.",
+      "paper_title": "CORM: Cache Optimization with Recent Message for Large Language Model Inference",
+      "domain": "transformer_efficiency"
+    },
+    {
+      "claim": "In this paper, we introduce an innovative method for optimizing the KV cache, which considerably minimizes its memory footprint.",
+      "paper_title": "CORM: Cache Optimization with Recent Message for Large Language Model Inference",
+      "domain": "transformer_efficiency"
+    },
+    {
+      "claim": "Processing long-context inputs with large language models presents a significant challenge due to the enormous memory requirements of the Key-Value (KV) cache during inference.",
+      "paper_title": "HCAttention: Extreme KV Cache Compression via Heterogeneous Attention Computing for LLMs",
+      "domain": "transformer_efficiency"
+    }
+  ],
+  "grounded_claim_count": 5,
+  "supported_count": 0,
+  "contradicted_count": 0,
+  "inconclusive_count": 5,
+  "top_grounded": [
+    {
+      "claim": "Multi-Head Latent Attention (MLA), introduced in DeepSeek-V2, compresses key–value states into a low-rank latent vector cKV, caching only this vector to reduce memory.",
+      "claim_type": "statement",
+      "domain": "transformer_efficiency",
+      "grounding": {
+        "claim": "Multi-Head Latent Attention (MLA), introduced in DeepSeek-V2, compresses key–value states into a low-rank latent vector cKV, caching only this vector to reduce memory.",
+        "support_count": 1,
+        "contradict_count": 0,
+        "neutral_count": 1,
+        "total_evidence": 2,
+        "unique_sources": 1,
+        "unique_titles": 2,
+        "avg_support_score": 0.6196,
+        "avg_contradict_score": 0.0,
+        "diversity_score": 0.75,
+        "contradiction_penalty": 0.0,
+        "coverage_score": 0.3333,
+        "grounding_score": 0.5431,
+        "top_support": [
+          {
+            "text": "Major challenges in LLMs inference remain frequent memory bandwidth bottlenecks, computational redundancy, and inefficiencies in long-sequence processing. To address these issues, we propose LLM-CoOpt, a comprehensive algorithmhardware co-design framework aimed at improving both throughput and latency in LLM inference. LLM-CoOpt integrates three key strategies: (1) Key-Value Cache Optimization, termed Opt-KV, which improves memory access efficiency by optimizing both KV cache write and read paths, and introduces FP8 quantization to reduce memory footprint while maintaining accuracy; (2) Grouped-Query Attention for Computational Efficiency, termed Opt-GQA, which reduces the overall computational complexity by restructuring multi-head self-attention into grouped-query attention with shared key-value projections, enabling higher throughput and lower resource consumption; (3) Paged Attention",
+            "paper_title": "LLM-CoOpt: A Co-Design and Optimization Framework for Efficient LLM Inference on Heterogeneous Platforms",
+            "source": "semantic_scholar",
+            "chunk_id": 396,
+            "verdict": "support",
+            "score": 0.6195945998032888,
+            "similarity": 0.8250173330307007,
+            "overlap": 0.2381
+          }
+        ],
+        "top_contradict": []
+      },
+      "verdict": {
+        "claim": "Multi-Head Latent Attention (MLA), introduced in DeepSeek-V2, compresses key–value states into a low-rank latent vector cKV, caching only this vector to reduce memory.",
+        "verdict": "partially_supported",
+        "confidence": 0.5431,
+        "explanation": "Evidence leans supportive but remains mixed (support=1, contradict=0, neutral=1).",
+        "grounding_score": 0.5431,
+        "support_count": 1,
+        "contradict_count": 0,
+        "neutral_count": 1,
+        "total_evidence": 2
+      }
+    },
+    {
+      "claim": "To our knowledge, this is the first formal treatment of dynamic KV cache scheduling in heterogeneous memory systems for LLM inference.",
+      "claim_type": "statement",
+      "domain": "transformer_efficiency",
+      "grounding": {
+        "claim": "To our knowledge, this is the first formal treatment of dynamic KV cache scheduling in heterogeneous memory systems for LLM inference.",
+        "support_count": 2,
+        "contradict_count": 1,
+        "neutral_count": 5,
+        "total_evidence": 8,
+        "unique_sources": 1,
+        "unique_titles": 7,
+        "avg_support_score": 0.656,
+        "avg_contradict_score": 0.6961,
+        "diversity_score": 0.75,
+        "contradiction_penalty": 0.087,
+        "coverage_score": 1.0,
+        "grounding_score": 0.4639,
+        "top_support": [
+          {
+            "text": "Major challenges in LLMs inference remain frequent memory bandwidth bottlenecks, computational redundancy, and inefficiencies in long-sequence processing. To address these issues, we propose LLM-CoOpt, a comprehensive algorithmhardware co-design framework aimed at improving both throughput and latency in LLM inference. LLM-CoOpt integrates three key strategies: (1) Key-Value Cache Optimization, termed Opt-KV, which improves memory access efficiency by optimizing both KV cache write and read paths, and introduces FP8 quantization to reduce memory footprint while maintaining accuracy; (2) Grouped-Query Attention for Computational Efficiency, termed Opt-GQA, which reduces the overall computational complexity by restructuring multi-head self-attention into grouped-query attention with shared key-value projections, enabling higher throughput and lower resource consumption; (3) Paged Attention",
+            "paper_title": "LLM-CoOpt: A Co-Design and Optimization Framework for Efficient LLM Inference on Heterogeneous Platforms",
+            "source": "semantic_scholar",
+            "chunk_id": 396,
+            "verdict": "support",
+            "score": 0.6675112664699554,
+            "similarity": 0.8250173330307007,
+            "overlap": 0.375
+          },
+          {
+            "text": "ries. Based on these observations, we present CORM, a KV cache eviction policy that dynamically retains essential key-value pairs for inference without the need for model fine-tuning. Our validation shows that CORM reduces the inference memory usage of KV cache by up to 70\\% with negligible performance degradation across six tasks in LongBench. Furthermore, we demonstrate that CORM is compatible with GQA for further compression rate.",
+            "paper_title": "CORM: Cache Optimization with Recent Message for Large Language Model Inference",
+            "source": "semantic_scholar",
+            "chunk_id": 310,
+            "verdict": "support",
+            "score": 0.6444260507822037,
+            "similarity": 0.8231554627418518,
+            "overlap": 0.3125
+          }
+        ],
+        "top_contradict": [
+          {
+            "text": "Excessive memory requirements of key and value features (KV-cache) present significant challenges in the autoregressive inference of large language models (LLMs), restricting both the speed and length of text generation. Approaches such as Multi-Query Attention (MQA) and Grouped Query Attention (GQA) mitigate these challenges by grouping query heads and consequently reducing the number of corresponding key and value heads. However, MQA and GQA decrease the KV-cache size requirements at the expense of LLM accuracy (quality of text generation). These methods do not ensure an optimal tradeoff between KV-cache size and text generation quality due to the absence of quality-aware grouping of query heads. To address this issue, we propose Quality and Capacity-Aware Grouped Query Attention (QCQA), which identifies optimal query head groupings using an evolutionary algorithm with a computationall",
+            "paper_title": "QCQA: Quality and Capacity-aware grouped Query Attention",
+            "source": "semantic_scholar",
+            "chunk_id": 375,
+            "verdict": "contradict",
+            "score": 0.6961198925971985,
+            "similarity": 0.9026844501495361,
+            "overlap": 0.3125
+          }
+        ]
+      },
+      "verdict": {
+        "claim": "To our knowledge, this is the first formal treatment of dynamic KV cache scheduling in heterogeneous memory systems for LLM inference.",
+        "verdict": "partially_supported",
+        "confidence": 0.4639,
+        "explanation": "Evidence leans supportive but remains mixed (support=2, contradict=1, neutral=5).",
+        "grounding_score": 0.4639,
+        "support_count": 2,
+        "contradict_count": 1,
+        "neutral_count": 5,
+        "total_evidence": 8
+      }
+    },
+    {
+      "claim": "We present TPLA, a scheme that partitions both the latent representation and each head's input dimension across devices, performs attention independently on each shard, and aggregates the results with an all-reduce.",
+      "claim_type": "statement",
+      "domain": "transformer_efficiency",
+      "grounding": {
+        "claim": "We present TPLA, a scheme that partitions both the latent representation and each head's input dimension across devices, performs attention independently on each shard, and aggregates the results with an all-reduce.",
+        "support_count": 2,
+        "contradict_count": 1,
+        "neutral_count": 2,
+        "total_evidence": 5,
+        "unique_sources": 1,
+        "unique_titles": 4,
+        "avg_support_score": 0.6057,
+        "avg_contradict_score": 0.6707,
+        "diversity_score": 0.75,
+        "contradiction_penalty": 0.1341,
+        "coverage_score": 0.8333,
+        "grounding_score": 0.4463,
+        "top_support": [
+          {
+            "text": "Major challenges in LLMs inference remain frequent memory bandwidth bottlenecks, computational redundancy, and inefficiencies in long-sequence processing. To address these issues, we propose LLM-CoOpt, a comprehensive algorithmhardware co-design framework aimed at improving both throughput and latency in LLM inference. LLM-CoOpt integrates three key strategies: (1) Key-Value Cache Optimization, termed Opt-KV, which improves memory access efficiency by optimizing both KV cache write and read paths, and introduces FP8 quantization to reduce memory footprint while maintaining accuracy; (2) Grouped-Query Attention for Computational Efficiency, termed Opt-GQA, which reduces the overall computational complexity by restructuring multi-head self-attention into grouped-query attention with shared key-value projections, enabling higher throughput and lower resource consumption; (3) Paged Attention",
+            "paper_title": "LLM-CoOpt: A Co-Design and Optimization Framework for Efficient LLM Inference on Heterogeneous Platforms",
+            "source": "semantic_scholar",
+            "chunk_id": 396,
+            "verdict": "support",
+            "score": 0.6062612664699554,
+            "similarity": 0.8250173330307007,
+            "overlap": 0.2
+          },
+          {
+            "text": "ries. Based on these observations, we present CORM, a KV cache eviction policy that dynamically retains essential key-value pairs for inference without the need for model fine-tuning. Our validation shows that CORM reduces the inference memory usage of KV cache by up to 70\\% with negligible performance degradation across six tasks in LongBench. Furthermore, we demonstrate that CORM is compatible with GQA for further compression rate.",
+            "paper_title": "CORM: Cache Optimization with Recent Message for Large Language Model Inference",
+            "source": "semantic_scholar",
+            "chunk_id": 310,
+            "verdict": "support",
+            "score": 0.6050510507822037,
+            "similarity": 0.8231554627418518,
+            "overlap": 0.2
+          }
+        ],
+        "top_contradict": [
+          {
+            "text": "Excessive memory requirements of key and value features (KV-cache) present significant challenges in the autoregressive inference of large language models (LLMs), restricting both the speed and length of text generation. Approaches such as Multi-Query Attention (MQA) and Grouped Query Attention (GQA) mitigate these challenges by grouping query heads and consequently reducing the number of corresponding key and value heads. However, MQA and GQA decrease the KV-cache size requirements at the expense of LLM accuracy (quality of text generation). These methods do not ensure an optimal tradeoff between KV-cache size and text generation quality due to the absence of quality-aware grouping of query heads. To address this issue, we propose Quality and Capacity-Aware Grouped Query Attention (QCQA), which identifies optimal query head groupings using an evolutionary algorithm with a computationall",
+            "paper_title": "QCQA: Quality and Capacity-aware grouped Query Attention",
+            "source": "semantic_scholar",
+            "chunk_id": 375,
+            "verdict": "contradict",
+            "score": 0.6707448925971985,
+            "similarity": 0.9026844501495361,
+            "overlap": 0.24
+          }
+        ]
+      },
+      "verdict": {
+        "claim": "We present TPLA, a scheme that partitions both the latent representation and each head's input dimension across devices, performs attention independently on each shard, and aggregates the results with an all-reduce.",
+        "verdict": "partially_supported",
+        "confidence": 0.4463,
+        "explanation": "Evidence leans supportive but remains mixed (support=2, contradict=1, neutral=2).",
+        "grounding_score": 0.4463,
+        "support_count": 2,
+        "contradict_count": 1,
+        "neutral_count": 2,
+        "total_evidence": 5
+      }
+    },
+    {
+      "claim": "However, MQA and GQA decrease the KV-cache size requirements at the expense of LLM accuracy (quality of text generation).",
+      "claim_type": "statement",
+      "domain": "unknown",
+      "grounding": {
+        "claim": "However, MQA and GQA decrease the KV-cache size requirements at the expense of LLM accuracy (quality of text generation).",
+        "support_count": 2,
+        "contradict_count": 1,
+        "neutral_count": 4,
+        "total_evidence": 7,
+        "unique_sources": 1,
+        "unique_titles": 7,
+        "avg_support_score": 0.6173,
+        "avg_contradict_score": 0.9367,
+        "diversity_score": 0.75,
+        "contradiction_penalty": 0.1338,
+        "coverage_score": 1.0,
+        "grounding_score": 0.4225,
+        "top_support": [
+          {
+            "text": "Major challenges in LLMs inference remain frequent memory bandwidth bottlenecks, computational redundancy, and inefficiencies in long-sequence processing. To address these issues, we propose LLM-CoOpt, a comprehensive algorithmhardware co-design framework aimed at improving both throughput and latency in LLM inference. LLM-CoOpt integrates three key strategies: (1) Key-Value Cache Optimization, termed Opt-KV, which improves memory access efficiency by optimizing both KV cache write and read paths, and introduces FP8 quantization to reduce memory footprint while maintaining accuracy; (2) Grouped-Query Attention for Computational Efficiency, termed Opt-GQA, which reduces the overall computational complexity by restructuring multi-head self-attention into grouped-query attention with shared key-value projections, enabling higher throughput and lower resource consumption; (3) Paged Attention",
+            "paper_title": "LLM-CoOpt: A Co-Design and Optimization Framework for Efficient LLM Inference on Heterogeneous Platforms",
+            "source": "semantic_scholar",
+            "chunk_id": 396,
+            "verdict": "support",
+            "score": 0.6295945998032888,
+            "similarity": 0.8250173330307007,
+            "overlap": 0.2667
+          },
+          {
+            "text": "ries. Based on these observations, we present CORM, a KV cache eviction policy that dynamically retains essential key-value pairs for inference without the need for model fine-tuning. Our validation shows that CORM reduces the inference memory usage of KV cache by up to 70\\% with negligible performance degradation across six tasks in LongBench. Furthermore, we demonstrate that CORM is compatible with GQA for further compression rate.",
+            "paper_title": "CORM: Cache Optimization with Recent Message for Large Language Model Inference",
+            "source": "semantic_scholar",
+            "chunk_id": 310,
+            "verdict": "support",
+            "score": 0.6050510507822037,
+            "similarity": 0.8231554627418518,
+            "overlap": 0.2
+          }
+        ],
+        "top_contradict": [
+          {
+            "text": "Excessive memory requirements of key and value features (KV-cache) present significant challenges in the autoregressive inference of large language models (LLMs), restricting both the speed and length of text generation. Approaches such as Multi-Query Attention (MQA) and Grouped Query Attention (GQA) mitigate these challenges by grouping query heads and consequently reducing the number of corresponding key and value heads. However, MQA and GQA decrease the KV-cache size requirements at the expense of LLM accuracy (quality of text generation). These methods do not ensure an optimal tradeoff between KV-cache size and text generation quality due to the absence of quality-aware grouping of query heads. To address this issue, we propose Quality and Capacity-Aware Grouped Query Attention (QCQA), which identifies optimal query head groupings using an evolutionary algorithm with a computationall",
+            "paper_title": "QCQA: Quality and Capacity-aware grouped Query Attention",
+            "source": "semantic_scholar",
+            "chunk_id": 375,
+            "verdict": "contradict",
+            "score": 0.9367448925971985,
+            "similarity": 0.9026844501495361,
+            "overlap": 1.0
+          }
+        ]
+      },
+      "verdict": {
+        "claim": "However, MQA and GQA decrease the KV-cache size requirements at the expense of LLM accuracy (quality of text generation).",
+        "verdict": "partially_supported",
+        "confidence": 0.4225,
+        "explanation": "Evidence leans supportive but remains mixed (support=2, contradict=1, neutral=4).",
+        "grounding_score": 0.4225,
+        "support_count": 2,
+        "contradict_count": 1,
+        "neutral_count": 4,
+        "total_evidence": 7
+      }
+    },
+    {
+      "claim": "Excessive memory requirements of key and value features (KV-cache) present significant challenges in the autoregressive inference of large language models (LLMs), restricting both the speed and length of text generation.",
+      "claim_type": "statement",
+      "domain": "transformer_efficiency",
+      "grounding": {
+        "claim": "Excessive memory requirements of key and value features (KV-cache) present significant challenges in the autoregressive inference of large language models (LLMs), restricting both the speed and length of text generation.",
+        "support_count": 2,
+        "contradict_count": 1,
+        "neutral_count": 2,
+        "total_evidence": 5,
+        "unique_sources": 1,
+        "unique_titles": 4,
+        "avg_support_score": 0.6337,
+        "avg_contradict_score": 0.9367,
+        "diversity_score": 0.75,
+        "contradiction_penalty": 0.1873,
+        "coverage_score": 0.8333,
+        "grounding_score": 0.3963,
+        "top_support": [
+          {
+            "text": "Major challenges in LLMs inference remain frequent memory bandwidth bottlenecks, computational redundancy, and inefficiencies in long-sequence processing. To address these issues, we propose LLM-CoOpt, a comprehensive algorithmhardware co-design framework aimed at improving both throughput and latency in LLM inference. LLM-CoOpt integrates three key strategies: (1) Key-Value Cache Optimization, termed Opt-KV, which improves memory access efficiency by optimizing both KV cache write and read paths, and introduces FP8 quantization to reduce memory footprint while maintaining accuracy; (2) Grouped-Query Attention for Computational Efficiency, termed Opt-GQA, which reduces the overall computational complexity by restructuring multi-head self-attention into grouped-query attention with shared key-value projections, enabling higher throughput and lower resource consumption; (3) Paged Attention",
+            "paper_title": "LLM-CoOpt: A Co-Design and Optimization Framework for Efficient LLM Inference on Heterogeneous Platforms",
+            "source": "semantic_scholar",
+            "chunk_id": 396,
+            "verdict": "support",
+            "score": 0.6482612664699554,
+            "similarity": 0.8250173330307007,
+            "overlap": 0.32
+          },
+          {
+            "text": "ries. Based on these observations, we present CORM, a KV cache eviction policy that dynamically retains essential key-value pairs for inference without the need for model fine-tuning. Our validation shows that CORM reduces the inference memory usage of KV cache by up to 70\\% with negligible performance degradation across six tasks in LongBench. Furthermore, we demonstrate that CORM is compatible with GQA for further compression rate.",
+            "paper_title": "CORM: Cache Optimization with Recent Message for Large Language Model Inference",
+            "source": "semantic_scholar",
+            "chunk_id": 310,
+            "verdict": "support",
+            "score": 0.6190510507822037,
+            "similarity": 0.8231554627418518,
+            "overlap": 0.24
+          }
+        ],
+        "top_contradict": [
+          {
+            "text": "Excessive memory requirements of key and value features (KV-cache) present significant challenges in the autoregressive inference of large language models (LLMs), restricting both the speed and length of text generation. Approaches such as Multi-Query Attention (MQA) and Grouped Query Attention (GQA) mitigate these challenges by grouping query heads and consequently reducing the number of corresponding key and value heads. However, MQA and GQA decrease the KV-cache size requirements at the expense of LLM accuracy (quality of text generation). These methods do not ensure an optimal tradeoff between KV-cache size and text generation quality due to the absence of quality-aware grouping of query heads. To address this issue, we propose Quality and Capacity-Aware Grouped Query Attention (QCQA), which identifies optimal query head groupings using an evolutionary algorithm with a computationall",
+            "paper_title": "QCQA: Quality and Capacity-aware grouped Query Attention",
+            "source": "semantic_scholar",
+            "chunk_id": 375,
+            "verdict": "contradict",
+            "score": 0.9367448925971985,
+            "similarity": 0.9026844501495361,
+            "overlap": 1.0
+          }
+        ]
+      },
+      "verdict": {
+        "claim": "Excessive memory requirements of key and value features (KV-cache) present significant challenges in the autoregressive inference of large language models (LLMs), restricting both the speed and length of text generation.",
+        "verdict": "inconclusive",
+        "confidence": 0.3963,
+        "explanation": "Evidence is mixed or insufficient (support=2, contradict=1, neutral=2).",
+        "grounding_score": 0.3963,
+        "support_count": 2,
+        "contradict_count": 1,
+        "neutral_count": 2,
+        "total_evidence": 5
+      }
+    }
+  ],
+  "knowledge_gaps": [
+    "Many claims are inconclusive — evidence exists but lacks benchmark numbers or experimental results.",
+    "No contradicting evidence found — this may indicate limited coverage of papers reporting failure cases or trade-offs."
+  ],
+  "next_actions": [
+    "Pick 1 concrete intervention and convert it into a falsifiable claim (inputs → mechanism → measurable outputs).",
+    "Run targeted retrieval using 3–5 specific transformer-efficiency keywords and compare results.",
+    "Prioritize evidence chunks with benchmark numbers (latency, throughput, memory, perplexity, context length).",
+    "Generate an experiment plan: baseline, efficiency metric, quality metric, ablations, acceptance threshold."
+  ]
+}

@@ -93,7 +93,7 @@ def _looks_like_concept(s: str) -> bool:
     if ":" in s and len(s) > 25:
         return False
     
-    if len(s) > 35 and " " in s:
+    if len(s) > 25 and " " in s:
         return False
 
     # Reject long multi-word strings — concepts are short

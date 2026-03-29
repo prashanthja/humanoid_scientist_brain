@@ -48,10 +48,12 @@
       "ModelAccuracy",
       "Latency",
       "ContextLength",
-      "TransformerEfficiency"
+      "TransformerEfficiency",
+      "MemoryOverhead"
     ],
     "partially_supports": [
-      "Latency"
+      "Latency",
+      "MemoryOverhead"
     ],
     "evidenced_by": [
       "EMPIRIC: Exploring Missing Pieces in KV Cache Comp",
@@ -60,7 +62,9 @@
       "CORM: Cache Optimization with Recent Message for L",
       "Reasoning Language Model Inference Serving Unveile",
       "Seesaw: High-throughput LLM Inference via Model Re",
-      "HCAttention: Extreme KV Cache Compression via Hete"
+      "HCAttention: Extreme KV Cache Compression via Hete",
+      "Accelerating LLM Inference via Dynamic KV Cache Pl",
+      "KVTuner: Sensitivity-Aware Layer-wise Mixed Precis"
     ],
     "has_tradeoff": [
       "MemoryOverhead",
@@ -96,10 +100,17 @@
       "MemoryOverhead"
     ],
     "evidenced_by": [
-      "Low-Rank Adaptation for Scalable Fine-Tuning of Pr"
+      "Low-Rank Adaptation for Scalable Fine-Tuning of Pr",
+      "Low-Rank Adaptation for Parameter-Efficient Fine-T"
     ],
     "supports_efficiency": [
       "MemoryOverhead"
+    ],
+    "improves": [
+      "TransformerEfficiency"
+    ],
+    "has_tradeoff": [
+      "GeneralLimitation"
     ]
   },
   "SpeculativeDecoding": {
@@ -132,6 +143,49 @@
   "TransformerEfficiency": {
     "related_to": [
       "KVCache"
+    ]
+  },
+  "MemoryOverhead": {
+    "related_to": [
+      "KVCache"
+    ]
+  },
+  "PagedAttention": {
+    "improves": [
+      "Throughput"
+    ],
+    "partially_supports": [
+      "MemoryOverhead"
+    ],
+    "evidenced_by": [
+      "Comparative Analysis of Large Language Model Infer"
+    ],
+    "supports_efficiency": [
+      "MemoryOverhead"
+    ]
+  },
+  "SlidingWindowAttention": {
+    "supports_efficiency": [
+      "TransformerEfficiency"
+    ],
+    "partially_supports": [
+      "TransformerEfficiency"
+    ]
+  },
+  "Mamba": {
+    "partially_supports": [
+      "TransformerEfficiency"
+    ]
+  },
+  "RWKV": {
+    "supports_efficiency": [
+      "ModelQuality"
+    ],
+    "evidenced_by": [
+      "RWKV: Reinventing RNNs for the Transformer Era"
+    ],
+    "partially_supports": [
+      "ModelQuality"
     ]
   }
 }

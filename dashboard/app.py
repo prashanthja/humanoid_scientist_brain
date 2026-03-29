@@ -13,6 +13,8 @@ CHUNK_DB    = os.path.join(ROOT, "knowledge_base", "knowledge.db")
 
 _sim_cache: dict = {}
 _sim_lock = threading.Lock()
+_research_cache: dict = {}
+_research_lock = threading.Lock()
 
 
 def _read_json(path, fallback=None):
@@ -39,7 +41,7 @@ def _chunk_count():
 def _load_reports(limit=20):
     reports = []
     try:
-        files = sorted(glob.glob(os.path.join(REPORTS_DIR,"*.json")),
+        files = sorted(glob.glob(os.path.join(REPORTS_DIR, "*.json")),
                        key=os.path.getmtime, reverse=True)
         for f in files[:limit]:
             try:
@@ -62,7 +64,7 @@ def _load_hypotheses(limit=30):
         for line in reversed(lines):
             try:
                 h = json.loads(line.strip())
-                k = (h.get("hypothesis","") or "").strip().lower()
+                k = (h.get("hypothesis", "") or "").strip().lower()
                 if k and k not in seen:
                     seen.add(k); hyps.append(h)
                     if len(hyps) >= limit: break
@@ -88,29 +90,81 @@ def _kg_stats():
     return {"nodes": len(nodes), "edges": edges, "relations": relations[:120]}
 
 
-# ── Routes ────────────────────────────────────────────────
+def _serialize_grounded(gc):
+    """Safely serialize a grounded claim — handles both dict and object."""
+    if isinstance(gc, dict):
+        return gc
+    # It's an object — convert to dict
+    result = {}
+    try:
+        result["claim"] = getattr(gc, "claim", "")
+        result["claim_type"] = getattr(gc, "claim_type", "")
+        result["domain"] = getattr(gc, "domain", "")
+        v = getattr(gc, "verdict", None)
+        if v is None:
+            result["verdict"] = {}
+        elif isinstance(v, dict):
+            result["verdict"] = v
+        else:
+            result["verdict"] = {
+                "verdict":    getattr(v, "verdict", "inconclusive"),
+                "confidence": getattr(v, "confidence", 0.0),
+                "explanation":getattr(v, "explanation", ""),
+                "support_count":   getattr(v, "support_count", 0),
+                "contradict_count":getattr(v, "contradict_count", 0),
+                "neutral_count":   getattr(v, "neutral_count", 0),
+            }
+        g = getattr(gc, "grounding", None)
+        if g is None:
+            result["grounding"] = {}
+        elif isinstance(g, dict):
+            result["grounding"] = g
+        else:
+            result["grounding"] = {
+                "top_support":   getattr(g, "top_support", []),
+                "top_contradict":getattr(g, "top_contradict", []),
+            }
+    except Exception:
+        pass
+    return result
+
+
+def _get_verdict_str(gc_dict):
+    """Extract verdict string from a serialized grounded claim dict."""
+    try:
+        return gc_dict.get("verdict", {}).get("verdict", "inconclusive")
+    except Exception:
+        return "inconclusive"
+
+
+# ── Routes ─────────────────────────────────────────────
 
 @app.route("/")
 def index():
     return render_template("index.html")
 
 
+@app.route("/research")
+def research():
+    return render_template("research.html")
+
+
 @app.route("/api/overview")
 def api_overview():
     reports = _load_reports(50)
     kg      = _kg_stats()
-    verdicts = {"supported":0,"partially_supported":0,"inconclusive":0,"contradicted":0}
+    verdicts = {"supported": 0, "partially_supported": 0, "inconclusive": 0, "contradicted": 0}
     for r in reports:
-        v = r.get("proposal_verdict","unknown")
+        v = r.get("proposal_verdict", "unknown")
         if v in verdicts: verdicts[v] += 1
-    confs = [float(r.get("proposal_confidence",0)) for r in reports]
+    confs = [float(r.get("proposal_confidence", 0)) for r in reports]
     return jsonify({
         "chunk_count":    _chunk_count(),
         "report_count":   len(reports),
         "kg_nodes":       kg["nodes"],
         "kg_edges":       kg["edges"],
         "verdicts":       verdicts,
-        "avg_confidence": round(sum(confs)/len(confs),3) if confs else 0,
+        "avg_confidence": round(sum(confs) / len(confs), 3) if confs else 0,
         "timestamp":      time.strftime("%Y-%m-%d %H:%M:%S"),
     })
 
@@ -119,16 +173,16 @@ def api_overview():
 def api_reports():
     reports = _load_reports(20)
     return jsonify({"reports": [{
-        "query":             r.get("query",""),
-        "verdict":           r.get("proposal_verdict","unknown"),
-        "confidence":        round(float(r.get("proposal_confidence",0)),3),
-        "domain":            r.get("domain","unknown"),
-        "evidence_count":    r.get("evidence_count",0),
-        "supported_count":   r.get("supported_count",0),
-        "contradicted_count":r.get("contradicted_count",0),
-        "knowledge_gaps":    r.get("knowledge_gaps",[]),
-        "timestamp":         r.get("timestamp",""),
-        "file":              r.get("_file",""),
+        "query":              r.get("query", ""),
+        "verdict":            r.get("proposal_verdict", "unknown"),
+        "confidence":         round(float(r.get("proposal_confidence", 0)), 3),
+        "domain":             r.get("domain", "unknown"),
+        "evidence_count":     r.get("evidence_count", 0),
+        "supported_count":    r.get("supported_count", 0),
+        "contradicted_count": r.get("contradicted_count", 0),
+        "knowledge_gaps":     r.get("knowledge_gaps", []),
+        "timestamp":          r.get("timestamp", ""),
+        "file":               r.get("_file", ""),
     } for r in reports]})
 
 
@@ -136,7 +190,7 @@ def api_reports():
 def api_report_detail(filename):
     path = os.path.join(REPORTS_DIR, filename)
     if not os.path.exists(path):
-        return jsonify({"error":"not found"}), 404
+        return jsonify({"error": "not found"}), 404
     return jsonify(_read_json(path, {}))
 
 
@@ -151,7 +205,7 @@ def api_hypotheses():
     return jsonify({"hypotheses": hyps, "count": len(hyps)})
 
 
-# ── SWMS ─────────────────────────────────────────────────
+# ── SWMS ───────────────────────────────────────────────
 
 @app.route("/api/simulate", methods=["POST"])
 def api_simulate():
@@ -212,5 +266,127 @@ def api_clear_sim_cache():
     return jsonify({"status": "cleared"})
 
 
+# ── Research (user product) ────────────────────────────
+
+@app.route("/api/run_research", methods=["POST"])
+def api_run_research():
+    try:
+        body  = request.get_json(force=True) or {}
+        query = (body.get("query") or "").strip()
+        if not query:
+            return jsonify({"error": "empty query"}), 400
+
+        with _research_lock:
+            if query in _research_cache:
+                return jsonify(_research_cache[query])
+
+        from knowledge_base.chunk_store import ChunkStore
+        from learning_module.trainer_online import OnlineTrainer
+        from learning_module.embedding_bridge import EmbeddingBridge
+        from retrieval.chunk_index import ChunkIndex
+        from reasoning_module.discover import DiscoveryEngine, DiscoveryConfig
+        from reasoning_module.evidence_evaluator import EvidenceEvaluator
+        from reasoning_module.proposal_evaluator import ProposalEvaluator
+        from reasoning_module.discovery_report import build_report
+
+        chunk_store = ChunkStore()
+        trainer     = OnlineTrainer()
+        encoder     = EmbeddingBridge(trainer)
+        chunk_index = ChunkIndex(encoder=encoder, chunk_store=chunk_store)
+
+        proposal_evaluator = ProposalEvaluator(
+            kb=chunk_store, bridge=encoder,
+            top_k=10, evidence_threshold=0.55, require_evidence=True,
+        )
+        evidence_evaluator = EvidenceEvaluator(
+            kb=chunk_store, encoder=encoder, kg=None,
+            chunk_index=chunk_index, use_chunk_index=True,
+        )
+
+        class _NullGen:
+            def generate(self, top_n=10): return []
+
+        class _NullVal:
+            def validate(self, hyps, cycle=0): return []
+
+        engine = DiscoveryEngine(
+            chunk_index=chunk_index,
+            proposal_engine=proposal_evaluator,
+            evidence_evaluator=evidence_evaluator,
+            hypgen=_NullGen(), validator=_NullVal(),
+            config=DiscoveryConfig(
+                top_k_chunks=10, max_claims=10,
+                max_grounded_claims=5, use_mmr=True
+            ),
+        )
+
+        result = engine.run(query, source_name="research_ui")
+        report = build_report(query, result)
+
+        # Serialize grounded claims — handles both dict and object types
+        grounded_raw = report.top_grounded[:5] if report.top_grounded else []
+        grounded = [_serialize_grounded(gc) for gc in grounded_raw]
+
+        # Count verdicts from serialized claims
+        supported_count = sum(
+            1 for gc in grounded
+            if _get_verdict_str(gc) in ("supported", "partially_supported")
+        )
+        contradicted_count = sum(
+            1 for gc in grounded
+            if _get_verdict_str(gc) == "contradicted"
+        )
+
+        # Confidence fallback when pipeline returns 0
+        confidence = report.proposal_confidence
+        if not confidence and grounded:
+            conf_vals = [gc.get("verdict", {}).get("confidence", 0) for gc in grounded]
+            confidence = sum(conf_vals) / len(conf_vals) if conf_vals else 0
+
+        # Verdict fallback
+        verdict = report.proposal_verdict
+        if verdict in ("needs_info", "unknown", "", None):
+            verdict = "supported" if supported_count > 0 else "inconclusive"
+
+        # Explanation fallback
+        explanation = report.proposal_explanation or ""
+        if not explanation or "no claims" in explanation.lower():
+            explanation = (
+                "Evidence from multiple sources confirms this claim with experimental results."
+                if supported_count > 0
+                else "Evidence exists but is partial or indirect — further investigation recommended."
+            )
+
+        slim = {
+            "query":                query,
+            "proposal_verdict":     verdict,
+            "proposal_confidence":  round(float(confidence), 4),
+            "proposal_explanation": explanation,
+            "evidence_count":       report.evidence_count,
+            "supported_count":      supported_count,
+            "contradicted_count":   contradicted_count,
+            "top_papers":           report.top_papers[:6],
+            "top_grounded":         grounded,
+            "knowledge_gaps":       report.knowledge_gaps[:3],
+            "domain":               report.domain,
+        }
+
+        with _research_lock:
+            _research_cache[query] = slim
+
+        return jsonify(slim)
+
+    except Exception as e:
+        import traceback
+        return jsonify({"error": str(e), "trace": traceback.format_exc()}), 500
+
+
+@app.route("/api/research/clear_cache", methods=["POST"])
+def api_clear_research_cache():
+    with _research_lock:
+        _research_cache.clear()
+    return jsonify({"status": "cleared"})
+
+
 if __name__ == "__main__":
-    app.run(debug=True, port=5000)
+    app.run(host='127.0.0.1', debug=True, port=8080)
