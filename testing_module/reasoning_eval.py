@@ -90,6 +90,7 @@ def print_section(label: str):
 
 def main():
     queries = [
+        # Original 10
         "Do mixture-of-experts improve transformer efficiency?",
         "Does sparse attention preserve long-context quality?",
         "Does FlashAttention reduce memory overhead?",
@@ -100,6 +101,17 @@ def main():
         "Does MoE routing instability hurt model quality?",
         "Does rotary position embedding improve long-context performance?",
         "Does continuous batching improve LLM serving throughput?",
+        # New queries — different topics = new papers = new KG edges
+        "Does grouped query attention reduce KV cache memory?",
+        "Does PagedAttention improve GPU memory utilization?",
+        "Does pruning transformer weights reduce inference cost?",
+        "Does knowledge distillation preserve model quality?",
+        "Does sliding window attention scale to long sequences?",
+        "Does Mamba outperform transformers on long sequences?",
+        "Does tensor parallelism improve LLM training throughput?",
+        "Does pipeline parallelism reduce training time?",
+        "Does RWKV match transformer quality with linear complexity?",
+        "Does model quantization affect downstream task performance?",
     ]
 
     kg = KnowledgeGraph()
