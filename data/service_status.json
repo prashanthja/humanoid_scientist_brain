@@ -1,0 +1,20 @@
+{
+  "state": "idle",
+  "phase": "complete",
+  "last_run": "2026-03-30T13:43:20.382514",
+  "next_run": "2026-03-31T13:43:20.382544",
+  "papers_added": 0,
+  "total_chunks": 761,
+  "elapsed_sec": 322.7,
+  "cycles": 1,
+  "sources": [
+    "semantic_scholar",
+    "arxiv",
+    "openalex",
+    "core",
+    "papers_with_code",
+    "huggingface",
+    "europe_pmc",
+    "crossref"
+  ]
+}
