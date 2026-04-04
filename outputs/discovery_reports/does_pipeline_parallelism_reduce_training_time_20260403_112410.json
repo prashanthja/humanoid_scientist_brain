@@ -1,0 +1,395 @@
+{
+  "query": "Does pipeline parallelism reduce training time?",
+  "timestamp": "2026-04-03 11:24:10",
+  "domain": "transformer_efficiency",
+  "proposal_verdict": "supported",
+  "proposal_confidence": 0.7378112688064574,
+  "proposal_explanation": "Evidence from multiple sources confirms this claim with experimental results.",
+  "evidence_count": 10,
+  "top_papers": [
+    "Accelerating Large Language Model Training with Hybrid GPU-based Compression",
+    "Planck: Optimizing LLM Inference Performance in Pipeline Parallelism with Fine-Grained SLO Constraint",
+    "TD-Pipe: Temporally-Disaggregated Pipeline Parallelism Architecture for High-Throughput LLM Inference",
+    "MLPMoE: Zero-Shot Architectural Metamorphosis of Dense LLM MLPs into Static Mixture-of-Experts",
+    "Methods for Organizing Distributed Training of Large Language Models in Cloud Environments",
+    "SpecPipe: Accelerating Pipeline Parallelism-based LLM Inference with Speculative Decoding",
+    "Taming Throughput-Latency Tradeoff in LLM Inference with Sarathi-Serve"
+  ],
+  "extracted_claim_count": 10,
+  "top_claims": [
+    {
+      "claim": "Through optimizing queue lengths across different stages of the model pipeline, Planck effectively reduces waiting time and tail latency.",
+      "paper_title": "Planck: Optimizing LLM Inference Performance in Pipeline Parallelism with Fine-Grained SLO Constraint",
+      "domain": "transformer_efficiency"
+    },
+    {
+      "claim": "Evaluations conducted on a real cloud cluster using diverse workloads demonstrate that Planck effectively reduces P99 latency and queue length for each pipeline stage.",
+      "paper_title": "Planck: Optimizing LLM Inference Performance in Pipeline Parallelism with Fine-Grained SLO Constraint",
+      "domain": "transformer_efficiency"
+    },
+    {
+      "claim": "The method operates entirely post hoc on existing checkpoints and does not require gradients, calibration sets, or router training.",
+      "paper_title": "MLPMoE: Zero-Shot Architectural Metamorphosis of Dense LLM MLPs into Static Mixture-of-Experts",
+      "domain": "transformer_efficiency"
+    },
+    {
+      "claim": "As the model size continuously increases, pipeline parallelism shows great promise in throughput-oriented LLM inference due to its low demand on communications.",
+      "paper_title": "TD-Pipe: Temporally-Disaggregated Pipeline Parallelism Architecture for High-Throughput LLM Inference",
+      "domain": "transformer_efficiency"
+    },
+    {
+      "claim": "To better exploit the pipeline parallelism for high-throughput LLM inference, we propose TD-Pipe, with the key idea lies in the temporally-disaggregated pipeline parallelism architecture.",
+      "paper_title": "TD-Pipe: Temporally-Disaggregated Pipeline Parallelism Architecture for High-Throughput LLM Inference",
+      "domain": "transformer_efficiency"
+    }
+  ],
+  "grounded_claim_count": 5,
+  "supported_count": 3,
+  "contradicted_count": 0,
+  "inconclusive_count": 2,
+  "top_grounded": [
+    {
+      "claim": "Evaluations conducted on a real cloud cluster using diverse workloads demonstrate that Planck effectively reduces P99 latency and queue length for each pipeline stage.",
+      "claim_type": "statement",
+      "domain": "transformer_efficiency",
+      "grounding": {
+        "claim": "Evaluations conducted on a real cloud cluster using diverse workloads demonstrate that Planck effectively reduces P99 latency and queue length for each pipeline stage.",
+        "support_count": 2,
+        "contradict_count": 0,
+        "neutral_count": 1,
+        "total_evidence": 3,
+        "unique_sources": 1,
+        "unique_titles": 2,
+        "avg_support_score": 0.6288,
+        "avg_contradict_score": 0.0,
+        "diversity_score": 0.75,
+        "contradiction_penalty": 0.0,
+        "coverage_score": 0.5,
+        "grounding_score": 0.6942,
+        "top_support": [
+          {
+            "text": ". Through optimizing queue lengths across different stages of the model pipeline, Planck effectively reduces waiting time and tail latency. Evaluations conducted on a real cloud cluster using diverse workloads demonstrate that Planck effectively reduces P99 latency and queue length for each pipeline stage.",
+            "paper_title": "Planck: Optimizing LLM Inference Performance in Pipeline Parallelism with Fine-Grained SLO Constraint",
+            "source": "semantic_scholar",
+            "chunk_id": 599,
+            "verdict": "support",
+            "score": 0.7645636707544327,
+            "similarity": 0.6377902626991272,
+            "overlap": 1.0
+          },
+          {
+            "text": "from a speculative token source and outputs the tokens to the inference pipeline. Since the speculative window relaxed in our framework, a high-accuracy draft model is integrated without fine-tuning. The pipeline inference framework follows node-wise computation, pruning propagation, and inter-node communication stages. We implement SpecPipe and a variant SpecPipe-DB with dynamic batching for single- and multi-request inference, respectively. On an 8-stage pipeline, SpecPipe improves time between tokens on diverse single-request workloads by $4.19\\times$-$5.53\\times$ over standard pipeline parallelism and by $2.08\\times$-$2.38\\times$ over prior tree-based speculative decoding methods. For multi-request workloads, SpecPipe-DB achieves $1.64\\times$-$2.08\\times$ higher throughput and $1.61\\times$-$2.06\\times$ lower time between tokens than vLLM.",
+            "paper_title": "SpecPipe: Accelerating Pipeline Parallelism-based LLM Inference with Speculative Decoding",
+            "source": "semantic_scholar",
+            "chunk_id": 597,
+            "verdict": "support",
+            "score": 0.4929983629421754,
+            "similarity": 0.6360813975334167,
+            "overlap": 0.2273
+          }
+        ],
+        "top_contradict": []
+      },
+      "verdict": {
+        "claim": "Evaluations conducted on a real cloud cluster using diverse workloads demonstrate that Planck effectively reduces P99 latency and queue length for each pipeline stage.",
+        "verdict": "supported",
+        "confidence": 0.7942,
+        "explanation": "Support outweighs contradiction (support=2, contradict=0) with strong grounding=0.69.",
+        "grounding_score": 0.6942,
+        "support_count": 2,
+        "contradict_count": 0,
+        "neutral_count": 1,
+        "total_evidence": 3
+      }
+    },
+    {
+      "claim": "Through optimizing queue lengths across different stages of the model pipeline, Planck effectively reduces waiting time and tail latency.",
+      "claim_type": "statement",
+      "domain": "transformer_efficiency",
+      "grounding": {
+        "claim": "Through optimizing queue lengths across different stages of the model pipeline, Planck effectively reduces waiting time and tail latency.",
+        "support_count": 3,
+        "contradict_count": 1,
+        "neutral_count": 2,
+        "total_evidence": 6,
+        "unique_sources": 1,
+        "unique_titles": 4,
+        "avg_support_score": 0.5987,
+        "avg_contradict_score": 0.4902,
+        "diversity_score": 0.75,
+        "contradiction_penalty": 0.0817,
+        "coverage_score": 1.0,
+        "grounding_score": 0.6054,
+        "top_support": [
+          {
+            "text": ". Through optimizing queue lengths across different stages of the model pipeline, Planck effectively reduces waiting time and tail latency. Evaluations conducted on a real cloud cluster using diverse workloads demonstrate that Planck effectively reduces P99 latency and queue length for each pipeline stage.",
+            "paper_title": "Planck: Optimizing LLM Inference Performance in Pipeline Parallelism with Fine-Grained SLO Constraint",
+            "source": "semantic_scholar",
+            "chunk_id": 599,
+            "verdict": "support",
+            "score": 0.7645636707544327,
+            "similarity": 0.6377902626991272,
+            "overlap": 1.0
+          },
+          {
+            "text": "transfer. One key motivator of this work is to use compression-assisted MPI collectives to accelerate large language model training. B. Challenges This section addresses the following challenges: C1) The first challenge was determining the different model information communicated in parallelism stages. Pipeline parallelism, tensor parallelism, and data paral- lelism usually pose collective communications on var- ious training parameters. Depending on the specific implementation, tensor parallelism [20] usually calls All-reduce and All-gather on activations during forward passes and gradients during backward passes. Pipeline parallelism [18], [19] typically features point-to-point operations",
+            "paper_title": "Accelerating Large Language Model Training with Hybrid GPU-based Compression",
+            "source": "semantic_scholar",
+            "chunk_id": 1459,
+            "verdict": "support",
+            "score": 0.5207489924298392,
+            "similarity": 0.6814941763877869,
+            "overlap": 0.2222
+          },
+          {
+            "text": "from a speculative token source and outputs the tokens to the inference pipeline. Since the speculative window relaxed in our framework, a high-accuracy draft model is integrated without fine-tuning. The pipeline inference framework follows node-wise computation, pruning propagation, and inter-node communication stages. We implement SpecPipe and a variant SpecPipe-DB with dynamic batching for single- and multi-request inference, respectively. On an 8-stage pipeline, SpecPipe improves time between tokens on diverse single-request workloads by $4.19\\times$-$5.53\\times$ over standard pipeline parallelism and by $2.08\\times$-$2.38\\times$ over prior tree-based speculative decoding methods. For multi-request workloads, SpecPipe-DB achieves $1.64\\times$-$2.08\\times$ higher throughput and $1.61\\times$-$2.06\\times$ lower time between tokens than vLLM.",
+            "paper_title": "SpecPipe: Accelerating Pipeline Parallelism-based LLM Inference with Speculative Decoding",
+            "source": "semantic_scholar",
+            "chunk_id": 597,
+            "verdict": "support",
+            "score": 0.5106751306189431,
+            "similarity": 0.6360813975334167,
+            "overlap": 0.2778
+          }
+        ],
+        "top_contradict": [
+          {
+            "text": "Cloud environments make distributed LLM training a coupled systems problem: scaling forces partitioning, partitioning amplifies communication costs, and transient capacity elevates the cost of recovery. Coordinating model architecture choices with the communication stack and failure-handling policy is therefore necessary to preserve throughput under churn. In this setting, data, pipeline, and tensor parallelism are most effective when communication is overlapped with computation and checkpoint intervals are adapted to infrastructure behavior. This combination enables the use of low-cost unreliable instances without extending end-to-end training time, yielding resilient distributed training pipelines on elastic cloud platforms.",
+            "paper_title": "Methods for Organizing Distributed Training of Large Language Models in Cloud Environments",
+            "source": "semantic_scholar",
+            "chunk_id": 1445,
+            "verdict": "contradict",
+            "score": 0.4902429329024421,
+            "similarity": 0.6345617771148682,
+            "overlap": 0.2222
+          }
+        ]
+      },
+      "verdict": {
+        "claim": "Through optimizing queue lengths across different stages of the model pipeline, Planck effectively reduces waiting time and tail latency.",
+        "verdict": "supported",
+        "confidence": 0.7054,
+        "explanation": "Support outweighs contradiction (support=3, contradict=1) with strong grounding=0.61.",
+        "grounding_score": 0.6054,
+        "support_count": 3,
+        "contradict_count": 1,
+        "neutral_count": 2,
+        "total_evidence": 6
+      }
+    },
+    {
+      "claim": "To better exploit the pipeline parallelism for high-throughput LLM inference, we propose TD-Pipe, with the key idea lies in the temporally-disaggregated pipeline parallelism architecture.",
+      "claim_type": "statement",
+      "domain": "transformer_efficiency",
+      "grounding": {
+        "claim": "To better exploit the pipeline parallelism for high-throughput LLM inference, we propose TD-Pipe, with the key idea lies in the temporally-disaggregated pipeline parallelism architecture.",
+        "support_count": 3,
+        "contradict_count": 1,
+        "neutral_count": 2,
+        "total_evidence": 6,
+        "unique_sources": 1,
+        "unique_titles": 6,
+        "avg_support_score": 0.5233,
+        "avg_contradict_score": 0.5046,
+        "diversity_score": 0.75,
+        "contradiction_penalty": 0.0841,
+        "coverage_score": 1.0,
+        "grounding_score": 0.5649,
+        "top_support": [
+          {
+            "text": "from a speculative token source and outputs the tokens to the inference pipeline. Since the speculative window relaxed in our framework, a high-accuracy draft model is integrated without fine-tuning. The pipeline inference framework follows node-wise computation, pruning propagation, and inter-node communication stages. We implement SpecPipe and a variant SpecPipe-DB with dynamic batching for single- and multi-request inference, respectively. On an 8-stage pipeline, SpecPipe improves time between tokens on diverse single-request workloads by $4.19\\times$-$5.53\\times$ over standard pipeline parallelism and by $2.08\\times$-$2.38\\times$ over prior tree-based speculative decoding methods. For multi-request workloads, SpecPipe-DB achieves $1.64\\times$-$2.08\\times$ higher throughput and $1.61\\times$-$2.06\\times$ lower time between tokens than vLLM.",
+            "paper_title": "SpecPipe: Accelerating Pipeline Parallelism-based LLM Inference with Speculative Decoding",
+            "source": "semantic_scholar",
+            "chunk_id": 597,
+            "verdict": "support",
+            "score": 0.5608213294493525,
+            "similarity": 0.6360813975334167,
+            "overlap": 0.4211
+          },
+          {
+            "text": "transfer. One key motivator of this work is to use compression-assisted MPI collectives to accelerate large language model training. B. Challenges This section addresses the following challenges: C1) The first challenge was determining the different model information communicated in parallelism stages. Pipeline parallelism, tensor parallelism, and data paral- lelism usually pose collective communications on var- ious training parameters. Depending on the specific implementation, tensor parallelism [20] usually calls All-reduce and All-gather on activations during forward passes and gradients during backward passes. Pipeline parallelism [18], [19] typically features point-to-point operations",
+            "paper_title": "Accelerating Large Language Model Training with Hybrid GPU-based Compression",
+            "source": "semantic_scholar",
+            "chunk_id": 1459,
+            "verdict": "support",
+            "score": 0.5166554251783773,
+            "similarity": 0.6814941763877869,
+            "overlap": 0.2105
+          },
+          {
+            "text": "gher serving capacity and up to 3.7x higher serving capacity for the Yi-34B model on two A100 GPUs as compared to vLLM. When used with pipeline parallelism on Falcon-180B, Sarathi-Serve provides up to 5.6x gain in the end-to-end serving capacity. The source code for Sarathi-Serve is available at https://github.com/microsoft/sarathi-serve.",
+            "paper_title": "Taming Throughput-Latency Tradeoff in LLM Inference with Sarathi-Serve",
+            "source": "semantic_scholar",
+            "chunk_id": 433,
+            "verdict": "support",
+            "score": 0.4922733840189482,
+            "similarity": 0.6156432628631592,
+            "overlap": 0.2632
+          }
+        ],
+        "top_contradict": [
+          {
+            "text": "Cloud environments make distributed LLM training a coupled systems problem: scaling forces partitioning, partitioning amplifies communication costs, and transient capacity elevates the cost of recovery. Coordinating model architecture choices with the communication stack and failure-handling policy is therefore necessary to preserve throughput under churn. In this setting, data, pipeline, and tensor parallelism are most effective when communication is overlapped with computation and checkpoint intervals are adapted to infrastructure behavior. This combination enables the use of low-cost unreliable instances without extending end-to-end training time, yielding resilient distributed training pipelines on elastic cloud platforms.",
+            "paper_title": "Methods for Organizing Distributed Training of Large Language Models in Cloud Environments",
+            "source": "semantic_scholar",
+            "chunk_id": 1445,
+            "verdict": "contradict",
+            "score": 0.504570418282559,
+            "similarity": 0.6345617771148682,
+            "overlap": 0.2632
+          }
+        ]
+      },
+      "verdict": {
+        "claim": "To better exploit the pipeline parallelism for high-throughput LLM inference, we propose TD-Pipe, with the key idea lies in the temporally-disaggregated pipeline parallelism architecture.",
+        "verdict": "supported",
+        "confidence": 0.6649,
+        "explanation": "Support outweighs contradiction (support=3, contradict=1) with strong grounding=0.56.",
+        "grounding_score": 0.5649,
+        "support_count": 3,
+        "contradict_count": 1,
+        "neutral_count": 2,
+        "total_evidence": 6
+      }
+    },
+    {
+      "claim": "As the model size continuously increases, pipeline parallelism shows great promise in throughput-oriented LLM inference due to its low demand on communications.",
+      "claim_type": "statement",
+      "domain": "transformer_efficiency",
+      "grounding": {
+        "claim": "As the model size continuously increases, pipeline parallelism shows great promise in throughput-oriented LLM inference due to its low demand on communications.",
+        "support_count": 3,
+        "contradict_count": 1,
+        "neutral_count": 2,
+        "total_evidence": 6,
+        "unique_sources": 1,
+        "unique_titles": 6,
+        "avg_support_score": 0.5048,
+        "avg_contradict_score": 0.523,
+        "diversity_score": 0.75,
+        "contradiction_penalty": 0.0872,
+        "coverage_score": 1.0,
+        "grounding_score": 0.5522,
+        "top_support": [
+          {
+            "text": "from a speculative token source and outputs the tokens to the inference pipeline. Since the speculative window relaxed in our framework, a high-accuracy draft model is integrated without fine-tuning. The pipeline inference framework follows node-wise computation, pruning propagation, and inter-node communication stages. We implement SpecPipe and a variant SpecPipe-DB with dynamic batching for single- and multi-request inference, respectively. On an 8-stage pipeline, SpecPipe improves time between tokens on diverse single-request workloads by $4.19\\times$-$5.53\\times$ over standard pipeline parallelism and by $2.08\\times$-$2.38\\times$ over prior tree-based speculative decoding methods. For multi-request workloads, SpecPipe-DB achieves $1.64\\times$-$2.08\\times$ higher throughput and $1.61\\times$-$2.06\\times$ lower time between tokens than vLLM.",
+            "paper_title": "SpecPipe: Accelerating Pipeline Parallelism-based LLM Inference with Speculative Decoding",
+            "source": "semantic_scholar",
+            "chunk_id": 597,
+            "verdict": "support",
+            "score": 0.5239792241861946,
+            "similarity": 0.6360813975334167,
+            "overlap": 0.3158
+          },
+          {
+            "text": "transfer. One key motivator of this work is to use compression-assisted MPI collectives to accelerate large language model training. B. Challenges This section addresses the following challenges: C1) The first challenge was determining the different model information communicated in parallelism stages. Pipeline parallelism, tensor parallelism, and data paral- lelism usually pose collective communications on var- ious training parameters. Depending on the specific implementation, tensor parallelism [20] usually calls All-reduce and All-gather on activations during forward passes and gradients during backward passes. Pipeline parallelism [18], [19] typically features point-to-point operations",
+            "paper_title": "Accelerating Large Language Model Training with Hybrid GPU-based Compression",
+            "source": "semantic_scholar",
+            "chunk_id": 1459,
+            "verdict": "support",
+            "score": 0.5166554251783773,
+            "similarity": 0.6814941763877869,
+            "overlap": 0.2105
+          },
+          {
+            "text": "gher serving capacity and up to 3.7x higher serving capacity for the Yi-34B model on two A100 GPUs as compared to vLLM. When used with pipeline parallelism on Falcon-180B, Sarathi-Serve provides up to 5.6x gain in the end-to-end serving capacity. The source code for Sarathi-Serve is available at https://github.com/microsoft/sarathi-serve.",
+            "paper_title": "Taming Throughput-Latency Tradeoff in LLM Inference with Sarathi-Serve",
+            "source": "semantic_scholar",
+            "chunk_id": 433,
+            "verdict": "support",
+            "score": 0.47385233138736926,
+            "similarity": 0.6156432628631592,
+            "overlap": 0.2105
+          }
+        ],
+        "top_contradict": [
+          {
+            "text": "Cloud environments make distributed LLM training a coupled systems problem: scaling forces partitioning, partitioning amplifies communication costs, and transient capacity elevates the cost of recovery. Coordinating model architecture choices with the communication stack and failure-handling policy is therefore necessary to preserve throughput under churn. In this setting, data, pipeline, and tensor parallelism are most effective when communication is overlapped with computation and checkpoint intervals are adapted to infrastructure behavior. This combination enables the use of low-cost unreliable instances without extending end-to-end training time, yielding resilient distributed training pipelines on elastic cloud platforms.",
+            "paper_title": "Methods for Organizing Distributed Training of Large Language Models in Cloud Environments",
+            "source": "semantic_scholar",
+            "chunk_id": 1445,
+            "verdict": "contradict",
+            "score": 0.522991470914138,
+            "similarity": 0.6345617771148682,
+            "overlap": 0.3158
+          }
+        ]
+      },
+      "verdict": {
+        "claim": "As the model size continuously increases, pipeline parallelism shows great promise in throughput-oriented LLM inference due to its low demand on communications.",
+        "verdict": "partially_supported",
+        "confidence": 0.5522,
+        "explanation": "Evidence leans supportive but remains mixed (support=3, contradict=1, neutral=2).",
+        "grounding_score": 0.5522,
+        "support_count": 3,
+        "contradict_count": 1,
+        "neutral_count": 2,
+        "total_evidence": 6
+      }
+    },
+    {
+      "claim": "Depending on the specific implementation, tensor parallelism [20] usually calls All-reduce and All-gather on activations during forward passes and gradients during backward passes.",
+      "claim_type": "statement",
+      "domain": "math",
+      "grounding": {
+        "claim": "Depending on the specific implementation, tensor parallelism [20] usually calls All-reduce and All-gather on activations during forward passes and gradients during backward passes.",
+        "support_count": 1,
+        "contradict_count": 1,
+        "neutral_count": 1,
+        "total_evidence": 3,
+        "unique_sources": 1,
+        "unique_titles": 2,
+        "avg_support_score": 0.793,
+        "avg_contradict_score": 0.4825,
+        "diversity_score": 0.75,
+        "contradiction_penalty": 0.1608,
+        "coverage_score": 0.5,
+        "grounding_score": 0.3544,
+        "top_support": [
+          {
+            "text": "transfer. One key motivator of this work is to use compression-assisted MPI collectives to accelerate large language model training. B. Challenges This section addresses the following challenges: C1) The first challenge was determining the different model information communicated in parallelism stages. Pipeline parallelism, tensor parallelism, and data paral- lelism usually pose collective communications on var- ious training parameters. Depending on the specific implementation, tensor parallelism [20] usually calls All-reduce and All-gather on activations during forward passes and gradients during backward passes. Pipeline parallelism [18], [19] typically features point-to-point operations",
+            "paper_title": "Accelerating Large Language Model Training with Hybrid GPU-based Compression",
+            "source": "semantic_scholar",
+            "chunk_id": 1459,
+            "verdict": "support",
+            "score": 0.7929712146520614,
+            "similarity": 0.6814941763877869,
+            "overlap": 1.0
+          }
+        ],
+        "top_contradict": [
+          {
+            "text": "Cloud environments make distributed LLM training a coupled systems problem: scaling forces partitioning, partitioning amplifies communication costs, and transient capacity elevates the cost of recovery. Coordinating model architecture choices with the communication stack and failure-handling policy is therefore necessary to preserve throughput under churn. In this setting, data, pipeline, and tensor parallelism are most effective when communication is overlapped with computation and checkpoint intervals are adapted to infrastructure behavior. This combination enables the use of low-cost unreliable instances without extending end-to-end training time, yielding resilient distributed training pipelines on elastic cloud platforms.",
+            "paper_title": "Methods for Organizing Distributed Training of Large Language Models in Cloud Environments",
+            "source": "semantic_scholar",
+            "chunk_id": 1445,
+            "verdict": "contradict",
+            "score": 0.4824651551246643,
+            "similarity": 0.6345617771148682,
+            "overlap": 0.2
+          }
+        ]
+      },
+      "verdict": {
+        "claim": "Depending on the specific implementation, tensor parallelism [20] usually calls All-reduce and All-gather on activations during forward passes and gradients during backward passes.",
+        "verdict": "inconclusive",
+        "confidence": 0.3544,
+        "explanation": "Evidence is mixed or insufficient (support=1, contradict=1, neutral=1).",
+        "grounding_score": 0.3544,
+        "support_count": 1,
+        "contradict_count": 1,
+        "neutral_count": 1,
+        "total_evidence": 3
+      }
+    }
+  ],
+  "knowledge_gaps": [
+    "No contradicting evidence found — this may indicate limited coverage of papers reporting failure cases or trade-offs."
+  ],
+  "next_actions": [
+    "Pick 1 concrete intervention and convert it into a falsifiable claim (inputs → mechanism → measurable outputs).",
+    "Run targeted retrieval using 3–5 specific transformer-efficiency keywords and compare results.",
+    "Prioritize evidence chunks with benchmark numbers (latency, throughput, memory, perplexity, context length).",
+    "Generate an experiment plan: baseline, efficiency metric, quality metric, ablations, acceptance threshold."
+  ]
+}

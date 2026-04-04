@@ -20,13 +20,9 @@
   --sans:'Inter',system-ui,sans-serif;
 }
 html,body{min-height:100%;background:var(--bg);color:var(--text);font-family:var(--sans);}
-
-/* ── Clean minimal nav — NO admin link, NO stats ── */
-.nav{
-  background:var(--paper);border-bottom:1px solid var(--border);
-  padding:0 48px;display:flex;align-items:center;justify-content:space-between;
-  height:60px;position:sticky;top:0;z-index:100;
-}
+.nav{background:var(--paper);border-bottom:1px solid var(--border);padding:0 48px;
+  display:flex;align-items:center;justify-content:space-between;height:60px;
+  position:sticky;top:0;z-index:100;}
 .nav-brand{display:flex;align-items:center;gap:12px;}
 .nav-mark{width:32px;height:32px;background:var(--accent);display:flex;align-items:center;
   justify-content:center;border-radius:6px;}
@@ -34,95 +30,52 @@ html,body{min-height:100%;background:var(--bg);color:var(--text);font-family:var
 .nav-name{font-size:17px;font-weight:600;color:var(--text);letter-spacing:-.3px;}
 .nav-tagline{font-size:13px;color:var(--dim);margin-left:4px;}
 .nav-status{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--dim);}
-.nav-status-dot{width:7px;height:7px;border-radius:50%;background:var(--green);
-  box-shadow:0 0 5px var(--green);}
-
-/* ── Progress ── */
+.nav-status-dot{width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 5px var(--green);}
 .progress-track{height:3px;background:var(--rule);position:sticky;top:60px;z-index:99;overflow:hidden;display:none;}
 .progress-track.active{display:block;}
 .progress-fill{height:100%;background:var(--accent);width:0%;transition:width .5s ease;}
-
-/* ── Hero — full width, generous spacing ── */
-.hero{
-  background:var(--paper);border-bottom:1px solid var(--border);
-  padding:80px 48px 64px;
-  display:flex;flex-direction:column;align-items:center;
-  transition:all .5s ease;
-}
+.hero{background:var(--paper);border-bottom:1px solid var(--border);padding:80px 48px 64px;
+  display:flex;flex-direction:column;align-items:center;transition:all .5s ease;}
 .hero.compact{padding:28px 48px;}
-.hero-eyebrow{
-  font-family:var(--mono);font-size:11px;letter-spacing:3px;text-transform:uppercase;
-  color:var(--accent);margin-bottom:16px;transition:all .4s;
-}
+.hero-eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:3px;text-transform:uppercase;
+  color:var(--accent);margin-bottom:16px;transition:all .4s;}
 .hero.compact .hero-eyebrow{font-size:0;margin:0;overflow:hidden;}
-.hero-headline{
-  font-family:var(--serif);font-size:48px;font-weight:300;color:var(--text);
+.hero-headline{font-family:var(--serif);font-size:48px;font-weight:300;color:var(--text);
   text-align:center;margin-bottom:16px;letter-spacing:-.5px;line-height:1.15;
-  max-width:720px;transition:all .4s;
-}
+  max-width:720px;transition:all .4s;}
 .hero.compact .hero-headline{font-size:0;margin:0;overflow:hidden;}
-.hero-sub{
-  font-size:16px;color:var(--mid);text-align:center;margin-bottom:40px;
-  line-height:1.7;max-width:580px;transition:all .4s;
-}
+.hero-sub{font-size:16px;color:var(--mid);text-align:center;margin-bottom:40px;
+  line-height:1.7;max-width:580px;transition:all .4s;}
 .hero.compact .hero-sub{font-size:0;margin:0;overflow:hidden;}
-
-/* Differentiators */
 .diff-row{display:flex;gap:32px;margin-bottom:48px;transition:all .4s;flex-wrap:wrap;justify-content:center;}
 .hero.compact .diff-row{display:none;}
 .diff-item{display:flex;align-items:flex-start;gap:12px;max-width:220px;}
-.diff-icon{
-  width:36px;height:36px;border-radius:8px;background:var(--blue-bg);
-  border:1px solid #c8d8f0;display:flex;align-items:center;justify-content:center;
-  flex-shrink:0;font-size:16px;
-}
+.diff-icon{width:36px;height:36px;border-radius:8px;background:var(--blue-bg);border:1px solid #c8d8f0;
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:16px;}
 .diff-title{font-size:13px;font-weight:600;color:var(--text);margin-bottom:3px;}
 .diff-desc{font-size:12px;color:var(--dim);line-height:1.5;}
-
-/* Search */
 .search-form{width:100%;max-width:720px;display:flex;flex-direction:column;gap:14px;}
-.search-row{
-  display:flex;align-items:stretch;border:2px solid var(--border2);
-  border-radius:10px;background:var(--paper);overflow:hidden;
-  transition:border-color .2s,box-shadow .2s;
-}
+.search-row{display:flex;align-items:stretch;border:2px solid var(--border2);border-radius:10px;
+  background:var(--paper);overflow:hidden;transition:border-color .2s,box-shadow .2s;}
 .search-row:focus-within{border-color:var(--accent);box-shadow:0 0 0 4px rgba(41,82,163,.08);}
-.search-input{
-  flex:1;padding:16px 20px;font-size:16px;color:var(--text);
-  border:none;outline:none;background:transparent;font-family:var(--sans);
-}
+.search-input{flex:1;padding:16px 20px;font-size:16px;color:var(--text);border:none;outline:none;
+  background:transparent;font-family:var(--sans);}
 .search-input::placeholder{color:var(--dim);}
-.search-btn{
-  padding:0 28px;background:var(--accent);color:white;border:none;
-  cursor:pointer;font-size:15px;font-weight:500;font-family:var(--sans);
-  transition:background .15s;white-space:nowrap;
-}
+.search-btn{padding:0 28px;background:var(--accent);color:white;border:none;cursor:pointer;
+  font-size:15px;font-weight:500;font-family:var(--sans);transition:background .15s;white-space:nowrap;}
 .search-btn:hover{background:#1e3f8a;}
 .search-btn:disabled{background:#a0aec0;cursor:not-allowed;}
 .suggestions-row{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;transition:all .4s;}
 .hero.compact .suggestions-row{display:none;}
-.sug-pill{
-  font-size:12px;color:var(--mid);padding:6px 14px;border:1px solid var(--border2);
-  border-radius:999px;cursor:pointer;transition:all .15s;background:var(--paper);
-}
+.sug-pill{font-size:12px;color:var(--mid);padding:6px 14px;border:1px solid var(--border2);
+  border-radius:999px;cursor:pointer;transition:all .15s;background:var(--paper);}
 .sug-pill:hover{border-color:var(--accent);color:var(--accent);background:var(--blue-bg);}
-
-/* ── Main content — full width layout ── */
-.main{
-  width:100%;max-width:1400px;margin:0 auto;
-  padding:48px 48px 100px;
-  display:none;
-  grid-template-columns:1fr 360px;
-  gap:48px;
-}
+.main{width:100%;max-width:1400px;margin:0 auto;padding:48px 48px 100px;
+  display:none;grid-template-columns:1fr 360px;gap:48px;}
 .main.active{display:grid;}
 @media(max-width:960px){.main{grid-template-columns:1fr;}}
-
-/* Reasoning chain */
-.reasoning-chain{
-  display:flex;align-items:center;background:var(--paper);
-  border:1px solid var(--border);border-radius:10px;overflow:hidden;margin-bottom:36px;
-}
+.reasoning-chain{display:flex;align-items:center;background:var(--paper);
+  border:1px solid var(--border);border-radius:10px;overflow:hidden;margin-bottom:36px;}
 .rc-step{flex:1;padding:14px 18px;text-align:center;position:relative;}
 .rc-step:not(:last-child)::after{content:'→';position:absolute;right:-8px;top:50%;
   transform:translateY(-50%);color:var(--dim);font-size:13px;z-index:1;}
@@ -132,24 +85,18 @@ html,body{min-height:100%;background:var(--bg);color:var(--text);font-family:var
 .rc-step-v.green{color:var(--green);}
 .rc-step-v.amber{color:var(--amber);}
 .rc-step.active-step{background:var(--blue-bg);}
-
-/* Sections */
 .article-section{margin-bottom:40px;}
 .sec-label{font-family:var(--mono);font-size:10px;letter-spacing:2px;text-transform:uppercase;
   color:var(--dim);margin-bottom:16px;display:flex;align-items:center;gap:12px;}
 .sec-label::after{content:'';flex:1;height:1px;background:var(--border);}
 .sec-badge{font-family:var(--mono);font-size:8px;letter-spacing:1px;text-transform:uppercase;
   padding:2px 7px;border-radius:2px;background:var(--blue-bg);color:var(--accent);border:1px solid #c8d8f0;}
-
-/* Verdict */
 .verdict-card{border:1px solid var(--border);border-radius:10px;overflow:hidden;background:var(--paper);}
 .verdict-top{padding:28px 32px;border-bottom:1px solid var(--border);display:flex;gap:28px;align-items:flex-start;}
 .verdict-indicator{flex-shrink:0;display:flex;flex-direction:column;align-items:center;gap:8px;padding-top:4px;}
 .verdict-pct{font-size:44px;font-weight:600;line-height:1;font-variant-numeric:tabular-nums;letter-spacing:-2px;}
-.verdict-pct.green{color:var(--green);}
-.verdict-pct.amber{color:var(--amber);}
-.verdict-pct.mid{color:var(--mid);}
-.verdict-pct.red{color:var(--red);}
+.verdict-pct.green{color:var(--green);}.verdict-pct.amber{color:var(--amber);}
+.verdict-pct.mid{color:var(--mid);}.verdict-pct.red{color:var(--red);}
 .verdict-badge{font-family:var(--mono);font-size:9px;letter-spacing:1.5px;text-transform:uppercase;
   padding:3px 10px;border-radius:3px;white-space:nowrap;}
 .verdict-badge.supported{background:var(--green-bg);color:var(--green);border:1px solid var(--green-border);}
@@ -164,42 +111,31 @@ html,body{min-height:100%;background:var(--bg);color:var(--text);font-family:var
 .vmeta-item{padding:12px 0;text-align:center;border-right:1px solid var(--border);}
 .vmeta-item:last-child{border-right:none;}
 .vmeta-n{font-size:24px;font-weight:600;font-variant-numeric:tabular-nums;}
-.vmeta-n.green{color:var(--green);}
-.vmeta-n.red{color:var(--red);}
+.vmeta-n.green{color:var(--green);}.vmeta-n.red{color:var(--red);}
 .vmeta-l{font-size:11px;color:var(--dim);margin-top:3px;}
-
-/* Evidence */
 .ev-item{border:1px solid var(--border);border-radius:8px;padding:16px;margin-bottom:10px;
   background:var(--paper);border-left:3px solid var(--border2);}
-.ev-item.s{border-left-color:var(--green);}
-.ev-item.p{border-left-color:var(--amber);}
+.ev-item.s{border-left-color:var(--green);}.ev-item.p{border-left-color:var(--amber);}
 .ev-item.c{border-left-color:var(--red);}
 .ev-claim{font-size:14px;line-height:1.6;color:var(--text);margin-bottom:10px;}
 .ev-foot{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
-.ev-badge{font-family:var(--mono);font-size:9px;letter-spacing:1px;text-transform:uppercase;
-  padding:2px 8px;border-radius:3px;}
+.ev-badge{font-family:var(--mono);font-size:9px;letter-spacing:1px;text-transform:uppercase;padding:2px 8px;border-radius:3px;}
 .ev-badge.s{background:var(--green-bg);color:var(--green);border:1px solid var(--green-border);}
 .ev-badge.p{background:var(--amber-bg);color:var(--amber);border:1px solid var(--amber-border);}
 .ev-badge.c{background:var(--red-bg);color:var(--red);border:1px solid var(--red-border);}
 .ev-badge.i{background:var(--rule);color:var(--mid);border:1px solid var(--border);}
 .ev-conf{font-family:var(--mono);font-size:11px;color:var(--dim);}
-
-/* Sources */
 .source-item{display:flex;align-items:flex-start;gap:16px;padding:12px 0;border-bottom:1px solid var(--rule);}
 .source-item:last-child{border-bottom:none;}
 .source-n{font-family:var(--mono);font-size:10px;color:var(--dim);width:28px;flex-shrink:0;padding-top:2px;}
 .source-title{font-size:13px;color:var(--text);line-height:1.4;margin-bottom:2px;}
 .source-type{font-family:var(--mono);font-size:10px;color:var(--dim);}
-
-/* Suggestion blocks */
 .suggestion-block{border:1px solid var(--border);border-radius:10px;overflow:hidden;background:var(--paper);margin-bottom:16px;}
 .sb-header{padding:16px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px;background:var(--bg);}
 .sb-icon{font-size:18px;}
 .sb-title{font-size:14px;font-weight:600;color:var(--text);}
 .sb-desc{font-size:12px;color:var(--dim);margin-top:2px;}
 .sb-body{padding:18px 20px;}
-
-/* Sidebar */
 .sidebar{display:flex;flex-direction:column;gap:24px;}
 .side-card{background:var(--paper);border:1px solid var(--border);border-radius:10px;overflow:hidden;}
 .side-card-header{padding:14px 18px;border-bottom:1px solid var(--border);
@@ -232,14 +168,10 @@ html,body{min-height:100%;background:var(--bg);color:var(--text);font-family:var
 .exp-item:last-child{border-bottom:none;}
 .exp-n{font-family:var(--mono);font-size:10px;color:var(--accent);flex-shrink:0;width:18px;}
 .exp-text{font-size:12px;color:var(--mid);line-height:1.5;}
-
-/* Method note */
 .method-note{background:var(--blue-bg);border:1px solid #c8d8f0;border-radius:8px;
   padding:14px 18px;font-size:12px;color:var(--blue);line-height:1.7;
   display:flex;gap:12px;align-items:flex-start;}
 .method-note-icon{flex-shrink:0;font-size:16px;margin-top:1px;}
-
-/* Skeleton + loading */
 .skel{background:linear-gradient(90deg,var(--rule) 25%,var(--border) 50%,var(--rule) 75%);
   background-size:200% 100%;animation:sk 1.5s infinite;border-radius:6px;}
 @keyframes sk{0%{background-position:200% 0}100%{background-position:-200% 0}}
@@ -250,11 +182,8 @@ html,body{min-height:100%;background:var(--bg);color:var(--text);font-family:var
 @keyframes spin{to{transform:rotate(360deg);}}
 .error-state{background:var(--red-bg);border:1px solid var(--red-border);
   border-radius:8px;padding:20px;font-size:13px;color:var(--red);}
-
-/* Footer */
 .footer{text-align:center;padding:40px 48px;border-top:1px solid var(--border);
   font-size:12px;color:var(--dim);background:var(--paper);}
-
 ::-webkit-scrollbar{width:4px;}
 ::-webkit-scrollbar-track{background:transparent;}
 ::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px;}
@@ -262,7 +191,6 @@ html,body{min-height:100%;background:var(--bg);color:var(--text);font-family:var
 </head>
 <body>
 
-<!-- Clean nav — no admin link, no stats -->
 <nav class="nav">
   <div class="nav-brand">
     <div class="nav-mark"><svg viewBox="0 0 14 14"><polygon points="7,1 13,4 13,10 7,13 1,10 1,4"/></svg></div>
@@ -277,47 +205,31 @@ html,body{min-height:100%;background:var(--bg);color:var(--text);font-family:var
 
 <div class="progress-track" id="progressTrack"><div class="progress-fill" id="progressFill"></div></div>
 
-<!-- Hero — full width -->
 <div class="hero" id="hero">
   <div class="hero-eyebrow">Transformer Efficiency Research Domain</div>
   <h1 class="hero-headline">Evidence-grounded scientific research</h1>
   <p class="hero-sub">Ask a research question. Tattva retrieves evidence from peer-reviewed papers, evaluates every claim, and delivers a structured verdict — with full transparency on how the conclusion was reached.</p>
-
   <div class="diff-row">
-    <div class="diff-item">
-      <div class="diff-icon">📄</div>
-      <div>
-        <div class="diff-title">Grounded in papers</div>
-        <div class="diff-desc">Every claim links to a real paper chunk with a confidence score. Not generated text.</div>
-      </div>
-    </div>
-    <div class="diff-item">
-      <div class="diff-icon">⚖️</div>
-      <div>
-        <div class="diff-title">Computed verdict</div>
-        <div class="diff-desc">Confidence is an aggregate of evidence scores — not an LLM opinion.</div>
-      </div>
-    </div>
-    <div class="diff-item">
-      <div class="diff-icon">🔬</div>
-      <div>
-        <div class="diff-title">Actionable next steps</div>
-        <div class="diff-desc">Alternatives, experiments, and research gaps specific to your query.</div>
-      </div>
-    </div>
-    <div class="diff-item">
-      <div class="diff-icon">📈</div>
-      <div>
-        <div class="diff-title">Field simulation</div>
-        <div class="diff-desc">Monte Carlo simulation shows how the field evolves over 4 years.</div>
-      </div>
-    </div>
+    <div class="diff-item"><div class="diff-icon">📄</div><div>
+      <div class="diff-title">Grounded in papers</div>
+      <div class="diff-desc">Every claim links to a real paper chunk with a confidence score. Not generated text.</div>
+    </div></div>
+    <div class="diff-item"><div class="diff-icon">⚖️</div><div>
+      <div class="diff-title">Computed verdict</div>
+      <div class="diff-desc">Confidence is an aggregate of evidence scores — not an LLM opinion.</div>
+    </div></div>
+    <div class="diff-item"><div class="diff-icon">🔬</div><div>
+      <div class="diff-title">Actionable next steps</div>
+      <div class="diff-desc">Alternatives, experiments, and research gaps specific to your query.</div>
+    </div></div>
+    <div class="diff-item"><div class="diff-icon">📈</div><div>
+      <div class="diff-title">Field simulation</div>
+      <div class="diff-desc">Monte Carlo simulation shows how the field evolves over 4 years.</div>
+    </div></div>
   </div>
-
   <div class="search-form">
     <div class="search-row">
-      <input class="search-input" id="searchInput" type="text"
-        placeholder="e.g. Does FlashAttention reduce memory overhead?"/>
+      <input class="search-input" id="searchInput" type="text" placeholder="e.g. Does FlashAttention reduce memory overhead?"/>
       <button class="search-btn" id="searchBtn" onclick="runResearch()">Analyze</button>
     </div>
     <div class="suggestions-row">
@@ -331,7 +243,6 @@ html,body{min-height:100%;background:var(--bg);color:var(--text);font-family:var
   </div>
 </div>
 
-<!-- Full-width results -->
 <div class="main" id="mainContent">
   <div id="articleCol">
 
@@ -373,7 +284,6 @@ html,body{min-height:100%;background:var(--bg);color:var(--text);font-family:var
       </div>
     </div>
 
-    <!-- Suggestions -->
     <div id="suggestionsSection" style="display:none;">
       <div class="article-section">
         <div class="sec-label">If This Fails — Try These Alternatives <span class="sec-badge">AI Suggestions</span></div>
@@ -385,7 +295,6 @@ html,body{min-height:100%;background:var(--bg);color:var(--text);font-family:var
           <div class="sb-body" id="altArea"><div class="skel" style="height:60px;"></div></div>
         </div>
       </div>
-
       <div class="article-section">
         <div class="sec-label">Best Experiment to Validate This <span class="sec-badge">AI Suggestions</span></div>
         <div class="suggestion-block">
@@ -396,7 +305,6 @@ html,body{min-height:100%;background:var(--bg);color:var(--text);font-family:var
           <div class="sb-body" id="expValidArea"><div class="skel" style="height:80px;"></div></div>
         </div>
       </div>
-
       <div class="article-section">
         <div class="sec-label">Under-Researched Related Concepts <span class="sec-badge">Knowledge Gaps</span></div>
         <div class="suggestion-block">
@@ -407,7 +315,6 @@ html,body{min-height:100%;background:var(--bg);color:var(--text);font-family:var
           <div class="sb-body" id="urArea"><div class="skel" style="height:60px;"></div></div>
         </div>
       </div>
-
       <div class="article-section">
         <div class="sec-label">New Research Directions <span class="sec-badge">From Knowledge Graph</span></div>
         <div class="suggestion-block">
@@ -422,7 +329,6 @@ html,body{min-height:100%;background:var(--bg);color:var(--text);font-family:var
 
   </div>
 
-  <!-- Sidebar -->
   <div class="sidebar">
     <div class="side-card">
       <div class="side-card-header">Evidence Quality</div>
@@ -449,10 +355,26 @@ html,body{min-height:100%;background:var(--bg);color:var(--text);font-family:var
 
 <script>
 let trajChart=null;
+let _corpusCount = 0;  // loaded from API on page load
+
+function _cleanHyp(text){
+  return (text||'').replace(/--\[?[\w_]+\]?-->/g,'→').replace(/\s+/g,' ').trim();
+}
+
 async function fj(u,o){const r=await fetch(u,o);return r.json();}
 function setBar(p){document.getElementById('progressFill').style.width=p+'%';}
 function setSug(el){document.getElementById('searchInput').value=el.textContent.trim();document.getElementById('searchInput').focus();}
 document.getElementById('searchInput').addEventListener('keydown',e=>{if(e.key==='Enter')runResearch();});
+
+// Load corpus count on page load
+async function loadStats(){
+  try{
+    const ov=await fj('/api/overview');
+    _corpusCount = ov.chunk_count || 0;
+    document.getElementById('rc1').textContent=`${_corpusCount.toLocaleString()} chunks`;
+  }catch(e){}
+}
+loadStats();
 
 async function runResearch(){
   const q=document.getElementById('searchInput').value.trim();
@@ -464,6 +386,8 @@ async function runResearch(){
   document.getElementById('searchBtn').textContent='Analyzing…';
   document.getElementById('suggestionsSection').style.display='none';
   document.getElementById('reasoningChain').style.display='flex';
+  // Show corpus count in step 1 immediately
+  document.getElementById('rc1').textContent=`${_corpusCount.toLocaleString()} chunks`;
   resetContent();window.scrollTo({top:0,behavior:'smooth'});setBar(15);
   try{
     const [rptRes,simRes,hypsRes]=await Promise.all([
@@ -485,7 +409,8 @@ async function runResearch(){
     setBar(0);document.getElementById('progressTrack').classList.remove('active');
     document.getElementById('verdictArea').innerHTML=`<div class="error-state"><strong>Analysis failed:</strong> ${e.message}</div>`;
   }
-  document.getElementById('searchBtn').disabled=false;document.getElementById('searchBtn').textContent='Analyze';
+  document.getElementById('searchBtn').disabled=false;
+  document.getElementById('searchBtn').textContent='Analyze';
 }
 
 function resetContent(){
@@ -503,9 +428,10 @@ function updateChain(rpt,sim){
   const v=rpt.proposal_verdict||'inconclusive';
   const cls=v==='supported'?'green':v==='partially_supported'?'amber':'mid';
   const grounded=rpt.top_grounded||[];
-  document.getElementById('rc1').textContent='761 chunks';
+  // Step 1: total corpus size (already set from loadStats, keep it)
   document.getElementById('rc2').textContent=`${grounded.length} claims`;
-  document.getElementById('rc3').textContent=`${rpt.evidence_count||0} evidence`;
+  const suppCount=(rpt.top_grounded||[]).filter(gc=>['supported','partially_supported'].includes((gc.verdict||{}).verdict)).length;
+  document.getElementById('rc3').textContent=`${suppCount} supported`;
   document.getElementById('rc4').innerHTML=`<span class="${cls}">${v.replace(/_/g,' ')}</span>`;
   document.getElementById('rc5').textContent=`${Math.round((sim.avg_field_score||0)*100)}/100`;
 }
@@ -604,9 +530,11 @@ function renderHyps(hyps,query){
   const show=rel.length?rel:hyps.slice(0,3);
   if(!show.length){document.getElementById('hypArea').innerHTML='<p style="font-size:12px;color:var(--dim);">No related hypotheses yet.</p>';return;}
   document.getElementById('hypArea').innerHTML=show.map(h=>`
-    <div class="hyp-item"><div class="hyp-type">${(h.type||'').replace(/_/g,' ')}</div>
-    <div class="hyp-text">${h.hypothesis}</div>
-    <div class="hyp-score">score: ${h.score??'–'}</div></div>`).join('');
+    <div class="hyp-item">
+      <div class="hyp-type">${(h.type||'').replace(/_/g,' ')}</div>
+      <div class="hyp-text">${_cleanHyp(h.hypothesis)}</div>
+      <div class="hyp-score">score: ${h.score??'–'}</div>
+    </div>`).join('');
 }
 
 function renderExp(sim){
@@ -663,7 +591,7 @@ function renderSuggestions(data){
   document.getElementById('ideasArea').innerHTML=ideas.length
     ?ideas.map(idea=>`
       <div style="padding:14px;border-radius:8px;border:1px solid var(--border);background:var(--paper);margin-bottom:10px;">
-        <div style="font-size:13px;line-height:1.5;color:var(--text);margin-bottom:10px;">${idea.hypothesis}</div>
+        <div style="font-size:13px;line-height:1.5;color:var(--text);margin-bottom:10px;">${_cleanHyp(idea.hypothesis)}</div>
         <div style="background:var(--blue-bg);border:1px solid #c8d8f0;border-radius:5px;padding:10px 12px;font-size:12px;color:var(--blue);line-height:1.6;">
           → ${idea.actionable}
         </div>

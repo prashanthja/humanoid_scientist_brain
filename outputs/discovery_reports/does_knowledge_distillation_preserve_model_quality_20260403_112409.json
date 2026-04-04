@@ -1,0 +1,372 @@
+{
+  "query": "Does knowledge distillation preserve model quality?",
+  "timestamp": "2026-04-03 11:24:09",
+  "domain": "unknown",
+  "proposal_verdict": "inconclusive",
+  "proposal_confidence": 0.35,
+  "proposal_explanation": "Semantic similarity exists but evidence lacks strength (strong_chunks=0/2 best_quality=0.45)",
+  "evidence_count": 10,
+  "top_papers": [
+    "Explanation Guided Knowledge Distillation for Pre-trained Language Model Compression",
+    "Accelerating Autoregressive Speech Synthesis Inference With Speech Speculative Decoding",
+    "Exploring Model Compression Limits and Laws: A Pyramid Knowledge Distillation Framework for Satellite-on-Orbit Object Recognition",
+    "Mitigating carbon footprint for knowledge distillation based deep learning model compression",
+    "Text-speech collaboration LLM embedding low-rank adaptation, activation-aware weight quantization and knowledge distillation",
+    "AD-KD: Attribution-Driven Knowledge Distillation for Language Model Compression",
+    "KED: A Deep-Supervised Knowledge Enhancement Self-Distillation Framework for Model Compression",
+    "Attention Map Guided Transformer Pruning for Edge Device"
+  ],
+  "extracted_claim_count": 10,
+  "top_claims": [
+    {
+      "claim": "Subjective evaluations further validate the effectiveness of SSD in preserving the perceptual quality of the target model while accelerating inference.",
+      "paper_title": "Accelerating Autoregressive Speech Synthesis Inference With Speech Speculative Decoding",
+      "domain": "transformer_efficiency"
+    },
+    {
+      "claim": "1 Introduction Transformer-based pre-trained language models (PLMs), such as BERT (Devlin et al., 2019) and RoBERTa (Liu et",
+      "paper_title": "AD-KD: Attribution-Driven Knowledge Distillation for Language Model Compression",
+      "domain": "transformer_efficiency"
+    },
+    {
+      "claim": "It embeds LoRA fine-tuning, AWQ quantization, and knowledge distillation to improve the output models’ performance.",
+      "paper_title": "Text-speech collaboration LLM embedding low-rank adaptation, activation-aware weight quantization and knowledge distillation",
+      "domain": "unknown"
+    },
+    {
+      "claim": "Though knowledge distillation based model compression has achieved promising performance, we observe that explanations between the teacher model and the student model are not consistent.",
+      "paper_title": "Explanation Guided Knowledge Distillation for Pre-trained Language Model Compression",
+      "domain": "unknown"
+    },
+    {
+      "claim": "To this end, we propose Explanation Guided Knowledge Distillation (EGKD) in this article, which utilizes explanations to represent the thinking process and improve knowledge distillation.",
+      "paper_title": "Explanation Guided Knowledge Distillation for Pre-trained Language Model Compression",
+      "domain": "unknown"
+    }
+  ],
+  "grounded_claim_count": 5,
+  "supported_count": 0,
+  "contradicted_count": 5,
+  "inconclusive_count": 0,
+  "top_grounded": [
+    {
+      "claim": "researchers, focus more on creating better models and prioritize model perfor- mance over the society and the environment.",
+      "claim_type": "statement",
+      "domain": "unknown",
+      "grounding": {
+        "claim": "researchers, focus more on creating better models and prioritize model perfor- mance over the society and the environment.",
+        "support_count": 0,
+        "contradict_count": 3,
+        "neutral_count": 4,
+        "total_evidence": 7,
+        "unique_sources": 2,
+        "unique_titles": 6,
+        "avg_support_score": 0.0,
+        "avg_contradict_score": 0.5196,
+        "diversity_score": 1.0,
+        "contradiction_penalty": 0.2227,
+        "coverage_score": 1.0,
+        "grounding_score": 0.1939,
+        "top_support": [],
+        "top_contradict": [
+          {
+            "text": "AD-KD: Attribution-Driven Knowledge Distillation for Language Model Compression Siyue Wu1, Hongzhan Chen1, Xiaojun Quan1∗, Qifan Wang2 and Rui Wang3 1School of Computer Science and Engineering, Sun Yat-sen University, China 2Meta AI 3Vipshop (China) Co., Ltd., China 1 {wusy39, chenhzh59}@mail2.sysu.edu.cn, quanxj3@mail.sysu.edu.cn 2wqfcr@fb.com 3mars198356@hotmail.com Abstract Knowledge distillation has attracted a great deal of interest recently to compress pre- trained language models. However, existing knowledge distillation methods suffer from two limitations. First, the student model simply imitates the teacher’s behavior while ignoring the underlying reasoning. Second, these methods usually focus on the transfer of sophisticated model-speciﬁc knowledge but overlook data-speciﬁc knowledge. In this paper, we present a novel attribution-driven knowledge distillation approach, which ex- plores the token-level rationale behind the teacher model based on Integrated Gradients (IG) and transfers attribution knowledge to the student model. To enhance the knowledge transfer of model reasoning and generaliza- tion, we further explore multi-view attribution distillation on all potential decisions of the teacher. Comprehensive experiments are con- ducted with BERT on the GLUE benchmark. The experimental results demonstrate the su- perior performance of our approach to several state-of-the-art methods. 1 Introduction Transformer-based pre-trained language models (PLMs), such as BERT (Devlin et al., 2019) and RoBERTa (Liu et",
+            "paper_title": "AD-KD: Attribution-Driven Knowledge Distillation for Language Model Compression",
+            "source": "semantic_scholar",
+            "chunk_id": 952,
+            "verdict": "contradict",
+            "score": 0.5254061768452326,
+            "similarity": 0.6288300156593323,
+            "overlap": 0.3333
+          },
+          {
+            "text": "all possible predictions rather than just the prediction with the highest probability. By trans- ferring the multi-view attribution knowledge, the student learns a more comprehensive understand- ing of the teacher’s soft-label distribution. Extensive experiments are conducted with BERT (Devlin et al., 2019) on the GLUE benchmark (Wang et al., 2018). The experimental results demonstrate the effectiveness and superiority of our approach over several state-of-the-art baselines. Furthermore, we show that attribution knowledge from different layers contains different information, while the input layer contains the most prominent attribution knowledge for distillation. To summa- rize, the main contributions are threefold. First, we propose a novel attribution-driven knowledge distillation framework for language model com- pression that effectively transfers attribution knowl- edge from the teacher to the student. Second, we extract multi-view attribution knowledge based on model predictions to learn comprehensive reason- ing knowledge. Third, we systematically validate AD-KD on the GLUE benchmark and show its su- perior performance over state-of-the-art baselines. 2 Related Work 2.1 Knowledge Distillation Knowledge distillation methods can be divided into three categories, namely response-based, feature- based and relation-based KD (Gou et al., 2021). Response-based KD was ﬁrst proposed by Hinton et al. (2015), where the ﬁnal output is adopted to",
+            "paper_title": "AD-KD: Attribution-Driven Knowledge Distillation for Language Model Compression",
+            "source": "semantic_scholar",
+            "chunk_id": 956,
+            "verdict": "contradict",
+            "score": 0.5219648669163386,
+            "similarity": 0.623535692691803,
+            "overlap": 0.3333
+          },
+          {
+            "text": "Knowledge distillation is widely used in pre-trained language model compression, which can transfer knowledge from a cumbersome model to a lightweight one. Though knowledge distillation based model compression has achieved promising performance, we observe that explanations between the teacher model and the student model are not consistent. We argue that the student model should study not only the predictions of the teacher model but also the internal reasoning process. To this end, we propose Explanation Guided Knowledge Distillation (EGKD) in this article, which utilizes explanations to represent the thinking process and improve knowledge distillation. To obtain explanations in our distillation framework, we select three typical explanation methods rooted in different mechanisms, namely gradient-based, perturbation-based, and feature selection methods. Then, to improve computational ef",
+            "paper_title": "Explanation Guided Knowledge Distillation for Pre-trained Language Model Compression",
+            "source": "semantic_scholar",
+            "chunk_id": 714,
+            "verdict": "contradict",
+            "score": 0.5113348257541657,
+            "similarity": 0.6789766550064087,
+            "overlap": 0.2
+          }
+        ]
+      },
+      "verdict": {
+        "claim": "researchers, focus more on creating better models and prioritize model perfor- mance over the society and the environment.",
+        "verdict": "contradicted",
+        "confidence": 0.6,
+        "explanation": "Contradiction outweighs support (support=0, contradict=3).",
+        "grounding_score": 0.1939,
+        "support_count": 0,
+        "contradict_count": 3,
+        "neutral_count": 4,
+        "total_evidence": 7
+      }
+    },
+    {
+      "claim": "Knowledge distillation (KD) is an effective method for model compression; yet, there is a gap in the study of the limits and laws of KD-based model compression.",
+      "claim_type": "statement",
+      "domain": "unknown",
+      "grounding": {
+        "claim": "Knowledge distillation (KD) is an effective method for model compression; yet, there is a gap in the study of the limits and laws of KD-based model compression.",
+        "support_count": 0,
+        "contradict_count": 3,
+        "neutral_count": 4,
+        "total_evidence": 7,
+        "unique_sources": 2,
+        "unique_titles": 6,
+        "avg_support_score": 0.0,
+        "avg_contradict_score": 0.5546,
+        "diversity_score": 1.0,
+        "contradiction_penalty": 0.2377,
+        "coverage_score": 1.0,
+        "grounding_score": 0.1767,
+        "top_support": [],
+        "top_contradict": [
+          {
+            "text": "Knowledge distillation is widely used in pre-trained language model compression, which can transfer knowledge from a cumbersome model to a lightweight one. Though knowledge distillation based model compression has achieved promising performance, we observe that explanations between the teacher model and the student model are not consistent. We argue that the student model should study not only the predictions of the teacher model but also the internal reasoning process. To this end, we propose Explanation Guided Knowledge Distillation (EGKD) in this article, which utilizes explanations to represent the thinking process and improve knowledge distillation. To obtain explanations in our distillation framework, we select three typical explanation methods rooted in different mechanisms, namely gradient-based, perturbation-based, and feature selection methods. Then, to improve computational ef",
+            "paper_title": "Explanation Guided Knowledge Distillation for Pre-trained Language Model Compression",
+            "source": "semantic_scholar",
+            "chunk_id": 714,
+            "verdict": "contradict",
+            "score": 0.5774459368652768,
+            "similarity": 0.6789766550064087,
+            "overlap": 0.3889
+          },
+          {
+            "text": "AD-KD: Attribution-Driven Knowledge Distillation for Language Model Compression Siyue Wu1, Hongzhan Chen1, Xiaojun Quan1∗, Qifan Wang2 and Rui Wang3 1School of Computer Science and Engineering, Sun Yat-sen University, China 2Meta AI 3Vipshop (China) Co., Ltd., China 1 {wusy39, chenhzh59}@mail2.sysu.edu.cn, quanxj3@mail.sysu.edu.cn 2wqfcr@fb.com 3mars198356@hotmail.com Abstract Knowledge distillation has attracted a great deal of interest recently to compress pre- trained language models. However, existing knowledge distillation methods suffer from two limitations. First, the student model simply imitates the teacher’s behavior while ignoring the underlying reasoning. Second, these methods usually focus on the transfer of sophisticated model-speciﬁc knowledge but overlook data-speciﬁc knowledge. In this paper, we present a novel attribution-driven knowledge distillation approach, which ex- plores the token-level rationale behind the teacher model based on Integrated Gradients (IG) and transfers attribution knowledge to the student model. To enhance the knowledge transfer of model reasoning and generaliza- tion, we further explore multi-view attribution distillation on all potential decisions of the teacher. Comprehensive experiments are con- ducted with BERT on the GLUE benchmark. The experimental results demonstrate the su- perior performance of our approach to several state-of-the-art methods. 1 Introduction Transformer-based pre-trained language models (PLMs), such as BERT (Devlin et al., 2019) and RoBERTa (Liu et",
+            "paper_title": "AD-KD: Attribution-Driven Knowledge Distillation for Language Model Compression",
+            "source": "semantic_scholar",
+            "chunk_id": 952,
+            "verdict": "contradict",
+            "score": 0.5448506212896771,
+            "similarity": 0.6288300156593323,
+            "overlap": 0.3889
+          },
+          {
+            "text": "all possible predictions rather than just the prediction with the highest probability. By trans- ferring the multi-view attribution knowledge, the student learns a more comprehensive understand- ing of the teacher’s soft-label distribution. Extensive experiments are conducted with BERT (Devlin et al., 2019) on the GLUE benchmark (Wang et al., 2018). The experimental results demonstrate the effectiveness and superiority of our approach over several state-of-the-art baselines. Furthermore, we show that attribution knowledge from different layers contains different information, while the input layer contains the most prominent attribution knowledge for distillation. To summa- rize, the main contributions are threefold. First, we propose a novel attribution-driven knowledge distillation framework for language model com- pression that effectively transfers attribution knowl- edge from the teacher to the student. Second, we extract multi-view attribution knowledge based on model predictions to learn comprehensive reason- ing knowledge. Third, we systematically validate AD-KD on the GLUE benchmark and show its su- perior performance over state-of-the-art baselines. 2 Related Work 2.1 Knowledge Distillation Knowledge distillation methods can be divided into three categories, namely response-based, feature- based and relation-based KD (Gou et al., 2021). Response-based KD was ﬁrst proposed by Hinton et al. (2015), where the ﬁnal output is adopted to",
+            "paper_title": "AD-KD: Attribution-Driven Knowledge Distillation for Language Model Compression",
+            "source": "semantic_scholar",
+            "chunk_id": 956,
+            "verdict": "contradict",
+            "score": 0.5414093113607831,
+            "similarity": 0.623535692691803,
+            "overlap": 0.3889
+          }
+        ]
+      },
+      "verdict": {
+        "claim": "Knowledge distillation (KD) is an effective method for model compression; yet, there is a gap in the study of the limits and laws of KD-based model compression.",
+        "verdict": "contradicted",
+        "confidence": 0.6,
+        "explanation": "Contradiction outweighs support (support=0, contradict=3).",
+        "grounding_score": 0.1767,
+        "support_count": 0,
+        "contradict_count": 3,
+        "neutral_count": 4,
+        "total_evidence": 7
+      }
+    },
+    {
+      "claim": "Though knowledge distillation based model compression has achieved promising performance, we observe that explanations between the teacher model and the student model are not consistent.",
+      "claim_type": "statement",
+      "domain": "unknown",
+      "grounding": {
+        "claim": "Though knowledge distillation based model compression has achieved promising performance, we observe that explanations between the teacher model and the student model are not consistent.",
+        "support_count": 0,
+        "contradict_count": 3,
+        "neutral_count": 4,
+        "total_evidence": 7,
+        "unique_sources": 2,
+        "unique_titles": 6,
+        "avg_support_score": 0.0,
+        "avg_contradict_score": 0.6518,
+        "diversity_score": 1.0,
+        "contradiction_penalty": 0.2793,
+        "coverage_score": 1.0,
+        "grounding_score": 0.1288,
+        "top_support": [],
+        "top_contradict": [
+          {
+            "text": "Knowledge distillation is widely used in pre-trained language model compression, which can transfer knowledge from a cumbersome model to a lightweight one. Though knowledge distillation based model compression has achieved promising performance, we observe that explanations between the teacher model and the student model are not consistent. We argue that the student model should study not only the predictions of the teacher model but also the internal reasoning process. To this end, we propose Explanation Guided Knowledge Distillation (EGKD) in this article, which utilizes explanations to represent the thinking process and improve knowledge distillation. To obtain explanations in our distillation framework, we select three typical explanation methods rooted in different mechanisms, namely gradient-based, perturbation-based, and feature selection methods. Then, to improve computational ef",
+            "paper_title": "Explanation Guided Knowledge Distillation for Pre-trained Language Model Compression",
+            "source": "semantic_scholar",
+            "chunk_id": 714,
+            "verdict": "contradict",
+            "score": 0.7913348257541657,
+            "similarity": 0.6789766550064087,
+            "overlap": 1.0
+          },
+          {
+            "text": "AD-KD: Attribution-Driven Knowledge Distillation for Language Model Compression Siyue Wu1, Hongzhan Chen1, Xiaojun Quan1∗, Qifan Wang2 and Rui Wang3 1School of Computer Science and Engineering, Sun Yat-sen University, China 2Meta AI 3Vipshop (China) Co., Ltd., China 1 {wusy39, chenhzh59}@mail2.sysu.edu.cn, quanxj3@mail.sysu.edu.cn 2wqfcr@fb.com 3mars198356@hotmail.com Abstract Knowledge distillation has attracted a great deal of interest recently to compress pre- trained language models. However, existing knowledge distillation methods suffer from two limitations. First, the student model simply imitates the teacher’s behavior while ignoring the underlying reasoning. Second, these methods usually focus on the transfer of sophisticated model-speciﬁc knowledge but overlook data-speciﬁc knowledge. In this paper, we present a novel attribution-driven knowledge distillation approach, which ex- plores the token-level rationale behind the teacher model based on Integrated Gradients (IG) and transfers attribution knowledge to the student model. To enhance the knowledge transfer of model reasoning and generaliza- tion, we further explore multi-view attribution distillation on all potential decisions of the teacher. Comprehensive experiments are con- ducted with BERT on the GLUE benchmark. The experimental results demonstrate the su- perior performance of our approach to several state-of-the-art methods. 1 Introduction Transformer-based pre-trained language models (PLMs), such as BERT (Devlin et al., 2019) and RoBERTa (Liu et",
+            "paper_title": "AD-KD: Attribution-Driven Knowledge Distillation for Language Model Compression",
+            "source": "semantic_scholar",
+            "chunk_id": 952,
+            "verdict": "contradict",
+            "score": 0.5920728435118993,
+            "similarity": 0.6288300156593323,
+            "overlap": 0.5238
+          },
+          {
+            "text": "all possible predictions rather than just the prediction with the highest probability. By trans- ferring the multi-view attribution knowledge, the student learns a more comprehensive understand- ing of the teacher’s soft-label distribution. Extensive experiments are conducted with BERT (Devlin et al., 2019) on the GLUE benchmark (Wang et al., 2018). The experimental results demonstrate the effectiveness and superiority of our approach over several state-of-the-art baselines. Furthermore, we show that attribution knowledge from different layers contains different information, while the input layer contains the most prominent attribution knowledge for distillation. To summa- rize, the main contributions are threefold. First, we propose a novel attribution-driven knowledge distillation framework for language model com- pression that effectively transfers attribution knowl- edge from the teacher to the student. Second, we extract multi-view attribution knowledge based on model predictions to learn comprehensive reason- ing knowledge. Third, we systematically validate AD-KD on the GLUE benchmark and show its su- perior performance over state-of-the-art baselines. 2 Related Work 2.1 Knowledge Distillation Knowledge distillation methods can be divided into three categories, namely response-based, feature- based and relation-based KD (Gou et al., 2021). Response-based KD was ﬁrst proposed by Hinton et al. (2015), where the ﬁnal output is adopted to",
+            "paper_title": "AD-KD: Attribution-Driven Knowledge Distillation for Language Model Compression",
+            "source": "semantic_scholar",
+            "chunk_id": 956,
+            "verdict": "contradict",
+            "score": 0.5719648669163386,
+            "similarity": 0.623535692691803,
+            "overlap": 0.4762
+          }
+        ]
+      },
+      "verdict": {
+        "claim": "Though knowledge distillation based model compression has achieved promising performance, we observe that explanations between the teacher model and the student model are not consistent.",
+        "verdict": "contradicted",
+        "confidence": 0.6,
+        "explanation": "Contradiction outweighs support (support=0, contradict=3).",
+        "grounding_score": 0.1288,
+        "support_count": 0,
+        "contradict_count": 3,
+        "neutral_count": 4,
+        "total_evidence": 7
+      }
+    },
+    {
+      "claim": "To this end, we propose Explanation Guided Knowledge Distillation (EGKD) in this article, which utilizes explanations to represent the thinking process and improve knowledge distillation.",
+      "claim_type": "statement",
+      "domain": "unknown",
+      "grounding": {
+        "claim": "To this end, we propose Explanation Guided Knowledge Distillation (EGKD) in this article, which utilizes explanations to represent the thinking process and improve knowledge distillation.",
+        "support_count": 0,
+        "contradict_count": 3,
+        "neutral_count": 4,
+        "total_evidence": 7,
+        "unique_sources": 1,
+        "unique_titles": 6,
+        "avg_support_score": 0.0,
+        "avg_contradict_score": 0.6088,
+        "diversity_score": 0.75,
+        "contradiction_penalty": 0.2609,
+        "coverage_score": 1.0,
+        "grounding_score": 0.0999,
+        "top_support": [],
+        "top_contradict": [
+          {
+            "text": "Knowledge distillation is widely used in pre-trained language model compression, which can transfer knowledge from a cumbersome model to a lightweight one. Though knowledge distillation based model compression has achieved promising performance, we observe that explanations between the teacher model and the student model are not consistent. We argue that the student model should study not only the predictions of the teacher model but also the internal reasoning process. To this end, we propose Explanation Guided Knowledge Distillation (EGKD) in this article, which utilizes explanations to represent the thinking process and improve knowledge distillation. To obtain explanations in our distillation framework, we select three typical explanation methods rooted in different mechanisms, namely gradient-based, perturbation-based, and feature selection methods. Then, to improve computational ef",
+            "paper_title": "Explanation Guided Knowledge Distillation for Pre-trained Language Model Compression",
+            "source": "semantic_scholar",
+            "chunk_id": 714,
+            "verdict": "contradict",
+            "score": 0.7913348257541657,
+            "similarity": 0.6789766550064087,
+            "overlap": 1.0
+          },
+          {
+            "text": "AD-KD: Attribution-Driven Knowledge Distillation for Language Model Compression Siyue Wu1, Hongzhan Chen1, Xiaojun Quan1∗, Qifan Wang2 and Rui Wang3 1School of Computer Science and Engineering, Sun Yat-sen University, China 2Meta AI 3Vipshop (China) Co., Ltd., China 1 {wusy39, chenhzh59}@mail2.sysu.edu.cn, quanxj3@mail.sysu.edu.cn 2wqfcr@fb.com 3mars198356@hotmail.com Abstract Knowledge distillation has attracted a great deal of interest recently to compress pre- trained language models. However, existing knowledge distillation methods suffer from two limitations. First, the student model simply imitates the teacher’s behavior while ignoring the underlying reasoning. Second, these methods usually focus on the transfer of sophisticated model-speciﬁc knowledge but overlook data-speciﬁc knowledge. In this paper, we present a novel attribution-driven knowledge distillation approach, which ex- plores the token-level rationale behind the teacher model based on Integrated Gradients (IG) and transfers attribution knowledge to the student model. To enhance the knowledge transfer of model reasoning and generaliza- tion, we further explore multi-view attribution distillation on all potential decisions of the teacher. Comprehensive experiments are con- ducted with BERT on the GLUE benchmark. The experimental results demonstrate the su- perior performance of our approach to several state-of-the-art methods. 1 Introduction Transformer-based pre-trained language models (PLMs), such as BERT (Devlin et al., 2019) and RoBERTa (Liu et",
+            "paper_title": "AD-KD: Attribution-Driven Knowledge Distillation for Language Model Compression",
+            "source": "semantic_scholar",
+            "chunk_id": 952,
+            "verdict": "contradict",
+            "score": 0.5192658259680396,
+            "similarity": 0.6288300156593323,
+            "overlap": 0.3158
+          },
+          {
+            "text": "all possible predictions rather than just the prediction with the highest probability. By trans- ferring the multi-view attribution knowledge, the student learns a more comprehensive understand- ing of the teacher’s soft-label distribution. Extensive experiments are conducted with BERT (Devlin et al., 2019) on the GLUE benchmark (Wang et al., 2018). The experimental results demonstrate the effectiveness and superiority of our approach over several state-of-the-art baselines. Furthermore, we show that attribution knowledge from different layers contains different information, while the input layer contains the most prominent attribution knowledge for distillation. To summa- rize, the main contributions are threefold. First, we propose a novel attribution-driven knowledge distillation framework for language model com- pression that effectively transfers attribution knowl- edge from the teacher to the student. Second, we extract multi-view attribution knowledge based on model predictions to learn comprehensive reason- ing knowledge. Third, we systematically validate AD-KD on the GLUE benchmark and show its su- perior performance over state-of-the-art baselines. 2 Related Work 2.1 Knowledge Distillation Knowledge distillation methods can be divided into three categories, namely response-based, feature- based and relation-based KD (Gou et al., 2021). Response-based KD was ﬁrst proposed by Hinton et al. (2015), where the ﬁnal output is adopted to",
+            "paper_title": "AD-KD: Attribution-Driven Knowledge Distillation for Language Model Compression",
+            "source": "semantic_scholar",
+            "chunk_id": 956,
+            "verdict": "contradict",
+            "score": 0.5158245160391456,
+            "similarity": 0.623535692691803,
+            "overlap": 0.3158
+          }
+        ]
+      },
+      "verdict": {
+        "claim": "To this end, we propose Explanation Guided Knowledge Distillation (EGKD) in this article, which utilizes explanations to represent the thinking process and improve knowledge distillation.",
+        "verdict": "contradicted",
+        "confidence": 0.6,
+        "explanation": "Contradiction outweighs support (support=0, contradict=3).",
+        "grounding_score": 0.0999,
+        "support_count": 0,
+        "contradict_count": 3,
+        "neutral_count": 4,
+        "total_evidence": 7
+      }
+    },
+    {
+      "claim": "Subjective evaluations further validate the effectiveness of SSD in preserving the perceptual quality of the target model while accelerating inference.",
+      "claim_type": "statement",
+      "domain": "transformer_efficiency",
+      "grounding": {
+        "claim": "Subjective evaluations further validate the effectiveness of SSD in preserving the perceptual quality of the target model while accelerating inference.",
+        "support_count": 0,
+        "contradict_count": 2,
+        "neutral_count": 1,
+        "total_evidence": 3,
+        "unique_sources": 1,
+        "unique_titles": 2,
+        "avg_support_score": 0.0,
+        "avg_contradict_score": 0.512,
+        "diversity_score": 0.75,
+        "contradiction_penalty": 0.3413,
+        "coverage_score": 0.5,
+        "grounding_score": 0.0,
+        "top_support": [],
+        "top_contradict": [
+          {
+            "text": "all possible predictions rather than just the prediction with the highest probability. By trans- ferring the multi-view attribution knowledge, the student learns a more comprehensive understand- ing of the teacher’s soft-label distribution. Extensive experiments are conducted with BERT (Devlin et al., 2019) on the GLUE benchmark (Wang et al., 2018). The experimental results demonstrate the effectiveness and superiority of our approach over several state-of-the-art baselines. Furthermore, we show that attribution knowledge from different layers contains different information, while the input layer contains the most prominent attribution knowledge for distillation. To summa- rize, the main contributions are threefold. First, we propose a novel attribution-driven knowledge distillation framework for language model com- pression that effectively transfers attribution knowl- edge from the teacher to the student. Second, we extract multi-view attribution knowledge based on model predictions to learn comprehensive reason- ing knowledge. Third, we systematically validate AD-KD on the GLUE benchmark and show its su- perior performance over state-of-the-art baselines. 2 Related Work 2.1 Knowledge Distillation Knowledge distillation methods can be divided into three categories, namely response-based, feature- based and relation-based KD (Gou et al., 2021). Response-based KD was ﬁrst proposed by Hinton et al. (2015), where the ﬁnal output is adopted to",
+            "paper_title": "AD-KD: Attribution-Driven Knowledge Distillation for Language Model Compression",
+            "source": "semantic_scholar",
+            "chunk_id": 956,
+            "verdict": "contradict",
+            "score": 0.5219648669163386,
+            "similarity": 0.623535692691803,
+            "overlap": 0.3333
+          },
+          {
+            "text": "AD-KD: Attribution-Driven Knowledge Distillation for Language Model Compression Siyue Wu1, Hongzhan Chen1, Xiaojun Quan1∗, Qifan Wang2 and Rui Wang3 1School of Computer Science and Engineering, Sun Yat-sen University, China 2Meta AI 3Vipshop (China) Co., Ltd., China 1 {wusy39, chenhzh59}@mail2.sysu.edu.cn, quanxj3@mail.sysu.edu.cn 2wqfcr@fb.com 3mars198356@hotmail.com Abstract Knowledge distillation has attracted a great deal of interest recently to compress pre- trained language models. However, existing knowledge distillation methods suffer from two limitations. First, the student model simply imitates the teacher’s behavior while ignoring the underlying reasoning. Second, these methods usually focus on the transfer of sophisticated model-speciﬁc knowledge but overlook data-speciﬁc knowledge. In this paper, we present a novel attribution-driven knowledge distillation approach, which ex- plores the token-level rationale behind the teacher model based on Integrated Gradients (IG) and transfers attribution knowledge to the student model. To enhance the knowledge transfer of model reasoning and generaliza- tion, we further explore multi-view attribution distillation on all potential decisions of the teacher. Comprehensive experiments are con- ducted with BERT on the GLUE benchmark. The experimental results demonstrate the su- perior performance of our approach to several state-of-the-art methods. 1 Introduction Transformer-based pre-trained language models (PLMs), such as BERT (Devlin et al., 2019) and RoBERTa (Liu et",
+            "paper_title": "AD-KD: Attribution-Driven Knowledge Distillation for Language Model Compression",
+            "source": "semantic_scholar",
+            "chunk_id": 952,
+            "verdict": "contradict",
+            "score": 0.5020728435118993,
+            "similarity": 0.6288300156593323,
+            "overlap": 0.2667
+          }
+        ]
+      },
+      "verdict": {
+        "claim": "Subjective evaluations further validate the effectiveness of SSD in preserving the perceptual quality of the target model while accelerating inference.",
+        "verdict": "contradicted",
+        "confidence": 0.55,
+        "explanation": "Contradiction outweighs support (support=0, contradict=2).",
+        "grounding_score": 0.0,
+        "support_count": 0,
+        "contradict_count": 2,
+        "neutral_count": 1,
+        "total_evidence": 3
+      }
+    }
+  ],
+  "knowledge_gaps": [
+    "Some retrieved chunks appear off-domain — retrieval may benefit from stricter domain filtering."
+  ],
+  "next_actions": [
+    "Pick 1 concrete intervention and convert it into a falsifiable claim (inputs → mechanism → measurable outputs).",
+    "Run targeted retrieval using 3–5 specific transformer-efficiency keywords and compare results.",
+    "Prioritize evidence chunks with benchmark numbers (latency, throughput, memory, perplexity, context length).",
+    "Generate an experiment plan: baseline, efficiency metric, quality metric, ablations, acceptance threshold."
+  ]
+}

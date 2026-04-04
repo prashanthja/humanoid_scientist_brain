@@ -178,7 +178,7 @@ def _find_blockers(idea_low, concepts, kg_data):
                 if rel not in ("has_tradeoff","contradicts"): continue
                 if not isinstance(objs, list): objs = [objs]
                 for obj in objs:
-                    if subj in concepts or str(obj) in concepts:
+                    if (subj in concepts or str(obj) in concepts) and "GeneralLimitation" not in (subj, str(obj)):
                         blockers.append({"type":"Known Tradeoff",
                             "description":f"{subj} has a documented tradeoff with {obj} — this may conflict with your idea",
                             "severity":"medium"})
@@ -340,7 +340,7 @@ def _find_alternatives(concept, kg_data, query):
     return [{"method":m,"description":descs.get(m,"")} for m in alts]
 
 def _best_experiment(concept, verdict, confidence, top_papers):
-    if verdict == "supported" and confidence > 0.7:
+    if verdict == "supported" and confidence > 0.5:
         return {"type":"Stress Test","description":f"The evidence for {concept} is strong. Stress-test it: measure wall-clock latency at batch sizes 1, 8, 32, 128 on real hardware (A100/H100), not just FLOPs.","metric":"Wall-clock latency (ms) and GPU memory (GB) at multiple batch sizes","baseline":"Dense transformer baseline with same parameter count"}
     elif verdict in ("partially_supported","inconclusive"):
         return {"type":"Controlled Ablation","description":f"Evidence for {concept} is mixed. Run a controlled ablation: isolate the specific mechanism being claimed. Verify gains hold when sequence length doubles.","metric":"Memory overhead (GB) vs sequence length (log scale)","baseline":"Standard attention at matching sequence lengths"}
@@ -427,7 +427,7 @@ def api_overview():
 
 @app.route("/api/reports")
 def api_reports():
-    reports = _load_reports(20)
+    reports = _load_reports(50)
     return jsonify({"reports": [{
         "query":              r.get("query",""),
         "verdict":            r.get("proposal_verdict","unknown"),

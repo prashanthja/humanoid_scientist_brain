@@ -15,10 +15,14 @@
       "Union of Experts: Adapting Hierarchical Routing to",
       "Cross-token Modeling with Conditional Computation",
       "Dense Backpropagation Improves Training for Sparse",
-      "Switch Transformers: Scaling to Trillion Parameter"
+      "Switch Transformers: Scaling to Trillion Parameter",
+      "AdaMoE: Token-Adaptive Routing with Null Experts f"
     ],
     "has_tradeoff": [
       "GeneralLimitation"
+    ],
+    "reduces": [
+      "ComputeCost"
     ]
   },
   "SparseAttention": {
@@ -27,6 +31,12 @@
     ],
     "partially_supports": [
       "ModelQuality"
+    ],
+    "has_tradeoff": [
+      "GeneralLimitation"
+    ],
+    "evidenced_by": [
+      "MoE-DiffuSeq: Enhancing Long-Document Diffusion Mo"
     ]
   },
   "FlashAttention": {
@@ -64,7 +74,9 @@
       "Seesaw: High-throughput LLM Inference via Model Re",
       "HCAttention: Extreme KV Cache Compression via Hete",
       "Accelerating LLM Inference via Dynamic KV Cache Pl",
-      "KVTuner: Sensitivity-Aware Layer-wise Mixed Precis"
+      "KVTuner: Sensitivity-Aware Layer-wise Mixed Precis",
+      "HotPrefix: Hotness-Aware KV Cache Scheduling for E",
+      "TPLA: Tensor Parallel Latent Attention for Efficie"
     ],
     "has_tradeoff": [
       "MemoryOverhead",
@@ -101,7 +113,8 @@
     ],
     "evidenced_by": [
       "Low-Rank Adaptation for Scalable Fine-Tuning of Pr",
-      "Low-Rank Adaptation for Parameter-Efficient Fine-T"
+      "Low-Rank Adaptation for Parameter-Efficient Fine-T",
+      "RaLo: Rank-aware low-rank adaptation for pre-train"
     ],
     "supports_efficiency": [
       "MemoryOverhead"
@@ -110,7 +123,8 @@
       "TransformerEfficiency"
     ],
     "has_tradeoff": [
-      "GeneralLimitation"
+      "GeneralLimitation",
+      "MemoryOverhead"
     ]
   },
   "SpeculativeDecoding": {
@@ -175,6 +189,9 @@
   "Mamba": {
     "partially_supports": [
       "TransformerEfficiency"
+    ],
+    "contradicts": [
+      "TransformerEfficiency"
     ]
   },
   "RWKV": {
@@ -182,10 +199,14 @@
       "ModelQuality"
     ],
     "evidenced_by": [
-      "RWKV: Reinventing RNNs for the Transformer Era"
+      "RWKV: Reinventing RNNs for the Transformer Era",
+      "Autoregressive + Chain of Thought = Recurrent: Rec"
     ],
     "partially_supports": [
       "ModelQuality"
+    ],
+    "has_tradeoff": [
+      "GeneralLimitation"
     ]
   }
 }

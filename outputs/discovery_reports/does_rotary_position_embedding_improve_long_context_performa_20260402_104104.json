@@ -1,0 +1,327 @@
+{
+  "query": "Does rotary position embedding improve long-context performance?",
+  "timestamp": "2026-04-02 10:41:04",
+  "domain": "transformer_efficiency",
+  "proposal_verdict": "supported",
+  "proposal_confidence": 0.7496358480453491,
+  "proposal_explanation": "Evidence from multiple sources confirms this claim with experimental results.",
+  "evidence_count": 10,
+  "top_papers": [
+    "DoPE: Denoising Rotary Position Embedding",
+    "Sliding Window Attention Training for Efficient Large Language Models",
+    "Fourier Position Embedding: Enhancing Attention's Periodic Extension for Length Generalization",
+    "Inference-Friendly Models With MixAttention",
+    "Transformer-Based End-to-End Speech Translation With Rotary Position Embedding",
+    "Context-aware Rotary Position Embedding",
+    "MLPMoE: Zero-Shot Architectural Metamorphosis of Dense LLM MLPs into Static Mixture-of-Experts",
+    "Tensor Product Attention Is All You Need"
+  ],
+  "extracted_claim_count": 10,
+  "top_claims": [
+    {
+      "claim": "s inference speed without sacrificing model performance in both short and long-context tasks.",
+      "paper_title": "Inference-Friendly Models With MixAttention",
+      "domain": "transformer_efficiency"
+    },
+    {
+      "claim": "We theoretically reveal that this low-frequency alignment manifests as activation noise, degrading stability during long-context extrapolation.",
+      "paper_title": "DoPE: Denoising Rotary Position Embedding",
+      "domain": "transformer_efficiency"
+    },
+    {
+      "claim": "the inefficiency of Transformers to the attention sink phenomenon resulting from the high variance of softmax operation.",
+      "paper_title": "Sliding Window Attention Training for Efficient Large Language Models",
+      "domain": "transformer_efficiency"
+    },
+    {
+      "claim": "Extending the context length of Language Models (LMs) by improving Rotary Position Embedding (RoPE) has become a trend.",
+      "paper_title": "Fourier Position Embedding: Enhancing Attention's Periodic Extension for Length Generalization",
+      "domain": "transformer_efficiency"
+    },
+    {
+      "claim": "Using Discrete Signal Processing theory, we show that RoPE enables periodic attention by implicitly achieving Non-Uniform Discrete Fourier Transform.",
+      "paper_title": "Fourier Position Embedding: Enhancing Attention's Periodic Extension for Length Generalization",
+      "domain": "transformer_efficiency"
+    }
+  ],
+  "grounded_claim_count": 5,
+  "supported_count": 0,
+  "contradicted_count": 0,
+  "inconclusive_count": 5,
+  "top_grounded": [
+    {
+      "claim": "Experiments demonstrate that SWAT achieves SOTA performance compared with state-of-the-art linear recurrent architectures on eight benchmarks.",
+      "claim_type": "statement",
+      "domain": "unknown",
+      "grounding": {
+        "claim": "Experiments demonstrate that SWAT achieves SOTA performance compared with state-of-the-art linear recurrent architectures on eight benchmarks.",
+        "support_count": 1,
+        "contradict_count": 0,
+        "neutral_count": 2,
+        "total_evidence": 3,
+        "unique_sources": 1,
+        "unique_titles": 3,
+        "avg_support_score": 0.9126,
+        "avg_contradict_score": 0.0,
+        "diversity_score": 0.75,
+        "contradiction_penalty": 0.0,
+        "coverage_score": 0.5,
+        "grounding_score": 0.5792,
+        "top_support": [
+          {
+            "text": "the inefficiency of Transformers to the attention sink phenomenon resulting from the high variance of softmax operation. Then, we replace softmax with the sigmoid function and utilize a balanced ALiBi and Rotary Position Embedding for efficient information compression and retention. Experiments demonstrate that SWAT achieves SOTA performance compared with state-of-the-art linear recurrent architectures on eight benchmarks. Code is available at https://github.com/Fzkuji/swat-attention.",
+            "paper_title": "Sliding Window Attention Training for Efficient Large Language Models",
+            "source": "semantic_scholar",
+            "chunk_id": 526,
+            "verdict": "support",
+            "score": 0.9125876128673553,
+            "similarity": 0.8655194044113159,
+            "overlap": 1.0
+          }
+        ],
+        "top_contradict": []
+      },
+      "verdict": {
+        "claim": "Experiments demonstrate that SWAT achieves SOTA performance compared with state-of-the-art linear recurrent architectures on eight benchmarks.",
+        "verdict": "partially_supported",
+        "confidence": 0.5792,
+        "explanation": "Evidence leans supportive but remains mixed (support=1, contradict=0, neutral=2).",
+        "grounding_score": 0.5792,
+        "support_count": 1,
+        "contradict_count": 0,
+        "neutral_count": 2,
+        "total_evidence": 3
+      }
+    },
+    {
+      "claim": "Across a range of settings, DoPE improves length extrapolation performance without fin",
+      "claim_type": "statement",
+      "domain": "unknown",
+      "grounding": {
+        "claim": "Across a range of settings, DoPE improves length extrapolation performance without fin",
+        "support_count": 1,
+        "contradict_count": 0,
+        "neutral_count": 1,
+        "total_evidence": 2,
+        "unique_sources": 1,
+        "unique_titles": 2,
+        "avg_support_score": 0.643,
+        "avg_contradict_score": 0.0,
+        "diversity_score": 0.75,
+        "contradiction_penalty": 0.0,
+        "coverage_score": 0.3333,
+        "grounding_score": 0.5548,
+        "top_support": [
+          {
+            "text": "s inference speed without sacrificing model performance in both short and long-context tasks. We also explore various configurations of this architecture, identifying those that maintain quality across evaluation metrics while optimizing resource efficiency.",
+            "paper_title": "Inference-Friendly Models With MixAttention",
+            "source": "semantic_scholar",
+            "chunk_id": 539,
+            "verdict": "support",
+            "score": 0.6430129933357239,
+            "similarity": 0.8277122974395752,
+            "overlap": 0.3
+          }
+        ],
+        "top_contradict": []
+      },
+      "verdict": {
+        "claim": "Across a range of settings, DoPE improves length extrapolation performance without fin",
+        "verdict": "partially_supported",
+        "confidence": 0.5548,
+        "explanation": "Evidence leans supportive but remains mixed (support=1, contradict=0, neutral=1).",
+        "grounding_score": 0.5548,
+        "support_count": 1,
+        "contradict_count": 0,
+        "neutral_count": 1,
+        "total_evidence": 2
+      }
+    },
+    {
+      "claim": "the inefficiency of Transformers to the attention sink phenomenon resulting from the high variance of softmax operation.",
+      "claim_type": "statement",
+      "domain": "transformer_efficiency",
+      "grounding": {
+        "claim": "the inefficiency of Transformers to the attention sink phenomenon resulting from the high variance of softmax operation.",
+        "support_count": 2,
+        "contradict_count": 1,
+        "neutral_count": 1,
+        "total_evidence": 4,
+        "unique_sources": 1,
+        "unique_titles": 4,
+        "avg_support_score": 0.7604,
+        "avg_contradict_score": 0.6478,
+        "diversity_score": 0.75,
+        "contradiction_penalty": 0.1619,
+        "coverage_score": 0.6667,
+        "grounding_score": 0.5106,
+        "top_support": [
+          {
+            "text": "the inefficiency of Transformers to the attention sink phenomenon resulting from the high variance of softmax operation. Then, we replace softmax with the sigmoid function and utilize a balanced ALiBi and Rotary Position Embedding for efficient information compression and retention. Experiments demonstrate that SWAT achieves SOTA performance compared with state-of-the-art linear recurrent architectures on eight benchmarks. Code is available at https://github.com/Fzkuji/swat-attention.",
+            "paper_title": "Sliding Window Attention Training for Efficient Large Language Models",
+            "source": "semantic_scholar",
+            "chunk_id": 526,
+            "verdict": "support",
+            "score": 0.9125876128673553,
+            "similarity": 0.8655194044113159,
+            "overlap": 1.0
+          },
+          {
+            "text": "it prevents propagating the errors between different quantized modules compared to recent speech transformers mixing quantized convolution and the quantized self-attention modules. Our study suggests that we could pay attention to the architecture of audio language language to improve their inference efficiency.",
+            "paper_title": "Attention or Convolution: Transformer Encoders in Audio Language Models for Inference Efficiency",
+            "source": "semantic_scholar",
+            "chunk_id": 413,
+            "verdict": "support",
+            "score": 0.6082685142755508,
+            "similarity": 0.8011823296546936,
+            "overlap": 0.25
+          }
+        ],
+        "top_contradict": [
+          {
+            "text": "Extending the context length of Language Models (LMs) by improving Rotary Position Embedding (RoPE) has become a trend. While prior works mainly address RoPE's limitations within attention, this paper uncovers the adverse effects on length generalization from nearly all parts of LMs. Using Discrete Signal Processing theory, we show that RoPE enables periodic attention by implicitly achieving Non-Uniform Discrete Fourier Transform. However, this periodicity is undermined by the spectrum damage caused by: 1) linear layers and activation functions; 2) insufficiently trained frequency components brought by time-domain truncation. Building on our observations, we propose Fourier Position Embedding (FoPE), which enhances attention's frequency-domain properties to improve both its periodic extension and length generalization. FoPE constructs \\textit{Fourier Series} and zero-outs the destructive",
+            "paper_title": "Fourier Position Embedding: Enhancing Attention's Periodic Extension for Length Generalization",
+            "source": "semantic_scholar",
+            "chunk_id": 650,
+            "verdict": "contradict",
+            "score": 0.6477825194597244,
+            "similarity": 0.8619731068611145,
+            "overlap": 0.25
+          }
+        ]
+      },
+      "verdict": {
+        "claim": "the inefficiency of Transformers to the attention sink phenomenon resulting from the high variance of softmax operation.",
+        "verdict": "partially_supported",
+        "confidence": 0.5106,
+        "explanation": "Evidence leans supportive but remains mixed (support=2, contradict=1, neutral=1).",
+        "grounding_score": 0.5106,
+        "support_count": 2,
+        "contradict_count": 1,
+        "neutral_count": 1,
+        "total_evidence": 4
+      }
+    },
+    {
+      "claim": "Then, we replace softmax with the sigmoid function and utilize a balanced ALiBi and Rotary Position Embedding for efficient information compression and retention.",
+      "claim_type": "statement",
+      "domain": "unknown",
+      "grounding": {
+        "claim": "Then, we replace softmax with the sigmoid function and utilize a balanced ALiBi and Rotary Position Embedding for efficient information compression and retention.",
+        "support_count": 1,
+        "contradict_count": 1,
+        "neutral_count": 4,
+        "total_evidence": 6,
+        "unique_sources": 1,
+        "unique_titles": 6,
+        "avg_support_score": 0.9126,
+        "avg_contradict_score": 0.6524,
+        "diversity_score": 0.75,
+        "contradiction_penalty": 0.1087,
+        "coverage_score": 1.0,
+        "grounding_score": 0.4271,
+        "top_support": [
+          {
+            "text": "the inefficiency of Transformers to the attention sink phenomenon resulting from the high variance of softmax operation. Then, we replace softmax with the sigmoid function and utilize a balanced ALiBi and Rotary Position Embedding for efficient information compression and retention. Experiments demonstrate that SWAT achieves SOTA performance compared with state-of-the-art linear recurrent architectures on eight benchmarks. Code is available at https://github.com/Fzkuji/swat-attention.",
+            "paper_title": "Sliding Window Attention Training for Efficient Large Language Models",
+            "source": "semantic_scholar",
+            "chunk_id": 526,
+            "verdict": "support",
+            "score": 0.9125876128673553,
+            "similarity": 0.8655194044113159,
+            "overlap": 1.0
+          }
+        ],
+        "top_contradict": [
+          {
+            "text": "Extending the context length of Language Models (LMs) by improving Rotary Position Embedding (RoPE) has become a trend. While prior works mainly address RoPE's limitations within attention, this paper uncovers the adverse effects on length generalization from nearly all parts of LMs. Using Discrete Signal Processing theory, we show that RoPE enables periodic attention by implicitly achieving Non-Uniform Discrete Fourier Transform. However, this periodicity is undermined by the spectrum damage caused by: 1) linear layers and activation functions; 2) insufficiently trained frequency components brought by time-domain truncation. Building on our observations, we propose Fourier Position Embedding (FoPE), which enhances attention's frequency-domain properties to improve both its periodic extension and length generalization. FoPE constructs \\textit{Fourier Series} and zero-outs the destructive",
+            "paper_title": "Fourier Position Embedding: Enhancing Attention's Periodic Extension for Length Generalization",
+            "source": "semantic_scholar",
+            "chunk_id": 650,
+            "verdict": "contradict",
+            "score": 0.6523877826176191,
+            "similarity": 0.8619731068611145,
+            "overlap": 0.2632
+          }
+        ]
+      },
+      "verdict": {
+        "claim": "Then, we replace softmax with the sigmoid function and utilize a balanced ALiBi and Rotary Position Embedding for efficient information compression and retention.",
+        "verdict": "inconclusive",
+        "confidence": 0.4271,
+        "explanation": "Evidence is mixed or insufficient (support=1, contradict=1, neutral=4).",
+        "grounding_score": 0.4271,
+        "support_count": 1,
+        "contradict_count": 1,
+        "neutral_count": 4,
+        "total_evidence": 6
+      }
+    },
+    {
+      "claim": "We theoretically reveal that this low-frequency alignment manifests as activation noise, degrading stability during long-context extrapolation.",
+      "claim_type": "statement",
+      "domain": "transformer_efficiency",
+      "grounding": {
+        "claim": "We theoretically reveal that this low-frequency alignment manifests as activation noise, degrading stability during long-context extrapolation.",
+        "support_count": 1,
+        "contradict_count": 1,
+        "neutral_count": 3,
+        "total_evidence": 5,
+        "unique_sources": 1,
+        "unique_titles": 5,
+        "avg_support_score": 0.6255,
+        "avg_contradict_score": 0.6697,
+        "diversity_score": 0.75,
+        "contradiction_penalty": 0.1339,
+        "coverage_score": 0.8333,
+        "grounding_score": 0.3294,
+        "top_support": [
+          {
+            "text": "s inference speed without sacrificing model performance in both short and long-context tasks. We also explore various configurations of this architecture, identifying those that maintain quality across evaluation metrics while optimizing resource efficiency.",
+            "paper_title": "Inference-Friendly Models With MixAttention",
+            "source": "semantic_scholar",
+            "chunk_id": 539,
+            "verdict": "support",
+            "score": 0.625512993335724,
+            "similarity": 0.8277122974395752,
+            "overlap": 0.25
+          }
+        ],
+        "top_contradict": [
+          {
+            "text": "Extending the context length of Language Models (LMs) by improving Rotary Position Embedding (RoPE) has become a trend. While prior works mainly address RoPE's limitations within attention, this paper uncovers the adverse effects on length generalization from nearly all parts of LMs. Using Discrete Signal Processing theory, we show that RoPE enables periodic attention by implicitly achieving Non-Uniform Discrete Fourier Transform. However, this periodicity is undermined by the spectrum damage caused by: 1) linear layers and activation functions; 2) insufficiently trained frequency components brought by time-domain truncation. Building on our observations, we propose Fourier Position Embedding (FoPE), which enhances attention's frequency-domain properties to improve both its periodic extension and length generalization. FoPE constructs \\textit{Fourier Series} and zero-outs the destructive",
+            "paper_title": "Fourier Position Embedding: Enhancing Attention's Periodic Extension for Length Generalization",
+            "source": "semantic_scholar",
+            "chunk_id": 650,
+            "verdict": "contradict",
+            "score": 0.6696575194597244,
+            "similarity": 0.8619731068611145,
+            "overlap": 0.3125
+          }
+        ]
+      },
+      "verdict": {
+        "claim": "We theoretically reveal that this low-frequency alignment manifests as activation noise, degrading stability during long-context extrapolation.",
+        "verdict": "inconclusive",
+        "confidence": 0.3294,
+        "explanation": "Evidence is mixed or insufficient (support=1, contradict=1, neutral=3).",
+        "grounding_score": 0.3294,
+        "support_count": 1,
+        "contradict_count": 1,
+        "neutral_count": 3,
+        "total_evidence": 5
+      }
+    }
+  ],
+  "knowledge_gaps": [
+    "Many claims are inconclusive — evidence exists but lacks benchmark numbers or experimental results.",
+    "No contradicting evidence found — this may indicate limited coverage of papers reporting failure cases or trade-offs.",
+    "Some retrieved chunks appear off-domain — retrieval may benefit from stricter domain filtering."
+  ],
+  "next_actions": [
+    "Pick 1 concrete intervention and convert it into a falsifiable claim (inputs → mechanism → measurable outputs).",
+    "Run targeted retrieval using 3–5 specific transformer-efficiency keywords and compare results.",
+    "Prioritize evidence chunks with benchmark numbers (latency, throughput, memory, perplexity, context length).",
+    "Generate an experiment plan: baseline, efficiency metric, quality metric, ablations, acceptance threshold."
+  ]
+}

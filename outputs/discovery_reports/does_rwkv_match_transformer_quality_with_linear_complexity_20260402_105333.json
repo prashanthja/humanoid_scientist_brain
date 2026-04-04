@@ -1,0 +1,313 @@
+{
+  "query": "Does RWKV match transformer quality with linear complexity?",
+  "timestamp": "2026-04-02 10:53:33",
+  "domain": "transformer_efficiency",
+  "proposal_verdict": "supported",
+  "proposal_confidence": 0.7481007733345031,
+  "proposal_explanation": "Evidence from multiple sources confirms this claim with experimental results.",
+  "evidence_count": 10,
+  "top_papers": [
+    "RWKV: Reinventing RNNs for the Transformer Era",
+    "Generation Meets Verification: Accelerating Large Language Model Inference with Smart Parallel Auto-Correct Decoding",
+    "Dynamic Sparse Attention for Scalable Transformer Acceleration",
+    "MLPMoE: Zero-Shot Architectural Metamorphosis of Dense LLM MLPs into Static Mixture-of-Experts",
+    "Inference-Friendly Models With MixAttention",
+    "Just read twice: closing the recall gap for recurrent language models",
+    "FLatten Transformer: Vision Transformer using Focused Linear Attention",
+    "Adaptive Soft Rolling KV Freeze with Entropy-Guided Recovery: Sublinear Memory Growth for Efficient LLM Inference"
+  ],
+  "extracted_claim_count": 10,
+  "top_claims": [
+    {
+      "claim": "Moving forward, we identify challenges and provide solutions to implement DSA on existing hardware (GPUs) and specialized hardware in order to achieve practical speedup and efficiency improvements for Transformer execution.",
+      "paper_title": "Dynamic Sparse Attention for Scalable Transformer Acceleration",
+      "domain": "transformer_efficiency"
+    },
+    {
+      "claim": "The method operates entirely post hoc on existing checkpoints and does not require gradients, calibration sets, or router training.",
+      "paper_title": "MLPMoE: Zero-Shot Architectural Metamorphosis of Dense LLM MLPs into Static Mixture-of-Experts",
+      "domain": "transformer_efficiency"
+    },
+    {
+      "claim": "ng and maintains constant computational and memory complexity during inference.",
+      "paper_title": "RWKV: Reinventing RNNs for the Transformer Era",
+      "domain": "transformer_efficiency"
+    },
+    {
+      "claim": "We scale our models as large as 14 billion parameters, by far the largest dense RNN ever trained, and find RWKV performs on par with similarly sized Transformers, suggesting future work can leverage this architecture to create more efficient models.",
+      "paper_title": "RWKV: Reinventing RNNs for the Transformer Era",
+      "domain": "transformer_efficiency"
+    },
+    {
+      "claim": "Transformers have revolutionized almost all natural language processing (NLP) tasks but suffer from memory and computational complexity that scales quadratically with sequence length.",
+      "paper_title": "RWKV: Reinventing RNNs for the Transformer Era",
+      "domain": "transformer_efficiency"
+    }
+  ],
+  "grounded_claim_count": 5,
+  "supported_count": 2,
+  "contradicted_count": 0,
+  "inconclusive_count": 3,
+  "top_grounded": [
+    {
+      "claim": "sequences within a single model invocation.",
+      "claim_type": "statement",
+      "domain": "unknown",
+      "grounding": {
+        "claim": "sequences within a single model invocation.",
+        "support_count": 3,
+        "contradict_count": 0,
+        "neutral_count": 1,
+        "total_evidence": 4,
+        "unique_sources": 1,
+        "unique_titles": 4,
+        "avg_support_score": 0.6033,
+        "avg_contradict_score": 0.0,
+        "diversity_score": 0.75,
+        "contradiction_penalty": 0.0,
+        "coverage_score": 0.6667,
+        "grounding_score": 0.7691,
+        "top_support": [
+          {
+            "text": "ng and maintains constant computational and memory complexity during inference. We scale our models as large as 14 billion parameters, by far the largest dense RNN ever trained, and find RWKV performs on par with similarly sized Transformers, suggesting future work can leverage this architecture to create more efficient models. This work presents a significant step towards reconciling trade-offs between computational efficiency and model performance in sequence processing tasks.",
+            "paper_title": "RWKV: Reinventing RNNs for the Transformer Era",
+            "source": "semantic_scholar",
+            "chunk_id": 178,
+            "verdict": "support",
+            "score": 0.6108001661300659,
+            "similarity": 0.8320002555847168,
+            "overlap": 0.2
+          },
+          {
+            "text": "t dynamic sparse patterns in attention. Compared with other methods, our approach can achieve better trade-offs between accuracy and model complexity. Moving forward, we identify challenges and provide solutions to implement DSA on existing hardware (GPUs) and specialized hardware in order to achieve practical speedup and efficiency improvements for Transformer execution.",
+            "paper_title": "Dynamic Sparse Attention for Scalable Transformer Acceleration",
+            "source": "semantic_scholar",
+            "chunk_id": 630,
+            "verdict": "support",
+            "score": 0.5999167096614837,
+            "similarity": 0.8152564764022827,
+            "overlap": 0.2
+          },
+          {
+            "text": "s inference speed without sacrificing model performance in both short and long-context tasks. We also explore various configurations of this architecture, identifying those that maintain quality across evaluation metrics while optimizing resource efficiency.",
+            "paper_title": "Inference-Friendly Models With MixAttention",
+            "source": "semantic_scholar",
+            "chunk_id": 539,
+            "verdict": "support",
+            "score": 0.599087570309639,
+            "similarity": 0.8139808773994446,
+            "overlap": 0.2
+          }
+        ],
+        "top_contradict": []
+      },
+      "verdict": {
+        "claim": "sequences within a single model invocation.",
+        "verdict": "supported",
+        "confidence": 0.8691,
+        "explanation": "Support outweighs contradiction (support=3, contradict=0) with strong grounding=0.77.",
+        "grounding_score": 0.7691,
+        "support_count": 3,
+        "contradict_count": 0,
+        "neutral_count": 1,
+        "total_evidence": 4
+      }
+    },
+    {
+      "claim": "We propose a novel model architecture, Receptance Weighted Key Value (RWKV), that combines the efficient parallelizable training of transformers with the efficient inference of RNNs.",
+      "claim_type": "statement",
+      "domain": "transformer_efficiency",
+      "grounding": {
+        "claim": "We propose a novel model architecture, Receptance Weighted Key Value (RWKV), that combines the efficient parallelizable training of transformers with the efficient inference of RNNs.",
+        "support_count": 2,
+        "contradict_count": 0,
+        "neutral_count": 2,
+        "total_evidence": 4,
+        "unique_sources": 1,
+        "unique_titles": 3,
+        "avg_support_score": 0.6086,
+        "avg_contradict_score": 0.0,
+        "diversity_score": 0.75,
+        "contradiction_penalty": 0.0,
+        "coverage_score": 0.6667,
+        "grounding_score": 0.621,
+        "top_support": [
+          {
+            "text": "ng and maintains constant computational and memory complexity during inference. We scale our models as large as 14 billion parameters, by far the largest dense RNN ever trained, and find RWKV performs on par with similarly sized Transformers, suggesting future work can leverage this architecture to create more efficient models. This work presents a significant step towards reconciling trade-offs between computational efficiency and model performance in sequence processing tasks.",
+            "paper_title": "RWKV: Reinventing RNNs for the Transformer Era",
+            "source": "semantic_scholar",
+            "chunk_id": 178,
+            "verdict": "support",
+            "score": 0.6144843766563818,
+            "similarity": 0.8320002555847168,
+            "overlap": 0.2105
+          },
+          {
+            "text": "s inference speed without sacrificing model performance in both short and long-context tasks. We also explore various configurations of this architecture, identifying those that maintain quality across evaluation metrics while optimizing resource efficiency.",
+            "paper_title": "Inference-Friendly Models With MixAttention",
+            "source": "semantic_scholar",
+            "chunk_id": 539,
+            "verdict": "support",
+            "score": 0.6027717808359548,
+            "similarity": 0.8139808773994446,
+            "overlap": 0.2105
+          }
+        ],
+        "top_contradict": []
+      },
+      "verdict": {
+        "claim": "We propose a novel model architecture, Receptance Weighted Key Value (RWKV), that combines the efficient parallelizable training of transformers with the efficient inference of RNNs.",
+        "verdict": "supported",
+        "confidence": 0.721,
+        "explanation": "Support outweighs contradiction (support=2, contradict=0) with strong grounding=0.62.",
+        "grounding_score": 0.621,
+        "support_count": 2,
+        "contradict_count": 0,
+        "neutral_count": 2,
+        "total_evidence": 4
+      }
+    },
+    {
+      "claim": "ng and maintains constant computational and memory complexity during inference.",
+      "claim_type": "statement",
+      "domain": "transformer_efficiency",
+      "grounding": {
+        "claim": "ng and maintains constant computational and memory complexity during inference.",
+        "support_count": 1,
+        "contradict_count": 0,
+        "neutral_count": 3,
+        "total_evidence": 4,
+        "unique_sources": 1,
+        "unique_titles": 3,
+        "avg_support_score": 0.8908,
+        "avg_contradict_score": 0.0,
+        "diversity_score": 0.75,
+        "contradiction_penalty": 0.0,
+        "coverage_score": 0.6667,
+        "grounding_score": 0.5394,
+        "top_support": [
+          {
+            "text": "ng and maintains constant computational and memory complexity during inference. We scale our models as large as 14 billion parameters, by far the largest dense RNN ever trained, and find RWKV performs on par with similarly sized Transformers, suggesting future work can leverage this architecture to create more efficient models. This work presents a significant step towards reconciling trade-offs between computational efficiency and model performance in sequence processing tasks.",
+            "paper_title": "RWKV: Reinventing RNNs for the Transformer Era",
+            "source": "semantic_scholar",
+            "chunk_id": 178,
+            "verdict": "support",
+            "score": 0.890800166130066,
+            "similarity": 0.8320002555847168,
+            "overlap": 1.0
+          }
+        ],
+        "top_contradict": []
+      },
+      "verdict": {
+        "claim": "ng and maintains constant computational and memory complexity during inference.",
+        "verdict": "partially_supported",
+        "confidence": 0.5394,
+        "explanation": "Evidence leans supportive but remains mixed (support=1, contradict=0, neutral=3).",
+        "grounding_score": 0.5394,
+        "support_count": 1,
+        "contradict_count": 0,
+        "neutral_count": 3,
+        "total_evidence": 4
+      }
+    },
+    {
+      "claim": "Transformers have revolutionized almost all natural language processing (NLP) tasks but suffer from memory and computational complexity that scales quadratically with sequence length.",
+      "claim_type": "statement",
+      "domain": "transformer_efficiency",
+      "grounding": {
+        "claim": "Transformers have revolutionized almost all natural language processing (NLP) tasks but suffer from memory and computational complexity that scales quadratically with sequence length.",
+        "support_count": 1,
+        "contradict_count": 0,
+        "neutral_count": 1,
+        "total_evidence": 2,
+        "unique_sources": 1,
+        "unique_titles": 1,
+        "avg_support_score": 0.6473,
+        "avg_contradict_score": 0.0,
+        "diversity_score": 0.5,
+        "contradiction_penalty": 0.0,
+        "coverage_score": 0.3333,
+        "grounding_score": 0.507,
+        "top_support": [
+          {
+            "text": "ng and maintains constant computational and memory complexity during inference. We scale our models as large as 14 billion parameters, by far the largest dense RNN ever trained, and find RWKV performs on par with similarly sized Transformers, suggesting future work can leverage this architecture to create more efficient models. This work presents a significant step towards reconciling trade-offs between computational efficiency and model performance in sequence processing tasks.",
+            "paper_title": "RWKV: Reinventing RNNs for the Transformer Era",
+            "source": "semantic_scholar",
+            "chunk_id": 178,
+            "verdict": "support",
+            "score": 0.6473219052605008,
+            "similarity": 0.8320002555847168,
+            "overlap": 0.3043
+          }
+        ],
+        "top_contradict": []
+      },
+      "verdict": {
+        "claim": "Transformers have revolutionized almost all natural language processing (NLP) tasks but suffer from memory and computational complexity that scales quadratically with sequence length.",
+        "verdict": "partially_supported",
+        "confidence": 0.507,
+        "explanation": "Evidence leans supportive but remains mixed (support=1, contradict=0, neutral=1).",
+        "grounding_score": 0.507,
+        "support_count": 1,
+        "contradict_count": 0,
+        "neutral_count": 1,
+        "total_evidence": 2
+      }
+    },
+    {
+      "claim": "In contrast, recurrent neural networks (RNNs) exhibit linear scaling in memory and computational requirements but struggle to match the same performance as Transformers due to limitations in parallelization and scalability.",
+      "claim_type": "statement",
+      "domain": "transformer_efficiency",
+      "grounding": {
+        "claim": "In contrast, recurrent neural networks (RNNs) exhibit linear scaling in memory and computational requirements but struggle to match the same performance as Transformers due to limitations in parallelization and scalability.",
+        "support_count": 1,
+        "contradict_count": 0,
+        "neutral_count": 1,
+        "total_evidence": 2,
+        "unique_sources": 1,
+        "unique_titles": 1,
+        "avg_support_score": 0.6169,
+        "avg_contradict_score": 0.0,
+        "diversity_score": 0.5,
+        "contradiction_penalty": 0.0,
+        "coverage_score": 0.3333,
+        "grounding_score": 0.4918,
+        "top_support": [
+          {
+            "text": "ng and maintains constant computational and memory complexity during inference. We scale our models as large as 14 billion parameters, by far the largest dense RNN ever trained, and find RWKV performs on par with similarly sized Transformers, suggesting future work can leverage this architecture to create more efficient models. This work presents a significant step towards reconciling trade-offs between computational efficiency and model performance in sequence processing tasks.",
+            "paper_title": "RWKV: Reinventing RNNs for the Transformer Era",
+            "source": "semantic_scholar",
+            "chunk_id": 178,
+            "verdict": "support",
+            "score": 0.6168871226518051,
+            "similarity": 0.8320002555847168,
+            "overlap": 0.2174
+          }
+        ],
+        "top_contradict": []
+      },
+      "verdict": {
+        "claim": "In contrast, recurrent neural networks (RNNs) exhibit linear scaling in memory and computational requirements but struggle to match the same performance as Transformers due to limitations in parallelization and scalability.",
+        "verdict": "partially_supported",
+        "confidence": 0.4918,
+        "explanation": "Evidence leans supportive but remains mixed (support=1, contradict=0, neutral=1).",
+        "grounding_score": 0.4918,
+        "support_count": 1,
+        "contradict_count": 0,
+        "neutral_count": 1,
+        "total_evidence": 2
+      }
+    }
+  ],
+  "knowledge_gaps": [
+    "Many claims are inconclusive — evidence exists but lacks benchmark numbers or experimental results.",
+    "No contradicting evidence found — this may indicate limited coverage of papers reporting failure cases or trade-offs."
+  ],
+  "next_actions": [
+    "Pick 1 concrete intervention and convert it into a falsifiable claim (inputs → mechanism → measurable outputs).",
+    "Run targeted retrieval using 3–5 specific transformer-efficiency keywords and compare results.",
+    "Prioritize evidence chunks with benchmark numbers (latency, throughput, memory, perplexity, context length).",
+    "Generate an experiment plan: baseline, efficiency metric, quality metric, ablations, acceptance threshold."
+  ]
+}

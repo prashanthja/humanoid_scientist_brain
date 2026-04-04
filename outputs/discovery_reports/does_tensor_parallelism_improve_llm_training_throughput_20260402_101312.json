@@ -1,0 +1,313 @@
+{
+  "query": "Does tensor parallelism improve LLM training throughput?",
+  "timestamp": "2026-04-02 10:13:12",
+  "domain": "transformer_efficiency",
+  "proposal_verdict": "supported",
+  "proposal_confidence": 0.7482505121231079,
+  "proposal_explanation": "Evidence from multiple sources confirms this claim with experimental results.",
+  "evidence_count": 10,
+  "top_papers": [
+    "Shift Parallelism: Low-Latency, High-Throughput LLM Inference for Dynamic Workloads",
+    "SparseServe: Unlocking Parallelism for Dynamic Sparse Attention in Long-Context LLM Serving",
+    "MLPMoE: Zero-Shot Architectural Metamorphosis of Dense LLM MLPs into Static Mixture-of-Experts",
+    "Seesaw: High-throughput LLM Inference via Model Re-sharding",
+    "Untied Ulysses: Memory-Efficient Context Parallelism via Headwise Chunking",
+    "ALISA: Accelerating Large Language Model Inference via Sparsity-Aware KV Caching",
+    "Mixture of Attention Spans: Optimizing LLM Inference Efficiency with Heterogeneous Sliding-Window Lengths",
+    "Gyges: Dynamic Cross-Instance Parallelism Transformation for Efficient LLM Inference"
+  ],
+  "extracted_claim_count": 10,
+  "top_claims": [
+    {
+      "claim": "erve achieves up to 9.26x lower mean time-to-first-token (TTFT) latency and up to 3.14x higher token generation throughput compared to state-of-the-art LLM serving systems.",
+      "paper_title": "SparseServe: Unlocking Parallelism for Dynamic Sparse Attention in Long-Context LLM Serving",
+      "domain": "transformer_efficiency"
+    },
+    {
+      "claim": "The method operates entirely post hoc on existing checkpoints and does not require gradients, calibration sets, or router training.",
+      "paper_title": "MLPMoE: Zero-Shot Architectural Metamorphosis of Dense LLM MLPs into Static Mixture-of-Experts",
+      "domain": "transformer_efficiency"
+    },
+    {
+      "claim": "ation memory usage of self-attention, breaking the activation memory barrier and unlocking much longer context lengths.",
+      "paper_title": "Untied Ulysses: Memory-Efficient Context Parallelism via Headwise Chunking",
+      "domain": "transformer_efficiency"
+    },
+    {
+      "claim": "Our approach reduces intermediate tensor memory usage in the attention layer by as much as 87.5$\\%$ for 32B Transformers, while matching previous context parallelism techniques in terms of training speed.",
+      "paper_title": "Untied Ulysses: Memory-Efficient Context Parallelism via Headwise Chunking",
+      "domain": "transformer_efficiency"
+    },
+    {
+      "claim": "To improve the efficiency of distributed large language model (LLM) inference, various parallelization strategies, such as tensor and pipeline parallelism, have been proposed.",
+      "paper_title": "Seesaw: High-throughput LLM Inference via Model Re-sharding",
+      "domain": "transformer_efficiency"
+    }
+  ],
+  "grounded_claim_count": 5,
+  "supported_count": 0,
+  "contradicted_count": 1,
+  "inconclusive_count": 4,
+  "top_grounded": [
+    {
+      "claim": "erve achieves up to 9.26x lower mean time-to-first-token (TTFT) latency and up to 3.14x higher token generation throughput compared to state-of-the-art LLM serving systems.",
+      "claim_type": "statement",
+      "domain": "transformer_efficiency",
+      "grounding": {
+        "claim": "erve achieves up to 9.26x lower mean time-to-first-token (TTFT) latency and up to 3.14x higher token generation throughput compared to state-of-the-art LLM serving systems.",
+        "support_count": 1,
+        "contradict_count": 0,
+        "neutral_count": 1,
+        "total_evidence": 2,
+        "unique_sources": 1,
+        "unique_titles": 2,
+        "avg_support_score": 0.8785,
+        "avg_contradict_score": 0.0,
+        "diversity_score": 0.75,
+        "contradiction_penalty": 0.0,
+        "coverage_score": 0.3333,
+        "grounding_score": 0.6726,
+        "top_support": [
+          {
+            "text": "erve achieves up to 9.26x lower mean time-to-first-token (TTFT) latency and up to 3.14x higher token generation throughput compared to state-of-the-art LLM serving systems.",
+            "paper_title": "SparseServe: Unlocking Parallelism for Dynamic Sparse Attention in Long-Context LLM Serving",
+            "source": "semantic_scholar",
+            "chunk_id": 440,
+            "verdict": "support",
+            "score": 0.8784880220890046,
+            "similarity": 0.8130584955215454,
+            "overlap": 1.0
+          }
+        ],
+        "top_contradict": []
+      },
+      "verdict": {
+        "claim": "erve achieves up to 9.26x lower mean time-to-first-token (TTFT) latency and up to 3.14x higher token generation throughput compared to state-of-the-art LLM serving systems.",
+        "verdict": "partially_supported",
+        "confidence": 0.6726,
+        "explanation": "Evidence leans supportive but remains mixed (support=1, contradict=0, neutral=1).",
+        "grounding_score": 0.6726,
+        "support_count": 1,
+        "contradict_count": 0,
+        "neutral_count": 1,
+        "total_evidence": 2
+      }
+    },
+    {
+      "claim": "The method operates entirely post hoc on existing checkpoints and does not require gradients, calibration sets, or router training.",
+      "claim_type": "statement",
+      "domain": "transformer_efficiency",
+      "grounding": {
+        "claim": "The method operates entirely post hoc on existing checkpoints and does not require gradients, calibration sets, or router training.",
+        "support_count": 0,
+        "contradict_count": 2,
+        "neutral_count": 1,
+        "total_evidence": 3,
+        "unique_sources": 1,
+        "unique_titles": 2,
+        "avg_support_score": 0.0,
+        "avg_contradict_score": 0.8447,
+        "diversity_score": 0.75,
+        "contradiction_penalty": 0.5631,
+        "coverage_score": 0.5,
+        "grounding_score": 0.0,
+        "top_support": [],
+        "top_contradict": [
+          {
+            "text": "out 2 percent of the dense baseline. The method operates entirely post hoc on existing checkpoints and does not require gradients, calibration sets, or router training. Code is available at https://gist.github.com/iwallarm/fc2ef1eddf226ca7814f9e5e2ae9bad1",
+            "paper_title": "MLPMoE: Zero-Shot Architectural Metamorphosis of Dense LLM MLPs into Static Mixture-of-Experts",
+            "source": "semantic_scholar",
+            "chunk_id": 112,
+            "verdict": "contradict",
+            "score": 0.890669795870781,
+            "similarity": 0.8317996859550476,
+            "overlap": 1.0
+          },
+          {
+            "text": "LP in transformer blocks into a static, high-cardinality mixture of experts. The transformation uses simple tensor slicing and summation, reinterpreting the algebra of tensor parallelism as a topological conversion rather than a distributed training pattern. We further introduce Fractal Fade (differential branch sparsity) and Compensated Pruning (variance-preserving branch reduction) as lightweight mechanisms for structured sparsity. On Qwen2.5-0.5B-Instruct and DeepSeek-R1-Distill-Llama-8B, the zero-shot MLPMoE transform changes a proxy perplexity metric by less than 0.05 percent while keeping the parameter count effectively constant. On the 8B model, differential sparsity removes about 20 percent of MLP parameters while keeping perplexity within about 2 percent of the dense baseline. The method operates entirely post hoc on existing checkpoints and does not require gradients, calibrati",
+            "paper_title": "MLPMoE: Zero-Shot Architectural Metamorphosis of Dense LLM MLPs into Static Mixture-of-Experts",
+            "source": "semantic_scholar",
+            "chunk_id": 111,
+            "verdict": "contradict",
+            "score": 0.7986772815970813,
+            "similarity": 0.8169695734977722,
+            "overlap": 0.7647
+          }
+        ]
+      },
+      "verdict": {
+        "claim": "The method operates entirely post hoc on existing checkpoints and does not require gradients, calibration sets, or router training.",
+        "verdict": "contradicted",
+        "confidence": 0.55,
+        "explanation": "Contradiction outweighs support (support=0, contradict=2).",
+        "grounding_score": 0.0,
+        "support_count": 0,
+        "contradict_count": 2,
+        "neutral_count": 1,
+        "total_evidence": 3
+      }
+    },
+    {
+      "claim": "On the other hand, data parallelism (DP) obtains a higher throughput yet is slow in response latency.",
+      "claim_type": "statement",
+      "domain": "transformer_efficiency",
+      "grounding": {
+        "claim": "On the other hand, data parallelism (DP) obtains a higher throughput yet is slow in response latency.",
+        "support_count": 1,
+        "contradict_count": 0,
+        "neutral_count": 1,
+        "total_evidence": 2,
+        "unique_sources": 1,
+        "unique_titles": 2,
+        "avg_support_score": 0.6093,
+        "avg_contradict_score": 0.0,
+        "diversity_score": 0.75,
+        "contradiction_penalty": 0.0,
+        "coverage_score": 0.3333,
+        "grounding_score": 0.538,
+        "top_support": [
+          {
+            "text": "erve achieves up to 9.26x lower mean time-to-first-token (TTFT) latency and up to 3.14x higher token generation throughput compared to state-of-the-art LLM serving systems.",
+            "paper_title": "SparseServe: Unlocking Parallelism for Dynamic Sparse Attention in Long-Context LLM Serving",
+            "source": "semantic_scholar",
+            "chunk_id": 440,
+            "verdict": "support",
+            "score": 0.6092572528582354,
+            "similarity": 0.8130584955215454,
+            "overlap": 0.2308
+          }
+        ],
+        "top_contradict": []
+      },
+      "verdict": {
+        "claim": "On the other hand, data parallelism (DP) obtains a higher throughput yet is slow in response latency.",
+        "verdict": "partially_supported",
+        "confidence": 0.538,
+        "explanation": "Evidence leans supportive but remains mixed (support=1, contradict=0, neutral=1).",
+        "grounding_score": 0.538,
+        "support_count": 1,
+        "contradict_count": 0,
+        "neutral_count": 1,
+        "total_evidence": 2
+      }
+    },
+    {
+      "claim": "Tensor parallelism (TP) is the state-of-the-art method for reducing LLM response latency, however GPU communications reduces combined token throughput.",
+      "claim_type": "statement",
+      "domain": "transformer_efficiency",
+      "grounding": {
+        "claim": "Tensor parallelism (TP) is the state-of-the-art method for reducing LLM response latency, however GPU communications reduces combined token throughput.",
+        "support_count": 2,
+        "contradict_count": 1,
+        "neutral_count": 1,
+        "total_evidence": 4,
+        "unique_sources": 1,
+        "unique_titles": 4,
+        "avg_support_score": 0.6182,
+        "avg_contradict_score": 0.6231,
+        "diversity_score": 0.75,
+        "contradiction_penalty": 0.1558,
+        "coverage_score": 0.6667,
+        "grounding_score": 0.4466,
+        "top_support": [
+          {
+            "text": "erve achieves up to 9.26x lower mean time-to-first-token (TTFT) latency and up to 3.14x higher token generation throughput compared to state-of-the-art LLM serving systems.",
+            "paper_title": "SparseServe: Unlocking Parallelism for Dynamic Sparse Attention in Long-Context LLM Serving",
+            "source": "semantic_scholar",
+            "chunk_id": 440,
+            "verdict": "support",
+            "score": 0.6205932852468993,
+            "similarity": 0.8130584955215454,
+            "overlap": 0.2632
+          },
+          {
+            "text": "ation memory usage of self-attention, breaking the activation memory barrier and unlocking much longer context lengths. Our approach reduces intermediate tensor memory usage in the attention layer by as much as 87.5$\\%$ for 32B Transformers, while matching previous context parallelism techniques in terms of training speed. UPipe can support the context length of 5M tokens when training Llama3-8B on a single 8$\\times$H100 node, improving upon prior methods by over 25$\\%$.",
+            "paper_title": "Untied Ulysses: Memory-Efficient Context Parallelism via Headwise Chunking",
+            "source": "semantic_scholar",
+            "chunk_id": 461,
+            "verdict": "support",
+            "score": 0.6157413032494093,
+            "similarity": 0.8055939078330994,
+            "overlap": 0.2632
+          }
+        ],
+        "top_contradict": [
+          {
+            "text": "LP in transformer blocks into a static, high-cardinality mixture of experts. The transformation uses simple tensor slicing and summation, reinterpreting the algebra of tensor parallelism as a topological conversion rather than a distributed training pattern. We further introduce Fractal Fade (differential branch sparsity) and Compensated Pruning (variance-preserving branch reduction) as lightweight mechanisms for structured sparsity. On Qwen2.5-0.5B-Instruct and DeepSeek-R1-Distill-Llama-8B, the zero-shot MLPMoE transform changes a proxy perplexity metric by less than 0.05 percent while keeping the parameter count effectively constant. On the 8B model, differential sparsity removes about 20 percent of MLP parameters while keeping perplexity within about 2 percent of the dense baseline. The method operates entirely post hoc on existing checkpoints and does not require gradients, calibrati",
+            "paper_title": "MLPMoE: Zero-Shot Architectural Metamorphosis of Dense LLM MLPs into Static Mixture-of-Experts",
+            "source": "semantic_scholar",
+            "chunk_id": 111,
+            "verdict": "contradict",
+            "score": 0.6231354859314466,
+            "similarity": 0.8169695734977722,
+            "overlap": 0.2632
+          }
+        ]
+      },
+      "verdict": {
+        "claim": "Tensor parallelism (TP) is the state-of-the-art method for reducing LLM response latency, however GPU communications reduces combined token throughput.",
+        "verdict": "partially_supported",
+        "confidence": 0.4466,
+        "explanation": "Evidence leans supportive but remains mixed (support=2, contradict=1, neutral=1).",
+        "grounding_score": 0.4466,
+        "support_count": 2,
+        "contradict_count": 1,
+        "neutral_count": 1,
+        "total_evidence": 4
+      }
+    },
+    {
+      "claim": "Efficient parallelism is necessary for achieving low-latency, high-throughput inference with large language models (LLMs).",
+      "claim_type": "statement",
+      "domain": "transformer_efficiency",
+      "grounding": {
+        "claim": "Efficient parallelism is necessary for achieving low-latency, high-throughput inference with large language models (LLMs).",
+        "support_count": 0,
+        "contradict_count": 1,
+        "neutral_count": 3,
+        "total_evidence": 4,
+        "unique_sources": 1,
+        "unique_titles": 4,
+        "avg_support_score": 0.0,
+        "avg_contradict_score": 0.601,
+        "diversity_score": 0.75,
+        "contradiction_penalty": 0.1503,
+        "coverage_score": 0.6667,
+        "grounding_score": 0.1439,
+        "top_support": [],
+        "top_contradict": [
+          {
+            "text": "LP in transformer blocks into a static, high-cardinality mixture of experts. The transformation uses simple tensor slicing and summation, reinterpreting the algebra of tensor parallelism as a topological conversion rather than a distributed training pattern. We further introduce Fractal Fade (differential branch sparsity) and Compensated Pruning (variance-preserving branch reduction) as lightweight mechanisms for structured sparsity. On Qwen2.5-0.5B-Instruct and DeepSeek-R1-Distill-Llama-8B, the zero-shot MLPMoE transform changes a proxy perplexity metric by less than 0.05 percent while keeping the parameter count effectively constant. On the 8B model, differential sparsity removes about 20 percent of MLP parameters while keeping perplexity within about 2 percent of the dense baseline. The method operates entirely post hoc on existing checkpoints and does not require gradients, calibrati",
+            "paper_title": "MLPMoE: Zero-Shot Architectural Metamorphosis of Dense LLM MLPs into Static Mixture-of-Experts",
+            "source": "semantic_scholar",
+            "chunk_id": 111,
+            "verdict": "contradict",
+            "score": 0.6010302227735519,
+            "similarity": 0.8169695734977722,
+            "overlap": 0.2
+          }
+        ]
+      },
+      "verdict": {
+        "claim": "Efficient parallelism is necessary for achieving low-latency, high-throughput inference with large language models (LLMs).",
+        "verdict": "inconclusive",
+        "confidence": 0.2,
+        "explanation": "Evidence is mixed or insufficient (support=0, contradict=1, neutral=3).",
+        "grounding_score": 0.1439,
+        "support_count": 0,
+        "contradict_count": 1,
+        "neutral_count": 3,
+        "total_evidence": 4
+      }
+    }
+  ],
+  "knowledge_gaps": [
+    "Many claims are inconclusive — evidence exists but lacks benchmark numbers or experimental results."
+  ],
+  "next_actions": [
+    "Pick 1 concrete intervention and convert it into a falsifiable claim (inputs → mechanism → measurable outputs).",
+    "Run targeted retrieval using 3–5 specific transformer-efficiency keywords and compare results.",
+    "Prioritize evidence chunks with benchmark numbers (latency, throughput, memory, perplexity, context length).",
+    "Generate an experiment plan: baseline, efficiency metric, quality metric, ablations, acceptance threshold."
+  ]
+}

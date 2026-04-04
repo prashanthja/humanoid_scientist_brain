@@ -1,0 +1,377 @@
+{
+  "query": "Does PagedAttention improve GPU memory utilization?",
+  "timestamp": "2026-04-02 09:21:08",
+  "domain": "transformer_efficiency",
+  "proposal_verdict": "supported",
+  "proposal_confidence": 0.7478058805465698,
+  "proposal_explanation": "Evidence from multiple sources confirms this claim with experimental results.",
+  "evidence_count": 10,
+  "top_papers": [
+    "Comparative Analysis of Large Language Model Inference Serving Systems: A Performance Study of vLLM and HuggingFace TGI",
+    "Jenga: Effective Memory Management for Serving LLM with Heterogeneity",
+    "MLPMoE: Zero-Shot Architectural Metamorphosis of Dense LLM MLPs into Static Mixture-of-Experts",
+    "FLASepformer: Efficient Speech Separation with Gated Focused Linear Attention Transformer",
+    "PagedEviction: Structured Block-wise KV Cache Pruning for Efficient Large Language Model Inference",
+    "eLLM: Elastic Memory Management Framework for Efficient LLM Serving",
+    "Attention or Convolution: Transformer Encoders in Audio Language Models for Inference Efficiency",
+    "Input Domain Aware MoE: Decoupling Routing Decisions from Task Optimization in Mixture of Experts"
+  ],
+  "extracted_claim_count": 10,
+  "top_claims": [
+    {
+      "claim": "The method operates entirely post hoc on existing checkpoints and does not require gradients, calibration sets, or router training.",
+      "paper_title": "MLPMoE: Zero-Shot Architectural Metamorphosis of Dense LLM MLPs into Static Mixture-of-Experts",
+      "domain": "transformer_efficiency"
+    },
+    {
+      "claim": "d performing cache eviction based on attention patterns to enhance memory reuse.",
+      "paper_title": "Jenga: Effective Memory Management for Serving LLM with Heterogeneity",
+      "domain": "transformer_efficiency"
+    },
+    {
+      "claim": "Evaluations show that Jenga improves GPU memory utilization by up to 83% and serving throughput by up to 2.16× (1.46× on average).",
+      "paper_title": "Jenga: Effective Memory Management for Serving LLM with Heterogeneity",
+      "domain": "transformer_efficiency"
+    },
+    {
+      "claim": "KV caching significantly improves the efficiency of Large Language Model (LLM) inference by storing attention states from previously processed tokens, enabling faster generation of subsequent tokens.",
+      "paper_title": "PagedEviction: Structured Block-wise KV Cache Pruning for Efficient Large Language Model Inference",
+      "domain": "transformer_efficiency"
+    },
+    {
+      "claim": "However, as sequence length increases, the KV cache quickly becomes a major memory bottleneck.",
+      "paper_title": "PagedEviction: Structured Block-wise KV Cache Pruning for Efficient Large Language Model Inference",
+      "domain": "transformer_efficiency"
+    }
+  ],
+  "grounded_claim_count": 5,
+  "supported_count": 2,
+  "contradicted_count": 0,
+  "inconclusive_count": 3,
+  "top_grounded": [
+    {
+      "claim": "Our experiments reveal that vLLM achieves up to 24x higher throughput than TGI under high-concurrency workloads through its novel PagedAttention mechanism, while TGI demonstrates lower tail latencies for interactive single-user scenarios.",
+      "claim_type": "statement",
+      "domain": "transformer_efficiency",
+      "grounding": {
+        "claim": "Our experiments reveal that vLLM achieves up to 24x higher throughput than TGI under high-concurrency workloads through its novel PagedAttention mechanism, while TGI demonstrates lower tail latencies for interactive single-user scenarios.",
+        "support_count": 1,
+        "contradict_count": 0,
+        "neutral_count": 0,
+        "total_evidence": 1,
+        "unique_sources": 1,
+        "unique_titles": 1,
+        "avg_support_score": 0.9356,
+        "avg_contradict_score": 0.0,
+        "diversity_score": 0.5,
+        "contradiction_penalty": 0.0,
+        "coverage_score": 0.1667,
+        "grounding_score": 1.0,
+        "top_support": [
+          {
+            "text": "The deployment of Large Language Models (LLMs) in production environments requires efficient inference serving systems that balance throughput, latency, and resource utilization. This paper presents a comprehensive empirical evaluation of two prominent open-source LLM serving frameworks: vLLM and HuggingFace Text Generation Inference (TGI). We benchmark these systems across multiple dimensions including throughput performance, end-to-end latency, GPU memory utilization, and scalability characteristics using LLaMA-2 models ranging from 7B to 70B parameters. Our experiments reveal that vLLM achieves up to 24x higher throughput than TGI under high-concurrency workloads through its novel PagedAttention mechanism, while TGI demonstrates lower tail latencies for interactive single-user scenarios. We provide detailed performance profiles for different deployment scenarios and offer practical re",
+            "paper_title": "Comparative Analysis of Large Language Model Inference Serving Systems: A Performance Study of vLLM and HuggingFace TGI",
+            "source": "semantic_scholar",
+            "chunk_id": 240,
+            "verdict": "support",
+            "score": 0.935573148727417,
+            "similarity": 0.9008817672729492,
+            "overlap": 1.0
+          }
+        ],
+        "top_contradict": []
+      },
+      "verdict": {
+        "claim": "Our experiments reveal that vLLM achieves up to 24x higher throughput than TGI under high-concurrency workloads through its novel PagedAttention mechanism, while TGI demonstrates lower tail latencies for interactive single-user scenarios.",
+        "verdict": "partially_supported",
+        "confidence": 0.95,
+        "explanation": "Evidence leans supportive but remains mixed (support=1, contradict=0, neutral=0).",
+        "grounding_score": 1.0,
+        "support_count": 1,
+        "contradict_count": 0,
+        "neutral_count": 0,
+        "total_evidence": 1
+      }
+    },
+    {
+      "claim": "Evaluations show that Jenga improves GPU memory utilization by up to 83% and serving throughput by up to 2.16× (1.46× on average).",
+      "claim_type": "statement",
+      "domain": "transformer_efficiency",
+      "grounding": {
+        "claim": "Evaluations show that Jenga improves GPU memory utilization by up to 83% and serving throughput by up to 2.16× (1.46× on average).",
+        "support_count": 4,
+        "contradict_count": 1,
+        "neutral_count": 2,
+        "total_evidence": 7,
+        "unique_sources": 1,
+        "unique_titles": 6,
+        "avg_support_score": 0.7189,
+        "avg_contradict_score": 0.6627,
+        "diversity_score": 0.75,
+        "contradiction_penalty": 0.0947,
+        "coverage_score": 1.0,
+        "grounding_score": 0.7019,
+        "top_support": [
+          {
+            "text": "d performing cache eviction based on attention patterns to enhance memory reuse. We implement Jenga in vLLM, and evaluate it with diverse LLMs, datasets, and GPUs. Evaluations show that Jenga improves GPU memory utilization by up to 83% and serving throughput by up to 2.16× (1.46× on average).",
+            "paper_title": "Jenga: Effective Memory Management for Serving LLM with Heterogeneity",
+            "source": "semantic_scholar",
+            "chunk_id": 513,
+            "verdict": "support",
+            "score": 0.9284362196922302,
+            "similarity": 0.889901876449585,
+            "overlap": 1.0
+          },
+          {
+            "text": "The deployment of Large Language Models (LLMs) in production environments requires efficient inference serving systems that balance throughput, latency, and resource utilization. This paper presents a comprehensive empirical evaluation of two prominent open-source LLM serving frameworks: vLLM and HuggingFace Text Generation Inference (TGI). We benchmark these systems across multiple dimensions including throughput performance, end-to-end latency, GPU memory utilization, and scalability characteristics using LLaMA-2 models ranging from 7B to 70B parameters. Our experiments reveal that vLLM achieves up to 24x higher throughput than TGI under high-concurrency workloads through its novel PagedAttention mechanism, while TGI demonstrates lower tail latencies for interactive single-user scenarios. We provide detailed performance profiles for different deployment scenarios and offer practical re",
+            "paper_title": "Comparative Analysis of Large Language Model Inference Serving Systems: A Performance Study of vLLM and HuggingFace TGI",
+            "source": "semantic_scholar",
+            "chunk_id": 240,
+            "verdict": "support",
+            "score": 0.7255731487274171,
+            "similarity": 0.9008817672729492,
+            "overlap": 0.4
+          },
+          {
+            "text": "tion and faster inference. FLA-SepReformer-T/B/L increases speed by 2.29x, 1.91x, and 1.49x, with 15.8%, 20.9%, and 31.9% GPU memory usage, proving our model's effectiveness.",
+            "paper_title": "FLASepformer: Efficient Speech Separation with Gated Focused Linear Attention Transformer",
+            "source": "semantic_scholar",
+            "chunk_id": 12,
+            "verdict": "support",
+            "score": 0.614178169965744,
+            "similarity": 0.8371971845626831,
+            "overlap": 0.2
+          },
+          {
+            "text": "alization boundaries while achieving balanced utilization. Unlike conventional approaches, our routing mechanism is trained independently of task-specific objectives, allowing for stable optimization and decisive expert assignments. Empirical results on vision-language tasks demonstrate that our method consistently outperforms existing sMoE approaches, achieving higher task performance and improved expert utilization balance.",
+            "paper_title": "Input Domain Aware MoE: Decoupling Routing Decisions from Task Optimization in Mixture of Experts",
+            "source": "semantic_scholar",
+            "chunk_id": 499,
+            "verdict": "support",
+            "score": 0.6073253434896468,
+            "similarity": 0.8266543745994568,
+            "overlap": 0.2
+          }
+        ],
+        "top_contradict": [
+          {
+            "text": "emory fragmentation. However, this dual-level approach fundamentally isolates runtime memory and KV cache management, resulting in suboptimal memory utilization under dynamic workloads, which can lead to a nearly 20% drop in throughput. To address these limitations, we propose eLLM, an elastic memory management framework inspired by the classical memory ballooning mechanism in operating systems. The core components of eLLM include: (1) Virtual Tensor Abstraction, which decouples the virtual address space of tensors from the physical GPU memory, creating a unified and flexible memory pool; (2) an Elastic Memory Mechanism that dynamically adjusts memory allocation through runtime memory inflation and deflation, leveraging CPU memory as an extensible buffer; and (3) a Lightweight Scheduling Strategy employing SLO-aware policies to optimize memory utilization and effectively balance performa",
+            "paper_title": "eLLM: Elastic Memory Management Framework for Efficient LLM Serving",
+            "source": "semantic_scholar",
+            "chunk_id": 519,
+            "verdict": "contradict",
+            "score": 0.6627010921637217,
+            "similarity": 0.8400529623031616,
+            "overlap": 0.3333
+          }
+        ]
+      },
+      "verdict": {
+        "claim": "Evaluations show that Jenga improves GPU memory utilization by up to 83% and serving throughput by up to 2.16× (1.46× on average).",
+        "verdict": "supported",
+        "confidence": 0.8019,
+        "explanation": "Support outweighs contradiction (support=4, contradict=1) with strong grounding=0.70.",
+        "grounding_score": 0.7019,
+        "support_count": 4,
+        "contradict_count": 1,
+        "neutral_count": 2,
+        "total_evidence": 7
+      }
+    },
+    {
+      "claim": "The deployment of Large Language Models (LLMs) in production environments requires efficient inference serving systems that balance throughput, latency, and resource utilization.",
+      "claim_type": "statement",
+      "domain": "transformer_efficiency",
+      "grounding": {
+        "claim": "The deployment of Large Language Models (LLMs) in production environments requires efficient inference serving systems that balance throughput, latency, and resource utilization.",
+        "support_count": 3,
+        "contradict_count": 1,
+        "neutral_count": 2,
+        "total_evidence": 6,
+        "unique_sources": 1,
+        "unique_titles": 6,
+        "avg_support_score": 0.721,
+        "avg_contradict_score": 0.616,
+        "diversity_score": 0.75,
+        "contradiction_penalty": 0.1027,
+        "coverage_score": 1.0,
+        "grounding_score": 0.6424,
+        "top_support": [
+          {
+            "text": "The deployment of Large Language Models (LLMs) in production environments requires efficient inference serving systems that balance throughput, latency, and resource utilization. This paper presents a comprehensive empirical evaluation of two prominent open-source LLM serving frameworks: vLLM and HuggingFace Text Generation Inference (TGI). We benchmark these systems across multiple dimensions including throughput performance, end-to-end latency, GPU memory utilization, and scalability characteristics using LLaMA-2 models ranging from 7B to 70B parameters. Our experiments reveal that vLLM achieves up to 24x higher throughput than TGI under high-concurrency workloads through its novel PagedAttention mechanism, while TGI demonstrates lower tail latencies for interactive single-user scenarios. We provide detailed performance profiles for different deployment scenarios and offer practical re",
+            "paper_title": "Comparative Analysis of Large Language Model Inference Serving Systems: A Performance Study of vLLM and HuggingFace TGI",
+            "source": "semantic_scholar",
+            "chunk_id": 240,
+            "verdict": "support",
+            "score": 0.935573148727417,
+            "similarity": 0.9008817672729492,
+            "overlap": 1.0
+          },
+          {
+            "text": "it prevents propagating the errors between different quantized modules compared to recent speech transformers mixing quantized convolution and the quantized self-attention modules. Our study suggests that we could pay attention to the architecture of audio language language to improve their inference efficiency.",
+            "paper_title": "Attention or Convolution: Transformer Encoders in Audio Language Models for Inference Efficiency",
+            "source": "semantic_scholar",
+            "chunk_id": 413,
+            "verdict": "support",
+            "score": 0.6199639469385148,
+            "similarity": 0.8191753029823303,
+            "overlap": 0.25
+          },
+          {
+            "text": "alization boundaries while achieving balanced utilization. Unlike conventional approaches, our routing mechanism is trained independently of task-specific objectives, allowing for stable optimization and decisive expert assignments. Empirical results on vision-language tasks demonstrate that our method consistently outperforms existing sMoE approaches, achieving higher task performance and improved expert utilization balance.",
+            "paper_title": "Input Domain Aware MoE: Decoupling Routing Decisions from Task Optimization in Mixture of Experts",
+            "source": "semantic_scholar",
+            "chunk_id": 499,
+            "verdict": "support",
+            "score": 0.6073253434896468,
+            "similarity": 0.8266543745994568,
+            "overlap": 0.2
+          }
+        ],
+        "top_contradict": [
+          {
+            "text": "emory fragmentation. However, this dual-level approach fundamentally isolates runtime memory and KV cache management, resulting in suboptimal memory utilization under dynamic workloads, which can lead to a nearly 20% drop in throughput. To address these limitations, we propose eLLM, an elastic memory management framework inspired by the classical memory ballooning mechanism in operating systems. The core components of eLLM include: (1) Virtual Tensor Abstraction, which decouples the virtual address space of tensors from the physical GPU memory, creating a unified and flexible memory pool; (2) an Elastic Memory Mechanism that dynamically adjusts memory allocation through runtime memory inflation and deflation, leveraging CPU memory as an extensible buffer; and (3) a Lightweight Scheduling Strategy employing SLO-aware policies to optimize memory utilization and effectively balance performa",
+            "paper_title": "eLLM: Elastic Memory Management Framework for Efficient LLM Serving",
+            "source": "semantic_scholar",
+            "chunk_id": 519,
+            "verdict": "contradict",
+            "score": 0.616034425497055,
+            "similarity": 0.8400529623031616,
+            "overlap": 0.2
+          }
+        ]
+      },
+      "verdict": {
+        "claim": "The deployment of Large Language Models (LLMs) in production environments requires efficient inference serving systems that balance throughput, latency, and resource utilization.",
+        "verdict": "supported",
+        "confidence": 0.7424,
+        "explanation": "Support outweighs contradiction (support=3, contradict=1) with strong grounding=0.64.",
+        "grounding_score": 0.6424,
+        "support_count": 3,
+        "contradict_count": 1,
+        "neutral_count": 2,
+        "total_evidence": 6
+      }
+    },
+    {
+      "claim": "d performing cache eviction based on attention patterns to enhance memory reuse.",
+      "claim_type": "statement",
+      "domain": "transformer_efficiency",
+      "grounding": {
+        "claim": "d performing cache eviction based on attention patterns to enhance memory reuse.",
+        "support_count": 1,
+        "contradict_count": 1,
+        "neutral_count": 2,
+        "total_evidence": 4,
+        "unique_sources": 1,
+        "unique_titles": 3,
+        "avg_support_score": 0.9284,
+        "avg_contradict_score": 0.6238,
+        "diversity_score": 0.75,
+        "contradiction_penalty": 0.156,
+        "coverage_score": 0.6667,
+        "grounding_score": 0.3694,
+        "top_support": [
+          {
+            "text": "d performing cache eviction based on attention patterns to enhance memory reuse. We implement Jenga in vLLM, and evaluate it with diverse LLMs, datasets, and GPUs. Evaluations show that Jenga improves GPU memory utilization by up to 83% and serving throughput by up to 2.16× (1.46× on average).",
+            "paper_title": "Jenga: Effective Memory Management for Serving LLM with Heterogeneity",
+            "source": "semantic_scholar",
+            "chunk_id": 513,
+            "verdict": "support",
+            "score": 0.9284362196922302,
+            "similarity": 0.889901876449585,
+            "overlap": 1.0
+          }
+        ],
+        "top_contradict": [
+          {
+            "text": "emory fragmentation. However, this dual-level approach fundamentally isolates runtime memory and KV cache management, resulting in suboptimal memory utilization under dynamic workloads, which can lead to a nearly 20% drop in throughput. To address these limitations, we propose eLLM, an elastic memory management framework inspired by the classical memory ballooning mechanism in operating systems. The core components of eLLM include: (1) Virtual Tensor Abstraction, which decouples the virtual address space of tensors from the physical GPU memory, creating a unified and flexible memory pool; (2) an Elastic Memory Mechanism that dynamically adjusts memory allocation through runtime memory inflation and deflation, leveraging CPU memory as an extensible buffer; and (3) a Lightweight Scheduling Strategy employing SLO-aware policies to optimize memory utilization and effectively balance performa",
+            "paper_title": "eLLM: Elastic Memory Management Framework for Efficient LLM Serving",
+            "source": "semantic_scholar",
+            "chunk_id": 519,
+            "verdict": "contradict",
+            "score": 0.6238122032748328,
+            "similarity": 0.8400529623031616,
+            "overlap": 0.2222
+          }
+        ]
+      },
+      "verdict": {
+        "claim": "d performing cache eviction based on attention patterns to enhance memory reuse.",
+        "verdict": "inconclusive",
+        "confidence": 0.3694,
+        "explanation": "Evidence is mixed or insufficient (support=1, contradict=1, neutral=2).",
+        "grounding_score": 0.3694,
+        "support_count": 1,
+        "contradict_count": 1,
+        "neutral_count": 2,
+        "total_evidence": 4
+      }
+    },
+    {
+      "claim": "We benchmark these systems across multiple dimensions including throughput performance, end-to-end latency, GPU memory utilization, and scalability characteristics using LLaMA-2 models ranging from 7B to 70B parameters.",
+      "claim_type": "statement",
+      "domain": "transformer_efficiency",
+      "grounding": {
+        "claim": "We benchmark these systems across multiple dimensions including throughput performance, end-to-end latency, GPU memory utilization, and scalability characteristics using LLaMA-2 models ranging from 7B to 70B parameters.",
+        "support_count": 1,
+        "contradict_count": 1,
+        "neutral_count": 1,
+        "total_evidence": 3,
+        "unique_sources": 1,
+        "unique_titles": 3,
+        "avg_support_score": 0.9356,
+        "avg_contradict_score": 0.619,
+        "diversity_score": 0.75,
+        "contradiction_penalty": 0.2063,
+        "coverage_score": 0.5,
+        "grounding_score": 0.3496,
+        "top_support": [
+          {
+            "text": "The deployment of Large Language Models (LLMs) in production environments requires efficient inference serving systems that balance throughput, latency, and resource utilization. This paper presents a comprehensive empirical evaluation of two prominent open-source LLM serving frameworks: vLLM and HuggingFace Text Generation Inference (TGI). We benchmark these systems across multiple dimensions including throughput performance, end-to-end latency, GPU memory utilization, and scalability characteristics using LLaMA-2 models ranging from 7B to 70B parameters. Our experiments reveal that vLLM achieves up to 24x higher throughput than TGI under high-concurrency workloads through its novel PagedAttention mechanism, while TGI demonstrates lower tail latencies for interactive single-user scenarios. We provide detailed performance profiles for different deployment scenarios and offer practical re",
+            "paper_title": "Comparative Analysis of Large Language Model Inference Serving Systems: A Performance Study of vLLM and HuggingFace TGI",
+            "source": "semantic_scholar",
+            "chunk_id": 240,
+            "verdict": "support",
+            "score": 0.935573148727417,
+            "similarity": 0.9008817672729492,
+            "overlap": 1.0
+          }
+        ],
+        "top_contradict": [
+          {
+            "text": "emory fragmentation. However, this dual-level approach fundamentally isolates runtime memory and KV cache management, resulting in suboptimal memory utilization under dynamic workloads, which can lead to a nearly 20% drop in throughput. To address these limitations, we propose eLLM, an elastic memory management framework inspired by the classical memory ballooning mechanism in operating systems. The core components of eLLM include: (1) Virtual Tensor Abstraction, which decouples the virtual address space of tensors from the physical GPU memory, creating a unified and flexible memory pool; (2) an Elastic Memory Mechanism that dynamically adjusts memory allocation through runtime memory inflation and deflation, leveraging CPU memory as an extensible buffer; and (3) a Lightweight Scheduling Strategy employing SLO-aware policies to optimize memory utilization and effectively balance performa",
+            "paper_title": "eLLM: Elastic Memory Management Framework for Efficient LLM Serving",
+            "source": "semantic_scholar",
+            "chunk_id": 519,
+            "verdict": "contradict",
+            "score": 0.6189510921637217,
+            "similarity": 0.8400529623031616,
+            "overlap": 0.2083
+          }
+        ]
+      },
+      "verdict": {
+        "claim": "We benchmark these systems across multiple dimensions including throughput performance, end-to-end latency, GPU memory utilization, and scalability characteristics using LLaMA-2 models ranging from 7B to 70B parameters.",
+        "verdict": "inconclusive",
+        "confidence": 0.3496,
+        "explanation": "Evidence is mixed or insufficient (support=1, contradict=1, neutral=1).",
+        "grounding_score": 0.3496,
+        "support_count": 1,
+        "contradict_count": 1,
+        "neutral_count": 1,
+        "total_evidence": 3
+      }
+    }
+  ],
+  "knowledge_gaps": [
+    "Many claims are inconclusive — evidence exists but lacks benchmark numbers or experimental results.",
+    "No contradicting evidence found — this may indicate limited coverage of papers reporting failure cases or trade-offs."
+  ],
+  "next_actions": [
+    "Pick 1 concrete intervention and convert it into a falsifiable claim (inputs → mechanism → measurable outputs).",
+    "Run targeted retrieval using 3–5 specific transformer-efficiency keywords and compare results.",
+    "Prioritize evidence chunks with benchmark numbers (latency, throughput, memory, perplexity, context length).",
+    "Generate an experiment plan: baseline, efficiency metric, quality metric, ablations, acceptance threshold."
+  ]
+}

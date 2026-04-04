@@ -1,0 +1,362 @@
+{
+  "query": "Does pruning transformer weights reduce inference cost?",
+  "timestamp": "2026-04-02 12:04:10",
+  "domain": "transformer_efficiency",
+  "proposal_verdict": "supported",
+  "proposal_confidence": 0.7510065641403197,
+  "proposal_explanation": "Evidence from multiple sources confirms this claim with experimental results.",
+  "evidence_count": 10,
+  "top_papers": [
+    "Prompt-based Depth Pruning of Large Language Models",
+    "Ban&Pick: Ehancing Performance and Efficiency of MoE-LLMs via Smarter Routing",
+    "Optimizing Inference in Transformer-Based Models: A Multi-Method Benchmark",
+    "MCaM : Efficient LLM Inference with Multi-tier KV Cache Management",
+    "MLPMoE: Zero-Shot Architectural Metamorphosis of Dense LLM MLPs into Static Mixture-of-Experts",
+    "Thanos: A Block-wise Pruning Algorithm for Efficient Large Language Model Compression",
+    "KVTuner: Sensitivity-Aware Layer-wise Mixed Precision KV Cache Quantization for Efficient and Nearly Lossless LLM Inference",
+    "DiJiang: Efficient Large Language Models through Compact Kernelization"
+  ],
+  "extracted_claim_count": 10,
+  "top_claims": [
+    {
+      "claim": "Our experiments show that MCaM can reduce TTFT by up to 69% and improve prompt prefilling throughput by 3.3X.",
+      "paper_title": "MCaM : Efficient LLM Inference with Multi-tier KV Cache Management",
+      "domain": "transformer_efficiency"
+    },
+    {
+      "claim": "It can also reduce the end-to-end latency of LLM inference by up to 58% when request length increase to 4096 tokens.",
+      "paper_title": "MCaM : Efficient LLM Inference with Multi-tier KV Cache Management",
+      "domain": "transformer_efficiency"
+    },
+    {
+      "claim": "The method operates entirely post hoc on existing checkpoints and does not require gradients, calibration sets, or router training.",
+      "paper_title": "MLPMoE: Zero-Shot Architectural Metamorphosis of Dense LLM MLPs into Static Mixture-of-Experts",
+      "domain": "transformer_efficiency"
+    },
+    {
+      "claim": "Efficient inference is a critical challenge in deep generative modeling, particularly as diffusion models grow in capacity and complexity.",
+      "paper_title": "Optimizing Inference in Transformer-Based Models: A Multi-Method Benchmark",
+      "domain": "transformer_efficiency"
+    },
+    {
+      "claim": "While increased complexity often improves accuracy, it raises compute costs, latency, and memory requirements.",
+      "paper_title": "Optimizing Inference in Transformer-Based Models: A Multi-Method Benchmark",
+      "domain": "transformer_efficiency"
+    }
+  ],
+  "grounded_claim_count": 5,
+  "supported_count": 4,
+  "contradicted_count": 0,
+  "inconclusive_count": 1,
+  "top_grounded": [
+    {
+      "claim": "Empirical results on commonsense reasoning benchmarks demonstrate that PuDDing effectively accelerates the inference language models, and achieves better on-task performance than static depth pruning baselines.",
+      "claim_type": "statement",
+      "domain": "transformer_efficiency",
+      "grounding": {
+        "claim": "Empirical results on commonsense reasoning benchmarks demonstrate that PuDDing effectively accelerates the inference language models, and achieves better on-task performance than static depth pruning baselines.",
+        "support_count": 4,
+        "contradict_count": 0,
+        "neutral_count": 2,
+        "total_evidence": 6,
+        "unique_sources": 1,
+        "unique_titles": 6,
+        "avg_support_score": 0.6395,
+        "avg_contradict_score": 0.0,
+        "diversity_score": 0.75,
+        "contradiction_penalty": 0.0,
+        "coverage_score": 1.0,
+        "grounding_score": 0.8264,
+        "top_support": [
+          {
+            "text": "This paper presents Thanos, a novel weight-pruning algorithm designed to reduce the memory footprint and enhance the computational efficiency of large language models (LLMs) by removing redundant weights while maintaining accuracy. Thanos introduces a block-wise pruning strategy with adaptive masks that dynamically adjust to weight importance, enabling flexible sparsity patterns and structured formats, such as $n:m$ sparsity, optimized for hardware acceleration. Experimental evaluations demonstrate that Thanos achieves state-of-the-art performance in structured pruning and outperforms existing methods in unstructured pruning. By providing an efficient and adaptable approach to model compression, Thanos offers a practical solution for deploying large models in resource-constrained environments.",
+            "paper_title": "Thanos: A Block-wise Pruning Algorithm for Efficient Large Language Model Compression",
+            "source": "semantic_scholar",
+            "chunk_id": 156,
+            "verdict": "support",
+            "score": 0.6576225409905117,
+            "similarity": 0.8322398066520691,
+            "overlap": 0.3333
+          },
+          {
+            "text": "eployed independently or combined with token pruning approaches. Empirical evaluations on multiple benchmarks demonstrate that our method can reduce KV cache usage by over 35% and achieve 1.5x throughput improvement, while sacrificing only approximately 1% of performance on various MLLMs. Compared with SOTA token-wise methods, our technique achieves superior accuracy preservation.",
+            "paper_title": "Q Cache: Visual Attention is Valuable in Less than Half of Decode Layers for Multimodal Large Language Model",
+            "source": "semantic_scholar",
+            "chunk_id": 326,
+            "verdict": "support",
+            "score": 0.6448687652746837,
+            "similarity": 0.812618613243103,
+            "overlap": 0.3333
+          },
+          {
+            "text": "layer-wise KV quantization precision pairs for coarse-grained KV cache with multi-objective optimization and directly utilize the offline searched configurations during online inference. To reduce the computational cost of offline calibration, we utilize the intra-layer KV precision pair pruning and inter-layer clustering to reduce the search space. Experimental results show that we can achieve nearly lossless 3.25-bit mixed precision KV cache quantization for LLMs like Llama-3.1-8B-Instruct and 4.0-bit for sensitive models like Qwen2.5-7B-Instruct on mathematical reasoning tasks. The maximum inference throughput can be improved by 21.25\\% compared with KIVI-KV8 quantization over various context lengths. Our code and searched configurations are available at https://github.com/cmd2001/KVTuner.",
+            "paper_title": "KVTuner: Sensitivity-Aware Layer-wise Mixed Precision KV Cache Quantization for Efficient and Nearly Lossless LLM Inference",
+            "source": "semantic_scholar",
+            "chunk_id": 263,
+            "verdict": "support",
+            "score": 0.6375720640023549,
+            "similarity": 0.8238288164138794,
+            "overlap": 0.2917
+          },
+          {
+            "text": "approximate analytically. To obtain the frontier, we introduce Kareto, a KV-cache Adaptive REsource managemenT Optimizer. Kareto leverages a diminishing-return-guided pruning method to efficiently navigate the large configuration space and approximate the Pareto frontier. Additionally, it incorporates a fine-grained adaptive tuner that uses eviction policies in tier storage and KV block access patterns for group-specific cache management, improving cache efficiency. Experiments on real-world traces show that Kareto adapts to workload and can identify configurations of better cost efficiency, covering static strategies. Compared to the fixed setup with 1024 GB DRAM, Kareto can improve throughput by up to 9.3%, or reduce latency by up to 58.3%, or lower cost by up to 20.2% under respective optimization objectives.",
+            "paper_title": "Adaptive Multi-Objective Tiered Storage Configuration for KV Cache in LLM Service",
+            "source": "semantic_scholar",
+            "chunk_id": 342,
+            "verdict": "support",
+            "score": 0.6180810749530793,
+            "similarity": 0.8162785768508911,
+            "overlap": 0.25
+          }
+        ],
+        "top_contradict": []
+      },
+      "verdict": {
+        "claim": "Empirical results on commonsense reasoning benchmarks demonstrate that PuDDing effectively accelerates the inference language models, and achieves better on-task performance than static depth pruning baselines.",
+        "verdict": "supported",
+        "confidence": 0.9264,
+        "explanation": "Support outweighs contradiction (support=4, contradict=0) with strong grounding=0.83.",
+        "grounding_score": 0.8264,
+        "support_count": 4,
+        "contradict_count": 0,
+        "neutral_count": 2,
+        "total_evidence": 6
+      }
+    },
+    {
+      "claim": "Depth pruning aims to reduce the inference cost of a large language model without any hardware-specific complications, by simply removing several less important transformer blocks.",
+      "claim_type": "statement",
+      "domain": "transformer_efficiency",
+      "grounding": {
+        "claim": "Depth pruning aims to reduce the inference cost of a large language model without any hardware-specific complications, by simply removing several less important transformer blocks.",
+        "support_count": 3,
+        "contradict_count": 0,
+        "neutral_count": 1,
+        "total_evidence": 4,
+        "unique_sources": 1,
+        "unique_titles": 4,
+        "avg_support_score": 0.6364,
+        "avg_contradict_score": 0.0,
+        "diversity_score": 0.75,
+        "contradiction_penalty": 0.0,
+        "coverage_score": 0.6667,
+        "grounding_score": 0.794,
+        "top_support": [
+          {
+            "text": "This paper presents Thanos, a novel weight-pruning algorithm designed to reduce the memory footprint and enhance the computational efficiency of large language models (LLMs) by removing redundant weights while maintaining accuracy. Thanos introduces a block-wise pruning strategy with adaptive masks that dynamically adjust to weight importance, enabling flexible sparsity patterns and structured formats, such as $n:m$ sparsity, optimized for hardware acceleration. Experimental evaluations demonstrate that Thanos achieves state-of-the-art performance in structured pruning and outperforms existing methods in unstructured pruning. By providing an efficient and adaptable approach to model compression, Thanos offers a practical solution for deploying large models in resource-constrained environments.",
+            "paper_title": "Thanos: A Block-wise Pruning Algorithm for Efficient Large Language Model Compression",
+            "source": "semantic_scholar",
+            "chunk_id": 156,
+            "verdict": "support",
+            "score": 0.6682286015965722,
+            "similarity": 0.8322398066520691,
+            "overlap": 0.3636
+          },
+          {
+            "text": "approximate analytically. To obtain the frontier, we introduce Kareto, a KV-cache Adaptive REsource managemenT Optimizer. Kareto leverages a diminishing-return-guided pruning method to efficiently navigate the large configuration space and approximate the Pareto frontier. Additionally, it incorporates a fine-grained adaptive tuner that uses eviction policies in tier storage and KV block access patterns for group-specific cache management, improving cache efficiency. Experiments on real-world traces show that Kareto adapts to workload and can identify configurations of better cost efficiency, covering static strategies. Compared to the fixed setup with 1024 GB DRAM, Kareto can improve throughput by up to 9.3%, or reduce latency by up to 58.3%, or lower cost by up to 20.2% under respective optimization objectives.",
+            "paper_title": "Adaptive Multi-Objective Tiered Storage Configuration for KV Cache in LLM Service",
+            "source": "semantic_scholar",
+            "chunk_id": 342,
+            "verdict": "support",
+            "score": 0.6260356204076247,
+            "similarity": 0.8162785768508911,
+            "overlap": 0.2727
+          },
+          {
+            "text": "layer-wise KV quantization precision pairs for coarse-grained KV cache with multi-objective optimization and directly utilize the offline searched configurations during online inference. To reduce the computational cost of offline calibration, we utilize the intra-layer KV precision pair pruning and inter-layer clustering to reduce the search space. Experimental results show that we can achieve nearly lossless 3.25-bit mixed precision KV cache quantization for LLMs like Llama-3.1-8B-Instruct and 4.0-bit for sensitive models like Qwen2.5-7B-Instruct on mathematical reasoning tasks. The maximum inference throughput can be improved by 21.25\\% compared with KIVI-KV8 quantization over various context lengths. Our code and searched configurations are available at https://github.com/cmd2001/KVTuner.",
+            "paper_title": "KVTuner: Sensitivity-Aware Layer-wise Mixed Precision KV Cache Quantization for Efficient and Nearly Lossless LLM Inference",
+            "source": "semantic_scholar",
+            "chunk_id": 263,
+            "verdict": "support",
+            "score": 0.6150341852144762,
+            "similarity": 0.8238288164138794,
+            "overlap": 0.2273
+          }
+        ],
+        "top_contradict": []
+      },
+      "verdict": {
+        "claim": "Depth pruning aims to reduce the inference cost of a large language model without any hardware-specific complications, by simply removing several less important transformer blocks.",
+        "verdict": "supported",
+        "confidence": 0.894,
+        "explanation": "Support outweighs contradiction (support=3, contradict=0) with strong grounding=0.79.",
+        "grounding_score": 0.794,
+        "support_count": 3,
+        "contradict_count": 0,
+        "neutral_count": 1,
+        "total_evidence": 4
+      }
+    },
+    {
+      "claim": "However, our empirical findings suggest that the importance of a transformer block may be highly task-dependent -- a block that is crucial for a task can be removed without degrading the accuracy on another task.",
+      "claim_type": "statement",
+      "domain": "transformer_efficiency",
+      "grounding": {
+        "claim": "However, our empirical findings suggest that the importance of a transformer block may be highly task-dependent -- a block that is crucial for a task can be removed without degrading the accuracy on another task.",
+        "support_count": 3,
+        "contradict_count": 0,
+        "neutral_count": 1,
+        "total_evidence": 4,
+        "unique_sources": 1,
+        "unique_titles": 4,
+        "avg_support_score": 0.6075,
+        "avg_contradict_score": 0.0,
+        "diversity_score": 0.75,
+        "contradiction_penalty": 0.0,
+        "coverage_score": 0.6667,
+        "grounding_score": 0.7723,
+        "top_support": [
+          {
+            "text": "layer-wise KV quantization precision pairs for coarse-grained KV cache with multi-objective optimization and directly utilize the offline searched configurations during online inference. To reduce the computational cost of offline calibration, we utilize the intra-layer KV precision pair pruning and inter-layer clustering to reduce the search space. Experimental results show that we can achieve nearly lossless 3.25-bit mixed precision KV cache quantization for LLMs like Llama-3.1-8B-Instruct and 4.0-bit for sensitive models like Qwen2.5-7B-Instruct on mathematical reasoning tasks. The maximum inference throughput can be improved by 21.25\\% compared with KIVI-KV8 quantization over various context lengths. Our code and searched configurations are available at https://github.com/cmd2001/KVTuner.",
+            "paper_title": "KVTuner: Sensitivity-Aware Layer-wise Mixed Precision KV Cache Quantization for Efficient and Nearly Lossless LLM Inference",
+            "source": "semantic_scholar",
+            "chunk_id": 263,
+            "verdict": "support",
+            "score": 0.6115756871907607,
+            "similarity": 0.8238288164138794,
+            "overlap": 0.2174
+          },
+          {
+            "text": "approximate analytically. To obtain the frontier, we introduce Kareto, a KV-cache Adaptive REsource managemenT Optimizer. Kareto leverages a diminishing-return-guided pruning method to efficiently navigate the large configuration space and approximate the Pareto frontier. Additionally, it incorporates a fine-grained adaptive tuner that uses eviction policies in tier storage and KV block access patterns for group-specific cache management, improving cache efficiency. Experiments on real-world traces show that Kareto adapts to workload and can identify configurations of better cost efficiency, covering static strategies. Compared to the fixed setup with 1024 GB DRAM, Kareto can improve throughput by up to 9.3%, or reduce latency by up to 58.3%, or lower cost by up to 20.2% under respective optimization objectives.",
+            "paper_title": "Adaptive Multi-Objective Tiered Storage Configuration for KV Cache in LLM Service",
+            "source": "semantic_scholar",
+            "chunk_id": 342,
+            "verdict": "support",
+            "score": 0.6066680314748184,
+            "similarity": 0.8162785768508911,
+            "overlap": 0.2174
+          },
+          {
+            "text": "eployed independently or combined with token pruning approaches. Empirical evaluations on multiple benchmarks demonstrate that our method can reduce KV cache usage by over 35% and achieve 1.5x throughput improvement, while sacrificing only approximately 1% of performance on various MLLMs. Compared with SOTA token-wise methods, our technique achieves superior accuracy preservation.",
+            "paper_title": "Q Cache: Visual Attention is Valuable in Less than Half of Decode Layers for Multimodal Large Language Model",
+            "source": "semantic_scholar",
+            "chunk_id": 326,
+            "verdict": "support",
+            "score": 0.6042890551297562,
+            "similarity": 0.812618613243103,
+            "overlap": 0.2174
+          }
+        ],
+        "top_contradict": []
+      },
+      "verdict": {
+        "claim": "However, our empirical findings suggest that the importance of a transformer block may be highly task-dependent -- a block that is crucial for a task can be removed without degrading the accuracy on another task.",
+        "verdict": "supported",
+        "confidence": 0.8723,
+        "explanation": "Support outweighs contradiction (support=3, contradict=0) with strong grounding=0.77.",
+        "grounding_score": 0.7723,
+        "support_count": 3,
+        "contradict_count": 0,
+        "neutral_count": 1,
+        "total_evidence": 4
+      }
+    },
+    {
+      "claim": "Efficient inference is a critical challenge in deep generative modeling, particularly as diffusion models grow in capacity and complexity.",
+      "claim_type": "statement",
+      "domain": "transformer_efficiency",
+      "grounding": {
+        "claim": "Efficient inference is a critical challenge in deep generative modeling, particularly as diffusion models grow in capacity and complexity.",
+        "support_count": 2,
+        "contradict_count": 0,
+        "neutral_count": 1,
+        "total_evidence": 3,
+        "unique_sources": 1,
+        "unique_titles": 3,
+        "avg_support_score": 0.6132,
+        "avg_contradict_score": 0.0,
+        "diversity_score": 0.75,
+        "contradiction_penalty": 0.0,
+        "coverage_score": 0.5,
+        "grounding_score": 0.6838,
+        "top_support": [
+          {
+            "text": "This paper presents Thanos, a novel weight-pruning algorithm designed to reduce the memory footprint and enhance the computational efficiency of large language models (LLMs) by removing redundant weights while maintaining accuracy. Thanos introduces a block-wise pruning strategy with adaptive masks that dynamically adjust to weight importance, enabling flexible sparsity patterns and structured formats, such as $n:m$ sparsity, optimized for hardware acceleration. Experimental evaluations demonstrate that Thanos achieves state-of-the-art performance in structured pruning and outperforms existing methods in unstructured pruning. By providing an efficient and adaptable approach to model compression, Thanos offers a practical solution for deploying large models in resource-constrained environments.",
+            "paper_title": "Thanos: A Block-wise Pruning Algorithm for Efficient Large Language Model Compression",
+            "source": "semantic_scholar",
+            "chunk_id": 156,
+            "verdict": "support",
+            "score": 0.6159558743238449,
+            "similarity": 0.8322398066520691,
+            "overlap": 0.2143
+          },
+          {
+            "text": "layer-wise KV quantization precision pairs for coarse-grained KV cache with multi-objective optimization and directly utilize the offline searched configurations during online inference. To reduce the computational cost of offline calibration, we utilize the intra-layer KV precision pair pruning and inter-layer clustering to reduce the search space. Experimental results show that we can achieve nearly lossless 3.25-bit mixed precision KV cache quantization for LLMs like Llama-3.1-8B-Instruct and 4.0-bit for sensitive models like Qwen2.5-7B-Instruct on mathematical reasoning tasks. The maximum inference throughput can be improved by 21.25\\% compared with KIVI-KV8 quantization over various context lengths. Our code and searched configurations are available at https://github.com/cmd2001/KVTuner.",
+            "paper_title": "KVTuner: Sensitivity-Aware Layer-wise Mixed Precision KV Cache Quantization for Efficient and Nearly Lossless LLM Inference",
+            "source": "semantic_scholar",
+            "chunk_id": 263,
+            "verdict": "support",
+            "score": 0.6104887306690215,
+            "similarity": 0.8238288164138794,
+            "overlap": 0.2143
+          }
+        ],
+        "top_contradict": []
+      },
+      "verdict": {
+        "claim": "Efficient inference is a critical challenge in deep generative modeling, particularly as diffusion models grow in capacity and complexity.",
+        "verdict": "supported",
+        "confidence": 0.7838,
+        "explanation": "Support outweighs contradiction (support=2, contradict=0) with strong grounding=0.68.",
+        "grounding_score": 0.6838,
+        "support_count": 2,
+        "contradict_count": 0,
+        "neutral_count": 1,
+        "total_evidence": 3
+      }
+    },
+    {
+      "claim": "While increased complexity often improves accuracy, it raises compute costs, latency, and memory requirements.",
+      "claim_type": "statement",
+      "domain": "transformer_efficiency",
+      "grounding": {
+        "claim": "While increased complexity often improves accuracy, it raises compute costs, latency, and memory requirements.",
+        "support_count": 1,
+        "contradict_count": 0,
+        "neutral_count": 1,
+        "total_evidence": 2,
+        "unique_sources": 1,
+        "unique_titles": 2,
+        "avg_support_score": 0.6217,
+        "avg_contradict_score": 0.0,
+        "diversity_score": 0.75,
+        "contradiction_penalty": 0.0,
+        "coverage_score": 0.3333,
+        "grounding_score": 0.5442,
+        "top_support": [
+          {
+            "text": "This paper presents Thanos, a novel weight-pruning algorithm designed to reduce the memory footprint and enhance the computational efficiency of large language models (LLMs) by removing redundant weights while maintaining accuracy. Thanos introduces a block-wise pruning strategy with adaptive masks that dynamically adjust to weight importance, enabling flexible sparsity patterns and structured formats, such as $n:m$ sparsity, optimized for hardware acceleration. Experimental evaluations demonstrate that Thanos achieves state-of-the-art performance in structured pruning and outperforms existing methods in unstructured pruning. By providing an efficient and adaptable approach to model compression, Thanos offers a practical solution for deploying large models in resource-constrained environments.",
+            "paper_title": "Thanos: A Block-wise Pruning Algorithm for Efficient Large Language Model Compression",
+            "source": "semantic_scholar",
+            "chunk_id": 156,
+            "verdict": "support",
+            "score": 0.6217251050930758,
+            "similarity": 0.8322398066520691,
+            "overlap": 0.2308
+          }
+        ],
+        "top_contradict": []
+      },
+      "verdict": {
+        "claim": "While increased complexity often improves accuracy, it raises compute costs, latency, and memory requirements.",
+        "verdict": "partially_supported",
+        "confidence": 0.5442,
+        "explanation": "Evidence leans supportive but remains mixed (support=1, contradict=0, neutral=1).",
+        "grounding_score": 0.5442,
+        "support_count": 1,
+        "contradict_count": 0,
+        "neutral_count": 1,
+        "total_evidence": 2
+      }
+    }
+  ],
+  "knowledge_gaps": [
+    "No contradicting evidence found — this may indicate limited coverage of papers reporting failure cases or trade-offs."
+  ],
+  "next_actions": [
+    "Pick 1 concrete intervention and convert it into a falsifiable claim (inputs → mechanism → measurable outputs).",
+    "Run targeted retrieval using 3–5 specific transformer-efficiency keywords and compare results.",
+    "Prioritize evidence chunks with benchmark numbers (latency, throughput, memory, perplexity, context length).",
+    "Generate an experiment plan: baseline, efficiency metric, quality metric, ablations, acceptance threshold."
+  ]
+}

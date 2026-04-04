@@ -1,0 +1,292 @@
+{
+  "query": "Does sliding window attention scale to long sequences?",
+  "timestamp": "2026-04-02 09:08:04",
+  "domain": "transformer_efficiency",
+  "proposal_verdict": "supported",
+  "proposal_confidence": 0.7436798563003539,
+  "proposal_explanation": "Evidence from multiple sources confirms this claim with experimental results.",
+  "evidence_count": 10,
+  "top_papers": [
+    "Samba: Simple Hybrid State Space Models for Efficient Unlimited Context Language Modeling",
+    "Generation Meets Verification: Accelerating Large Language Model Inference with Smart Parallel Auto-Correct Decoding",
+    "Sliding Window Attention Training for Efficient Large Language Models",
+    "SWAA: Sliding Window Attention Adaptation for Efficient Long-Context LLMs Without Pretraining",
+    "MLPMoE: Zero-Shot Architectural Metamorphosis of Dense LLM MLPs into Static Mixture-of-Experts",
+    "Adaptive Sparse Attention via Differentiable Sparsity Ratio Learning",
+    "Scaling Laws for Fine-Grained Mixture of Experts",
+    "Scaling Laws for Upcycling Mixture-of-Experts Language Models"
+  ],
+  "extracted_claim_count": 10,
+  "top_claims": [
+    {
+      "claim": "The method operates entirely post hoc on existing checkpoints and does not require gradients, calibration sets, or router training.",
+      "paper_title": "MLPMoE: Zero-Shot Architectural Metamorphosis of Dense LLM MLPs into Static Mixture-of-Experts",
+      "domain": "transformer_efficiency"
+    },
+    {
+      "claim": "Efficiently modeling sequences with infinite context length has long been a challenging problem.",
+      "paper_title": "Samba: Simple Hybrid State Space Models for Efficient Unlimited Context Language Modeling",
+      "domain": "transformer_efficiency"
+    },
+    {
+      "claim": "We scale Samba up to 3.8B parameters with 3.2T training tokens and demonstrate that it significantly outperforms state-of-the-art models across a variety of benchmarks.",
+      "paper_title": "Samba: Simple Hybrid State Space Models for Efficient Unlimited Context Language Modeling",
+      "domain": "transformer_efficiency"
+    },
+    {
+      "claim": "Pretrained on sequences of 4K length, Samba shows improved perplexity in context lengths of up to 1M in zero-shot.",
+      "paper_title": "Samba: Simple Hybrid State Space Models for Efficient Unlimited Context Language Modeling",
+      "domain": "transformer_efficiency"
+    },
+    {
+      "claim": "Recent advances in transformer-based Large Language Models (LLMs) have demonstrated remarkable capabilities across various tasks.",
+      "paper_title": "Sliding Window Attention Training for Efficient Large Language Models",
+      "domain": "transformer_efficiency"
+    }
+  ],
+  "grounded_claim_count": 5,
+  "supported_count": 2,
+  "contradicted_count": 0,
+  "inconclusive_count": 3,
+  "top_grounded": [
+    {
+      "claim": "sequences within a single model invocation.",
+      "claim_type": "statement",
+      "domain": "unknown",
+      "grounding": {
+        "claim": "sequences within a single model invocation.",
+        "support_count": 2,
+        "contradict_count": 0,
+        "neutral_count": 2,
+        "total_evidence": 4,
+        "unique_sources": 1,
+        "unique_titles": 4,
+        "avg_support_score": 0.5702,
+        "avg_contradict_score": 0.0,
+        "diversity_score": 0.75,
+        "contradiction_penalty": 0.0,
+        "coverage_score": 0.6667,
+        "grounding_score": 0.6018,
+        "top_support": [
+          {
+            "text": "The size of the key-value (KV) cache plays a critical role in determining both the maximum context length and the number of concurrent requests supported during inference in modern language models. The KV cache size grows proportionally with the number of attention heads and the tokens processed, leading to increased memory consumption and slower inference for long inputs. In this work, we explore the use of MixAttention, a model architecture modification closely related to a blog published by Character.AI. MixAttention combines sliding window attention, where only a small subset of recent tokens is stored in the KV cache, with KV cache sharing across layers. Our experiments demonstrate that MixAttention significantly reduces memory usage and improves inference speed without sacrificing model performance in both short and long-context tasks. We also explore various configurations of this",
+            "paper_title": "Inference-Friendly Models With MixAttention",
+            "source": "semantic_scholar",
+            "chunk_id": 538,
+            "verdict": "support",
+            "score": 0.5735548746585846,
+            "similarity": 0.7746998071670532,
+            "overlap": 0.2
+          },
+          {
+            "text": "t limits the efficiency of upcycling at large computational budgets. Based on these findings, we provide guidance to scale upcycling, and establish conditions under which upcycling outperforms from-scratch trainings within budget constraints.",
+            "paper_title": "Scaling Laws for Upcycling Mixture-of-Experts Language Models",
+            "source": "semantic_scholar",
+            "chunk_id": 482,
+            "verdict": "support",
+            "score": 0.5668155652284622,
+            "similarity": 0.7643316388130188,
+            "overlap": 0.2
+          }
+        ],
+        "top_contradict": []
+      },
+      "verdict": {
+        "claim": "sequences within a single model invocation.",
+        "verdict": "supported",
+        "confidence": 0.7018,
+        "explanation": "Support outweighs contradiction (support=2, contradict=0) with strong grounding=0.60.",
+        "grounding_score": 0.6018,
+        "support_count": 2,
+        "contradict_count": 0,
+        "neutral_count": 2,
+        "total_evidence": 4
+      }
+    },
+    {
+      "claim": "We scale Samba up to 3.8B parameters with 3.2T training tokens and demonstrate that it significantly outperforms state-of-the-art models across a variety of benchmarks.",
+      "claim_type": "statement",
+      "domain": "transformer_efficiency",
+      "grounding": {
+        "claim": "We scale Samba up to 3.8B parameters with 3.2T training tokens and demonstrate that it significantly outperforms state-of-the-art models across a variety of benchmarks.",
+        "support_count": 2,
+        "contradict_count": 0,
+        "neutral_count": 4,
+        "total_evidence": 6,
+        "unique_sources": 1,
+        "unique_titles": 6,
+        "avg_support_score": 0.6052,
+        "avg_contradict_score": 0.0,
+        "diversity_score": 0.75,
+        "contradiction_penalty": 0.0,
+        "coverage_score": 1.0,
+        "grounding_score": 0.6017,
+        "top_support": [
+          {
+            "text": "The size of the key-value (KV) cache plays a critical role in determining both the maximum context length and the number of concurrent requests supported during inference in modern language models. The KV cache size grows proportionally with the number of attention heads and the tokens processed, leading to increased memory consumption and slower inference for long inputs. In this work, we explore the use of MixAttention, a model architecture modification closely related to a blog published by Character.AI. MixAttention combines sliding window attention, where only a small subset of recent tokens is stored in the KV cache, with KV cache sharing across layers. Our experiments demonstrate that MixAttention significantly reduces memory usage and improves inference speed without sacrificing model performance in both short and long-context tasks. We also explore various configurations of this",
+            "paper_title": "Inference-Friendly Models With MixAttention",
+            "source": "semantic_scholar",
+            "chunk_id": 538,
+            "verdict": "support",
+            "score": 0.6435548746585846,
+            "similarity": 0.7746998071670532,
+            "overlap": 0.4
+          },
+          {
+            "text": "t limits the efficiency of upcycling at large computational budgets. Based on these findings, we provide guidance to scale upcycling, and establish conditions under which upcycling outperforms from-scratch trainings within budget constraints.",
+            "paper_title": "Scaling Laws for Upcycling Mixture-of-Experts Language Models",
+            "source": "semantic_scholar",
+            "chunk_id": 482,
+            "verdict": "support",
+            "score": 0.5668155652284622,
+            "similarity": 0.7643316388130188,
+            "overlap": 0.2
+          }
+        ],
+        "top_contradict": []
+      },
+      "verdict": {
+        "claim": "We scale Samba up to 3.8B parameters with 3.2T training tokens and demonstrate that it significantly outperforms state-of-the-art models across a variety of benchmarks.",
+        "verdict": "supported",
+        "confidence": 0.7017,
+        "explanation": "Support outweighs contradiction (support=2, contradict=0) with strong grounding=0.60.",
+        "grounding_score": 0.6017,
+        "support_count": 2,
+        "contradict_count": 0,
+        "neutral_count": 4,
+        "total_evidence": 6
+      }
+    },
+    {
+      "claim": "Efficiently modeling sequences with infinite context length has long been a challenging problem.",
+      "claim_type": "statement",
+      "domain": "transformer_efficiency",
+      "grounding": {
+        "claim": "Efficiently modeling sequences with infinite context length has long been a challenging problem.",
+        "support_count": 1,
+        "contradict_count": 0,
+        "neutral_count": 4,
+        "total_evidence": 5,
+        "unique_sources": 1,
+        "unique_titles": 5,
+        "avg_support_score": 0.6202,
+        "avg_contradict_score": 0.0,
+        "diversity_score": 0.75,
+        "contradiction_penalty": 0.0,
+        "coverage_score": 0.8333,
+        "grounding_score": 0.4824,
+        "top_support": [
+          {
+            "text": "The size of the key-value (KV) cache plays a critical role in determining both the maximum context length and the number of concurrent requests supported during inference in modern language models. The KV cache size grows proportionally with the number of attention heads and the tokens processed, leading to increased memory consumption and slower inference for long inputs. In this work, we explore the use of MixAttention, a model architecture modification closely related to a blog published by Character.AI. MixAttention combines sliding window attention, where only a small subset of recent tokens is stored in the KV cache, with KV cache sharing across layers. Our experiments demonstrate that MixAttention significantly reduces memory usage and improves inference speed without sacrificing model performance in both short and long-context tasks. We also explore various configurations of this",
+            "paper_title": "Inference-Friendly Models With MixAttention",
+            "source": "semantic_scholar",
+            "chunk_id": 538,
+            "verdict": "support",
+            "score": 0.6202215413252513,
+            "similarity": 0.7746998071670532,
+            "overlap": 0.3333
+          }
+        ],
+        "top_contradict": []
+      },
+      "verdict": {
+        "claim": "Efficiently modeling sequences with infinite context length has long been a challenging problem.",
+        "verdict": "partially_supported",
+        "confidence": 0.4824,
+        "explanation": "Evidence leans supportive but remains mixed (support=1, contradict=0, neutral=4).",
+        "grounding_score": 0.4824,
+        "support_count": 1,
+        "contradict_count": 0,
+        "neutral_count": 4,
+        "total_evidence": 5
+      }
+    },
+    {
+      "claim": "Recent advances in transformer-based Large Language Models (LLMs) have demonstrated remarkable capabilities across various tasks.",
+      "claim_type": "statement",
+      "domain": "transformer_efficiency",
+      "grounding": {
+        "claim": "Recent advances in transformer-based Large Language Models (LLMs) have demonstrated remarkable capabilities across various tasks.",
+        "support_count": 1,
+        "contradict_count": 0,
+        "neutral_count": 3,
+        "total_evidence": 4,
+        "unique_sources": 1,
+        "unique_titles": 4,
+        "avg_support_score": 0.6202,
+        "avg_contradict_score": 0.0,
+        "diversity_score": 0.75,
+        "contradiction_penalty": 0.0,
+        "coverage_score": 0.6667,
+        "grounding_score": 0.4717,
+        "top_support": [
+          {
+            "text": "The size of the key-value (KV) cache plays a critical role in determining both the maximum context length and the number of concurrent requests supported during inference in modern language models. The KV cache size grows proportionally with the number of attention heads and the tokens processed, leading to increased memory consumption and slower inference for long inputs. In this work, we explore the use of MixAttention, a model architecture modification closely related to a blog published by Character.AI. MixAttention combines sliding window attention, where only a small subset of recent tokens is stored in the KV cache, with KV cache sharing across layers. Our experiments demonstrate that MixAttention significantly reduces memory usage and improves inference speed without sacrificing model performance in both short and long-context tasks. We also explore various configurations of this",
+            "paper_title": "Inference-Friendly Models With MixAttention",
+            "source": "semantic_scholar",
+            "chunk_id": 538,
+            "verdict": "support",
+            "score": 0.6202215413252513,
+            "similarity": 0.7746998071670532,
+            "overlap": 0.3333
+          }
+        ],
+        "top_contradict": []
+      },
+      "verdict": {
+        "claim": "Recent advances in transformer-based Large Language Models (LLMs) have demonstrated remarkable capabilities across various tasks.",
+        "verdict": "partially_supported",
+        "confidence": 0.4717,
+        "explanation": "Evidence leans supportive but remains mixed (support=1, contradict=0, neutral=3).",
+        "grounding_score": 0.4717,
+        "support_count": 1,
+        "contradict_count": 0,
+        "neutral_count": 3,
+        "total_evidence": 4
+      }
+    },
+    {
+      "claim": "Pretrained on sequences of 4K length, Samba shows improved perplexity in context lengths of up to 1M in zero-shot.",
+      "claim_type": "statement",
+      "domain": "transformer_efficiency",
+      "grounding": {
+        "claim": "Pretrained on sequences of 4K length, Samba shows improved perplexity in context lengths of up to 1M in zero-shot.",
+        "support_count": 0,
+        "contradict_count": 0,
+        "neutral_count": 1,
+        "total_evidence": 1,
+        "unique_sources": 1,
+        "unique_titles": 1,
+        "avg_support_score": 0.0,
+        "avg_contradict_score": 0.0,
+        "diversity_score": 0.5,
+        "contradiction_penalty": 0.0,
+        "coverage_score": 0.1667,
+        "grounding_score": 0.1417,
+        "top_support": [],
+        "top_contradict": []
+      },
+      "verdict": {
+        "claim": "Pretrained on sequences of 4K length, Samba shows improved perplexity in context lengths of up to 1M in zero-shot.",
+        "verdict": "inconclusive",
+        "confidence": 0.2,
+        "explanation": "Evidence is mixed or insufficient (support=0, contradict=0, neutral=1).",
+        "grounding_score": 0.1417,
+        "support_count": 0,
+        "contradict_count": 0,
+        "neutral_count": 1,
+        "total_evidence": 1
+      }
+    }
+  ],
+  "knowledge_gaps": [
+    "Many claims are inconclusive — evidence exists but lacks benchmark numbers or experimental results.",
+    "No contradicting evidence found — this may indicate limited coverage of papers reporting failure cases or trade-offs."
+  ],
+  "next_actions": [
+    "Pick 1 concrete intervention and convert it into a falsifiable claim (inputs → mechanism → measurable outputs).",
+    "Run targeted retrieval using 3–5 specific transformer-efficiency keywords and compare results.",
+    "Prioritize evidence chunks with benchmark numbers (latency, throughput, memory, perplexity, context length).",
+    "Generate an experiment plan: baseline, efficiency metric, quality metric, ablations, acceptance threshold."
+  ]
+}
