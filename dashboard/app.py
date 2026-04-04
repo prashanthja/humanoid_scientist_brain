@@ -400,11 +400,11 @@ def _make_actionable(hypothesis, hyp_type):
 
 @app.route("/")
 def index():
-    return render_template("index.html")
-
-@app.route("/research")
-def research():
     return render_template("research.html")
+
+@app.route("/admin")
+def research():
+    return render_template("index.html")
 
 @app.route("/api/overview")
 def api_overview():
