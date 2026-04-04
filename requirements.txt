@@ -8,4 +8,4 @@ tqdm==4.67.3
 pypdf==6.9.2
 pdfminer.six==20231228
 python-dateutil==2.9.0.post0
-torch==2.1.0
+torch==2.3.1
