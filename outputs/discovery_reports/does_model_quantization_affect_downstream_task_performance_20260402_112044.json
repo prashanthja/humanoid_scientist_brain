@@ -1,0 +1,368 @@
+{
+  "query": "Does model quantization affect downstream task performance?",
+  "timestamp": "2026-04-02 11:20:44",
+  "domain": "unknown",
+  "proposal_verdict": "supported",
+  "proposal_confidence": 0.7426692428588867,
+  "proposal_explanation": "Evidence from multiple sources confirms this claim with experimental results.",
+  "evidence_count": 10,
+  "top_papers": [
+    "TTQ: Activation-Aware Test-Time Quantization to Accelerate LLM Inference On The Fly",
+    "Reasoning Shift: How Context Silently Shortens LLM Reasoning",
+    "Low-Rank Adaptation for Parameter-Efficient Fine-Tuning in Composed Image Retrieval",
+    "Cross-token Modeling with Conditional Computation",
+    "Binary Neural Networks for Large Language Model: A Survey",
+    "AWEQ: Post-Training Quantization with Activation-Weight Equalization for Large Language Models",
+    "MLPMoE: Zero-Shot Architectural Metamorphosis of Dense LLM MLPs into Static Mixture-of-Experts",
+    "ReXMoE: Reusing Experts with Minimal Overhead in Mixture-of-Experts"
+  ],
+  "extracted_claim_count": 10,
+  "top_claims": [
+    {
+      "claim": "Experimentally, we are more computation-efficient than Vision Transformers with comparable accuracy.",
+      "paper_title": "Cross-token Modeling with Conditional Computation",
+      "domain": "transformer_efficiency"
+    },
+    {
+      "claim": "Experiments on two benchmark datasets demonstrate that our LoRA-based PEFT method significantly improves retrieval recall, particularly when training data is limited.",
+      "paper_title": "Low-Rank Adaptation for Parameter-Efficient Fine-Tuning in Composed Image Retrieval",
+      "domain": "transformer_efficiency"
+    },
+    {
+      "claim": "With an efficient online calibration, instant activation-aware quantization can adapt every prompt regardless of the downstream tasks, yet achieving inference speedup.",
+      "paper_title": "TTQ: Activation-Aware Test-Time Quantization to Accelerate LLM Inference On The Fly",
+      "domain": "transformer_efficiency"
+    },
+    {
+      "claim": "hape, we further improve our model's computational efficiency.",
+      "paper_title": "Cross-token Modeling with Conditional Computation",
+      "domain": "unknown"
+    },
+    {
+      "claim": "Also, our models can outperform MLP-Mixer by 2.5\\% on ImageNet Top-1 accuracy with fewer parameters and computational cost.",
+      "paper_title": "Cross-token Modeling with Conditional Computation",
+      "domain": "unknown"
+    }
+  ],
+  "grounded_claim_count": 5,
+  "supported_count": 0,
+  "contradicted_count": 0,
+  "inconclusive_count": 5,
+  "top_grounded": [
+    {
+      "claim": "Several experiments demonstrate that TTQ can improve the quantization performance over state-of-the-art baselines.",
+      "claim_type": "statement",
+      "domain": "unknown",
+      "grounding": {
+        "claim": "Several experiments demonstrate that TTQ can improve the quantization performance over state-of-the-art baselines.",
+        "support_count": 3,
+        "contradict_count": 2,
+        "neutral_count": 3,
+        "total_evidence": 8,
+        "unique_sources": 3,
+        "unique_titles": 8,
+        "avg_support_score": 0.5269,
+        "avg_contradict_score": 0.4972,
+        "diversity_score": 1.0,
+        "contradiction_penalty": 0.1243,
+        "coverage_score": 1.0,
+        "grounding_score": 0.5046,
+        "top_support": [
+          {
+            "text": "eXMoE decouples expert dimensionality from per-layer budgets, enabling richer expert combinations without sacrificing individual expert capacity or inflating overall parameters. To this end, we propose a new progressive scaling routing (PSR) strategy to gradually increase the candidate expert pool during training. As a result, ReXMoE improves both language modeling and downstream task performance. Extensive experiments on models ranging from 0.5B to 7B parameters across different architectures demonstrate that ReXMoE consistently improves performance under fixed architectural dimensions, confirming ReXMoE as new design paradigm for parameter-efficient and scalable MoE-based LLMs.",
+            "paper_title": "ReXMoE: Reusing Experts with Minimal Overhead in Mixture-of-Experts",
+            "source": "semantic_scholar",
+            "chunk_id": 497,
+            "verdict": "support",
+            "score": 0.5325876414775849,
+            "similarity": 0.6270579099655151,
+            "overlap": 0.3571
+          },
+          {
+            "text": "ion difficulties of both, and thereby maximizing performance. We have further refined the equalization method to mitigate quantization bias error, ensuring the robustness of the model. Extensive experiments on popular models such as LLaMA and OPT demonstrate that AWEQ outperforms all existing post-training quantization methods for large models.",
+            "paper_title": "AWEQ: Post-Training Quantization with Activation-Weight Equalization for Large Language Models",
+            "source": "semantic_scholar",
+            "chunk_id": 695,
+            "verdict": "support",
+            "score": 0.5322549939155579,
+            "similarity": 0.6265461444854736,
+            "overlap": 0.3571
+          },
+          {
+            "text": "hape, we further improve our model's computational efficiency. Experimentally, we are more computation-efficient than Vision Transformers with comparable accuracy. Also, our models can outperform MLP-Mixer by 2.5\\% on ImageNet Top-1 accuracy with fewer parameters and computational cost. On downstream tasks, i.e. Cifar10 and Cifar100, our models can still achieve better performance than baselines.",
+            "paper_title": "Cross-token Modeling with Conditional Computation",
+            "source": "semantic_scholar",
+            "chunk_id": 122,
+            "verdict": "support",
+            "score": 0.515948811173439,
+            "similarity": 0.639921247959137,
+            "overlap": 0.2857
+          }
+        ],
+        "top_contradict": [
+          {
+            "text": "Large language models (LLMs) exhibiting test-time scaling behavior, such as extended reasoning traces and self-verification, have demonstrated remarkable performance on complex, long-term reasoning tasks. However, the robustness of these reasoning behaviors remains underexplored. To investigate this, we conduct a systematic evaluation of multiple reasoning models across three scenarios: (1) problems augmented with lengthy, irrelevant context; (2) multi-turn conversational settings with independent tasks; and (3) problems presented as a subtask within a complex task. We observe an interesting phenomenon: reasoning models tend to produce much shorter reasoning traces (up to 50%) for the same problem under different context conditions compared to the traces produced when the problem is presented in isolation. A finer-grained analysis reveals that this compression is associated with a decrease in self-verification and uncertainty management behaviors, such as double-checking. While this behavioral shift does not compromise performance on straightforward problems, it might affect performance on more challenging tasks. We hope our findings draw additional attention to both the robustness of reasoning models and the problem of context management for LLMs and LLM-based agents.",
+            "paper_title": "Reasoning Shift: How Context Silently Shortens LLM Reasoning",
+            "source": "huggingface",
+            "chunk_id": 780,
+            "verdict": "contradict",
+            "score": 0.5106348752975464,
+            "similarity": 0.6702075004577637,
+            "overlap": 0.2143
+          },
+          {
+            "text": "The high memory demands of the Key-Value (KV) Cache during the inference of Large Language Models (LLMs) severely restrict their deployment in resource-constrained platforms. Quantization can effectively alleviate the memory pressure caused by KV Cache. However, existing methods either rely on static one-size-fits-all precision allocation or fail to dynamically prioritize critical KV in long-context tasks, forcing memory-accuracy-throughput tradeoffs. In this work, we propose a novel mixed-precision quantization method for KV Cache named KVmix. KVmix leverages gradient-based importance analysis to evaluate how individual Key and Value projection matrices affect the model loss, enabling layer-specific bit-width allocation for mix-precision quantization. It dynamically prioritizes higher precision for important layers while aggressively quantizing less influential ones, achieving a tunable",
+            "paper_title": "KVmix: Gradient-Based Layer Importance-Aware Mixed-Precision Quantization for KV Cache",
+            "source": "semantic_scholar",
+            "chunk_id": 337,
+            "verdict": "contradict",
+            "score": 0.4838499277830124,
+            "similarity": 0.6289998888969421,
+            "overlap": 0.2143
+          }
+        ]
+      },
+      "verdict": {
+        "claim": "Several experiments demonstrate that TTQ can improve the quantization performance over state-of-the-art baselines.",
+        "verdict": "partially_supported",
+        "confidence": 0.5046,
+        "explanation": "Evidence leans supportive but remains mixed (support=3, contradict=2, neutral=3).",
+        "grounding_score": 0.5046,
+        "support_count": 3,
+        "contradict_count": 2,
+        "neutral_count": 3,
+        "total_evidence": 8
+      }
+    },
+    {
+      "claim": "methods, our approach preserves the original weights of the VLP model while effectively adapting it to downstream tasks, achieving superior performance in CIR tasks.",
+      "claim_type": "statement",
+      "domain": "unknown",
+      "grounding": {
+        "claim": "methods, our approach preserves the original weights of the VLP model while effectively adapting it to downstream tasks, achieving superior performance in CIR tasks.",
+        "support_count": 1,
+        "contradict_count": 2,
+        "neutral_count": 4,
+        "total_evidence": 7,
+        "unique_sources": 3,
+        "unique_titles": 7,
+        "avg_support_score": 0.4896,
+        "avg_contradict_score": 0.5236,
+        "diversity_score": 1.0,
+        "contradiction_penalty": 0.1496,
+        "coverage_score": 1.0,
+        "grounding_score": 0.3479,
+        "top_support": [
+          {
+            "text": "hape, we further improve our model's computational efficiency. Experimentally, we are more computation-efficient than Vision Transformers with comparable accuracy. Also, our models can outperform MLP-Mixer by 2.5\\% on ImageNet Top-1 accuracy with fewer parameters and computational cost. On downstream tasks, i.e. Cifar10 and Cifar100, our models can still achieve better performance than baselines.",
+            "paper_title": "Cross-token Modeling with Conditional Computation",
+            "source": "semantic_scholar",
+            "chunk_id": 122,
+            "verdict": "support",
+            "score": 0.4896330216997548,
+            "similarity": 0.639921247959137,
+            "overlap": 0.2105
+          }
+        ],
+        "top_contradict": [
+          {
+            "text": "Large language models (LLMs) exhibiting test-time scaling behavior, such as extended reasoning traces and self-verification, have demonstrated remarkable performance on complex, long-term reasoning tasks. However, the robustness of these reasoning behaviors remains underexplored. To investigate this, we conduct a systematic evaluation of multiple reasoning models across three scenarios: (1) problems augmented with lengthy, irrelevant context; (2) multi-turn conversational settings with independent tasks; and (3) problems presented as a subtask within a complex task. We observe an interesting phenomenon: reasoning models tend to produce much shorter reasoning traces (up to 50%) for the same problem under different context conditions compared to the traces produced when the problem is presented in isolation. A finer-grained analysis reveals that this compression is associated with a decrease in self-verification and uncertainty management behaviors, such as double-checking. While this behavioral shift does not compromise performance on straightforward problems, it might affect performance on more challenging tasks. We hope our findings draw additional attention to both the robustness of reasoning models and the problem of context management for LLMs and LLM-based agents.",
+            "paper_title": "Reasoning Shift: How Context Silently Shortens LLM Reasoning",
+            "source": "huggingface",
+            "chunk_id": 780,
+            "verdict": "contradict",
+            "score": 0.5277401384554411,
+            "similarity": 0.6702075004577637,
+            "overlap": 0.2632
+          },
+          {
+            "text": "The high memory demands of the Key-Value (KV) Cache during the inference of Large Language Models (LLMs) severely restrict their deployment in resource-constrained platforms. Quantization can effectively alleviate the memory pressure caused by KV Cache. However, existing methods either rely on static one-size-fits-all precision allocation or fail to dynamically prioritize critical KV in long-context tasks, forcing memory-accuracy-throughput tradeoffs. In this work, we propose a novel mixed-precision quantization method for KV Cache named KVmix. KVmix leverages gradient-based importance analysis to evaluate how individual Key and Value projection matrices affect the model loss, enabling layer-specific bit-width allocation for mix-precision quantization. It dynamically prioritizes higher precision for important layers while aggressively quantizing less influential ones, achieving a tunable",
+            "paper_title": "KVmix: Gradient-Based Layer Importance-Aware Mixed-Precision Quantization for KV Cache",
+            "source": "semantic_scholar",
+            "chunk_id": 337,
+            "verdict": "contradict",
+            "score": 0.519376243572486,
+            "similarity": 0.6289998888969421,
+            "overlap": 0.3158
+          }
+        ]
+      },
+      "verdict": {
+        "claim": "methods, our approach preserves the original weights of the VLP model while effectively adapting it to downstream tasks, achieving superior performance in CIR tasks.",
+        "verdict": "inconclusive",
+        "confidence": 0.3479,
+        "explanation": "Evidence is mixed or insufficient (support=1, contradict=2, neutral=4).",
+        "grounding_score": 0.3479,
+        "support_count": 1,
+        "contradict_count": 2,
+        "neutral_count": 4,
+        "total_evidence": 7
+      }
+    },
+    {
+      "claim": "With an efficient online calibration, instant activation-aware quantization can adapt every prompt regardless of the downstream tasks, yet achieving inference speedup.",
+      "claim_type": "statement",
+      "domain": "transformer_efficiency",
+      "grounding": {
+        "claim": "With an efficient online calibration, instant activation-aware quantization can adapt every prompt regardless of the downstream tasks, yet achieving inference speedup.",
+        "support_count": 1,
+        "contradict_count": 1,
+        "neutral_count": 2,
+        "total_evidence": 4,
+        "unique_sources": 2,
+        "unique_titles": 4,
+        "avg_support_score": 0.5034,
+        "avg_contradict_score": 0.5138,
+        "diversity_score": 1.0,
+        "contradiction_penalty": 0.1285,
+        "coverage_score": 0.6667,
+        "grounding_score": 0.3448,
+        "top_support": [
+          {
+            "text": "hape, we further improve our model's computational efficiency. Experimentally, we are more computation-efficient than Vision Transformers with comparable accuracy. Also, our models can outperform MLP-Mixer by 2.5\\% on ImageNet Top-1 accuracy with fewer parameters and computational cost. On downstream tasks, i.e. Cifar10 and Cifar100, our models can still achieve better performance than baselines.",
+            "paper_title": "Cross-token Modeling with Conditional Computation",
+            "source": "semantic_scholar",
+            "chunk_id": 122,
+            "verdict": "support",
+            "score": 0.503448811173439,
+            "similarity": 0.639921247959137,
+            "overlap": 0.25
+          }
+        ],
+        "top_contradict": [
+          {
+            "text": "The high memory demands of the Key-Value (KV) Cache during the inference of Large Language Models (LLMs) severely restrict their deployment in resource-constrained platforms. Quantization can effectively alleviate the memory pressure caused by KV Cache. However, existing methods either rely on static one-size-fits-all precision allocation or fail to dynamically prioritize critical KV in long-context tasks, forcing memory-accuracy-throughput tradeoffs. In this work, we propose a novel mixed-precision quantization method for KV Cache named KVmix. KVmix leverages gradient-based importance analysis to evaluate how individual Key and Value projection matrices affect the model loss, enabling layer-specific bit-width allocation for mix-precision quantization. It dynamically prioritizes higher precision for important layers while aggressively quantizing less influential ones, achieving a tunable",
+            "paper_title": "KVmix: Gradient-Based Layer Importance-Aware Mixed-Precision Quantization for KV Cache",
+            "source": "semantic_scholar",
+            "chunk_id": 337,
+            "verdict": "contradict",
+            "score": 0.5138499277830124,
+            "similarity": 0.6289998888969421,
+            "overlap": 0.3
+          }
+        ]
+      },
+      "verdict": {
+        "claim": "With an efficient online calibration, instant activation-aware quantization can adapt every prompt regardless of the downstream tasks, yet achieving inference speedup.",
+        "verdict": "inconclusive",
+        "confidence": 0.3448,
+        "explanation": "Evidence is mixed or insufficient (support=1, contradict=1, neutral=2).",
+        "grounding_score": 0.3448,
+        "support_count": 1,
+        "contradict_count": 1,
+        "neutral_count": 2,
+        "total_evidence": 4
+      }
+    },
+    {
+      "claim": "We observe an interesting phenomenon: reasoning models tend to produce much shorter reasoning traces (up to 50%) for the same problem under different context conditions compared to the traces produced when the problem is presented in isolation.",
+      "claim_type": "statement",
+      "domain": "unknown",
+      "grounding": {
+        "claim": "We observe an interesting phenomenon: reasoning models tend to produce much shorter reasoning traces (up to 50%) for the same problem under different context conditions compared to the traces produced when the problem is presented in isolation.",
+        "support_count": 1,
+        "contradict_count": 1,
+        "neutral_count": 0,
+        "total_evidence": 2,
+        "unique_sources": 2,
+        "unique_titles": 2,
+        "avg_support_score": 0.4776,
+        "avg_contradict_score": 0.7856,
+        "diversity_score": 1.0,
+        "contradiction_penalty": 0.3928,
+        "coverage_score": 0.3333,
+        "grounding_score": 0.0704,
+        "top_support": [
+          {
+            "text": "eXMoE decouples expert dimensionality from per-layer budgets, enabling richer expert combinations without sacrificing individual expert capacity or inflating overall parameters. To this end, we propose a new progressive scaling routing (PSR) strategy to gradually increase the candidate expert pool during training. As a result, ReXMoE improves both language modeling and downstream task performance. Extensive experiments on models ranging from 0.5B to 7B parameters across different architectures demonstrate that ReXMoE consistently improves performance under fixed architectural dimensions, confirming ReXMoE as new design paradigm for parameter-efficient and scalable MoE-based LLMs.",
+            "paper_title": "ReXMoE: Reusing Experts with Minimal Overhead in Mixture-of-Experts",
+            "source": "semantic_scholar",
+            "chunk_id": 497,
+            "verdict": "support",
+            "score": 0.47758764147758487,
+            "similarity": 0.6270579099655151,
+            "overlap": 0.2
+          }
+        ],
+        "top_contradict": [
+          {
+            "text": "Large language models (LLMs) exhibiting test-time scaling behavior, such as extended reasoning traces and self-verification, have demonstrated remarkable performance on complex, long-term reasoning tasks. However, the robustness of these reasoning behaviors remains underexplored. To investigate this, we conduct a systematic evaluation of multiple reasoning models across three scenarios: (1) problems augmented with lengthy, irrelevant context; (2) multi-turn conversational settings with independent tasks; and (3) problems presented as a subtask within a complex task. We observe an interesting phenomenon: reasoning models tend to produce much shorter reasoning traces (up to 50%) for the same problem under different context conditions compared to the traces produced when the problem is presented in isolation. A finer-grained analysis reveals that this compression is associated with a decrease in self-verification and uncertainty management behaviors, such as double-checking. While this behavioral shift does not compromise performance on straightforward problems, it might affect performance on more challenging tasks. We hope our findings draw additional attention to both the robustness of reasoning models and the problem of context management for LLMs and LLM-based agents.",
+            "paper_title": "Reasoning Shift: How Context Silently Shortens LLM Reasoning",
+            "source": "huggingface",
+            "chunk_id": 780,
+            "verdict": "contradict",
+            "score": 0.7856348752975464,
+            "similarity": 0.6702075004577637,
+            "overlap": 1.0
+          }
+        ]
+      },
+      "verdict": {
+        "claim": "We observe an interesting phenomenon: reasoning models tend to produce much shorter reasoning traces (up to 50%) for the same problem under different context conditions compared to the traces produced when the problem is presented in isolation.",
+        "verdict": "inconclusive",
+        "confidence": 0.2,
+        "explanation": "Evidence is mixed or insufficient (support=1, contradict=1, neutral=0).",
+        "grounding_score": 0.0704,
+        "support_count": 1,
+        "contradict_count": 1,
+        "neutral_count": 0,
+        "total_evidence": 2
+      }
+    },
+    {
+      "claim": "A finer-grained analysis reveals that this compression is associated with a decrease in self-verification and uncertainty management behaviors, such as double-checking.",
+      "claim_type": "statement",
+      "domain": "unknown",
+      "grounding": {
+        "claim": "A finer-grained analysis reveals that this compression is associated with a decrease in self-verification and uncertainty management behaviors, such as double-checking.",
+        "support_count": 0,
+        "contradict_count": 1,
+        "neutral_count": 0,
+        "total_evidence": 1,
+        "unique_sources": 1,
+        "unique_titles": 1,
+        "avg_support_score": 0.0,
+        "avg_contradict_score": 0.7856,
+        "diversity_score": 0.5,
+        "contradiction_penalty": 0.7856,
+        "coverage_score": 0.1667,
+        "grounding_score": 0.0,
+        "top_support": [],
+        "top_contradict": [
+          {
+            "text": "Large language models (LLMs) exhibiting test-time scaling behavior, such as extended reasoning traces and self-verification, have demonstrated remarkable performance on complex, long-term reasoning tasks. However, the robustness of these reasoning behaviors remains underexplored. To investigate this, we conduct a systematic evaluation of multiple reasoning models across three scenarios: (1) problems augmented with lengthy, irrelevant context; (2) multi-turn conversational settings with independent tasks; and (3) problems presented as a subtask within a complex task. We observe an interesting phenomenon: reasoning models tend to produce much shorter reasoning traces (up to 50%) for the same problem under different context conditions compared to the traces produced when the problem is presented in isolation. A finer-grained analysis reveals that this compression is associated with a decrease in self-verification and uncertainty management behaviors, such as double-checking. While this behavioral shift does not compromise performance on straightforward problems, it might affect performance on more challenging tasks. We hope our findings draw additional attention to both the robustness of reasoning models and the problem of context management for LLMs and LLM-based agents.",
+            "paper_title": "Reasoning Shift: How Context Silently Shortens LLM Reasoning",
+            "source": "huggingface",
+            "chunk_id": 780,
+            "verdict": "contradict",
+            "score": 0.7856348752975464,
+            "similarity": 0.6702075004577637,
+            "overlap": 1.0
+          }
+        ]
+      },
+      "verdict": {
+        "claim": "A finer-grained analysis reveals that this compression is associated with a decrease in self-verification and uncertainty management behaviors, such as double-checking.",
+        "verdict": "inconclusive",
+        "confidence": 0.2,
+        "explanation": "Evidence is mixed or insufficient (support=0, contradict=1, neutral=0).",
+        "grounding_score": 0.0,
+        "support_count": 0,
+        "contradict_count": 1,
+        "neutral_count": 0,
+        "total_evidence": 1
+      }
+    }
+  ],
+  "knowledge_gaps": [
+    "Many claims are inconclusive — evidence exists but lacks benchmark numbers or experimental results.",
+    "No contradicting evidence found — this may indicate limited coverage of papers reporting failure cases or trade-offs.",
+    "Some retrieved chunks appear off-domain — retrieval may benefit from stricter domain filtering."
+  ],
+  "next_actions": [
+    "Pick 1 concrete intervention and convert it into a falsifiable claim (inputs → mechanism → measurable outputs).",
+    "Run targeted retrieval using 3–5 specific transformer-efficiency keywords and compare results.",
+    "Prioritize evidence chunks with benchmark numbers (latency, throughput, memory, perplexity, context length).",
+    "Generate an experiment plan: baseline, efficiency metric, quality metric, ablations, acceptance threshold."
+  ]
+}

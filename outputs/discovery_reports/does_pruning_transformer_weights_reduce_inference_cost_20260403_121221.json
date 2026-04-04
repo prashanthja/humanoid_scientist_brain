@@ -1,0 +1,353 @@
+{
+  "query": "Does pruning transformer weights reduce inference cost?",
+  "timestamp": "2026-04-03 12:12:21",
+  "domain": "transformer_efficiency",
+  "proposal_verdict": "supported",
+  "proposal_confidence": 0.7510065641403197,
+  "proposal_explanation": "Evidence from multiple sources confirms this claim with experimental results.",
+  "evidence_count": 10,
+  "top_papers": [
+    "Prompt-based Depth Pruning of Large Language Models",
+    "Ban&Pick: Ehancing Performance and Efficiency of MoE-LLMs via Smarter Routing",
+    "MLPMoE: Zero-Shot Architectural Metamorphosis of Dense LLM MLPs into Static Mixture-of-Experts",
+    "Optimizing Inference in Transformer-Based Models: A Multi-Method Benchmark",
+    "MoE-Pruner: Pruning Mixture-of-Experts Large Language Model using the Hints from Its Router",
+    "Thanos: A Block-wise Pruning Algorithm for Efficient Large Language Model Compression",
+    "DiJiang: Efficient Large Language Models through Compact Kernelization",
+    "MCaM : Efficient LLM Inference with Multi-tier KV Cache Management"
+  ],
+  "extracted_claim_count": 10,
+  "top_claims": [
+    {
+      "claim": "The method operates entirely post hoc on existing checkpoints and does not require gradients, calibration sets, or router training.",
+      "paper_title": "MLPMoE: Zero-Shot Architectural Metamorphosis of Dense LLM MLPs into Static Mixture-of-Experts",
+      "domain": "transformer_efficiency"
+    },
+    {
+      "claim": "Efficient inference is a critical challenge in deep generative modeling, particularly as diffusion models grow in capacity and complexity.",
+      "paper_title": "Optimizing Inference in Transformer-Based Models: A Multi-Method Benchmark",
+      "domain": "transformer_efficiency"
+    },
+    {
+      "claim": "While increased complexity often improves accuracy, it raises compute costs, latency, and memory requirements.",
+      "paper_title": "Optimizing Inference in Transformer-Based Models: A Multi-Method Benchmark",
+      "domain": "transformer_efficiency"
+    },
+    {
+      "claim": "This work investigates techniques such as pruning, quantization, knowledge distillation, and simplified attention to reduce computational overhead without impacting performance.",
+      "paper_title": "Optimizing Inference in Transformer-Based Models: A Multi-Method Benchmark",
+      "domain": "transformer_efficiency"
+    },
+    {
+      "claim": "Depth pruning aims to reduce the inference cost of a large language model without any hardware-specific complications, by simply removing several less important transformer blocks.",
+      "paper_title": "Prompt-based Depth Pruning of Large Language Models",
+      "domain": "transformer_efficiency"
+    }
+  ],
+  "grounded_claim_count": 5,
+  "supported_count": 3,
+  "contradicted_count": 0,
+  "inconclusive_count": 2,
+  "top_grounded": [
+    {
+      "claim": "Depth pruning aims to reduce the inference cost of a large language model without any hardware-specific complications, by simply removing several less important transformer blocks.",
+      "claim_type": "statement",
+      "domain": "transformer_efficiency",
+      "grounding": {
+        "claim": "Depth pruning aims to reduce the inference cost of a large language model without any hardware-specific complications, by simply removing several less important transformer blocks.",
+        "support_count": 3,
+        "contradict_count": 0,
+        "neutral_count": 1,
+        "total_evidence": 4,
+        "unique_sources": 1,
+        "unique_titles": 4,
+        "avg_support_score": 0.6392,
+        "avg_contradict_score": 0.0,
+        "diversity_score": 0.75,
+        "contradiction_penalty": 0.0,
+        "coverage_score": 0.6667,
+        "grounding_score": 0.7961,
+        "top_support": [
+          {
+            "text": "This paper presents Thanos, a novel weight-pruning algorithm designed to reduce the memory footprint and enhance the computational efficiency of large language models (LLMs) by removing redundant weights while maintaining accuracy. Thanos introduces a block-wise pruning strategy with adaptive masks that dynamically adjust to weight importance, enabling flexible sparsity patterns and structured formats, such as $n:m$ sparsity, optimized for hardware acceleration. Experimental evaluations demonstrate that Thanos achieves state-of-the-art performance in structured pruning and outperforms existing methods in unstructured pruning. By providing an efficient and adaptable approach to model compression, Thanos offers a practical solution for deploying large models in resource-constrained environments.",
+            "paper_title": "Thanos: A Block-wise Pruning Algorithm for Efficient Large Language Model Compression",
+            "source": "semantic_scholar",
+            "chunk_id": 156,
+            "verdict": "support",
+            "score": 0.6667962721802971,
+            "similarity": 0.8300362229347229,
+            "overlap": 0.3636
+          },
+          {
+            "text": "Mixture-of-Experts (MoE) architectures face challenges such as high memory consumption and redundancy in experts. Pruning MoE can reduce network weights while maintaining model performance. Motivated by the recent observation of emergent large magnitude features in Large Language Models (LLM) and MoE routing policy, we propose MoE-Pruner, a method that prunes weights with the smallest magnitudes multiplied by the corresponding input activations and router weights, on each output neuron. Our pruning method is one-shot, requiring no retraining or weight updates. We evaluate our method on Mixtral-8x7B and Mixtral-8x22B across multiple language benchmarks. Experimental results show that our pruning method significantly outperforms state-of-the-art LLM pruning methods. Furthermore, our pruned MoE models can benefit from a pretrained teacher model through expert-wise knowledge distillation, improving performance post-pruning. Experimental results demonstrate that the Mixtral-8x7B model with 50% sparsity maintains 99% of the performance of the original model after the expert-wise knowledge distillation.",
+            "paper_title": "MoE-Pruner: Pruning Mixture-of-Experts Large Language Model using the Hints from Its Router",
+            "source": "semantic_scholar",
+            "chunk_id": 1396,
+            "verdict": "support",
+            "score": 0.636221431331201,
+            "similarity": 0.8319490551948547,
+            "overlap": 0.2727
+          },
+          {
+            "text": "layer-wise KV quantization precision pairs for coarse-grained KV cache with multi-objective optimization and directly utilize the offline searched configurations during online inference. To reduce the computational cost of offline calibration, we utilize the intra-layer KV precision pair pruning and inter-layer clustering to reduce the search space. Experimental results show that we can achieve nearly lossless 3.25-bit mixed precision KV cache quantization for LLMs like Llama-3.1-8B-Instruct and 4.0-bit for sensitive models like Qwen2.5-7B-Instruct on mathematical reasoning tasks. The maximum inference throughput can be improved by 21.25\\% compared with KIVI-KV8 quantization over various context lengths. Our code and searched configurations are available at https://github.com/cmd2001/KVTuner.",
+            "paper_title": "KVTuner: Sensitivity-Aware Layer-wise Mixed Precision KV Cache Quantization for Efficient and Nearly Lossless LLM Inference",
+            "source": "semantic_scholar",
+            "chunk_id": 263,
+            "verdict": "support",
+            "score": 0.6145291699604555,
+            "similarity": 0.8230518698692322,
+            "overlap": 0.2273
+          }
+        ],
+        "top_contradict": []
+      },
+      "verdict": {
+        "claim": "Depth pruning aims to reduce the inference cost of a large language model without any hardware-specific complications, by simply removing several less important transformer blocks.",
+        "verdict": "supported",
+        "confidence": 0.8961,
+        "explanation": "Support outweighs contradiction (support=3, contradict=0) with strong grounding=0.80.",
+        "grounding_score": 0.7961,
+        "support_count": 3,
+        "contradict_count": 0,
+        "neutral_count": 1,
+        "total_evidence": 4
+      }
+    },
+    {
+      "claim": "Empirical results on commonsense reasoning benchmarks demonstrate that PuDDing effectively accelerates the inference language models, and achieves better on-task performance than static depth pruning baselines.",
+      "claim_type": "statement",
+      "domain": "transformer_efficiency",
+      "grounding": {
+        "claim": "Empirical results on commonsense reasoning benchmarks demonstrate that PuDDing effectively accelerates the inference language models, and achieves better on-task performance than static depth pruning baselines.",
+        "support_count": 3,
+        "contradict_count": 0,
+        "neutral_count": 2,
+        "total_evidence": 5,
+        "unique_sources": 1,
+        "unique_titles": 5,
+        "avg_support_score": 0.6502,
+        "avg_contradict_score": 0.0,
+        "diversity_score": 0.75,
+        "contradiction_penalty": 0.0,
+        "coverage_score": 0.8333,
+        "grounding_score": 0.7485,
+        "top_support": [
+          {
+            "text": "Mixture-of-Experts (MoE) architectures face challenges such as high memory consumption and redundancy in experts. Pruning MoE can reduce network weights while maintaining model performance. Motivated by the recent observation of emergent large magnitude features in Large Language Models (LLM) and MoE routing policy, we propose MoE-Pruner, a method that prunes weights with the smallest magnitudes multiplied by the corresponding input activations and router weights, on each output neuron. Our pruning method is one-shot, requiring no retraining or weight updates. We evaluate our method on Mixtral-8x7B and Mixtral-8x22B across multiple language benchmarks. Experimental results show that our pruning method significantly outperforms state-of-the-art LLM pruning methods. Furthermore, our pruned MoE models can benefit from a pretrained teacher model through expert-wise knowledge distillation, improving performance post-pruning. Experimental results demonstrate that the Mixtral-8x7B model with 50% sparsity maintains 99% of the performance of the original model after the expert-wise knowledge distillation.",
+            "paper_title": "MoE-Pruner: Pruning Mixture-of-Experts Large Language Model using the Hints from Its Router",
+            "source": "semantic_scholar",
+            "chunk_id": 1396,
+            "verdict": "support",
+            "score": 0.6574335525433223,
+            "similarity": 0.8319490551948547,
+            "overlap": 0.3333
+          },
+          {
+            "text": "This paper presents Thanos, a novel weight-pruning algorithm designed to reduce the memory footprint and enhance the computational efficiency of large language models (LLMs) by removing redundant weights while maintaining accuracy. Thanos introduces a block-wise pruning strategy with adaptive masks that dynamically adjust to weight importance, enabling flexible sparsity patterns and structured formats, such as $n:m$ sparsity, optimized for hardware acceleration. Experimental evaluations demonstrate that Thanos achieves state-of-the-art performance in structured pruning and outperforms existing methods in unstructured pruning. By providing an efficient and adaptable approach to model compression, Thanos offers a practical solution for deploying large models in resource-constrained environments.",
+            "paper_title": "Thanos: A Block-wise Pruning Algorithm for Efficient Large Language Model Compression",
+            "source": "semantic_scholar",
+            "chunk_id": 156,
+            "verdict": "support",
+            "score": 0.6561902115742366,
+            "similarity": 0.8300362229347229,
+            "overlap": 0.3333
+          },
+          {
+            "text": "layer-wise KV quantization precision pairs for coarse-grained KV cache with multi-objective optimization and directly utilize the offline searched configurations during online inference. To reduce the computational cost of offline calibration, we utilize the intra-layer KV precision pair pruning and inter-layer clustering to reduce the search space. Experimental results show that we can achieve nearly lossless 3.25-bit mixed precision KV cache quantization for LLMs like Llama-3.1-8B-Instruct and 4.0-bit for sensitive models like Qwen2.5-7B-Instruct on mathematical reasoning tasks. The maximum inference throughput can be improved by 21.25\\% compared with KIVI-KV8 quantization over various context lengths. Our code and searched configurations are available at https://github.com/cmd2001/KVTuner.",
+            "paper_title": "KVTuner: Sensitivity-Aware Layer-wise Mixed Precision KV Cache Quantization for Efficient and Nearly Lossless LLM Inference",
+            "source": "semantic_scholar",
+            "chunk_id": 263,
+            "verdict": "support",
+            "score": 0.6370670487483342,
+            "similarity": 0.8230518698692322,
+            "overlap": 0.2917
+          }
+        ],
+        "top_contradict": []
+      },
+      "verdict": {
+        "claim": "Empirical results on commonsense reasoning benchmarks demonstrate that PuDDing effectively accelerates the inference language models, and achieves better on-task performance than static depth pruning baselines.",
+        "verdict": "supported",
+        "confidence": 0.8485,
+        "explanation": "Support outweighs contradiction (support=3, contradict=0) with strong grounding=0.75.",
+        "grounding_score": 0.7485,
+        "support_count": 3,
+        "contradict_count": 0,
+        "neutral_count": 2,
+        "total_evidence": 5
+      }
+    },
+    {
+      "claim": "Efficient inference is a critical challenge in deep generative modeling, particularly as diffusion models grow in capacity and complexity.",
+      "claim_type": "statement",
+      "domain": "transformer_efficiency",
+      "grounding": {
+        "claim": "Efficient inference is a critical challenge in deep generative modeling, particularly as diffusion models grow in capacity and complexity.",
+        "support_count": 2,
+        "contradict_count": 0,
+        "neutral_count": 1,
+        "total_evidence": 3,
+        "unique_sources": 1,
+        "unique_titles": 3,
+        "avg_support_score": 0.6123,
+        "avg_contradict_score": 0.0,
+        "diversity_score": 0.75,
+        "contradiction_penalty": 0.0,
+        "coverage_score": 0.5,
+        "grounding_score": 0.6832,
+        "top_support": [
+          {
+            "text": "This paper presents Thanos, a novel weight-pruning algorithm designed to reduce the memory footprint and enhance the computational efficiency of large language models (LLMs) by removing redundant weights while maintaining accuracy. Thanos introduces a block-wise pruning strategy with adaptive masks that dynamically adjust to weight importance, enabling flexible sparsity patterns and structured formats, such as $n:m$ sparsity, optimized for hardware acceleration. Experimental evaluations demonstrate that Thanos achieves state-of-the-art performance in structured pruning and outperforms existing methods in unstructured pruning. By providing an efficient and adaptable approach to model compression, Thanos offers a practical solution for deploying large models in resource-constrained environments.",
+            "paper_title": "Thanos: A Block-wise Pruning Algorithm for Efficient Large Language Model Compression",
+            "source": "semantic_scholar",
+            "chunk_id": 156,
+            "verdict": "support",
+            "score": 0.6145235449075699,
+            "similarity": 0.8300362229347229,
+            "overlap": 0.2143
+          },
+          {
+            "text": "layer-wise KV quantization precision pairs for coarse-grained KV cache with multi-objective optimization and directly utilize the offline searched configurations during online inference. To reduce the computational cost of offline calibration, we utilize the intra-layer KV precision pair pruning and inter-layer clustering to reduce the search space. Experimental results show that we can achieve nearly lossless 3.25-bit mixed precision KV cache quantization for LLMs like Llama-3.1-8B-Instruct and 4.0-bit for sensitive models like Qwen2.5-7B-Instruct on mathematical reasoning tasks. The maximum inference throughput can be improved by 21.25\\% compared with KIVI-KV8 quantization over various context lengths. Our code and searched configurations are available at https://github.com/cmd2001/KVTuner.",
+            "paper_title": "KVTuner: Sensitivity-Aware Layer-wise Mixed Precision KV Cache Quantization for Efficient and Nearly Lossless LLM Inference",
+            "source": "semantic_scholar",
+            "chunk_id": 263,
+            "verdict": "support",
+            "score": 0.6099837154150008,
+            "similarity": 0.8230518698692322,
+            "overlap": 0.2143
+          }
+        ],
+        "top_contradict": []
+      },
+      "verdict": {
+        "claim": "Efficient inference is a critical challenge in deep generative modeling, particularly as diffusion models grow in capacity and complexity.",
+        "verdict": "supported",
+        "confidence": 0.7832,
+        "explanation": "Support outweighs contradiction (support=2, contradict=0) with strong grounding=0.68.",
+        "grounding_score": 0.6832,
+        "support_count": 2,
+        "contradict_count": 0,
+        "neutral_count": 1,
+        "total_evidence": 3
+      }
+    },
+    {
+      "claim": "However, our empirical findings suggest that the importance of a transformer block may be highly task-dependent -- a block that is crucial for a task can be removed without degrading the accuracy on another task.",
+      "claim_type": "statement",
+      "domain": "transformer_efficiency",
+      "grounding": {
+        "claim": "However, our empirical findings suggest that the importance of a transformer block may be highly task-dependent -- a block that is crucial for a task can be removed without degrading the accuracy on another task.",
+        "support_count": 1,
+        "contradict_count": 0,
+        "neutral_count": 1,
+        "total_evidence": 2,
+        "unique_sources": 1,
+        "unique_titles": 2,
+        "avg_support_score": 0.6111,
+        "avg_contradict_score": 0.0,
+        "diversity_score": 0.75,
+        "contradiction_penalty": 0.0,
+        "coverage_score": 0.3333,
+        "grounding_score": 0.5389,
+        "top_support": [
+          {
+            "text": "layer-wise KV quantization precision pairs for coarse-grained KV cache with multi-objective optimization and directly utilize the offline searched configurations during online inference. To reduce the computational cost of offline calibration, we utilize the intra-layer KV precision pair pruning and inter-layer clustering to reduce the search space. Experimental results show that we can achieve nearly lossless 3.25-bit mixed precision KV cache quantization for LLMs like Llama-3.1-8B-Instruct and 4.0-bit for sensitive models like Qwen2.5-7B-Instruct on mathematical reasoning tasks. The maximum inference throughput can be improved by 21.25\\% compared with KIVI-KV8 quantization over various context lengths. Our code and searched configurations are available at https://github.com/cmd2001/KVTuner.",
+            "paper_title": "KVTuner: Sensitivity-Aware Layer-wise Mixed Precision KV Cache Quantization for Efficient and Nearly Lossless LLM Inference",
+            "source": "semantic_scholar",
+            "chunk_id": 263,
+            "verdict": "support",
+            "score": 0.61107067193674,
+            "similarity": 0.8230518698692322,
+            "overlap": 0.2174
+          }
+        ],
+        "top_contradict": []
+      },
+      "verdict": {
+        "claim": "However, our empirical findings suggest that the importance of a transformer block may be highly task-dependent -- a block that is crucial for a task can be removed without degrading the accuracy on another task.",
+        "verdict": "partially_supported",
+        "confidence": 0.5389,
+        "explanation": "Evidence leans supportive but remains mixed (support=1, contradict=0, neutral=1).",
+        "grounding_score": 0.5389,
+        "support_count": 1,
+        "contradict_count": 0,
+        "neutral_count": 1,
+        "total_evidence": 2
+      }
+    },
+    {
+      "claim": "The method operates entirely post hoc on existing checkpoints and does not require gradients, calibration sets, or router training.",
+      "claim_type": "statement",
+      "domain": "transformer_efficiency",
+      "grounding": {
+        "claim": "The method operates entirely post hoc on existing checkpoints and does not require gradients, calibration sets, or router training.",
+        "support_count": 1,
+        "contradict_count": 2,
+        "neutral_count": 0,
+        "total_evidence": 3,
+        "unique_sources": 1,
+        "unique_titles": 2,
+        "avg_support_score": 0.6437,
+        "avg_contradict_score": 0.8866,
+        "diversity_score": 0.75,
+        "contradiction_penalty": 0.5911,
+        "coverage_score": 0.5,
+        "grounding_score": 0.0,
+        "top_support": [
+          {
+            "text": "Mixture-of-Experts (MoE) architectures face challenges such as high memory consumption and redundancy in experts. Pruning MoE can reduce network weights while maintaining model performance. Motivated by the recent observation of emergent large magnitude features in Large Language Models (LLM) and MoE routing policy, we propose MoE-Pruner, a method that prunes weights with the smallest magnitudes multiplied by the corresponding input activations and router weights, on each output neuron. Our pruning method is one-shot, requiring no retraining or weight updates. We evaluate our method on Mixtral-8x7B and Mixtral-8x22B across multiple language benchmarks. Experimental results show that our pruning method significantly outperforms state-of-the-art LLM pruning methods. Furthermore, our pruned MoE models can benefit from a pretrained teacher model through expert-wise knowledge distillation, improving performance post-pruning. Experimental results demonstrate that the Mixtral-8x7B model with 50% sparsity maintains 99% of the performance of the original model after the expert-wise knowledge distillation.",
+            "paper_title": "MoE-Pruner: Pruning Mixture-of-Experts Large Language Model using the Hints from Its Router",
+            "source": "semantic_scholar",
+            "chunk_id": 1396,
+            "verdict": "support",
+            "score": 0.6437080623472438,
+            "similarity": 0.8319490551948547,
+            "overlap": 0.2941
+          }
+        ],
+        "top_contradict": [
+          {
+            "text": "The method operates entirely post hoc on existing checkpoints and does not require gradients, calibration sets, or router training. Code is available at https://gist.github.com/iwallarm/fc2ef1eddf226ca7814f9e5e2ae9bad1",
+            "paper_title": "MLPMoE: Zero-Shot Architectural Metamorphosis of Dense LLM MLPs into Static Mixture-of-Experts",
+            "source": "semantic_scholar",
+            "chunk_id": 1451,
+            "verdict": "contradict",
+            "score": 0.8878028512001037,
+            "similarity": 0.8273890018463135,
+            "overlap": 1.0
+          },
+          {
+            "text": "out 2 percent of the dense baseline. The method operates entirely post hoc on existing checkpoints and does not require gradients, calibration sets, or router training. Code is available at https://gist.github.com/iwallarm/fc2ef1eddf226ca7814f9e5e2ae9bad1",
+            "paper_title": "MLPMoE: Zero-Shot Architectural Metamorphosis of Dense LLM MLPs into Static Mixture-of-Experts",
+            "source": "semantic_scholar",
+            "chunk_id": 112,
+            "verdict": "contradict",
+            "score": 0.8853991955518723,
+            "similarity": 0.8236910700798035,
+            "overlap": 1.0
+          }
+        ]
+      },
+      "verdict": {
+        "claim": "The method operates entirely post hoc on existing checkpoints and does not require gradients, calibration sets, or router training.",
+        "verdict": "inconclusive",
+        "confidence": 0.2,
+        "explanation": "Evidence is mixed or insufficient (support=1, contradict=2, neutral=0).",
+        "grounding_score": 0.0,
+        "support_count": 1,
+        "contradict_count": 2,
+        "neutral_count": 0,
+        "total_evidence": 3
+      }
+    }
+  ],
+  "knowledge_gaps": [
+    "No contradicting evidence found — this may indicate limited coverage of papers reporting failure cases or trade-offs."
+  ],
+  "next_actions": [
+    "Pick 1 concrete intervention and convert it into a falsifiable claim (inputs → mechanism → measurable outputs).",
+    "Run targeted retrieval using 3–5 specific transformer-efficiency keywords and compare results.",
+    "Prioritize evidence chunks with benchmark numbers (latency, throughput, memory, perplexity, context length).",
+    "Generate an experiment plan: baseline, efficiency metric, quality metric, ablations, acceptance threshold."
+  ]
+}

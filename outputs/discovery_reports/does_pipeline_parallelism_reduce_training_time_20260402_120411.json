@@ -1,0 +1,417 @@
+{
+  "query": "Does pipeline parallelism reduce training time?",
+  "timestamp": "2026-04-02 12:04:11",
+  "domain": "transformer_efficiency",
+  "proposal_verdict": "supported",
+  "proposal_confidence": 0.7378112688064574,
+  "proposal_explanation": "Evidence from multiple sources confirms this claim with experimental results.",
+  "evidence_count": 10,
+  "top_papers": [
+    "TD-Pipe: Temporally-Disaggregated Pipeline Parallelism Architecture for High-Throughput LLM Inference",
+    "Planck: Optimizing LLM Inference Performance in Pipeline Parallelism with Fine-Grained SLO Constraint",
+    "SpecPipe: Accelerating Pipeline Parallelism-based LLM Inference with Speculative Decoding",
+    "MLPMoE: Zero-Shot Architectural Metamorphosis of Dense LLM MLPs into Static Mixture-of-Experts",
+    "SIMPLE: Disaggregating Sampling from GPU Inference into a Decision Plane for Faster Distributed LLM Serving",
+    "Taming Throughput-Latency Tradeoff in LLM Inference with Sarathi-Serve",
+    "Characterizing Communication Patterns in Distributed Large Language Model Inference",
+    "Shift Parallelism: Low-Latency, High-Throughput LLM Inference for Dynamic Workloads"
+  ],
+  "extracted_claim_count": 10,
+  "top_claims": [
+    {
+      "claim": "The method operates entirely post hoc on existing checkpoints and does not require gradients, calibration sets, or router training.",
+      "paper_title": "MLPMoE: Zero-Shot Architectural Metamorphosis of Dense LLM MLPs into Static Mixture-of-Experts",
+      "domain": "transformer_efficiency"
+    },
+    {
+      "claim": "Through optimizing queue lengths across different stages of the model pipeline, Planck effectively reduces waiting time and tail latency.",
+      "paper_title": "Planck: Optimizing LLM Inference Performance in Pipeline Parallelism with Fine-Grained SLO Constraint",
+      "domain": "transformer_efficiency"
+    },
+    {
+      "claim": "Evaluations conducted on a real cloud cluster using diverse workloads demonstrate that Planck effectively reduces P99 latency and queue length for each pipeline stage.",
+      "paper_title": "Planck: Optimizing LLM Inference Performance in Pipeline Parallelism with Fine-Grained SLO Constraint",
+      "domain": "transformer_efficiency"
+    },
+    {
+      "claim": "As the model size continuously increases, pipeline parallelism shows great promise in throughput-oriented LLM inference due to its low demand on communications.",
+      "paper_title": "TD-Pipe: Temporally-Disaggregated Pipeline Parallelism Architecture for High-Throughput LLM Inference",
+      "domain": "transformer_efficiency"
+    },
+    {
+      "claim": "To better exploit the pipeline parallelism for high-throughput LLM inference, we propose TD-Pipe, with the key idea lies in the temporally-disaggregated pipeline parallelism architecture.",
+      "paper_title": "TD-Pipe: Temporally-Disaggregated Pipeline Parallelism Architecture for High-Throughput LLM Inference",
+      "domain": "transformer_efficiency"
+    }
+  ],
+  "grounded_claim_count": 5,
+  "supported_count": 2,
+  "contradicted_count": 0,
+  "inconclusive_count": 3,
+  "top_grounded": [
+    {
+      "claim": "Evaluations conducted on a real cloud cluster using diverse workloads demonstrate that Planck effectively reduces P99 latency and queue length for each pipeline stage.",
+      "claim_type": "statement",
+      "domain": "transformer_efficiency",
+      "grounding": {
+        "claim": "Evaluations conducted on a real cloud cluster using diverse workloads demonstrate that Planck effectively reduces P99 latency and queue length for each pipeline stage.",
+        "support_count": 2,
+        "contradict_count": 0,
+        "neutral_count": 1,
+        "total_evidence": 3,
+        "unique_sources": 1,
+        "unique_titles": 2,
+        "avg_support_score": 0.6382,
+        "avg_contradict_score": 0.0,
+        "diversity_score": 0.75,
+        "contradiction_penalty": 0.0,
+        "coverage_score": 0.5,
+        "grounding_score": 0.7005,
+        "top_support": [
+          {
+            "text": ". Through optimizing queue lengths across different stages of the model pipeline, Planck effectively reduces waiting time and tail latency. Evaluations conducted on a real cloud cluster using diverse workloads demonstrate that Planck effectively reduces P99 latency and queue length for each pipeline stage.",
+            "paper_title": "Planck: Optimizing LLM Inference Performance in Pipeline Parallelism with Fine-Grained SLO Constraint",
+            "source": "semantic_scholar",
+            "chunk_id": 599,
+            "verdict": "support",
+            "score": 0.7718540608882904,
+            "similarity": 0.6490062475204468,
+            "overlap": 1.0
+          },
+          {
+            "text": "from a speculative token source and outputs the tokens to the inference pipeline. Since the speculative window relaxed in our framework, a high-accuracy draft model is integrated without fine-tuning. The pipeline inference framework follows node-wise computation, pruning propagation, and inter-node communication stages. We implement SpecPipe and a variant SpecPipe-DB with dynamic batching for single- and multi-request inference, respectively. On an 8-stage pipeline, SpecPipe improves time between tokens on diverse single-request workloads by $4.19\\times$-$5.53\\times$ over standard pipeline parallelism and by $2.08\\times$-$2.38\\times$ over prior tree-based speculative decoding methods. For multi-request workloads, SpecPipe-DB achieves $1.64\\times$-$2.08\\times$ higher throughput and $1.61\\times$-$2.06\\times$ lower time between tokens than vLLM.",
+            "paper_title": "SpecPipe: Accelerating Pipeline Parallelism-based LLM Inference with Speculative Decoding",
+            "source": "semantic_scholar",
+            "chunk_id": 597,
+            "verdict": "support",
+            "score": 0.5046357973055406,
+            "similarity": 0.6539851427078247,
+            "overlap": 0.2273
+          }
+        ],
+        "top_contradict": []
+      },
+      "verdict": {
+        "claim": "Evaluations conducted on a real cloud cluster using diverse workloads demonstrate that Planck effectively reduces P99 latency and queue length for each pipeline stage.",
+        "verdict": "supported",
+        "confidence": 0.8005,
+        "explanation": "Support outweighs contradiction (support=2, contradict=0) with strong grounding=0.70.",
+        "grounding_score": 0.7005,
+        "support_count": 2,
+        "contradict_count": 0,
+        "neutral_count": 1,
+        "total_evidence": 3
+      }
+    },
+    {
+      "claim": "Through optimizing queue lengths across different stages of the model pipeline, Planck effectively reduces waiting time and tail latency.",
+      "claim_type": "statement",
+      "domain": "transformer_efficiency",
+      "grounding": {
+        "claim": "Through optimizing queue lengths across different stages of the model pipeline, Planck effectively reduces waiting time and tail latency.",
+        "support_count": 3,
+        "contradict_count": 1,
+        "neutral_count": 3,
+        "total_evidence": 7,
+        "unique_sources": 1,
+        "unique_titles": 6,
+        "avg_support_score": 0.5958,
+        "avg_contradict_score": 0.4852,
+        "diversity_score": 0.75,
+        "contradiction_penalty": 0.0693,
+        "coverage_score": 1.0,
+        "grounding_score": 0.5756,
+        "top_support": [
+          {
+            "text": ". Through optimizing queue lengths across different stages of the model pipeline, Planck effectively reduces waiting time and tail latency. Evaluations conducted on a real cloud cluster using diverse workloads demonstrate that Planck effectively reduces P99 latency and queue length for each pipeline stage.",
+            "paper_title": "Planck: Optimizing LLM Inference Performance in Pipeline Parallelism with Fine-Grained SLO Constraint",
+            "source": "semantic_scholar",
+            "chunk_id": 599,
+            "verdict": "support",
+            "score": 0.7718540608882904,
+            "similarity": 0.6490062475204468,
+            "overlap": 1.0
+          },
+          {
+            "text": "from a speculative token source and outputs the tokens to the inference pipeline. Since the speculative window relaxed in our framework, a high-accuracy draft model is integrated without fine-tuning. The pipeline inference framework follows node-wise computation, pruning propagation, and inter-node communication stages. We implement SpecPipe and a variant SpecPipe-DB with dynamic batching for single- and multi-request inference, respectively. On an 8-stage pipeline, SpecPipe improves time between tokens on diverse single-request workloads by $4.19\\times$-$5.53\\times$ over standard pipeline parallelism and by $2.08\\times$-$2.38\\times$ over prior tree-based speculative decoding methods. For multi-request workloads, SpecPipe-DB achieves $1.64\\times$-$2.08\\times$ higher throughput and $1.61\\times$-$2.06\\times$ lower time between tokens than vLLM.",
+            "paper_title": "SpecPipe: Accelerating Pipeline Parallelism-based LLM Inference with Speculative Decoding",
+            "source": "semantic_scholar",
+            "chunk_id": 597,
+            "verdict": "support",
+            "score": 0.5223125649823083,
+            "similarity": 0.6539851427078247,
+            "overlap": 0.2778
+          },
+          {
+            "text": "As large language models (LLMs) scale out with tensor parallelism (TP) and pipeline parallelism (PP) and production stacks have aggressively optimized the data plane (attention/GEMM and KV cache), sampling, the decision plane that turns logits into tokens, becomes a new bottleneck. This creates a structural holdout: sampling neither expands with TP nor balances across PP stages, so its share of iteration time grows as GPUs get faster and it caps pipeline frequency at the last stage. We present SIMPLE, a stage-agnostic, sequence-parallel, overlappable decision plane that disaggregates sampling into a CPU-side service and shrinks its runtime footprint back to a minor, hidden role. SIMPLE combines: (1) sequence-parallel sampling, which shards work along the batch dimension and removes vocabulary-axis collectives; (2) a CPU-based algorithm with column-wise penalties and truncation-first filt",
+            "paper_title": "SIMPLE: Disaggregating Sampling from GPU Inference into a Decision Plane for Faster Distributed LLM Serving",
+            "source": "semantic_scholar",
+            "chunk_id": 576,
+            "verdict": "support",
+            "score": 0.49333803521262276,
+            "similarity": 0.6393234729766846,
+            "overlap": 0.2222
+          }
+        ],
+        "top_contradict": [
+          {
+            "text": "ve analytical models to characterize communication behavior across different parallelization configurations. Results show that tensor parallelism incurs substantial network overhead but delivers superior response times for brief sequences, pipeline parallelism minimizes data transfer requirements while increasing total latency, and combined approaches demand careful tuning to achieve balanced performance. These insights offer practical recommendations for selecting appropriate parallelization schemes in production LLM services and identify key opportunities for optimizing inference frameworks and communication infrastructure.",
+            "paper_title": "Characterizing Communication Patterns in Distributed Large Language Model Inference",
+            "source": "semantic_scholar",
+            "chunk_id": 579,
+            "verdict": "contradict",
+            "score": 0.48518855737315286,
+            "similarity": 0.6267858147621155,
+            "overlap": 0.2222
+          }
+        ]
+      },
+      "verdict": {
+        "claim": "Through optimizing queue lengths across different stages of the model pipeline, Planck effectively reduces waiting time and tail latency.",
+        "verdict": "supported",
+        "confidence": 0.6756,
+        "explanation": "Support outweighs contradiction (support=3, contradict=1) with strong grounding=0.58.",
+        "grounding_score": 0.5756,
+        "support_count": 3,
+        "contradict_count": 1,
+        "neutral_count": 3,
+        "total_evidence": 7
+      }
+    },
+    {
+      "claim": "First, a hierarchy-controller structure is used to better coordinate devices in pipeline parallelism by d",
+      "claim_type": "statement",
+      "domain": "unknown",
+      "grounding": {
+        "claim": "First, a hierarchy-controller structure is used to better coordinate devices in pipeline parallelism by d",
+        "support_count": 3,
+        "contradict_count": 1,
+        "neutral_count": 1,
+        "total_evidence": 5,
+        "unique_sources": 1,
+        "unique_titles": 5,
+        "avg_support_score": 0.4988,
+        "avg_contradict_score": 0.4774,
+        "diversity_score": 0.75,
+        "contradiction_penalty": 0.0955,
+        "coverage_score": 0.8333,
+        "grounding_score": 0.5478,
+        "top_support": [
+          {
+            "text": "gher serving capacity and up to 3.7x higher serving capacity for the Yi-34B model on two A100 GPUs as compared to vLLM. When used with pipeline parallelism on Falcon-180B, Sarathi-Serve provides up to 5.6x gain in the end-to-end serving capacity. The source code for Sarathi-Serve is available at https://github.com/microsoft/sarathi-serve.",
+            "paper_title": "Taming Throughput-Latency Tradeoff in LLM Inference with Sarathi-Serve",
+            "source": "semantic_scholar",
+            "chunk_id": 433,
+            "verdict": "support",
+            "score": 0.5158813017606736,
+            "similarity": 0.6321250796318054,
+            "overlap": 0.3
+          },
+          {
+            "text": "from a speculative token source and outputs the tokens to the inference pipeline. Since the speculative window relaxed in our framework, a high-accuracy draft model is integrated without fine-tuning. The pipeline inference framework follows node-wise computation, pruning propagation, and inter-node communication stages. We implement SpecPipe and a variant SpecPipe-DB with dynamic batching for single- and multi-request inference, respectively. On an 8-stage pipeline, SpecPipe improves time between tokens on diverse single-request workloads by $4.19\\times$-$5.53\\times$ over standard pipeline parallelism and by $2.08\\times$-$2.38\\times$ over prior tree-based speculative decoding methods. For multi-request workloads, SpecPipe-DB achieves $1.64\\times$-$2.08\\times$ higher throughput and $1.61\\times$-$2.06\\times$ lower time between tokens than vLLM.",
+            "paper_title": "SpecPipe: Accelerating Pipeline Parallelism-based LLM Inference with Speculative Decoding",
+            "source": "semantic_scholar",
+            "chunk_id": 597,
+            "verdict": "support",
+            "score": 0.49509034276008607,
+            "similarity": 0.6539851427078247,
+            "overlap": 0.2
+          },
+          {
+            "text": "As large language models (LLMs) scale out with tensor parallelism (TP) and pipeline parallelism (PP) and production stacks have aggressively optimized the data plane (attention/GEMM and KV cache), sampling, the decision plane that turns logits into tokens, becomes a new bottleneck. This creates a structural holdout: sampling neither expands with TP nor balances across PP stages, so its share of iteration time grows as GPUs get faster and it caps pipeline frequency at the last stage. We present SIMPLE, a stage-agnostic, sequence-parallel, overlappable decision plane that disaggregates sampling into a CPU-side service and shrinks its runtime footprint back to a minor, hidden role. SIMPLE combines: (1) sequence-parallel sampling, which shards work along the batch dimension and removes vocabulary-axis collectives; (2) a CPU-based algorithm with column-wise penalties and truncation-first filt",
+            "paper_title": "SIMPLE: Disaggregating Sampling from GPU Inference into a Decision Plane for Faster Distributed LLM Serving",
+            "source": "semantic_scholar",
+            "chunk_id": 576,
+            "verdict": "support",
+            "score": 0.485560257434845,
+            "similarity": 0.6393234729766846,
+            "overlap": 0.2
+          }
+        ],
+        "top_contradict": [
+          {
+            "text": "ve analytical models to characterize communication behavior across different parallelization configurations. Results show that tensor parallelism incurs substantial network overhead but delivers superior response times for brief sequences, pipeline parallelism minimizes data transfer requirements while increasing total latency, and combined approaches demand careful tuning to achieve balanced performance. These insights offer practical recommendations for selecting appropriate parallelization schemes in production LLM services and identify key opportunities for optimizing inference frameworks and communication infrastructure.",
+            "paper_title": "Characterizing Communication Patterns in Distributed Large Language Model Inference",
+            "source": "semantic_scholar",
+            "chunk_id": 579,
+            "verdict": "contradict",
+            "score": 0.4774107795953751,
+            "similarity": 0.6267858147621155,
+            "overlap": 0.2
+          }
+        ]
+      },
+      "verdict": {
+        "claim": "First, a hierarchy-controller structure is used to better coordinate devices in pipeline parallelism by d",
+        "verdict": "partially_supported",
+        "confidence": 0.5478,
+        "explanation": "Evidence leans supportive but remains mixed (support=3, contradict=1, neutral=1).",
+        "grounding_score": 0.5478,
+        "support_count": 3,
+        "contradict_count": 1,
+        "neutral_count": 1,
+        "total_evidence": 5
+      }
+    },
+    {
+      "claim": "To better exploit the pipeline parallelism for high-throughput LLM inference, we propose TD-Pipe, with the key idea lies in the temporally-disaggregated pipeline parallelism architecture.",
+      "claim_type": "statement",
+      "domain": "transformer_efficiency",
+      "grounding": {
+        "claim": "To better exploit the pipeline parallelism for high-throughput LLM inference, we propose TD-Pipe, with the key idea lies in the temporally-disaggregated pipeline parallelism architecture.",
+        "support_count": 3,
+        "contradict_count": 1,
+        "neutral_count": 3,
+        "total_evidence": 7,
+        "unique_sources": 1,
+        "unique_titles": 7,
+        "avg_support_score": 0.5216,
+        "avg_contradict_score": 0.4995,
+        "diversity_score": 0.75,
+        "contradiction_penalty": 0.0714,
+        "coverage_score": 1.0,
+        "grounding_score": 0.5415,
+        "top_support": [
+          {
+            "text": "from a speculative token source and outputs the tokens to the inference pipeline. Since the speculative window relaxed in our framework, a high-accuracy draft model is integrated without fine-tuning. The pipeline inference framework follows node-wise computation, pruning propagation, and inter-node communication stages. We implement SpecPipe and a variant SpecPipe-DB with dynamic batching for single- and multi-request inference, respectively. On an 8-stage pipeline, SpecPipe improves time between tokens on diverse single-request workloads by $4.19\\times$-$5.53\\times$ over standard pipeline parallelism and by $2.08\\times$-$2.38\\times$ over prior tree-based speculative decoding methods. For multi-request workloads, SpecPipe-DB achieves $1.64\\times$-$2.08\\times$ higher throughput and $1.61\\times$-$2.06\\times$ lower time between tokens than vLLM.",
+            "paper_title": "SpecPipe: Accelerating Pipeline Parallelism-based LLM Inference with Speculative Decoding",
+            "source": "semantic_scholar",
+            "chunk_id": 597,
+            "verdict": "support",
+            "score": 0.5724587638127177,
+            "similarity": 0.6539851427078247,
+            "overlap": 0.4211
+          },
+          {
+            "text": "gher serving capacity and up to 3.7x higher serving capacity for the Yi-34B model on two A100 GPUs as compared to vLLM. When used with pipeline parallelism on Falcon-180B, Sarathi-Serve provides up to 5.6x gain in the end-to-end serving capacity. The source code for Sarathi-Serve is available at https://github.com/microsoft/sarathi-serve.",
+            "paper_title": "Taming Throughput-Latency Tradeoff in LLM Inference with Sarathi-Serve",
+            "source": "semantic_scholar",
+            "chunk_id": 433,
+            "verdict": "support",
+            "score": 0.5029865649185683,
+            "similarity": 0.6321250796318054,
+            "overlap": 0.2632
+          },
+          {
+            "text": "As large language models (LLMs) scale out with tensor parallelism (TP) and pipeline parallelism (PP) and production stacks have aggressively optimized the data plane (attention/GEMM and KV cache), sampling, the decision plane that turns logits into tokens, becomes a new bottleneck. This creates a structural holdout: sampling neither expands with TP nor balances across PP stages, so its share of iteration time grows as GPUs get faster and it caps pipeline frequency at the last stage. We present SIMPLE, a stage-agnostic, sequence-parallel, overlappable decision plane that disaggregates sampling into a CPU-side service and shrinks its runtime footprint back to a minor, hidden role. SIMPLE combines: (1) sequence-parallel sampling, which shards work along the batch dimension and removes vocabulary-axis collectives; (2) a CPU-based algorithm with column-wise penalties and truncation-first filt",
+            "paper_title": "SIMPLE: Disaggregating Sampling from GPU Inference into a Decision Plane for Faster Distributed LLM Serving",
+            "source": "semantic_scholar",
+            "chunk_id": 576,
+            "verdict": "support",
+            "score": 0.4892444679611608,
+            "similarity": 0.6393234729766846,
+            "overlap": 0.2105
+          }
+        ],
+        "top_contradict": [
+          {
+            "text": "ve analytical models to characterize communication behavior across different parallelization configurations. Results show that tensor parallelism incurs substantial network overhead but delivers superior response times for brief sequences, pipeline parallelism minimizes data transfer requirements while increasing total latency, and combined approaches demand careful tuning to achieve balanced performance. These insights offer practical recommendations for selecting appropriate parallelization schemes in production LLM services and identify key opportunities for optimizing inference frameworks and communication infrastructure.",
+            "paper_title": "Characterizing Communication Patterns in Distributed Large Language Model Inference",
+            "source": "semantic_scholar",
+            "chunk_id": 579,
+            "verdict": "contradict",
+            "score": 0.49951604275326983,
+            "similarity": 0.6267858147621155,
+            "overlap": 0.2632
+          }
+        ]
+      },
+      "verdict": {
+        "claim": "To better exploit the pipeline parallelism for high-throughput LLM inference, we propose TD-Pipe, with the key idea lies in the temporally-disaggregated pipeline parallelism architecture.",
+        "verdict": "partially_supported",
+        "confidence": 0.5415,
+        "explanation": "Evidence leans supportive but remains mixed (support=3, contradict=1, neutral=3).",
+        "grounding_score": 0.5415,
+        "support_count": 3,
+        "contradict_count": 1,
+        "neutral_count": 3,
+        "total_evidence": 7
+      }
+    },
+    {
+      "claim": "As the model size continuously increases, pipeline parallelism shows great promise in throughput-oriented LLM inference due to its low demand on communications.",
+      "claim_type": "statement",
+      "domain": "transformer_efficiency",
+      "grounding": {
+        "claim": "As the model size continuously increases, pipeline parallelism shows great promise in throughput-oriented LLM inference due to its low demand on communications.",
+        "support_count": 3,
+        "contradict_count": 1,
+        "neutral_count": 3,
+        "total_evidence": 7,
+        "unique_sources": 1,
+        "unique_titles": 7,
+        "avg_support_score": 0.5031,
+        "avg_contradict_score": 0.4995,
+        "diversity_score": 0.75,
+        "contradiction_penalty": 0.0714,
+        "coverage_score": 1.0,
+        "grounding_score": 0.5336,
+        "top_support": [
+          {
+            "text": "from a speculative token source and outputs the tokens to the inference pipeline. Since the speculative window relaxed in our framework, a high-accuracy draft model is integrated without fine-tuning. The pipeline inference framework follows node-wise computation, pruning propagation, and inter-node communication stages. We implement SpecPipe and a variant SpecPipe-DB with dynamic batching for single- and multi-request inference, respectively. On an 8-stage pipeline, SpecPipe improves time between tokens on diverse single-request workloads by $4.19\\times$-$5.53\\times$ over standard pipeline parallelism and by $2.08\\times$-$2.38\\times$ over prior tree-based speculative decoding methods. For multi-request workloads, SpecPipe-DB achieves $1.64\\times$-$2.08\\times$ higher throughput and $1.61\\times$-$2.06\\times$ lower time between tokens than vLLM.",
+            "paper_title": "SpecPipe: Accelerating Pipeline Parallelism-based LLM Inference with Speculative Decoding",
+            "source": "semantic_scholar",
+            "chunk_id": 597,
+            "verdict": "support",
+            "score": 0.5356166585495598,
+            "similarity": 0.6539851427078247,
+            "overlap": 0.3158
+          },
+          {
+            "text": "As large language models (LLMs) scale out with tensor parallelism (TP) and pipeline parallelism (PP) and production stacks have aggressively optimized the data plane (attention/GEMM and KV cache), sampling, the decision plane that turns logits into tokens, becomes a new bottleneck. This creates a structural holdout: sampling neither expands with TP nor balances across PP stages, so its share of iteration time grows as GPUs get faster and it caps pipeline frequency at the last stage. We present SIMPLE, a stage-agnostic, sequence-parallel, overlappable decision plane that disaggregates sampling into a CPU-side service and shrinks its runtime footprint back to a minor, hidden role. SIMPLE combines: (1) sequence-parallel sampling, which shards work along the batch dimension and removes vocabulary-axis collectives; (2) a CPU-based algorithm with column-wise penalties and truncation-first filt",
+            "paper_title": "SIMPLE: Disaggregating Sampling from GPU Inference into a Decision Plane for Faster Distributed LLM Serving",
+            "source": "semantic_scholar",
+            "chunk_id": 576,
+            "verdict": "support",
+            "score": 0.4892444679611608,
+            "similarity": 0.6393234729766846,
+            "overlap": 0.2105
+          },
+          {
+            "text": "gher serving capacity and up to 3.7x higher serving capacity for the Yi-34B model on two A100 GPUs as compared to vLLM. When used with pipeline parallelism on Falcon-180B, Sarathi-Serve provides up to 5.6x gain in the end-to-end serving capacity. The source code for Sarathi-Serve is available at https://github.com/microsoft/sarathi-serve.",
+            "paper_title": "Taming Throughput-Latency Tradeoff in LLM Inference with Sarathi-Serve",
+            "source": "semantic_scholar",
+            "chunk_id": 433,
+            "verdict": "support",
+            "score": 0.48456551228698935,
+            "similarity": 0.6321250796318054,
+            "overlap": 0.2105
+          }
+        ],
+        "top_contradict": [
+          {
+            "text": "ve analytical models to characterize communication behavior across different parallelization configurations. Results show that tensor parallelism incurs substantial network overhead but delivers superior response times for brief sequences, pipeline parallelism minimizes data transfer requirements while increasing total latency, and combined approaches demand careful tuning to achieve balanced performance. These insights offer practical recommendations for selecting appropriate parallelization schemes in production LLM services and identify key opportunities for optimizing inference frameworks and communication infrastructure.",
+            "paper_title": "Characterizing Communication Patterns in Distributed Large Language Model Inference",
+            "source": "semantic_scholar",
+            "chunk_id": 579,
+            "verdict": "contradict",
+            "score": 0.49951604275326983,
+            "similarity": 0.6267858147621155,
+            "overlap": 0.2632
+          }
+        ]
+      },
+      "verdict": {
+        "claim": "As the model size continuously increases, pipeline parallelism shows great promise in throughput-oriented LLM inference due to its low demand on communications.",
+        "verdict": "partially_supported",
+        "confidence": 0.5336,
+        "explanation": "Evidence leans supportive but remains mixed (support=3, contradict=1, neutral=3).",
+        "grounding_score": 0.5336,
+        "support_count": 3,
+        "contradict_count": 1,
+        "neutral_count": 3,
+        "total_evidence": 7
+      }
+    }
+  ],
+  "knowledge_gaps": [
+    "Many claims are inconclusive — evidence exists but lacks benchmark numbers or experimental results.",
+    "No contradicting evidence found — this may indicate limited coverage of papers reporting failure cases or trade-offs."
+  ],
+  "next_actions": [
+    "Pick 1 concrete intervention and convert it into a falsifiable claim (inputs → mechanism → measurable outputs).",
+    "Run targeted retrieval using 3–5 specific transformer-efficiency keywords and compare results.",
+    "Prioritize evidence chunks with benchmark numbers (latency, throughput, memory, perplexity, context length).",
+    "Generate an experiment plan: baseline, efficiency metric, quality metric, ablations, acceptance threshold."
+  ]
+}

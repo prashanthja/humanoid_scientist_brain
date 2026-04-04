@@ -1,0 +1,261 @@
+{
+  "query": "Does Mamba outperform transformers on long sequences?",
+  "timestamp": "2026-04-02 10:53:32",
+  "domain": "transformer_efficiency",
+  "proposal_verdict": "supported",
+  "proposal_confidence": 0.7459337844848632,
+  "proposal_explanation": "Evidence from multiple sources confirms this claim with experimental results.",
+  "evidence_count": 10,
+  "top_papers": [
+    "MLPMoE: Zero-Shot Architectural Metamorphosis of Dense LLM MLPs into Static Mixture-of-Experts",
+    "Samba: Simple Hybrid State Space Models for Efficient Unlimited Context Language Modeling",
+    "Generation Meets Verification: Accelerating Large Language Model Inference with Smart Parallel Auto-Correct Decoding",
+    "Cobra: Extending Mamba to Multi-Modal Large Language Model for Efficient Inference",
+    "Small-E: Small Language Model with Linear Attention for Efficient Speech Synthesis",
+    "Cross-token Modeling with Conditional Computation",
+    "EdgeInfinite: A Memory-Efficient Infinite-Context Transformer for Edge Devices",
+    "Combiner: Full Attention Transformer with Sparse Computation Cost"
+  ],
+  "extracted_claim_count": 10,
+  "top_claims": [
+    {
+      "claim": "The method operates entirely post hoc on existing checkpoints and does not require gradients, calibration sets, or router training.",
+      "paper_title": "MLPMoE: Zero-Shot Architectural Metamorphosis of Dense LLM MLPs into Static Mixture-of-Experts",
+      "domain": "transformer_efficiency"
+    },
+    {
+      "claim": "Notably, the decoder-only transformer is the prominent architecture in this domain.",
+      "paper_title": "Small-E: Small Language Model with Linear Attention for Efficient Speech Synthesis",
+      "domain": "transformer_efficiency"
+    },
+    {
+      "claim": "However, transformers face challenges stemming from their quadratic complexity in sequence length, impeding training on lengthy sequences and resource-constrained hardware.",
+      "paper_title": "Small-E: Small Language Model with Linear Attention for Efficient Speech Synthesis",
+      "domain": "transformer_efficiency"
+    },
+    {
+      "claim": "Efficiently modeling sequences with infinite context length has long been a challenging problem.",
+      "paper_title": "Samba: Simple Hybrid State Space Models for Efficient Unlimited Context Language Modeling",
+      "domain": "transformer_efficiency"
+    },
+    {
+      "claim": "We scale Samba up to 3.8B parameters with 3.2T training tokens and demonstrate that it significantly outperforms state-of-the-art models across a variety of benchmarks.",
+      "paper_title": "Samba: Simple Hybrid State Space Models for Efficient Unlimited Context Language Modeling",
+      "domain": "transformer_efficiency"
+    }
+  ],
+  "grounded_claim_count": 5,
+  "supported_count": 0,
+  "contradicted_count": 0,
+  "inconclusive_count": 5,
+  "top_grounded": [
+    {
+      "claim": "We scale Samba up to 3.8B parameters with 3.2T training tokens and demonstrate that it significantly outperforms state-of-the-art models across a variety of benchmarks.",
+      "claim_type": "statement",
+      "domain": "transformer_efficiency",
+      "grounding": {
+        "claim": "We scale Samba up to 3.8B parameters with 3.2T training tokens and demonstrate that it significantly outperforms state-of-the-art models across a variety of benchmarks.",
+        "support_count": 1,
+        "contradict_count": 0,
+        "neutral_count": 4,
+        "total_evidence": 5,
+        "unique_sources": 1,
+        "unique_titles": 5,
+        "avg_support_score": 0.6188,
+        "avg_contradict_score": 0.0,
+        "diversity_score": 0.75,
+        "contradiction_penalty": 0.0,
+        "coverage_score": 0.8333,
+        "grounding_score": 0.4821,
+        "top_support": [
+          {
+            "text": "hape, we further improve our model's computational efficiency. Experimentally, we are more computation-efficient than Vision Transformers with comparable accuracy. Also, our models can outperform MLP-Mixer by 2.5\\% on ImageNet Top-1 accuracy with fewer parameters and computational cost. On downstream tasks, i.e. Cifar10 and Cifar100, our models can still achieve better performance than baselines.",
+            "paper_title": "Cross-token Modeling with Conditional Computation",
+            "source": "semantic_scholar",
+            "chunk_id": 122,
+            "verdict": "support",
+            "score": 0.6187839013338089,
+            "similarity": 0.8442829251289368,
+            "overlap": 0.2
+          }
+        ],
+        "top_contradict": []
+      },
+      "verdict": {
+        "claim": "We scale Samba up to 3.8B parameters with 3.2T training tokens and demonstrate that it significantly outperforms state-of-the-art models across a variety of benchmarks.",
+        "verdict": "partially_supported",
+        "confidence": 0.4821,
+        "explanation": "Evidence leans supportive but remains mixed (support=1, contradict=0, neutral=4).",
+        "grounding_score": 0.4821,
+        "support_count": 1,
+        "contradict_count": 0,
+        "neutral_count": 4,
+        "total_evidence": 5
+      }
+    },
+    {
+      "claim": "sequences within a single model invocation.",
+      "claim_type": "statement",
+      "domain": "unknown",
+      "grounding": {
+        "claim": "sequences within a single model invocation.",
+        "support_count": 1,
+        "contradict_count": 0,
+        "neutral_count": 3,
+        "total_evidence": 4,
+        "unique_sources": 1,
+        "unique_titles": 4,
+        "avg_support_score": 0.602,
+        "avg_contradict_score": 0.0,
+        "diversity_score": 0.75,
+        "contradiction_penalty": 0.0,
+        "coverage_score": 0.6667,
+        "grounding_score": 0.4672,
+        "top_support": [
+          {
+            "text": "satisfactory time-to-first-token (TTFT) and time-per-output-token (TPOT) latencies with up to 3.40x lower requirements in single sequence serving, and significant improvement in Goodput in continuous-batching serving. The GEMM kernels generated by Sandwich outperform representative vendor kernels and other dynamic shape solutions, achieving performance comparable to static compilers with three orders of magnitude less kernel tuning costs.",
+            "paper_title": "Sandwich: Separating Prefill-Decode Compilation for Efficient CPU LLM Serving",
+            "source": "semantic_scholar",
+            "chunk_id": 444,
+            "verdict": "support",
+            "score": 0.6020026338100433,
+            "similarity": 0.8184655904769897,
+            "overlap": 0.2
+          }
+        ],
+        "top_contradict": []
+      },
+      "verdict": {
+        "claim": "sequences within a single model invocation.",
+        "verdict": "partially_supported",
+        "confidence": 0.4672,
+        "explanation": "Evidence leans supportive but remains mixed (support=1, contradict=0, neutral=3).",
+        "grounding_score": 0.4672,
+        "support_count": 1,
+        "contradict_count": 0,
+        "neutral_count": 3,
+        "total_evidence": 4
+      }
+    },
+    {
+      "claim": "Efficiently modeling sequences with infinite context length has long been a challenging problem.",
+      "claim_type": "statement",
+      "domain": "transformer_efficiency",
+      "grounding": {
+        "claim": "Efficiently modeling sequences with infinite context length has long been a challenging problem.",
+        "support_count": 0,
+        "contradict_count": 0,
+        "neutral_count": 5,
+        "total_evidence": 5,
+        "unique_sources": 1,
+        "unique_titles": 5,
+        "avg_support_score": 0.0,
+        "avg_contradict_score": 0.0,
+        "diversity_score": 0.75,
+        "contradiction_penalty": 0.0,
+        "coverage_score": 0.8333,
+        "grounding_score": 0.3583,
+        "top_support": [],
+        "top_contradict": []
+      },
+      "verdict": {
+        "claim": "Efficiently modeling sequences with infinite context length has long been a challenging problem.",
+        "verdict": "inconclusive",
+        "confidence": 0.3583,
+        "explanation": "Evidence is mixed or insufficient (support=0, contradict=0, neutral=5).",
+        "grounding_score": 0.3583,
+        "support_count": 0,
+        "contradict_count": 0,
+        "neutral_count": 5,
+        "total_evidence": 5
+      }
+    },
+    {
+      "claim": "Pretrained on sequences of 4K length, Samba shows improved perplexity in context lengths of up to 1M in zero-shot.",
+      "claim_type": "statement",
+      "domain": "transformer_efficiency",
+      "grounding": {
+        "claim": "Pretrained on sequences of 4K length, Samba shows improved perplexity in context lengths of up to 1M in zero-shot.",
+        "support_count": 0,
+        "contradict_count": 0,
+        "neutral_count": 2,
+        "total_evidence": 2,
+        "unique_sources": 1,
+        "unique_titles": 2,
+        "avg_support_score": 0.0,
+        "avg_contradict_score": 0.0,
+        "diversity_score": 0.75,
+        "contradiction_penalty": 0.0,
+        "coverage_score": 0.3333,
+        "grounding_score": 0.2333,
+        "top_support": [],
+        "top_contradict": []
+      },
+      "verdict": {
+        "claim": "Pretrained on sequences of 4K length, Samba shows improved perplexity in context lengths of up to 1M in zero-shot.",
+        "verdict": "inconclusive",
+        "confidence": 0.2333,
+        "explanation": "Evidence is mixed or insufficient (support=0, contradict=0, neutral=2).",
+        "grounding_score": 0.2333,
+        "support_count": 0,
+        "contradict_count": 0,
+        "neutral_count": 2,
+        "total_evidence": 2
+      }
+    },
+    {
+      "claim": "The method operates entirely post hoc on existing checkpoints and does not require gradients, calibration sets, or router training.",
+      "claim_type": "statement",
+      "domain": "transformer_efficiency",
+      "grounding": {
+        "claim": "The method operates entirely post hoc on existing checkpoints and does not require gradients, calibration sets, or router training.",
+        "support_count": 0,
+        "contradict_count": 1,
+        "neutral_count": 0,
+        "total_evidence": 1,
+        "unique_sources": 1,
+        "unique_titles": 1,
+        "avg_support_score": 0.0,
+        "avg_contradict_score": 0.9128,
+        "diversity_score": 0.5,
+        "contradiction_penalty": 0.9128,
+        "coverage_score": 0.1667,
+        "grounding_score": 0.0,
+        "top_support": [],
+        "top_contradict": [
+          {
+            "text": "out 2 percent of the dense baseline. The method operates entirely post hoc on existing checkpoints and does not require gradients, calibration sets, or router training. Code is available at https://gist.github.com/iwallarm/fc2ef1eddf226ca7814f9e5e2ae9bad1",
+            "paper_title": "MLPMoE: Zero-Shot Architectural Metamorphosis of Dense LLM MLPs into Static Mixture-of-Experts",
+            "source": "semantic_scholar",
+            "chunk_id": 112,
+            "verdict": "contradict",
+            "score": 0.9128380864858627,
+            "similarity": 0.8659047484397888,
+            "overlap": 1.0
+          }
+        ]
+      },
+      "verdict": {
+        "claim": "The method operates entirely post hoc on existing checkpoints and does not require gradients, calibration sets, or router training.",
+        "verdict": "inconclusive",
+        "confidence": 0.2,
+        "explanation": "Evidence is mixed or insufficient (support=0, contradict=1, neutral=0).",
+        "grounding_score": 0.0,
+        "support_count": 0,
+        "contradict_count": 1,
+        "neutral_count": 0,
+        "total_evidence": 1
+      }
+    }
+  ],
+  "knowledge_gaps": [
+    "Many claims are inconclusive — evidence exists but lacks benchmark numbers or experimental results.",
+    "No contradicting evidence found — this may indicate limited coverage of papers reporting failure cases or trade-offs."
+  ],
+  "next_actions": [
+    "Pick 1 concrete intervention and convert it into a falsifiable claim (inputs → mechanism → measurable outputs).",
+    "Run targeted retrieval using 3–5 specific transformer-efficiency keywords and compare results.",
+    "Prioritize evidence chunks with benchmark numbers (latency, throughput, memory, perplexity, context length).",
+    "Generate an experiment plan: baseline, efficiency metric, quality metric, ablations, acceptance threshold."
+  ]
+}

@@ -1,0 +1,306 @@
+{
+  "query": "Does rotary position embedding improve long-context performance?",
+  "timestamp": "2026-04-03 11:24:08",
+  "domain": "transformer_efficiency",
+  "proposal_verdict": "supported",
+  "proposal_confidence": 0.7570444812774658,
+  "proposal_explanation": "Evidence from multiple sources confirms this claim with experimental results.",
+  "evidence_count": 10,
+  "top_papers": [
+    "DoPE: Denoising Rotary Position Embedding",
+    "LongLLaDA: Unlocking Long Context Capabilities in Diffusion LLMs",
+    "Sliding Window Attention Training for Efficient Large Language Models",
+    "Base of RoPE Bounds Context Length",
+    "HoPE: Hybrid of Position Embedding for Long Context Vision-Language Models",
+    "Rope to Nope and Back Again: A New Hybrid Attention Strategy",
+    "Wavelet-based Positional Representation for Long Context",
+    "Fourier Position Embedding: Enhancing Attention's Periodic Extension for Length Generalization"
+  ],
+  "extracted_claim_count": 10,
+  "top_claims": [
+    {
+      "claim": "advancing future research on long-context diffusion LLMs.",
+      "paper_title": "LongLLaDA: Unlocking Long Context Capabilities in Diffusion LLMs",
+      "domain": "transformer_efficiency"
+    },
+    {
+      "claim": "We theoretically reveal that this low-frequency alignment manifests as activation noise, degrading stability during long-context extrapolation.",
+      "paper_title": "DoPE: Denoising Rotary Position Embedding",
+      "domain": "transformer_efficiency"
+    },
+    {
+      "claim": "the inefficiency of Transformers to the attention sink phenomenon resulting from the high variance of softmax operation.",
+      "paper_title": "Sliding Window Attention Training for Efficient Large Language Models",
+      "domain": "transformer_efficiency"
+    },
+    {
+      "claim": "However, in this paper, we find that LLMs may obtain a superficial long-context ability based on the OOD theory.",
+      "paper_title": "Base of RoPE Bounds Context Length",
+      "domain": "transformer_efficiency"
+    },
+    {
+      "claim": "We revisit the role of RoPE in LLMs and propose a novel property of long-term decay, we derive that the \\textit{base of RoPE bounds context length}: there is an absolute lower bound for the base value to obtain certain context length capability.",
+      "paper_title": "Base of RoPE Bounds Context Length",
+      "domain": "transformer_efficiency"
+    }
+  ],
+  "grounded_claim_count": 5,
+  "supported_count": 0,
+  "contradicted_count": 0,
+  "inconclusive_count": 5,
+  "top_grounded": [
+    {
+      "claim": "advancing future research on long-context diffusion LLMs.",
+      "claim_type": "statement",
+      "domain": "transformer_efficiency",
+      "grounding": {
+        "claim": "advancing future research on long-context diffusion LLMs.",
+        "support_count": 1,
+        "contradict_count": 0,
+        "neutral_count": 7,
+        "total_evidence": 8,
+        "unique_sources": 1,
+        "unique_titles": 7,
+        "avg_support_score": 0.6442,
+        "avg_contradict_score": 0.0,
+        "diversity_score": 0.75,
+        "contradiction_penalty": 0.0,
+        "coverage_score": 1.0,
+        "grounding_score": 0.4805,
+        "top_support": [
+          {
+            "text": "s inference speed without sacrificing model performance in both short and long-context tasks. We also explore various configurations of this architecture, identifying those that maintain quality across evaluation metrics while optimizing resource efficiency.",
+            "paper_title": "Inference-Friendly Models With MixAttention",
+            "source": "semantic_scholar",
+            "chunk_id": 539,
+            "verdict": "support",
+            "score": 0.6441556990146637,
+            "similarity": 0.8371626138687134,
+            "overlap": 0.2857
+          }
+        ],
+        "top_contradict": []
+      },
+      "verdict": {
+        "claim": "advancing future research on long-context diffusion LLMs.",
+        "verdict": "partially_supported",
+        "confidence": 0.4805,
+        "explanation": "Evidence leans supportive but remains mixed (support=1, contradict=0, neutral=7).",
+        "grounding_score": 0.4805,
+        "support_count": 1,
+        "contradict_count": 0,
+        "neutral_count": 7,
+        "total_evidence": 8
+      }
+    },
+    {
+      "claim": "Across a range of settings, DoPE improves length extrapolation performance without fin",
+      "claim_type": "statement",
+      "domain": "unknown",
+      "grounding": {
+        "claim": "Across a range of settings, DoPE improves length extrapolation performance without fin",
+        "support_count": 1,
+        "contradict_count": 0,
+        "neutral_count": 3,
+        "total_evidence": 4,
+        "unique_sources": 1,
+        "unique_titles": 3,
+        "avg_support_score": 0.6492,
+        "avg_contradict_score": 0.0,
+        "diversity_score": 0.75,
+        "contradiction_penalty": 0.0,
+        "coverage_score": 0.6667,
+        "grounding_score": 0.479,
+        "top_support": [
+          {
+            "text": "s inference speed without sacrificing model performance in both short and long-context tasks. We also explore various configurations of this architecture, identifying those that maintain quality across evaluation metrics while optimizing resource efficiency.",
+            "paper_title": "Inference-Friendly Models With MixAttention",
+            "source": "semantic_scholar",
+            "chunk_id": 539,
+            "verdict": "support",
+            "score": 0.6491556990146637,
+            "similarity": 0.8371626138687134,
+            "overlap": 0.3
+          }
+        ],
+        "top_contradict": []
+      },
+      "verdict": {
+        "claim": "Across a range of settings, DoPE improves length extrapolation performance without fin",
+        "verdict": "partially_supported",
+        "confidence": 0.479,
+        "explanation": "Evidence leans supportive but remains mixed (support=1, contradict=0, neutral=3).",
+        "grounding_score": 0.479,
+        "support_count": 1,
+        "contradict_count": 0,
+        "neutral_count": 3,
+        "total_evidence": 4
+      }
+    },
+    {
+      "claim": "Across a range of settings, DoPE improves length extrapolation performance without fine-tuning, increases robustness to perturbations, and boosts both needle-in-a-haystack and many-shot in-context learning tasks.",
+      "claim_type": "statement",
+      "domain": "unknown",
+      "grounding": {
+        "claim": "Across a range of settings, DoPE improves length extrapolation performance without fine-tuning, increases robustness to perturbations, and boosts both needle-in-a-haystack and many-shot in-context learning tasks.",
+        "support_count": 1,
+        "contradict_count": 0,
+        "neutral_count": 3,
+        "total_evidence": 4,
+        "unique_sources": 1,
+        "unique_titles": 3,
+        "avg_support_score": 0.6462,
+        "avg_contradict_score": 0.0,
+        "diversity_score": 0.75,
+        "contradiction_penalty": 0.0,
+        "coverage_score": 0.6667,
+        "grounding_score": 0.4782,
+        "top_support": [
+          {
+            "text": "s inference speed without sacrificing model performance in both short and long-context tasks. We also explore various configurations of this architecture, identifying those that maintain quality across evaluation metrics while optimizing resource efficiency.",
+            "paper_title": "Inference-Friendly Models With MixAttention",
+            "source": "semantic_scholar",
+            "chunk_id": 539,
+            "verdict": "support",
+            "score": 0.6462390323479971,
+            "similarity": 0.8371626138687134,
+            "overlap": 0.2917
+          }
+        ],
+        "top_contradict": []
+      },
+      "verdict": {
+        "claim": "Across a range of settings, DoPE improves length extrapolation performance without fine-tuning, increases robustness to perturbations, and boosts both needle-in-a-haystack and many-shot in-context learning tasks.",
+        "verdict": "partially_supported",
+        "confidence": 0.4782,
+        "explanation": "Evidence leans supportive but remains mixed (support=1, contradict=0, neutral=3).",
+        "grounding_score": 0.4782,
+        "support_count": 1,
+        "contradict_count": 0,
+        "neutral_count": 3,
+        "total_evidence": 4
+      }
+    },
+    {
+      "claim": "We theoretically reveal that this low-frequency alignment manifests as activation noise, degrading stability during long-context extrapolation.",
+      "claim_type": "statement",
+      "domain": "transformer_efficiency",
+      "grounding": {
+        "claim": "We theoretically reveal that this low-frequency alignment manifests as activation noise, degrading stability during long-context extrapolation.",
+        "support_count": 1,
+        "contradict_count": 1,
+        "neutral_count": 6,
+        "total_evidence": 8,
+        "unique_sources": 1,
+        "unique_titles": 7,
+        "avg_support_score": 0.6317,
+        "avg_contradict_score": 0.6744,
+        "diversity_score": 0.75,
+        "contradiction_penalty": 0.0843,
+        "coverage_score": 1.0,
+        "grounding_score": 0.382,
+        "top_support": [
+          {
+            "text": "s inference speed without sacrificing model performance in both short and long-context tasks. We also explore various configurations of this architecture, identifying those that maintain quality across evaluation metrics while optimizing resource efficiency.",
+            "paper_title": "Inference-Friendly Models With MixAttention",
+            "source": "semantic_scholar",
+            "chunk_id": 539,
+            "verdict": "support",
+            "score": 0.6316556990146638,
+            "similarity": 0.8371626138687134,
+            "overlap": 0.25
+          }
+        ],
+        "top_contradict": [
+          {
+            "text": "Extending the context length of Language Models (LMs) by improving Rotary Position Embedding (RoPE) has become a trend. While prior works mainly address RoPE's limitations within attention, this paper uncovers the adverse effects on length generalization from nearly all parts of LMs. Using Discrete Signal Processing theory, we show that RoPE enables periodic attention by implicitly achieving Non-Uniform Discrete Fourier Transform. However, this periodicity is undermined by the spectrum damage caused by: 1) linear layers and activation functions; 2) insufficiently trained frequency components brought by time-domain truncation. Building on our observations, we propose Fourier Position Embedding (FoPE), which enhances attention's frequency-domain properties to improve both its periodic extension and length generalization. FoPE constructs \\textit{Fourier Series} and zero-outs the destructive",
+            "paper_title": "Fourier Position Embedding: Enhancing Attention's Periodic Extension for Length Generalization",
+            "source": "semantic_scholar",
+            "chunk_id": 650,
+            "verdict": "contradict",
+            "score": 0.6743997812271119,
+            "similarity": 0.8692688941955566,
+            "overlap": 0.3125
+          }
+        ]
+      },
+      "verdict": {
+        "claim": "We theoretically reveal that this low-frequency alignment manifests as activation noise, degrading stability during long-context extrapolation.",
+        "verdict": "inconclusive",
+        "confidence": 0.382,
+        "explanation": "Evidence is mixed or insufficient (support=1, contradict=1, neutral=6).",
+        "grounding_score": 0.382,
+        "support_count": 1,
+        "contradict_count": 1,
+        "neutral_count": 6,
+        "total_evidence": 8
+      }
+    },
+    {
+      "claim": "the inefficiency of Transformers to the attention sink phenomenon resulting from the high variance of softmax operation.",
+      "claim_type": "statement",
+      "domain": "transformer_efficiency",
+      "grounding": {
+        "claim": "the inefficiency of Transformers to the attention sink phenomenon resulting from the high variance of softmax operation.",
+        "support_count": 1,
+        "contradict_count": 1,
+        "neutral_count": 1,
+        "total_evidence": 3,
+        "unique_sources": 1,
+        "unique_titles": 3,
+        "avg_support_score": 0.9174,
+        "avg_contradict_score": 0.6525,
+        "diversity_score": 0.75,
+        "contradiction_penalty": 0.2175,
+        "coverage_score": 0.5,
+        "grounding_score": 0.3307,
+        "top_support": [
+          {
+            "text": "the inefficiency of Transformers to the attention sink phenomenon resulting from the high variance of softmax operation. Then, we replace softmax with the sigmoid function and utilize a balanced ALiBi and Rotary Position Embedding for efficient information compression and retention. Experiments demonstrate that SWAT achieves SOTA performance compared with state-of-the-art linear recurrent architectures on eight benchmarks. Code is available at https://github.com/Fzkuji/swat-attention.",
+            "paper_title": "Sliding Window Attention Training for Efficient Large Language Models",
+            "source": "semantic_scholar",
+            "chunk_id": 526,
+            "verdict": "support",
+            "score": 0.9174091815948486,
+            "similarity": 0.8729372024536133,
+            "overlap": 1.0
+          }
+        ],
+        "top_contradict": [
+          {
+            "text": "Extending the context length of Language Models (LMs) by improving Rotary Position Embedding (RoPE) has become a trend. While prior works mainly address RoPE's limitations within attention, this paper uncovers the adverse effects on length generalization from nearly all parts of LMs. Using Discrete Signal Processing theory, we show that RoPE enables periodic attention by implicitly achieving Non-Uniform Discrete Fourier Transform. However, this periodicity is undermined by the spectrum damage caused by: 1) linear layers and activation functions; 2) insufficiently trained frequency components brought by time-domain truncation. Building on our observations, we propose Fourier Position Embedding (FoPE), which enhances attention's frequency-domain properties to improve both its periodic extension and length generalization. FoPE constructs \\textit{Fourier Series} and zero-outs the destructive",
+            "paper_title": "Fourier Position Embedding: Enhancing Attention's Periodic Extension for Length Generalization",
+            "source": "semantic_scholar",
+            "chunk_id": 650,
+            "verdict": "contradict",
+            "score": 0.6525247812271119,
+            "similarity": 0.8692688941955566,
+            "overlap": 0.25
+          }
+        ]
+      },
+      "verdict": {
+        "claim": "the inefficiency of Transformers to the attention sink phenomenon resulting from the high variance of softmax operation.",
+        "verdict": "inconclusive",
+        "confidence": 0.3307,
+        "explanation": "Evidence is mixed or insufficient (support=1, contradict=1, neutral=1).",
+        "grounding_score": 0.3307,
+        "support_count": 1,
+        "contradict_count": 1,
+        "neutral_count": 1,
+        "total_evidence": 3
+      }
+    }
+  ],
+  "knowledge_gaps": [
+    "Many claims are inconclusive — evidence exists but lacks benchmark numbers or experimental results.",
+    "No contradicting evidence found — this may indicate limited coverage of papers reporting failure cases or trade-offs.",
+    "Some retrieved chunks appear off-domain — retrieval may benefit from stricter domain filtering."
+  ],
+  "next_actions": [
+    "Pick 1 concrete intervention and convert it into a falsifiable claim (inputs → mechanism → measurable outputs).",
+    "Run targeted retrieval using 3–5 specific transformer-efficiency keywords and compare results.",
+    "Prioritize evidence chunks with benchmark numbers (latency, throughput, memory, perplexity, context length).",
+    "Generate an experiment plan: baseline, efficiency metric, quality metric, ablations, acceptance threshold."
+  ]
+}

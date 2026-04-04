@@ -1,0 +1,272 @@
+{
+  "query": "Does MoE routing instability hurt model quality?",
+  "timestamp": "2026-04-02 11:20:42",
+  "domain": "transformer_efficiency",
+  "proposal_verdict": "supported",
+  "proposal_confidence": 0.7460457792282104,
+  "proposal_explanation": "Evidence from multiple sources confirms this claim with experimental results.",
+  "evidence_count": 10,
+  "top_papers": [
+    "Dense Backpropagation Improves Training for Sparse Mixture-of-Experts",
+    "Switch Transformers: Scaling to Trillion Parameter Models with Simple and Efficient Sparsity",
+    "LaDiMo: Layer-wise Distillation Inspired MoEfier",
+    "Union of Experts: Adapting Hierarchical Routing to Equivalently Decomposed Transformer",
+    "FSMoE: A Flexible and Scalable Training System for Sparse Mixture-of-Experts Models",
+    "MLPMoE: Zero-Shot Architectural Metamorphosis of Dense LLM MLPs into Static Mixture-of-Experts",
+    "Dynamic Mixture of Experts for Adaptive Computation in Character-Level Transformers",
+    "Inference-Friendly Models With MixAttention"
+  ],
+  "extracted_claim_count": 10,
+  "top_claims": [
+    {
+      "claim": "Our Default MoE outperforms standard TopK routing in a variety of settings without requiring significant computational overhead.",
+      "paper_title": "Dense Backpropagation Improves Training for Sparse Mixture-of-Experts",
+      "domain": "transformer_efficiency"
+    },
+    {
+      "claim": "Furthermore, we develop an adaptive router that optimizes inference efficiency by profiling the distribution of routing weights and determining a layer-wise policy that balances accuracy and latency.",
+      "paper_title": "LaDiMo: Layer-wise Distillation Inspired MoEfier",
+      "domain": "transformer_efficiency"
+    },
+    {
+      "claim": "We demonstrate the effectiveness of our method by converting the LLaMA2-7B model to a MoE model using only 100K tokens, reducing activated parameters by over 20% while keeping accuracy.",
+      "paper_title": "LaDiMo: Layer-wise Distillation Inspired MoEfier",
+      "domain": "transformer_efficiency"
+    },
+    {
+      "claim": "Our approach offers a flexible and efficient solution for building and deploying MoE models.",
+      "paper_title": "LaDiMo: Layer-wise Distillation Inspired MoEfier",
+      "domain": "transformer_efficiency"
+    },
+    {
+      "claim": "Moreover, the MoE framework has not been effectively extended to attention blocks, which limits further efficiency improvements.",
+      "paper_title": "Union of Experts: Adapting Hierarchical Routing to Equivalently Decomposed Transformer",
+      "domain": "transformer_efficiency"
+    }
+  ],
+  "grounded_claim_count": 5,
+  "supported_count": 0,
+  "contradicted_count": 0,
+  "inconclusive_count": 5,
+  "top_grounded": [
+    {
+      "claim": "We simplify the MoE routing algorithm and design intuitive improved models with reduced communication and computational costs.",
+      "claim_type": "statement",
+      "domain": "transformer_efficiency",
+      "grounding": {
+        "claim": "We simplify the MoE routing algorithm and design intuitive improved models with reduced communication and computational costs.",
+        "support_count": 1,
+        "contradict_count": 0,
+        "neutral_count": 5,
+        "total_evidence": 6,
+        "unique_sources": 2,
+        "unique_titles": 6,
+        "avg_support_score": 0.7187,
+        "avg_contradict_score": 0.0,
+        "diversity_score": 1.0,
+        "contradiction_penalty": 0.0,
+        "coverage_score": 1.0,
+        "grounding_score": 0.5698,
+        "top_support": [
+          {
+            "text": "<jats:p>Mixture-of-Experts (MoE) enhances model performance while maintaining computational efficiency, making it well-suited for large-scale applications. In existing MoE paradigms, each expert works as an individual, leading to inadequate collaboration. Moreover, the MoE framework has not been effectively extended to attention blocks, which limits further efficiency improvements. To tackle these issues, we propose Union-of-Experts (UoE), which decomposes the transformer model into an equivalent group of experts and applies selective routing to input data and experts. Our approach advances MoE design with four key innovations: (1) We conduct equivalent expert decomposition on both MLP blocks and attention blocks based on matrix partitioning in tensor parallelism. (2) We develop two routing paradigms: patch-wise data selection and expert selection, to apply routing at different levels. (",
+            "paper_title": "Union of Experts: Adapting Hierarchical Routing to Equivalently Decomposed Transformer",
+            "source": "crossref",
+            "chunk_id": 22,
+            "verdict": "support",
+            "score": 0.7186901428302129,
+            "similarity": 0.8543950915336609,
+            "overlap": 0.4667
+          }
+        ],
+        "top_contradict": []
+      },
+      "verdict": {
+        "claim": "We simplify the MoE routing algorithm and design intuitive improved models with reduced communication and computational costs.",
+        "verdict": "partially_supported",
+        "confidence": 0.5698,
+        "explanation": "Evidence leans supportive but remains mixed (support=1, contradict=0, neutral=5).",
+        "grounding_score": 0.5698,
+        "support_count": 1,
+        "contradict_count": 0,
+        "neutral_count": 5,
+        "total_evidence": 6
+      }
+    },
+    {
+      "claim": "Our Default MoE outperforms standard TopK routing in a variety of settings without requiring significant computational overhead.",
+      "claim_type": "statement",
+      "domain": "transformer_efficiency",
+      "grounding": {
+        "claim": "Our Default MoE outperforms standard TopK routing in a variety of settings without requiring significant computational overhead.",
+        "support_count": 1,
+        "contradict_count": 0,
+        "neutral_count": 4,
+        "total_evidence": 5,
+        "unique_sources": 2,
+        "unique_titles": 4,
+        "avg_support_score": 0.6554,
+        "avg_contradict_score": 0.0,
+        "diversity_score": 1.0,
+        "contradiction_penalty": 0.0,
+        "coverage_score": 0.8333,
+        "grounding_score": 0.5394,
+        "top_support": [
+          {
+            "text": "<jats:p>Mixture-of-Experts (MoE) enhances model performance while maintaining computational efficiency, making it well-suited for large-scale applications. In existing MoE paradigms, each expert works as an individual, leading to inadequate collaboration. Moreover, the MoE framework has not been effectively extended to attention blocks, which limits further efficiency improvements. To tackle these issues, we propose Union-of-Experts (UoE), which decomposes the transformer model into an equivalent group of experts and applies selective routing to input data and experts. Our approach advances MoE design with four key innovations: (1) We conduct equivalent expert decomposition on both MLP blocks and attention blocks based on matrix partitioning in tensor parallelism. (2) We develop two routing paradigms: patch-wise data selection and expert selection, to apply routing at different levels. (",
+            "paper_title": "Union of Experts: Adapting Hierarchical Routing to Equivalently Decomposed Transformer",
+            "source": "crossref",
+            "chunk_id": 22,
+            "verdict": "support",
+            "score": 0.6553568094968796,
+            "similarity": 0.8543950915336609,
+            "overlap": 0.2857
+          }
+        ],
+        "top_contradict": []
+      },
+      "verdict": {
+        "claim": "Our Default MoE outperforms standard TopK routing in a variety of settings without requiring significant computational overhead.",
+        "verdict": "partially_supported",
+        "confidence": 0.5394,
+        "explanation": "Evidence leans supportive but remains mixed (support=1, contradict=0, neutral=4).",
+        "grounding_score": 0.5394,
+        "support_count": 1,
+        "contradict_count": 0,
+        "neutral_count": 4,
+        "total_evidence": 5
+      }
+    },
+    {
+      "claim": "Our proposed training techniques help wrangle the instabilities and we show large sparse models may be trained, for the first time, with lower precision (bfloat16) formats.",
+      "claim_type": "statement",
+      "domain": "transformer_efficiency",
+      "grounding": {
+        "claim": "Our proposed training techniques help wrangle the instabilities and we show large sparse models may be trained, for the first time, with lower precision (bfloat16) formats.",
+        "support_count": 1,
+        "contradict_count": 0,
+        "neutral_count": 4,
+        "total_evidence": 5,
+        "unique_sources": 2,
+        "unique_titles": 5,
+        "avg_support_score": 0.6467,
+        "avg_contradict_score": 0.0,
+        "diversity_score": 1.0,
+        "contradiction_penalty": 0.0,
+        "coverage_score": 0.8333,
+        "grounding_score": 0.5377,
+        "top_support": [
+          {
+            "text": "<jats:p>Mixture-of-Experts (MoE) enhances model performance while maintaining computational efficiency, making it well-suited for large-scale applications. In existing MoE paradigms, each expert works as an individual, leading to inadequate collaboration. Moreover, the MoE framework has not been effectively extended to attention blocks, which limits further efficiency improvements. To tackle these issues, we propose Union-of-Experts (UoE), which decomposes the transformer model into an equivalent group of experts and applies selective routing to input data and experts. Our approach advances MoE design with four key innovations: (1) We conduct equivalent expert decomposition on both MLP blocks and attention blocks based on matrix partitioning in tensor parallelism. (2) We develop two routing paradigms: patch-wise data selection and expert selection, to apply routing at different levels. (",
+            "paper_title": "Union of Experts: Adapting Hierarchical Routing to Equivalently Decomposed Transformer",
+            "source": "crossref",
+            "chunk_id": 22,
+            "verdict": "support",
+            "score": 0.6466611573229666,
+            "similarity": 0.8543950915336609,
+            "overlap": 0.2609
+          }
+        ],
+        "top_contradict": []
+      },
+      "verdict": {
+        "claim": "Our proposed training techniques help wrangle the instabilities and we show large sparse models may be trained, for the first time, with lower precision (bfloat16) formats.",
+        "verdict": "partially_supported",
+        "confidence": 0.5377,
+        "explanation": "Evidence leans supportive but remains mixed (support=1, contradict=0, neutral=4).",
+        "grounding_score": 0.5377,
+        "support_count": 1,
+        "contradict_count": 0,
+        "neutral_count": 4,
+        "total_evidence": 5
+      }
+    },
+    {
+      "claim": "However, despite several notable successes of MoE, widespread adoption has been hindered by complexity, communication costs and training instability -- we address these with the Switch Transformer.",
+      "claim_type": "statement",
+      "domain": "transformer_efficiency",
+      "grounding": {
+        "claim": "However, despite several notable successes of MoE, widespread adoption has been hindered by complexity, communication costs and training instability -- we address these with the Switch Transformer.",
+        "support_count": 1,
+        "contradict_count": 0,
+        "neutral_count": 3,
+        "total_evidence": 4,
+        "unique_sources": 2,
+        "unique_titles": 4,
+        "avg_support_score": 0.6467,
+        "avg_contradict_score": 0.0,
+        "diversity_score": 1.0,
+        "contradiction_penalty": 0.0,
+        "coverage_score": 0.6667,
+        "grounding_score": 0.5283,
+        "top_support": [
+          {
+            "text": "<jats:p>Mixture-of-Experts (MoE) enhances model performance while maintaining computational efficiency, making it well-suited for large-scale applications. In existing MoE paradigms, each expert works as an individual, leading to inadequate collaboration. Moreover, the MoE framework has not been effectively extended to attention blocks, which limits further efficiency improvements. To tackle these issues, we propose Union-of-Experts (UoE), which decomposes the transformer model into an equivalent group of experts and applies selective routing to input data and experts. Our approach advances MoE design with four key innovations: (1) We conduct equivalent expert decomposition on both MLP blocks and attention blocks based on matrix partitioning in tensor parallelism. (2) We develop two routing paradigms: patch-wise data selection and expert selection, to apply routing at different levels. (",
+            "paper_title": "Union of Experts: Adapting Hierarchical Routing to Equivalently Decomposed Transformer",
+            "source": "crossref",
+            "chunk_id": 22,
+            "verdict": "support",
+            "score": 0.6466611573229666,
+            "similarity": 0.8543950915336609,
+            "overlap": 0.2609
+          }
+        ],
+        "top_contradict": []
+      },
+      "verdict": {
+        "claim": "However, despite several notable successes of MoE, widespread adoption has been hindered by complexity, communication costs and training instability -- we address these with the Switch Transformer.",
+        "verdict": "partially_supported",
+        "confidence": 0.5283,
+        "explanation": "Evidence leans supportive but remains mixed (support=1, contradict=0, neutral=3).",
+        "grounding_score": 0.5283,
+        "support_count": 1,
+        "contradict_count": 0,
+        "neutral_count": 3,
+        "total_evidence": 4
+      }
+    },
+    {
+      "claim": "Mixture of Experts (MoE) pretraining is more scalable than dense Transformer pretraining, because MoEs learn to route inputs to a sparse set of their feedforward parameters.",
+      "claim_type": "statement",
+      "domain": "transformer_efficiency",
+      "grounding": {
+        "claim": "Mixture of Experts (MoE) pretraining is more scalable than dense Transformer pretraining, because MoEs learn to route inputs to a sparse set of their feedforward parameters.",
+        "support_count": 0,
+        "contradict_count": 0,
+        "neutral_count": 1,
+        "total_evidence": 1,
+        "unique_sources": 1,
+        "unique_titles": 1,
+        "avg_support_score": 0.0,
+        "avg_contradict_score": 0.0,
+        "diversity_score": 0.5,
+        "contradiction_penalty": 0.0,
+        "coverage_score": 0.1667,
+        "grounding_score": 0.1417,
+        "top_support": [],
+        "top_contradict": []
+      },
+      "verdict": {
+        "claim": "Mixture of Experts (MoE) pretraining is more scalable than dense Transformer pretraining, because MoEs learn to route inputs to a sparse set of their feedforward parameters.",
+        "verdict": "inconclusive",
+        "confidence": 0.2,
+        "explanation": "Evidence is mixed or insufficient (support=0, contradict=0, neutral=1).",
+        "grounding_score": 0.1417,
+        "support_count": 0,
+        "contradict_count": 0,
+        "neutral_count": 1,
+        "total_evidence": 1
+      }
+    }
+  ],
+  "knowledge_gaps": [
+    "Many claims are inconclusive — evidence exists but lacks benchmark numbers or experimental results.",
+    "No contradicting evidence found — this may indicate limited coverage of papers reporting failure cases or trade-offs."
+  ],
+  "next_actions": [
+    "Pick 1 concrete intervention and convert it into a falsifiable claim (inputs → mechanism → measurable outputs).",
+    "Run targeted retrieval using 3–5 specific transformer-efficiency keywords and compare results.",
+    "Prioritize evidence chunks with benchmark numbers (latency, throughput, memory, perplexity, context length).",
+    "Generate an experiment plan: baseline, efficiency metric, quality metric, ablations, acceptance threshold."
+  ]
+}
