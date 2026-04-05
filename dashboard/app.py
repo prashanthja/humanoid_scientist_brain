@@ -16,6 +16,31 @@ _sim_lock = threading.Lock()
 _research_cache: dict = {}
 _research_lock = threading.Lock()
 
+# ── Pre-loaded pipeline (shared across all requests) ───
+_pipeline_store  = None
+_pipeline_encoder = None
+_pipeline_index  = None
+_pipeline_lock   = threading.Lock()
+
+def _get_pipeline():
+    """Load encoder once at startup and reuse — avoids re-init on every request."""
+    global _pipeline_store, _pipeline_encoder, _pipeline_index
+    if _pipeline_index is not None:
+        return _pipeline_store, _pipeline_encoder, _pipeline_index
+    with _pipeline_lock:
+        if _pipeline_index is not None:
+            return _pipeline_store, _pipeline_encoder, _pipeline_index
+        import logging
+        logging.getLogger("tattva.pipeline").info("Initializing pipeline (one-time)...")
+        from knowledge_base.chunk_store import ChunkStore
+        from learning_module.trainer_online import OnlineTrainer
+        from learning_module.embedding_bridge import EmbeddingBridge
+        from retrieval.chunk_index import ChunkIndex
+        _pipeline_store   = ChunkStore()
+        _pipeline_encoder = EmbeddingBridge(OnlineTrainer())
+        _pipeline_index   = ChunkIndex(encoder=_pipeline_encoder, chunk_store=_pipeline_store)
+        return _pipeline_store, _pipeline_encoder, _pipeline_index
+
 
 def _read_json(path, fallback=None):
     try:
@@ -403,7 +428,7 @@ def index():
     return render_template("research.html")
 
 @app.route("/admin")
-def research():
+def admin():
     return render_template("index.html")
 
 @app.route("/api/overview")
@@ -514,29 +539,29 @@ def api_run_research():
         if not query: return jsonify({"error":"empty query"}), 400
         with _research_lock:
             if query in _research_cache: return jsonify(_research_cache[query])
-        from knowledge_base.chunk_store import ChunkStore
-        from learning_module.trainer_online import OnlineTrainer
-        from learning_module.embedding_bridge import EmbeddingBridge
-        from retrieval.chunk_index import ChunkIndex
+
+        # Use shared pre-loaded pipeline
+        chunk_store, encoder, chunk_index = _get_pipeline()
+
         from reasoning_module.discover import DiscoveryEngine, DiscoveryConfig
         from reasoning_module.evidence_evaluator import EvidenceEvaluator
         from reasoning_module.proposal_evaluator import ProposalEvaluator
         from reasoning_module.discovery_report import build_report
-        chunk_store = ChunkStore()
-        trainer     = OnlineTrainer()
-        encoder     = EmbeddingBridge(trainer)
-        chunk_index = ChunkIndex(encoder=encoder, chunk_store=chunk_store)
+
         prop_eval = ProposalEvaluator(kb=chunk_store, bridge=encoder,
-            top_k=10, evidence_threshold=0.55, require_evidence=True)
+            top_k=6, evidence_threshold=0.55, require_evidence=True)
         ev_eval = EvidenceEvaluator(kb=chunk_store, encoder=encoder, kg=None,
             chunk_index=chunk_index, use_chunk_index=True)
+
         class _N:
             def generate(self,top_n=10): return []
             def validate(self,h,cycle=0): return []
         n = _N()
         engine = DiscoveryEngine(chunk_index=chunk_index, proposal_engine=prop_eval,
             evidence_evaluator=ev_eval, hypgen=n, validator=n,
-            config=DiscoveryConfig(top_k_chunks=10,max_claims=10,max_grounded_claims=5,use_mmr=True))
+            config=DiscoveryConfig(top_k_chunks=6, max_claims=6,
+                                   max_grounded_claims=4, use_mmr=True))
+
         result = engine.run(query, source_name="research_ui")
         report = build_report(query, result)
         grounded = [_serialize_grounded(gc) for gc in (report.top_grounded[:5] if report.top_grounded else [])]
