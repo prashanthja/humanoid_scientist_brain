@@ -549,7 +549,7 @@ def api_run_research():
         from reasoning_module.discovery_report import build_report
 
         prop_eval = ProposalEvaluator(kb=chunk_store, bridge=encoder,
-            top_k=6, evidence_threshold=0.55, require_evidence=True)
+            top_k=10, evidence_threshold=0.40, require_evidence=False)
         ev_eval = EvidenceEvaluator(kb=chunk_store, encoder=encoder, kg=None,
             chunk_index=chunk_index, use_chunk_index=True)
 
@@ -559,8 +559,8 @@ def api_run_research():
         n = _N()
         engine = DiscoveryEngine(chunk_index=chunk_index, proposal_engine=prop_eval,
             evidence_evaluator=ev_eval, hypgen=n, validator=n,
-            config=DiscoveryConfig(top_k_chunks=6, max_claims=6,
-                                   max_grounded_claims=4, use_mmr=True))
+            config=DiscoveryConfig(top_k_chunks=10, max_claims=10,
+                                   max_grounded_claims=5, use_mmr=True))
 
         result = engine.run(query, source_name="research_ui")
         report = build_report(query, result)
