@@ -358,7 +358,11 @@ let trajChart=null;
 let _corpusCount = 0;  // loaded from API on page load
 
 function _cleanHyp(text){
-  return (text||'').replace(/--\[?[\w_]+\]?-->/g,'→').replace(/\s+/g,' ').trim();
+  return (text||'')
+    .replace(/--\[?[\w_]+\]?-->/g,'→')
+    .replace(/\s*-->\s*/g,' → ')
+    .replace(/\s+/g,' ')
+    .trim();
 }
 
 async function fj(u,o){const r=await fetch(u,o);return r.json();}
@@ -442,7 +446,7 @@ function renderVerdict(q,rpt){
   const pct=Math.round(conf*100);
   const cls=v==='supported'?'green':v==='partially_supported'?'amber':v==='contradicted'?'red':'mid';
   const grounded=rpt.top_grounded||[];
-  const suppCount=grounded.filter(gc=>['supported','partially_supported'].includes((gc.verdict||{}).verdict)).length;
+  const suppCount=rpt.supported_count||grounded.filter(gc=>['supported','partially_supported'].includes((gc.verdict||{}).verdict)).length;
   const contrCount=grounded.filter(gc=>(gc.verdict||{}).verdict==='contradicted').length;
   document.getElementById('verdictArea').innerHTML=`
     <div class="verdict-card">
