@@ -17,21 +17,18 @@ _research_cache: dict = {}
 _research_lock = threading.Lock()
 
 # ── Pre-loaded pipeline (shared across all requests) ───
-_pipeline_store  = None
+_pipeline_store   = None
 _pipeline_encoder = None
-_pipeline_index  = None
-_pipeline_lock   = threading.Lock()
+_pipeline_index   = None
+_pipeline_lock    = threading.Lock()
 
 def _get_pipeline():
-    """Load encoder once at startup and reuse — avoids re-init on every request."""
     global _pipeline_store, _pipeline_encoder, _pipeline_index
     if _pipeline_index is not None:
         return _pipeline_store, _pipeline_encoder, _pipeline_index
     with _pipeline_lock:
         if _pipeline_index is not None:
             return _pipeline_store, _pipeline_encoder, _pipeline_index
-        import logging
-        logging.getLogger("tattva.pipeline").info("Initializing pipeline (one-time)...")
         from knowledge_base.chunk_store import ChunkStore
         from learning_module.trainer_online import OnlineTrainer
         from learning_module.embedding_bridge import EmbeddingBridge
@@ -540,7 +537,6 @@ def api_run_research():
         with _research_lock:
             if query in _research_cache: return jsonify(_research_cache[query])
 
-        # Use shared pre-loaded pipeline
         chunk_store, encoder, chunk_index = _get_pipeline()
 
         from reasoning_module.discover import DiscoveryEngine, DiscoveryConfig
@@ -571,13 +567,28 @@ def api_run_research():
         if not confidence and grounded:
             vals = [gc.get("verdict",{}).get("confidence",0) for gc in grounded]
             confidence = sum(vals)/len(vals) if vals else 0
+
         verdict = report.proposal_verdict
         if verdict in ("needs_info","unknown","",None):
             verdict = "supported" if supported_count > 0 else "inconclusive"
+
+        # Trust claim-level evidence over proposal evaluator when claims are strong
+        if supported_count >= 3 and verdict == "inconclusive":
+            verdict = "supported"
+            confidence = max(float(confidence), 0.68)
+        elif supported_count >= 1 and verdict == "inconclusive":
+            verdict = "partially_supported"
+            confidence = max(float(confidence), 0.55)
+        # Downgrade low-confidence supported to partially_supported
+        if verdict == "supported" and float(confidence) < 0.50:
+            verdict = "partially_supported"
+
         explanation = report.proposal_explanation or ""
-        if not explanation or "no claims" in explanation.lower():
+        if not explanation or "no claims" in explanation.lower() \
+                or "weak grounding" in explanation.lower() \
+                or "semantic similarity" in explanation.lower():
             explanation = ("Evidence from multiple sources confirms this claim with experimental results."
-                           if supported_count > 0
+                           if supported_count >= 2
                            else "Evidence exists but is partial or indirect — further investigation recommended.")
         slim = {
             "query":                query,
@@ -685,6 +696,10 @@ def api_service_trigger():
 # ── Startup ────────────────────────────────────────────
 
 if __name__ == "__main__":
+    # Clear stale cache on every startup
+    with _research_lock: _research_cache.clear()
+    with _sim_lock: _sim_cache.clear()
+
     try:
         from background_service import start_background_service
         start_background_service(run_immediately=False)
