@@ -1,10 +1,32 @@
 # dashboard/app.py
 from flask import Flask, render_template, jsonify, request
-import json, os, glob, time, sys, threading
+import atexit, json, os, glob, time, sys, threading
 
 app  = Flask(__name__)
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, ROOT)
+
+# ── PostHog ─────────────────────────────────────────────
+try:
+    from dotenv import load_dotenv
+    load_dotenv(os.path.join(ROOT, ".env"))
+except ImportError:
+    pass
+
+try:
+    from posthog import Posthog
+    posthog_client = Posthog(
+        os.environ.get("POSTHOG_PROJECT_TOKEN", ""),
+        host=os.environ.get("POSTHOG_HOST", "https://us.i.posthog.com"),
+        enable_exception_autocapture=True,
+    )
+    atexit.register(posthog_client.shutdown)
+except Exception:
+    class _FakePosthog:
+        def capture(self, *a, **k): pass
+        def capture_exception(self, *a, **k): return None
+        def shutdown(self): pass
+    posthog_client = _FakePosthog()
 
 REPORTS_DIR = os.path.join(ROOT, "outputs", "discovery_reports")
 KG_PATH     = os.path.join(ROOT, "knowledge_graph", "graph.json")
@@ -147,6 +169,121 @@ def _serialize_grounded(gc):
 def _get_verdict_str(gc_dict):
     try: return gc_dict.get("verdict",{}).get("verdict","inconclusive")
     except Exception: return "inconclusive"
+
+
+# ── Contradiction Detection ─────────────────────────────
+
+def _find_contradictions(chunks):
+    if not chunks or len(chunks) < 2:
+        return []
+
+    positive_signals = [
+        "reduces","improves","increases","achieves","outperforms",
+        "faster","better","higher","significant","effectively",
+        "successfully","enables","demonstrates","shows that",
+        "we show","results show","we find","we demonstrate"
+    ]
+    negative_signals = [
+        "does not","doesn't","no significant","fails","no improvement",
+        "worse","slower","limited","insufficient","no benefit",
+        "not effective","degradation","overhead eliminates","cannot",
+        "unable to","no advantage","marginal","negligible","no measurable"
+    ]
+    key_concepts = [
+        "memory","latency","throughput","quality","accuracy",
+        "performance","efficiency","speed","overhead","cost",
+        "training","inference"
+    ]
+
+    def _get_signals(text):
+        text_low = text.lower()
+        pos = sum(1 for s in positive_signals if s in text_low)
+        neg = sum(1 for s in negative_signals if s in text_low)
+        concepts = [c for c in key_concepts if c in text_low]
+        return pos, neg, concepts
+
+    def _get_paper(chunk):
+        if isinstance(chunk, dict):
+            meta = chunk.get("metadata", {})
+            if isinstance(meta, dict):
+                return meta.get("paper_title", chunk.get("paper_title", "Unknown Paper"))
+            return chunk.get("paper_title", "Unknown Paper")
+        return getattr(chunk, "paper_title", "Unknown Paper")
+
+    def _get_text(chunk):
+        if isinstance(chunk, dict):
+            return chunk.get("text", "")
+        return getattr(chunk, "text", "")
+
+    contradictions = []
+    seen_pairs = set()
+
+    for i, chunk_a in enumerate(chunks):
+        text_a = _get_text(chunk_a)
+        paper_a = _get_paper(chunk_a)
+        pos_a, neg_a, concepts_a = _get_signals(text_a)
+
+        for chunk_b in chunks[i+1:]:
+            text_b = _get_text(chunk_b)
+            paper_b = _get_paper(chunk_b)
+
+            if paper_a == paper_b or paper_a == "Unknown Paper":
+                continue
+
+            pos_b, neg_b, concepts_b = _get_signals(text_b)
+            shared = set(concepts_a) & set(concepts_b)
+            if not shared:
+                continue
+
+            is_contradiction = (
+                (pos_a >= 2 and neg_b >= 2) or
+                (neg_a >= 2 and pos_b >= 2)
+            )
+            if not is_contradiction:
+                continue
+
+            pair_key = tuple(sorted([paper_a[:40], paper_b[:40]]))
+            if pair_key in seen_pairs:
+                continue
+            seen_pairs.add(pair_key)
+
+            if pos_a >= pos_b:
+                sup_text, sup_paper = text_a[:220], paper_a
+                con_text, con_paper = text_b[:220], paper_b
+            else:
+                sup_text, sup_paper = text_b[:220], paper_b
+                con_text, con_paper = text_a[:220], paper_a
+
+            severity = "high" if any(
+                w in (text_a + text_b).lower()
+                for w in ["no benefit","no improvement","no significant","does not"]
+            ) else "medium"
+
+            contradictions.append({
+                "shared_concepts": list(shared)[:3],
+                "supporting_paper": sup_paper,
+                "supporting_claim": sup_text,
+                "contradicting_paper": con_paper,
+                "contradicting_claim": con_text,
+                "severity": severity,
+                "implication": _contradiction_implication(list(shared), severity)
+            })
+
+            if len(contradictions) >= 3:
+                return contradictions
+
+    return contradictions
+
+
+def _contradiction_implication(concepts, severity):
+    concept_str = " and ".join(concepts[:2]) if concepts else "this metric"
+    if severity == "high":
+        return (f"Strong disagreement on {concept_str} — "
+                f"results may depend on model size, dataset, or hardware. "
+                f"Replicate both experiments before drawing conclusions.")
+    return (f"Mixed evidence on {concept_str} — "
+            f"methodology differences likely explain the gap. "
+            f"Check sequence length, model size, and benchmark used.")
 
 
 # ── Idea Lab helpers ────────────────────────────────────
@@ -489,6 +626,7 @@ def api_simulate():
         query = (body.get("query") or "How will transformer efficiency research evolve?").strip()
         with _sim_lock:
             if query in _sim_cache: return jsonify(_sim_cache[query])
+        posthog_client.capture("anonymous", "simulation_run", {"query_length": len(query)})
         from knowledge_graph.graph import KnowledgeGraph
         from simulation_module.swms import SWMS
         kg = KnowledgeGraph(); kg.load()
@@ -537,6 +675,8 @@ def api_run_research():
         with _research_lock:
             if query in _research_cache: return jsonify(_research_cache[query])
 
+        posthog_client.capture("anonymous", "research_query_submitted", {"query_length": len(query)})
+
         chunk_store, encoder, chunk_index = _get_pipeline()
 
         from reasoning_module.discover import DiscoveryEngine, DiscoveryConfig
@@ -559,6 +699,11 @@ def api_run_research():
                                    max_grounded_claims=5, use_mmr=True))
 
         result = engine.run(query, source_name="research_ui")
+
+        # ── Contradiction detection ──────────────────
+        evidence_chunks = result.get("evidence_chunks", [])
+        contradictions  = _find_contradictions(evidence_chunks)
+
         report = build_report(query, result)
         grounded = [_serialize_grounded(gc) for gc in (report.top_grounded[:5] if report.top_grounded else [])]
         supported_count    = sum(1 for gc in grounded if _get_verdict_str(gc) in ("supported","partially_supported"))
@@ -572,14 +717,12 @@ def api_run_research():
         if verdict in ("needs_info","unknown","",None):
             verdict = "supported" if supported_count > 0 else "inconclusive"
 
-        # Trust claim-level evidence over proposal evaluator when claims are strong
         if supported_count >= 3 and verdict == "inconclusive":
             verdict = "supported"
             confidence = max(float(confidence), 0.68)
         elif supported_count >= 1 and verdict == "inconclusive":
             verdict = "partially_supported"
             confidence = max(float(confidence), 0.55)
-        # Downgrade low-confidence supported to partially_supported
         if verdict == "supported" and float(confidence) < 0.50:
             verdict = "partially_supported"
 
@@ -590,6 +733,7 @@ def api_run_research():
             explanation = ("Evidence from multiple sources confirms this claim with experimental results."
                            if supported_count >= 2
                            else "Evidence exists but is partial or indirect — further investigation recommended.")
+
         slim = {
             "query":                query,
             "proposal_verdict":     verdict,
@@ -602,11 +746,19 @@ def api_run_research():
             "top_grounded":         grounded,
             "knowledge_gaps":       report.knowledge_gaps[:3],
             "domain":               report.domain,
+            "contradictions":       contradictions,
         }
         with _research_lock: _research_cache[query] = slim
+        posthog_client.capture("anonymous", "research_query_completed", {
+            "verdict": verdict,
+            "confidence": round(float(confidence), 4),
+            "contradictions_found": len(contradictions),
+            "supported_count": supported_count,
+        })
         return jsonify(slim)
     except Exception as e:
         import traceback
+        posthog_client.capture_exception(e)
         return jsonify({"error":str(e),"trace":traceback.format_exc()}), 500
 
 @app.route("/api/research/clear_cache", methods=["POST"])
@@ -649,6 +801,7 @@ def api_idea_lab():
         body = request.get_json(force=True) or {}
         idea = (body.get("idea") or "").strip()
         if not idea: return jsonify({"error":"empty idea"}), 400
+        posthog_client.capture("anonymous", "idea_lab_submitted", {"idea_length": len(idea)})
         kg_data  = _read_json(KG_PATH, {})
         hyps     = _load_hypotheses(30)
         reports  = _load_reports(50)
@@ -696,10 +849,8 @@ def api_service_trigger():
 # ── Startup ────────────────────────────────────────────
 
 if __name__ == "__main__":
-    # Clear stale cache on every startup
     with _research_lock: _research_cache.clear()
     with _sim_lock: _sim_cache.clear()
-
     try:
         from background_service import start_background_service
         start_background_service(run_immediately=False)
