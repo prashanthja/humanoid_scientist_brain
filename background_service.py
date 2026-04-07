@@ -476,6 +476,13 @@ def run_cycle():
     except Exception as e:
         log.error(f"Index rebuild failed: {e}")
 
+    # Reset Flask pipeline so it reloads fresh index
+    try:
+        from dashboard.app import _reset_pipeline
+        _reset_pipeline()
+        log.info("Pipeline reset after index rebuild")
+    except Exception as e:
+        log.warning(f"Pipeline reset failed: {e}")
     # ── Phase 4: Reasoning eval ───────────────────────────
     log.info("Phase 4: Running reasoning_eval.py")
     _write_status({**read_status(), "phase": "running reasoning pipeline"})
@@ -493,9 +500,24 @@ def run_cycle():
     log.info("Phase 5: Regenerating hypotheses")
     _write_status({**read_status(), "phase": "regenerating hypotheses"})
     try:
-        result = subprocess.run(
-            [sys.executable, "testing_module/reasoning_eval.py", "--hyp_only"],
-            cwd=ROOT, capture_output=True, text=True, timeout=300)
+        try:
+            from knowledge_base.chunk_store import ChunkStore
+            from learning_module.trainer_online import OnlineTrainer
+            from learning_module.embedding_bridge import EmbeddingBridge
+            from retrieval.chunk_index import ChunkIndex
+            _cs = ChunkStore()
+            _enc = EmbeddingBridge(OnlineTrainer())
+            _idx = ChunkIndex(encoder=_enc, chunk_store=_cs)
+            _idx.rebuild()
+            try:
+                from dashboard.app import _reset_pipeline
+                _reset_pipeline()
+                log.info("Pipeline reset after index rebuild")
+            except Exception:
+                pass
+            log.info("Index rebuilt successfully")
+        except Exception as e:
+            log.error(f"Index rebuild failed: {e}")
         if result.stdout: log.info(result.stdout[-300:])
         if result.returncode != 0 and result.stderr:
             log.warning(f"Hypothesis gen stderr: {result.stderr[-200:]}")

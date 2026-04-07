@@ -44,6 +44,14 @@ _pipeline_encoder = None
 _pipeline_index   = None
 _pipeline_lock    = threading.Lock()
 
+def _reset_pipeline():
+    """Force pipeline reload on next request."""
+    global _pipeline_store, _pipeline_encoder, _pipeline_index
+    with _pipeline_lock:
+        _pipeline_store   = None
+        _pipeline_encoder = None
+        _pipeline_index   = None
+
 def _get_pipeline():
     global _pipeline_store, _pipeline_encoder, _pipeline_index
     if _pipeline_index is not None:
@@ -187,6 +195,9 @@ def _find_contradictions(chunks):
         "does not","doesn't","no significant","fails","no improvement",
         "worse","slower","limited","insufficient","no benefit",
         "not effective","degradation","overhead eliminates","cannot",
+        "challenge","significant challenge","presents a challenge",
+        "difficult","limitation","drawback","however","but",
+        "despite","although","whereas","on the other hand"
         "unable to","no advantage","marginal","negligible","no measurable"
     ]
     key_concepts = [
@@ -236,8 +247,8 @@ def _find_contradictions(chunks):
                 continue
 
             is_contradiction = (
-                (pos_a >= 2 and neg_b >= 2) or
-                (neg_a >= 2 and pos_b >= 2)
+                (pos_a >= 1 and neg_b >= 1) or
+                (neg_a >= 1 and pos_b >= 1)
             )
             if not is_contradiction:
                 continue

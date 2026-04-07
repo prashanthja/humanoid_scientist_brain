@@ -466,7 +466,7 @@ function renderVerdict(q,rpt){
       </div>
       <div class="verdict-meta">
         <div class="vmeta-item"><div class="vmeta-n green">${suppCount}</div><div class="vmeta-l">Supporting claims</div></div>
-        <div class="vmeta-item"><div class="vmeta-n red">${contrCount}</div><div class="vmeta-l">Contradicting claims</div></div>
+        <div class="vmeta-item"><div class="vmeta-n red">${(rpt.contradictions||[]).length||contrCount}</div><div class="vmeta-l">Conflicting papers</div></div>
         <div class="vmeta-item"><div class="vmeta-n">${rpt.evidence_count||0}</div><div class="vmeta-l">Evidence chunks</div></div>
         <div class="vmeta-item"><div class="vmeta-n" style="font-size:13px;font-weight:500;color:var(--mid);padding-top:10px;">${rpt.domain||'–'}</div><div class="vmeta-l">Domain</div></div>
       </div>
