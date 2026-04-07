@@ -218,9 +218,9 @@ html,body{min-height:100%;background:var(--bg);color:var(--text);font-family:var
       <div class="diff-title">Computed verdict</div>
       <div class="diff-desc">Confidence is an aggregate of evidence scores — not an LLM opinion.</div>
     </div></div>
-    <div class="diff-item"><div class="diff-icon">🔬</div><div>
-      <div class="diff-title">Actionable next steps</div>
-      <div class="diff-desc">Alternatives, experiments, and research gaps specific to your query.</div>
+    <div class="diff-item"><div class="diff-icon">⚠️</div><div>
+      <div class="diff-title">Contradiction detection</div>
+      <div class="diff-desc">Automatically finds where papers disagree on the same claims — no other tool does this.</div>
     </div></div>
     <div class="diff-item"><div class="diff-icon">📈</div><div>
       <div class="diff-title">Field simulation</div>
@@ -258,6 +258,9 @@ html,body{min-height:100%;background:var(--bg);color:var(--text);font-family:var
       <div class="sec-label">Research Verdict</div>
       <div id="verdictArea"><div class="loading-indicator"><div class="loading-spinner"></div>Retrieving and evaluating evidence…</div></div>
     </div>
+
+    <!-- Contradiction Detection Section -->
+    <div id="contradictionArea" style="display:none;"></div>
 
     <div class="article-section" id="methodNote" style="display:none;">
       <div class="method-note">
@@ -355,7 +358,7 @@ html,body{min-height:100%;background:var(--bg);color:var(--text);font-family:var
 
 <script>
 let trajChart=null;
-let _corpusCount = 0;  // loaded from API on page load
+let _corpusCount = 0;
 
 function _cleanHyp(text){
   return (text||'')
@@ -370,7 +373,6 @@ function setBar(p){document.getElementById('progressFill').style.width=p+'%';}
 function setSug(el){document.getElementById('searchInput').value=el.textContent.trim();document.getElementById('searchInput').focus();}
 document.getElementById('searchInput').addEventListener('keydown',e=>{if(e.key==='Enter')runResearch();});
 
-// Load corpus count on page load
 async function loadStats(){
   try{
     const ov=await fj('/api/overview');
@@ -390,7 +392,6 @@ async function runResearch(){
   document.getElementById('searchBtn').textContent='Analyzing…';
   document.getElementById('suggestionsSection').style.display='none';
   document.getElementById('reasoningChain').style.display='flex';
-  // Show corpus count in step 1 immediately
   document.getElementById('rc1').textContent=`${_corpusCount.toLocaleString()} chunks`;
   resetContent();window.scrollTo({top:0,behavior:'smooth'});setBar(15);
   try{
@@ -403,7 +404,9 @@ async function runResearch(){
     const rpt=await rptRes.json(),sim=await simRes.json(),hyps=(await hypsRes.json()).hypotheses||[];
     setBar(85);
     if(rpt.error)throw new Error(rpt.error);
-    renderVerdict(q,rpt);renderEvidence(rpt);renderSources(rpt);
+    renderVerdict(q,rpt);
+    renderContradictions(rpt);
+    renderEvidence(rpt);renderSources(rpt);
     renderConf(rpt);renderSim(sim);renderHyps(hyps,q);renderExp(sim);
     updateChain(rpt,sim);
     document.getElementById('methodNote').style.display='block';
@@ -419,6 +422,8 @@ async function runResearch(){
 
 function resetContent(){
   document.getElementById('verdictArea').innerHTML='<div class="loading-indicator"><div class="loading-spinner"></div>Retrieving and evaluating evidence…</div>';
+  document.getElementById('contradictionArea').style.display='none';
+  document.getElementById('contradictionArea').innerHTML='';
   document.getElementById('evidenceArea').innerHTML=[1,2,3].map(()=>'<div class="skel" style="height:85px;margin-bottom:10px;"></div>').join('');
   document.getElementById('sourcesArea').innerHTML=[1,2,3].map(()=>'<div class="skel" style="height:44px;margin-bottom:8px;"></div>').join('');
   document.getElementById('confArea').innerHTML='<div class="skel" style="height:70px;"></div>';
@@ -432,7 +437,6 @@ function updateChain(rpt,sim){
   const v=rpt.proposal_verdict||'inconclusive';
   const cls=v==='supported'?'green':v==='partially_supported'?'amber':'mid';
   const grounded=rpt.top_grounded||[];
-  // Step 1: total corpus size (already set from loadStats, keep it)
   document.getElementById('rc2').textContent=`${grounded.length} claims`;
   const suppCount=(rpt.top_grounded||[]).filter(gc=>['supported','partially_supported'].includes((gc.verdict||{}).verdict)).length;
   document.getElementById('rc3').textContent=`${suppCount} supported`;
@@ -467,6 +471,55 @@ function renderVerdict(q,rpt){
         <div class="vmeta-item"><div class="vmeta-n" style="font-size:13px;font-weight:500;color:var(--mid);padding-top:10px;">${rpt.domain||'–'}</div><div class="vmeta-l">Domain</div></div>
       </div>
     </div>`;
+}
+
+function renderContradictions(rpt){
+  const items = rpt.contradictions || [];
+  const el = document.getElementById('contradictionArea');
+  if(!items.length){ el.style.display='none'; return; }
+  el.style.display='block';
+  el.innerHTML = `<div class="article-section">
+    <div class="sec-label">Literature Contradictions <span class="sec-badge" style="background:#fdf0f0;color:#9a1a1a;border-color:#dda8a8;">⚠ ${items.length} found</span></div>
+    <div style="background:#fdf0f0;border:1px solid #dda8a8;border-radius:10px;padding:20px;">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;">
+        <span style="font-size:18px;">⚠️</span>
+        <div>
+          <div style="font-size:14px;font-weight:600;color:#9a1a1a;">Papers Disagree on Key Claims</div>
+          <div style="font-size:12px;color:#c45c5c;margin-top:2px;">
+            ${items.length} contradiction${items.length>1?'s':''} detected — investigate before drawing conclusions
+          </div>
+        </div>
+      </div>
+      ${items.map(c=>`
+        <div style="background:white;border:1px solid #dda8a8;border-radius:8px;padding:16px;margin-bottom:10px;">
+          <div style="display:flex;gap:6px;margin-bottom:10px;flex-wrap:wrap;">
+            ${c.shared_concepts.map(concept=>`
+              <span style="font-family:var(--mono);font-size:9px;padding:2px 8px;
+                background:#fdf7ec;color:#8a5c00;border:1px solid #e8cc88;border-radius:3px;">${concept}</span>
+            `).join('')}
+            <span style="font-family:var(--mono);font-size:9px;padding:2px 8px;
+              background:#fdf0f0;color:#9a1a1a;border:1px solid #dda8a8;border-radius:3px;">${c.severity} conflict</span>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px;">
+            <div style="padding:10px;background:#f0f7f3;border-radius:6px;border-left:3px solid #1a7a4a;">
+              <div style="font-size:9px;font-weight:600;color:#1a7a4a;margin-bottom:5px;
+                text-transform:uppercase;letter-spacing:1px;">Supports</div>
+              <div style="font-size:11px;color:#1a1714;line-height:1.5;margin-bottom:5px;">${c.supporting_claim}…</div>
+              <div style="font-size:10px;color:#5c5650;font-style:italic;">— ${c.supporting_paper}</div>
+            </div>
+            <div style="padding:10px;background:#fdf0f0;border-radius:6px;border-left:3px solid #9a1a1a;">
+              <div style="font-size:9px;font-weight:600;color:#9a1a1a;margin-bottom:5px;
+                text-transform:uppercase;letter-spacing:1px;">Contradicts</div>
+              <div style="font-size:11px;color:#1a1714;line-height:1.5;margin-bottom:5px;">${c.contradicting_claim}…</div>
+              <div style="font-size:10px;color:#5c5650;font-style:italic;">— ${c.contradicting_paper}</div>
+            </div>
+          </div>
+          <div style="font-size:12px;color:#5c5650;background:#f8f7f4;padding:10px;
+            border-radius:6px;line-height:1.6;">💡 ${c.implication}</div>
+        </div>
+      `).join('')}
+    </div>
+  </div>`;
 }
 
 function renderEvidence(rpt){
