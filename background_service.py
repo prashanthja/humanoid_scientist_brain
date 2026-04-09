@@ -466,13 +466,17 @@ def run_cycle():
     # ── Phase 3: Rebuild chunk index ──────────────────────
     log.info("Phase 3: Rebuilding chunk index")
     _write_status({**read_status(), "phase": "rebuilding chunk index"})
+
     try:
-        result = subprocess.run(
-            [sys.executable, "scripts/ingest_chunks.py", "--rebuild_only"],
-            cwd=ROOT, capture_output=True, text=True, timeout=300)
-        if result.stdout: log.info(result.stdout[-300:])
-        if result.returncode != 0 and result.stderr:
-            log.warning(f"Index rebuild stderr: {result.stderr[-200:]}")
+        from knowledge_base.chunk_store import ChunkStore
+        from learning_module.trainer_online import OnlineTrainer
+        from learning_module.embedding_bridge import EmbeddingBridge
+        from retrieval.chunk_index import ChunkIndex
+        _cs = ChunkStore()
+        _enc = EmbeddingBridge(OnlineTrainer())
+        _idx = ChunkIndex(encoder=_enc, chunk_store=_cs)
+        _idx.rebuild()
+        log.info("Index rebuilt successfully")
     except Exception as e:
         log.error(f"Index rebuild failed: {e}")
 
@@ -500,24 +504,6 @@ def run_cycle():
     log.info("Phase 5: Regenerating hypotheses")
     _write_status({**read_status(), "phase": "regenerating hypotheses"})
     try:
-        try:
-            from knowledge_base.chunk_store import ChunkStore
-            from learning_module.trainer_online import OnlineTrainer
-            from learning_module.embedding_bridge import EmbeddingBridge
-            from retrieval.chunk_index import ChunkIndex
-            _cs = ChunkStore()
-            _enc = EmbeddingBridge(OnlineTrainer())
-            _idx = ChunkIndex(encoder=_enc, chunk_store=_cs)
-            _idx.rebuild()
-            try:
-                from dashboard.app import _reset_pipeline
-                _reset_pipeline()
-                log.info("Pipeline reset after index rebuild")
-            except Exception:
-                pass
-            log.info("Index rebuilt successfully")
-        except Exception as e:
-            log.error(f"Index rebuild failed: {e}")
         if result.stdout: log.info(result.stdout[-300:])
         if result.returncode != 0 and result.stderr:
             log.warning(f"Hypothesis gen stderr: {result.stderr[-200:]}")
