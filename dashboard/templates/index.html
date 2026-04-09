@@ -21,8 +21,6 @@ body{color:var(--text);font-family:var(--sans);display:flex;flex-direction:colum
 body::after{content:'';position:fixed;inset:0;
   background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,.03) 2px,rgba(0,0,0,.03) 4px);
   pointer-events:none;z-index:1000;}
-
-/* Topbar */
 .topbar{flex-shrink:0;height:48px;background:var(--ink);border-bottom:1px solid var(--line);
   display:flex;align-items:center;justify-content:space-between;padding:0 20px;position:relative;z-index:10;}
 .topbar::after{content:'';position:absolute;bottom:0;left:0;right:0;height:1px;
@@ -43,8 +41,6 @@ body::after{content:'';position:fixed;inset:0;
 .user-link{font-family:var(--mono);font-size:10px;color:var(--gold);text-decoration:none;
   border:1px solid rgba(212,168,67,.3);padding:3px 10px;border-radius:2px;letter-spacing:1px;}
 .user-link:hover{background:rgba(212,168,67,.08);}
-
-/* Metrics */
 .metrics{flex-shrink:0;height:72px;background:var(--paper);border-bottom:1px solid var(--line);
   display:grid;grid-template-columns:repeat(5,1fr);}
 .metric{padding:12px 20px;border-right:1px solid var(--line);display:flex;flex-direction:column;
@@ -58,8 +54,6 @@ body::after{content:'';position:fixed;inset:0;
 .metric-val.gold{color:var(--gold);}.metric-val.green{color:var(--green);}
 .metric-val.blue{color:var(--blue);}.metric-val.amber{color:var(--amber);}.metric-val.red{color:var(--red);}
 .metric-sub{font-family:var(--mono);font-size:9px;color:var(--muted);margin-top:3px;}
-
-/* Nav */
 .nav{flex-shrink:0;height:36px;background:var(--ink);border-bottom:1px solid var(--line);
   display:flex;align-items:stretch;padding:0 20px;gap:2px;}
 .nav-item{font-family:var(--mono);font-size:10px;letter-spacing:1px;text-transform:uppercase;
@@ -68,33 +62,23 @@ body::after{content:'';position:fixed;inset:0;
 .nav-item:hover{color:var(--text);}
 .nav-item.active{color:var(--gold);border-bottom-color:var(--gold);}
 .nav-item .nav-icon{font-size:11px;}
-
-/* Layout */
 .workspace{flex:1;min-height:0;overflow:hidden;position:relative;}
 .pane{display:none;height:100%;}
 .pane.active{display:grid;}
-
-/* Overview layout */
 #pane-overview{grid-template-columns:1fr 320px;grid-template-rows:3fr 180px;gap:1px;background:var(--line);padding:0;}
 .p-kg{grid-column:1/2;grid-row:1/2;background:var(--paper);}
 .p-right-top{grid-column:2/3;grid-row:1/2;background:var(--paper);display:flex;flex-direction:column;}
 .p-reports{grid-column:1/2;grid-row:2/3;background:var(--paper);}
 .p-hyps{grid-column:2/3;grid-row:2/3;background:var(--paper);}
-
-/* SWMS layout */
 #pane-swms{grid-template-columns:300px 1fr 280px;grid-template-rows:1fr 1fr;gap:1px;background:var(--line);}
 .s-ctrl{grid-column:1/2;grid-row:1/3;background:var(--paper);}
 .s-main{grid-column:2/3;grid-row:1/2;background:var(--paper);}
 .s-traj{grid-column:2/3;grid-row:2/3;background:var(--paper);}
 .s-dom{grid-column:3/4;grid-row:1/2;background:var(--paper);}
 .s-exp{grid-column:3/4;grid-row:2/3;background:var(--paper);}
-
-/* Idea Lab layout */
 #pane-idealab{grid-template-columns:320px 1fr;gap:1px;background:var(--line);}
 .il-input{grid-column:1/2;background:var(--paper);display:flex;flex-direction:column;}
 .il-results{grid-column:2/3;background:var(--paper);display:flex;flex-direction:column;overflow:hidden;}
-
-/* Panel */
 .panel-hd{height:36px;display:flex;align-items:center;justify-content:space-between;
   padding:0 16px;border-bottom:1px solid var(--line);background:rgba(0,0,0,.2);flex-shrink:0;}
 .panel-hd-title{font-family:var(--mono);font-size:9px;letter-spacing:2px;text-transform:uppercase;
@@ -109,8 +93,6 @@ body::after{content:'';position:fixed;inset:0;
 .scroll::-webkit-scrollbar{width:3px;}
 .scroll::-webkit-scrollbar-track{background:transparent;}
 .scroll::-webkit-scrollbar-thumb{background:var(--line2);}
-
-/* KG */
 #kgSvg{width:100%;height:100%;display:block;}
 .kg-link-lbl{font-family:'IBM Plex Mono',monospace;font-size:7px;fill:#3a4a60;pointer-events:none;}
 .kg-node-lbl{font-family:'IBM Plex Mono',monospace;font-size:8px;fill:#8898b0;pointer-events:none;}
@@ -118,8 +100,6 @@ body::after{content:'';position:fixed;inset:0;
   padding:8px 12px;font-family:var(--mono);font-size:10px;color:var(--text);
   pointer-events:none;opacity:0;transition:opacity .12s;max-width:220px;line-height:1.6;z-index:50;
   border-left:2px solid var(--gold);}
-
-/* Right panel tabs */
 .rtabs{display:flex;border-bottom:1px solid var(--line);flex-shrink:0;}
 .rtab{font-family:var(--mono);font-size:9px;letter-spacing:1px;text-transform:uppercase;
   padding:8px 14px;color:var(--muted);cursor:pointer;border-bottom:1px solid transparent;
@@ -128,8 +108,6 @@ body::after{content:'';position:fixed;inset:0;
 .rtab.active{color:var(--gold);border-bottom-color:var(--gold);}
 .rtab-pane{display:none;flex:1;min-height:0;overflow:hidden;}
 .rtab-pane.active{display:flex;flex-direction:column;}
-
-/* Reports */
 .rpt-row{padding:10px 16px;border-bottom:1px solid var(--line);cursor:pointer;
   transition:background .12s;display:flex;align-items:flex-start;gap:10px;}
 .rpt-row:hover{background:rgba(212,168,67,.04);}
@@ -144,20 +122,14 @@ body::after{content:'';position:fixed;inset:0;
 .vp-p{background:rgba(212,168,67,.12);color:var(--gold);border:1px solid rgba(212,168,67,.2);}
 .vp-i{background:rgba(107,122,150,.12);color:var(--dim);border:1px solid rgba(107,122,150,.2);}
 .vp-c{background:rgba(232,64,64,.12);color:var(--red);border:1px solid rgba(232,64,64,.2);}
-
-/* Hypotheses */
 .hyp-item{padding:10px 16px;border-bottom:1px solid var(--line);}
 .hyp-item:last-child{border-bottom:none;}
 .hyp-type-tag{font-family:var(--mono);font-size:8px;letter-spacing:1px;text-transform:uppercase;color:var(--amber);margin-bottom:4px;}
 .hyp-text{font-size:11px;line-height:1.5;color:var(--text);}
 .hyp-prem{font-family:var(--mono);font-size:9px;color:var(--muted);padding-left:8px;border-left:1px solid var(--line2);margin-top:3px;}
 .hyp-score-row{font-family:var(--mono);font-size:9px;color:var(--muted);margin-top:4px;}
-
-/* Charts */
 .chart-wrap{position:relative;width:100%;height:100%;}
 .chart-wrap canvas{position:absolute;inset:0;width:100%!important;height:100%!important;}
-
-/* SWMS */
 .sim-label{font-family:var(--mono);font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:6px;}
 .sim-textarea{width:100%;background:var(--ink);border:1px solid var(--line2);color:var(--text);
   font-family:var(--mono);font-size:11px;padding:10px 12px;resize:none;height:64px;outline:none;
@@ -195,14 +167,10 @@ body::after{content:'';position:fixed;inset:0;
 .exp-item{padding:8px 16px;border-bottom:1px solid var(--line);display:flex;gap:10px;font-size:11px;line-height:1.4;}
 .exp-item:last-child{border-bottom:none;}
 .exp-n{font-family:var(--mono);font-size:10px;color:var(--gold);flex-shrink:0;width:16px;}
-
-/* Empty + loading */
 .empty{display:flex;flex-direction:column;align-items:center;justify-content:center;
   height:100%;gap:8px;color:var(--muted);font-family:var(--mono);font-size:11px;letter-spacing:1px;text-transform:uppercase;}
 .empty-icon{font-size:24px;opacity:.3;margin-bottom:4px;}
 .loading-text{font-family:var(--mono);font-size:10px;color:var(--muted);letter-spacing:1px;padding:10px 0;}
-
-/* Idea Lab specific */
 .il-card{background:var(--card);border:1px solid var(--line2);border-radius:10px;padding:16px;margin-bottom:16px;}
 .il-card-title{font-family:var(--mono);font-size:9px;letter-spacing:2px;text-transform:uppercase;
   color:var(--gold);margin-bottom:10px;}
@@ -225,8 +193,6 @@ body::after{content:'';position:fixed;inset:0;
 .il-prior:last-child{border-bottom:none;}
 .il-blocker{padding:8px 0;border-bottom:1px solid var(--line);font-size:11px;line-height:1.5;}
 .il-blocker:last-child{border-bottom:none;}
-
-/* Modal */
 .modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.8);z-index:200;
   align-items:center;justify-content:center;backdrop-filter:blur(2px);}
 .modal-bg.open{display:flex;}
@@ -352,8 +318,6 @@ body::after{content:'';position:fixed;inset:0;
 
   <!-- Idea Lab -->
   <div class="pane" id="pane-idealab">
-
-    <!-- Input -->
     <div class="il-input">
       <div class="panel-hd"><div class="panel-hd-title">Idea Input</div><div class="panel-badge" id="ideaStageLabel">–</div></div>
       <div class="panel-body scroll" style="display:flex;flex-direction:column;gap:14px;">
@@ -381,14 +345,14 @@ Examples:
         <div class="sim-divider"></div>
         <div class="sim-label">How it works</div>
         <div style="font-family:var(--mono);font-size:9px;color:var(--muted);line-height:1.8;">
-          Analyzes your idea against:<br>· 65 KG causal relations<br>· 50 discovery reports<br>
-          · 30 generated hypotheses<br>· Domain knowledge base<br><br>
-          Works for any stage — vague intuition to specific blockers.
+          Analyzes your idea against:<br>· KG causal relations<br>· Discovery reports<br>
+          · Generated hypotheses<br>· Domain knowledge base<br>
+          · Literature contradictions<br><br>
+          Now generates reconciling hypotheses + experiment designs.
         </div>
       </div>
     </div>
 
-    <!-- Results -->
     <div class="il-results">
       <div class="panel-hd"><div class="panel-hd-title">Idea Analysis</div></div>
       <div class="scroll" id="ideaResults" style="padding:16px;">
@@ -440,10 +404,33 @@ Examples:
             <div id="ideaPrior"></div>
           </div>
 
+          <!-- ── NEW: Literature Contradictions ── -->
+          <div class="il-card" id="ilContradictionCard" style="display:none;border-color:rgba(232,64,64,.4);">
+            <div class="il-card-title" style="color:var(--red);">⚠ Literature Contradictions Found</div>
+            <div id="ilContradictions"></div>
+          </div>
+
+          <!-- ── NEW: Reconciling Hypothesis ── -->
+          <div class="il-card" id="ilHypCard" style="display:none;border-color:var(--gold);border-width:2px;">
+            <div class="il-card-title" style="color:var(--gold);">🧬 Generated Reconciling Hypothesis</div>
+            <div id="ilHypothesis"></div>
+          </div>
+
+          <!-- ── NEW: Experiment Design ── -->
+          <div class="il-card" id="ilExpCard" style="display:none;border-color:var(--a1);">
+            <div class="il-card-title" style="color:var(--a1);">🧪 Experiment Design</div>
+            <div id="ilExperiment"></div>
+          </div>
+
+          <!-- ── NEW: Outcome Prediction ── -->
+          <div class="il-card" id="ilOutcomeCard" style="display:none;">
+            <div class="il-card-title">📊 Predicted Outcome Distribution</div>
+            <div id="ilOutcome"></div>
+          </div>
+
         </div>
       </div>
     </div>
-
   </div>
 </div>
 
@@ -627,6 +614,10 @@ async function runIdeaLab(){
   document.getElementById('ideaEmpty').style.display='none';
   document.getElementById('ideaContent').style.display='none';
   document.getElementById('ideaStageLabel').textContent='–';
+  // Hide new sections while loading
+  ['ilContradictionCard','ilHypCard','ilExpCard','ilOutcomeCard'].forEach(id=>{
+    document.getElementById(id).style.display='none';
+  });
   try{
     const res=await fj('/api/idea_lab',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({idea})});
     if(res.error){alert(res.error);return;}
@@ -695,6 +686,133 @@ function renderIdeaLab(d){
         <span style="font-family:var(--mono);font-size:9px;color:var(--muted);">${p.confidence}</span>
       </div>`).join('')
     :'<div style="font-family:var(--mono);font-size:10px;color:var(--muted);">No related prior analysis. Run discovery pipeline first.</div>';
+
+  // ── NEW: Literature Contradictions ──
+  const contras = d.literature_contradictions || [];
+  const cCard = document.getElementById('ilContradictionCard');
+  if(contras.length){
+    cCard.style.display='block';
+    document.getElementById('ilContradictions').innerHTML = contras.map(c=>`
+      <div style="padding:10px 0;border-bottom:1px solid var(--line);">
+        <div style="display:flex;gap:6px;margin-bottom:8px;flex-wrap:wrap;">
+          ${(c.shared_concepts||[]).map(s=>`<span style="font-family:var(--mono);font-size:8px;padding:1px 6px;border:1px solid var(--amber);color:var(--amber);border-radius:1px;">${s}</span>`).join('')}
+          <span style="font-family:var(--mono);font-size:8px;padding:1px 6px;border:1px solid var(--red);color:var(--red);border-radius:1px;">${c.severity} conflict</span>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px;">
+          <div style="padding:8px;background:rgba(45,212,160,.05);border-left:2px solid var(--green);border-radius:2px;">
+            <div style="font-family:var(--mono);font-size:8px;color:var(--green);margin-bottom:4px;">SUPPORTS</div>
+            <div style="font-size:10px;color:var(--text);line-height:1.4;margin-bottom:4px;">${(c.supporting_claim||'').substring(0,120)}…</div>
+            <div style="font-size:9px;color:var(--muted);font-style:italic;">— ${(c.supporting_paper||'').substring(0,50)}</div>
+          </div>
+          <div style="padding:8px;background:rgba(232,64,64,.05);border-left:2px solid var(--red);border-radius:2px;">
+            <div style="font-family:var(--mono);font-size:8px;color:var(--red);margin-bottom:4px;">CONTRADICTS</div>
+            <div style="font-size:10px;color:var(--text);line-height:1.4;margin-bottom:4px;">${(c.contradicting_claim||'').substring(0,120)}…</div>
+            <div style="font-size:9px;color:var(--muted);font-style:italic;">— ${(c.contradicting_paper||'').substring(0,50)}</div>
+          </div>
+        </div>
+        <div style="font-size:10px;color:var(--dim);background:var(--ink);padding:8px;border-radius:2px;line-height:1.5;">💡 ${c.implication||''}</div>
+      </div>`).join('');
+  } else { cCard.style.display='none'; }
+
+  // ── NEW: Reconciling Hypothesis ──
+  const hyp = d.reconciling_hypothesis;
+  const hCard = document.getElementById('ilHypCard');
+  if(hyp){
+    hCard.style.display='block';
+    document.getElementById('ilHypothesis').innerHTML = `
+      <div style="font-size:13px;line-height:1.6;color:var(--bright);margin-bottom:14px;font-weight:500;border-left:3px solid var(--gold);padding-left:12px;">${hyp.hypothesis}</div>
+      <div style="background:rgba(212,168,67,.06);border:1px solid rgba(212,168,67,.2);border-radius:4px;padding:12px;margin-bottom:12px;">
+        <div style="font-family:var(--mono);font-size:8px;color:var(--gold);letter-spacing:1px;margin-bottom:5px;">TESTABLE PREDICTION</div>
+        <div style="font-size:11px;color:var(--text);line-height:1.5;">${hyp.prediction}</div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:10px;">
+        <div style="text-align:center;padding:10px;background:var(--ink);border-radius:4px;border:1px solid var(--line2);">
+          <div style="font-family:var(--mono);font-size:20px;color:var(--gold);">${Math.round((hyp.testability_score||0)*100)}%</div>
+          <div style="font-family:var(--mono);font-size:8px;color:var(--muted);margin-top:3px;">Testable</div>
+        </div>
+        <div style="text-align:center;padding:10px;background:var(--ink);border-radius:4px;border:1px solid var(--line2);">
+          <div style="font-family:var(--mono);font-size:20px;color:var(--gold);">${Math.round((hyp.confidence||0)*100)}%</div>
+          <div style="font-family:var(--mono);font-size:8px;color:var(--muted);margin-top:3px;">Confidence</div>
+        </div>
+        <div style="text-align:center;padding:10px;background:var(--ink);border-radius:4px;border:1px solid var(--line2);">
+          <div style="font-family:var(--mono);font-size:13px;color:var(--green);margin-top:4px;">Novel</div>
+          <div style="font-family:var(--mono);font-size:8px;color:var(--muted);margin-top:3px;">Status</div>
+        </div>
+      </div>
+      <div style="font-family:var(--mono);font-size:9px;color:var(--muted);padding:6px 8px;border:1px solid var(--line);border-radius:2px;">
+        ✦ ${hyp.novelty||''}
+      </div>`;
+  } else { hCard.style.display='none'; }
+
+  // ── NEW: Experiment Design ──
+  const exp = d.experiment_design;
+  const eCard = document.getElementById('ilExpCard');
+  if(exp){
+    eCard.style.display='block';
+    document.getElementById('ilExperiment').innerHTML = `
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px;">
+        <div style="padding:8px;background:var(--ink);border-radius:3px;">
+          <div style="font-family:var(--mono);font-size:8px;color:var(--muted);margin-bottom:3px;">MODEL</div>
+          <div style="font-size:10px;color:var(--text);">${exp.model||'–'}</div>
+        </div>
+        <div style="padding:8px;background:var(--ink);border-radius:3px;">
+          <div style="font-family:var(--mono);font-size:8px;color:var(--muted);margin-bottom:3px;">DATASET</div>
+          <div style="font-size:10px;color:var(--text);">${exp.dataset||'–'}</div>
+        </div>
+        <div style="padding:8px;background:var(--ink);border-radius:3px;">
+          <div style="font-family:var(--mono);font-size:8px;color:var(--muted);margin-bottom:3px;">PRIMARY METRIC</div>
+          <div style="font-size:10px;color:var(--text);">${exp.primary_metric||'–'}</div>
+        </div>
+        <div style="padding:8px;background:var(--ink);border-radius:3px;">
+          <div style="font-family:var(--mono);font-size:8px;color:var(--muted);margin-bottom:3px;">BASELINE</div>
+          <div style="font-size:10px;color:var(--text);">${exp.baseline||'–'}</div>
+        </div>
+      </div>
+      <div style="background:var(--ink);padding:10px;border-radius:3px;margin-bottom:10px;">
+        <div style="font-family:var(--mono);font-size:8px;color:var(--muted);margin-bottom:5px;">VARIABLES TO TEST</div>
+        ${(exp.variables||[]).map(v=>`<div style="font-size:10px;color:var(--text);padding:2px 0;">→ ${v}</div>`).join('')}
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px;">
+        <div style="padding:8px;background:rgba(45,212,160,.06);border-radius:4px;border:1px solid rgba(45,212,160,.2);">
+          <div style="font-family:var(--mono);font-size:8px;color:var(--muted);margin-bottom:3px;">EST. COST</div>
+          <div style="font-size:11px;color:var(--green);">${exp.estimated_cost||'–'}</div>
+        </div>
+        <div style="padding:8px;background:rgba(212,168,67,.06);border-radius:4px;border:1px solid rgba(212,168,67,.2);">
+          <div style="font-family:var(--mono);font-size:8px;color:var(--muted);margin-bottom:3px;">EST. TIME</div>
+          <div style="font-size:11px;color:var(--gold);">${exp.estimated_time||'–'}</div>
+        </div>
+      </div>
+      <div style="font-size:10px;color:var(--dim);line-height:1.5;padding:8px;border:1px solid var(--line);border-radius:3px;">
+        <span style="color:var(--amber);font-family:var(--mono);font-size:8px;">EXPECTED → </span>${exp.expected_finding||'–'}
+      </div>`;
+  } else { eCard.style.display='none'; }
+
+  // ── NEW: Outcome Prediction ──
+  const pred = d.outcome_prediction;
+  const oCard = document.getElementById('ilOutcomeCard');
+  if(pred){
+    oCard.style.display='block';
+    const outcomes = pred.outcomes || [];
+    const colors = ['var(--green)', 'var(--gold)', 'var(--red)'];
+    document.getElementById('ilOutcome').innerHTML = `
+      <div style="margin-bottom:14px;">
+        ${outcomes.map((o,i)=>`
+          <div style="margin-bottom:10px;">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
+              <span style="font-family:var(--mono);font-size:9px;color:${colors[i]};">${o.label}</span>
+              <span style="font-family:var(--mono);font-size:13px;color:${colors[i]};font-weight:600;">${Math.round((o.probability||0)*100)}%</span>
+            </div>
+            <div style="background:var(--line);height:4px;border-radius:2px;margin-bottom:4px;overflow:hidden;">
+              <div style="width:${Math.round((o.probability||0)*100)}%;height:4px;background:${colors[i]};border-radius:2px;"></div>
+            </div>
+            <div style="font-size:9px;color:var(--muted);">${o.description||''}</div>
+          </div>`).join('')}
+      </div>
+      <div style="padding:10px;background:rgba(232,64,64,.06);border:1px solid rgba(232,64,64,.2);border-radius:4px;">
+        <div style="font-family:var(--mono);font-size:8px;color:var(--red);margin-bottom:4px;">MOST LIKELY FAILURE MODE</div>
+        <div style="font-size:10px;color:var(--text);">${pred.most_likely_failure||'–'}</div>
+      </div>`;
+  } else { oCard.style.display='none'; }
 
   document.getElementById('ideaContent').style.display='block';
   document.getElementById('ideaEmpty').style.display='none';
