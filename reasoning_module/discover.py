@@ -127,6 +127,7 @@ class DiscoveryEngine:
                 query,
                 top_k=self.cfg.top_k_chunks,
                 use_mmr=bool(self.cfg.use_mmr),
+                gate=False,
             )
         except TypeError:
             try:

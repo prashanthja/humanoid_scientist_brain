@@ -1,0 +1,228 @@
+{
+  "query": "Does FlashAttention reduce memory overhead?",
+  "timestamp": "2026-04-09 12:00:21",
+  "domain": "transformer_efficiency",
+  "proposal_verdict": "inconclusive",
+  "proposal_confidence": 0.35,
+  "proposal_explanation": "Semantic similarity exists but evidence lacks strength (strong_chunks=0/2 best_quality=0.45)",
+  "evidence_count": 10,
+  "top_papers": [
+    "FlashAttention: Fast and Memory-Efficient Exact Attention with IO-Awareness",
+    "FlashMask: Efficient and Rich Mask Extension of FlashAttention",
+    "Energy-Efficient FlashAttention Acceleration on CGLA",
+    "MLPMoE: Zero-Shot Architectural Metamorphosis of Dense LLM MLPs into Static Mixture-of-Experts",
+    "Power Efficient Attention Acceleration on CGLA",
+    "LoRA-FA: Memory-efficient Low-rank Adaptation for Large Language Models Fine-tuning",
+    "HotPrefix: Hotness-Aware KV Cache Scheduling for Efficient Prefix Sharing in LLM Inference Systems",
+    "KeyDiff: Key Similarity-Based KV Cache Eviction for Long-Context LLM Inference in Resource-Constrained Environments"
+  ],
+  "extracted_claim_count": 10,
+  "top_claims": [
+    {
+      "claim": "The method operates entirely post hoc on existing checkpoints and does not require gradients, calibration sets, or router training.",
+      "paper_title": "MLPMoE: Zero-Shot Architectural Metamorphosis of Dense LLM MLPs into Static Mixture-of-Experts",
+      "domain": "transformer_efficiency"
+    },
+    {
+      "claim": "The computational and memory demands of vanilla attention scale quadratically with the sequence length $N$, posing significant challenges for processing long sequences in Transformer models.",
+      "paper_title": "FlashMask: Efficient and Rich Mask Extension of FlashAttention",
+      "domain": "transformer_efficiency"
+    },
+    {
+      "claim": "FlashAttention alleviates these challenges by eliminating the $O(N^2)$ memory dependency and reducing attention latency through IO-aware memory optimizations.",
+      "paper_title": "FlashMask: Efficient and Rich Mask Extension of FlashAttention",
+      "domain": "transformer_efficiency"
+    },
+    {
+      "claim": "Transformers are slow and memory-hungry on long sequences, since the time and memory complexity of self-attention are quadratic in sequence length.",
+      "paper_title": "FlashAttention: Fast and Memory-Efficient Exact Attention with IO-Awareness",
+      "domain": "transformer_efficiency"
+    },
+    {
+      "claim": "Approximate attention methods have attempted to address this problem by trading off model quality to reduce the compute complexity, but often do not achieve wall-clock speedup.",
+      "paper_title": "FlashAttention: Fast and Memory-Efficient Exact Attention with IO-Awareness",
+      "domain": "transformer_efficiency"
+    }
+  ],
+  "grounded_claim_count": 5,
+  "supported_count": 0,
+  "contradicted_count": 0,
+  "inconclusive_count": 5,
+  "top_grounded": [
+    {
+      "claim": "Transformers are slow and memory-hungry on long sequences, since the time and memory complexity of self-attention are quadratic in sequence length.",
+      "claim_type": "statement",
+      "domain": "transformer_efficiency",
+      "grounding": {
+        "claim": "Transformers are slow and memory-hungry on long sequences, since the time and memory complexity of self-attention are quadratic in sequence length.",
+        "support_count": 0,
+        "contradict_count": 0,
+        "neutral_count": 6,
+        "total_evidence": 6,
+        "unique_sources": 1,
+        "unique_titles": 5,
+        "avg_support_score": 0.0,
+        "avg_contradict_score": 0.0,
+        "diversity_score": 0.75,
+        "contradiction_penalty": 0.0,
+        "coverage_score": 1.0,
+        "grounding_score": 0.4,
+        "top_support": [],
+        "top_contradict": []
+      },
+      "verdict": {
+        "claim": "Transformers are slow and memory-hungry on long sequences, since the time and memory complexity of self-attention are quadratic in sequence length.",
+        "verdict": "inconclusive",
+        "confidence": 0.4,
+        "explanation": "Evidence is mixed or insufficient (support=0, contradict=0, neutral=6).",
+        "grounding_score": 0.4,
+        "support_count": 0,
+        "contradict_count": 0,
+        "neutral_count": 6,
+        "total_evidence": 6
+      }
+    },
+    {
+      "claim": "The computational and memory demands of vanilla attention scale quadratically with the sequence length $N$, posing significant challenges for processing long sequences in Transformer models.",
+      "claim_type": "statement",
+      "domain": "transformer_efficiency",
+      "grounding": {
+        "claim": "The computational and memory demands of vanilla attention scale quadratically with the sequence length $N$, posing significant challenges for processing long sequences in Transformer models.",
+        "support_count": 0,
+        "contradict_count": 0,
+        "neutral_count": 7,
+        "total_evidence": 7,
+        "unique_sources": 1,
+        "unique_titles": 6,
+        "avg_support_score": 0.0,
+        "avg_contradict_score": 0.0,
+        "diversity_score": 0.75,
+        "contradiction_penalty": 0.0,
+        "coverage_score": 1.0,
+        "grounding_score": 0.4,
+        "top_support": [],
+        "top_contradict": []
+      },
+      "verdict": {
+        "claim": "The computational and memory demands of vanilla attention scale quadratically with the sequence length $N$, posing significant challenges for processing long sequences in Transformer models.",
+        "verdict": "inconclusive",
+        "confidence": 0.4,
+        "explanation": "Evidence is mixed or insufficient (support=0, contradict=0, neutral=7).",
+        "grounding_score": 0.4,
+        "support_count": 0,
+        "contradict_count": 0,
+        "neutral_count": 7,
+        "total_evidence": 7
+      }
+    },
+    {
+      "claim": "FlashAttention alleviates these challenges by eliminating the $O(N^2)$ memory dependency and reducing attention latency through IO-aware memory optimizations.",
+      "claim_type": "statement",
+      "domain": "transformer_efficiency",
+      "grounding": {
+        "claim": "FlashAttention alleviates these challenges by eliminating the $O(N^2)$ memory dependency and reducing attention latency through IO-aware memory optimizations.",
+        "support_count": 0,
+        "contradict_count": 0,
+        "neutral_count": 8,
+        "total_evidence": 8,
+        "unique_sources": 1,
+        "unique_titles": 7,
+        "avg_support_score": 0.0,
+        "avg_contradict_score": 0.0,
+        "diversity_score": 0.75,
+        "contradiction_penalty": 0.0,
+        "coverage_score": 1.0,
+        "grounding_score": 0.4,
+        "top_support": [],
+        "top_contradict": []
+      },
+      "verdict": {
+        "claim": "FlashAttention alleviates these challenges by eliminating the $O(N^2)$ memory dependency and reducing attention latency through IO-aware memory optimizations.",
+        "verdict": "inconclusive",
+        "confidence": 0.4,
+        "explanation": "Evidence is mixed or insufficient (support=0, contradict=0, neutral=8).",
+        "grounding_score": 0.4,
+        "support_count": 0,
+        "contradict_count": 0,
+        "neutral_count": 8,
+        "total_evidence": 8
+      }
+    },
+    {
+      "claim": "We argue that a missing principle is making attention algorithms IO-aware -- accounting for reads and writes between levels of GPU memory.",
+      "claim_type": "statement",
+      "domain": "transformer_efficiency",
+      "grounding": {
+        "claim": "We argue that a missing principle is making attention algorithms IO-aware -- accounting for reads and writes between levels of GPU memory.",
+        "support_count": 0,
+        "contradict_count": 0,
+        "neutral_count": 4,
+        "total_evidence": 4,
+        "unique_sources": 1,
+        "unique_titles": 3,
+        "avg_support_score": 0.0,
+        "avg_contradict_score": 0.0,
+        "diversity_score": 0.75,
+        "contradiction_penalty": 0.0,
+        "coverage_score": 0.6667,
+        "grounding_score": 0.3167,
+        "top_support": [],
+        "top_contradict": []
+      },
+      "verdict": {
+        "claim": "We argue that a missing principle is making attention algorithms IO-aware -- accounting for reads and writes between levels of GPU memory.",
+        "verdict": "inconclusive",
+        "confidence": 0.3167,
+        "explanation": "Evidence is mixed or insufficient (support=0, contradict=0, neutral=4).",
+        "grounding_score": 0.3167,
+        "support_count": 0,
+        "contradict_count": 0,
+        "neutral_count": 4,
+        "total_evidence": 4
+      }
+    },
+    {
+      "claim": "Approximate attention methods have attempted to address this problem by trading off model quality to reduce the compute complexity, but often do not achieve wall-clock speedup.",
+      "claim_type": "statement",
+      "domain": "transformer_efficiency",
+      "grounding": {
+        "claim": "Approximate attention methods have attempted to address this problem by trading off model quality to reduce the compute complexity, but often do not achieve wall-clock speedup.",
+        "support_count": 0,
+        "contradict_count": 0,
+        "neutral_count": 2,
+        "total_evidence": 2,
+        "unique_sources": 1,
+        "unique_titles": 1,
+        "avg_support_score": 0.0,
+        "avg_contradict_score": 0.0,
+        "diversity_score": 0.5,
+        "contradiction_penalty": 0.0,
+        "coverage_score": 0.3333,
+        "grounding_score": 0.1833,
+        "top_support": [],
+        "top_contradict": []
+      },
+      "verdict": {
+        "claim": "Approximate attention methods have attempted to address this problem by trading off model quality to reduce the compute complexity, but often do not achieve wall-clock speedup.",
+        "verdict": "inconclusive",
+        "confidence": 0.2,
+        "explanation": "Evidence is mixed or insufficient (support=0, contradict=0, neutral=2).",
+        "grounding_score": 0.1833,
+        "support_count": 0,
+        "contradict_count": 0,
+        "neutral_count": 2,
+        "total_evidence": 2
+      }
+    }
+  ],
+  "knowledge_gaps": [
+    "Many claims are inconclusive — evidence exists but lacks benchmark numbers or experimental results.",
+    "No contradicting evidence found — this may indicate limited coverage of papers reporting failure cases or trade-offs."
+  ],
+  "next_actions": [
+    "Pick 1 concrete intervention and convert it into a falsifiable claim (inputs → mechanism → measurable outputs).",
+    "Run targeted retrieval using 3–5 specific transformer-efficiency keywords and compare results.",
+    "Prioritize evidence chunks with benchmark numbers (latency, throughput, memory, perplexity, context length).",
+    "Generate an experiment plan: baseline, efficiency metric, quality metric, ablations, acceptance threshold."
+  ]
+}

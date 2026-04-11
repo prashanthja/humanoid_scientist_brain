@@ -1,0 +1,281 @@
+{
+  "query": "Does speculative decoding improve LLM inference throughput?",
+  "timestamp": "2026-04-09 11:54:15",
+  "domain": "transformer_efficiency",
+  "proposal_verdict": "inconclusive",
+  "proposal_confidence": 0.35,
+  "proposal_explanation": "Semantic similarity exists but evidence lacks strength (strong_chunks=0/2 best_quality=0.45)",
+  "evidence_count": 10,
+  "top_papers": [
+    "Speculative Decoding Scaling Laws (SDSL): Throughput Optimization Made Simple",
+    "Hardware-Aware Parallel Prompt Decoding for Memory-Efficient Acceleration of LLM Inference",
+    "Nightjar: Dynamic Adaptive Speculative Decoding for Large Language Models Serving",
+    "Dynamic K Mechanism for Accelerating Speculative Decoding in vLLM",
+    "MCaM : Efficient LLM Inference with Multi-tier KV Cache Management",
+    "HeteroSpec: Leveraging Contextual Heterogeneity for Efficient Speculative Decoding",
+    "MoE-Spec: Expert Budgeting for Efficient Speculative Decoding",
+    "Speculative Decoding in Decentralized LLM Inference: Turning Communication Latency into Computation Throughput"
+  ],
+  "extracted_claim_count": 10,
+  "top_claims": [
+    {
+      "claim": "Our experiments show that MCaM can reduce TTFT by up to 69% and improve prompt prefilling throughput by 3.3X.",
+      "paper_title": "MCaM : Efficient LLM Inference with Multi-tier KV Cache Management",
+      "domain": "transformer_efficiency"
+    },
+    {
+      "claim": "It can also reduce the end-to-end latency of LLM inference by up to 58% when request length increase to 4096 tokens.",
+      "paper_title": "MCaM : Efficient LLM Inference with Multi-tier KV Cache Management",
+      "domain": "transformer_efficiency"
+    },
+    {
+      "claim": "Previous works have used an experi- mental approach to optimize the throughput of the inference pipeline, which involves LLM training and can be costly.",
+      "paper_title": "Speculative Decoding Scaling Laws (SDSL): Throughput Optimization Made Simple",
+      "domain": "transformer_efficiency"
+    },
+    {
+      "claim": "This study of spec- ulative decoding proposes a theory that ana- lytically connects the key hyperparameters of pre-trained LLMs to the throughput efficiency of a downstream SD-based inference system.",
+      "paper_title": "Speculative Decoding Scaling Laws (SDSL): Throughput Optimization Made Simple",
+      "domain": "transformer_efficiency"
+    },
+    {
+      "claim": "The theory allows the prediction of throughput- optimal hyperparameters for the components of an inference system before their pre-training.",
+      "paper_title": "Speculative Decoding Scaling Laws (SDSL): Throughput Optimization Made Simple",
+      "domain": "transformer_efficiency"
+    }
+  ],
+  "grounded_claim_count": 5,
+  "supported_count": 2,
+  "contradicted_count": 0,
+  "inconclusive_count": 3,
+  "top_grounded": [
+    {
+      "claim": "Previous works have used an experi- mental approach to optimize the throughput of the inference pipeline, which involves LLM training and can be costly.",
+      "claim_type": "statement",
+      "domain": "transformer_efficiency",
+      "grounding": {
+        "claim": "Previous works have used an experi- mental approach to optimize the throughput of the inference pipeline, which involves LLM training and can be costly.",
+        "support_count": 2,
+        "contradict_count": 0,
+        "neutral_count": 3,
+        "total_evidence": 5,
+        "unique_sources": 2,
+        "unique_titles": 5,
+        "avg_support_score": 0.7998,
+        "avg_contradict_score": 0.0,
+        "diversity_score": 1.0,
+        "contradiction_penalty": 0.0,
+        "coverage_score": 0.8333,
+        "grounding_score": 0.7282,
+        "top_support": [
+          {
+            "text": "Speculative decoding is a technique that uses multiple language models to accelerate infer- ence. Previous works have used an experi- mental approach to optimize the throughput of the inference pipeline, which involves LLM training and can be costly. This study of spec- ulative decoding proposes a theory that ana- lytically connects the key hyperparameters of pre-trained LLMs to the throughput efficiency of a downstream SD-based inference system. The theory allows the prediction of throughput- optimal hyperparameters for the components of an inference system before their pre-training.",
+            "paper_title": "Speculative Decoding Scaling Laws (SDSL): Throughput Optimization Made Simple",
+            "source": "semantic_scholar",
+            "chunk_id": 1244,
+            "verdict": "support",
+            "score": 0.9362896621227265,
+            "similarity": 0.9019840955734253,
+            "overlap": 1.0
+          },
+          {
+            "text": "HBM to DRAM in the background. Our experiments show that MCaM can reduce TTFT by up to 69% and improve prompt prefilling throughput by 3.3X. It can also reduce the end-to-end latency of LLM inference by up to 58% when request length increase to 4096 tokens.",
+            "paper_title": "MCaM : Efficient LLM Inference with Multi-tier KV Cache Management",
+            "source": "semantic_scholar",
+            "chunk_id": 1131,
+            "verdict": "support",
+            "score": 0.6632520093729621,
+            "similarity": 0.8503472208976746,
+            "overlap": 0.3158
+          }
+        ],
+        "top_contradict": []
+      },
+      "verdict": {
+        "claim": "Previous works have used an experi- mental approach to optimize the throughput of the inference pipeline, which involves LLM training and can be costly.",
+        "verdict": "supported",
+        "confidence": 0.8282,
+        "explanation": "Support outweighs contradiction (support=2, contradict=0) with strong grounding=0.73.",
+        "grounding_score": 0.7282,
+        "support_count": 2,
+        "contradict_count": 0,
+        "neutral_count": 3,
+        "total_evidence": 5
+      }
+    },
+    {
+      "claim": "The theory allows the prediction of throughput- optimal hyperparameters for the components of an inference system before their pre-training.",
+      "claim_type": "statement",
+      "domain": "transformer_efficiency",
+      "grounding": {
+        "claim": "The theory allows the prediction of throughput- optimal hyperparameters for the components of an inference system before their pre-training.",
+        "support_count": 2,
+        "contradict_count": 0,
+        "neutral_count": 6,
+        "total_evidence": 8,
+        "unique_sources": 1,
+        "unique_titles": 7,
+        "avg_support_score": 0.7795,
+        "avg_contradict_score": 0.0,
+        "diversity_score": 0.75,
+        "contradiction_penalty": 0.0,
+        "coverage_score": 1.0,
+        "grounding_score": 0.5949,
+        "top_support": [
+          {
+            "text": "Speculative decoding is a technique that uses multiple language models to accelerate infer- ence. Previous works have used an experi- mental approach to optimize the throughput of the inference pipeline, which involves LLM training and can be costly. This study of spec- ulative decoding proposes a theory that ana- lytically connects the key hyperparameters of pre-trained LLMs to the throughput efficiency of a downstream SD-based inference system. The theory allows the prediction of throughput- optimal hyperparameters for the components of an inference system before their pre-training.",
+            "paper_title": "Speculative Decoding Scaling Laws (SDSL): Throughput Optimization Made Simple",
+            "source": "semantic_scholar",
+            "chunk_id": 1244,
+            "verdict": "support",
+            "score": 0.9362896621227265,
+            "similarity": 0.9019840955734253,
+            "overlap": 1.0
+          },
+          {
+            "text": "HBM to DRAM in the background. Our experiments show that MCaM can reduce TTFT by up to 69% and improve prompt prefilling throughput by 3.3X. It can also reduce the end-to-end latency of LLM inference by up to 58% when request length increase to 4096 tokens.",
+            "paper_title": "MCaM : Efficient LLM Inference with Multi-tier KV Cache Management",
+            "source": "semantic_scholar",
+            "chunk_id": 1131,
+            "verdict": "support",
+            "score": 0.6227256935834884,
+            "similarity": 0.8503472208976746,
+            "overlap": 0.2
+          }
+        ],
+        "top_contradict": []
+      },
+      "verdict": {
+        "claim": "The theory allows the prediction of throughput- optimal hyperparameters for the components of an inference system before their pre-training.",
+        "verdict": "supported",
+        "confidence": 0.6949,
+        "explanation": "Support outweighs contradiction (support=2, contradict=0) with strong grounding=0.59.",
+        "grounding_score": 0.5949,
+        "support_count": 2,
+        "contradict_count": 0,
+        "neutral_count": 6,
+        "total_evidence": 8
+      }
+    },
+    {
+      "claim": "This study of spec- ulative decoding proposes a theory that ana- lytically connects the key hyperparameters of pre-trained LLMs to the throughput efficiency of a downstream SD-based inference system.",
+      "claim_type": "statement",
+      "domain": "transformer_efficiency",
+      "grounding": {
+        "claim": "This study of spec- ulative decoding proposes a theory that ana- lytically connects the key hyperparameters of pre-trained LLMs to the throughput efficiency of a downstream SD-based inference system.",
+        "support_count": 1,
+        "contradict_count": 0,
+        "neutral_count": 4,
+        "total_evidence": 5,
+        "unique_sources": 1,
+        "unique_titles": 5,
+        "avg_support_score": 0.9363,
+        "avg_contradict_score": 0.0,
+        "diversity_score": 0.75,
+        "contradiction_penalty": 0.0,
+        "coverage_score": 0.8333,
+        "grounding_score": 0.5456,
+        "top_support": [
+          {
+            "text": "Speculative decoding is a technique that uses multiple language models to accelerate infer- ence. Previous works have used an experi- mental approach to optimize the throughput of the inference pipeline, which involves LLM training and can be costly. This study of spec- ulative decoding proposes a theory that ana- lytically connects the key hyperparameters of pre-trained LLMs to the throughput efficiency of a downstream SD-based inference system. The theory allows the prediction of throughput- optimal hyperparameters for the components of an inference system before their pre-training.",
+            "paper_title": "Speculative Decoding Scaling Laws (SDSL): Throughput Optimization Made Simple",
+            "source": "semantic_scholar",
+            "chunk_id": 1244,
+            "verdict": "support",
+            "score": 0.9362896621227265,
+            "similarity": 0.9019840955734253,
+            "overlap": 1.0
+          }
+        ],
+        "top_contradict": []
+      },
+      "verdict": {
+        "claim": "This study of spec- ulative decoding proposes a theory that ana- lytically connects the key hyperparameters of pre-trained LLMs to the throughput efficiency of a downstream SD-based inference system.",
+        "verdict": "partially_supported",
+        "confidence": 0.5456,
+        "explanation": "Evidence leans supportive but remains mixed (support=1, contradict=0, neutral=4).",
+        "grounding_score": 0.5456,
+        "support_count": 1,
+        "contradict_count": 0,
+        "neutral_count": 4,
+        "total_evidence": 5
+      }
+    },
+    {
+      "claim": "Under high load, the benefit of speculation diminishes, while retaining the draft model reduces KV-cache capacity, limiting batch size and degrading throughput.",
+      "claim_type": "statement",
+      "domain": "transformer_efficiency",
+      "grounding": {
+        "claim": "Under high load, the benefit of speculation diminishes, while retaining the draft model reduces KV-cache capacity, limiting batch size and degrading throughput.",
+        "support_count": 0,
+        "contradict_count": 0,
+        "neutral_count": 6,
+        "total_evidence": 6,
+        "unique_sources": 1,
+        "unique_titles": 5,
+        "avg_support_score": 0.0,
+        "avg_contradict_score": 0.0,
+        "diversity_score": 0.75,
+        "contradiction_penalty": 0.0,
+        "coverage_score": 1.0,
+        "grounding_score": 0.4,
+        "top_support": [],
+        "top_contradict": []
+      },
+      "verdict": {
+        "claim": "Under high load, the benefit of speculation diminishes, while retaining the draft model reduces KV-cache capacity, limiting batch size and degrading throughput.",
+        "verdict": "inconclusive",
+        "confidence": 0.4,
+        "explanation": "Evidence is mixed or insufficient (support=0, contradict=0, neutral=6).",
+        "grounding_score": 0.4,
+        "support_count": 0,
+        "contradict_count": 0,
+        "neutral_count": 6,
+        "total_evidence": 6
+      }
+    },
+    {
+      "claim": "However, this method presents a critical trade-off: it improves throughput in low-load, memory-bound systems but degrades performance in high-load, compute-bound environments due to verification overhead.",
+      "claim_type": "statement",
+      "domain": "transformer_efficiency",
+      "grounding": {
+        "claim": "However, this method presents a critical trade-off: it improves throughput in low-load, memory-bound systems but degrades performance in high-load, compute-bound environments due to verification overhead.",
+        "support_count": 0,
+        "contradict_count": 0,
+        "neutral_count": 3,
+        "total_evidence": 3,
+        "unique_sources": 1,
+        "unique_titles": 3,
+        "avg_support_score": 0.0,
+        "avg_contradict_score": 0.0,
+        "diversity_score": 0.75,
+        "contradiction_penalty": 0.0,
+        "coverage_score": 0.5,
+        "grounding_score": 0.275,
+        "top_support": [],
+        "top_contradict": []
+      },
+      "verdict": {
+        "claim": "However, this method presents a critical trade-off: it improves throughput in low-load, memory-bound systems but degrades performance in high-load, compute-bound environments due to verification overhead.",
+        "verdict": "inconclusive",
+        "confidence": 0.275,
+        "explanation": "Evidence is mixed or insufficient (support=0, contradict=0, neutral=3).",
+        "grounding_score": 0.275,
+        "support_count": 0,
+        "contradict_count": 0,
+        "neutral_count": 3,
+        "total_evidence": 3
+      }
+    }
+  ],
+  "knowledge_gaps": [
+    "Many claims are inconclusive — evidence exists but lacks benchmark numbers or experimental results.",
+    "No contradicting evidence found — this may indicate limited coverage of papers reporting failure cases or trade-offs."
+  ],
+  "next_actions": [
+    "Pick 1 concrete intervention and convert it into a falsifiable claim (inputs → mechanism → measurable outputs).",
+    "Run targeted retrieval using 3–5 specific transformer-efficiency keywords and compare results.",
+    "Prioritize evidence chunks with benchmark numbers (latency, throughput, memory, perplexity, context length).",
+    "Generate an experiment plan: baseline, efficiency metric, quality metric, ablations, acceptance threshold."
+  ]
+}

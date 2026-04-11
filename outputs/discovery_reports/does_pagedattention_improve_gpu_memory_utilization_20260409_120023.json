@@ -1,0 +1,397 @@
+{
+  "query": "Does PagedAttention improve GPU memory utilization?",
+  "timestamp": "2026-04-09 12:00:23",
+  "domain": "transformer_efficiency",
+  "proposal_verdict": "inconclusive",
+  "proposal_confidence": 0.35,
+  "proposal_explanation": "Semantic similarity exists but evidence lacks strength (strong_chunks=0/2 best_quality=0.45)",
+  "evidence_count": 10,
+  "top_papers": [
+    "Comparative Analysis of Large Language Model Inference Serving Systems: A Performance Study of vLLM and HuggingFace TGI",
+    "Jenga: Effective Memory Management for Serving LLM with Heterogeneity",
+    "PagedEviction: Structured Block-wise KV Cache Pruning for Efficient Large Language Model Inference",
+    "FLASepformer: Efficient Speech Separation with Gated Focused Linear Attention Transformer",
+    "MLPMoE: Zero-Shot Architectural Metamorphosis of Dense LLM MLPs into Static Mixture-of-Experts",
+    "eLLM: Elastic Memory Management Framework for Efficient LLM Serving",
+    "HotPrefix: Hotness-Aware KV Cache Scheduling for Efficient Prefix Sharing in LLM Inference Systems",
+    "Paged Attention Meets FlexAttention: Unlocking Long-Context Efficiency in Deployed Inference"
+  ],
+  "extracted_claim_count": 10,
+  "top_claims": [
+    {
+      "claim": "The method operates entirely post hoc on existing checkpoints and does not require gradients, calibration sets, or router training.",
+      "paper_title": "MLPMoE: Zero-Shot Architectural Metamorphosis of Dense LLM MLPs into Static Mixture-of-Experts",
+      "domain": "transformer_efficiency"
+    },
+    {
+      "claim": "d performing cache eviction based on attention patterns to enhance memory reuse.",
+      "paper_title": "Jenga: Effective Memory Management for Serving LLM with Heterogeneity",
+      "domain": "transformer_efficiency"
+    },
+    {
+      "claim": "Evaluations show that Jenga improves GPU memory utilization by up to 83% and serving throughput by up to 2.16× (1.46× on average).",
+      "paper_title": "Jenga: Effective Memory Management for Serving LLM with Heterogeneity",
+      "domain": "transformer_efficiency"
+    },
+    {
+      "claim": "KV caching significantly improves the efficiency of Large Language Model (LLM) inference by storing attention states from previously processed tokens, enabling faster generation of subsequent tokens.",
+      "paper_title": "PagedEviction: Structured Block-wise KV Cache Pruning for Efficient Large Language Model Inference",
+      "domain": "transformer_efficiency"
+    },
+    {
+      "claim": "However, as sequence length increases, the KV cache quickly becomes a major memory bottleneck.",
+      "paper_title": "PagedEviction: Structured Block-wise KV Cache Pruning for Efficient Large Language Model Inference",
+      "domain": "transformer_efficiency"
+    }
+  ],
+  "grounded_claim_count": 5,
+  "supported_count": 2,
+  "contradicted_count": 0,
+  "inconclusive_count": 3,
+  "top_grounded": [
+    {
+      "claim": "Our experiments reveal that vLLM achieves up to 24x higher throughput than TGI under high-concurrency workloads through its novel PagedAttention mechanism, while TGI demonstrates lower tail latencies for interactive single-user scenarios.",
+      "claim_type": "statement",
+      "domain": "transformer_efficiency",
+      "grounding": {
+        "claim": "Our experiments reveal that vLLM achieves up to 24x higher throughput than TGI under high-concurrency workloads through its novel PagedAttention mechanism, while TGI demonstrates lower tail latencies for interactive single-user scenarios.",
+        "support_count": 2,
+        "contradict_count": 0,
+        "neutral_count": 0,
+        "total_evidence": 2,
+        "unique_sources": 1,
+        "unique_titles": 2,
+        "avg_support_score": 0.7709,
+        "avg_contradict_score": 0.0,
+        "diversity_score": 0.75,
+        "contradiction_penalty": 0.0,
+        "coverage_score": 0.3333,
+        "grounding_score": 1.0,
+        "top_support": [
+          {
+            "text": "The deployment of Large Language Models (LLMs) in production environments requires efficient inference serving systems that balance throughput, latency, and resource utilization. This paper presents a comprehensive empirical evaluation of two prominent open-source LLM serving frameworks: vLLM and HuggingFace Text Generation Inference (TGI). We benchmark these systems across multiple dimensions including throughput performance, end-to-end latency, GPU memory utilization, and scalability characteristics using LLaMA-2 models ranging from 7B to 70B parameters. Our experiments reveal that vLLM achieves up to 24x higher throughput than TGI under high-concurrency workloads through its novel PagedAttention mechanism, while TGI demonstrates lower tail latencies for interactive single-user scenarios. We provide detailed performance profiles for different deployment scenarios and offer practical re",
+            "paper_title": "Comparative Analysis of Large Language Model Inference Serving Systems: A Performance Study of vLLM and HuggingFace TGI",
+            "source": "semantic_scholar",
+            "chunk_id": 240,
+            "verdict": "support",
+            "score": 0.935573148727417,
+            "similarity": 0.9008817672729492,
+            "overlap": 1.0
+          },
+          {
+            "text": "Large Language Models (LLMs) encounter severe memory inefficiencies during long-context inference due to conventional handling of key-value (KV) caches. In this work, we introduce a novel integration of PagedAttention with PyTorch's FlexAttention, addressing internal fragmentation and inefficiencies associated with monolithic KV cache allocations. Implemented within IBM's Foundation Model Stack (FMS), our fused attention kernel efficiently gathers scattered KV data. Our benchmarks on an NVIDIA L4 GPU (24GB) demonstrate significantly reduced inference latency, growing only linearly (~2x) with sequence length from 128 to 2048 tokens when utilizing a global KV cache, compared to exponential latency increases without caching. While peak memory usage remains largely unchanged for single-step evaluations (dominated by model weights and activations), paged attention causes minimal incremental m",
+            "paper_title": "Paged Attention Meets FlexAttention: Unlocking Long-Context Efficiency in Deployed Inference",
+            "source": "semantic_scholar",
+            "chunk_id": 608,
+            "verdict": "support",
+            "score": 0.6061667335033416,
+            "similarity": 0.8248718976974487,
+            "overlap": 0.2
+          }
+        ],
+        "top_contradict": []
+      },
+      "verdict": {
+        "claim": "Our experiments reveal that vLLM achieves up to 24x higher throughput than TGI under high-concurrency workloads through its novel PagedAttention mechanism, while TGI demonstrates lower tail latencies for interactive single-user scenarios.",
+        "verdict": "supported",
+        "confidence": 0.95,
+        "explanation": "Support outweighs contradiction (support=2, contradict=0) with strong grounding=1.00.",
+        "grounding_score": 1.0,
+        "support_count": 2,
+        "contradict_count": 0,
+        "neutral_count": 0,
+        "total_evidence": 2
+      }
+    },
+    {
+      "claim": "Evaluations show that Jenga improves GPU memory utilization by up to 83% and serving throughput by up to 2.16× (1.46× on average).",
+      "claim_type": "statement",
+      "domain": "transformer_efficiency",
+      "grounding": {
+        "claim": "Evaluations show that Jenga improves GPU memory utilization by up to 83% and serving throughput by up to 2.16× (1.46× on average).",
+        "support_count": 4,
+        "contradict_count": 1,
+        "neutral_count": 3,
+        "total_evidence": 8,
+        "unique_sources": 1,
+        "unique_titles": 7,
+        "avg_support_score": 0.7216,
+        "avg_contradict_score": 0.6568,
+        "diversity_score": 0.75,
+        "contradiction_penalty": 0.0821,
+        "coverage_score": 1.0,
+        "grounding_score": 0.6664,
+        "top_support": [
+          {
+            "text": "d performing cache eviction based on attention patterns to enhance memory reuse. We implement Jenga in vLLM, and evaluate it with diverse LLMs, datasets, and GPUs. Evaluations show that Jenga improves GPU memory utilization by up to 83% and serving throughput by up to 2.16× (1.46× on average).",
+            "paper_title": "Jenga: Effective Memory Management for Serving LLM with Heterogeneity",
+            "source": "semantic_scholar",
+            "chunk_id": 513,
+            "verdict": "support",
+            "score": 0.921213474869728,
+            "similarity": 0.8787899613380432,
+            "overlap": 1.0
+          },
+          {
+            "text": "The deployment of Large Language Models (LLMs) in production environments requires efficient inference serving systems that balance throughput, latency, and resource utilization. This paper presents a comprehensive empirical evaluation of two prominent open-source LLM serving frameworks: vLLM and HuggingFace Text Generation Inference (TGI). We benchmark these systems across multiple dimensions including throughput performance, end-to-end latency, GPU memory utilization, and scalability characteristics using LLaMA-2 models ranging from 7B to 70B parameters. Our experiments reveal that vLLM achieves up to 24x higher throughput than TGI under high-concurrency workloads through its novel PagedAttention mechanism, while TGI demonstrates lower tail latencies for interactive single-user scenarios. We provide detailed performance profiles for different deployment scenarios and offer practical re",
+            "paper_title": "Comparative Analysis of Large Language Model Inference Serving Systems: A Performance Study of vLLM and HuggingFace TGI",
+            "source": "semantic_scholar",
+            "chunk_id": 240,
+            "verdict": "support",
+            "score": 0.7255731487274171,
+            "similarity": 0.9008817672729492,
+            "overlap": 0.4
+          },
+          {
+            "text": "Large Language Models (LLMs) encounter severe memory inefficiencies during long-context inference due to conventional handling of key-value (KV) caches. In this work, we introduce a novel integration of PagedAttention with PyTorch's FlexAttention, addressing internal fragmentation and inefficiencies associated with monolithic KV cache allocations. Implemented within IBM's Foundation Model Stack (FMS), our fused attention kernel efficiently gathers scattered KV data. Our benchmarks on an NVIDIA L4 GPU (24GB) demonstrate significantly reduced inference latency, growing only linearly (~2x) with sequence length from 128 to 2048 tokens when utilizing a global KV cache, compared to exponential latency increases without caching. While peak memory usage remains largely unchanged for single-step evaluations (dominated by model weights and activations), paged attention causes minimal incremental m",
+            "paper_title": "Paged Attention Meets FlexAttention: Unlocking Long-Context Efficiency in Deployed Inference",
+            "source": "semantic_scholar",
+            "chunk_id": 608,
+            "verdict": "support",
+            "score": 0.629500066836675,
+            "similarity": 0.8248718976974487,
+            "overlap": 0.2667
+          },
+          {
+            "text": "tion and faster inference. FLA-SepReformer-T/B/L increases speed by 2.29x, 1.91x, and 1.49x, with 15.8%, 20.9%, and 31.9% GPU memory usage, proving our model's effectiveness.",
+            "paper_title": "FLASepformer: Efficient Speech Separation with Gated Focused Linear Attention Transformer",
+            "source": "semantic_scholar",
+            "chunk_id": 12,
+            "verdict": "support",
+            "score": 0.6102096837759018,
+            "similarity": 0.8310918211936951,
+            "overlap": 0.2
+          }
+        ],
+        "top_contradict": [
+          {
+            "text": "emory fragmentation. However, this dual-level approach fundamentally isolates runtime memory and KV cache management, resulting in suboptimal memory utilization under dynamic workloads, which can lead to a nearly 20% drop in throughput. To address these limitations, we propose eLLM, an elastic memory management framework inspired by the classical memory ballooning mechanism in operating systems. The core components of eLLM include: (1) Virtual Tensor Abstraction, which decouples the virtual address space of tensors from the physical GPU memory, creating a unified and flexible memory pool; (2) an Elastic Memory Mechanism that dynamically adjusts memory allocation through runtime memory inflation and deflation, leveraging CPU memory as an extensible buffer; and (3) a Lightweight Scheduling Strategy employing SLO-aware policies to optimize memory utilization and effectively balance performa",
+            "paper_title": "eLLM: Elastic Memory Management Framework for Efficient LLM Serving",
+            "source": "semantic_scholar",
+            "chunk_id": 519,
+            "verdict": "contradict",
+            "score": 0.6567769358555476,
+            "similarity": 0.8309388756752014,
+            "overlap": 0.3333
+          }
+        ]
+      },
+      "verdict": {
+        "claim": "Evaluations show that Jenga improves GPU memory utilization by up to 83% and serving throughput by up to 2.16× (1.46× on average).",
+        "verdict": "supported",
+        "confidence": 0.7664,
+        "explanation": "Support outweighs contradiction (support=4, contradict=1) with strong grounding=0.67.",
+        "grounding_score": 0.6664,
+        "support_count": 4,
+        "contradict_count": 1,
+        "neutral_count": 3,
+        "total_evidence": 8
+      }
+    },
+    {
+      "claim": "d performing cache eviction based on attention patterns to enhance memory reuse.",
+      "claim_type": "statement",
+      "domain": "transformer_efficiency",
+      "grounding": {
+        "claim": "d performing cache eviction based on attention patterns to enhance memory reuse.",
+        "support_count": 2,
+        "contradict_count": 1,
+        "neutral_count": 3,
+        "total_evidence": 6,
+        "unique_sources": 1,
+        "unique_titles": 5,
+        "avg_support_score": 0.787,
+        "avg_contradict_score": 0.6179,
+        "diversity_score": 0.75,
+        "contradiction_penalty": 0.103,
+        "coverage_score": 1.0,
+        "grounding_score": 0.5439,
+        "top_support": [
+          {
+            "text": "d performing cache eviction based on attention patterns to enhance memory reuse. We implement Jenga in vLLM, and evaluate it with diverse LLMs, datasets, and GPUs. Evaluations show that Jenga improves GPU memory utilization by up to 83% and serving throughput by up to 2.16× (1.46× on average).",
+            "paper_title": "Jenga: Effective Memory Management for Serving LLM with Heterogeneity",
+            "source": "semantic_scholar",
+            "chunk_id": 513,
+            "verdict": "support",
+            "score": 0.921213474869728,
+            "similarity": 0.8787899613380432,
+            "overlap": 1.0
+          },
+          {
+            "text": "Large Language Models (LLMs) encounter severe memory inefficiencies during long-context inference due to conventional handling of key-value (KV) caches. In this work, we introduce a novel integration of PagedAttention with PyTorch's FlexAttention, addressing internal fragmentation and inefficiencies associated with monolithic KV cache allocations. Implemented within IBM's Foundation Model Stack (FMS), our fused attention kernel efficiently gathers scattered KV data. Our benchmarks on an NVIDIA L4 GPU (24GB) demonstrate significantly reduced inference latency, growing only linearly (~2x) with sequence length from 128 to 2048 tokens when utilizing a global KV cache, compared to exponential latency increases without caching. While peak memory usage remains largely unchanged for single-step evaluations (dominated by model weights and activations), paged attention causes minimal incremental m",
+            "paper_title": "Paged Attention Meets FlexAttention: Unlocking Long-Context Efficiency in Deployed Inference",
+            "source": "semantic_scholar",
+            "chunk_id": 608,
+            "verdict": "support",
+            "score": 0.6528334001700083,
+            "similarity": 0.8248718976974487,
+            "overlap": 0.3333
+          }
+        ],
+        "top_contradict": [
+          {
+            "text": "emory fragmentation. However, this dual-level approach fundamentally isolates runtime memory and KV cache management, resulting in suboptimal memory utilization under dynamic workloads, which can lead to a nearly 20% drop in throughput. To address these limitations, we propose eLLM, an elastic memory management framework inspired by the classical memory ballooning mechanism in operating systems. The core components of eLLM include: (1) Virtual Tensor Abstraction, which decouples the virtual address space of tensors from the physical GPU memory, creating a unified and flexible memory pool; (2) an Elastic Memory Mechanism that dynamically adjusts memory allocation through runtime memory inflation and deflation, leveraging CPU memory as an extensible buffer; and (3) a Lightweight Scheduling Strategy employing SLO-aware policies to optimize memory utilization and effectively balance performa",
+            "paper_title": "eLLM: Elastic Memory Management Framework for Efficient LLM Serving",
+            "source": "semantic_scholar",
+            "chunk_id": 519,
+            "verdict": "contradict",
+            "score": 0.6178880469666587,
+            "similarity": 0.8309388756752014,
+            "overlap": 0.2222
+          }
+        ]
+      },
+      "verdict": {
+        "claim": "d performing cache eviction based on attention patterns to enhance memory reuse.",
+        "verdict": "partially_supported",
+        "confidence": 0.5439,
+        "explanation": "Evidence leans supportive but remains mixed (support=2, contradict=1, neutral=3).",
+        "grounding_score": 0.5439,
+        "support_count": 2,
+        "contradict_count": 1,
+        "neutral_count": 3,
+        "total_evidence": 6
+      }
+    },
+    {
+      "claim": "The deployment of Large Language Models (LLMs) in production environments requires efficient inference serving systems that balance throughput, latency, and resource utilization.",
+      "claim_type": "statement",
+      "domain": "transformer_efficiency",
+      "grounding": {
+        "claim": "The deployment of Large Language Models (LLMs) in production environments requires efficient inference serving systems that balance throughput, latency, and resource utilization.",
+        "support_count": 2,
+        "contradict_count": 1,
+        "neutral_count": 2,
+        "total_evidence": 5,
+        "unique_sources": 1,
+        "unique_titles": 5,
+        "avg_support_score": 0.7971,
+        "avg_contradict_score": 0.6101,
+        "diversity_score": 0.75,
+        "contradiction_penalty": 0.122,
+        "coverage_score": 0.8333,
+        "grounding_score": 0.5369,
+        "top_support": [
+          {
+            "text": "The deployment of Large Language Models (LLMs) in production environments requires efficient inference serving systems that balance throughput, latency, and resource utilization. This paper presents a comprehensive empirical evaluation of two prominent open-source LLM serving frameworks: vLLM and HuggingFace Text Generation Inference (TGI). We benchmark these systems across multiple dimensions including throughput performance, end-to-end latency, GPU memory utilization, and scalability characteristics using LLaMA-2 models ranging from 7B to 70B parameters. Our experiments reveal that vLLM achieves up to 24x higher throughput than TGI under high-concurrency workloads through its novel PagedAttention mechanism, while TGI demonstrates lower tail latencies for interactive single-user scenarios. We provide detailed performance profiles for different deployment scenarios and offer practical re",
+            "paper_title": "Comparative Analysis of Large Language Model Inference Serving Systems: A Performance Study of vLLM and HuggingFace TGI",
+            "source": "semantic_scholar",
+            "chunk_id": 240,
+            "verdict": "support",
+            "score": 0.935573148727417,
+            "similarity": 0.9008817672729492,
+            "overlap": 1.0
+          },
+          {
+            "text": "Large Language Models (LLMs) encounter severe memory inefficiencies during long-context inference due to conventional handling of key-value (KV) caches. In this work, we introduce a novel integration of PagedAttention with PyTorch's FlexAttention, addressing internal fragmentation and inefficiencies associated with monolithic KV cache allocations. Implemented within IBM's Foundation Model Stack (FMS), our fused attention kernel efficiently gathers scattered KV data. Our benchmarks on an NVIDIA L4 GPU (24GB) demonstrate significantly reduced inference latency, growing only linearly (~2x) with sequence length from 128 to 2048 tokens when utilizing a global KV cache, compared to exponential latency increases without caching. While peak memory usage remains largely unchanged for single-step evaluations (dominated by model weights and activations), paged attention causes minimal incremental m",
+            "paper_title": "Paged Attention Meets FlexAttention: Unlocking Long-Context Efficiency in Deployed Inference",
+            "source": "semantic_scholar",
+            "chunk_id": 608,
+            "verdict": "support",
+            "score": 0.6586667335033416,
+            "similarity": 0.8248718976974487,
+            "overlap": 0.35
+          }
+        ],
+        "top_contradict": [
+          {
+            "text": "emory fragmentation. However, this dual-level approach fundamentally isolates runtime memory and KV cache management, resulting in suboptimal memory utilization under dynamic workloads, which can lead to a nearly 20% drop in throughput. To address these limitations, we propose eLLM, an elastic memory management framework inspired by the classical memory ballooning mechanism in operating systems. The core components of eLLM include: (1) Virtual Tensor Abstraction, which decouples the virtual address space of tensors from the physical GPU memory, creating a unified and flexible memory pool; (2) an Elastic Memory Mechanism that dynamically adjusts memory allocation through runtime memory inflation and deflation, leveraging CPU memory as an extensible buffer; and (3) a Lightweight Scheduling Strategy employing SLO-aware policies to optimize memory utilization and effectively balance performa",
+            "paper_title": "eLLM: Elastic Memory Management Framework for Efficient LLM Serving",
+            "source": "semantic_scholar",
+            "chunk_id": 519,
+            "verdict": "contradict",
+            "score": 0.6101102691888809,
+            "similarity": 0.8309388756752014,
+            "overlap": 0.2
+          }
+        ]
+      },
+      "verdict": {
+        "claim": "The deployment of Large Language Models (LLMs) in production environments requires efficient inference serving systems that balance throughput, latency, and resource utilization.",
+        "verdict": "partially_supported",
+        "confidence": 0.5369,
+        "explanation": "Evidence leans supportive but remains mixed (support=2, contradict=1, neutral=2).",
+        "grounding_score": 0.5369,
+        "support_count": 2,
+        "contradict_count": 1,
+        "neutral_count": 2,
+        "total_evidence": 5
+      }
+    },
+    {
+      "claim": "We benchmark these systems across multiple dimensions including throughput performance, end-to-end latency, GPU memory utilization, and scalability characteristics using LLaMA-2 models ranging from 7B to 70B parameters.",
+      "claim_type": "statement",
+      "domain": "transformer_efficiency",
+      "grounding": {
+        "claim": "We benchmark these systems across multiple dimensions including throughput performance, end-to-end latency, GPU memory utilization, and scalability characteristics using LLaMA-2 models ranging from 7B to 70B parameters.",
+        "support_count": 2,
+        "contradict_count": 1,
+        "neutral_count": 2,
+        "total_evidence": 5,
+        "unique_sources": 1,
+        "unique_titles": 5,
+        "avg_support_score": 0.7796,
+        "avg_contradict_score": 0.613,
+        "diversity_score": 0.75,
+        "contradiction_penalty": 0.1226,
+        "coverage_score": 0.8333,
+        "grounding_score": 0.5292,
+        "top_support": [
+          {
+            "text": "The deployment of Large Language Models (LLMs) in production environments requires efficient inference serving systems that balance throughput, latency, and resource utilization. This paper presents a comprehensive empirical evaluation of two prominent open-source LLM serving frameworks: vLLM and HuggingFace Text Generation Inference (TGI). We benchmark these systems across multiple dimensions including throughput performance, end-to-end latency, GPU memory utilization, and scalability characteristics using LLaMA-2 models ranging from 7B to 70B parameters. Our experiments reveal that vLLM achieves up to 24x higher throughput than TGI under high-concurrency workloads through its novel PagedAttention mechanism, while TGI demonstrates lower tail latencies for interactive single-user scenarios. We provide detailed performance profiles for different deployment scenarios and offer practical re",
+            "paper_title": "Comparative Analysis of Large Language Model Inference Serving Systems: A Performance Study of vLLM and HuggingFace TGI",
+            "source": "semantic_scholar",
+            "chunk_id": 240,
+            "verdict": "support",
+            "score": 0.935573148727417,
+            "similarity": 0.9008817672729492,
+            "overlap": 1.0
+          },
+          {
+            "text": "Large Language Models (LLMs) encounter severe memory inefficiencies during long-context inference due to conventional handling of key-value (KV) caches. In this work, we introduce a novel integration of PagedAttention with PyTorch's FlexAttention, addressing internal fragmentation and inefficiencies associated with monolithic KV cache allocations. Implemented within IBM's Foundation Model Stack (FMS), our fused attention kernel efficiently gathers scattered KV data. Our benchmarks on an NVIDIA L4 GPU (24GB) demonstrate significantly reduced inference latency, growing only linearly (~2x) with sequence length from 128 to 2048 tokens when utilizing a global KV cache, compared to exponential latency increases without caching. While peak memory usage remains largely unchanged for single-step evaluations (dominated by model weights and activations), paged attention causes minimal incremental m",
+            "paper_title": "Paged Attention Meets FlexAttention: Unlocking Long-Context Efficiency in Deployed Inference",
+            "source": "semantic_scholar",
+            "chunk_id": 608,
+            "verdict": "support",
+            "score": 0.6236667335033417,
+            "similarity": 0.8248718976974487,
+            "overlap": 0.25
+          }
+        ],
+        "top_contradict": [
+          {
+            "text": "emory fragmentation. However, this dual-level approach fundamentally isolates runtime memory and KV cache management, resulting in suboptimal memory utilization under dynamic workloads, which can lead to a nearly 20% drop in throughput. To address these limitations, we propose eLLM, an elastic memory management framework inspired by the classical memory ballooning mechanism in operating systems. The core components of eLLM include: (1) Virtual Tensor Abstraction, which decouples the virtual address space of tensors from the physical GPU memory, creating a unified and flexible memory pool; (2) an Elastic Memory Mechanism that dynamically adjusts memory allocation through runtime memory inflation and deflation, leveraging CPU memory as an extensible buffer; and (3) a Lightweight Scheduling Strategy employing SLO-aware policies to optimize memory utilization and effectively balance performa",
+            "paper_title": "eLLM: Elastic Memory Management Framework for Efficient LLM Serving",
+            "source": "semantic_scholar",
+            "chunk_id": 519,
+            "verdict": "contradict",
+            "score": 0.6130269358555476,
+            "similarity": 0.8309388756752014,
+            "overlap": 0.2083
+          }
+        ]
+      },
+      "verdict": {
+        "claim": "We benchmark these systems across multiple dimensions including throughput performance, end-to-end latency, GPU memory utilization, and scalability characteristics using LLaMA-2 models ranging from 7B to 70B parameters.",
+        "verdict": "partially_supported",
+        "confidence": 0.5292,
+        "explanation": "Evidence leans supportive but remains mixed (support=2, contradict=1, neutral=2).",
+        "grounding_score": 0.5292,
+        "support_count": 2,
+        "contradict_count": 1,
+        "neutral_count": 2,
+        "total_evidence": 5
+      }
+    }
+  ],
+  "knowledge_gaps": [
+    "Many claims are inconclusive — evidence exists but lacks benchmark numbers or experimental results.",
+    "No contradicting evidence found — this may indicate limited coverage of papers reporting failure cases or trade-offs."
+  ],
+  "next_actions": [
+    "Pick 1 concrete intervention and convert it into a falsifiable claim (inputs → mechanism → measurable outputs).",
+    "Run targeted retrieval using 3–5 specific transformer-efficiency keywords and compare results.",
+    "Prioritize evidence chunks with benchmark numbers (latency, throughput, memory, perplexity, context length).",
+    "Generate an experiment plan: baseline, efficiency metric, quality metric, ablations, acceptance threshold."
+  ]
+}

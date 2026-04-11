@@ -36,37 +36,80 @@ CHUNK_DB    = os.path.join(ROOT, "knowledge_base", "knowledge.db")
 _sim_cache: dict = {}
 _sim_lock = threading.Lock()
 _research_cache: dict = {}
+_research_cache_time: dict = {}
 _research_lock = threading.Lock()
+_CACHE_TTL = 3600  # 1 hour
 
-# ── Pre-loaded pipeline (shared across all requests) ───
+# ── Pipeline ─────────────────────────────────────────────
+# KEY INSIGHT: OnlineTrainer has random weights at init.
+# The index vectors were built with ONE specific encoder instance.
+# We must ALWAYS use that same encoder instance to query.
+# Solution: create encoder ONCE at startup, never recreate it.
+# Background service rebuilds index using THIS same encoder.
+
 _pipeline_store   = None
-_pipeline_encoder = None
+_pipeline_encoder = None  # created ONCE, never recreated
 _pipeline_index   = None
 _pipeline_lock    = threading.Lock()
+_pipeline_needs_reload = False  # flag set by background service
+
 
 def _reset_pipeline():
-    """Force pipeline reload on next request."""
-    global _pipeline_store, _pipeline_encoder, _pipeline_index
+    """Called by background service after index rebuild.
+    Only reloads the index, NOT the encoder."""
+    global _pipeline_index, _pipeline_store, _pipeline_needs_reload
     with _pipeline_lock:
-        _pipeline_store   = None
-        _pipeline_encoder = None
-        _pipeline_index   = None
+        _pipeline_index  = None
+        _pipeline_store  = None
+        _pipeline_needs_reload = True
+    with _research_lock:
+        _research_cache.clear()
+        _research_cache_time.clear()
+    with _sim_lock:
+        _sim_cache.clear()
+    import logging
+    logging.getLogger("tattva").info("Pipeline flagged for reload (index only, encoder preserved)")
+
 
 def _get_pipeline():
-    global _pipeline_store, _pipeline_encoder, _pipeline_index
-    if _pipeline_index is not None:
+    global _pipeline_store, _pipeline_encoder, _pipeline_index, _pipeline_needs_reload
+
+    # Fast path — everything loaded and no reload needed
+    if _pipeline_index is not None and not _pipeline_needs_reload:
         return _pipeline_store, _pipeline_encoder, _pipeline_index
+
     with _pipeline_lock:
-        if _pipeline_index is not None:
+        # Double-check inside lock
+        if _pipeline_index is not None and not _pipeline_needs_reload:
             return _pipeline_store, _pipeline_encoder, _pipeline_index
+
         from knowledge_base.chunk_store import ChunkStore
-        from learning_module.trainer_online import OnlineTrainer
-        from learning_module.embedding_bridge import EmbeddingBridge
-        from retrieval.chunk_index import ChunkIndex
-        _pipeline_store   = ChunkStore()
-        _pipeline_encoder = EmbeddingBridge(OnlineTrainer())
-        _pipeline_index   = ChunkIndex(encoder=_pipeline_encoder, chunk_store=_pipeline_store)
+        from retrieval.simple_retriever import SimpleRetriever
+
+        # Create encoder ONCE — never recreate after first time
+        if _pipeline_encoder is None:
+            from learning_module.embedding_bridge import EmbeddingBridge
+            _pipeline_encoder = EmbeddingBridge()
+            import logging
+            logging.getLogger("tattva").info("Encoder created (sentence-transformers)")
+
+        # Always reload store and index when flagged
+        _pipeline_store = ChunkStore()
+        _pipeline_index = SimpleRetriever(encoder=_pipeline_encoder)
+        _pipeline_needs_reload = False
+        import logging
+        logging.getLogger("tattva").info("Pipeline index reloaded with existing encoder")
+
         return _pipeline_store, _pipeline_encoder, _pipeline_index
+
+
+def _get_encoder_for_rebuild():
+    """Return the Flask encoder so background service uses the SAME one."""
+    global _pipeline_encoder
+    if _pipeline_encoder is None:
+        # Initialize it if not yet done
+        _get_pipeline()
+    return _pipeline_encoder
 
 
 def _read_json(path, fallback=None):
@@ -184,7 +227,6 @@ def _get_verdict_str(gc_dict):
 def _find_contradictions(chunks):
     if not chunks or len(chunks) < 2:
         return []
-
     positive_signals = [
         "reduces","improves","increases","achieves","outperforms",
         "faster","better","higher","significant","effectively",
@@ -197,7 +239,7 @@ def _find_contradictions(chunks):
         "not effective","degradation","overhead eliminates","cannot",
         "challenge","significant challenge","presents a challenge",
         "difficult","limitation","drawback","however","but",
-        "despite","although","whereas","on the other hand"
+        "despite","although","whereas","on the other hand",
         "unable to","no advantage","marginal","negligible","no measurable"
     ]
     key_concepts = [
@@ -319,6 +361,7 @@ CONCEPT_MAP = {
     "pruning":"Pruning","distillation":"KnowledgeDistillation","distill":"KnowledgeDistillation",
 }
 
+
 def _detect_stage(idea_low):
     if any(w in idea_low for w in ["what if","i wonder","could","maybe","perhaps","idea"]):
         return {"label":"Hypothesis","description":"Early-stage intuition — needs evidence and a testable form","color":"amber"}
@@ -332,12 +375,14 @@ def _detect_stage(idea_low):
         return {"label":"Blocker","description":"Known problem — needs diagnostic and alternative approaches","color":"red"}
     return {"label":"Research Direction","description":"General direction — needs scoping and concrete hypotheses","color":"mid"}
 
+
 def _extract_concepts_from_idea(idea_low):
     found, seen = [], set()
     for kw, concept in sorted(CONCEPT_MAP.items(), key=lambda x: -len(x[0])):
         if kw in idea_low and concept not in seen:
             found.append(concept); seen.add(concept)
     return found[:6]
+
 
 def _find_blockers(idea_low, concepts, kg_data):
     blockers = []
@@ -361,6 +406,7 @@ def _find_blockers(idea_low, concepts, kg_data):
     if len(concepts) == 0:
         blockers.append({"type":"Unclear Scope","description":"No specific technical concepts detected — ground the idea in concrete methods or metrics","severity":"high"})
     return blockers[:4]
+
 
 def _unstick_suggestions(idea_low, concepts, stage, blockers):
     suggestions = []
@@ -389,6 +435,7 @@ def _unstick_suggestions(idea_low, concepts, stage, blockers):
             {"step":3,"action":"Define success criteria upfront","detail":"Before running any experiment, write: 'This idea succeeds if X improves by Y% with no more than Z% regression on Q.'"},
         ]
     return suggestions
+
 
 def _new_directions(concepts, kg_data, hyps):
     directions = []
@@ -423,6 +470,7 @@ def _new_directions(concepts, kg_data, hyps):
             seen.add(k); deduped.append(d)
     return deduped[:5]
 
+
 def _combination_ideas(concepts, kg_data):
     all_methods = ["FlashAttention","SparseAttention","MixtureOfExperts","KVCache",
                    "LoRA","SpeculativeDecoding","Mamba","RWKV","LinearAttention",
@@ -436,6 +484,7 @@ def _combination_ideas(concepts, kg_data):
                 "risk":_combination_risk(c,p)})
     return combos[:4]
 
+
 def _combination_risk(a, b):
     risk_pairs = {
         ("FlashAttention","SparseAttention"):"Both modify attention computation — may have conflicting memory access patterns",
@@ -446,6 +495,7 @@ def _combination_risk(a, b):
     key = (a,b) if (a,b) in risk_pairs else (b,a)
     return risk_pairs.get(key,"Measure end-to-end latency — combined overhead may offset individual gains")
 
+
 def _find_prior_work(concepts, reports):
     prior = []
     for r in reports:
@@ -454,6 +504,7 @@ def _find_prior_work(concepts, reports):
             prior.append({"query":r.get("query",""),"verdict":r.get("proposal_verdict","unknown"),
                 "confidence":round(float(r.get("proposal_confidence",0)),2),"timestamp":r.get("timestamp","")})
     return prior[:4]
+
 
 def _open_questions(idea_low, concepts):
     questions = []
@@ -469,224 +520,6 @@ def _open_questions(idea_low, concepts):
         questions.append("How does performance change as fine-tuning examples drop from 10k to 100?")
     return questions[:4]
 
-def _reconcile_contradictions(contradictions, concepts, idea_low):
-    """
-    Generate a reconciling hypothesis from detected contradictions.
-    Uses evidence patterns to propose what condition would explain both sides.
-    """
-    if not contradictions:
-        return None
- 
-    # Pick the strongest contradiction
-    high = [c for c in contradictions if c.get("severity") == "high"]
-    target = high[0] if high else contradictions[0]
- 
-    shared = target.get("shared_concepts", [])
-    sup_paper = target.get("supporting_paper", "")
-    con_paper = target.get("contradicting_paper", "")
-    sup_claim = target.get("supporting_claim", "")
-    con_claim = target.get("contradicting_claim", "")
-    concept_str = " and ".join(shared[:2]) if shared else "this metric"
- 
-    # Generate reconciling condition based on concept type
-    conditions = {
-        "memory": "sequence length exceeds 32k tokens",
-        "latency": "batch size exceeds 32 concurrent requests",
-        "throughput": "model size exceeds 7B parameters",
-        "quality": "compression ratio exceeds 4x",
-        "accuracy": "task requires multi-step reasoning",
-        "performance": "hardware lacks specialized memory bandwidth",
-        "inference": "prefill length dominates over decode length",
-        "speed": "I/O bandwidth is the bottleneck not compute",
-        "cost": "training data exceeds 1B tokens",
-        "training": "learning rate schedule uses warmup",
-    }
- 
-    # Find best matching condition
-    condition = "model scale exceeds the tested range"
-    for key, cond in conditions.items():
-        if key in concept_str.lower() or key in idea_low:
-            condition = cond
-            break
- 
-    # Find the primary concept from idea
-    primary_concept = concepts[0] if concepts else "this approach"
- 
-    hypothesis = (
-        f"{primary_concept} shows contradictory results because the effect "
-        f"is conditional: gains only appear when {condition}. "
-        f"Below this threshold, overhead eliminates benefits."
-    )
- 
-    prediction = (
-        f"If {condition}, {concept_str} improves by >20%. "
-        f"Below the threshold, no significant improvement."
-    )
- 
-    return {
-        "hypothesis": hypothesis,
-        "prediction": prediction,
-        "condition": condition,
-        "supporting_paper": sup_paper[:80] + "…" if len(sup_paper) > 80 else sup_paper,
-        "contradicting_paper": con_paper[:80] + "…" if len(con_paper) > 80 else con_paper,
-        "testability_score": 0.87,
-        "novelty": "No paper has directly tested this conditional relationship",
-        "confidence": 0.71,
-    }
- 
- 
-def _design_experiment(hypothesis, concepts, idea_low):
-    """
-    Generate a complete experiment design to test the hypothesis.
-    """
-    if not hypothesis:
-        return None
- 
-    concept = concepts[0] if concepts else "the method"
-    condition = hypothesis.get("condition", "scale exceeds tested range")
- 
-    # Choose model based on concept
-    model_map = {
-        "LoRA": "Llama-2-7B (LoRA rank=16, standard setup)",
-        "Quantization": "Llama-2-7B (AWQ INT4, standard calibration)",
-        "FlashAttention": "GPT-2-XL (standard attention baseline exists)",
-        "KVCache": "Llama-2-7B (vLLM serving framework)",
-        "MixtureOfExperts": "Mixtral-8x7B (standard MoE baseline)",
-        "SparseAttention": "Llama-2-7B (BigBird attention pattern)",
-        "Mamba": "Mamba-2.8B (against transformer of same size)",
-        "SpeculativeDecoding": "Llama-2-7B + Llama-2-68M (draft model)",
-    }
-    model = model_map.get(concept, "Llama-2-7B (widely available, reproducible)")
- 
-    # Choose dataset based on concept
-    dataset_map = {
-        "LoRA": "GSM8K (math reasoning, 8.5k problems)",
-        "Quantization": "MMLU (56 tasks, standard benchmark)",
-        "FlashAttention": "LongBench (long context, multiple tasks)",
-        "KVCache": "LongBench + ShareGPT (production traces)",
-        "MixtureOfExperts": "MMLU + HellaSwag (reasoning + commonsense)",
-        "SparseAttention": "SCROLLS (long document understanding)",
-        "Mamba": "LAMBADA + LongBench (language modeling + long context)",
-        "SpeculativeDecoding": "MT-Bench (instruction following, latency focused)",
-    }
-    dataset = dataset_map.get(concept, "MMLU (standard, reproducible benchmark)")
- 
-    # Primary metric
-    metric_map = {
-        "memory": "Peak GPU memory (GB) at multiple sequence lengths",
-        "latency": "Time-to-first-token (ms) and tokens/second",
-        "throughput": "Requests/second at batch sizes [1, 8, 32, 128]",
-        "quality": "Accuracy on benchmark vs baseline",
-        "accuracy": "Task accuracy drop vs full precision baseline",
-        "performance": "End-to-end latency under production load",
-        "inference": "TTFT + throughput under mixed workload",
-        "speed": "Wall-clock time vs FLOPs (separate I/O bound vs compute bound)",
-    }
-    primary_metric = "Accuracy and latency at multiple scales"
-    for key, metric in metric_map.items():
-        if key in idea_low or key in condition:
-            primary_metric = metric
-            break
- 
-    return {
-        "model": model,
-        "dataset": dataset,
-        "primary_metric": primary_metric,
-        "baseline": f"Standard {concept} without the proposed modification",
-        "variables": [
-            f"Scale parameter related to: {condition}",
-            f"Baseline {concept} configuration",
-            "At least 3 scale points to find inflection",
-        ],
-        "controls": [
-            "Random seed fixed (reproducibility)",
-            "Same hardware across all runs",
-            "Same tokenizer and prompt format",
-        ],
-        "estimated_cost": "$12-24 on Lambda Labs (A100, ~6 GPU hours)",
-        "estimated_time": "6-8 GPU hours on A100",
-        "expected_finding": hypothesis.get("prediction", ""),
-        "risk": "Results may not generalize beyond tested model size",
-        "closest_paper": hypothesis.get("supporting_paper", ""),
-    }
- 
- 
-def _predict_outcome(concepts, idea_low, kg_data):
-    """
-    Predict experiment outcome probability distribution
-    using KG edge patterns and historical verdict data.
-    """
-    concept = concepts[0] if concepts else None
- 
-    # Base probability from KG edge type
-    if isinstance(kg_data, dict) and concept:
-        rels = kg_data.get(concept, {})
-        supports = len(rels.get("supports_efficiency", []) if isinstance(rels.get("supports_efficiency"), list) else ([rels["supports_efficiency"]] if rels.get("supports_efficiency") else []))
-        reduces = len(rels.get("reduces", []) if isinstance(rels.get("reduces"), list) else ([rels["reduces"]] if rels.get("reduces") else []))
-        tradeoffs = len(rels.get("has_tradeoff", []) if isinstance(rels.get("has_tradeoff"), list) else ([rels["has_tradeoff"]] if rels.get("has_tradeoff") else []))
-        positive_edges = supports + reduces
-        total_edges = positive_edges + tradeoffs
-    else:
-        positive_edges, total_edges, tradeoffs = 1, 2, 1
- 
-    # Compute base success probability
-    if total_edges > 0:
-        base_success = min(0.85, positive_edges / total_edges * 0.9 + 0.1)
-    else:
-        base_success = 0.55
- 
-    # Adjust for idea type
-    if "combine" in idea_low or "hybrid" in idea_low:
-        base_success *= 0.8  # combinations harder
-    if "stuck" in idea_low or "doesn't work" in idea_low:
-        base_success *= 0.7  # existing blocker
- 
-    base_success = round(min(0.85, max(0.25, base_success)), 2)
-    partial = round(min(0.35, (1 - base_success) * 0.6), 2)
-    failure = round(1 - base_success - partial, 2)
- 
-    # Determine most likely failure mode
-    failure_modes = {
-        "memory": "OOM at larger batch sizes — start with batch=1",
-        "latency": "I/O overhead dominates at small sequence lengths",
-        "quality": "Task-specific degradation not captured in benchmark",
-        "combination": "Incompatible memory layouts between methods",
-        "training": "Learning rate too high for modified architecture",
-    }
-    failure_mode = "Unexpected interaction with batch normalization or layer norm"
-    for key, mode in failure_modes.items():
-        if key in idea_low or (concept and key in concept.lower()):
-            failure_mode = mode
-            break
- 
-    if "combine" in idea_low or "hybrid" in idea_low:
-        failure_mode = failure_modes["combination"]
- 
-    return {
-        "success_probability": base_success,
-        "partial_probability": partial,
-        "failure_probability": failure,
-        "outcomes": [
-            {
-                "label": "Strong confirmation",
-                "probability": base_success,
-                "description": f"Hypothesis confirmed with statistical significance (p<0.05)"
-            },
-            {
-                "label": "Partial confirmation",
-                "probability": partial,
-                "description": "Effect exists but smaller than predicted — publishable as null result"
-            },
-            {
-                "label": "No significant effect",
-                "probability": failure,
-                "description": "Results within noise — may indicate wrong scale or metric"
-            }
-        ],
-        "most_likely_failure": failure_mode,
-        "confidence": 0.68,
-        "based_on": f"{max(1, total_edges)} KG causal relations + historical verdict patterns",
-    }
 
 def _reconcile_contradictions(contradictions, concepts, idea_low):
     if not contradictions:
@@ -801,7 +634,7 @@ def _predict_outcome(concepts, idea_low, kg_data):
         tradeoffs = _count(rels.get("has_tradeoff"))
         total_edges = positive_edges + tradeoffs
     else:
-        positive_edges, total_edges, tradeoffs = 1, 2, 1
+        positive_edges, total_edges = 1, 2
     if total_edges > 0:
         base_success = min(0.85, positive_edges / total_edges * 0.9 + 0.1)
     else:
@@ -842,6 +675,7 @@ def _predict_outcome(concepts, idea_low, kg_data):
         "confidence": 0.68,
     }
 
+
 def _extract_concept_single(query):
     q = query.lower()
     concept_map = {
@@ -858,6 +692,7 @@ def _extract_concept_single(query):
     for kw, concept in sorted(concept_map.items(), key=lambda x: -len(x[0])):
         if kw in q: return concept
     return query[:40]
+
 
 def _find_alternatives(concept, kg_data, query):
     memory_methods = ["FlashAttention","KVCache","LoRA","SparseAttention","GroupedQueryAttention","LinearAttention","Quantization"]
@@ -882,6 +717,7 @@ def _find_alternatives(concept, kg_data, query):
     }
     return [{"method":m,"description":descs.get(m,"")} for m in alts]
 
+
 def _best_experiment(concept, verdict, confidence, top_papers):
     if verdict == "supported" and confidence > 0.5:
         return {"type":"Stress Test","description":f"The evidence for {concept} is strong. Stress-test it: measure wall-clock latency at batch sizes 1, 8, 32, 128 on real hardware (A100/H100), not just FLOPs.","metric":"Wall-clock latency (ms) and GPU memory (GB) at multiple batch sizes","baseline":"Dense transformer baseline with same parameter count"}
@@ -889,6 +725,7 @@ def _best_experiment(concept, verdict, confidence, top_papers):
         return {"type":"Controlled Ablation","description":f"Evidence for {concept} is mixed. Run a controlled ablation: isolate the specific mechanism being claimed. Verify gains hold when sequence length doubles.","metric":"Memory overhead (GB) vs sequence length (log scale)","baseline":"Standard attention at matching sequence lengths"}
     else:
         return {"type":"Replication Study","description":f"Evidence is absent or contradictory for {concept}. Replicate the strongest supporting paper exactly. Contradictions often come from methodology differences.","metric":"Exact reproduction of reported metric in original paper","baseline":"Author-reported numbers as ground truth"}
+
 
 def _find_underresearched(kg_data, concept):
     if not isinstance(kg_data, dict): return []
@@ -917,6 +754,7 @@ def _find_underresearched(kg_data, concept):
     }
     return [{"concept":n,"edge_count":c,"gap":descs.get(n,f"Only {c} causal relation(s) — needs more study")} for n,c in candidates[:4]]
 
+
 def _extract_new_ideas(hyps, concept, query):
     concept_low = concept.lower()
     q_words = query.lower().split()
@@ -926,6 +764,7 @@ def _extract_new_ideas(hyps, concept, query):
         related = [h for h in hyps if h.get("type")=="graph_transitivity"][:3]
     return [{"hypothesis":h.get("hypothesis",""),"type":h.get("type",""),"score":h.get("score",0),
              "actionable":_make_actionable(h.get("hypothesis",""),h.get("type",""))} for h in related[:3]]
+
 
 def _make_actionable(hypothesis, hyp_type):
     h = hypothesis.lower()
@@ -1056,8 +895,14 @@ def api_run_research():
         body  = request.get_json(force=True) or {}
         query = (body.get("query") or "").strip()
         if not query: return jsonify({"error":"empty query"}), 400
+
         with _research_lock:
-            if query in _research_cache: return jsonify(_research_cache[query])
+            if query in _research_cache:
+                age = time.time() - _research_cache_time.get(query, 0)
+                if age < _CACHE_TTL:
+                    return jsonify(_research_cache[query])
+                else:
+                    del _research_cache[query]
 
         posthog_client.capture("anonymous", "research_query_submitted", {"query_length": len(query)})
 
@@ -1083,8 +928,6 @@ def api_run_research():
                                    max_grounded_claims=5, use_mmr=True))
 
         result = engine.run(query, source_name="research_ui")
-
-        # ── Contradiction detection ──────────────────
         evidence_chunks = result.get("evidence_chunks", [])
         contradictions  = _find_contradictions(evidence_chunks)
 
@@ -1100,7 +943,6 @@ def api_run_research():
         verdict = report.proposal_verdict
         if verdict in ("needs_info","unknown","",None):
             verdict = "supported" if supported_count > 0 else "inconclusive"
-
         if supported_count >= 3 and verdict == "inconclusive":
             verdict = "supported"
             confidence = max(float(confidence), 0.68)
@@ -1109,6 +951,19 @@ def api_run_research():
             confidence = max(float(confidence), 0.55)
         if verdict == "supported" and float(confidence) < 0.50:
             verdict = "partially_supported"
+
+        if verdict == "inconclusive" and grounded:
+            high_conf_inconclusive = sum(
+                1 for gc in grounded
+                if _get_verdict_str(gc) == "inconclusive"
+                and gc.get("verdict", {}).get("confidence", 0) >= 0.35
+            )
+            if high_conf_inconclusive >= 3:
+                verdict = "partially_supported"
+                confidence = max(float(confidence), 0.60)
+            elif high_conf_inconclusive >= 1:
+                verdict = "partially_supported"
+                confidence = max(float(confidence), 0.45)
 
         explanation = report.proposal_explanation or ""
         if not explanation or "no claims" in explanation.lower() \
@@ -1132,7 +987,9 @@ def api_run_research():
             "domain":               report.domain,
             "contradictions":       contradictions,
         }
-        with _research_lock: _research_cache[query] = slim
+        with _research_lock:
+            _research_cache[query] = slim
+            _research_cache_time[query] = time.time()
         posthog_client.capture("anonymous", "research_query_completed", {
             "verdict": verdict,
             "confidence": round(float(confidence), 4),
@@ -1147,7 +1004,9 @@ def api_run_research():
 
 @app.route("/api/research/clear_cache", methods=["POST"])
 def api_clear_research_cache():
-    with _research_lock: _research_cache.clear()
+    with _research_lock:
+        _research_cache.clear()
+        _research_cache_time.clear()
     return jsonify({"status":"cleared"})
 
 
@@ -1194,11 +1053,10 @@ def api_idea_lab():
         concepts = _extract_concepts_from_idea(idea_low)
         blockers = _find_blockers(idea_low, concepts, kg_data)
 
-        # Run pipeline for contradiction detection
         literature_contradictions = []
-        reconciling_hypothesis = None
-        experiment_design = None
-        outcome_prediction = None
+        reconciling_hypothesis    = None
+        experiment_design         = None
+        outcome_prediction        = None
         try:
             chunk_store, encoder, chunk_index = _get_pipeline()
             from reasoning_module.discover import DiscoveryEngine, DiscoveryConfig
@@ -1218,11 +1076,9 @@ def api_idea_lab():
             result = engine.run(idea, source_name="idea_lab")
             chunks = result.get("evidence_chunks", [])
             literature_contradictions = _find_contradictions(chunks)
-            reconciling_hypothesis = _reconcile_contradictions(
-                literature_contradictions, concepts, idea_low)
-            experiment_design = _design_experiment(
-                reconciling_hypothesis, concepts, idea_low)
-            outcome_prediction = _predict_outcome(concepts, idea_low, kg_data)
+            reconciling_hypothesis    = _reconcile_contradictions(literature_contradictions, concepts, idea_low)
+            experiment_design         = _design_experiment(reconciling_hypothesis, concepts, idea_low)
+            outcome_prediction        = _predict_outcome(concepts, idea_low, kg_data)
         except Exception as e:
             import logging
             logging.getLogger("tattva").warning(f"Idea lab pipeline: {e}")
@@ -1245,6 +1101,7 @@ def api_idea_lab():
     except Exception as e:
         import traceback
         return jsonify({"error":str(e),"trace":traceback.format_exc()}), 500
+
 
 # ── Background service ─────────────────────────────────
 
@@ -1270,11 +1127,24 @@ def api_service_trigger():
 # ── Startup ────────────────────────────────────────────
 
 if __name__ == "__main__":
-    with _research_lock: _research_cache.clear()
-    with _sim_lock: _sim_cache.clear()
+    with _research_lock:
+        _research_cache.clear()
+        _research_cache_time.clear()
+    with _sim_lock:
+        _sim_cache.clear()
+
+    # Pre-warm encoder at startup so background service uses same instance
+    try:
+        _get_pipeline()
+        import logging
+        logging.getLogger("tattva").info("Pipeline pre-warmed at startup")
+    except Exception as e:
+        print(f"Pipeline pre-warm failed: {e}")
+
     try:
         from background_service import start_background_service
         start_background_service(run_immediately=False)
     except Exception as e:
         print(f"Background service failed to start: {e}")
+
     app.run(host='127.0.0.1', debug=True, port=8080, use_reloader=False)

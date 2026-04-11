@@ -352,7 +352,8 @@ class ChunkIndex:
             "chunk_id": int(x["chunk_id"]),
             "paper_title": x.get("paper_title", "") or "",
             "source": x.get("source", "") or "",
-            "text_preview": (x.get("text", "") or "")[:240],
+            "text": (x.get("text", "") or ""),
+            "text_preview": (x.get("text", "") or "")[:500],
         } for x in items]
 
         vec_chunks: List[np.ndarray] = []
@@ -461,23 +462,15 @@ class ChunkIndex:
             bm25_raw = float(bm25_scores_sparse.get(i, 0.0))
             bm25_norm = float(bm25_raw / max_bm25)
 
-            preview = (self.items[i].get("text_preview") or "")
+            preview = (self.items[i].get("text_preview") or self.items[i].get("text","")[:200])
             title = (self.items[i].get("paper_title") or "")
             hay = f"{title} {preview}".lower()
 
-            # anchor gate for targeted MVP
-            if anchors:
-                anchor_hit = any(a in hay for a in anchors)
-                if not anchor_hit and profile != "generic":
-                    # allow only if bm25 is strong enough to justify survival
-                    if bm25_norm < 0.18:
-                        continue
+            # anchor gate disabled — using embedding similarity instead
+            pass
 
-            # lexical sanity gate
-            if gate and (bm25_raw <= 0.0):
-                ov = _keyword_overlap(q, hay)
-                if ov < self.gate_keyword_overlap and profile != "generic":
-                    continue
+            # lexical sanity gate disabled — using embedding similarity
+            pass
 
             d_score, hit_count = _domain_score(q, title, preview, "")
             hyb = (
@@ -486,9 +479,8 @@ class ChunkIndex:
                 + self.domain_gamma * d_score
             )
 
-            # hard off-domain rejection for targeted profile if both semantic+lexical are weak
-            if profile != "generic" and hit_count == 0 and emb_score < 0.68 and bm25_norm < 0.12:
-                continue
+            # hard off-domain rejection disabled
+            pass
 
             cand_idx.append(int(i))
             sim_emb.append(emb_score)

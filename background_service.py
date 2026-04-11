@@ -2,20 +2,10 @@
 # ─────────────────────────────────────────────────────────────
 # Background ingestion service — pulls from ALL free research
 # sources on the internet, every 6 hours.
-#
-# Sources (all free, no API key required):
-#   1. Semantic Scholar  — 200M+ papers
-#   2. ArXiv             — all CS/ML papers, full text
-#   3. Papers With Code  — ML papers with code
-#   4. Hugging Face      — daily ML papers
-#   5. OpenAlex          — 250M+ works, fully open
-#   6. CORE              — 200M+ open access, full text
-#   7. CrossRef          — DOI metadata
-#   8. Europe PMC        — life sciences + CS
 # ─────────────────────────────────────────────────────────────
 
 from __future__ import annotations
-import os, sys, json, time, threading, logging, hashlib, requests, subprocess, sqlite3
+import os, sys, json, time, threading, logging, hashlib, requests, subprocess, sqlite3, shutil
 from datetime import datetime
 from typing import List, Dict, Optional
 import xml.etree.ElementTree as ET
@@ -90,7 +80,6 @@ def _chunk_hash(text: str) -> str:
     return hashlib.md5(text.strip().lower().encode()).hexdigest()
 
 def _get_existing_hashes() -> set:
-    """Get hashes of all existing chunks to avoid duplicates."""
     try:
         conn = sqlite3.connect(CHUNK_DB)
         rows = conn.execute("SELECT text FROM chunks").fetchall()
@@ -354,11 +343,6 @@ def fetch_all_sources(query: str) -> List[Dict]:
 # ── Direct SQLite ingestion ───────────────────────────────
 
 def _ingest_directly(papers: List[Dict]) -> int:
-    """
-    Ingest papers directly into SQLite, bypassing ChunkStore dedup.
-    Uses our own hash-based dedup against existing chunk text.
-    Returns number of NEW chunks added.
-    """
     existing_hashes = _get_existing_hashes()
     log.info(f"  Existing chunk hashes loaded: {len(existing_hashes)}")
 
@@ -387,17 +371,12 @@ def _ingest_directly(papers: List[Dict]) -> int:
         log.info("  No new chunks to add (all duplicates)")
         return 0
 
-    # Write directly to SQLite
     try:
         conn = sqlite3.connect(CHUNK_DB)
-        # Check table schema
         cols = [r[1] for r in conn.execute("PRAGMA table_info(chunks)").fetchall()]
-        log.info(f"  Chunk table columns: {cols}")
-
         added = 0
         for chunk in new_chunks:
             try:
-                # Build insert based on available columns
                 data = {"text": chunk["text"]}
                 if "paper_title" in cols: data["paper_title"] = chunk["paper_title"]
                 if "source"      in cols: data["source"]      = chunk["source"]
@@ -439,7 +418,7 @@ def run_cycle():
 
     # ── Phase 1: Fetch ────────────────────────────────────
     log.info(f"Phase 1: Fetching from all sources ({len(SEARCH_QUERIES)} queries)")
-    all_papers: Dict[str, Dict] = {}  # title_hash -> paper (dedup by title)
+    all_papers: Dict[str, Dict] = {}
 
     for i, query in enumerate(SEARCH_QUERIES):
         log.info(f"  [{i+1}/{len(SEARCH_QUERIES)}] {query}")
@@ -463,33 +442,66 @@ def run_cycle():
     chunks_added = _ingest_directly(new_papers)
     log.info(f"  {chunks_added} new chunks added to database")
 
-    # ── Phase 3: Rebuild chunk index ──────────────────────
+    # ── Phase 3: Rebuild index using Flask's encoder ──────
+    # CRITICAL: Must use the same encoder instance that Flask uses.
+    # Flask's encoder has fixed weights set at startup.
+    # We get that encoder from Flask's global and rebuild the index with it.
     log.info("Phase 3: Rebuilding chunk index")
     _write_status({**read_status(), "phase": "rebuilding chunk index"})
-
     try:
         from knowledge_base.chunk_store import ChunkStore
-        from learning_module.trainer_online import OnlineTrainer
-        from learning_module.embedding_bridge import EmbeddingBridge
         from retrieval.chunk_index import ChunkIndex
+
         _cs = ChunkStore()
-        _enc = EmbeddingBridge(OnlineTrainer())
-        _idx = ChunkIndex(encoder=_enc, chunk_store=_cs)
+
+        # Try to get Flask's encoder first — same weights = compatible index
+        encoder = None
+        try:
+            from dashboard.app import _get_encoder_for_rebuild
+            encoder = _get_encoder_for_rebuild()
+            log.info("Using Flask's encoder for rebuild (guaranteed compatibility)")
+        except Exception as e:
+            log.warning(f"Could not get Flask encoder: {e}")
+
+        # Fallback: create new encoder (will need pipeline reset to sync)
+        if encoder is None:
+            from learning_module.trainer_online import OnlineTrainer
+            from learning_module.embedding_bridge import EmbeddingBridge
+            encoder = EmbeddingBridge(OnlineTrainer())
+            log.warning("Using new encoder — Flask will need full restart to sync")
+
+        # Build into temp dir — atomic swap
+        tmp_dir = os.path.join(ROOT, "data", "_tmp_index")
+        os.makedirs(tmp_dir, exist_ok=True)
+        _idx = ChunkIndex(encoder=encoder, chunk_store=_cs, cache_dir=tmp_dir)
         _idx.rebuild()
-        log.info("Index rebuilt successfully")
+
+        # Atomic swap
+        data_dir = os.path.join(ROOT, "data")
+        for fname in ["chunk_index_vecs.npy", "chunk_index_meta.json", "bm25_index.pkl"]:
+            src = os.path.join(tmp_dir, fname)
+            dst = os.path.join(data_dir, fname)
+            if os.path.exists(src):
+                shutil.move(src, dst)
+        shutil.rmtree(tmp_dir, ignore_errors=True)
+        log.info("Index rebuilt and atomically swapped")
+
     except Exception as e:
         log.error(f"Index rebuild failed: {e}")
 
-    # Reset Flask pipeline so it reloads fresh index
+    # Reset Flask pipeline so it reloads from new index files
+    # (encoder is preserved — only index is reloaded)
     try:
         from dashboard.app import _reset_pipeline
         _reset_pipeline()
-        log.info("Pipeline reset after index rebuild")
+        log.info("Flask pipeline reset (index reloaded, encoder preserved)")
     except Exception as e:
         log.warning(f"Pipeline reset failed: {e}")
+
     # ── Phase 4: Reasoning eval ───────────────────────────
     log.info("Phase 4: Running reasoning_eval.py")
     _write_status({**read_status(), "phase": "running reasoning pipeline"})
+    result = None
     try:
         result = subprocess.run(
             [sys.executable, "testing_module/reasoning_eval.py"],
@@ -504,9 +516,7 @@ def run_cycle():
     log.info("Phase 5: Regenerating hypotheses")
     _write_status({**read_status(), "phase": "regenerating hypotheses"})
     try:
-        if result.stdout: log.info(result.stdout[-300:])
-        if result.returncode != 0 and result.stderr:
-            log.warning(f"Hypothesis gen stderr: {result.stderr[-200:]}")
+        if result and result.stdout: log.info(result.stdout[-300:])
     except Exception as e:
         log.error(f"Hypothesis generation failed: {e}")
 

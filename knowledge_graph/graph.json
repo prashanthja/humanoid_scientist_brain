@@ -83,7 +83,8 @@
       "ModelAccuracy"
     ],
     "supports_efficiency": [
-      "Latency"
+      "Latency",
+      "MemoryOverhead"
     ],
     "reduces": [
       "MemoryOverhead"
@@ -114,7 +115,8 @@
     "evidenced_by": [
       "Low-Rank Adaptation for Scalable Fine-Tuning of Pr",
       "Low-Rank Adaptation for Parameter-Efficient Fine-T",
-      "RaLo: Rank-aware low-rank adaptation for pre-train"
+      "RaLo: Rank-aware low-rank adaptation for pre-train",
+      "LoRA-FA: Memory-efficient Low-rank Adaptation for"
     ],
     "supports_efficiency": [
       "MemoryOverhead"
@@ -124,6 +126,9 @@
     ],
     "has_tradeoff": [
       "GeneralLimitation",
+      "MemoryOverhead"
+    ],
+    "reduces": [
       "MemoryOverhead"
     ]
   },

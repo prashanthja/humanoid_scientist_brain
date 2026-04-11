@@ -1,0 +1,281 @@
+{
+  "query": "Does LoRA reduce fine-tuning memory cost?",
+  "timestamp": "2026-04-09 12:13:29",
+  "domain": "unknown",
+  "proposal_verdict": "supported",
+  "proposal_confidence": 0.7389555778503417,
+  "proposal_explanation": "Evidence from multiple sources confirms this claim with experimental results.",
+  "evidence_count": 10,
+  "top_papers": [
+    "LoRA-FA: Memory-efficient Low-rank Adaptation for Large Language Models Fine-tuning",
+    "MLPMoE: Zero-Shot Architectural Metamorphosis of Dense LLM MLPs into Static Mixture-of-Experts",
+    "AdaMoE: Token-Adaptive Routing with Null Experts for Mixture-of-Experts Language Models",
+    "FlashMask: Efficient and Rich Mask Extension of FlashAttention",
+    "HCAttention: Extreme KV Cache Compression via Heterogeneous Attention Computing for LLMs",
+    "CORM: Cache Optimization with Recent Message for Large Language Model Inference",
+    "A Comprehensive Evaluation of Quantization Strategies for Large Language Models"
+  ],
+  "extracted_claim_count": 10,
+  "top_claims": [
+    {
+      "claim": "The method operates entirely post hoc on existing checkpoints and does not require gradients, calibration sets, or router training.",
+      "paper_title": "MLPMoE: Zero-Shot Architectural Metamorphosis of Dense LLM MLPs into Static Mixture-of-Experts",
+      "domain": "transformer_efficiency"
+    },
+    {
+      "claim": "no extra inference latency compared to a fully fine-tuned model.",
+      "paper_title": "LoRA-FA: Memory-efficient Low-rank Adaptation for Large Language Models Fine-tuning",
+      "domain": "transformer_efficiency"
+    },
+    {
+      "claim": "We conduct extensive experiments across many model types and scales.",
+      "paper_title": "LoRA-FA: Memory-efficient Low-rank Adaptation for Large Language Models Fine-tuning",
+      "domain": "unknown"
+    },
+    {
+      "claim": "We finetune RoBERTa (Liu et al., 2019) on natural language understanding tasks, T5 (Raffel et al., 2020) on machine translation tasks, and LLaMA (Touvron et al., 2023a) on MMLU (Hendrycks et al., 2021) benchmarks.",
+      "paper_title": "LoRA-FA: Memory-efficient Low-rank Adaptation for Large Language Models Fine-tuning",
+      "domain": "unknown"
+    },
+    {
+      "claim": "Furthermore, LoRA-FA can reduce the overall memory cost by up to 1.4× compared to LoRA.",
+      "paper_title": "LoRA-FA: Memory-efficient Low-rank Adaptation for Large Language Models Fine-tuning",
+      "domain": "physics"
+    }
+  ],
+  "grounded_claim_count": 5,
+  "supported_count": 2,
+  "contradicted_count": 0,
+  "inconclusive_count": 3,
+  "top_grounded": [
+    {
+      "claim": "We conduct extensive experiments across many model types and scales.",
+      "claim_type": "statement",
+      "domain": "unknown",
+      "grounding": {
+        "claim": "We conduct extensive experiments across many model types and scales.",
+        "support_count": 2,
+        "contradict_count": 0,
+        "neutral_count": 2,
+        "total_evidence": 4,
+        "unique_sources": 1,
+        "unique_titles": 3,
+        "avg_support_score": 0.5843,
+        "avg_contradict_score": 0.0,
+        "diversity_score": 0.75,
+        "contradiction_penalty": 0.0,
+        "coverage_score": 0.6667,
+        "grounding_score": 0.6088,
+        "top_support": [
+          {
+            "text": "implement and can be effectively applied to pre-trained (MoE-)LLMs. Extensive studies show that AdaMoE can reduce average expert load (FLOPs) while achieving superior performance. For example, on the ARC-C dataset, applying our method to fine-tuning Mixtral-8x7B can reduce FLOPs by 14.5% while increasing accuracy by 1.69%.",
+            "paper_title": "AdaMoE: Token-Adaptive Routing with Null Experts for Mixture-of-Experts Language Models",
+            "source": "semantic_scholar",
+            "chunk_id": 1391,
+            "verdict": "support",
+            "score": 0.5941147105561362,
+            "similarity": 0.7943645119667053,
+            "overlap": 0.2222
+          },
+          {
+            "text": "ries. Based on these observations, we present CORM, a KV cache eviction policy that dynamically retains essential key-value pairs for inference without the need for model fine-tuning. Our validation shows that CORM reduces the inference memory usage of KV cache by up to 70\\% with negligible performance degradation across six tasks in LongBench. Furthermore, we demonstrate that CORM is compatible with GQA for further compression rate.",
+            "paper_title": "CORM: Cache Optimization with Recent Message for Large Language Model Inference",
+            "source": "semantic_scholar",
+            "chunk_id": 310,
+            "verdict": "support",
+            "score": 0.5744664983616935,
+            "similarity": 0.7641364932060242,
+            "overlap": 0.2222
+          }
+        ],
+        "top_contradict": []
+      },
+      "verdict": {
+        "claim": "We conduct extensive experiments across many model types and scales.",
+        "verdict": "supported",
+        "confidence": 0.7088,
+        "explanation": "Support outweighs contradiction (support=2, contradict=0) with strong grounding=0.61.",
+        "grounding_score": 0.6088,
+        "support_count": 2,
+        "contradict_count": 0,
+        "neutral_count": 2,
+        "total_evidence": 4
+      }
+    },
+    {
+      "claim": "LoRA cannot reduce the activation memory cost compared to full-parameter fine-tuning.",
+      "claim_type": "statement",
+      "domain": "unknown",
+      "grounding": {
+        "claim": "LoRA cannot reduce the activation memory cost compared to full-parameter fine-tuning.",
+        "support_count": 2,
+        "contradict_count": 0,
+        "neutral_count": 5,
+        "total_evidence": 7,
+        "unique_sources": 1,
+        "unique_titles": 5,
+        "avg_support_score": 0.6086,
+        "avg_contradict_score": 0.0,
+        "diversity_score": 0.75,
+        "contradiction_penalty": 0.0,
+        "coverage_score": 1.0,
+        "grounding_score": 0.5739,
+        "top_support": [
+          {
+            "text": "ries. Based on these observations, we present CORM, a KV cache eviction policy that dynamically retains essential key-value pairs for inference without the need for model fine-tuning. Our validation shows that CORM reduces the inference memory usage of KV cache by up to 70\\% with negligible performance degradation across six tasks in LongBench. Furthermore, we demonstrate that CORM is compatible with GQA for further compression rate.",
+            "paper_title": "CORM: Cache Optimization with Recent Message for Large Language Model Inference",
+            "source": "semantic_scholar",
+            "chunk_id": 310,
+            "verdict": "support",
+            "score": 0.6133553872505824,
+            "similarity": 0.7641364932060242,
+            "overlap": 0.3333
+          },
+          {
+            "text": "implement and can be effectively applied to pre-trained (MoE-)LLMs. Extensive studies show that AdaMoE can reduce average expert load (FLOPs) while achieving superior performance. For example, on the ARC-C dataset, applying our method to fine-tuning Mixtral-8x7B can reduce FLOPs by 14.5% while increasing accuracy by 1.69%.",
+            "paper_title": "AdaMoE: Token-Adaptive Routing with Null Experts for Mixture-of-Experts Language Models",
+            "source": "semantic_scholar",
+            "chunk_id": 1391,
+            "verdict": "support",
+            "score": 0.6038369327783585,
+            "similarity": 0.7943645119667053,
+            "overlap": 0.25
+          }
+        ],
+        "top_contradict": []
+      },
+      "verdict": {
+        "claim": "LoRA cannot reduce the activation memory cost compared to full-parameter fine-tuning.",
+        "verdict": "supported",
+        "confidence": 0.6739,
+        "explanation": "Support outweighs contradiction (support=2, contradict=0) with strong grounding=0.57.",
+        "grounding_score": 0.5739,
+        "support_count": 2,
+        "contradict_count": 0,
+        "neutral_count": 5,
+        "total_evidence": 7
+      }
+    },
+    {
+      "claim": "no extra inference latency compared to a fully fine-tuned model.",
+      "claim_type": "statement",
+      "domain": "transformer_efficiency",
+      "grounding": {
+        "claim": "no extra inference latency compared to a fully fine-tuned model.",
+        "support_count": 1,
+        "contradict_count": 0,
+        "neutral_count": 5,
+        "total_evidence": 6,
+        "unique_sources": 1,
+        "unique_titles": 4,
+        "avg_support_score": 0.5842,
+        "avg_contradict_score": 0.0,
+        "diversity_score": 0.75,
+        "contradiction_penalty": 0.0,
+        "coverage_score": 1.0,
+        "grounding_score": 0.4974,
+        "top_support": [
+          {
+            "text": "ries. Based on these observations, we present CORM, a KV cache eviction policy that dynamically retains essential key-value pairs for inference without the need for model fine-tuning. Our validation shows that CORM reduces the inference memory usage of KV cache by up to 70\\% with negligible performance degradation across six tasks in LongBench. Furthermore, we demonstrate that CORM is compatible with GQA for further compression rate.",
+            "paper_title": "CORM: Cache Optimization with Recent Message for Large Language Model Inference",
+            "source": "semantic_scholar",
+            "chunk_id": 310,
+            "verdict": "support",
+            "score": 0.5841887205839157,
+            "similarity": 0.7641364932060242,
+            "overlap": 0.25
+          }
+        ],
+        "top_contradict": []
+      },
+      "verdict": {
+        "claim": "no extra inference latency compared to a fully fine-tuned model.",
+        "verdict": "partially_supported",
+        "confidence": 0.4974,
+        "explanation": "Evidence leans supportive but remains mixed (support=1, contradict=0, neutral=5).",
+        "grounding_score": 0.4974,
+        "support_count": 1,
+        "contradict_count": 0,
+        "neutral_count": 5,
+        "total_evidence": 6
+      }
+    },
+    {
+      "claim": "For ex- ample, fine-tuning a LLaMA-65B with input sequence length of 2048 and batch size of 4 requires more than 50GB of activation memory (in 16-bit format) in all LoRA layers.",
+      "claim_type": "statement",
+      "domain": "unknown",
+      "grounding": {
+        "claim": "For ex- ample, fine-tuning a LLaMA-65B with input sequence length of 2048 and batch size of 4 requires more than 50GB of activation memory (in 16-bit format) in all LoRA layers.",
+        "support_count": 0,
+        "contradict_count": 0,
+        "neutral_count": 5,
+        "total_evidence": 5,
+        "unique_sources": 1,
+        "unique_titles": 3,
+        "avg_support_score": 0.0,
+        "avg_contradict_score": 0.0,
+        "diversity_score": 0.75,
+        "contradiction_penalty": 0.0,
+        "coverage_score": 0.8333,
+        "grounding_score": 0.3583,
+        "top_support": [],
+        "top_contradict": []
+      },
+      "verdict": {
+        "claim": "For ex- ample, fine-tuning a LLaMA-65B with input sequence length of 2048 and batch size of 4 requires more than 50GB of activation memory (in 16-bit format) in all LoRA layers.",
+        "verdict": "inconclusive",
+        "confidence": 0.3583,
+        "explanation": "Evidence is mixed or insufficient (support=0, contradict=0, neutral=5).",
+        "grounding_score": 0.3583,
+        "support_count": 0,
+        "contradict_count": 0,
+        "neutral_count": 5,
+        "total_evidence": 5
+      }
+    },
+    {
+      "claim": "We finetune RoBERTa (Liu et al., 2019) on natural language understanding tasks, T5 (Raffel et al., 2020) on machine translation tasks, and LLaMA (Touvron et al., 2023a) on MMLU (Hendrycks et al., 2021) benchmarks.",
+      "claim_type": "statement",
+      "domain": "unknown",
+      "grounding": {
+        "claim": "We finetune RoBERTa (Liu et al., 2019) on natural language understanding tasks, T5 (Raffel et al., 2020) on machine translation tasks, and LLaMA (Touvron et al., 2023a) on MMLU (Hendrycks et al., 2021) benchmarks.",
+        "support_count": 0,
+        "contradict_count": 0,
+        "neutral_count": 2,
+        "total_evidence": 2,
+        "unique_sources": 1,
+        "unique_titles": 1,
+        "avg_support_score": 0.0,
+        "avg_contradict_score": 0.0,
+        "diversity_score": 0.5,
+        "contradiction_penalty": 0.0,
+        "coverage_score": 0.3333,
+        "grounding_score": 0.1833,
+        "top_support": [],
+        "top_contradict": []
+      },
+      "verdict": {
+        "claim": "We finetune RoBERTa (Liu et al., 2019) on natural language understanding tasks, T5 (Raffel et al., 2020) on machine translation tasks, and LLaMA (Touvron et al., 2023a) on MMLU (Hendrycks et al., 2021) benchmarks.",
+        "verdict": "inconclusive",
+        "confidence": 0.2,
+        "explanation": "Evidence is mixed or insufficient (support=0, contradict=0, neutral=2).",
+        "grounding_score": 0.1833,
+        "support_count": 0,
+        "contradict_count": 0,
+        "neutral_count": 2,
+        "total_evidence": 2
+      }
+    }
+  ],
+  "knowledge_gaps": [
+    "Many claims are inconclusive — evidence exists but lacks benchmark numbers or experimental results.",
+    "No contradicting evidence found — this may indicate limited coverage of papers reporting failure cases or trade-offs.",
+    "Some retrieved chunks appear off-domain — retrieval may benefit from stricter domain filtering."
+  ],
+  "next_actions": [
+    "Pick 1 concrete intervention and convert it into a falsifiable claim (inputs → mechanism → measurable outputs).",
+    "Run targeted retrieval using 3–5 specific transformer-efficiency keywords and compare results.",
+    "Prioritize evidence chunks with benchmark numbers (latency, throughput, memory, perplexity, context length).",
+    "Generate an experiment plan: baseline, efficiency metric, quality metric, ablations, acceptance threshold."
+  ]
+}
