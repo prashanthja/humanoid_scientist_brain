@@ -40,3 +40,12 @@ outputs/discovery_reports/
 outputs/simulation_reports/
 outputs/evolved_hypotheses.jsonl
 visualization/
+models/sentence_transformer/
+models/continual_transformer.pt
+models/tokenizer_bpe.json
+data/chunk_index_vecs.npy
+data/chunk_index_meta.json
+data/chunk_index_vecs.npy
+knowledge_base/knowledge.db
+knowledge_base/knowledge.db-shm
+knowledge_base/knowledge.db-wal
