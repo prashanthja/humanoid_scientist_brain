@@ -442,61 +442,25 @@ def run_cycle():
     chunks_added = _ingest_directly(new_papers)
     log.info(f"  {chunks_added} new chunks added to database")
 
-    # ── Phase 3: Rebuild index using Flask's encoder ──────
-    # CRITICAL: Must use the same encoder instance that Flask uses.
-    # Flask's encoder has fixed weights set at startup.
-    # We get that encoder from Flask's global and rebuild the index with it.
+    # ── Phase 3: Rebuild index ────────────────────────────
     log.info("Phase 3: Rebuilding chunk index")
     _write_status({**read_status(), "phase": "rebuilding chunk index"})
     try:
-        from knowledge_base.chunk_store import ChunkStore
         from retrieval.simple_retriever import SimpleRetriever
-
-        _cs = ChunkStore()
-
-        # Try to get Flask's encoder first — same weights = compatible index
-        encoder = None
-        try:
-            from dashboard.app import _get_encoder_for_rebuild
-            encoder = _get_encoder_for_rebuild()
-            log.info("Using Flask's encoder for rebuild (guaranteed compatibility)")
-        except Exception as e:
-            log.warning(f"Could not get Flask encoder: {e}")
-
-        # Fallback: create new encoder (will need pipeline reset to sync)
-        if encoder is None:
-            from learning_module.trainer_online import OnlineTrainer
-            from learning_module.embedding_bridge import EmbeddingBridge
-            encoder = EmbeddingBridge(OnlineTrainer())
-            log.warning("Using new encoder — Flask will need full restart to sync")
-
-        # Build into temp dir — atomic swap
-        tmp_dir = os.path.join(ROOT, "data", "_tmp_index")
-        os.makedirs(tmp_dir, exist_ok=True)
+        from learning_module.embedding_bridge import EmbeddingBridge
+        encoder = EmbeddingBridge()
         _idx = SimpleRetriever(encoder=encoder)
         _idx.rebuild()
-
-        # Atomic swap
-        data_dir = os.path.join(ROOT, "data")
-        # atomic swap not needed with SimpleRetriever
-            src = os.path.join(tmp_dir, fname)
-            dst = os.path.join(data_dir, fname)
-            if os.path.exists(src):
-                shutil.move(src, dst)
-        shutil.rmtree(tmp_dir, ignore_errors=True)
-        log.info("Index rebuilt and atomically swapped")
-
+        log.info("Index rebuilt successfully")
+        # Reset Flask pipeline so it reloads the new index
+        try:
+            from dashboard.app import _reset_pipeline
+            _reset_pipeline()
+            log.info("Flask pipeline reset after index rebuild")
+        except Exception as e:
+            log.warning(f"Pipeline reset failed: {e}")
     except Exception as e:
         log.error(f"Index rebuild failed: {e}")
-
-    # Reset Flask pipeline so it reloads from new index files
-    # (encoder is preserved — only index is reloaded)
-    try:
-        from dashboard.app import _reset_pipeline
-        _reset_pipeline()
-        log.info("Flask pipeline reset (index reloaded, encoder preserved)")
-    except Exception as e:
-        log.warning(f"Pipeline reset failed: {e}")
 
     # ── Phase 4: Reasoning eval ───────────────────────────
     log.info("Phase 4: Running reasoning_eval.py")

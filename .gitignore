@@ -12,3 +12,31 @@ data/_tmp_index/
 # Python cache
 __pycache__/
 *.pyc
+outputs/discovery_reports/
+outputs/simulation_reports/
+outputs/evolved_hypotheses.jsonl
+visualization/
+models/continual_transformer.pt.old
+models/continual_transformer.pt.bak
+models/sentence_transformer/
+data/bm25_index.pkl
+data/_tmp_index/
+__pycache__/
+*.pyc
+logs/
+
+# Generated data files
+data/retrieved_*.json
+data/training_history.jsonl
+logs/
+*.pyc
+__pycache__/
+models/sentence_transformer/
+models/continual_transformer.pt.old
+models/continual_transformer.pt.bak
+data/bm25_index.pkl
+data/_tmp_index/
+outputs/discovery_reports/
+outputs/simulation_reports/
+outputs/evolved_hypotheses.jsonl
+visualization/
