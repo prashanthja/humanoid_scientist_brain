@@ -104,7 +104,7 @@ def rebuild_index(trainer):
 
     from knowledge_base.chunk_store import ChunkStore
     from learning_module.embedding_bridge import EmbeddingBridge
-    from retrieval.chunk_index import ChunkIndex
+    from retrieval.simple_retriever import SimpleRetriever as ChunkIndex
 
     cs      = ChunkStore()
     encoder = EmbeddingBridge(trainer)

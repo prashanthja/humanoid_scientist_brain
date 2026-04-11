@@ -450,7 +450,7 @@ def run_cycle():
     _write_status({**read_status(), "phase": "rebuilding chunk index"})
     try:
         from knowledge_base.chunk_store import ChunkStore
-        from retrieval.chunk_index import ChunkIndex
+        from retrieval.simple_retriever import SimpleRetriever
 
         _cs = ChunkStore()
 
@@ -473,12 +473,12 @@ def run_cycle():
         # Build into temp dir — atomic swap
         tmp_dir = os.path.join(ROOT, "data", "_tmp_index")
         os.makedirs(tmp_dir, exist_ok=True)
-        _idx = ChunkIndex(encoder=encoder, chunk_store=_cs, cache_dir=tmp_dir)
+        _idx = SimpleRetriever(encoder=encoder)
         _idx.rebuild()
 
         # Atomic swap
         data_dir = os.path.join(ROOT, "data")
-        for fname in ["chunk_index_vecs.npy", "chunk_index_meta.json", "bm25_index.pkl"]:
+        # atomic swap not needed with SimpleRetriever
             src = os.path.join(tmp_dir, fname)
             dst = os.path.join(data_dir, fname)
             if os.path.exists(src):

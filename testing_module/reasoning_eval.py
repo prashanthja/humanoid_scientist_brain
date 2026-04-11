@@ -16,7 +16,7 @@ from reasoning_module.hypothesis_validator import HypothesisValidator
 from reasoning_module.discovery_report import generate_and_save
 from reasoning_module.kg_builder import ingest_result_into_kg
 from knowledge_graph.graph import KnowledgeGraph
-from retrieval.chunk_index import ChunkIndex
+from retrieval.simple_retriever import SimpleRetriever as ChunkIndex
 from knowledge_base.chunk_store import ChunkStore
 from learning_module.embedding_bridge import EmbeddingBridge
 from learning_module.trainer_online import OnlineTrainer
