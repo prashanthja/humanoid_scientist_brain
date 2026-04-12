@@ -103,13 +103,7 @@ def _get_pipeline():
         return _pipeline_store, _pipeline_encoder, _pipeline_index
 
 
-def _get_encoder_for_rebuild():
-    """Return the Flask encoder so background service uses the SAME one."""
-    global _pipeline_encoder
-    if _pipeline_encoder is None:
-        # Initialize it if not yet done
-        _get_pipeline()
-    return _pipeline_encoder
+
 
 
 def _read_json(path, fallback=None):

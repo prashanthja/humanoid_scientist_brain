@@ -1,7 +1,21 @@
 {
   "state": "idle",
-  "phase": "waiting \u2014 first run in 6h",
-  "last_run": null,
-  "next_run": "2026-04-11T07:36:00.331936",
-  "cycles": 0
+  "phase": "complete",
+  "last_run": "2026-04-11T07:41:35.546832",
+  "next_run": "2026-04-11T13:41:35.546842",
+  "total_chunks": 1826,
+  "chunks_added": 28,
+  "papers_fetched": 225,
+  "elapsed_sec": 336.0,
+  "cycles": 1,
+  "sources": [
+    "semantic_scholar",
+    "arxiv",
+    "openalex",
+    "core",
+    "papers_with_code",
+    "huggingface",
+    "europe_pmc",
+    "crossref"
+  ]
 }

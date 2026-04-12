@@ -19,7 +19,7 @@ from knowledge_graph.graph import KnowledgeGraph
 from retrieval.simple_retriever import SimpleRetriever as ChunkIndex
 from knowledge_base.chunk_store import ChunkStore
 from learning_module.embedding_bridge import EmbeddingBridge
-from learning_module.trainer_online import OnlineTrainer
+from learning_module.embedding_bridge import EmbeddingBridge
 
 
 def build_engine(kg: KnowledgeGraph):
@@ -33,7 +33,7 @@ def build_engine(kg: KnowledgeGraph):
         print("  python3 scripts/ingest_chunks.py --rebuild_only")
         sys.exit(1)
 
-    trainer = OnlineTrainer()
+    encoder = EmbeddingBridge()
     encoder = EmbeddingBridge(trainer)
     chunk_index = ChunkIndex(encoder=encoder, chunk_store=chunk_store)
 
@@ -181,7 +181,7 @@ def test_hypotheses():
     print(f"KG edges: {kg.edge_count()}, concepts: {len(kg.all_concepts())}")
 
     try:
-        trainer = OnlineTrainer()
+        encoder = EmbeddingBridge()
         encoder = EmbeddingBridge(trainer)
     except Exception:
         encoder = None
