@@ -10,4 +10,5 @@ pdfminer.six==20231228
 python-dateutil==2.9.0.post0
 posthog>=3.0.0
 python-dotenv>=1.0.0
+torch==2.3.1
 sentence-transformers>=2.7.0
