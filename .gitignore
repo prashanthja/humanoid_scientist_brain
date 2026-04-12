@@ -46,6 +46,3 @@ models/tokenizer_bpe.json
 data/chunk_index_vecs.npy
 data/chunk_index_meta.json
 data/chunk_index_vecs.npy
-knowledge_base/knowledge.db
-knowledge_base/knowledge.db-shm
-knowledge_base/knowledge.db-wal
