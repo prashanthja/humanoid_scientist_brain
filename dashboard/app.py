@@ -852,7 +852,7 @@ def api_simulate():
         query = (body.get("query") or "How will transformer efficiency research evolve?").strip()
         with _sim_lock:
             if query in _sim_cache: return jsonify(_sim_cache[query])
-        posthog_client.capture("anonymous", "simulation_run", {"query_length": len(query)})
+        posthog_client.capture("anonymous", "simulation_run", properties={"query_length": len(query)})
         from knowledge_graph.graph import KnowledgeGraph
         from simulation_module.swms import SWMS
         kg = KnowledgeGraph(); kg.load()
@@ -907,7 +907,7 @@ def api_run_research():
                 else:
                     del _research_cache[query]
 
-        posthog_client.capture("anonymous", "research_query_submitted", {"query_length": len(query)})
+        posthog_client.capture("anonymous", "research_query_submitted", properties={"query_length": len(query)})
 
         chunk_store, encoder, chunk_index = _get_pipeline()
 
@@ -1047,7 +1047,7 @@ def api_idea_lab():
         body = request.get_json(force=True) or {}
         idea = (body.get("idea") or "").strip()
         if not idea: return jsonify({"error":"empty idea"}), 400
-        posthog_client.capture("anonymous", "idea_lab_submitted", {"idea_length": len(idea)})
+        posthog_client.capture("anonymous", "idea_lab_submitted", properties={"idea_length": len(idea)})
         kg_data  = _read_json(KG_PATH, {})
         hyps     = _load_hypotheses(30)
         reports  = _load_reports(50)
@@ -1146,7 +1146,7 @@ if __name__ == "__main__":
 
     try:
         from background_service import start_background_service
-        start_background_service(run_immediately=False)
+        start_background_service(run_immediately=True)
     except Exception as e:
         print(f"Background service failed to start: {e}")
 
