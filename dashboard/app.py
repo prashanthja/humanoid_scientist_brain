@@ -306,12 +306,22 @@ def _find_contradictions(chunks):
                 for w in ["no benefit","no improvement","no significant","does not"]
             ) else "medium"
 
+            # Clean truncated starts — drop text that begins mid-sentence
+            def _clean_chunk_text(t):
+                t = t.strip()
+                # If starts with lowercase and not a sentence starter, find first capital
+                if t and t[0].islower():
+                    import re
+                    m = re.search(r'(?<=[.!?])\s+([A-Z])', t)
+                    if m:
+                        t = t[m.start():].strip()
+                return t[:220]
             contradictions.append({
                 "shared_concepts": list(shared)[:3],
                 "supporting_paper": sup_paper,
-                "supporting_claim": sup_text,
+                "supporting_claim": _clean_chunk_text(sup_text),
                 "contradicting_paper": con_paper,
-                "contradicting_claim": con_text,
+                "contradicting_claim": _clean_chunk_text(con_text),
                 "severity": severity,
                 "implication": _contradiction_implication(list(shared), severity)
             })
@@ -792,7 +802,6 @@ def api_overview():
         if v in verdicts: verdicts[v] += 1
     confs = [float(r.get("proposal_confidence",0)) for r in reports]
     return jsonify({
-        "chunk_count":    _chunk_count(),
         "report_count":   len(reports),
         "kg_nodes":       kg["nodes"],
         "kg_edges":       kg["edges"],

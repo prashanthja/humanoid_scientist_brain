@@ -247,11 +247,11 @@ html,body{min-height:100%;background:var(--bg);color:var(--text);font-family:var
   <div id="articleCol">
 
     <div class="reasoning-chain" id="reasoningChain" style="display:none;">
-      <div class="rc-step"><div class="rc-step-n">Step 1</div><div class="rc-step-v" id="rc1">Corpus</div></div>
-      <div class="rc-step"><div class="rc-step-n">Step 2</div><div class="rc-step-v" id="rc2">Claims</div></div>
-      <div class="rc-step"><div class="rc-step-n">Step 3</div><div class="rc-step-v" id="rc3">Evidence</div></div>
-      <div class="rc-step active-step"><div class="rc-step-n">Step 4</div><div class="rc-step-v" id="rc4">Verdict</div></div>
-      <div class="rc-step"><div class="rc-step-n">Step 5</div><div class="rc-step-v" id="rc5">Simulation</div></div>
+
+      <div class="rc-step"><div class="rc-step-n">Step 1</div><div class="rc-step-v" id="rc2">Claims</div></div>
+      <div class="rc-step"><div class="rc-step-n">Step 2</div><div class="rc-step-v" id="rc3">Evidence</div></div>
+      <div class="rc-step active-step"><div class="rc-step-n">Step 3</div><div class="rc-step-v" id="rc4">Verdict</div></div>
+      <div class="rc-step"><div class="rc-step-n">Step 4</div><div class="rc-step-v" id="rc5">Simulation</div></div>
     </div>
 
     <div class="article-section">
@@ -358,7 +358,7 @@ html,body{min-height:100%;background:var(--bg);color:var(--text);font-family:var
 
 <script>
 let trajChart=null;
-let _corpusCount = 0;
+
 
 function _cleanHyp(text){
   return (text||'')
@@ -376,8 +376,7 @@ document.getElementById('searchInput').addEventListener('keydown',e=>{if(e.key==
 async function loadStats(){
   try{
     const ov=await fj('/api/overview');
-    _corpusCount = ov.chunk_count || 0;
-    document.getElementById('rc1').textContent=`${_corpusCount.toLocaleString()} chunks`;
+
   }catch(e){}
 }
 loadStats();
@@ -392,7 +391,6 @@ async function runResearch(){
   document.getElementById('searchBtn').textContent='Analyzing…';
   document.getElementById('suggestionsSection').style.display='none';
   document.getElementById('reasoningChain').style.display='flex';
-  document.getElementById('rc1').textContent=`${_corpusCount.toLocaleString()} chunks`;
   resetContent();window.scrollTo({top:0,behavior:'smooth'});setBar(15);
   try{
     const [rptRes,simRes,hypsRes]=await Promise.all([

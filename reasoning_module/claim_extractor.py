@@ -109,8 +109,16 @@ def _is_bad_sentence(s: str) -> bool:
     low = (s or "").lower().strip()
     if not low:
         return True
-
     if len(low) < 40:
+        return True
+    # Drop mid-sentence chunks (start with lowercase non-starter word)
+    first_char = low[0] if low else ""
+    good_starts = ("the","a ","an ","in ","on ","at ","by ","we ","our ","this","these","it ","its ","for ","with","from","that","they","when","here","both","all ","each","such","note","thus","also","as ","to ","furthermore","additionally","however","notably","overall","results","experiments","evaluation","performance")
+    if first_char.islower() and not any(low.startswith(w) for w in good_starts):
+        return True
+    # Drop truncated sentences (don't end with proper punctuation)
+    stripped = s.strip()
+    if stripped and stripped[-1] not in ".!?\"')":
         return True
 
     if len(low) > 500:
