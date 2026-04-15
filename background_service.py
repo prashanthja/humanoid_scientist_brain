@@ -199,7 +199,6 @@ def fetch_openalex(query: str, limit: int = 25) -> List[Dict]:
     try:
         r = SESSION.get("https://api.openalex.org/works",
             params={"search":query,"per_page":limit,
-                    "filter":"concepts.display_name:Computer Science",
                     "sort":"publication_date:desc",
                     "select":"title,abstract_inverted_index,open_access"},
             timeout=20)
@@ -233,20 +232,21 @@ def _reconstruct_abstract(inv: Dict) -> str:
 
 
 def fetch_core(query: str, limit: int = 20) -> List[Dict]:
+    """Fetch from Unpaywall/DOAJ as CORE replacement."""
     try:
-        r = SESSION.get("https://core.ac.uk/api-v2/search/",
-            params={"q":query,"pageSize":min(limit,10)}, timeout=15)
+        r = SESSION.get("https://doaj.org/api/search/articles/" + urllib.parse.quote(query),
+            params={"pageSize":min(limit,10)}, timeout=15)
         if r.status_code != 200: return []
         papers = []
-        for p in r.json().get("data",[]):
-            title    = _clean(p.get("title","") or "")
-            abstract = _clean(p.get("description","") or "")
-            full_text= _clean(p.get("fullText","") or "") or abstract
+        for p in r.json().get("results",[]):
+            bib = p.get("bibjson",{})
+            title = _clean(bib.get("title","") or "")
+            abstract = _clean(bib.get("abstract","") or "")
             if title and abstract and len(abstract) > 80:
                 papers.append({"title":title,"abstract":abstract,
-                                "full_text":full_text,"source":"core"})
+                                "full_text":abstract,"source":"doaj"})
         return papers
-    except Exception as e: log.debug(f"CORE: {e}"); return []
+    except Exception as e: log.debug(f"DOAJ: {e}"); return []
 
 
 def fetch_papers_with_code(query: str, limit: int = 20) -> List[Dict]:
@@ -254,8 +254,10 @@ def fetch_papers_with_code(query: str, limit: int = 20) -> List[Dict]:
         r = SESSION.get("https://paperswithcode.com/api/v1/papers/",
             params={"q":query,"page_size":limit}, timeout=20)
         if r.status_code != 200: return []
+        data = r.json()
+        if not isinstance(data, dict): return []
         papers = []
-        for p in r.json().get("results", []):
+        for p in data.get("results", []):
             title    = _clean(p.get("title","") or "")
             abstract = _clean(p.get("abstract","") or "")
             if title and abstract and len(abstract) > 80:
@@ -331,7 +333,7 @@ def fetch_all_sources(query: str) -> List[Dict]:
         ("CrossRef",         fetch_crossref),
     ]:
         try:
-            papers = fetcher(query, limit=20)
+            papers = fetcher(query, limit=30)
             results.extend(papers)
             log.debug(f"  {name}: {len(papers)} papers")
         except Exception as e:

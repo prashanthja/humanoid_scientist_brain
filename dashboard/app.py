@@ -802,6 +802,7 @@ def api_overview():
         if v in verdicts: verdicts[v] += 1
     confs = [float(r.get("proposal_confidence",0)) for r in reports]
     return jsonify({
+        "chunk_count":    _chunk_count(),
         "report_count":   len(reports),
         "kg_nodes":       kg["nodes"],
         "kg_edges":       kg["edges"],
@@ -990,6 +991,18 @@ def api_run_research():
             "domain":               report.domain,
             "contradictions":       contradictions,
         }
+        # Save as discovery report
+        try:
+            import uuid
+            os.makedirs(os.path.join(ROOT, "outputs", "discovery_reports"), exist_ok=True)
+            report_file = f"report_{int(time.time())}_{uuid.uuid4().hex[:6]}.json"
+            report_path = os.path.join(ROOT, "outputs", "discovery_reports", report_file)
+            save_data = {**slim, "timestamp": time.strftime("%Y-%m-%dT%H:%M:%S"), "file": report_file}
+            with open(report_path, "w") as f:
+                import json as _json
+                _json.dump(save_data, f, indent=2, default=str)
+        except Exception as _e:
+            log.warning(f"Failed to save report: {_e}")
         with _research_lock:
             _research_cache[query] = slim
             _research_cache_time[query] = time.time()
@@ -1107,6 +1120,22 @@ def api_idea_lab():
 
 
 # ── Background service ─────────────────────────────────
+
+@app.route("/api/debug/retriever")
+def api_debug_retriever():
+    import os
+    from retrieval.simple_retriever import _get_pinecone_index
+    idx = _get_pinecone_index()
+    chunk_store, encoder, chunk_index = _get_pipeline()
+    test_results = chunk_index.query("KV cache compression latency", top_k=3)
+    return jsonify({
+        "pinecone_key": "SET" if os.environ.get("PINECONE_API_KEY") else "MISSING",
+        "pinecone_index": str(idx),
+        "encoder_type": type(encoder).__name__,
+        "retriever_type": type(chunk_index).__name__,
+        "test_results_count": len(test_results),
+        "test_results": [r.get("paper_title","") for r in test_results],
+    })
 
 @app.route("/api/service/status")
 def api_service_status():
