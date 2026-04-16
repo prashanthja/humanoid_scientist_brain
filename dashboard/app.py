@@ -1,5 +1,5 @@
 # dashboard/app.py
-from flask import Flask, render_template, jsonify, request
+from flask import Flask, render_template, jsonify, request, Response
 import atexit, json, os, glob, time, sys, threading
 
 app  = Flask(__name__)
@@ -145,7 +145,7 @@ def _load_reports(limit=20):
 
 
 def _load_hypotheses(limit=30):
-    hyps, seen = [], set()
+    hyps, seen, seen_prefix = [], set(), {}
     try:
         if not os.path.exists(HYP_JSONL): return hyps
         with open(HYP_JSONL, "r", encoding="utf-8") as f:
@@ -154,9 +154,16 @@ def _load_hypotheses(limit=30):
             try:
                 h = json.loads(line.strip())
                 k = (h.get("hypothesis", "") or "").strip().lower()
-                if k and k not in seen:
-                    seen.add(k); hyps.append(h)
-                    if len(hyps) >= limit: break
+                if not k or k in seen:
+                    continue
+                # Limit to 2 hypotheses per starting concept to avoid repetition
+                prefix = k.split()[0] if k else ""
+                if seen_prefix.get(prefix, 0) >= 4:
+                    continue
+                seen.add(k)
+                seen_prefix[prefix] = seen_prefix.get(prefix, 0) + 1
+                hyps.append(h)
+                if len(hyps) >= limit: break
             except Exception:
                 pass
     except Exception:
@@ -790,7 +797,15 @@ def index():
 
 @app.route("/admin")
 def admin():
-    return render_template("index.html")
+    auth = request.headers.get("Authorization","")
+    pwd = os.environ.get("ADMIN_PASSWORD","tattva-admin-2026")
+    import base64
+    try:
+        decoded = base64.b64decode(auth.replace("Basic ","")).decode()
+        if decoded.split(":",1)[1] == pwd:
+            return render_template("index.html")
+    except: pass
+    return Response("Unauthorized", 401, {"WWW-Authenticate": 'Basic realm="Tattva Admin"'})
 
 @app.route("/api/overview")
 def api_overview():
@@ -800,7 +815,7 @@ def api_overview():
     for r in reports:
         v = r.get("proposal_verdict","unknown")
         if v in verdicts: verdicts[v] += 1
-    confs = [float(r.get("proposal_confidence",0)) for r in reports]
+    confs = [float(r.get("proposal_confidence",0)) for r in reports if float(r.get("proposal_confidence",0)) > 0]
     return jsonify({
         "chunk_count":    _chunk_count(),
         "report_count":   len(reports),
@@ -946,28 +961,28 @@ def api_run_research():
 
         verdict = report.proposal_verdict
         if verdict in ("needs_info","unknown","",None):
-            verdict = "supported" if supported_count > 0 else "inconclusive"
-        if supported_count >= 3 and verdict == "inconclusive":
-            verdict = "supported"
-            confidence = max(float(confidence), 0.68)
-        elif supported_count >= 1 and verdict == "inconclusive":
-            verdict = "partially_supported"
-            confidence = max(float(confidence), 0.55)
-        if verdict == "supported" and float(confidence) < 0.50:
-            verdict = "partially_supported"
+            verdict = "inconclusive"
 
-        if verdict == "inconclusive" and grounded:
-            high_conf_inconclusive = sum(
-                1 for gc in grounded
-                if _get_verdict_str(gc) == "inconclusive"
-                and gc.get("verdict", {}).get("confidence", 0) >= 0.35
-            )
-            if high_conf_inconclusive >= 3:
-                verdict = "partially_supported"
-                confidence = max(float(confidence), 0.60)
-            elif high_conf_inconclusive >= 1:
-                verdict = "partially_supported"
-                confidence = max(float(confidence), 0.45)
+        # Upgrade based on supported claim count
+        if supported_count >= 4:
+            verdict = "supported"
+            confidence = max(float(confidence), 0.72)
+        elif supported_count >= 3:
+            verdict = "supported"
+            confidence = max(float(confidence), 0.63)
+        elif supported_count >= 2:
+            verdict = "partially_supported"
+            confidence = max(float(confidence), 0.50)
+        elif supported_count == 1:
+            verdict = "partially_supported"
+            confidence = max(float(confidence), 0.40)
+        else:
+            verdict = "inconclusive"
+            confidence = max(float(confidence), 0.25)
+
+        # Downgrade if contradictions dominate
+        if contradicted_count >= 2 and verdict == "supported":
+            verdict = "partially_supported"
 
         explanation = report.proposal_explanation or ""
         if not explanation or "no claims" in explanation.lower() \
@@ -980,7 +995,7 @@ def api_run_research():
         slim = {
             "query":                query,
             "proposal_verdict":     verdict,
-            "proposal_confidence":  round(float(confidence),4),
+            "proposal_confidence":  round(max(float(confidence), 0.25),4),
             "proposal_explanation": explanation,
             "evidence_count":       report.evidence_count,
             "supported_count":      supported_count,
