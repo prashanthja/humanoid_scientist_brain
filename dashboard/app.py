@@ -783,7 +783,10 @@ def _make_actionable(hypothesis, hyp_type):
     if "lora" in h and "efficiency" in h: return "Test LoRA rank sensitivity: does r=4 vs r=64 change downstream task quality by more than 1%?"
     if "kvcache" in h or "kv cache" in h: return "Quantify KV cache compression ratio vs perplexity degradation across model sizes."
     if "moe" in h or "mixture" in h: return "Measure MoE routing collapse frequency in production — what % of tokens route to top-1 expert?"
-    if "contextlength" in h or "context" in h: return "Profile memory usage as context grows from 4k to 128k — identify the inflection point."
+    if "contextlength" in h and "memoryoverhead" in h: return "Profile memory usage as context grows from 4k to 128k — identify the inflection point."
+    if "contextlength" in h and "latency" in h: return "Measure TTFT and throughput at context lengths 1k, 4k, 16k, 64k — find where latency inflects."
+    if "contextlength" in h and "modelaccuracy" in h: return "Run MMLU at 4k vs 128k context — measure accuracy degradation as context grows."
+    if "contextlength" in h: return "Test whether this relationship holds at 7B vs 70B model scale."
     if "latency" in h: return "Separate TTFT (time-to-first-token) from throughput — they often trade off against each other."
     if hyp_type == "graph_transitivity": return "Explore whether this transitive relationship holds empirically — no paper has directly tested it."
     return "Design a controlled experiment to directly test whether this relationship holds at scale."
@@ -951,7 +954,18 @@ def api_run_research():
         contradictions  = _find_contradictions(evidence_chunks)
 
         report = build_report(query, result)
-        grounded = [_serialize_grounded(gc) for gc in (report.top_grounded[:5] if report.top_grounded else [])]
+        _all_grounded = [_serialize_grounded(gc) for gc in (report.top_grounded[:8] if report.top_grounded else [])]
+        _qwords = set(w for w in query.lower().split() if len(w) > 3)
+        grounded = []
+        for _gc in _all_grounded:
+            _ct = (_gc.get("claim","") or "").lower()
+            _conf = _gc.get("verdict",{}).get("confidence",0) if isinstance(_gc.get("verdict"),dict) else 0
+            _overlap = sum(1 for w in _qwords if w in _ct)
+            if _conf >= 0.40 or _overlap >= 1:
+                grounded.append(_gc)
+        if not grounded:
+            grounded = _all_grounded[:3]
+        grounded = grounded[:5]
         supported_count    = sum(1 for gc in grounded if _get_verdict_str(gc) in ("supported","partially_supported"))
         contradicted_count = sum(1 for gc in grounded if _get_verdict_str(gc) == "contradicted")
         confidence = report.proposal_confidence
@@ -1003,7 +1017,7 @@ def api_run_research():
             "top_papers":           report.top_papers[:6],
             "top_grounded":         grounded,
             "knowledge_gaps":       report.knowledge_gaps[:3],
-            "domain":               report.domain,
+"domain":               report.domain if report.domain and report.domain != "unknown" else "transformer_efficiency",
             "contradictions":       contradictions,
         }
         # Save as discovery report
