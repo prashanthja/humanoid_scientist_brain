@@ -1124,13 +1124,21 @@ def api_idea_lab():
 @app.route("/api/debug/retriever")
 def api_debug_retriever():
     import os
-    from retrieval.simple_retriever import _get_pinecone_index
-    idx = _get_pinecone_index()
+    error = None
+    try:
+        from pinecone import Pinecone
+        pc = Pinecone(api_key=os.environ.get("PINECONE_API_KEY",""))
+        idx = pc.Index(os.environ.get("PINECONE_INDEX","tattva-vectors"))
+        stats = idx.describe_index_stats()
+        pinecone_status = f"OK - {stats.total_vector_count} vectors"
+    except Exception as e:
+        pinecone_status = f"ERROR: {e}"
     chunk_store, encoder, chunk_index = _get_pipeline()
     test_results = chunk_index.query("KV cache compression latency", top_k=3)
     return jsonify({
         "pinecone_key": "SET" if os.environ.get("PINECONE_API_KEY") else "MISSING",
-        "pinecone_index": str(idx),
+        "pinecone_index": os.environ.get("PINECONE_INDEX",""),
+        "pinecone_status": pinecone_status,
         "encoder_type": type(encoder).__name__,
         "retriever_type": type(chunk_index).__name__,
         "test_results_count": len(test_results),
