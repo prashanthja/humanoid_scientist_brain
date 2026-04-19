@@ -400,6 +400,36 @@ def _ingest_directly(papers: List[Dict]) -> int:
         conn.commit()
         conn.close()
         log.info(f"  Directly inserted {added} new chunks into SQLite")
+
+        # Sync new chunks to Supabase automatically
+        if added > 0:
+            try:
+                from supabase import create_client
+                import os
+                sb_url = os.environ.get("SUPABASE_URL")
+                sb_key = os.environ.get("SUPABASE_KEY")
+                if sb_url and sb_key:
+                    sb = create_client(sb_url, sb_key)
+                    # Get chunks not yet in Supabase
+                    r = sb.table("chunks").select("id", count="exact").execute()
+                    sb_count = r.count or 0
+                    conn2 = sqlite3.connect(DB_PATH)
+                    conn2.row_factory = sqlite3.Row
+                    new_rows = [dict(r) for r in conn2.execute(
+                        "SELECT * FROM chunks ORDER BY rowid LIMIT -1 OFFSET ?", (sb_count,)
+                    ).fetchall()]
+                    conn2.close()
+                    if new_rows:
+                        for i in range(0, len(new_rows), 100):
+                            batch = new_rows[i:i+100]
+                            data = [{"text": r.get("text",""), "paper_title": r.get("paper_title",""),
+                                     "source": r.get("source",""), "domain": r.get("domain","transformer_efficiency"),
+                                     "chunk_idx": 0} for r in batch]
+                            sb.table("chunks").insert(data).execute()
+                        log.info(f"  Synced {len(new_rows)} new chunks to Supabase")
+            except Exception as e:
+                log.warning(f"  Supabase sync failed: {e}")
+
         return added
     except Exception as e:
         log.error(f"  Direct SQLite ingestion failed: {e}")
