@@ -205,6 +205,22 @@ class ChunkStore:
         self.cur.execute("SELECT COUNT(*) FROM chunks")
         return int(self.cur.fetchone()[0])
 
+    def all_chunks(self, limit: int = 100000) -> list:
+        """Return all chunks as list of dicts — used by SimpleRetriever.rebuild()"""
+        try:
+            import sqlite3
+            conn = sqlite3.connect(self.db_path)
+            conn.row_factory = sqlite3.Row
+            rows = conn.execute(
+                "SELECT * FROM chunks ORDER BY rowid LIMIT ?", (limit,)
+            ).fetchall()
+            conn.close()
+            return [dict(r) for r in rows]
+        except Exception as e:
+            import logging
+            logging.getLogger("tattva.chunkstore").error(f"all_chunks failed: {e}")
+            return []
+
     def close(self):
         try:
             self.conn.commit()

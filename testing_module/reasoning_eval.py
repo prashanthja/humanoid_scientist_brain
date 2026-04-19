@@ -34,7 +34,6 @@ def build_engine(kg: KnowledgeGraph):
         sys.exit(1)
 
     encoder = EmbeddingBridge()
-    encoder = EmbeddingBridge(trainer)
     chunk_index = ChunkIndex(encoder=encoder, chunk_store=chunk_store)
 
     print("Rebuilding ChunkIndex...")
