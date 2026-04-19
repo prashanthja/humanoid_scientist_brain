@@ -800,15 +800,18 @@ def index():
 
 @app.route("/admin")
 def admin():
-    auth = request.headers.get("Authorization","")
-    pwd = os.environ.get("ADMIN_PASSWORD","tattva-admin-2026")
-    import base64
-    try:
-        decoded = base64.b64decode(auth.replace("Basic ","")).decode()
-        if decoded.split(":",1)[1] == pwd:
-            return render_template("index.html")
-    except: pass
-    return Response("Unauthorized", 401, {"WWW-Authenticate": 'Basic realm="Tattva Admin"'})
+    # Only require password in production
+    if os.environ.get("FLASK_ENV") == "production":
+        auth = request.headers.get("Authorization","")
+        pwd = os.environ.get("ADMIN_PASSWORD","tattva-admin-2026")
+        import base64
+        try:
+            decoded = base64.b64decode(auth.replace("Basic ","")).decode()
+            if decoded.split(":",1)[1] == pwd:
+                return render_template("index.html")
+        except: pass
+        return Response("Unauthorized", 401, {"WWW-Authenticate": 'Basic realm="Tattva Admin"'})
+    return render_template("index.html")
 
 @app.route("/api/overview")
 def api_overview():

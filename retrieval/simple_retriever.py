@@ -100,7 +100,10 @@ class SimpleRetriever:
             return
         log.info(f"Encoding {len(chunks)} chunks...")
         texts = [c.get("text","") for c in chunks]
-        vecs = np.array([self.encoder.encode(t) for t in texts])
+        if hasattr(self.encoder, 'get_vector'):
+            vecs = np.array([self.encoder.get_vector(t) for t in texts])
+        else:
+            vecs = np.array([self.encoder.encode(t) for t in texts])
 
         if _get_pinecone_index() is not None:
             batch_size = 100
@@ -119,7 +122,7 @@ class SimpleRetriever:
                             "domain": chunk.get("domain","transformer_efficiency"),
                         }
                     })
-                _index.upsert(vectors=vectors)
+                _get_pinecone_index().upsert(vectors=vectors)
             log.info(f"Pinecone index rebuilt with {len(chunks)} vectors")
         else:
             np.save(VEC_PATH, vecs)
