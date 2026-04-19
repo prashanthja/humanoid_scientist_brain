@@ -1,6 +1,6 @@
 {
-  "state": "idle",
-  "phase": "complete",
+  "state": "running",
+  "phase": "fetching papers",
   "last_run": "2026-04-18T20:12:47.102944",
   "next_run": "2026-04-19T02:12:47.102955",
   "total_chunks": 2703,
@@ -17,5 +17,6 @@
     "huggingface",
     "europe_pmc",
     "crossref"
-  ]
+  ],
+  "started_at": "2026-04-19T11:48:39.895660"
 }

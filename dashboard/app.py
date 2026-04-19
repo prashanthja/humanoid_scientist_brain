@@ -3,6 +3,23 @@ from flask import Flask, render_template, jsonify, request, Response
 import atexit, json, os, glob, time, sys, threading
 
 app  = Flask(__name__)
+import logging
+log = logging.getLogger("tattva.app")
+
+# Redis cache
+_redis_client = None
+def _get_redis():
+    global _redis_client
+    if _redis_client is None:
+        try:
+            from upstash_redis import Redis
+            url = os.environ.get("UPSTASH_REDIS_REST_URL","")
+            token = os.environ.get("UPSTASH_REDIS_REST_TOKEN","")
+            if url and token:
+                _redis_client = Redis(url=url, token=token)
+        except Exception as e:
+            pass
+    return _redis_client
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, ROOT)
 
@@ -921,6 +938,17 @@ def api_run_research():
         query = (body.get("query") or "").strip()
         if not query: return jsonify({"error":"empty query"}), 400
 
+        # Check Redis first
+        import hashlib, json as _json
+        _rkey = "rq:" + hashlib.md5(query.encode()).hexdigest()
+        try:
+            _r = _get_redis()
+            if _r:
+                _hit = _r.get(_rkey)
+                if _hit:
+                    return jsonify(_json.loads(_hit))
+        except: pass
+
         with _research_lock:
             if query in _research_cache:
                 age = time.time() - _research_cache_time.get(query, 0)
@@ -1035,6 +1063,13 @@ def api_run_research():
                 _json.dump(save_data, f, indent=2, default=str)
         except Exception as _e:
             log.warning(f"Failed to save report: {_e}")
+        # Write to Redis
+        try:
+            _r = _get_redis()
+            if _r:
+                _r.set(_rkey, _json.dumps(slim, default=str), ex=3600)
+        except: pass
+
         with _research_lock:
             _research_cache[query] = slim
             _research_cache_time[query] = time.time()
