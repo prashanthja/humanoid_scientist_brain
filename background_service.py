@@ -503,6 +503,31 @@ def run_cycle():
     log.info("Phase 3: Rebuilding chunk index")
     _write_status({**read_status(), "phase": "rebuilding chunk index"})
     try:
+        # First sync ALL local chunks to Supabase
+        sb_url = os.environ.get("SUPABASE_URL","")
+        sb_key = os.environ.get("SUPABASE_KEY","")
+        if sb_url and sb_key:
+            try:
+                from supabase import create_client
+                sb = create_client(sb_url, sb_key)
+                r = sb.table("chunks").select("id", count="exact").execute()
+                sb_count = r.count or 0
+                conn = sqlite3.connect(DB_PATH)
+                conn.row_factory = sqlite3.Row
+                local_rows = [dict(r) for r in conn.execute(
+                    "SELECT * FROM chunks ORDER BY rowid LIMIT -1 OFFSET ?", (sb_count,)
+                ).fetchall()]
+                conn.close()
+                if local_rows:
+                    for i in range(0, len(local_rows), 100):
+                        batch = local_rows[i:i+100]
+                        data = [{"text": r.get("text",""), "paper_title": r.get("paper_title",""),
+                                 "source": r.get("source",""), "domain": r.get("domain","transformer_efficiency"),
+                                 "chunk_idx": 0} for r in batch]
+                        sb.table("chunks").insert(data).execute()
+                    log.info(f"Supabase synced: +{len(local_rows)} chunks")
+            except Exception as e:
+                log.warning(f"Supabase sync failed: {e}")
         from retrieval.simple_retriever import SimpleRetriever
         from learning_module.embedding_bridge import EmbeddingBridge
         encoder = EmbeddingBridge()
