@@ -1,13 +1,13 @@
 {
   "state": "running",
   "phase": "fetching papers",
-  "last_run": "2026-04-21T11:10:26.031972",
-  "next_run": "2026-04-21T17:10:26.031980",
-  "total_chunks": 4127,
-  "chunks_added": 68,
-  "papers_fetched": 1358,
-  "elapsed_sec": 1264.5,
-  "cycles": 36,
+  "last_run": "2026-04-21T11:57:43.861829",
+  "next_run": "2026-04-21T17:57:43.861838",
+  "total_chunks": 4217,
+  "chunks_added": 90,
+  "papers_fetched": 1457,
+  "elapsed_sec": 1153.9,
+  "cycles": 37,
   "sources": [
     "semantic_scholar",
     "arxiv",
@@ -18,5 +18,5 @@
     "europe_pmc",
     "crossref"
   ],
-  "started_at": "2026-04-21T11:38:29.948984"
+  "started_at": "2026-04-21T12:00:09.670180"
 }
