@@ -6,6 +6,7 @@
 <title>Tattva AI — Scientific Evidence Platform</title>
 <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,600;1,8..60,300;1,8..60,400&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 :root{
@@ -200,6 +201,17 @@ html,body{min-height:100%;background:var(--bg);color:var(--text);font-family:var
   <div class="nav-status">
     <div class="nav-status-dot"></div>
     <span>Live evidence pipeline</span>
+  </div>
+  <div id="authBtn" style="display:flex;align-items:center;gap:10px;">
+    <button onclick="signInWithGoogle()" id="loginBtn" style="display:flex;align-items:center;gap:8px;padding:7px 16px;background:#fff;border:1px solid #e2ddd6;border-radius:6px;cursor:pointer;font-size:13px;font-family:Inter,sans-serif;color:#1a1714;box-shadow:0 1px 3px rgba(0,0,0,.08);">
+      <svg width="16" height="16" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.18 1.48-4.97 2.31-8.16 2.31-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
+      Sign in with Google
+    </button>
+    <div id="userInfo" style="display:none;align-items:center;gap:8px;">
+      <img id="userAvatar" width="28" height="28" style="border-radius:50%;border:1px solid #e2ddd6;" src="" alt=""/>
+      <span id="userName" style="font-size:13px;color:#1a1714;font-family:Inter,sans-serif;"></span>
+      <button onclick="signOut()" style="font-size:12px;color:#9c948a;background:none;border:none;cursor:pointer;padding:4px;">Sign out</button>
+    </div>
   </div>
 </nav>
 
@@ -655,6 +667,55 @@ function renderSuggestions(data){
 
   document.getElementById('suggestionsSection').style.display='block';
 }
+</script>
+<script>
+// ── Supabase Auth ──────────────────────────────────────────
+let _sb = null;
+async function initSupabase(){
+  if(_sb) return _sb;
+  const cfg = await fetch('/api/config').then(r=>r.json());
+  _sb = supabase.createClient(cfg.supabase_url, cfg.supabase_anon_key);
+  // Check existing session
+  const {data:{session}} = await _sb.auth.getSession();
+  if(session) updateAuthUI(session.user);
+  // Listen for auth changes
+  _sb.auth.onAuthStateChange((_event, session)=>{
+    if(session) updateAuthUI(session.user);
+    else clearAuthUI();
+  });
+  return _sb;
+}
+
+function updateAuthUI(user){
+  document.getElementById('loginBtn').style.display='none';
+  const ui = document.getElementById('userInfo');
+  ui.style.display='flex';
+  document.getElementById('userName').textContent = user.user_metadata?.full_name || user.email;
+  if(user.user_metadata?.avatar_url)
+    document.getElementById('userAvatar').src = user.user_metadata.avatar_url;
+}
+
+function clearAuthUI(){
+  document.getElementById('loginBtn').style.display='flex';
+  document.getElementById('userInfo').style.display='none';
+}
+
+async function signInWithGoogle(){
+  const sb = await initSupabase();
+  await sb.auth.signInWithOAuth({
+    provider: 'google',
+    options: { redirectTo: window.location.origin }
+  });
+}
+
+async function signOut(){
+  const sb = await initSupabase();
+  await sb.auth.signOut();
+  clearAuthUI();
+}
+
+// Init on load
+initSupabase();
 </script>
 </body>
 </html>
