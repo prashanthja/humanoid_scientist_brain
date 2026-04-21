@@ -1231,6 +1231,19 @@ def api_debug_retriever():
         "test_results": [r.get("paper_title","") for r in test_results],
     })
 
+@app.route("/api/user/history")
+def api_user_history():
+    user_id = request.headers.get("X-User-ID")
+    if not user_id:
+        return jsonify({"history": []})
+    try:
+        from supabase import create_client
+        sb = create_client(os.environ.get("SUPABASE_URL",""), os.environ.get("SUPABASE_KEY",""))
+        r = sb.table("research_history").select("id,query,verdict,confidence,evidence_count,created_at")             .eq("user_id", user_id).order("created_at", desc=True).limit(20).execute()
+        return jsonify({"history": r.data or []})
+    except Exception as e:
+        return jsonify({"history": [], "error": str(e)})
+
 @app.route("/api/config")
 def api_config():
     return jsonify({
