@@ -202,11 +202,59 @@ class ChunkStore:
         return out[::-1]  # oldest -> newest
 
     def count(self) -> int:
-        self.cur.execute("SELECT COUNT(*) FROM chunks")
+        import os
+        sb_url = os.environ.get("SUPABASE_URL","")
+        sb_key = os.environ.get("SUPABASE_KEY","")
+        if sb_url and sb_key:
+            try:
+                from supabase import create_client
+                sb = create_client(sb_url, sb_key)
+                r = sb.table("chunks").select("id", count="exact").execute()
+                return r.count or 0
+            except Exception:
+                pass
+        return self._count_sqlite()
+
+    def _count_sqlite(self) -> int:        import os
+        sb_url = os.environ.get("SUPABASE_URL","")
+        sb_key = os.environ.get("SUPABASE_KEY","")
+        if sb_url and sb_key:
+            try:
+                from supabase import create_client
+                sb = create_client(sb_url, sb_key)
+                r = sb.table("chunks").select("id", count="exact").execute()
+                return r.count or 0
+            except Exception:
+                pass
+        return self._count_sqlite()
+
+    def _count_sqlite(self) -> int:        self.cur.execute("SELECT COUNT(*) FROM chunks")
         return int(self.cur.fetchone()[0])
 
     def all_chunks(self, limit: int = 100000) -> list:
-        """Return all chunks as list of dicts — used by SimpleRetriever.rebuild()"""
+        """Return all chunks — from Supabase in production, SQLite locally."""
+        import os, logging
+        log = logging.getLogger("tattva.chunkstore")
+        sb_url = os.environ.get("SUPABASE_URL","")
+        sb_key = os.environ.get("SUPABASE_KEY","")
+        if sb_url and sb_key:
+            try:
+                from supabase import create_client
+                sb = create_client(sb_url, sb_key)
+                all_rows = []
+                page_size = 1000
+                offset = 0
+                while True:
+                    r = sb.table("chunks").select("*").range(offset, offset+page_size-1).execute()
+                    batch = r.data or []
+                    all_rows.extend(batch)
+                    if len(batch) < page_size:
+                        break
+                    offset += page_size
+                log.info(f"all_chunks: loaded {len(all_rows)} from Supabase")
+                return all_rows[:limit]
+            except Exception as e:
+                log.warning(f"Supabase all_chunks failed: {e}, falling back to SQLite")
         try:
             import sqlite3
             conn = sqlite3.connect(self.db_path)
@@ -217,8 +265,7 @@ class ChunkStore:
             conn.close()
             return [dict(r) for r in rows]
         except Exception as e:
-            import logging
-            logging.getLogger("tattva.chunkstore").error(f"all_chunks failed: {e}")
+            log.error(f"all_chunks failed: {e}")
             return []
 
     def close(self):

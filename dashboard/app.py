@@ -1051,6 +1051,24 @@ def api_run_research():
 "domain":               report.domain if report.domain and report.domain != "unknown" else "transformer_efficiency",
             "contradictions":       contradictions,
         }
+        # Save to Supabase research history if user is logged in
+        try:
+            user_id = request.headers.get("X-User-ID")
+            user_email = request.headers.get("X-User-Email")
+            if user_id:
+                from supabase import create_client as _sb_create
+                _sb = _sb_create(os.environ.get("SUPABASE_URL",""), os.environ.get("SUPABASE_KEY",""))
+                _sb.table("research_history").insert({
+                    "user_id": user_id,
+                    "query": query,
+                    "verdict": verdict,
+                    "confidence": round(float(confidence), 4),
+                    "evidence_count": report.evidence_count,
+                    "report_json": slim,
+                }).execute()
+        except Exception as _he:
+            log.warning(f"History save failed: {_he}")
+
         # Save as discovery report
         try:
             import uuid
