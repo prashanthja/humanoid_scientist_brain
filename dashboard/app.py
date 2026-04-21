@@ -1212,6 +1212,13 @@ def api_debug_retriever():
         "test_results": [r.get("paper_title","") for r in test_results],
     })
 
+@app.route("/api/config")
+def api_config():
+    return jsonify({
+        "supabase_url": os.environ.get("SUPABASE_URL",""),
+        "supabase_anon_key": os.environ.get("SUPABASE_KEY",""),
+    })
+
 @app.route("/api/service/status")
 def api_service_status():
     try:
