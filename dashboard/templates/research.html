@@ -406,7 +406,7 @@ async function runResearch(){
   resetContent();window.scrollTo({top:0,behavior:'smooth'});setBar(15);
   try{
     const [rptRes,simRes,hypsRes]=await Promise.all([
-      fetch('/api/run_research',{method:'POST',headers:{'Content-Type':'application/json',...(_sbSession?{'X-User-ID':_sbSession.user.id,'X-User-Email':_sbSession.user.email}:{})},body:JSON.stringify({query:q})}),
+      fetch('/api/run_research',{method:'POST',headers:{'Content-Type':'application/json',...(_sbSession&&_sbSession.user?{'X-User-ID':_sbSession.user.id,'X-User-Email':_sbSession.user.email}:{})},body:JSON.stringify({query:q})}),
       fetch('/api/simulate',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({query:q})}),
       fetch('/api/hypotheses')
     ]);
@@ -681,7 +681,7 @@ async function initSupabase(){
   if(session) updateAuthUI(session.user);
   // Listen for auth changes
   _sb.auth.onAuthStateChange((_event, session)=>{
-    _sbSession = session;
+    _sbSession = session; // session has .user property
     if(session) updateAuthUI(session.user);
     else clearAuthUI();
   });

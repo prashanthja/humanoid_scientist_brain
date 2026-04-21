@@ -1054,6 +1054,7 @@ def api_run_research():
         # Save to Supabase research history if user is logged in
         try:
             user_id = request.headers.get("X-User-ID")
+            log.info(f"Research history: user_id={user_id}")
             user_email = request.headers.get("X-User-Email")
             if user_id:
                 from supabase import create_client as _sb_create
