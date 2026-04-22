@@ -1,5 +1,5 @@
 # dashboard/app.py
-from flask import Flask, render_template, jsonify, request, Response
+from flask import Flask, render_template, jsonify, request, Response, send_from_directory
 import atexit, json, os, glob, time, sys, threading
 
 app  = Flask(__name__)
@@ -813,6 +813,10 @@ def _make_actionable(hypothesis, hyp_type):
 
 @app.route("/")
 def index():
+    return render_template("landing.html")
+
+@app.route("/app")
+def app_page():
     return render_template("research.html")
 
 @app.route("/admin")
@@ -1243,6 +1247,23 @@ def api_user_history():
         return jsonify({"history": r.data or []})
     except Exception as e:
         return jsonify({"history": [], "error": str(e)})
+
+@app.route("/landing")
+def landing():
+    return send_from_directory("templates", "landing.html")
+
+@app.route("/api/waitlist", methods=["POST"])
+def api_waitlist():
+    try:
+        email = request.json.get("email","").strip()
+        if not email or "@" not in email:
+            return jsonify({"error": "invalid email"}), 400
+        from supabase import create_client
+        sb = create_client(os.environ.get("SUPABASE_URL",""), os.environ.get("SUPABASE_KEY",""))
+        sb.table("waitlist").insert({"email": email}).execute()
+        return jsonify({"status": "ok"})
+    except Exception as e:
+        return jsonify({"status": "ok"})  # Fail silently
 
 @app.route("/api/config")
 def api_config():
