@@ -252,19 +252,48 @@ def _find_contradictions(chunks):
         "we show","results show","we find","we demonstrate"
     ]
     negative_signals = [
-        "does not","doesn't","no significant","fails","no improvement",
-        "worse","slower","limited","insufficient","no benefit",
-        "not effective","degradation","overhead eliminates","cannot",
-        "challenge","significant challenge","presents a challenge",
-        "difficult","limitation","drawback","however","but",
-        "despite","although","whereas","on the other hand",
-        "unable to","no advantage","marginal","negligible","no measurable"
+        "does not reduce","does not improve","does not outperform",
+        "doesn't reduce","doesn't improve","no significant improvement",
+        "no significant reduction","fails to","no improvement",
+        "worse than","slower than","no benefit","not effective",
+        "degradation","overhead eliminates","cannot achieve",
+        "no advantage","no measurable","underperforms","inferior to",
+        "no statistically significant","null result"
     ]
     key_concepts = [
         "memory","latency","throughput","quality","accuracy",
         "performance","efficiency","speed","overhead","cost",
         "training","inference"
     ]
+
+    # Context markers — detect conditional contradictions
+    CONTEXT_MARKERS = {
+        "architecture": ["moe","mixture of experts","multi-adapter","multi-lora",
+                        "transformer","decoder","encoder","dense","sparse"],
+        "scale": ["7b","13b","70b","small","large","billion","parameter"],
+        "task": ["fine-tuning","pretraining","inference","serving","generation",
+                "reasoning","math","code","nlp","vision"],
+        "hardware": ["gpu","cpu","a100","h100","memory","vram","bandwidth"],
+        "dataset": ["benchmark","dataset","task","evaluation","downstream"],
+    }
+
+    def _get_context(text):
+        """Extract context conditions from text."""
+        text_low = text.lower()
+        found = {}
+        for ctx_type, markers in CONTEXT_MARKERS.items():
+            matched = [m for m in markers if m in text_low]
+            if matched:
+                found[ctx_type] = matched[:2]
+        return found
+
+    def _contexts_differ(ctx_a, ctx_b):
+        """Check if two chunks have different contexts."""
+        for ctx_type in CONTEXT_MARKERS:
+            if ctx_type in ctx_a and ctx_type in ctx_b:
+                if set(ctx_a[ctx_type]) != set(ctx_b[ctx_type]):
+                    return True, ctx_type
+        return False, None
 
     def _get_signals(text):
         text_low = text.lower()
@@ -330,16 +359,65 @@ def _find_contradictions(chunks):
                 for w in ["no benefit","no improvement","no significant","does not"]
             ) else "medium"
 
-            # Clean truncated starts — drop text that begins mid-sentence
             def _clean_chunk_text(t):
                 t = t.strip()
-                # If starts with lowercase and not a sentence starter, find first capital
                 if t and t[0].islower():
                     import re
                     m = re.search(r'(?<=[.!?])\s+([A-Z])', t)
                     if m:
                         t = t[m.start():].strip()
                 return t[:220]
+
+            # Determine contradiction type
+            def _contradiction_type(ta, tb):
+                ta_low, tb_low = ta.lower(), tb.lower()
+                method_words = ["method","approach","technique","model","architecture","framework","setting","configuration","dataset","benchmark"]
+                direct_words = ["no benefit","no improvement","does not reduce","does not improve","no significant","fails to"]
+                if any(w in ta_low or w in tb_low for w in direct_words):
+                    return "direct"
+                elif any(w in ta_low or w in tb_low for w in method_words):
+                    return "methodological"
+                else:
+                    return "contextual"
+
+            # Extract the specific triggering signals
+            def _triggering_signals(ta, tb):
+                ta_low, tb_low = ta.lower(), tb.lower()
+                found_pos = [s for s in positive_signals if s in ta_low or s in tb_low]
+                found_neg = [s for s in negative_signals if s in ta_low or s in tb_low]
+                return found_pos[:3], found_neg[:3]
+
+            c_type = _contradiction_type(sup_text, con_text)
+            trig_pos, trig_neg = _triggering_signals(sup_text, con_text)
+
+            # Context-aware analysis
+            ctx_a = _get_context(sup_text)
+            ctx_b = _get_context(con_text)
+            ctx_differs, ctx_type = _contexts_differ(ctx_a, ctx_b)
+
+            if ctx_differs:
+                c_type = "contextual"
+                ctx_a_vals = ctx_a.get(ctx_type, [])
+                ctx_b_vals = ctx_b.get(ctx_type, [])
+                detection_explanation = (
+                    f"Conditional contradiction detected on [{', '.join(list(shared)[:2])}]. "
+                    f"Paper A reports positive results in context: {ctx_a_vals}. "
+                    f"Paper B reports negative/different results in context: {ctx_b_vals}. "
+                    f"Effect likely depends on {ctx_type}."
+                )
+                implication = (
+                    f"Results are context-dependent — effect on {', '.join(list(shared)[:2])} "
+                    f"varies by {ctx_type}. "
+                    f"Verify which context matches your use case before drawing conclusions."
+                )
+            else:
+                detection_explanation = (
+                    f"Paper A contains positive signals {trig_pos} on [{', '.join(list(shared)[:2])}]. "
+                    f"Paper B contains negative signals {trig_neg} on the same concepts. "
+                    f"This suggests a {c_type} contradiction."
+                )
+                implication = _contradiction_implication(list(shared), severity)
+
             contradictions.append({
                 "shared_concepts": list(shared)[:3],
                 "supporting_paper": sup_paper,
@@ -347,7 +425,16 @@ def _find_contradictions(chunks):
                 "contradicting_paper": con_paper,
                 "contradicting_claim": _clean_chunk_text(con_text),
                 "severity": severity,
-                "implication": _contradiction_implication(list(shared), severity)
+                "contradiction_type": c_type,
+                "detection_method": "context_aware_signal_analysis",
+                "triggering_positive_signals": trig_pos,
+                "triggering_negative_signals": trig_neg,
+                "context_a": ctx_a,
+                "context_b": ctx_b,
+                "context_differs": ctx_differs,
+                "context_dimension": ctx_type,
+                "detection_explanation": detection_explanation,
+                "implication": implication,
             })
 
             if len(contradictions) >= 3:
@@ -747,12 +834,16 @@ def _find_alternatives(concept, kg_data, query):
 
 
 def _best_experiment(concept, verdict, confidence, top_papers):
-    if verdict == "supported" and confidence > 0.5:
-        return {"type":"Stress Test","description":f"The evidence for {concept} is strong. Stress-test it: measure wall-clock latency at batch sizes 1, 8, 32, 128 on real hardware (A100/H100), not just FLOPs.","metric":"Wall-clock latency (ms) and GPU memory (GB) at multiple batch sizes","baseline":"Dense transformer baseline with same parameter count"}
-    elif verdict in ("partially_supported","inconclusive"):
+    if verdict == "strong_evidence":
+        return {"type":"Ablation Study","description":f"Strong evidence exists for {concept}. Isolate the mechanism: run ablations varying model size, sequence length, and batch size to find boundary conditions where gains disappear.","metric":"Performance vs each variable independently (log scale)","baseline":"Same model without the technique"}
+    elif verdict in ("moderate_evidence","supported") and confidence > 0.5:
+        return {"type":"Stress Test","description":f"Moderate evidence for {concept}. Stress-test it: measure wall-clock latency at batch sizes 1, 8, 32, 128 on real hardware (A100/H100), not just FLOPs.","metric":"Wall-clock latency (ms) and GPU memory (GB) at multiple batch sizes","baseline":"Dense transformer baseline with same parameter count"}
+    elif verdict == "context_dependent":
+        return {"type":"Comparative Study","description":f"Results for {concept} vary by context. Run head-to-head comparison across different settings (model size, architecture, task type) to map exactly when gains appear and disappear.","metric":"Performance delta across settings","baseline":"Standard baseline in each setting"}
+    elif verdict in ("mixed_evidence","partially_supported"):
         return {"type":"Controlled Ablation","description":f"Evidence for {concept} is mixed. Run a controlled ablation: isolate the specific mechanism being claimed. Verify gains hold when sequence length doubles.","metric":"Memory overhead (GB) vs sequence length (log scale)","baseline":"Standard attention at matching sequence lengths"}
     else:
-        return {"type":"Replication Study","description":f"Evidence is absent or contradictory for {concept}. Replicate the strongest supporting paper exactly. Contradictions often come from methodology differences.","metric":"Exact reproduction of reported metric in original paper","baseline":"Author-reported numbers as ground truth"}
+        return {"type":"Replication Study","description":f"Limited evidence for {concept}. Replicate the strongest supporting paper exactly — contradictions often come from methodology differences.","metric":"Exact reproduction of reported metric in original paper","baseline":"Author-reported numbers as ground truth"}
 
 
 def _find_underresearched(kg_data, concept):
@@ -785,15 +876,38 @@ def _find_underresearched(kg_data, concept):
 
 def _extract_new_ideas(hyps, concept, query):
     concept_low = concept.lower()
-    q_words = query.lower().split()
-    related = [h for h in hyps if concept_low in (h.get("hypothesis","")).lower()
-               or any(w in (h.get("hypothesis","")).lower() for w in q_words if len(w)>4)]
+    q = query.lower()
+    q_words = set(w for w in q.split() if len(w) > 3)
+    # Map query to specific KG concept names
+    CONCEPT_MAP = [
+        (["flashattention","flash attention"], "FlashAttention"),
+        (["kv cache","kvcache","key-value cache"], "KVCache"),
+        (["lora","low-rank"], "LoRA"),
+        (["mixture of experts","moe"], "MixtureOfExperts"),
+        (["mamba","state space"], "Mamba"),
+        (["speculative decoding"], "SpeculativeDecoding"),
+        (["paged attention","pagedattention"], "PagedAttention"),
+        (["sparse attention"], "SparseAttention"),
+        (["sliding window"], "SlidingWindowAttention"),
+        (["quantization","quantisation"], "Quantization"),
+    ]
+    # Find matching concept
+    target_concepts = set()
+    for aliases, kg_concept in CONCEPT_MAP:
+        if any(a in q for a in aliases):
+            target_concepts.add(kg_concept.lower())
+    if not target_concepts:
+        target_concepts = {concept_low}
+    # Filter hypotheses by target concept
+    related = [h for h in hyps if
+               any(tc in h.get("hypothesis","").lower() for tc in target_concepts)]
+    if not related:
+        related = [h for h in hyps if
+                   sum(1 for w in q_words if len(w)>4 and w in h.get("hypothesis","").lower()) >= 1]
     if not related:
         related = [h for h in hyps if h.get("type")=="graph_transitivity"][:3]
     return [{"hypothesis":h.get("hypothesis",""),"type":h.get("type",""),"score":h.get("score",0),
              "actionable":_make_actionable(h.get("hypothesis",""),h.get("type",""))} for h in related[:3]]
-
-
 def _make_actionable(hypothesis, hyp_type):
     h = hypothesis.lower()
     if "flashattention" in h and "memory" in h: return "Measure FlashAttention memory savings specifically at 32k+ context — most benchmarks stop at 4k."
@@ -1012,34 +1126,55 @@ def api_run_research():
         if verdict in ("needs_info","unknown","",None):
             verdict = "inconclusive"
 
-        # Upgrade based on supported claim count
-        if supported_count >= 4:
-            verdict = "supported"
-            confidence = max(float(confidence), 0.72)
-        elif supported_count >= 3:
-            verdict = "supported"
+        # Rich verdict system — based on evidence strength
+        if supported_count >= 4 and contradicted_count == 0:
+            verdict = "strong_evidence"
+            confidence = max(float(confidence), 0.78)
+        elif supported_count >= 3 and contradicted_count <= 1:
+            verdict = "moderate_evidence"
             confidence = max(float(confidence), 0.63)
-        elif supported_count >= 2:
-            verdict = "partially_supported"
-            confidence = max(float(confidence), 0.50)
-        elif supported_count == 1:
-            verdict = "partially_supported"
+        elif supported_count >= 2 and contradicted_count <= 1:
+            verdict = "moderate_evidence"
+            confidence = max(float(confidence), 0.52)
+        elif supported_count >= 1 and contradicted_count == 0:
+            verdict = "limited_evidence"
+            confidence = max(float(confidence), 0.40)
+        elif supported_count >= 1 and contradicted_count >= 1:
+            verdict = "mixed_evidence"
+            confidence = max(float(confidence), 0.45)
+        elif contradicted_count >= 2:
+            verdict = "mixed_evidence"
             confidence = max(float(confidence), 0.40)
         else:
             verdict = "inconclusive"
             confidence = max(float(confidence), 0.25)
 
         # Downgrade if contradictions dominate
-        if contradicted_count >= 2 and verdict == "supported":
-            verdict = "partially_supported"
+        if contradicted_count >= 3:
+            verdict = "mixed_evidence"
 
-        explanation = report.proposal_explanation or ""
-        if not explanation or "no claims" in explanation.lower() \
-                or "weak grounding" in explanation.lower() \
-                or "semantic similarity" in explanation.lower():
-            explanation = ("Evidence from multiple sources confirms this claim with experimental results."
-                           if supported_count >= 2
-                           else "Evidence exists but is partial or indirect — further investigation recommended.")
+        # Check for contextual contradictions
+        contextual_contradictions = [c for c in contradictions if c.get("context_differs")]
+        if contextual_contradictions:
+            ctx_dim = contextual_contradictions[0].get("context_dimension","context")
+            verdict = "context_dependent"
+            confidence = max(float(confidence), 0.45)
+
+        # Generate rich explanation for every verdict
+        contextual_contradictions = [c for c in contradictions if c.get("context_differs")]
+        ctx_dim = contextual_contradictions[0].get("context_dimension","context") if contextual_contradictions else None
+
+        VERDICT_EXPLANATIONS = {
+            "strong_evidence": f"{supported_count} independent studies directly support this claim with no contradictions. High confidence.",
+            "moderate_evidence": f"{supported_count} studies support this claim" + (f", {contradicted_count} show tradeoffs." if contradicted_count else ".") + " Moderate confidence.",
+            "limited_evidence": f"Only {supported_count} study found direct evidence. More replication needed before drawing conclusions.",
+            "mixed_evidence": f"{supported_count} studies support, {contradicted_count} contradict. Results are genuinely mixed — likely depends on experimental setup.",
+            "context_dependent": f"Results vary by {ctx_dim or 'context'}. {supported_count} studies support in some settings, {contradicted_count} show opposite results in others.",
+            "inconclusive": f"No direct supporting evidence found in {report.evidence_count} retrieved chunks. The question may be too specific or evidence may be sparse.",
+        }
+        explanation = VERDICT_EXPLANATIONS.get(verdict, "")
+        if not explanation:
+            explanation = report.proposal_explanation or "Evidence exists but is partial or indirect."
 
         slim = {
             "query":                query,
@@ -1052,7 +1187,17 @@ def api_run_research():
             "top_papers":           report.top_papers[:6],
             "top_grounded":         grounded,
             "knowledge_gaps":       report.knowledge_gaps[:3],
-"domain":               report.domain if report.domain and report.domain != "unknown" else "transformer_efficiency",
+            "domain":               report.domain if report.domain and report.domain != "unknown" else "transformer_efficiency",
+            "is_conditional":        len([c for c in contradictions if c.get("context_differs")]) > 0,
+            "conditional_dimension":  next((c.get("context_dimension") for c in contradictions if c.get("context_differs")), None),
+            "cross_domain_warning":  len(set(
+                (gc.get("domain","") or "transformer_efficiency") for gc in grounded 
+                if (gc.get("domain","") or "transformer_efficiency") not in ("unknown","transformer_efficiency","")
+            )) > 1,
+            "domains_found":         list(set(
+                (gc.get("domain","") or "transformer_efficiency") for gc in grounded
+                if (gc.get("domain","") or "") not in ("unknown","")
+            ))[:5] or ["transformer_efficiency"],
             "contradictions":       contradictions,
         }
         # Save to Supabase research history if user is logged in

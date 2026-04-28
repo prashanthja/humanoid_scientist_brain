@@ -87,14 +87,69 @@ class SimpleRetriever:
             return []
 
     def retrieve(self, text: str, top_k: int = 10, use_mmr: bool = False, **kwargs) -> list[dict]:
-        """Alias for query() — called by DiscoveryEngine and EvidenceEvaluator."""
-        return self.query(text, top_k=top_k)
+        """Retrieve with causal relevance filtering."""
+        # Get more candidates than needed, then filter
+        candidates = self.query(text, top_k=top_k * 2)
+        if not candidates:
+            return []
+        filtered = self._causal_filter(text, candidates, top_k)
+        return filtered
+
+    def _causal_filter(self, query: str, chunks: list, top_k: int) -> list:
+        """Filter chunks by causal relevance to query — removes off-topic retrievals."""
+        import re
+        q_low = query.lower()
+
+        # Extract key entities from query
+        # e.g. "Does LoRA reduce fine-tuning cost?" → ["lora", "fine-tuning", "cost"]
+        stopwords = {"does","is","are","the","a","an","of","in","on","to","for",
+                     "with","and","or","not","it","this","that","by","from","how",
+                     "what","which","do","can","will","would","could","should","may"}
+        q_tokens = set(w for w in re.findall(r"[a-z0-9\-]+", q_low) if w not in stopwords and len(w) > 2)
+
+        # Key concepts to match — at least one must appear in chunk
+        scored = []
+        for chunk in chunks:
+            text_low = (chunk.get("text","") or "").lower()
+            title_low = (chunk.get("paper_title","") or "").lower()
+            combined = text_low + " " + title_low
+
+            # Count query token matches in chunk
+            matches = sum(1 for t in q_tokens if t in combined)
+            causal_score = matches / max(len(q_tokens), 1)
+
+            # Boost if paper title directly mentions query concept
+            title_boost = 1.5 if any(t in title_low for t in q_tokens if len(t) > 4) else 1.0
+
+            # Penalize if chunk has zero query token matches (off-topic)
+            if matches == 0:
+                causal_score = 0.0
+
+            final_score = (chunk.get("score", 0.5) * 0.6 + causal_score * 0.4) * title_boost
+            scored.append((final_score, chunk))
+
+        # Sort by combined score, take top_k
+        scored.sort(key=lambda x: -x[0])
+
+        # Always return at least some results even if low relevance
+        result = [c for _, c in scored[:top_k]]
+        if not result:
+            return chunks[:top_k]
+        return result
 
     def rebuild(self):
         """Rebuild index from ChunkStore — uploads to Pinecone or saves numpy locally."""
         from knowledge_base.chunk_store import ChunkStore
         cs = ChunkStore()
-        chunks = cs.all_chunks(limit=50000)
+        # all_chunks may not exist on older instances — use direct SQLite
+        if hasattr(cs, 'all_chunks'):
+            chunks = cs.all_chunks(limit=50000)
+        else:
+            import sqlite3
+            conn = sqlite3.connect(cs.db_path)
+            conn.row_factory = sqlite3.Row
+            chunks = [dict(r) for r in conn.execute("SELECT * FROM chunks ORDER BY rowid").fetchall()]
+            conn.close()
         if not chunks:
             log.warning("No chunks to index")
             return

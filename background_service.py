@@ -544,6 +544,25 @@ def run_cycle():
     except Exception as e:
         log.error(f"Index rebuild failed: {e}")
 
+    # ── Phase 3.5: Auto-update Knowledge Graph ──────────────
+    log.info("Phase 3.5: Auto-updating knowledge graph from new chunks")
+    try:
+        from knowledge_graph.graph import KnowledgeGraph
+        import sqlite3, json as _json
+        _kg = KnowledgeGraph()
+        _kg.load(os.path.join(ROOT, "knowledge_graph", "graph.json"))
+        before = _kg.edge_count()
+        # Get recent chunks
+        conn = sqlite3.connect(DB_PATH)
+        rows = [r[0] for r in conn.execute("SELECT text FROM chunks ORDER BY rowid DESC LIMIT 2000").fetchall()]
+        conn.close()
+        new_rels = _kg.build_from_corpus(rows)
+        after = _kg.edge_count()
+        _kg.save(os.path.join(ROOT, "knowledge_graph", "graph.json"))
+        log.info(f"KG updated: {before} → {after} edges (+{after-before} new)")
+    except Exception as e:
+        log.error(f"KG auto-update failed: {e}")
+
     # ── Phase 4: Reasoning eval ───────────────────────────
     log.info("Phase 4: Running reasoning_eval.py")
     _write_status({**read_status(), "phase": "running reasoning pipeline"})
@@ -562,7 +581,21 @@ def run_cycle():
     log.info("Phase 5: Regenerating hypotheses")
     _write_status({**read_status(), "phase": "regenerating hypotheses"})
     try:
-        if result and result.stdout: log.info(result.stdout[-300:])
+        from knowledge_graph.graph import KnowledgeGraph
+        from learning_module.embedding_bridge import EmbeddingBridge
+        from reasoning_module.hypothesis_generator import HypothesisGenerator
+        from knowledge_base.chunk_store import ChunkStore
+        import json as _json
+        _kg = KnowledgeGraph()
+        _kg.load(os.path.join(ROOT, "knowledge_graph", "graph.json"))
+        _enc = EmbeddingBridge()
+        _cs = ChunkStore()
+        _gen = HypothesisGenerator(kg=_kg, kb=_cs, encoder=_enc)
+        _hyps = _gen.generate(top_n=30)
+        with open(HYP_JSONL, "w") as _f:
+            for _h in _hyps:
+                _f.write(_json.dumps(_h) + "\n")
+        log.info(f"Hypotheses regenerated: {len(_hyps)}")
     except Exception as e:
         log.error(f"Hypothesis generation failed: {e}")
 

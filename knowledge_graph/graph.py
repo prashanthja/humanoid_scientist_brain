@@ -16,8 +16,11 @@ class KnowledgeGraph:
 
     # ---------- Persistence ----------
     def save(self, path: str = "knowledge_graph/graph.json"):
-        os.makedirs(os.path.dirname(path), exist_ok=True)
-        serializable = {s: {r: list(objs) for r, objs in rels.items()} for s, rels in self.graph.items()}
+        dirname = os.path.dirname(path)
+        if dirname:
+            os.makedirs(dirname, exist_ok=True)
+        serializable = {s: {r: list(objs) for r, objs in rels.items()} 
+                        for s, rels in self.graph.items() if rels}
         with open(path, "w") as f:
             json.dump(serializable, f, indent=2)
 
@@ -73,19 +76,114 @@ class KnowledgeGraph:
 
     # ---------- Core utilities ----------
     def build_from_corpus(self, texts: List[str]):
-        """Extract simple relations from text patterns."""
+        """Extract ML-specific causal relations from text patterns."""
+        # Concept aliases — map variations to canonical names
+        CONCEPT_MAP = {
+            "kv cache": "KVCache", "key-value cache": "KVCache", "key value cache": "KVCache",
+            "flash attention": "FlashAttention", "flashattention": "FlashAttention",
+            "lora": "LoRA", "low-rank adaptation": "LoRA", "low rank adaptation": "LoRA",
+            "mixture of experts": "MixtureOfExperts", "moe": "MixtureOfExperts",
+            "speculative decoding": "SpeculativeDecoding",
+            "paged attention": "PagedAttention", "pagedattention": "PagedAttention",
+            "sparse attention": "SparseAttention",
+            "sliding window attention": "SlidingWindowAttention",
+            "mamba": "Mamba", "state space model": "Mamba", "ssm": "Mamba",
+            "rwkv": "RWKV",
+            "linear attention": "LinearAttention",
+            "quantization": "Quantization", "quantised": "Quantization",
+            "pruning": "Pruning",
+            "knowledge distillation": "KnowledgeDistillation",
+            "latency": "Latency", "throughput": "Throughput",
+            "memory": "MemoryOverhead", "memory overhead": "MemoryOverhead",
+            "accuracy": "ModelAccuracy", "model accuracy": "ModelAccuracy",
+            "compute": "ComputeCost", "flops": "ComputeCost", "compute cost": "ComputeCost",
+            "context length": "ContextLength", "sequence length": "ContextLength",
+            "rope": "RoPE", "rotary": "RoPE",
+        }
+
+        EFFICIENCY_PATTERNS = [
+            (r'([\w\s\-]+?)\s+reduces?\s+(latency|memory|compute|overhead|flops)', 'reduces'),
+            (r'([\w\s\-]+?)\s+improves?\s+(throughput|accuracy|quality|efficiency|performance)', 'improves'),
+            (r'([\w\s\-]+?)\s+outperforms?\s+(transformer|attention|baseline)', 'supports_efficiency'),
+            (r'([\w\s\-]+?)\s+(?:has|introduces?)\s+(?:a\s+)?tradeoff\s+(?:with|between)\s+([\w\s]+)', 'has_tradeoff'),
+            (r'([\w\s\-]+?)\s+(?:does not|doesn\'t|fails to)\s+(?:reduce|improve|outperform)\s+([\w\s]+)', 'contradicts'),
+        ]
+
+        # Auto-discover new concepts from chunks
+        import re as _re
+        # Known concept patterns in ML papers
+        AUTO_CONCEPTS = {
+            r'(mamba)': 'Mamba',
+            r'(rwkv)': 'RWKV',
+            r'(flash\s*attention\d*)': 'FlashAttention',
+            r'(lora|low.rank adaptation)': 'LoRA',
+            r'(kv.cache|key.value cache)': 'KVCache',
+            r'(speculative decoding)': 'SpeculativeDecoding',
+            r'(mixture of experts|moe)': 'MixtureOfExperts',
+            r'(paged\s*attention)': 'PagedAttention',
+            r'(sparse attention)': 'SparseAttention',
+            r'(sliding window attention)': 'SlidingWindowAttention',
+            r'(quantization|quantisation)': 'Quantization',
+            r'(pruning)': 'Pruning',
+            r'(knowledge distillation)': 'KnowledgeDistillation',
+            r'(linear attention)': 'LinearAttention',
+            r'(grouped query attention|gqa)': 'GroupedQueryAttention',
+            r'(multi.head latent attention|mla)': 'MultiHeadLatentAttention',
+            r'(prefix caching)': 'PrefixCaching',
+            r'(continuous batching)': 'ContinuousBatching',
+            r'(tensor parallelism)': 'TensorParallelism',
+            r'(pipeline parallelism)': 'PipelineParallelism',
+        }
+
+        # Auto-seed new concepts not yet in KG
+        # Use a fresh set based on current saved keys to avoid defaultdict pollution
+        _saved_keys = set()
+        try:
+            import json as _j
+            import glob as _g
+            _files = _g.glob('knowledge_graph/graph.json') or _g.glob('*/knowledge_graph/graph.json')
+            if _files:
+                _saved_keys = set(_j.load(open(_files[0])).keys())
+        except Exception:
+            pass
+        if not _saved_keys:
+            _saved_keys = set(k for k, v in self.graph.items() if len(v) > 0)
+        
+        all_text = ' '.join(t for t in texts[:1000] if t).lower()
+        _newly_added = []
+        for pattern, concept in AUTO_CONCEPTS.items():
+            if concept not in _saved_keys:
+                if _re.search(pattern, all_text):
+                    self.add_relation(concept, 'related_to', 'TransformerEfficiency')
+                    _saved_keys.add(concept)
+                    _newly_added.append(concept)
+        if _newly_added:
+            new_relations += len(_newly_added)
+
+        new_relations = 0
         for text in texts:
-            if not text:
+            if not text or len(text) < 20:
                 continue
-            s = text.lower().strip()
-            for pat, rel in [
-                (r"([a-zA-Z\s]+)\s+is the study of\s+([a-zA-Z\s]+)", "study_of"),
-                (r"([a-zA-Z\s]+)\s+is\s+([a-zA-Z\s]+)", "is"),
-                (r"([a-zA-Z\s]+)\s+of\s+([a-zA-Z\s]+)", "of"),
-                (r"([a-zA-Z\s]+)\s+causes\s+([a-zA-Z\s]+)", "causes"),
-            ]:
-                for a, b in re.findall(pat, s):
-                    self.add_relation(a.strip(), rel, b.strip())
+            s = text.lower()
+
+            # Normalize concepts
+            def find_concept(phrase):
+                phrase = phrase.strip().lower()
+                for alias, canonical in CONCEPT_MAP.items():
+                    if alias in phrase or phrase in alias:
+                        return canonical
+                return None
+
+            for pat, rel in EFFICIENCY_PATTERNS:
+                for match in re.finditer(pat, s):
+                    groups = match.groups()
+                    if len(groups) >= 2:
+                        subj = find_concept(groups[0])
+                        obj = find_concept(groups[1])
+                        if subj and obj and subj != obj:
+                            self.add_relation(subj, rel, obj)
+                            new_relations += 1
+        return new_relations
 
     def get_relations(self, concept: str) -> Dict[str, List[str]]:
         """Return relations for a given concept."""
