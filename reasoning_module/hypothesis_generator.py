@@ -301,7 +301,7 @@ class HypothesisGenerator:
     # Strategy 1: Graph transitivity
     # ─────────────────────────────────────────
 
-    def _propose_transitive(self, max_new: int = 30) -> List[Dict[str, Any]]:
+    def _propose_transitive(self, max_new: int = 60) -> List[Dict[str, Any]]:
         proposals = []
         edges = self._all_edges()
         if not edges:
@@ -315,7 +315,10 @@ class HypothesisGenerator:
         vecs = self._get_vecs(nodes) if self.encoder else None
 
         count = 0
-        for a, out1 in edges_by_src.items():
+        import random
+        items = list(edges_by_src.items())
+        random.shuffle(items)
+        for a, out1 in items:
             for r1, b in out1:
                 out2 = self._neighbors(b)
                 for r2, cs in out2.items():

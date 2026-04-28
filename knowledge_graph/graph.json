@@ -2,14 +2,18 @@
   "MixtureOfExperts": {
     "partially_supports": [
       "TransformerEfficiency",
-      "ModelQuality"
+      "ModelQuality",
+      "ModelAccuracy"
     ],
     "supports_efficiency": [
       "TransformerEfficiency",
-      "ModelQuality"
+      "ModelQuality",
+      "ComputeCost",
+      "Throughput"
     ],
     "improves": [
-      "TransformerEfficiency"
+      "TransformerEfficiency",
+      "ModelAccuracy"
     ],
     "evidenced_by": [
       "Union of Experts: Adapting Hierarchical Routing to",
@@ -19,10 +23,19 @@
       "AdaMoE: Token-Adaptive Routing with Null Experts f"
     ],
     "has_tradeoff": [
-      "GeneralLimitation"
+      "GeneralLimitation",
+      "RoutingInstability",
+      "LoadBalancing",
+      "MemoryOverhead"
     ],
     "reduces": [
-      "ComputeCost"
+      "ComputeCost",
+      "MemoryOverhead"
+    ],
+    "related_to": [
+      "SparseAttention",
+      "LoRA",
+      "TransformerEfficiency"
     ]
   },
   "SparseAttention": {
@@ -47,10 +60,24 @@
       "MemoryOverhead"
     ],
     "has_tradeoff": [
-      "MemoryOverhead"
+      "MemoryOverhead",
+      "HardwareCompatibility"
     ],
     "evidenced_by": [
       "Energy-Efficient FlashAttention Acceleration on CG"
+    ],
+    "reduces": [
+      "MemoryOverhead",
+      "ComputeCost"
+    ],
+    "improves": [
+      "Throughput",
+      "Latency"
+    ],
+    "related_to": [
+      "SparseAttention",
+      "LinearAttention",
+      "GroupedQueryAttention"
     ]
   },
   "KVCache": {
@@ -96,11 +123,17 @@
   "ModelAccuracy": {
     "related_to": [
       "KVCache"
+    ],
+    "reduces": [
+      "ComputeCost"
     ]
   },
   "Latency": {
     "related_to": [
       "KVCache"
+    ],
+    "improves": [
+      "Throughput"
     ]
   },
   "ContextLength": {
@@ -157,11 +190,24 @@
   "LinearAttention": {
     "evidenced_by": [
       "FLASepformer: Efficient Speech Separation with Gat"
+    ],
+    "supports_efficiency": [
+      "ComputeCost",
+      "MemoryOverhead"
+    ],
+    "has_tradeoff": [
+      "ModelAccuracy"
+    ],
+    "related_to": [
+      "Mamba",
+      "FlashAttention"
     ]
   },
   "TransformerEfficiency": {
     "related_to": [
-      "KVCache"
+      "KVCache",
+      "GroupedQueryAttention",
+      "PrefixCaching"
     ]
   },
   "MemoryOverhead": {
@@ -197,6 +243,19 @@
     ],
     "contradicts": [
       "TransformerEfficiency"
+    ],
+    "supports_efficiency": [
+      "Latency",
+      "Throughput",
+      "MemoryOverhead"
+    ],
+    "has_tradeoff": [
+      "ModelAccuracy"
+    ],
+    "related_to": [
+      "RWKV",
+      "LinearAttention",
+      "ContextLength"
     ]
   },
   "RWKV": {
@@ -212,6 +271,34 @@
     ],
     "has_tradeoff": [
       "GeneralLimitation"
+    ]
+  },
+  "Quantization": {
+    "reduces": [
+      "MemoryOverhead"
+    ]
+  },
+  "Throughput": {
+    "improves": [
+      "ModelAccuracy"
+    ],
+    "reduces": [
+      "Latency"
+    ]
+  },
+  "ComputeCost": {
+    "improves": [
+      "ModelAccuracy"
+    ]
+  },
+  "GroupedQueryAttention": {
+    "related_to": [
+      "TransformerEfficiency"
+    ]
+  },
+  "PrefixCaching": {
+    "related_to": [
+      "TransformerEfficiency"
     ]
   }
 }

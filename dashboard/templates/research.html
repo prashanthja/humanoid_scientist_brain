@@ -223,6 +223,7 @@ html,body{min-height:100%;background:var(--bg);color:var(--text);font-family:var
   </div>
   <div id="historyList" style="display:flex;flex-wrap:wrap;gap:8px;"></div>
 </div>
+<div id="crossDomainWarn" style="display:none;margin:0 48px 0;padding:10px 16px;background:#fdf7ec;border-left:3px solid #e8cc88;font-size:12px;color:#8a5c00;"></div>
 <div class="progress-track" id="progressTrack"><div class="progress-fill" id="progressFill"></div></div>
 
 <div class="hero" id="hero">
@@ -358,7 +359,7 @@ html,body{min-height:100%;background:var(--bg);color:var(--text);font-family:var
       <div class="side-card-body" id="confArea"><div class="skel" style="height:70px;"></div></div>
     </div>
     <div class="side-card">
-      <div class="side-card-header">Field Simulation · 4-Year Forecast</div>
+      <div class="side-card-header">Evidence Quality</div>
       <div class="side-card-body" id="simArea"><div class="skel" style="height:150px;"></div></div>
     </div>
     <div class="side-card">
@@ -426,6 +427,15 @@ async function runResearch(){
     renderContradictions(rpt);
     renderEvidence(rpt);renderSources(rpt);
     renderConf(rpt);renderSim(sim);renderHyps(hyps,q);renderExp(sim);
+  if(rpt.cross_domain_warning){
+    const warn=document.getElementById('crossDomainWarn');
+    if(warn){warn.style.display='block';
+      warn.innerHTML='⚠ <strong>Cross-domain evidence</strong> — chunks span: '+(rpt.domains_found||[]).join(', ')+'. Contradictions may reflect methodology differences across domains.';
+    }
+  } else {
+    const warn=document.getElementById('crossDomainWarn');
+    if(warn) warn.style.display='none';
+  }
     updateChain(rpt,sim);
     document.getElementById('methodNote').style.display='block';
     setBar(95);fetchSuggestions(q,rpt);setBar(100);
@@ -459,14 +469,28 @@ function updateChain(rpt,sim){
   const suppCount=(rpt.top_grounded||[]).filter(gc=>['supported','partially_supported'].includes((gc.verdict||{}).verdict)).length;
   document.getElementById('rc3').textContent=`${suppCount} supported`;
   document.getElementById('rc4').innerHTML=`<span class="${cls}">${v.replace(/_/g,' ')}</span>`;
-  document.getElementById('rc5').textContent=`${Math.round((sim.avg_field_score||0)*100)}/100`;
+  document.getElementById('rc5').textContent='Complete';
 }
 
 function renderVerdict(q,rpt){
   const v=rpt.proposal_verdict||'inconclusive';
   const conf=parseFloat(rpt.proposal_confidence||0);
   const pct=Math.round(conf*100);
-  const cls=v==='supported'?'green':v==='partially_supported'?'amber':v==='contradicted'?'red':'mid';
+  const isConditional = rpt.is_conditional;
+  const VERDICT_COLORS = {
+    'strong_evidence':'green','moderate_evidence':'green',
+    'limited_evidence':'amber','mixed_evidence':'amber',
+    'context_dependent':'amber','inconclusive':'mid',
+    'supported':'green','partially_supported':'amber','contradicted':'red'
+  };
+  const VERDICT_LABELS = {
+    'strong_evidence':'Strong Evidence','moderate_evidence':'Moderate Evidence',
+    'limited_evidence':'Limited Evidence','mixed_evidence':'Mixed Evidence',
+    'context_dependent':'Context-Dependent','inconclusive':'Inconclusive',
+    'supported':'Supported','partially_supported':'Partially Supported','contradicted':'Contradicted'
+  };
+  const cls = VERDICT_COLORS[v] || 'mid';
+  const verdictLabel = VERDICT_LABELS[v] || v.replace(/_/g,' ');
   const grounded=rpt.top_grounded||[];
   const suppCount=rpt.supported_count||grounded.filter(gc=>['supported','partially_supported'].includes((gc.verdict||{}).verdict)).length;
   const contrCount=grounded.filter(gc=>(gc.verdict||{}).verdict==='contradicted').length;
@@ -533,7 +557,34 @@ function renderContradictions(rpt){
             </div>
           </div>
           <div style="font-size:12px;color:#5c5650;background:#f8f7f4;padding:10px;
-            border-radius:6px;line-height:1.6;">💡 ${c.implication}</div>
+            border-radius:6px;line-height:1.6;">
+            ${c.context_differs ?
+              '🔀 <strong style="color:#8a5c00">Context-dependent result</strong> — ' + c.implication :
+              '💡 ' + c.implication}
+          </div>
+          ${c.detection_explanation ? `
+          <div style="margin-top:10px;padding:10px;background:#f0f4fb;border-radius:6px;border-left:3px solid #2952a3;">
+            <div style="font-size:9px;font-weight:600;color:#1a3a7a;text-transform:uppercase;letter-spacing:1px;margin-bottom:5px;">
+              🔍 How this contradiction was detected
+            </div>
+            <div style="font-size:11px;color:#1a1714;line-height:1.6;">${c.detection_explanation}</div>
+            <div style="display:flex;gap:8px;margin-top:8px;flex-wrap:wrap;">
+              <span style="font-family:var(--mono);font-size:9px;padding:2px 8px;background:#e8f0fe;color:#1a3a7a;border-radius:3px;">
+                Type: ${c.contradiction_type||'unknown'}
+              </span>
+              <span style="font-family:var(--mono);font-size:9px;padding:2px 8px;background:#e8f0fe;color:#1a3a7a;border-radius:3px;">
+                Method: ${c.detection_method||'signal analysis'}
+              </span>
+              ${(c.triggering_positive_signals||[]).length ? `
+              <span style="font-family:var(--mono);font-size:9px;padding:2px 8px;background:#f0f7f3;color:#1a7a4a;border-radius:3px;">
+                ✓ signals: ${(c.triggering_positive_signals||[]).join(', ')}
+              </span>` : ''}
+              ${(c.triggering_negative_signals||[]).length ? `
+              <span style="font-family:var(--mono);font-size:9px;padding:2px 8px;background:#fdf0f0;color:#9a1a1a;border-radius:3px;">
+                ✗ signals: ${(c.triggering_negative_signals||[]).join(', ')}
+              </span>` : ''}
+            </div>
+          </div>` : ''}
         </div>
       `).join('')}
     </div>
@@ -546,10 +597,25 @@ function renderEvidence(rpt){
   document.getElementById('evidenceArea').innerHTML=items.slice(0,5).map(gc=>{
     const v=gc.verdict||{};const verd=v.verdict||'inconclusive';
     const cls=verd==='supported'?'s':verd==='partially_supported'?'p':verd==='contradicted'?'c':'i';
+    const suppCount = v.support_count || 0;
+    const contrCount = v.contradict_count || 0;
+    const neutCount = v.neutral_count || 0;
+    const totalEv = suppCount + contrCount + neutCount;
+    const explanation = v.explanation || '';
     return`<div class="ev-item ${cls}">
       <div class="ev-claim">${gc.claim||''}</div>
       <div class="ev-foot"><span class="ev-badge ${cls}">${verd.replace(/_/g,' ')}</span>
       <span class="ev-conf">confidence: ${(v.confidence||0).toFixed(2)}</span></div>
+      ${totalEv > 0 ? `
+      <div style="margin-top:8px;padding:8px 10px;background:#f8f7f4;border-radius:6px;font-size:11px;color:#5c5650;">
+        <div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:${explanation?'6px':'0'};">
+          <span>✅ ${suppCount} supporting</span>
+          <span>❌ ${contrCount} contradicting</span>
+          <span>➖ ${neutCount} neutral</span>
+          <span style="color:#9c948a;">of ${totalEv} evidence chunks</span>
+        </div>
+        ${explanation ? `<div style="font-size:10px;color:#9c948a;font-style:italic;">${explanation}</div>` : ''}
+      </div>` : ''}
     </div>`;
   }).join('');
 }
@@ -569,13 +635,80 @@ function renderConf(rpt){
   const pct=Math.round(conf*100);
   const color=conf>0.7?'var(--green)':conf>0.5?'var(--amber)':'var(--mid)';
   const label=conf>0.7?'Strong — multiple corroborating sources':conf>0.5?'Moderate — partial evidence coverage':'Weak — limited or indirect evidence';
+  
+  // Build confidence explanation
+  const supported = rpt.supported_count || 0;
+  const total = (rpt.top_grounded||[]).length || 5;
+  const contradictions = (rpt.contradictions||[]).length;
+  const evidenceCount = rpt.evidence_count || 10;
+  
+  let explanation = '';
+  if(supported >= 4) explanation = `${supported} of ${total} claims found direct supporting evidence across ${evidenceCount} chunks.`;
+  else if(supported >= 2) explanation = `${supported} of ${total} claims found partial supporting evidence. ${contradictions > 0 ? contradictions + ' contradiction(s) detected reduce confidence.' : ''}`;
+  else if(supported === 1) explanation = `Only 1 claim found direct evidence. Evidence coverage is limited.`;
+  else explanation = `No claims found direct supporting evidence in the retrieved chunks.`;
+  
+  const _verd = rpt.proposal_verdict || 'inconclusive';
+  const THRESHOLDS = {
+    'strong_evidence': '4+ studies, 0 contradictions → Strong Evidence',
+    'moderate_evidence': '2-3 studies, ≤1 contradiction → Moderate Evidence',
+    'limited_evidence': '1 study, 0 contradictions → Limited Evidence',
+    'mixed_evidence': 'Studies contradict each other → Mixed Evidence',
+    'context_dependent': 'Results vary by context → Context-Dependent',
+    'inconclusive': '0 supporting studies → Inconclusive',
+  };
+  const threshold = THRESHOLDS[_verd] || (supported >= 4 ? '≥4 supported claims → confidence ≥0.70' : supported >= 2 ? '≥2 supported claims' : '0 supported claims → inconclusive');
+
+  // Also populate evidence quality card
+  const sources = (rpt.top_papers||[]).length;
+  const domains = (rpt.domains_found||['transformer_efficiency']);
+  const contraCount = (rpt.contradictions||[]).length;
+  const sourceList = (rpt.top_papers||[]).slice(0,4).map(p=>`<div style="font-size:10px;color:#5c5650;padding:3px 0;border-bottom:1px solid #f0ece6;">${p.slice(0,55)}${p.length>55?'…':''}</div>`).join('');
+  document.getElementById('simArea').innerHTML=`
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px;">
+      <div style="text-align:center;padding:10px;background:#f8f7f4;border-radius:6px;">
+        <div style="font-size:22px;font-weight:600;color:${color}">${pct}%</div>
+        <div style="font-size:9px;color:#9c948a;text-transform:uppercase;letter-spacing:1px;margin-top:2px;">Evidence Strength</div>
+      </div>
+      <div style="text-align:center;padding:10px;background:#f8f7f4;border-radius:6px;">
+        <div style="font-size:22px;font-weight:600;color:#1a1714">${sources}</div>
+        <div style="font-size:9px;color:#9c948a;text-transform:uppercase;letter-spacing:1px;margin-top:2px;">Papers Analyzed</div>
+      </div>
+      <div style="text-align:center;padding:10px;background:#f8f7f4;border-radius:6px;">
+        <div style="font-size:22px;font-weight:600;color:${contraCount>0?'#9a1a1a':'#1a7a4a'}">${contraCount}</div>
+        <div style="font-size:9px;color:#9c948a;text-transform:uppercase;letter-spacing:1px;margin-top:2px;">Conflicts Found</div>
+      </div>
+      <div style="text-align:center;padding:10px;background:#f8f7f4;border-radius:6px;">
+        <div style="font-size:22px;font-weight:600;color:#1a1714">${(rpt.evidence_count||0)}</div>
+        <div style="font-size:9px;color:#9c948a;text-transform:uppercase;letter-spacing:1px;margin-top:2px;">Evidence Chunks</div>
+      </div>
+    </div>
+    <div style="font-size:9px;color:#9c948a;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;">Papers Used</div>
+    ${sourceList}
+  `;
   document.getElementById('confArea').innerHTML=`
     <div class="conf-label-row"><span class="conf-label-text">Evidence strength</span><span class="conf-label-val" style="color:${color}">${pct}%</span></div>
     <div class="conf-bar"><div class="conf-fill" style="width:${pct}%;background:${color};"></div></div>
-    <div class="conf-desc">${label}</div>`;
+    <div class="conf-desc">${label}</div>
+    <div style="margin-top:12px;padding:10px;background:#f0f4fb;border-radius:6px;border-left:3px solid #2952a3;">
+      <div style="font-size:9px;font-weight:600;color:#1a3a7a;text-transform:uppercase;letter-spacing:1px;margin-bottom:5px;">
+        🔍 How confidence was calculated
+      </div>
+      <div style="font-size:11px;color:#1a1714;line-height:1.6;">${explanation}</div>
+      <div style="font-family:var(--mono);font-size:9px;color:#5c5650;margin-top:6px;">
+        Threshold applied: ${threshold}
+      </div>
+    </div>`;
 }
 
 function renderSim(sim){
+  // Show evidence quality instead of simulation
+  return;
+  const simScore = sim.avg_field_score || 0;
+  if(!sim || sim.error || simScore < 0.1){
+    document.getElementById('simArea').innerHTML='<p style="font-size:12px;color:var(--dim);">Simulation unavailable for this query.</p>';
+    return;
+  }
   if(sim.error){document.getElementById('simArea').innerHTML='<p style="font-size:12px;color:var(--dim);">Unavailable.</p>';return;}
   const score=sim.avg_field_score||0;
   const pct=Math.round(score*100);
@@ -600,18 +733,17 @@ function renderSim(sim){
 }
 
 function renderHyps(hyps,query){
-  const words=query.toLowerCase().split(/\W+/).filter(w=>w.length>4);
-  const rel=hyps.filter(h=>words.some(w=>(h.hypothesis||'').toLowerCase().includes(w))).slice(0,4);
-  const show=rel.length?rel:hyps.slice(0,3);
-  if(!show.length){document.getElementById('hypArea').innerHTML='<p style="font-size:12px;color:var(--dim);">No related hypotheses yet.</p>';return;}
-  document.getElementById('hypArea').innerHTML=show.map(h=>`
+  document.getElementById('hypArea').innerHTML='<p style="font-size:12px;color:var(--dim);">Loading...</p>';
+}
+function renderHypsFromIdeas(ideas){
+  if(!ideas||!ideas.length){document.getElementById('hypArea').innerHTML='<p style="font-size:12px;color:var(--dim);">No related hypotheses yet.</p>';return;}
+  document.getElementById('hypArea').innerHTML=ideas.map(h=>`
     <div class="hyp-item">
-      <div class="hyp-type">${(h.type||'').replace(/_/g,' ')}</div>
+      <div class="hyp-type">${(h.type||''). replace(/_/g,' ')}</div>
       <div class="hyp-text">${_cleanHyp(h.hypothesis)}</div>
       <div class="hyp-score">score: ${h.score??'–'}</div>
     </div>`).join('');
 }
-
 function renderExp(sim){
   const exps=sim.best_experiments||[];
   if(!exps.length){document.getElementById('expArea').innerHTML='<p style="font-size:12px;color:var(--dim);">–</p>';return;}
@@ -663,6 +795,7 @@ function renderSuggestions(data){
     :'<p style="font-size:12px;color:var(--dim);">No gaps detected.</p>';
 
   const ideas=data.new_ideas||[];
+  renderHypsFromIdeas(ideas);
   document.getElementById('ideasArea').innerHTML=ideas.length
     ?ideas.map(idea=>`
       <div style="padding:14px;border-radius:8px;border:1px solid var(--border);background:var(--paper);margin-bottom:10px;">
