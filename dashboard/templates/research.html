@@ -224,6 +224,16 @@ html,body{min-height:100%;background:var(--bg);color:var(--text);font-family:var
   <div id="historyList" style="display:flex;flex-wrap:wrap;gap:8px;"></div>
 </div>
 <div id="crossDomainWarn" style="display:none;margin:0 48px 0;padding:10px 16px;background:#fdf7ec;border-left:3px solid #e8cc88;font-size:12px;color:#8a5c00;"></div>
+<div id="researcherModeBar" style="background:#f0f4fb;border-bottom:1px solid #c8d8f0;padding:8px 48px;display:flex;align-items:center;justify-content:space-between;">
+  <span style="font-size:12px;color:#1a3a7a;font-family:var(--sans);">
+    🔬 <strong>Researcher Mode</strong> — shows exact quotes, benchmark details, and claim reasoning
+  </span>
+  <label style="display:flex;align-items:center;gap:8px;cursor:pointer;">
+    <input type="checkbox" id="researcherToggle" onchange="toggleResearcherMode(this.checked)" style="cursor:pointer;"/>
+    <span style="font-size:12px;color:#1a3a7a;">Enable</span>
+  </label>
+</div>
+
 <div class="progress-track" id="progressTrack"><div class="progress-fill" id="progressFill"></div></div>
 
 <div class="hero" id="hero">
@@ -378,6 +388,8 @@ html,body{min-height:100%;background:var(--bg);color:var(--text);font-family:var
 </footer>
 
 <script>
+let _researcherMode=false;
+let _lastRpt=null;
 let trajChart=null;
 
 
@@ -426,7 +438,8 @@ async function runResearch(){
     renderVerdict(q,rpt);
     renderContradictions(rpt);
     renderEvidence(rpt);renderSources(rpt);
-    renderConf(rpt);renderSim(sim);renderHyps(hyps,q);renderExp(sim);
+    _lastRpt = rpt;
+  renderConf(rpt);renderSim(sim);renderHyps(hyps,q);renderExp(sim);
   if(rpt.cross_domain_warning){
     const warn=document.getElementById('crossDomainWarn');
     if(warn){warn.style.display='block';
@@ -613,13 +626,6 @@ function renderEvidence(rpt){
     items.slice(0,5).forEach(gc=>{html+=renderClaim(gc);});
   }
   document.getElementById('evidenceArea').innerHTML=html;
-}
-function renderClaim(gc){
-  const v=gc.verdict||{};const verd=v.verdict||'inconclusive';
-  const cls=verd==='supported'?'s':verd==='partially_supported'?'p':verd==='contradicted'?'c':'i';
-  const suppCount=v.support_count||0;const contrCount=v.contradict_count||0;const neutCount=v.neutral_count||0;
-  const totalEv=suppCount+contrCount+neutCount;const explanation=v.explanation||'';
-  return `<div class="ev-item ${cls}"><div class="ev-claim">${gc.claim||''}</div><div class="ev-foot"><span class="ev-badge ${cls}">${verd.replace(/_/g,' ')}</span><span class="ev-conf">confidence: ${(v.confidence||0).toFixed(2)}</span></div>${totalEv>0?`<div style="margin-top:8px;padding:8px 10px;background:#f8f7f4;border-radius:6px;font-size:11px;color:#5c5650;"><div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:${explanation?'6px':'0'};"><span>✅ ${suppCount} supporting</span><span>❌ ${contrCount} contradicting</span><span>➖ ${neutCount} neutral</span><span style="color:#9c948a;">of ${totalEv} evidence chunks</span></div>${explanation?`<div style="font-size:10px;color:#9c948a;font-style:italic;">${explanation}</div>`:''}</div>`:''}</div>`;
 }
 
 function renderSources(rpt){
@@ -882,6 +888,78 @@ async function signOut(){
 
 // Init on load
 initSupabase();
+
+// ── Researcher Mode ──────────────────────────────────────
+function toggleResearcherMode(enabled){
+  _researcherMode = enabled;
+  if(_lastRpt) renderEvidence(_lastRpt);
+}
+
+// ── Researcher Mode ──────────────────────────────────────
+function toggleResearcherMode(enabled){
+  _researcherMode = enabled;
+  if(_lastRpt) renderEvidence(_lastRpt);
+}
+
+function renderClaim(gc){
+  const v=gc.verdict||{};const verd=v.verdict||'inconclusive';
+  const cls=verd==='supported'?'s':verd==='partially_supported'?'p':verd==='contradicted'?'c':'i';
+  const suppCount=v.support_count||0;const contrCount=v.contradict_count||0;const neutCount=v.neutral_count||0;
+  const totalEv=suppCount+contrCount+neutCount;const explanation=v.explanation||'';
+  
+  let researcherHtml = '';
+  if(_researcherMode){
+    const grounding = gc.grounding || {};
+    const topSupport = grounding.top_support || [];
+    const topContra = grounding.top_contradict || [];
+    const coverageScore = grounding.coverage_score || 0;
+    const diversityScore = grounding.diversity_score || 0;
+    const uniqueTitles = grounding.unique_titles || 0;
+    
+    researcherHtml = `<div style="margin-top:10px;padding:12px;background:#f0f4fb;border-radius:6px;border:1px solid #c8d8f0;">
+      <div style="font-family:var(--mono);font-size:9px;color:#1a3a7a;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:10px;">
+        🔬 Researcher Details
+      </div>
+      <div style="display:flex;gap:16px;margin-bottom:10px;flex-wrap:wrap;">
+        <span style="font-size:11px;color:#5c5650;">Coverage: <strong>${Math.round(coverageScore*100)}%</strong></span>
+        <span style="font-size:11px;color:#5c5650;">Source diversity: <strong>${Math.round(diversityScore*100)}%</strong></span>
+        <span style="font-size:11px;color:#5c5650;">Unique papers: <strong>${uniqueTitles}</strong></span>
+        <span style="font-size:11px;color:#5c5650;">Grounding score: <strong>${(grounding.grounding_score||0).toFixed(3)}</strong></span>
+      </div>
+      ${topSupport.length ? `
+      <div style="font-size:10px;font-weight:600;color:#1a7a4a;margin-bottom:6px;">Supporting Evidence</div>
+      ${topSupport.slice(0,2).map(e=>`
+        <div style="padding:8px;background:white;border-radius:4px;border-left:2px solid #1a7a4a;margin-bottom:6px;">
+          <div style="font-size:10px;color:#1a1714;line-height:1.5;margin-bottom:4px;">"${(e.text||'').slice(0,200)}${e.text&&e.text.length>200?'…':''}"</div>
+          <div style="font-size:9px;color:#9c948a;">— ${e.paper_title||'Unknown'} · overlap: ${Math.round((e.overlap||0)*100)}% · score: ${(e.score||0).toFixed(3)}</div>
+        </div>`).join('')}` : ''}
+      ${topContra.length ? `
+      <div style="font-size:10px;font-weight:600;color:#9a1a1a;margin-bottom:6px;margin-top:8px;">Contradicting Evidence</div>
+      ${topContra.slice(0,1).map(e=>`
+        <div style="padding:8px;background:white;border-radius:4px;border-left:2px solid #9a1a1a;margin-bottom:6px;">
+          <div style="font-size:10px;color:#1a1714;line-height:1.5;margin-bottom:4px;">"${(e.text||'').slice(0,200)}${e.text&&e.text.length>200?'…':''}"</div>
+          <div style="font-size:9px;color:#9c948a;">— ${e.paper_title||'Unknown'} · overlap: ${Math.round((e.overlap||0)*100)}%</div>
+        </div>`).join('')}` : ''}
+    </div>`;
+  }
+  
+  return `<div class="ev-item ${cls}">
+    <div class="ev-claim">${gc.claim||''}</div>
+    <div class="ev-foot"><span class="ev-badge ${cls}">${verd.replace(/_/g,' ')}</span>
+    <span class="ev-conf">confidence: ${(v.confidence||0).toFixed(2)}</span></div>
+    ${totalEv > 0 ? `
+    <div style="margin-top:8px;padding:8px 10px;background:#f8f7f4;border-radius:6px;font-size:11px;color:#5c5650;">
+      <div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:${explanation?'6px':'0'};">
+        <span>✅ ${suppCount} supporting</span>
+        <span>❌ ${contrCount} contradicting</span>
+        <span>➖ ${neutCount} neutral</span>
+        <span style="color:#9c948a;">of ${totalEv} evidence chunks</span>
+      </div>
+      ${explanation ? `<div style="font-size:10px;color:#9c948a;font-style:italic;">${explanation}</div>` : ''}
+    </div>` : ''}
+    ${researcherHtml}
+  </div>`;
+}
 </script>
 </body>
 </html>
