@@ -594,30 +594,32 @@ function renderContradictions(rpt){
 function renderEvidence(rpt){
   const items=rpt.top_grounded||[];
   if(!items.length){document.getElementById('evidenceArea').innerHTML='<p style="font-size:13px;color:var(--dim);">No grounded claims found.</p>';return;}
-  document.getElementById('evidenceArea').innerHTML=items.slice(0,5).map(gc=>{
-    const v=gc.verdict||{};const verd=v.verdict||'inconclusive';
-    const cls=verd==='supported'?'s':verd==='partially_supported'?'p':verd==='contradicted'?'c':'i';
-    const suppCount = v.support_count || 0;
-    const contrCount = v.contradict_count || 0;
-    const neutCount = v.neutral_count || 0;
-    const totalEv = suppCount + contrCount + neutCount;
-    const explanation = v.explanation || '';
-    return`<div class="ev-item ${cls}">
-      <div class="ev-claim">${gc.claim||''}</div>
-      <div class="ev-foot"><span class="ev-badge ${cls}">${verd.replace(/_/g,' ')}</span>
-      <span class="ev-conf">confidence: ${(v.confidence||0).toFixed(2)}</span></div>
-      ${totalEv > 0 ? `
-      <div style="margin-top:8px;padding:8px 10px;background:#f8f7f4;border-radius:6px;font-size:11px;color:#5c5650;">
-        <div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:${explanation?'6px':'0'};">
-          <span>✅ ${suppCount} supporting</span>
-          <span>❌ ${contrCount} contradicting</span>
-          <span>➖ ${neutCount} neutral</span>
-          <span style="color:#9c948a;">of ${totalEv} evidence chunks</span>
-        </div>
-        ${explanation ? `<div style="font-size:10px;color:#9c948a;font-style:italic;">${explanation}</div>` : ''}
-      </div>` : ''}
-    </div>`;
-  }).join('');
+  const buckets = rpt.context_buckets || {};
+  const DIM_LABELS = {'training_cost':'Training Cost','inference_cost':'Inference Cost','memory_usage':'Memory Usage','latency':'Latency','accuracy':'Accuracy / Quality','scalability':'Scalability','general':'General'};
+  const DIM_COLORS = {'training_cost':'#2952a3','inference_cost':'#1a7a4a','memory_usage':'#8a5c00','latency':'#6b2d8a','accuracy':'#9a1a1a','scalability':'#1a5a7a','general':'#5c5650'};
+  let html = '';
+  const bucketKeys = Object.keys(buckets);
+  if(bucketKeys.length > 1){
+    bucketKeys.forEach(dim => {
+      const dimClaims = buckets[dim]||[];
+      if(!dimClaims.length) return;
+      const color = DIM_COLORS[dim]||'#5c5650';
+      const label = DIM_LABELS[dim]||dim.replace(/_/g,' ');
+      html += `<div style="margin-bottom:16px;"><div style="font-family:var(--mono);font-size:9px;letter-spacing:2px;text-transform:uppercase;color:${color};margin-bottom:8px;display:flex;align-items:center;gap:8px;"><span style="width:20px;height:2px;background:${color};display:inline-block;"></span>${label}<span style="color:#9c948a;font-weight:400;">${dimClaims.length} claim${dimClaims.length>1?'s':''}</span></div>`;
+      dimClaims.forEach(gc=>{html+=renderClaim(gc);});
+      html+='</div>';
+    });
+  } else {
+    items.slice(0,5).forEach(gc=>{html+=renderClaim(gc);});
+  }
+  document.getElementById('evidenceArea').innerHTML=html;
+}
+function renderClaim(gc){
+  const v=gc.verdict||{};const verd=v.verdict||'inconclusive';
+  const cls=verd==='supported'?'s':verd==='partially_supported'?'p':verd==='contradicted'?'c':'i';
+  const suppCount=v.support_count||0;const contrCount=v.contradict_count||0;const neutCount=v.neutral_count||0;
+  const totalEv=suppCount+contrCount+neutCount;const explanation=v.explanation||'';
+  return `<div class="ev-item ${cls}"><div class="ev-claim">${gc.claim||''}</div><div class="ev-foot"><span class="ev-badge ${cls}">${verd.replace(/_/g,' ')}</span><span class="ev-conf">confidence: ${(v.confidence||0).toFixed(2)}</span></div>${totalEv>0?`<div style="margin-top:8px;padding:8px 10px;background:#f8f7f4;border-radius:6px;font-size:11px;color:#5c5650;"><div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:${explanation?'6px':'0'};"><span>✅ ${suppCount} supporting</span><span>❌ ${contrCount} contradicting</span><span>➖ ${neutCount} neutral</span><span style="color:#9c948a;">of ${totalEv} evidence chunks</span></div>${explanation?`<div style="font-size:10px;color:#9c948a;font-style:italic;">${explanation}</div>`:''}</div>`:''}</div>`;
 }
 
 function renderSources(rpt){

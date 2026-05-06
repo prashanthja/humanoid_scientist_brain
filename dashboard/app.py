@@ -242,6 +242,39 @@ def _get_verdict_str(gc_dict):
 
 # ── Contradiction Detection ─────────────────────────────
 
+# Research dimension detection for context bucketing
+_DIMENSIONS = {
+    "training_cost":  ["training","fine-tuning","fine tuning","gradient","trainable","adapter","lora","finetuning","pretrain"],
+    "inference_cost": ["inference","serving","decoding","generation","throughput","tokens per second","batch","vllm","tgi","tpot"],
+    "memory_usage":   ["memory","vram","gpu memory","kv cache","kv-cache","memory footprint","memory overhead","oom","memory bandwidth"],
+    "latency":        ["latency","speed","faster","slower","millisecond","wall-clock","time-to-first-token","ttft","response time"],
+    "accuracy":       ["accuracy","perplexity","benchmark","mmlu","quality","f1","bleu","rouge","performance","degradation","loss"],
+    "scalability":    ["scale","scaling","billion","70b","13b","7b","model size","distributed","parallelism","long context","context length"],
+}
+
+def _detect_dimension(text: str) -> str:
+    text_low = (text or "").lower()
+    scores = {}
+    for dim, keywords in _DIMENSIONS.items():
+        score = sum(1 for kw in keywords if kw in text_low)
+        if score > 0:
+            scores[dim] = score
+    if not scores:
+        return "general"
+    return max(scores, key=scores.get)
+
+def _bucket_claims(grounded: list) -> dict:
+    """Group grounded claims by research dimension."""
+    buckets = {}
+    for gc in grounded:
+        claim_text = gc.get("claim","")
+        dim = _detect_dimension(claim_text)
+        gc["dimension"] = dim
+        if dim not in buckets:
+            buckets[dim] = []
+        buckets[dim].append(gc)
+    return buckets
+
 def _find_contradictions(chunks):
     if not chunks or len(chunks) < 2:
         return []
@@ -1095,8 +1128,8 @@ def api_run_research():
         n = _N()
         engine = DiscoveryEngine(chunk_index=chunk_index, proposal_engine=prop_eval,
             evidence_evaluator=ev_eval, hypgen=n, validator=n,
-            config=DiscoveryConfig(top_k_chunks=10, max_claims=10,
-                                   max_grounded_claims=5, use_mmr=True))
+            config=DiscoveryConfig(top_k_chunks=10, max_claims=20,
+                                   max_grounded_claims=8, use_mmr=True))
 
         result = engine.run(query, source_name="research_ui")
         evidence_chunks = result.get("evidence_chunks", [])
@@ -1137,7 +1170,11 @@ def api_run_research():
             verdict = "moderate_evidence"
             confidence = max(float(confidence), 0.52)
         elif supported_count >= 1 and contradicted_count == 0:
-            verdict = "limited_evidence"
+            # Boost to moderate if confidence is already high
+            if float(confidence) >= 0.65:
+                verdict = "moderate_evidence"
+            else:
+                verdict = "limited_evidence"
             confidence = max(float(confidence), 0.40)
         elif supported_count >= 1 and contradicted_count >= 1:
             verdict = "mixed_evidence"
@@ -1190,6 +1227,7 @@ def api_run_research():
             "domain":               report.domain if report.domain and report.domain != "unknown" else "transformer_efficiency",
             "is_conditional":        len([c for c in contradictions if c.get("context_differs")]) > 0,
             "conditional_dimension":  next((c.get("context_dimension") for c in contradictions if c.get("context_differs")), None),
+            "context_buckets":       _bucket_claims(grounded),
             "cross_domain_warning":  len(set(
                 (gc.get("domain","") or "transformer_efficiency") for gc in grounded 
                 if (gc.get("domain","") or "transformer_efficiency") not in ("unknown","transformer_efficiency","")
@@ -1322,8 +1360,8 @@ def api_idea_lab():
                 def validate(self,h,cycle=0): return []
             engine = DiscoveryEngine(chunk_index=chunk_index, proposal_engine=prop_eval,
                 evidence_evaluator=ev_eval, hypgen=_N(), validator=_N(),
-                config=DiscoveryConfig(top_k_chunks=10, max_claims=5,
-                                       max_grounded_claims=3, use_mmr=True))
+                config=DiscoveryConfig(top_k_chunks=10, max_claims=15,
+                                       max_grounded_claims=6, use_mmr=True))
             result = engine.run(idea, source_name="idea_lab")
             chunks = result.get("evidence_chunks", [])
             literature_contradictions = _find_contradictions(chunks)
