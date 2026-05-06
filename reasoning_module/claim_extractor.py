@@ -44,6 +44,40 @@ CLAIM_CUES = [
     "flashattention", "mixture-of-experts", "transformer",
 ]
 
+# Research dimension keywords for context bucketing
+DIMENSION_KEYWORDS = {
+    "training_cost":  ["training","fine-tuning","fine tuning","gradient","backprop",
+                       "epochs","convergence","trainable parameters","adapter","lora",
+                       "finetuning","pretrain","instruction tuning"],
+    "inference_cost": ["inference","serving","decoding","generation","throughput",
+                       "tokens per second","requests","batch","vllm","tgi",
+                       "time-to-first-token","ttft","tpot","latency"],
+    "memory_usage":   ["memory","vram","gpu memory","kv cache","kv-cache",
+                       "memory footprint","memory overhead","oom","out of memory",
+                       "memory bandwidth","memory efficient","memory usage"],
+    "latency":        ["latency","speed","faster","slower","millisecond","ms",
+                       "wall-clock","end-to-end latency","response time","delay",
+                       "time-to-first-token","ttft"],
+    "accuracy":       ["accuracy","perplexity","benchmark","mmlu","hellaswag",
+                       "quality","f1","bleu","rouge","score","performance",
+                       "degradation","model quality","loss","error rate"],
+    "scalability":    ["scale","scaling","billion parameters","70b","13b","7b",
+                       "model size","large model","distributed","parallelism",
+                       "multi-gpu","multi-node","horizon","long context"],
+}
+
+def _detect_dimension(text: str) -> str:
+    """Detect which research dimension a claim addresses."""
+    text_low = text.lower()
+    scores = {}
+    for dim, keywords in DIMENSION_KEYWORDS.items():
+        score = sum(1 for kw in keywords if kw in text_low)
+        if score > 0:
+            scores[dim] = score
+    if not scores:
+        return "general"
+    return max(scores, key=scores.get)
+
 BAD_PATTERNS = [
     r"https?://",
     r"\bgithub\.com\b",
@@ -111,14 +145,9 @@ def _is_bad_sentence(s: str) -> bool:
         return True
     if len(low) < 40:
         return True
-    # Drop mid-sentence chunks (start with lowercase non-starter word)
-    first_char = low[0] if low else ""
-    good_starts = ("the","a ","an ","in ","on ","at ","by ","we ","our ","this","these","it ","its ","for ","with","from","that","they","when","here","both","all ","each","such","note","thus","also","as ","to ","furthermore","additionally","however","notably","overall","results","experiments","evaluation","performance")
-    if first_char.islower() and not any(low.startswith(w) for w in good_starts):
+    # Drop obvious junk — very short or citation-only
+    if re.match(r"^\[\d+\]", low):
         return True
-    # Drop truncated sentences (don't end with proper punctuation)
-    stripped = s.strip()
-    if stripped and stripped[-1] not in ".!?\"')":
         return True
 
     if len(low) > 500:
