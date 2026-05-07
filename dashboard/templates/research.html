@@ -86,7 +86,7 @@ html,body{min-height:100%;background:var(--bg);color:var(--text);font-family:var
 .rc-step-v.green{color:var(--green);}
 .rc-step-v.amber{color:var(--amber);}
 .rc-step.active-step{background:var(--blue-bg);}
-.article-section{margin-bottom:40px;}
+.article-section{margin-bottom:40px;} #suggestionsSection .article-section:last-child{margin-bottom:0;}
 .sec-label{font-family:var(--mono);font-size:10px;letter-spacing:2px;text-transform:uppercase;
   color:var(--dim);margin-bottom:16px;display:flex;align-items:center;gap:12px;}
 .sec-label::after{content:'';flex:1;height:1px;background:var(--border);}
@@ -324,7 +324,7 @@ html,body{min-height:100%;background:var(--bg);color:var(--text);font-family:var
       </div>
     </div>
 
-    <div id="suggestionsSection" style="display:none;">
+    <div id="suggestionsSection" style="display:none;margin-bottom:0;padding-bottom:0;">
       <div class="article-section">
         <div class="sec-label">If This Fails — Try These Alternatives <span class="sec-badge">AI Suggestions</span></div>
         <div class="suggestion-block">
@@ -389,7 +389,7 @@ html,body{min-height:100%;background:var(--bg);color:var(--text);font-family:var
   </div>
 </div>
 
-<div id="toolsSection" style="display:none;max-width:860px;margin:0 auto;padding:0 48px 32px;border-top:1px solid var(--border);margin-top:0;">
+<div id="toolsSection" style="display:none;max-width:860px;margin:0 auto;padding:16px 48px 32px;">
   <div style="font-family:var(--mono);font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--accent);margin-bottom:24px;">Practical Tools</div>
   <div style="background:var(--paper);border:1px solid var(--border);border-radius:10px;padding:24px;margin-bottom:16px;">
     <div style="font-size:15px;font-weight:600;color:var(--text);margin-bottom:6px;">⚖️ Compare Methods</div>
@@ -1022,61 +1022,6 @@ async function shareResult(){
     btn.textContent = '🔗 Share this result';
     alert('Share failed: ' + e.message);
   }
-}
-
-function toggleResearcherMode(enabled){
-  _researcherMode = enabled;
-  if(_lastRpt) renderEvidence(_lastRpt);
-}
-
-// ── Researcher Mode ──────────────────────────────────────
-// ── Practical Tools ─────────────────────────────────────
-async function runCompare(){
-  const a = document.getElementById('compareA').value.trim();
-  const b = document.getElementById('compareB').value.trim();
-  if(!a||!b){alert('Enter two methods to compare');return;}
-  const el = document.getElementById('compareResult');
-  el.innerHTML='<p style="font-size:12px;color:var(--dim);">Comparing...</p>';
-  try{
-    const r = await fetch('/api/compare',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({method_a:a,method_b:b})});
-    const d = await r.json();
-    if(d.error){el.innerHTML=`<p style="color:red;font-size:12px;">${d.error}</p>`;return;}
-    const ma=d.method_a||{};const mb=d.method_b||{};
-    el.innerHTML=`
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:12px;">
-        <div style="padding:12px;background:var(--bg);border-radius:6px;border-left:3px solid var(--green);">
-          <div style="font-size:12px;font-weight:600;color:var(--text);margin-bottom:8px;">${ma.method}</div>
-          ${(ma.strengths||[]).map(s=>`<div style="font-size:11px;color:var(--mid);padding:2px 0;">✓ ${s}</div>`).join('')}
-          ${(ma.weaknesses||[]).map(w=>`<div style="font-size:11px;color:var(--red);padding:2px 0;">⚠ ${w}</div>`).join('')}
-        </div>
-        <div style="padding:12px;background:var(--bg);border-radius:6px;border-left:3px solid var(--blue);">
-          <div style="font-size:12px;font-weight:600;color:var(--text);margin-bottom:8px;">${mb.method}</div>
-          ${(mb.strengths||[]).map(s=>`<div style="font-size:11px;color:var(--mid);padding:2px 0;">✓ ${s}</div>`).join('')}
-          ${(mb.weaknesses||[]).map(w=>`<div style="font-size:11px;color:var(--red);padding:2px 0;">⚠ ${w}</div>`).join('')}
-        </div>
-      </div>
-      <div style="font-size:12px;color:var(--mid);padding:10px;background:var(--bg);border-radius:6px;line-height:1.6;">
-        💡 ${d.recommendation||''}
-      </div>`;
-  }catch(e){el.innerHTML=`<p style="color:red;font-size:12px;">Error: ${e.message}</p>`;}
-}
-
-async function loadGaps(){
-  const el = document.getElementById('gapsResult');
-  el.innerHTML='<p style="font-size:12px;color:var(--dim);">Loading...</p>';
-  try{
-    const r = await fetch('/api/gaps');
-    const d = await r.json();
-    const gaps = d.gaps||[];
-    el.innerHTML=gaps.length?gaps.map(g=>`
-      <div style="padding:10px 0;border-bottom:1px solid var(--rule);">
-        <div style="display:flex;align-items:center;gap:8px;margin-bottom:3px;">
-          <span style="font-size:13px;font-weight:500;color:var(--text);">${g.concept}</span>
-          <span style="font-family:var(--mono);font-size:9px;padding:1px 6px;background:var(--amber-bg);color:var(--amber);border:1px solid var(--amber-border);border-radius:2px;">${g.edge_count} relations</span>
-        </div>
-        <div style="font-size:12px;color:var(--dim);line-height:1.5;">${g.gap}</div>
-      </div>`).join(''):'<p style="font-size:12px;color:var(--dim);">No gaps found.</p>';
-  }catch(e){el.innerHTML=`<p style="color:red;font-size:12px;">Error: ${e.message}</p>`;}
 }
 
 function showSummary(){
