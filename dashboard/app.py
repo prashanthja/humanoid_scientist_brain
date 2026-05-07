@@ -1448,6 +1448,119 @@ def api_waitlist():
     except Exception as e:
         return jsonify({"status": "ok"})  # Fail silently
 
+@app.route("/api/share", methods=["POST"])
+def api_share():
+    """Save a research result and return a shareable link."""
+    try:
+        import hashlib, json as _json
+        body = request.get_json(force=True) or {}
+        query = body.get("query","").strip()
+        result = body.get("result",{})
+        if not query or not result:
+            return jsonify({"error": "missing query or result"}), 400
+        # Generate hash from query
+        share_id = hashlib.md5(query.lower().encode()).hexdigest()[:10]
+        # Save to Supabase
+        try:
+            from supabase import create_client
+            sb = create_client(os.environ.get("SUPABASE_URL",""), os.environ.get("SUPABASE_KEY",""))
+            sb.table("shared_results").upsert({
+                "share_id": share_id,
+                "query": query,
+                "result_json": result,
+            }).execute()
+        except Exception as e:
+            log.warning(f"Share save failed: {e}")
+        share_url = f"{request.host_url}r/{share_id}"
+        return jsonify({"share_id": share_id, "share_url": share_url})
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+@app.route("/r/<share_id>")
+def shared_result(share_id):
+    """Display a shared research result."""
+    try:
+        from supabase import create_client
+        sb = create_client(os.environ.get("SUPABASE_URL",""), os.environ.get("SUPABASE_KEY",""))
+        r = sb.table("shared_results").select("*").eq("share_id", share_id).execute()
+        if not r.data:
+            return "Result not found", 404
+        data = r.data[0]
+        # Render research page with pre-loaded result
+        import json as _json
+        return render_template("research.html", 
+                             shared_query=data.get("query",""),
+                             shared_result=_json.dumps(data.get("result_json",{})))
+    except Exception as e:
+        return render_template("research.html")
+
+@app.route("/api/compare", methods=["POST"])
+def api_compare():
+    """Compare two research methods side by side."""
+    try:
+        body = request.get_json(force=True) or {}
+        method_a = body.get("method_a","").strip()
+        method_b = body.get("method_b","").strip()
+        if not method_a or not method_b:
+            return jsonify({"error": "Need two methods to compare"}), 400
+
+        kg_data = _read_json(KG_PATH, {})
+        hyps = _load_hypotheses(50)
+
+        def get_method_info(method):
+            m_low = method.lower()
+            # Get KG edges
+            edges = {}
+            for concept, rels in kg_data.items():
+                if concept.lower() == m_low or m_low in concept.lower():
+                    edges = rels
+                    break
+            # Get related hypotheses
+            m_hyps = [h for h in hyps if m_low in h.get('hypothesis','').lower()]
+            # Determine strengths from KG
+            strengths = []
+            weaknesses = []
+            if isinstance(edges, dict):
+                for rel, targets in edges.items():
+                    if rel in ('reduces','improves','supports_efficiency'):
+                        for t in (targets if isinstance(targets,list) else [targets]):
+                            strengths.append(f"{rel.replace('_',' ')} {t}")
+                    elif rel in ('has_tradeoff','contradicts'):
+                        for t in (targets if isinstance(targets,list) else [targets]):
+                            weaknesses.append(f"tradeoff with {t}")
+            return {
+                "method": method,
+                "kg_edges": len(edges),
+                "strengths": strengths[:4],
+                "weaknesses": weaknesses[:3],
+                "hypotheses": [h.get('hypothesis','') for h in m_hyps[:3]],
+            }
+
+        info_a = get_method_info(method_a)
+        info_b = get_method_info(method_b)
+
+        # Find shared concepts
+        shared = set(info_a['strengths']) & set(info_b['strengths'])
+
+        return jsonify({
+            "method_a": info_a,
+            "method_b": info_b,
+            "shared_strengths": list(shared),
+            "recommendation": f"{method_a} focuses on {', '.join(info_a['strengths'][:2]) or 'general efficiency'}. {method_b} focuses on {', '.join(info_b['strengths'][:2]) or 'general efficiency'}. Choose based on your primary bottleneck.",
+        })
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+@app.route("/api/gaps", methods=["GET"])
+def api_gaps():
+    """Return research gaps from KG."""
+    try:
+        kg_data = _read_json(KG_PATH, {})
+        gaps = _find_underresearched(kg_data, "")
+        return jsonify({"gaps": gaps})
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
 @app.route("/api/config")
 def api_config():
     return jsonify({
