@@ -131,8 +131,16 @@ class SimpleRetriever:
         # Sort by combined score, take top_k
         scored.sort(key=lambda x: -x[0])
 
-        # Always return at least some results even if low relevance
-        result = [c for _, c in scored[:top_k]]
+        # Deduplicate by paper title
+        seen_titles = set()
+        deduped = []
+        for score, chunk in scored:
+            title = chunk.get('paper_title','')[:60]
+            if title not in seen_titles:
+                seen_titles.add(title)
+                deduped.append((score, chunk))
+
+        result = [c for _, c in deduped[:top_k]]
         if not result:
             return chunks[:top_k]
         return result
