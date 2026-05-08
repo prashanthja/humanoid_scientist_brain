@@ -164,7 +164,7 @@ html,body{min-height:100%;background:var(--bg);color:var(--text);font-family:var
 .hyp-item:last-child{border-bottom:none;}
 .hyp-type{font-family:var(--mono);font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--accent);margin-bottom:4px;}
 .hyp-text{font-size:12px;line-height:1.5;color:var(--text);}
-.hyp-score{font-family:var(--mono);font-size:10px;color:var(--dim);margin-top:3px;}
+.hyp-score{font-family:var(--mono);font-size:10px;color:var(--dim);margin-top:3px;display:none;}
 .exp-item{display:flex;gap:12px;padding:9px 0;border-bottom:1px solid var(--rule);}
 .exp-item:last-child{border-bottom:none;}
 .exp-n{font-family:var(--mono);font-size:10px;color:var(--accent);flex-shrink:0;width:18px;}
@@ -537,8 +537,7 @@ function renderVerdict(q,rpt){
     <div class="verdict-card">
       <div class="verdict-top">
         <div class="verdict-indicator">
-          <div class="verdict-pct ${cls}">${pct}%</div>
-          <div class="verdict-badge ${v}">${v.replace(/_/g,' ')}</div>
+          <div class="verdict-badge ${v}" style="font-size:15px;font-weight:600;padding:8px 16px;letter-spacing:0.5px;">${verdictLabel}</div>
         </div>
         <div class="verdict-body">
           <div class="verdict-question">"${q}"</div>
@@ -548,8 +547,8 @@ function renderVerdict(q,rpt){
       <div class="verdict-meta">
         <div class="vmeta-item"><div class="vmeta-n green">${suppCount}</div><div class="vmeta-l">Supporting claims</div></div>
         <div class="vmeta-item"><div class="vmeta-n red">${(rpt.contradictions||[]).length||contrCount}</div><div class="vmeta-l">Conflicting papers</div></div>
-        <div class="vmeta-item"><div class="vmeta-n">${rpt.evidence_count||0}</div><div class="vmeta-l">Evidence chunks</div></div>
-        <div class="vmeta-item"><div class="vmeta-n" style="font-size:13px;font-weight:500;color:var(--mid);padding-top:10px;">${rpt.domain||'–'}</div><div class="vmeta-l">Domain</div></div>
+        <div class="vmeta-item"><div class="vmeta-n">${(rpt.top_papers||[]).length||0}</div><div class="vmeta-l">Papers analyzed</div></div>
+        <div class="vmeta-item"><div class="vmeta-n" style="font-size:11px;font-weight:500;color:var(--mid);padding-top:8px;">${Object.keys(rpt.context_buckets||{}).map(d=>d.replace(/_/g,' ')).join(', ')||rpt.domain||'–'}</div><div class="vmeta-l">Evidence domains</div></div>
       </div>
     </div>`;
 }
@@ -601,7 +600,7 @@ function renderContradictions(rpt){
               '🔀 <strong style="color:#8a5c00">Context-dependent result</strong> — ' + c.implication :
               '💡 ' + c.implication}
           </div>
-          ${c.detection_explanation ? `
+          ${_researcherMode && c.detection_explanation ? `
           <div style="margin-top:10px;padding:10px;background:#f0f4fb;border-radius:6px;border-left:3px solid #2952a3;">
             <div style="font-size:9px;font-weight:600;color:#1a3a7a;text-transform:uppercase;letter-spacing:1px;margin-bottom:5px;">
               🔍 How this contradiction was detected
@@ -773,7 +772,7 @@ function renderHypsFromIdeas(ideas){
   if(!ideas||!ideas.length){document.getElementById('hypArea').innerHTML='<p style="font-size:12px;color:var(--dim);">No related hypotheses yet.</p>';return;}
   document.getElementById('hypArea').innerHTML=ideas.map(h=>`
     <div class="hyp-item">
-      <div class="hyp-type">${(h.type||''). replace(/_/g,' ')}</div>
+      <div class="hyp-type">${h.type==='graph_transitivity'?'Research Direction':(h.type||'').replace(/_/g,' ')}</div>
       <div class="hyp-text">${_cleanHyp(h.hypothesis)}</div>
       <div class="hyp-score">score: ${h.score??'–'}</div>
     </div>`).join('');
@@ -782,7 +781,7 @@ function renderExp(sim){
   const exps=sim.best_experiments||[];
   if(!exps.length){document.getElementById('expArea').innerHTML='<p style="font-size:12px;color:var(--dim);">–</p>';return;}
   document.getElementById('expArea').innerHTML=exps.slice(0,4).map((e,i)=>`
-    <div class="exp-item"><div class="exp-n">${i+1}.</div><div class="exp-text">${e}</div></div>`).join('');
+    <div class="exp-item"><div class="exp-n">${i+1}.</div><div class="exp-text">${e.replace(/ — dominance probability \d+%/,'').replace(/ — failure probability \d+%/,'')}</div></div>`).join('');
 }
 
 async function fetchSuggestions(q,rpt){
