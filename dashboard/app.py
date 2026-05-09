@@ -252,6 +252,31 @@ _DIMENSIONS = {
     "scalability":    ["scale","scaling","billion","70b","13b","7b","model size","distributed","parallelism","long context","context length"],
 }
 
+def _score_paper_quality(paper_title: str, source: str = "") -> float:
+    """Score paper quality 0-1 based on title signals and source."""
+    title_low = (paper_title or "").lower()
+    score = 0.5  # baseline
+
+    # Top venue signals boost score
+    top_venues = ["neurips","icml","iclr","acl","emnlp","cvpr","iccv","eccv",
+                  "nature","science","arxiv","openreview"]
+    source_low = (source or "").lower()
+    if any(v in source_low or v in title_low for v in top_venues):
+        score += 0.2
+
+    # Well-known paper signals
+    landmark = ["flash","lora","mamba","attention is all you need","gpt","llama",
+                "transformer","bert","t5","palm","gemini","claude","mixtral",
+                "speculative","paged","vllm","deepspeed"]
+    if any(l in title_low for l in landmark):
+        score += 0.15
+
+    # Penalty for very specific/niche titles
+    if len(title_low) > 100:
+        score -= 0.05
+
+    return min(1.0, max(0.1, score))
+
 def _extract_benchmark_context(text: str) -> dict:
     """Extract hardware, dataset, task context from chunk text."""
     import re as _re
@@ -1193,6 +1218,14 @@ def api_run_research():
                 _ctx = _extract_benchmark_context(_ev_text)
                 _bench_ctx.update(_ctx)
             _gc["benchmark_context"] = _bench_ctx
+            # Score paper quality from top supporting papers
+            _paper_scores = []
+            for _ev in _top_support[:3]:
+                if isinstance(_ev, dict):
+                    _pt = _ev.get("paper_title","")
+                    _src = _ev.get("source","")
+                    _paper_scores.append(_score_paper_quality(_pt, _src))
+            _gc["paper_quality"] = round(sum(_paper_scores)/len(_paper_scores), 2) if _paper_scores else 0.5
             if _conf >= 0.40 or _overlap >= 1:
                 grounded.append(_gc)
         if not grounded:

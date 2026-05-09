@@ -1106,7 +1106,7 @@ function renderClaim(gc){
         <span style="font-size:11px;color:#5c5650;">Coverage: <strong>${Math.round(coverageScore*100)}%</strong></span>
         <span style="font-size:11px;color:#5c5650;">Source diversity: <strong>${Math.round(diversityScore*100)}%</strong></span>
         <span style="font-size:11px;color:#5c5650;">Unique papers: <strong>${uniqueTitles}</strong></span>
-        <span style="font-size:11px;color:#5c5650;">Grounding score: <strong>${(grounding.grounding_score||0).toFixed(3)}</strong></span>
+        ${gc.paper_quality ? `<span style="font-size:11px;color:#5c5650;">Paper quality: <strong>${Math.round((gc.paper_quality||0)*100)}%</strong></span>` : ''}
       </div>
       ${topSupport.length ? `
       <div style="font-size:10px;font-weight:600;color:#1a7a4a;margin-bottom:6px;">Supporting Evidence</div>
