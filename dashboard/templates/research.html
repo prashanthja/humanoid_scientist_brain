@@ -316,8 +316,10 @@ html,body{min-height:100%;background:var(--bg);color:var(--text);font-family:var
     </div>
 
     <div class="article-section">
-      <div class="sec-label">Evidence Sources</div>
-      <div id="sourcesArea">
+      <div class="sec-label" style="cursor:pointer;" onclick="toggleSection('sourcesArea',this)">
+        Evidence Sources <span id="sourcesToggle" style="float:right;font-size:11px;color:var(--dim);">▼ show</span>
+      </div>
+      <div id="sourcesArea" style="display:none;">
         <div class="skel" style="height:44px;margin-bottom:8px;"></div>
         <div class="skel" style="height:44px;margin-bottom:8px;"></div>
         <div class="skel" style="height:44px;"></div>
@@ -578,7 +580,9 @@ function renderContradictions(rpt){
                 background:#fdf7ec;color:#8a5c00;border:1px solid #e8cc88;border-radius:3px;">${concept}</span>
             `).join('')}
             <span style="font-family:var(--mono);font-size:9px;padding:2px 8px;
-              background:#fdf0f0;color:#9a1a1a;border:1px solid #dda8a8;border-radius:3px;">${c.severity} conflict</span>
+              background:#fdf0f0;color:#9a1a1a;border:1px solid #dda8a8;border-radius:3px;">
+              ${c.contradiction_type==='tradeoff'?'tradeoff':c.contradiction_type==='hardware_variance'?'hardware variance':c.contradiction_type==='direct'?'direct conflict':'partial disagreement'}
+            </span>
           </div>
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px;">
             <div style="padding:10px;background:#f0f7f3;border-radius:6px;border-left:3px solid #1a7a4a;">
@@ -596,9 +600,13 @@ function renderContradictions(rpt){
           </div>
           <div style="font-size:12px;color:#5c5650;background:#f8f7f4;padding:10px;
             border-radius:6px;line-height:1.6;">
-            ${c.context_differs ?
-              '🔀 <strong style="color:#8a5c00">Context-dependent result</strong> — ' + c.implication :
-              '💡 ' + c.implication}
+            ${c.contradiction_type==='tradeoff' ?
+              '⚖️ <strong style="color:#8a5c00">Tradeoff detected</strong> — ' + c.implication :
+              c.context_differs ?
+              '🔀 <strong style="color:#8a5c00">Context-dependent</strong> — ' + c.implication :
+              c.contradiction_type==='hardware_variance' ?
+              '💻 <strong style="color:#8a5c00">Hardware-specific variance</strong> — ' + c.implication :
+              '⚠️ ' + c.implication}
           </div>
           ${_researcherMode && c.detection_explanation ? `
           <div style="margin-top:10px;padding:10px;background:#f0f4fb;border-radius:6px;border-left:3px solid #2952a3;">
@@ -1057,6 +1065,19 @@ function showSummary(){
 }
 
 
+function toggleSection(id, label){
+  const el = document.getElementById(id);
+  const toggle = label.querySelector('span');
+  if(!el) return;
+  if(el.style.display === 'none'){
+    el.style.display = 'block';
+    if(toggle) toggle.textContent = '▲ hide';
+  } else {
+    el.style.display = 'none';
+    if(toggle) toggle.textContent = '▼ show';
+  }
+}
+
 function toggleResearcherMode(enabled){
   _researcherMode = enabled;
   if(_lastRpt) renderEvidence(_lastRpt);
@@ -1104,8 +1125,15 @@ function renderClaim(gc){
     </div>`;
   }
   
+  const bench = gc.benchmark_context || {};
+  const benchTags = [];
+  if(bench.hardware) benchTags.push('🖥 ' + bench.hardware);
+  if(bench.task) benchTags.push('📋 ' + bench.task);
+  if(bench.model_size) benchTags.push('⚙ ' + bench.model_size);
+  if(bench.sequence) benchTags.push('📏 ' + bench.sequence);
   return `<div class="ev-item ${cls}">
     <div class="ev-claim">${gc.claim||''}</div>
+    ${benchTags.length ? `<div style="display:flex;gap:6px;flex-wrap:wrap;margin:6px 0;">${benchTags.map(t=>`<span style="font-size:10px;padding:2px 8px;background:var(--blue-bg);color:var(--blue);border:1px solid #c8d8f0;border-radius:3px;">${t}</span>`).join('')}</div>` : ''}
     <div class="ev-foot"><span class="ev-badge ${cls}">${verd.replace(/_/g,' ')}</span>
     <span class="ev-conf">confidence: ${(v.confidence||0).toFixed(2)}</span></div>
     ${totalEv > 0 ? `
