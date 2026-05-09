@@ -252,6 +252,32 @@ _DIMENSIONS = {
     "scalability":    ["scale","scaling","billion","70b","13b","7b","model size","distributed","parallelism","long context","context length"],
 }
 
+def _extract_benchmark_context(text: str) -> dict:
+    """Extract hardware, dataset, task context from chunk text."""
+    import re as _re
+    text_low = (text or "").lower()
+    ctx = {}
+    # Hardware
+    hw = []
+    for hw_kw in ["a100","h100","v100","a6000","rtx 3090","rtx 4090","t4","tpu","hopper","ampere","ada lovelace"]:
+        if hw_kw in text_low:
+            hw.append(hw_kw.upper().replace(" ","-"))
+    if hw: ctx["hardware"] = hw[0]
+    # Sequence length
+    seq = _re.findall(r'(\d+[k])\s*(?:token|sequence|context|seq|len)', text_low)
+    if not seq:
+        seq = _re.findall(r'(?:sequence|context)\s+length[s]?\s+(?:of\s+)?(\d+[k]?)', text_low)
+    if seq: ctx["sequence"] = seq[0].strip()
+    # Task type
+    for task in ["fine-tuning","inference","pretraining","language modeling","classification","generation","training"]:
+        if task in text_low:
+            ctx["task"] = task
+            break
+    # Model size
+    sizes = _re.findall(r'(\d+(?:\.\d+)?[bm])\s*(?:parameter|param)', text_low)
+    if sizes: ctx["model_size"] = sizes[0].upper() + " params"
+    return ctx
+
 def _detect_dimension(text: str) -> str:
     text_low = (text or "").lower()
     scores = {}
@@ -404,14 +430,29 @@ def _find_contradictions(chunks):
             # Determine contradiction type
             def _contradiction_type(ta, tb):
                 ta_low, tb_low = ta.lower(), tb.lower()
-                method_words = ["method","approach","technique","model","architecture","framework","setting","configuration","dataset","benchmark"]
-                direct_words = ["no benefit","no improvement","does not reduce","does not improve","no significant","fails to"]
-                if any(w in ta_low or w in tb_low for w in direct_words):
+                combined = ta_low + " " + tb_low
+                # Tradeoff signals — not a true contradiction
+                tradeoff_words = ["tradeoff","trade-off","however","but","although","despite",
+                                  "limitation","caveat","drawback","at the cost","sacrifice",
+                                  "may not","not always","in some cases","can still"]
+                # Hardware/setup variance — context-dependent
+                hardware_words = ["gpu","cpu","a100","h100","v100","hopper","hardware",
+                                  "device","memory bandwidth","serving","production"]
+                # Direct contradiction signals
+                direct_words = ["no benefit","no improvement","does not reduce","does not improve",
+                                "no significant","fails to","worse than","inferior","outperformed by"]
+                # Same metric opposite outcome
+                metric_words = ["accuracy","perplexity","throughput","latency","memory","flops","speed"]
+                has_metric = any(w in combined for w in metric_words)
+
+                if any(w in combined for w in tradeoff_words):
+                    return "tradeoff"
+                elif any(w in combined for w in hardware_words):
+                    return "hardware_variance"
+                elif any(w in combined for w in direct_words) and has_metric:
                     return "direct"
-                elif any(w in ta_low or w in tb_low for w in method_words):
-                    return "methodological"
                 else:
-                    return "contextual"
+                    return "methodological"
 
             # Extract the specific triggering signals
             def _triggering_signals(ta, tb):
@@ -449,7 +490,7 @@ def _find_contradictions(chunks):
                     f"Paper B contains negative signals {trig_neg} on the same concepts. "
                     f"This suggests a {c_type} contradiction."
                 )
-                implication = _contradiction_implication(list(shared), severity)
+                implication = _contradiction_implication(list(shared), severity, c_type)
 
             contradictions.append({
                 "shared_concepts": list(shared)[:3],
@@ -476,17 +517,17 @@ def _find_contradictions(chunks):
     return contradictions
 
 
-def _contradiction_implication(concepts, severity):
-    concept_str = " and ".join(concepts[:2]) if concepts else "this metric"
-    if severity == "high":
-        return (f"Strong disagreement on {concept_str} — "
-                f"results may depend on model size, dataset, or hardware. "
-                f"Replicate both experiments before drawing conclusions.")
-    return (f"Mixed evidence on {concept_str} — "
-            f"methodology differences likely explain the gap. "
-            f"Check sequence length, model size, and benchmark used.")
-
-
+def _contradiction_implication(concepts, severity, c_type=""):
+    topic = " and ".join(concepts[:2]) if concepts else "this metric"
+    if c_type == "tradeoff":
+        return f"Known tradeoff on {topic} — gains in one dimension may come at cost in another. Consider which metric matters most for your use case."
+    elif c_type == "hardware_variance":
+        return f"Results on {topic} vary by hardware — verify which GPU/setup matches your deployment before concluding."
+    elif c_type == "direct":
+        return f"Papers directly disagree on {topic}. Examine sample size, dataset, and baseline carefully before drawing conclusions."
+    elif severity == "high":
+        return f"Strong disagreement on {topic} — results may depend on model size, dataset, or hardware. Replicate both experiments before drawing conclusions."
+    return f"Partial disagreement on {topic} — methodology differences likely explain the gap. Check sequence length, model size, and benchmark used."
 # ── Idea Lab helpers ────────────────────────────────────
 
 CONCEPT_MAP = {
@@ -915,7 +956,7 @@ def _extract_new_ideas(hyps, concept, query):
     CONCEPT_MAP = [
         (["flashattention","flash attention"], "FlashAttention"),
         (["kv cache","kvcache","key-value cache"], "KVCache"),
-        (["lora","low-rank"], "LoRA"),
+        (["lora","low-rank","low rank","qlora","peft","fine-tuning","finetuning"], "LoRA"),
         (["mixture of experts","moe"], "MixtureOfExperts"),
         (["mamba","state space"], "Mamba"),
         (["speculative decoding"], "SpeculativeDecoding"),
@@ -1143,6 +1184,15 @@ def api_run_research():
             _ct = (_gc.get("claim","") or "").lower()
             _conf = _gc.get("verdict",{}).get("confidence",0) if isinstance(_gc.get("verdict"),dict) else 0
             _overlap = sum(1 for w in _qwords if w in _ct)
+            # Extract benchmark context from supporting evidence
+            _grounding = _gc.get("grounding", {})
+            _top_support = _grounding.get("top_support", []) if isinstance(_grounding, dict) else []
+            _bench_ctx = {}
+            for _ev in _top_support[:3]:
+                _ev_text = _ev.get("text","") if isinstance(_ev, dict) else ""
+                _ctx = _extract_benchmark_context(_ev_text)
+                _bench_ctx.update(_ctx)
+            _gc["benchmark_context"] = _bench_ctx
             if _conf >= 0.40 or _overlap >= 1:
                 grounded.append(_gc)
         if not grounded:
