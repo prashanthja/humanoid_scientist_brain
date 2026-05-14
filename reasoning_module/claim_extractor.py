@@ -91,6 +91,11 @@ BAD_PATTERNS = [
     r"\bdoi\b",
     r"<jats:",
     r"</jats:",
+    r"^www\.",
+    r"\bissn\b",
+    r"^fig\.",
+    r"^table \d",
+    r"^appendix",
 ]
 
 NUMERIC_SIGNAL_RE = re.compile(r"\b\d+(\.\d+)?\b|%|x|×|ms|s|gb|mb|tb|tokens|params", re.IGNORECASE)
