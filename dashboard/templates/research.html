@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
 <title>Tattva AI — Scientific Evidence Platform</title>
 <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,600;1,8..60,300;1,8..60,400&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
@@ -20,1135 +19,612 @@
   --serif:'Source Serif 4',Georgia,serif;
   --sans:'Inter',system-ui,sans-serif;
 }
-html,body{min-height:100%;background:var(--bg);color:var(--text);font-family:var(--sans);}
-.nav{background:var(--paper);border-bottom:1px solid var(--border);padding:0 48px;
-  display:flex;align-items:center;justify-content:space-between;height:60px;
-  position:sticky;top:0;z-index:100;}
-.nav-brand{display:flex;align-items:center;gap:12px;}
-.nav-mark{width:32px;height:32px;background:var(--accent);display:flex;align-items:center;
-  justify-content:center;border-radius:6px;}
-.nav-mark svg{width:16px;height:16px;fill:white;}
-.nav-name{font-size:17px;font-weight:600;color:var(--text);letter-spacing:-.3px;}
-.nav-tagline{font-size:13px;color:var(--dim);margin-left:4px;}
-.nav-status{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--dim);}
-.nav-status-dot{width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 5px var(--green);}
-.progress-track{height:3px;background:var(--rule);position:sticky;top:60px;z-index:99;overflow:hidden;display:none;}
-.progress-track.active{display:block;}
-.progress-fill{height:100%;background:var(--accent);width:0%;transition:width .5s ease;}
-.hero{background:var(--paper);border-bottom:1px solid var(--border);padding:80px 48px 64px;
-  display:flex;flex-direction:column;align-items:center;transition:all .5s ease;}
-.hero.compact{padding:28px 48px;}
-.hero-eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:3px;text-transform:uppercase;
-  color:var(--accent);margin-bottom:16px;transition:all .4s;}
-.hero.compact .hero-eyebrow{font-size:0;margin:0;overflow:hidden;}
-.hero-headline{font-family:var(--serif);font-size:48px;font-weight:300;color:var(--text);
-  text-align:center;margin-bottom:16px;letter-spacing:-.5px;line-height:1.15;
-  max-width:720px;transition:all .4s;}
-.hero.compact .hero-headline{font-size:0;margin:0;overflow:hidden;}
-.hero-sub{font-size:16px;color:var(--mid);text-align:center;margin-bottom:40px;
-  line-height:1.7;max-width:580px;transition:all .4s;}
-.hero.compact .hero-sub{font-size:0;margin:0;overflow:hidden;}
-.diff-row{display:flex;gap:32px;margin-bottom:48px;transition:all .4s;flex-wrap:wrap;justify-content:center;}
-.hero.compact .diff-row{display:none;}
-.diff-item{display:flex;align-items:flex-start;gap:12px;max-width:220px;}
-.diff-icon{width:36px;height:36px;border-radius:8px;background:var(--blue-bg);border:1px solid #c8d8f0;
-  display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:16px;}
-.diff-title{font-size:13px;font-weight:600;color:var(--text);margin-bottom:3px;}
-.diff-desc{font-size:12px;color:var(--dim);line-height:1.5;}
-.search-form{width:100%;max-width:720px;display:flex;flex-direction:column;gap:14px;}
-.search-row{display:flex;align-items:stretch;border:2px solid var(--border2);border-radius:10px;
-  background:var(--paper);overflow:hidden;transition:border-color .2s,box-shadow .2s;}
-.search-row:focus-within{border-color:var(--accent);box-shadow:0 0 0 4px rgba(41,82,163,.08);}
-.search-input{flex:1;padding:16px 20px;font-size:16px;color:var(--text);border:none;outline:none;
-  background:transparent;font-family:var(--sans);}
-.search-input::placeholder{color:var(--dim);}
-.search-btn{padding:0 28px;background:var(--accent);color:white;border:none;cursor:pointer;
-  font-size:15px;font-weight:500;font-family:var(--sans);transition:background .15s;white-space:nowrap;}
-.search-btn:hover{background:#1e3f8a;}
-.search-btn:disabled{background:#a0aec0;cursor:not-allowed;}
-.suggestions-row{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;transition:all .4s;}
-.hero.compact .suggestions-row{display:none;}
-.sug-pill{font-size:12px;color:var(--mid);padding:6px 14px;border:1px solid var(--border2);
-  border-radius:999px;cursor:pointer;transition:all .15s;background:var(--paper);}
-.sug-pill:hover{border-color:var(--accent);color:var(--accent);background:var(--blue-bg);}
-.main{width:100%;max-width:1400px;margin:0 auto;padding:48px 48px 100px;
-  display:none;grid-template-columns:1fr 360px;gap:48px;}
-.main.active{display:grid;}
-@media(max-width:960px){.main{grid-template-columns:1fr;}}
-.reasoning-chain{display:flex;align-items:center;background:var(--paper);
-  border:1px solid var(--border);border-radius:10px;overflow:hidden;margin-bottom:36px;}
-.rc-step{flex:1;padding:14px 18px;text-align:center;position:relative;}
-.rc-step:not(:last-child)::after{content:'→';position:absolute;right:-8px;top:50%;
-  transform:translateY(-50%);color:var(--dim);font-size:13px;z-index:1;}
-.rc-step-n{font-family:var(--mono);font-size:9px;color:var(--dim);letter-spacing:1px;
-  text-transform:uppercase;margin-bottom:4px;}
-.rc-step-v{font-size:13px;font-weight:500;color:var(--text);}
-.rc-step-v.green{color:var(--green);}
-.rc-step-v.amber{color:var(--amber);}
-.rc-step.active-step{background:var(--blue-bg);}
-.article-section{margin-bottom:40px;} #suggestionsSection .article-section:last-child{margin-bottom:0;}
-.sec-label{font-family:var(--mono);font-size:10px;letter-spacing:2px;text-transform:uppercase;
-  color:var(--dim);margin-bottom:16px;display:flex;align-items:center;gap:12px;}
-.sec-label::after{content:'';flex:1;height:1px;background:var(--border);}
-.sec-badge{font-family:var(--mono);font-size:8px;letter-spacing:1px;text-transform:uppercase;
-  padding:2px 7px;border-radius:2px;background:var(--blue-bg);color:var(--accent);border:1px solid #c8d8f0;}
-.verdict-card{border:1px solid var(--border);border-radius:10px;overflow:hidden;background:var(--paper);}
-.verdict-top{padding:28px 32px;border-bottom:1px solid var(--border);display:flex;gap:28px;align-items:flex-start;}
-.verdict-indicator{flex-shrink:0;display:flex;flex-direction:column;align-items:center;gap:8px;padding-top:4px;}
-.verdict-pct{font-size:44px;font-weight:600;line-height:1;font-variant-numeric:tabular-nums;letter-spacing:-2px;}
-.verdict-pct.green{color:var(--green);}.verdict-pct.amber{color:var(--amber);}
-.verdict-pct.mid{color:var(--mid);}.verdict-pct.red{color:var(--red);}
-.verdict-badge{font-family:var(--mono);font-size:9px;letter-spacing:1.5px;text-transform:uppercase;
-  padding:3px 10px;border-radius:3px;white-space:nowrap;}
-.verdict-badge.supported{background:var(--green-bg);color:var(--green);border:1px solid var(--green-border);}
-.verdict-badge.partially_supported{background:var(--amber-bg);color:var(--amber);border:1px solid var(--amber-border);}
-.verdict-badge.inconclusive{background:var(--rule);color:var(--mid);border:1px solid var(--border);}
-.verdict-badge.contradicted{background:var(--red-bg);color:var(--red);border:1px solid var(--red-border);}
-.verdict-body{flex:1;}
-.verdict-question{font-family:var(--serif);font-size:22px;font-weight:400;font-style:italic;
-  color:var(--text);line-height:1.4;margin-bottom:12px;}
-.verdict-explanation{font-size:14px;color:var(--mid);line-height:1.7;}
-.verdict-meta{padding:18px 32px;display:grid;grid-template-columns:repeat(4,1fr);background:var(--bg);}
-.vmeta-item{padding:12px 0;text-align:center;border-right:1px solid var(--border);}
-.vmeta-item:last-child{border-right:none;}
-.vmeta-n{font-size:24px;font-weight:600;font-variant-numeric:tabular-nums;}
-.vmeta-n.green{color:var(--green);}.vmeta-n.red{color:var(--red);}
-.vmeta-l{font-size:11px;color:var(--dim);margin-top:3px;}
-.ev-item{border:1px solid var(--border);border-radius:8px;padding:16px;margin-bottom:10px;
-  background:var(--paper);border-left:3px solid var(--border2);}
-.ev-item.s{border-left-color:var(--green);}.ev-item.p{border-left-color:var(--amber);}
-.ev-item.c{border-left-color:var(--red);}
-.ev-claim{font-size:14px;line-height:1.6;color:var(--text);margin-bottom:10px;}
-.ev-foot{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
-.ev-badge{font-family:var(--mono);font-size:9px;letter-spacing:1px;text-transform:uppercase;padding:2px 8px;border-radius:3px;}
-.ev-badge.s{background:var(--green-bg);color:var(--green);border:1px solid var(--green-border);}
-.ev-badge.p{background:var(--amber-bg);color:var(--amber);border:1px solid var(--amber-border);}
-.ev-badge.c{background:var(--red-bg);color:var(--red);border:1px solid var(--red-border);}
-.ev-badge.i{background:var(--rule);color:var(--mid);border:1px solid var(--border);}
-.ev-conf{font-family:var(--mono);font-size:11px;color:var(--dim);}
-.source-item{display:flex;align-items:flex-start;gap:16px;padding:12px 0;border-bottom:1px solid var(--rule);}
-.source-item:last-child{border-bottom:none;}
-.source-n{font-family:var(--mono);font-size:10px;color:var(--dim);width:28px;flex-shrink:0;padding-top:2px;}
-.source-title{font-size:13px;color:var(--text);line-height:1.4;margin-bottom:2px;}
-.source-type{font-family:var(--mono);font-size:10px;color:var(--dim);}
-.suggestion-block{border:1px solid var(--border);border-radius:10px;overflow:hidden;background:var(--paper);margin-bottom:16px;}
-.sb-header{padding:16px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px;background:var(--bg);}
-.sb-icon{font-size:18px;}
-.sb-title{font-size:14px;font-weight:600;color:var(--text);}
-.sb-desc{font-size:12px;color:var(--dim);margin-top:2px;}
-.sb-body{padding:18px 20px;}
-.sidebar{display:flex;flex-direction:column;gap:24px;}
-.side-card{background:var(--paper);border:1px solid var(--border);border-radius:10px;overflow:hidden;}
-.side-card-header{padding:14px 18px;border-bottom:1px solid var(--border);
-  font-size:11px;font-weight:600;color:var(--mid);letter-spacing:.5px;text-transform:uppercase;}
-.side-card-body{padding:16px 18px;}
-.conf-label-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;}
-.conf-label-text{font-size:13px;color:var(--text);}
-.conf-label-val{font-family:var(--mono);font-size:14px;font-weight:500;}
-.conf-bar{height:7px;background:var(--rule);border-radius:4px;overflow:hidden;margin-bottom:8px;}
-.conf-fill{height:100%;border-radius:4px;transition:width .8s ease;}
-.conf-desc{font-size:12px;color:var(--dim);line-height:1.5;}
-.sim-score-row{display:flex;align-items:baseline;gap:8px;margin-bottom:4px;}
-.sim-score-n{font-size:34px;font-weight:600;font-variant-numeric:tabular-nums;}
-.sim-score-l{font-size:13px;color:var(--dim);}
-.sim-meta{font-size:11px;color:var(--dim);margin-bottom:12px;}
-.traj-wrap{height:68px;position:relative;margin-bottom:14px;}
-.traj-wrap canvas{position:absolute;inset:0;width:100%!important;height:100%!important;}
-.dom-item{display:flex;align-items:center;gap:8px;padding:5px 0;border-bottom:1px solid var(--rule);}
-.dom-item:last-child{border-bottom:none;}
-.dom-name{font-size:12px;color:var(--text);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
-.dom-bar{flex:1;height:3px;background:var(--rule);border-radius:2px;overflow:hidden;}
-.dom-fill{height:100%;background:var(--accent);border-radius:2px;transition:width .7s ease;}
-.dom-pct{font-family:var(--mono);font-size:11px;color:var(--dim);width:32px;text-align:right;}
-.hyp-item{padding:12px 0;border-bottom:1px solid var(--rule);}
-.hyp-item:last-child{border-bottom:none;}
-.hyp-type{font-family:var(--mono);font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--accent);margin-bottom:4px;}
-.hyp-text{font-size:12px;line-height:1.5;color:var(--text);}
-.hyp-score{font-family:var(--mono);font-size:10px;color:var(--dim);margin-top:3px;display:none;}
-.exp-item{display:flex;gap:12px;padding:9px 0;border-bottom:1px solid var(--rule);}
-.exp-item:last-child{border-bottom:none;}
-.exp-n{font-family:var(--mono);font-size:10px;color:var(--accent);flex-shrink:0;width:18px;}
-.exp-text{font-size:12px;color:var(--mid);line-height:1.5;}
-.method-note{background:var(--blue-bg);border:1px solid #c8d8f0;border-radius:8px;
-  padding:14px 18px;font-size:12px;color:var(--blue);line-height:1.7;
-  display:flex;gap:12px;align-items:flex-start;}
-.method-note-icon{flex-shrink:0;font-size:16px;margin-top:1px;}
-.skel{background:linear-gradient(90deg,var(--rule) 25%,var(--border) 50%,var(--rule) 75%);
-  background-size:200% 100%;animation:sk 1.5s infinite;border-radius:6px;}
-@keyframes sk{0%{background-position:200% 0}100%{background-position:-200% 0}}
-.loading-indicator{text-align:center;padding:60px 0;color:var(--dim);font-size:14px;
-  display:flex;flex-direction:column;align-items:center;gap:14px;}
-.loading-spinner{width:24px;height:24px;border:2px solid var(--border);
-  border-top-color:var(--accent);border-radius:50%;animation:spin .8s linear infinite;}
-@keyframes spin{to{transform:rotate(360deg);}}
-.error-state{background:var(--red-bg);border:1px solid var(--red-border);
-  border-radius:8px;padding:20px;font-size:13px;color:var(--red);}
-.footer{text-align:center;padding:40px 48px;border-top:1px solid var(--border);
-  font-size:12px;color:var(--dim);background:var(--paper);}
-::-webkit-scrollbar{width:4px;}
-::-webkit-scrollbar-track{background:transparent;}
-::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px;}
+html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);font-family:var(--sans);}
+.app{display:grid;grid-template-rows:56px 1fr;height:100vh;}
+.main{display:grid;grid-template-columns:1fr 400px;overflow:hidden;}
+@media(max-width:900px){.main{grid-template-columns:1fr;}.evidence-panel{display:none;}}
+.nav{background:var(--paper);border-bottom:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;padding:0 24px;z-index:50;}
+.nav-left{display:flex;align-items:center;gap:12px;}
+.nav-name{font-size:15px;font-weight:600;letter-spacing:-.3px;}
+.nav-tag{font-size:11px;color:var(--dim);margin-left:2px;}
+.nav-right{display:flex;align-items:center;gap:10px;}
+.nav-status{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--dim);}
+.status-dot{width:6px;height:6px;border-radius:50%;background:var(--green);box-shadow:0 0 4px var(--green);}
+.nav-btn{padding:5px 12px;border:1px solid var(--border);border-radius:5px;background:var(--bg);
+  cursor:pointer;font-size:12px;color:var(--mid);font-family:var(--sans);}
+.nav-btn:hover{border-color:var(--accent);color:var(--accent);}
+.conv-panel{display:flex;flex-direction:column;border-right:1px solid var(--border);overflow:hidden;}
+.messages{flex:1;overflow-y:auto;padding:24px 24px 8px;}
+.messages::-webkit-scrollbar{width:3px;}
+.messages::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px;}
+.welcome{display:flex;flex-direction:column;align-items:center;justify-content:center;
+  min-height:60vh;padding:40px 24px;text-align:center;}
+.welcome-eyebrow{font-family:var(--mono);font-size:10px;letter-spacing:3px;text-transform:uppercase;
+  color:var(--accent);margin-bottom:12px;}
+.welcome-title{font-family:var(--serif);font-size:32px;font-weight:300;margin-bottom:10px;
+  color:var(--text);letter-spacing:-.5px;line-height:1.2;}
+.welcome-sub{font-size:14px;color:var(--mid);line-height:1.7;max-width:460px;margin-bottom:32px;}
+.welcome-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;width:100%;max-width:520px;}
+.welcome-card{padding:14px;border:1px solid var(--border);border-radius:8px;background:var(--paper);
+  cursor:pointer;text-align:left;transition:all .15s;font-family:var(--sans);}
+.welcome-card:hover{border-color:var(--accent);background:var(--blue-bg);}
+.welcome-card-label{font-size:9px;font-weight:600;color:var(--accent);font-family:var(--mono);
+  letter-spacing:1.5px;text-transform:uppercase;margin-bottom:5px;}
+.welcome-card-text{font-size:13px;color:var(--text);line-height:1.4;}
+.msg{display:flex;gap:10px;align-items:flex-start;margin-bottom:20px;}
+.msg.user{flex-direction:row-reverse;}
+.msg-avatar{width:28px;height:28px;border-radius:50%;flex-shrink:0;font-size:12px;
+  display:flex;align-items:center;justify-content:center;}
+.msg.user .msg-avatar{background:var(--accent);color:white;}
+.msg.assistant .msg-avatar{background:var(--text);color:white;}
+.msg-content{max-width:82%;}
+.msg.user .msg-content{display:flex;flex-direction:column;align-items:flex-end;}
+.bubble{padding:12px 16px;border-radius:12px;font-size:14px;line-height:1.7;}
+.msg.user .bubble{background:var(--accent);color:white;border-radius:12px 2px 12px 12px;}
+.msg.assistant .bubble{background:var(--paper);border:1px solid var(--border);
+  color:var(--text);border-radius:2px 12px 12px 12px;}
+.msg-time{font-size:10px;color:var(--dim);margin-top:4px;font-family:var(--mono);}
+.msg.user .msg-time{text-align:right;}
+.ev-chips{display:flex;flex-wrap:wrap;gap:4px;margin-top:10px;padding-top:10px;
+  border-top:1px solid var(--rule);}
+.ev-chip{font-size:10px;padding:2px 8px;background:var(--blue-bg);color:var(--blue);
+  border:1px solid #c8d8f0;border-radius:3px;font-family:var(--mono);}
+.ev-chip.green{background:var(--green-bg);color:var(--green);border-color:var(--green-border);}
+.ev-chip.red{background:var(--red-bg);color:var(--red);border-color:var(--red-border);}
+.ev-chip.amber{background:var(--amber-bg);color:var(--amber);border-color:var(--amber-border);}
+.follow-ups{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px;}
+.fup-btn{font-size:12px;padding:6px 12px;border:1px solid var(--border);border-radius:999px;
+  background:var(--bg);cursor:pointer;color:var(--mid);font-family:var(--sans);transition:all .15s;}
+.fup-btn:hover{border-color:var(--accent);color:var(--accent);background:var(--blue-bg);}
+.typing-bubble{padding:12px 16px;background:var(--paper);border:1px solid var(--border);
+  border-radius:2px 12px 12px 12px;display:inline-flex;gap:4px;align-items:center;}
+.t-dot{width:6px;height:6px;border-radius:50%;background:var(--dim);animation:tdot .8s infinite;}
+.t-dot:nth-child(2){animation-delay:.15s;}
+.t-dot:nth-child(3){animation-delay:.3s;}
+@keyframes tdot{0%,60%,100%{opacity:.3;transform:translateY(0)}30%{opacity:1;transform:translateY(-4px)}}
+.input-area{padding:16px 24px;border-top:1px solid var(--border);background:var(--paper);}
+.quick-pills{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px;}
+.qpill{font-size:11px;padding:4px 10px;border:1px solid var(--border2);border-radius:999px;
+  cursor:pointer;color:var(--mid);background:var(--bg);transition:all .15s;font-family:var(--sans);}
+.qpill:hover{border-color:var(--accent);color:var(--accent);}
+.input-row{display:flex;gap:8px;align-items:flex-end;}
+.input-box{flex:1;padding:11px 16px;border:2px solid var(--border2);border-radius:10px;
+  font-size:14px;color:var(--text);background:var(--bg);font-family:var(--sans);
+  outline:none;resize:none;min-height:44px;max-height:120px;transition:border-color .2s;line-height:1.5;}
+.input-box:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(41,82,163,.08);}
+.input-box::placeholder{color:var(--dim);}
+.send-btn{padding:11px 22px;background:var(--accent);color:white;border:none;
+  border-radius:10px;cursor:pointer;font-size:14px;font-weight:500;font-family:var(--sans);transition:background .15s;}
+.send-btn:hover{background:#1e3f8a;}
+.send-btn:disabled{background:#a0aec0;cursor:not-allowed;}
+.input-foot{font-size:10px;color:var(--dim);margin-top:6px;font-family:var(--mono);}
+.evidence-panel{display:flex;flex-direction:column;overflow:hidden;background:var(--bg);}
+.ep-header{padding:14px 18px;border-bottom:1px solid var(--border);background:var(--paper);
+  display:flex;align-items:center;justify-content:space-between;}
+.ep-title{font-family:var(--mono);font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--dim);}
+.ep-scroll{flex:1;overflow-y:auto;padding:16px;}
+.ep-scroll::-webkit-scrollbar{width:3px;}
+.ep-scroll::-webkit-scrollbar-thumb{background:var(--border2);}
+.ep-card{background:var(--paper);border:1px solid var(--border);border-radius:8px;margin-bottom:12px;overflow:hidden;}
+.ep-card-head{padding:10px 14px;border-bottom:1px solid var(--rule);font-family:var(--mono);
+  font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--dim);
+  display:flex;align-items:center;justify-content:space-between;}
+.ep-card-body{padding:12px 14px;}
+.ep-empty{text-align:center;padding:48px 24px;color:var(--dim);font-size:13px;line-height:1.7;}
+.ep-empty-icon{font-size:32px;margin-bottom:12px;}
+.panel-verdict{padding:14px;border-radius:8px;margin-bottom:12px;}
+.panel-verdict.strong{background:var(--green-bg);border:1px solid var(--green-border);}
+.panel-verdict.moderate{background:var(--amber-bg);border:1px solid var(--amber-border);}
+.panel-verdict.mixed{background:var(--red-bg);border:1px solid var(--red-border);}
+.panel-verdict.inconclusive{background:var(--rule);border:1px solid var(--border);}
+.pv-label{font-family:var(--mono);font-size:10px;letter-spacing:1.5px;text-transform:uppercase;font-weight:600;margin-bottom:6px;}
+.panel-verdict.strong .pv-label{color:var(--green);}
+.panel-verdict.moderate .pv-label{color:var(--amber);}
+.panel-verdict.mixed .pv-label{color:var(--red);}
+.panel-verdict.inconclusive .pv-label{color:var(--mid);}
+.pv-explanation{font-size:12px;line-height:1.6;color:var(--text);}
+.pv-meta{display:flex;gap:12px;margin-top:8px;flex-wrap:wrap;}
+.pv-stat{font-size:11px;color:var(--mid);}
+.claim-item{padding:10px 0;border-bottom:1px solid var(--rule);}
+.claim-item:last-child{border-bottom:none;}
+.claim-text{font-size:12px;color:var(--text);line-height:1.5;margin-bottom:6px;}
+.claim-foot{display:flex;align-items:center;gap:6px;flex-wrap:wrap;}
+.claim-badge{font-family:var(--mono);font-size:9px;padding:2px 7px;border-radius:3px;}
+.claim-badge.s{background:var(--green-bg);color:var(--green);border:1px solid var(--green-border);}
+.claim-badge.p{background:var(--amber-bg);color:var(--amber);border:1px solid var(--amber-border);}
+.claim-badge.c{background:var(--red-bg);color:var(--red);border:1px solid var(--red-border);}
+.claim-badge.i{background:var(--rule);color:var(--mid);border:1px solid var(--border);}
+.claim-conf{font-family:var(--mono);font-size:10px;color:var(--dim);}
+.bench-tag{font-size:10px;padding:2px 6px;background:var(--blue-bg);color:var(--blue);
+  border:1px solid #c8d8f0;border-radius:3px;font-family:var(--mono);}
+.contra-item{padding:10px;background:var(--red-bg);border:1px solid var(--red-border);
+  border-radius:6px;margin-bottom:8px;font-size:11px;}
+.contra-type{font-family:var(--mono);font-size:9px;color:var(--red);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;}
+.contra-impl{color:var(--mid);line-height:1.5;margin-bottom:6px;}
+.ask-btn{font-size:10px;padding:3px 8px;border:1px solid;border-radius:3px;cursor:pointer;font-family:var(--sans);background:transparent;}
+.ask-btn.red{color:var(--red);border-color:var(--red-border);}
+.ask-btn.blue{color:var(--blue);border-color:#c8d8f0;}
+.ask-btn:hover{opacity:.8;}
+.paper-row{padding:8px 0;border-bottom:1px solid var(--rule);font-size:11px;}
+.paper-row:last-child{border-bottom:none;}
+.paper-n{font-family:var(--mono);font-size:9px;color:var(--accent);margin-bottom:2px;}
+.paper-title{color:var(--text);line-height:1.4;}
+.hyp-row{padding:8px 0;border-bottom:1px solid var(--rule);}
+.hyp-row:last-child{border-bottom:none;}
+.hyp-type-label{font-family:var(--mono);font-size:9px;color:var(--accent);text-transform:uppercase;letter-spacing:1px;margin-bottom:3px;}
+.hyp-text{font-size:11px;color:var(--text);line-height:1.5;margin-bottom:4px;}
+.hyp-action{font-size:10px;color:var(--dim);font-style:italic;margin-bottom:4px;}
+.exp-row{padding:8px 0;border-bottom:1px solid var(--rule);}
+.exp-row:last-child{border-bottom:none;}
+.exp-n{font-family:var(--mono);font-size:9px;color:var(--accent);margin-bottom:3px;}
+.exp-text{font-size:11px;color:var(--text);line-height:1.5;margin-bottom:4px;}
+.comparison-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:10px;}
+.comp-col{padding:10px;border-radius:6px;font-size:11px;line-height:1.5;}
+.comp-col.llm{background:#fdf0f0;border:1px solid var(--red-border);}
+.comp-col.tattva{background:var(--green-bg);border:1px solid var(--green-border);}
+.comp-col-label{font-family:var(--mono);font-size:9px;font-weight:600;letter-spacing:1px;text-transform:uppercase;margin-bottom:5px;}
+.comp-col.llm .comp-col-label{color:var(--red);}
+.comp-col.tattva .comp-col-label{color:var(--green);}
+.google-btn{display:flex;align-items:center;gap:6px;padding:6px 12px;background:#fff;
+  border:1px solid #e2ddd6;border-radius:5px;cursor:pointer;font-size:12px;font-family:var(--sans);color:#1a1714;}
+.user-info{display:none;align-items:center;gap:6px;}
+.user-avatar{width:24px;height:24px;border-radius:50%;border:1px solid var(--border);}
+.user-name{font-size:12px;color:var(--text);}
+.signout-btn{font-size:11px;color:var(--dim);background:none;border:none;cursor:pointer;}
 </style>
 </head>
 <body>
-
+<div class="app">
 <nav class="nav">
-  <div class="nav-brand">
-    <img src="/static/logo.jpg" alt="Tattva AI" style="height:36px;width:auto;object-fit:contain;"/>
+  <div class="nav-left">
+    <img src="/static/logo.jpg" alt="Tattva" style="height:28px;width:auto;object-fit:contain;"/>
     <span class="nav-name">Tattva AI</span>
-    <span class="nav-tagline">Scientific Evidence Platform</span>
+    <span class="nav-tag">Scientific Evidence Platform</span>
   </div>
-  <div class="nav-status">
-    <div class="nav-status-dot"></div>
-    <span>Live evidence pipeline</span>
-  </div>
-  <div id="authBtn" style="display:flex;align-items:center;gap:10px;">
-    <button onclick="signInWithGoogle()" id="loginBtn" style="display:flex;align-items:center;gap:8px;padding:7px 16px;background:#fff;border:1px solid #e2ddd6;border-radius:6px;cursor:pointer;font-size:13px;font-family:Inter,sans-serif;color:#1a1714;box-shadow:0 1px 3px rgba(0,0,0,.08);">
-      <svg width="16" height="16" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.18 1.48-4.97 2.31-8.16 2.31-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
-      Sign in with Google
-    </button>
-    <div id="userInfo" style="display:none;align-items:center;gap:8px;">
-      <img id="userAvatar" width="28" height="28" style="border-radius:50%;border:1px solid #e2ddd6;" src="" alt=""/>
-      <span id="userName" style="font-size:13px;color:#1a1714;font-family:Inter,sans-serif;"></span>
-      <button onclick="signOut()" style="font-size:12px;color:#9c948a;background:none;border:none;cursor:pointer;padding:4px;">Sign out</button>
+  <div class="nav-right">
+    <div class="nav-status"><div class="status-dot"></div><span>Live · 9,256 papers</span></div>
+    <button class="nav-btn" onclick="newSession()">+ New Session</button>
+    <button class="nav-btn" id="compareBtn" onclick="toggleComparison()">⚖ vs LLM</button>
+    <label style="display:flex;align-items:center;gap:6px;cursor:pointer;">
+      <input type="checkbox" id="researcherToggle" onchange="_researcherMode=this.checked"/>
+      <span style="font-size:12px;color:var(--mid);">Researcher Mode</span>
+    </label>
+    <div style="display:flex;align-items:center;gap:8px;">
+      <button class="google-btn" id="loginBtn" onclick="signInWithGoogle()">
+        <svg width="14" height="14" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.18 1.48-4.97 2.31-8.16 2.31-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
+        Sign in
+      </button>
+      <div class="user-info" id="userInfo">
+        <img class="user-avatar" id="userAvatar" src="" alt=""/>
+        <span class="user-name" id="userName"></span>
+        <button class="signout-btn" onclick="signOut()">Sign out</button>
+      </div>
     </div>
   </div>
 </nav>
 
-<!-- User History Panel -->
-<div id="historyPanel" style="display:none;background:#fff;border-bottom:1px solid #e2ddd6;padding:12px 48px;">
-  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
-    <span style="font-family:var(--mono);font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#9c948a;">Your Recent Queries</span>
-    <button onclick="document.getElementById('historyPanel').style.display='none'" style="background:none;border:none;cursor:pointer;color:#9c948a;font-size:12px;">✕</button>
-  </div>
-  <div id="historyList" style="display:flex;flex-wrap:wrap;gap:8px;"></div>
-</div>
-<div id="crossDomainWarn" style="display:none;margin:0 48px 0;padding:10px 16px;background:#fdf7ec;border-left:3px solid #e8cc88;font-size:12px;color:#8a5c00;"></div>
-<div id="researcherModeBar" style="display:none;background:#f0f4fb;border-bottom:1px solid #c8d8f0;padding:12px 48px;align-items:center;justify-content:space-between;gap:20px;">
-  <span style="font-size:12px;color:#1a3a7a;font-family:var(--sans);">
-    🔬 &nbsp;<strong>Researcher Mode</strong> &nbsp;— shows exact quotes, benchmark details, and claim reasoning
-  </span>
-  <label style="display:flex;align-items:center;gap:8px;cursor:pointer;">
-    <input type="checkbox" id="researcherToggle" onchange="toggleResearcherMode(this.checked)" style="cursor:pointer;"/>
-    <span style="font-size:12px;color:#1a3a7a;">Enable</span>
-  </label>
-</div>
-
-<div class="progress-track" id="progressTrack"><div class="progress-fill" id="progressFill"></div></div>
-
-<div class="hero" id="hero">
-  <div class="hero-eyebrow">Transformer Efficiency Research Domain</div>
-  <h1 class="hero-headline">Evidence-grounded scientific research</h1>
-  <p class="hero-sub">Ask a research question. Tattva retrieves evidence from peer-reviewed papers, evaluates every claim, and delivers a structured verdict — with full transparency on how the conclusion was reached.</p>
-  <div class="diff-row">
-    <div class="diff-item"><div class="diff-icon">📄</div><div>
-      <div class="diff-title">Grounded in papers</div>
-      <div class="diff-desc">Every claim links to a real paper chunk with a confidence score. Not generated text.</div>
-    </div></div>
-    <div class="diff-item"><div class="diff-icon">⚖️</div><div>
-      <div class="diff-title">Computed verdict</div>
-      <div class="diff-desc">Confidence is an aggregate of evidence scores — not an LLM opinion.</div>
-    </div></div>
-    <div class="diff-item"><div class="diff-icon">⚠️</div><div>
-      <div class="diff-title">Contradiction detection</div>
-      <div class="diff-desc">Automatically finds where papers disagree on the same claims — no other tool does this.</div>
-    </div></div>
-    <div class="diff-item"><div class="diff-icon">📈</div><div>
-      <div class="diff-title">Field simulation</div>
-      <div class="diff-desc">Monte Carlo simulation shows how the field evolves over 4 years.</div>
-    </div></div>
-  </div>
-  <div class="search-form">
-    <div class="search-row">
-      <input class="search-input" id="searchInput" type="text" placeholder="e.g. Does FlashAttention reduce memory overhead?"/>
-      <button class="search-btn" id="searchBtn" onclick="runResearch()">Analyze</button>
-    </div>
-    <div class="suggestions-row">
-      <div class="sug-pill" onclick="setSug(this)">Does FlashAttention reduce memory overhead?</div>
-      <div class="sug-pill" onclick="setSug(this)">Do mixture-of-experts improve efficiency?</div>
-      <div class="sug-pill" onclick="setSug(this)">Does KV cache compression reduce latency?</div>
-      <div class="sug-pill" onclick="setSug(this)">Does LoRA reduce fine-tuning cost?</div>
-      <div class="sug-pill" onclick="setSug(this)">Does RWKV match transformer quality?</div>
-      <div class="sug-pill" onclick="setSug(this)">Does Mamba outperform transformers?</div>
-    </div>
-  </div>
-</div>
-
-<div class="main" id="mainContent">
-  <div id="articleCol">
-
-    <div class="reasoning-chain" id="reasoningChain" style="display:none;">
-
-      <div class="rc-step"><div class="rc-step-n">Step 1</div><div class="rc-step-v" id="rc2">Claims</div></div>
-      <div class="rc-step"><div class="rc-step-n">Step 2</div><div class="rc-step-v" id="rc3">Evidence</div></div>
-      <div class="rc-step active-step"><div class="rc-step-n">Step 3</div><div class="rc-step-v" id="rc4">Verdict</div></div>
-      <div class="rc-step"><div class="rc-step-n">Step 4</div><div class="rc-step-v" id="rc5">Simulation</div></div>
-    </div>
-
-    <div class="article-section">
-      <div class="sec-label">Research Verdict</div>
-      <div id="verdictArea"><div class="loading-indicator"><div class="loading-spinner"></div>Retrieving and evaluating evidence…</div></div>
-    </div>
-
-    <!-- Contradiction Detection Section -->
-    <div id="contradictionArea" style="display:none;"></div>
-    <div id="shareArea" style="display:none;margin-top:16px;">
-      <button id="shareBtn" onclick="shareResult()" style="display:inline-flex;align-items:center;gap:8px;padding:9px 18px;background:var(--paper);color:var(--accent);border:1px solid var(--accent);border-radius:6px;cursor:pointer;font-size:13px;font-family:var(--sans);">
-        🔗 Share this result
-      </button>
-      <div id="shareLink" style="display:none;margin-top:10px;padding:10px 14px;background:var(--bg);border:1px solid var(--border);border-radius:6px;font-family:var(--mono);font-size:12px;color:var(--text);word-break:break-all;"></div>
-    </div>
-
-    <div class="article-section" id="methodNote" style="display:none;">
-      <div class="method-note">
-        <div class="method-note-icon">ℹ</div>
-        <div><strong>How this works:</strong> Tattva retrieves the top relevant chunks from peer-reviewed papers, extracts sentence-level claims, evaluates each claim against the evidence, and aggregates into a structured verdict. Confidence reflects evidence strength — the underlying science may have nuances not captured here.</div>
-      </div>
-    </div>
-
-    <div class="article-section">
-      <div class="sec-label">Grounded Claims</div>
-      <div id="evidenceArea">
-        <div class="skel" style="height:85px;margin-bottom:10px;"></div>
-        <div class="skel" style="height:85px;margin-bottom:10px;"></div>
-        <div class="skel" style="height:85px;"></div>
-      </div>
-    </div>
-
-    <div class="article-section">
-      <div class="sec-label" style="cursor:pointer;" onclick="toggleSection('sourcesArea',this)">
-        Evidence Sources <span id="sourcesToggle" style="float:right;font-size:11px;color:var(--dim);">▼ show</span>
-      </div>
-      <div id="sourcesArea" style="display:none;">
-        <div class="skel" style="height:44px;margin-bottom:8px;"></div>
-        <div class="skel" style="height:44px;margin-bottom:8px;"></div>
-        <div class="skel" style="height:44px;"></div>
-      </div>
-    </div>
-
-    <div id="suggestionsSection" style="display:none;margin-bottom:0;padding-bottom:0;">
-      <div class="article-section">
-        <div class="sec-label">If This Fails — Try These Alternatives <span class="sec-badge">AI Suggestions</span></div>
-        <div class="suggestion-block">
-          <div class="sb-header"><div class="sb-icon">🔄</div><div>
-            <div class="sb-title">Alternative Methods</div>
-            <div class="sb-desc">Methods that address the same research goal through different mechanisms</div>
-          </div></div>
-          <div class="sb-body" id="altArea"><div class="skel" style="height:60px;"></div></div>
-        </div>
-      </div>
-      <div class="article-section">
-        <div class="sec-label">Best Experiment to Validate This <span class="sec-badge">AI Suggestions</span></div>
-        <div class="suggestion-block">
-          <div class="sb-header"><div class="sb-icon">🧪</div><div>
-            <div class="sb-title">Recommended Experiment</div>
-            <div class="sb-desc">The most valuable experiment to confirm or refute this finding</div>
-          </div></div>
-          <div class="sb-body" id="expValidArea"><div class="skel" style="height:80px;"></div></div>
-        </div>
-      </div>
-      <div class="article-section">
-        <div class="sec-label">Under-Researched Related Concepts <span class="sec-badge">Knowledge Gaps</span></div>
-        <div class="suggestion-block">
-          <div class="sb-header"><div class="sb-icon">🔍</div><div>
-            <div class="sb-title">Research Gaps</div>
-            <div class="sb-desc">Concepts in the knowledge graph with few causal relations — likely under-studied</div>
-          </div></div>
-          <div class="sb-body" id="urArea"><div class="skel" style="height:60px;"></div></div>
-        </div>
-      </div>
-      <div class="article-section">
-        <div class="sec-label">New Research Directions <span class="sec-badge">From Knowledge Graph</span></div>
-        <div class="suggestion-block">
-          <div class="sb-header"><div class="sb-icon">💡</div><div>
-            <div class="sb-title">Hypothesis-Backed Ideas</div>
-            <div class="sb-desc">Novel directions derived from the knowledge graph — each with an actionable next step</div>
-          </div></div>
-          <div class="sb-body" id="ideasArea"><div class="skel" style="height:80px;"></div></div>
+<div class="main">
+  <!-- LEFT: Conversation -->
+  <div class="conv-panel">
+    <div class="messages" id="messages">
+      <div class="welcome" id="welcomeScreen">
+        <div class="welcome-eyebrow">Tattva Scientist · Mistral 7B · 9,256 papers</div>
+        <h1 class="welcome-title">What do you want to investigate?</h1>
+        <p class="welcome-sub">Ask a research question. I'll read real papers, evaluate evidence, find contradictions, and investigate with you — like a scientific partner.</p>
+        <div class="welcome-grid">
+          <button class="welcome-card" onclick="ask('Does FlashAttention reduce memory overhead?')">
+            <div class="welcome-card-label">Memory</div>
+            <div class="welcome-card-text">Does FlashAttention reduce memory overhead?</div>
+          </button>
+          <button class="welcome-card" onclick="ask('Does LoRA reduce fine-tuning cost?')">
+            <div class="welcome-card-label">Fine-tuning</div>
+            <div class="welcome-card-text">Does LoRA reduce fine-tuning cost?</div>
+          </button>
+          <button class="welcome-card" onclick="ask('Do mixture-of-experts improve efficiency?')">
+            <div class="welcome-card-label">Architecture</div>
+            <div class="welcome-card-text">Do MoE models improve efficiency?</div>
+          </button>
+          <button class="welcome-card" onclick="ask('Does Mamba outperform transformers?')">
+            <div class="welcome-card-label">Alternatives</div>
+            <div class="welcome-card-text">Does Mamba outperform transformers?</div>
+          </button>
         </div>
       </div>
     </div>
 
+    <div class="input-area">
+      <div class="quick-pills" id="quickPills" style="display:none;"></div>
+      <div class="input-row">
+        <textarea class="input-box" id="inputBox" rows="1"
+          placeholder="Ask a research question, challenge a finding, or say 'design an experiment'..."
+          onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendMsg();}"
+          oninput="this.style.height='auto';this.style.height=Math.min(this.scrollHeight,120)+'px'"></textarea>
+        <button class="send-btn" id="sendBtn" onclick="sendMsg()">Send →</button>
+      </div>
+      <div class="input-foot">Evidence-grounded · Llama 3.1 70B · Groq · 9,256 papers</div>
+    </div>
   </div>
 
-  <div class="sidebar">
-    <div class="side-card">
-      <div class="side-card-header">Evidence Quality</div>
-      <div class="side-card-body" id="confArea"><div class="skel" style="height:70px;"></div></div>
+  <!-- RIGHT: Live Evidence -->
+  <div class="evidence-panel">
+    <div class="ep-header">
+      <span class="ep-title">Live Evidence</span>
+      <span id="epStatus" style="font-size:10px;color:var(--dim);font-family:var(--mono);">Ask a question →</span>
     </div>
-    <div class="side-card">
-      <div class="side-card-header">Evidence Quality</div>
-      <div class="side-card-body" id="simArea"><div class="skel" style="height:150px;"></div></div>
-    </div>
-    <div class="side-card">
-      <div class="side-card-header">Related Hypotheses</div>
-      <div class="side-card-body" id="hypArea"><div class="skel" style="height:90px;"></div></div>
-    </div>
-    <div class="side-card">
-      <div class="side-card-header">Recommended Experiments</div>
-      <div class="side-card-body" id="expArea"><div class="skel" style="height:90px;"></div></div>
+    <div class="ep-scroll" id="epScroll">
+      <div class="ep-empty" id="epEmpty">
+        <div class="ep-empty-icon">🔬</div>
+        Ask a research question.<br/>Evidence, contradictions, experiments,<br/>and hypotheses will appear here.
+      </div>
     </div>
   </div>
 </div>
-
-<div id="toolsSection" style="display:none;max-width:860px;margin:0 auto;padding:16px 48px 32px;">
-  <div style="font-family:var(--mono);font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--accent);margin-bottom:24px;">Practical Tools</div>
-  <div style="background:var(--paper);border:1px solid var(--border);border-radius:10px;padding:24px;margin-bottom:16px;">
-    <div style="font-size:15px;font-weight:600;color:var(--text);margin-bottom:6px;">⚖️ Compare Methods</div>
-    <div style="font-size:13px;color:var(--dim);margin-bottom:16px;">Compare two research methods side by side using the knowledge graph.</div>
-    <div style="display:flex;gap:12px;flex-wrap:wrap;">
-      <input id="compareA" placeholder="Method A (e.g. LoRA)" style="flex:1;min-width:140px;padding:9px 12px;border:1px solid var(--border);border-radius:6px;font-size:13px;font-family:var(--sans);background:var(--bg);color:var(--text);"/>
-      <input id="compareB" placeholder="Method B (e.g. QLoRA)" style="flex:1;min-width:140px;padding:9px 12px;border:1px solid var(--border);border-radius:6px;font-size:13px;font-family:var(--sans);background:var(--bg);color:var(--text);"/>
-      <button onclick="runCompare()" style="padding:9px 20px;background:var(--accent);color:var(--bg);border:none;border-radius:6px;cursor:pointer;font-size:13px;font-weight:500;font-family:var(--sans);">Compare →</button>
-    </div>
-    <div id="compareResult" style="margin-top:16px;"></div>
-  </div>
-
-  <div style="background:var(--paper);border:1px solid var(--border);border-radius:10px;padding:24px;">
-    <div style="font-size:15px;font-weight:600;color:var(--text);margin-bottom:6px;">📚 Summarize Evidence</div>
-    <div style="font-size:13px;color:var(--dim);margin-bottom:16px;">Get a structured summary of all evidence retrieved for your query.</div>
-    <button onclick="showSummary()" style="padding:9px 20px;background:var(--paper);color:var(--accent);border:1px solid var(--accent);border-radius:6px;cursor:pointer;font-size:13px;font-family:var(--sans);">Generate Summary →</button>
-    <div id="summaryResult" style="margin-top:16px;"></div>
-  </div>
 </div>
-<footer class="footer">
-    Tattva AI · Evidence-grounded research intelligence · Transformer Efficiency Domain
-</footer>
 
 <script>
+let _history=[];
 let _researcherMode=false;
+let _showComparison=false;
 let _lastRpt=null;
-let trajChart=null;
+let _sb2=null;
+let _sbSession=null;
 
+function _vcls(v){return {strong_evidence:'strong',moderate_evidence:'moderate',limited_evidence:'moderate',mixed_evidence:'mixed',context_dependent:'moderate',inconclusive:'inconclusive'}[v]||'inconclusive';}
+function _vlbl(v){return {strong_evidence:'Strong Evidence',moderate_evidence:'Moderate Evidence',limited_evidence:'Limited Evidence',mixed_evidence:'Mixed Evidence',context_dependent:'Context-Dependent',inconclusive:'Inconclusive'}[v]||(v||'Inconclusive').replace(/_/g,' ');}
+function _cleanHyp(t){return (t||'').replace(/--\[?[\w_]+\]?-->/g,'→').replace(/\s*-->\s*/g,' → ').replace(/\s+/g,' ').trim();}
+function scrollMsgs(){const el=document.getElementById('messages');el.scrollTop=el.scrollHeight;}
+function now(){return new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});}
 
-function _cleanHyp(text){
-  return (text||'')
-    .replace(/--\[?[\w_]+\]?-->/g,'→')
-    .replace(/\s*-->\s*/g,' → ')
-    .replace(/\s+/g,' ')
-    .trim();
+function ask(q){document.getElementById('inputBox').value=q;sendMsg();}
+
+function newSession(){
+  _history=[];_lastRpt=null;
+  showWelcome();
+  resetPanel();
+  document.getElementById('quickPills').style.display='none';
 }
 
-async function fj(u,o){const r=await fetch(u,o);return r.json();}
-function setBar(p){document.getElementById('progressFill').style.width=p+'%';}
-function setSug(el){document.getElementById('searchInput').value=el.textContent.trim();document.getElementById('searchInput').focus();}
-document.getElementById('searchInput').addEventListener('keydown',e=>{if(e.key==='Enter')runResearch();});
-
-async function loadStats(){
-  try{
-    const ov=await fj('/api/overview');
-
-  }catch(e){}
-}
-loadStats();
-
-async function runResearch(){
-  const q=document.getElementById('searchInput').value.trim();
-  if(!q)return;
-  document.getElementById('hero').classList.add('compact');
-  document.getElementById('mainContent').classList.add('active');
-  document.getElementById('progressTrack').classList.add('active');
-  document.getElementById('searchBtn').disabled=true;
-  document.getElementById('searchBtn').textContent='Analyzing…';
-  document.getElementById('suggestionsSection').style.display='none';
-  document.getElementById('reasoningChain').style.display='flex';
-  resetContent();window.scrollTo({top:0,behavior:'smooth'});setBar(15);
-  try{
-    const [rptRes,simRes,hypsRes]=await Promise.all([
-      fetch('/api/run_research',{method:'POST',headers:{'Content-Type':'application/json',...(_sbSession&&_sbSession.user?{'X-User-ID':_sbSession.user.id,'X-User-Email':_sbSession.user.email}:{})},body:JSON.stringify({query:q})}),
-      fetch('/api/simulate',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({query:q})}),
-      fetch('/api/hypotheses')
-    ]);
-    setBar(65);
-    const rpt=await rptRes.json(),sim=await simRes.json(),hyps=(await hypsRes.json()).hypotheses||[];
-    setBar(85);
-    if(rpt.error)throw new Error(rpt.error);
-    renderVerdict(q,rpt);
-    renderContradictions(rpt);
-    renderEvidence(rpt);renderSources(rpt);
-    _lastRpt = rpt;
-  renderConf(rpt);renderSim(sim);renderHyps(hyps,q);renderExp(sim);
-  if(rpt.cross_domain_warning){
-    const warn=document.getElementById('crossDomainWarn');
-    if(warn){warn.style.display='block';
-      warn.innerHTML='⚠ <strong>Cross-domain evidence</strong> — chunks span: '+(rpt.domains_found||[]).join(', ')+'. Contradictions may reflect methodology differences across domains.';
-    }
-  } else {
-    const warn=document.getElementById('crossDomainWarn');
-    if(warn) warn.style.display='none';
-  }
-    updateChain(rpt,sim);
-    document.getElementById('methodNote').style.display='block';
-    setBar(95);fetchSuggestions(q,rpt);setBar(100);
-    setTimeout(()=>{setBar(0);document.getElementById('progressTrack').classList.remove('active');},600);
-  }catch(e){
-    setBar(0);document.getElementById('progressTrack').classList.remove('active');
-    document.getElementById('verdictArea').innerHTML=`<div class="error-state"><strong>Analysis failed:</strong> ${e.message}</div>`;
-  }
-  document.getElementById('searchBtn').disabled=false;
-  document.getElementById('searchBtn').textContent='Analyze';
-}
-
-function resetContent(){
-  document.getElementById('verdictArea').innerHTML='<div class="loading-indicator"><div class="loading-spinner"></div>Retrieving and evaluating evidence…</div>';
-  document.getElementById('contradictionArea').style.display='none';
-  document.getElementById('contradictionArea').innerHTML='';
-  document.getElementById('evidenceArea').innerHTML=[1,2,3].map(()=>'<div class="skel" style="height:85px;margin-bottom:10px;"></div>').join('');
-  document.getElementById('sourcesArea').innerHTML=[1,2,3].map(()=>'<div class="skel" style="height:44px;margin-bottom:8px;"></div>').join('');
-  document.getElementById('confArea').innerHTML='<div class="skel" style="height:70px;"></div>';
-  document.getElementById('simArea').innerHTML='<div class="skel" style="height:150px;"></div>';
-  document.getElementById('hypArea').innerHTML='<div class="skel" style="height:90px;"></div>';
-  document.getElementById('expArea').innerHTML='<div class="skel" style="height:90px;"></div>';
-  document.getElementById('methodNote').style.display='none';
-}
-
-function updateChain(rpt,sim){
-  const v=rpt.proposal_verdict||'inconclusive';
-  const cls=v==='supported'?'green':v==='partially_supported'?'amber':'mid';
-  const grounded=rpt.top_grounded||[];
-  document.getElementById('rc2').textContent=`${grounded.length} claims`;
-  const suppCount=(rpt.top_grounded||[]).filter(gc=>['supported','partially_supported'].includes((gc.verdict||{}).verdict)).length;
-  document.getElementById('rc3').textContent=`${suppCount} supported`;
-  document.getElementById('rc4').innerHTML=`<span class="${cls}">${v.replace(/_/g,' ')}</span>`;
-  document.getElementById('rc5').textContent='Complete';
-}
-
-function renderVerdict(q,rpt){
-  const v=rpt.proposal_verdict||'inconclusive';
-  const conf=parseFloat(rpt.proposal_confidence||0);
-  const pct=Math.round(conf*100);
-  const isConditional = rpt.is_conditional;
-  const VERDICT_COLORS = {
-    'strong_evidence':'green','moderate_evidence':'green',
-    'limited_evidence':'amber','mixed_evidence':'amber',
-    'context_dependent':'amber','inconclusive':'mid',
-    'supported':'green','partially_supported':'amber','contradicted':'red'
-  };
-  const VERDICT_LABELS = {
-    'strong_evidence':'Strong Evidence','moderate_evidence':'Moderate Evidence',
-    'limited_evidence':'Limited Evidence','mixed_evidence':'Mixed Evidence',
-    'context_dependent':'Context-Dependent','inconclusive':'Inconclusive',
-    'supported':'Supported','partially_supported':'Partially Supported','contradicted':'Contradicted'
-  };
-  const cls = VERDICT_COLORS[v] || 'mid';
-  const verdictLabel = VERDICT_LABELS[v] || v.replace(/_/g,' ');
-  const grounded=rpt.top_grounded||[];
-  const suppCount=rpt.supported_count||grounded.filter(gc=>['supported','partially_supported'].includes((gc.verdict||{}).verdict)).length;
-  const contrCount=grounded.filter(gc=>(gc.verdict||{}).verdict==='contradicted').length;
-  document.getElementById('verdictArea').innerHTML=`
-    <div class="verdict-card">
-      <div class="verdict-top">
-        <div class="verdict-indicator">
-          <div class="verdict-badge ${v}" style="font-size:15px;font-weight:600;padding:8px 16px;letter-spacing:0.5px;">${verdictLabel}</div>
-        </div>
-        <div class="verdict-body">
-          <div class="verdict-question">"${q}"</div>
-          <div class="verdict-explanation">${rpt.proposal_explanation||''}</div>
-        </div>
-      </div>
-      <div class="verdict-meta">
-        <div class="vmeta-item"><div class="vmeta-n green">${suppCount}</div><div class="vmeta-l">Supporting claims</div></div>
-        <div class="vmeta-item"><div class="vmeta-n red">${(rpt.contradictions||[]).length||contrCount}</div><div class="vmeta-l">Conflicting papers</div></div>
-        <div class="vmeta-item"><div class="vmeta-n">${(rpt.top_papers||[]).length||0}</div><div class="vmeta-l">Papers analyzed</div></div>
-        <div class="vmeta-item"><div class="vmeta-n" style="font-size:11px;font-weight:500;color:var(--mid);padding-top:8px;">${Object.keys(rpt.context_buckets||{}).map(d=>d.replace(/_/g,' ')).join(', ')||rpt.domain||'–'}</div><div class="vmeta-l">Evidence domains</div></div>
-      </div>
-    </div>`;
-}
-
-function renderContradictions(rpt){
-  const items = rpt.contradictions || [];
-  const el = document.getElementById('contradictionArea');
-  if(!items.length){ el.style.display='none'; return; }
-  el.style.display='block';
-  el.innerHTML = `<div class="article-section">
-    <div class="sec-label">Literature Contradictions <span class="sec-badge" style="background:#fdf0f0;color:#9a1a1a;border-color:#dda8a8;">⚠ ${items.length} found</span></div>
-    <div style="background:#fdf0f0;border:1px solid #dda8a8;border-radius:10px;padding:20px;">
-      <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;">
-        <span style="font-size:18px;">⚠️</span>
-        <div>
-          <div style="font-size:14px;font-weight:600;color:#9a1a1a;">Papers Disagree on Key Claims</div>
-          <div style="font-size:12px;color:#c45c5c;margin-top:2px;">
-            ${items.length} contradiction${items.length>1?'s':''} detected — investigate before drawing conclusions
-          </div>
-        </div>
-      </div>
-      ${items.map(c=>`
-        <div style="background:white;border:1px solid #dda8a8;border-radius:8px;padding:16px;margin-bottom:10px;">
-          <div style="display:flex;gap:6px;margin-bottom:10px;flex-wrap:wrap;">
-            ${c.shared_concepts.map(concept=>`
-              <span style="font-family:var(--mono);font-size:9px;padding:2px 8px;
-                background:#fdf7ec;color:#8a5c00;border:1px solid #e8cc88;border-radius:3px;">${concept}</span>
-            `).join('')}
-            <span style="font-family:var(--mono);font-size:9px;padding:2px 8px;
-              background:#fdf0f0;color:#9a1a1a;border:1px solid #dda8a8;border-radius:3px;">
-              ${c.contradiction_type==='tradeoff'?'tradeoff':c.contradiction_type==='hardware_variance'?'hardware variance':c.contradiction_type==='direct'?'direct conflict':'partial disagreement'}
-            </span>
-          </div>
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px;">
-            <div style="padding:10px;background:#f0f7f3;border-radius:6px;border-left:3px solid #1a7a4a;">
-              <div style="font-size:9px;font-weight:600;color:#1a7a4a;margin-bottom:5px;
-                text-transform:uppercase;letter-spacing:1px;">Supports</div>
-              <div style="font-size:11px;color:#1a1714;line-height:1.5;margin-bottom:5px;">${c.supporting_claim}…</div>
-              <div style="font-size:10px;color:#5c5650;font-style:italic;">— ${c.supporting_paper}</div>
-            </div>
-            <div style="padding:10px;background:#fdf0f0;border-radius:6px;border-left:3px solid #9a1a1a;">
-              <div style="font-size:9px;font-weight:600;color:#9a1a1a;margin-bottom:5px;
-                text-transform:uppercase;letter-spacing:1px;">Contradicts</div>
-              <div style="font-size:11px;color:#1a1714;line-height:1.5;margin-bottom:5px;">${c.contradicting_claim}…</div>
-              <div style="font-size:10px;color:#5c5650;font-style:italic;">— ${c.contradicting_paper}</div>
-            </div>
-          </div>
-          <div style="font-size:12px;color:#5c5650;background:#f8f7f4;padding:10px;
-            border-radius:6px;line-height:1.6;">
-            ${c.contradiction_type==='tradeoff' ?
-              '⚖️ <strong style="color:#8a5c00">Tradeoff detected</strong> — ' + c.implication :
-              c.context_differs ?
-              '🔀 <strong style="color:#8a5c00">Context-dependent</strong> — ' + c.implication :
-              c.contradiction_type==='hardware_variance' ?
-              '💻 <strong style="color:#8a5c00">Hardware-specific variance</strong> — ' + c.implication :
-              '⚠️ ' + c.implication}
-          </div>
-          ${_researcherMode && c.detection_explanation ? `
-          <div style="margin-top:10px;padding:10px;background:#f0f4fb;border-radius:6px;border-left:3px solid #2952a3;">
-            <div style="font-size:9px;font-weight:600;color:#1a3a7a;text-transform:uppercase;letter-spacing:1px;margin-bottom:5px;">
-              🔍 How this contradiction was detected
-            </div>
-            <div style="font-size:11px;color:#1a1714;line-height:1.6;">${c.detection_explanation}</div>
-            <div style="display:flex;gap:8px;margin-top:8px;flex-wrap:wrap;">
-              <span style="font-family:var(--mono);font-size:9px;padding:2px 8px;background:#e8f0fe;color:#1a3a7a;border-radius:3px;">
-                Type: ${c.contradiction_type||'unknown'}
-              </span>
-              <span style="font-family:var(--mono);font-size:9px;padding:2px 8px;background:#e8f0fe;color:#1a3a7a;border-radius:3px;">
-                Method: ${c.detection_method||'signal analysis'}
-              </span>
-              ${(c.triggering_positive_signals||[]).length ? `
-              <span style="font-family:var(--mono);font-size:9px;padding:2px 8px;background:#f0f7f3;color:#1a7a4a;border-radius:3px;">
-                ✓ signals: ${(c.triggering_positive_signals||[]).join(', ')}
-              </span>` : ''}
-              ${(c.triggering_negative_signals||[]).length ? `
-              <span style="font-family:var(--mono);font-size:9px;padding:2px 8px;background:#fdf0f0;color:#9a1a1a;border-radius:3px;">
-                ✗ signals: ${(c.triggering_negative_signals||[]).join(', ')}
-              </span>` : ''}
-            </div>
-          </div>` : ''}
-        </div>
-      `).join('')}
+function showWelcome(){
+  document.getElementById('messages').innerHTML=`
+  <div class="welcome" id="welcomeScreen">
+    <div class="welcome-eyebrow">Tattva Scientist · Mistral 7B · 9,256 papers</div>
+    <h1 class="welcome-title">What do you want to investigate?</h1>
+    <p class="welcome-sub">Ask a research question. I'll read real papers, evaluate evidence, find contradictions, and investigate with you.</p>
+    <div class="welcome-grid">
+      <button class="welcome-card" onclick="ask('Does FlashAttention reduce memory overhead?')">
+        <div class="welcome-card-label">Memory</div>
+        <div class="welcome-card-text">Does FlashAttention reduce memory overhead?</div>
+      </button>
+      <button class="welcome-card" onclick="ask('Does LoRA reduce fine-tuning cost?')">
+        <div class="welcome-card-label">Fine-tuning</div>
+        <div class="welcome-card-text">Does LoRA reduce fine-tuning cost?</div>
+      </button>
+      <button class="welcome-card" onclick="ask('Do mixture-of-experts improve efficiency?')">
+        <div class="welcome-card-label">Architecture</div>
+        <div class="welcome-card-text">Do MoE models improve efficiency?</div>
+      </button>
+      <button class="welcome-card" onclick="ask('Does Mamba outperform transformers?')">
+        <div class="welcome-card-label">Alternatives</div>
+        <div class="welcome-card-text">Does Mamba outperform transformers?</div>
+      </button>
     </div>
   </div>`;
 }
 
-function renderEvidence(rpt){
-  const items=rpt.top_grounded||[];
-  if(!items.length){document.getElementById('evidenceArea').innerHTML='<p style="font-size:13px;color:var(--dim);">No grounded claims found.</p>';return;}
-  const buckets = rpt.context_buckets || {};
-  const DIM_LABELS = {'training_cost':'Training Cost','inference_cost':'Inference Cost','memory_usage':'Memory Usage','latency':'Latency','accuracy':'Accuracy / Quality','scalability':'Scalability','general':'General'};
-  const DIM_COLORS = {'training_cost':'#2952a3','inference_cost':'#1a7a4a','memory_usage':'#8a5c00','latency':'#6b2d8a','accuracy':'#9a1a1a','scalability':'#1a5a7a','general':'#5c5650'};
-  let html = '';
-  const bucketKeys = Object.keys(buckets);
-  if(bucketKeys.length > 1){
-    bucketKeys.forEach(dim => {
-      const dimClaims = buckets[dim]||[];
-      if(!dimClaims.length) return;
-      const color = DIM_COLORS[dim]||'#5c5650';
-      const label = DIM_LABELS[dim]||dim.replace(/_/g,' ');
-      html += `<div style="margin-bottom:16px;"><div style="font-family:var(--mono);font-size:9px;letter-spacing:2px;text-transform:uppercase;color:${color};margin-bottom:8px;display:flex;align-items:center;gap:8px;"><span style="width:20px;height:2px;background:${color};display:inline-block;"></span>${label}<span style="color:#9c948a;font-weight:400;">${dimClaims.length} claim${dimClaims.length>1?'s':''}</span></div>`;
-      dimClaims.forEach(gc=>{html+=renderClaim(gc);});
-      html+='</div>';
-    });
-  } else {
-    items.slice(0,5).forEach(gc=>{html+=renderClaim(gc);});
-  }
-  document.getElementById('evidenceArea').innerHTML=html;
+function toggleComparison(){
+  _showComparison=!_showComparison;
+  const btn=document.getElementById('compareBtn');
+  btn.style.background=_showComparison?'var(--accent)':'';
+  btn.style.color=_showComparison?'white':'';
+  btn.style.border=_showComparison?'none':'';
 }
 
-function renderSources(rpt){
-  const papers=rpt.top_papers||[];
-  if(!papers.length){document.getElementById('sourcesArea').innerHTML='<p style="font-size:13px;color:var(--dim);">No sources.</p>';return;}
-  document.getElementById('sourcesArea').innerHTML=papers.slice(0,6).map((p,i)=>`
-    <div class="source-item">
-      <div class="source-n">[${i+1}]</div>
-      <div><div class="source-title">${p}</div><div class="source-type">Research Paper · Transformer Efficiency</div></div>
-    </div>`).join('');
-}
-
-function renderConf(rpt){
-  const conf=parseFloat(rpt.proposal_confidence||0);
-  const pct=Math.round(conf*100);
-  const color=conf>0.7?'var(--green)':conf>0.5?'var(--amber)':'var(--mid)';
-  const label=conf>0.7?'Strong — multiple corroborating sources':conf>0.5?'Moderate — partial evidence coverage':'Weak — limited or indirect evidence';
-  
-  // Build confidence explanation
-  const supported = rpt.supported_count || 0;
-  const total = (rpt.top_grounded||[]).length || 5;
-  const contradictions = (rpt.contradictions||[]).length;
-  const evidenceCount = rpt.evidence_count || 10;
-  
-  let explanation = '';
-  if(supported >= 4) explanation = `${supported} of ${total} claims found direct supporting evidence across ${evidenceCount} chunks.`;
-  else if(supported >= 2) explanation = `${supported} of ${total} claims found partial supporting evidence. ${contradictions > 0 ? contradictions + ' contradiction(s) detected reduce confidence.' : ''}`;
-  else if(supported === 1) explanation = `Only 1 claim found direct evidence. Evidence coverage is limited.`;
-  else explanation = `No claims found direct supporting evidence in the retrieved chunks.`;
-  
-  const _verd = rpt.proposal_verdict || 'inconclusive';
-  const THRESHOLDS = {
-    'strong_evidence': '4+ studies, 0 contradictions → Strong Evidence',
-    'moderate_evidence': '2-3 studies, ≤1 contradiction → Moderate Evidence',
-    'limited_evidence': '1 study, 0 contradictions → Limited Evidence',
-    'mixed_evidence': 'Studies contradict each other → Mixed Evidence',
-    'context_dependent': 'Results vary by context → Context-Dependent',
-    'inconclusive': '0 supporting studies → Inconclusive',
-  };
-  const threshold = THRESHOLDS[_verd] || (supported >= 4 ? '≥4 supported claims → confidence ≥0.70' : supported >= 2 ? '≥2 supported claims' : '0 supported claims → inconclusive');
-
-  // Also populate evidence quality card
-  const sources = (rpt.top_papers||[]).length;
-  const domains = (rpt.domains_found||['transformer_efficiency']);
-  const contraCount = (rpt.contradictions||[]).length;
-  const sourceList = (rpt.top_papers||[]).slice(0,4).map(p=>`<div style="font-size:10px;color:#5c5650;padding:3px 0;border-bottom:1px solid #f0ece6;">${p.slice(0,55)}${p.length>55?'…':''}</div>`).join('');
-  document.getElementById('simArea').innerHTML=`
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px;">
-      <div style="text-align:center;padding:10px;background:#f8f7f4;border-radius:6px;">
-        <div style="font-size:22px;font-weight:600;color:${color}">${pct}%</div>
-        <div style="font-size:9px;color:#9c948a;text-transform:uppercase;letter-spacing:1px;margin-top:2px;">Evidence Strength</div>
-      </div>
-      <div style="text-align:center;padding:10px;background:#f8f7f4;border-radius:6px;">
-        <div style="font-size:22px;font-weight:600;color:#1a1714">${sources}</div>
-        <div style="font-size:9px;color:#9c948a;text-transform:uppercase;letter-spacing:1px;margin-top:2px;">Papers Analyzed</div>
-      </div>
-      <div style="text-align:center;padding:10px;background:#f8f7f4;border-radius:6px;">
-        <div style="font-size:22px;font-weight:600;color:${contraCount>0?'#9a1a1a':'#1a7a4a'}">${contraCount}</div>
-        <div style="font-size:9px;color:#9c948a;text-transform:uppercase;letter-spacing:1px;margin-top:2px;">Conflicts Found</div>
-      </div>
-      <div style="text-align:center;padding:10px;background:#f8f7f4;border-radius:6px;">
-        <div style="font-size:22px;font-weight:600;color:#1a1714">${(rpt.evidence_count||0)}</div>
-        <div style="font-size:9px;color:#9c948a;text-transform:uppercase;letter-spacing:1px;margin-top:2px;">Evidence Chunks</div>
-      </div>
+function addUserMsg(text){
+  document.getElementById('welcomeScreen')?.remove();
+  document.getElementById('messages').innerHTML+=`
+  <div class="msg user">
+    <div class="msg-avatar">👤</div>
+    <div class="msg-content">
+      <div class="bubble">${text}</div>
+      <div class="msg-time">${now()}</div>
     </div>
-    <div style="font-size:9px;color:#9c948a;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;">Papers Used</div>
-    ${sourceList}
-  `;
-  document.getElementById('confArea').innerHTML=`
-    <div class="conf-label-row"><span class="conf-label-text">Evidence strength</span><span class="conf-label-val" style="color:${color}">${pct}%</span></div>
-    <div class="conf-bar"><div class="conf-fill" style="width:${pct}%;background:${color};"></div></div>
-    <div class="conf-desc">${label}</div>
-    <div style="margin-top:12px;padding:10px;background:#f0f4fb;border-radius:6px;border-left:3px solid #2952a3;">
-      <div style="font-size:9px;font-weight:600;color:#1a3a7a;text-transform:uppercase;letter-spacing:1px;margin-bottom:5px;">
-        🔍 How confidence was calculated
-      </div>
-      <div style="font-size:11px;color:#1a1714;line-height:1.6;">${explanation}</div>
-      <div style="font-family:var(--mono);font-size:9px;color:#5c5650;margin-top:6px;">
-        Threshold applied: ${threshold}
-      </div>
+  </div>`;
+  scrollMsgs();
+}
+
+function addTyping(){
+  document.getElementById('welcomeScreen')?.remove();
+  const id='t'+Date.now();
+  document.getElementById('messages').innerHTML+=`
+  <div class="msg assistant" id="${id}">
+    <div class="msg-avatar">🔬</div>
+    <div class="msg-content">
+      <div class="typing-bubble"><div class="t-dot"></div><div class="t-dot"></div><div class="t-dot"></div></div>
+      <div class="msg-time">Tattva · Reading papers...</div>
+    </div>
+  </div>`;
+  scrollMsgs();
+  return id;
+}
+
+function addAssistantMsg(text,meta={}){
+  const papers=(meta.papers||[]).filter(p=>p);
+  const verdict=meta.verdict;
+  const contras=meta.contradictions||[];
+  const llmResp=meta.llm_response;
+  const chipsHtml=papers.length?`
+    <div class="ev-chips">
+      ${papers.slice(0,4).map(p=>`<span class="ev-chip">📄 ${p.slice(0,42)}${p.length>42?'…':''}</span>`).join('')}
+      ${verdict?`<span class="ev-chip ${verdict.cls}">● ${verdict.label}</span>`:''}
+      ${contras.length?`<span class="ev-chip red">⚠ ${contras.length} contradiction${contras.length>1?'s':''}</span>`:''}
+    </div>`:'';
+  const fups=meta.followUps||[];
+  const fupHtml=fups.length?`
+    <div class="follow-ups">
+      ${fups.map(f=>`<button class="fup-btn" onclick="ask('${f.replace(/'/g,"\\'")}')"> ${f}</button>`).join('')}
+    </div>`:'';
+  const compHtml=llmResp?`
+    <div class="comparison-grid">
+      <div class="comp-col llm"><div class="comp-col-label">Generic LLM</div>${llmResp.slice(0,180)}…<div style="font-size:9px;color:var(--red);margin-top:5px;">⚠ No sources</div></div>
+      <div class="comp-col tattva"><div class="comp-col-label">Tattva</div>${text.slice(0,180)}…<div style="font-size:9px;color:var(--green);margin-top:5px;">✓ Real papers</div></div>
+    </div>`:'';
+  document.getElementById('messages').innerHTML+=`
+  <div class="msg assistant">
+    <div class="msg-avatar">🔬</div>
+    <div class="msg-content">
+      <div class="bubble">${text.replace(/\n/g,'<br/>')}${chipsHtml}${fupHtml}</div>
+      ${compHtml}
+      <div class="msg-time">Tattva · ${now()}${meta.evidence_used?' · '+meta.evidence_used+' papers read':''}</div>
+      ${(meta.followUps||[]).length?`<div class="follow-ups" style="margin-top:6px;">${(meta.followUps||[]).map(f=>`<button class="fup-btn" onclick="ask('${f.replace(/'/g,"\'")}')">${f}</button>`).join('')}</div>`:''}
+    </div>
+  </div>`;
+  scrollMsgs();
+}
+
+function resetPanel(){
+  document.getElementById('epScroll').innerHTML=`
+    <div class="ep-empty">
+      <div class="ep-empty-icon">🔬</div>
+      Ask a research question.<br/>Evidence, contradictions, experiments,<br/>and hypotheses will appear here.
     </div>`;
+  document.getElementById('epStatus').textContent='Ask a question →';
 }
 
-function renderSim(sim){
-  // Show evidence quality instead of simulation
-  return;
-  const simScore = sim.avg_field_score || 0;
-  if(!sim || sim.error || simScore < 0.1){
-    document.getElementById('simArea').innerHTML='<p style="font-size:12px;color:var(--dim);">Simulation unavailable for this query.</p>';
-    return;
-  }
-  if(sim.error){document.getElementById('simArea').innerHTML='<p style="font-size:12px;color:var(--dim);">Unavailable.</p>';return;}
-  const score=sim.avg_field_score||0;
-  const pct=Math.round(score*100);
-  const color=score>0.72?'var(--green)':score>0.58?'var(--amber)':'var(--mid)';
-  document.getElementById('simArea').innerHTML=`
-    <div class="sim-score-row"><div class="sim-score-n" style="color:${color}">${pct}</div><div class="sim-score-l">/ 100</div></div>
-    <div class="sim-meta">${sim.n_simulations||0} Monte Carlo simulations · 4-year forecast</div>
-    <div class="traj-wrap"><canvas id="trajCanvas"></canvas></div>
-    <div id="domList"></div>`;
-  if(sim.field_trajectory?.length){
-    setTimeout(()=>{
-      const ctx=document.getElementById('trajCanvas');if(!ctx)return;
-      if(trajChart)trajChart.destroy();
-      const c=score>0.72?'#1a7a4a':score>0.58?'#8a5c00':'#5c5650';
-      trajChart=new Chart(ctx.getContext('2d'),{type:'line',data:{labels:sim.field_trajectory.map(t=>`+${t.year_offset}yr`),datasets:[{data:sim.field_trajectory.map(t=>t.avg_field_score),borderColor:c,backgroundColor:c+'18',borderWidth:1.5,pointRadius:2,fill:true,tension:.4}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{enabled:false}},scales:{x:{grid:{color:'rgba(0,0,0,.04)'},ticks:{font:{size:9,family:'JetBrains Mono'},color:'#9c948a'}},y:{display:false,min:.4,max:1}}}});
-    },80);
-  }
-  document.getElementById('domList').innerHTML=(sim.dominant_methods||[]).slice(0,4).map(d=>`
-    <div class="dom-item"><div class="dom-name">${d.method}</div>
-    <div class="dom-bar"><div class="dom-fill" style="width:${Math.round(d.probability*100)}%"></div></div>
-    <div class="dom-pct">${Math.round(d.probability*100)}%</div></div>`).join('');
-}
+function renderPanel(rpt,suggestions){
+  const el=document.getElementById('epScroll');
+  const v=rpt.proposal_verdict||'inconclusive';
+  const cls=_vcls(v);
+  const lbl=_vlbl(v);
+  const papers=rpt.top_papers||[];
+  const contras=rpt.contradictions||[];
+  const grounded=rpt.top_grounded||[];
+  const buckets=rpt.context_buckets||{};
+  const exps=rpt.best_experiments||[];
+  document.getElementById('epStatus').textContent=lbl+' · '+papers.length+' papers';
+  const DIM_LABELS={training_cost:'Training Cost',inference_cost:'Inference Cost',
+    memory_usage:'Memory Usage',latency:'Latency',accuracy:'Accuracy',scalability:'Scalability',general:'General'};
+  let html='';
 
-function renderHyps(hyps,query){
-  document.getElementById('hypArea').innerHTML='<p style="font-size:12px;color:var(--dim);">Loading...</p>';
-}
-function renderHypsFromIdeas(ideas){
-  if(!ideas||!ideas.length){document.getElementById('hypArea').innerHTML='<p style="font-size:12px;color:var(--dim);">No related hypotheses yet.</p>';return;}
-  document.getElementById('hypArea').innerHTML=ideas.map(h=>`
-    <div class="hyp-item">
-      <div class="hyp-type">${h.type==='graph_transitivity'?'Research Direction':(h.type||'').replace(/_/g,' ')}</div>
-      <div class="hyp-text">${_cleanHyp(h.hypothesis)}</div>
-      <div class="hyp-score">score: ${h.score??'–'}</div>
-    </div>`).join('');
-}
-function renderExp(sim){
-  const exps=sim.best_experiments||[];
-  if(!exps.length){document.getElementById('expArea').innerHTML='<p style="font-size:12px;color:var(--dim);">–</p>';return;}
-  document.getElementById('expArea').innerHTML=exps.slice(0,4).map((e,i)=>`
-    <div class="exp-item"><div class="exp-n">${i+1}.</div><div class="exp-text">${e.replace(/ — dominance probability \d+%/,'').replace(/ — failure probability \d+%/,'')}</div></div>`).join('');
-}
-
-async function fetchSuggestions(q,rpt){
-  try{
-    const res=await fetch('/api/suggestions',{method:'POST',headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({query:q,verdict:rpt.proposal_verdict,confidence:rpt.proposal_confidence,top_papers:rpt.top_papers||[]})});
-    const data=await res.json();
-    if(!data.error)renderSuggestions(data);
-  }catch(e){console.error(e);}
-}
-
-function renderSuggestions(data){
-  const alts=data.alternatives||[];
-  document.getElementById('altArea').innerHTML=alts.length
-    ?alts.map(a=>`<div style="padding:10px 0;border-bottom:1px solid var(--rule);">
-        <div style="font-size:13px;font-weight:500;color:var(--text);margin-bottom:3px;">${a.method}</div>
-        <div style="font-size:12px;color:var(--dim);line-height:1.5;">${a.description}</div>
-      </div>`).join('')
-    :'<p style="font-size:12px;color:var(--dim);">No alternatives found.</p>';
-
-  const exp=data.best_experiment||{};
-  document.getElementById('expValidArea').innerHTML=exp.description?`
-    <div style="margin-bottom:12px;">
-      <div style="font-family:var(--mono);font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--accent);margin-bottom:6px;">${exp.type||'Experiment'}</div>
-      <div style="font-size:13px;line-height:1.6;color:var(--text);">${exp.description}</div>
+  // Verdict
+  html+=`<div class="panel-verdict ${cls}">
+    <div class="pv-label">${lbl}</div>
+    <div class="pv-explanation">${rpt.proposal_explanation||''}</div>
+    <div class="pv-meta">
+      <span class="pv-stat">✅ ${rpt.supported_count||0} supporting</span>
+      <span class="pv-stat">⚠ ${contras.length} conflicts</span>
+      <span class="pv-stat">📄 ${papers.length} papers</span>
+      <span class="pv-stat">🔢 ${rpt.evidence_count||0} chunks</span>
     </div>
-    <div style="background:var(--bg);padding:14px;border-radius:6px;border:1px solid var(--border);">
-      <div style="font-family:var(--mono);font-size:9px;color:var(--dim);margin-bottom:4px;letter-spacing:1px;">METRIC TO MEASURE</div>
-      <div style="font-size:12px;color:var(--text);margin-bottom:10px;">${exp.metric||'–'}</div>
-      <div style="font-family:var(--mono);font-size:9px;color:var(--dim);margin-bottom:4px;letter-spacing:1px;">BASELINE</div>
-      <div style="font-size:12px;color:var(--text);">${exp.baseline||'–'}</div>
-    </div>`
-  :'<p style="font-size:12px;color:var(--dim);">–</p>';
+  </div>`;
 
-  const ur=data.underresearched||[];
-  document.getElementById('urArea').innerHTML=ur.length
-    ?ur.map(u=>`<div style="padding:10px 0;border-bottom:1px solid var(--rule);">
-        <div style="display:flex;align-items:center;gap:8px;margin-bottom:3px;">
-          <span style="font-size:13px;font-weight:500;color:var(--text);">${u.concept}</span>
-          <span style="font-family:var(--mono);font-size:9px;padding:1px 6px;background:var(--amber-bg);color:var(--amber);border:1px solid var(--amber-border);border-radius:2px;">${u.edge_count} relations</span>
-        </div>
-        <div style="font-size:12px;color:var(--dim);line-height:1.5;">${u.gap}</div>
-      </div>`).join('')
-    :'<p style="font-size:12px;color:var(--dim);">No gaps detected.</p>';
-
-  const ideas=data.new_ideas||[];
-  renderHypsFromIdeas(ideas);
-  document.getElementById('ideasArea').innerHTML=ideas.length
-    ?ideas.map(idea=>`
-      <div style="padding:14px;border-radius:8px;border:1px solid var(--border);background:var(--paper);margin-bottom:10px;">
-        <div style="font-size:13px;line-height:1.5;color:var(--text);margin-bottom:10px;">${_cleanHyp(idea.hypothesis)}</div>
-        <div style="background:var(--blue-bg);border:1px solid #c8d8f0;border-radius:5px;padding:10px 12px;font-size:12px;color:var(--blue);line-height:1.6;">
-          → ${idea.actionable}
-        </div>
-      </div>`).join('')
-    :'<p style="font-size:12px;color:var(--dim);">No new ideas generated.</p>';
-
-  document.getElementById('suggestionsSection').style.display='block';
-  document.getElementById('toolsSection').style.display='block';
-  document.getElementById('shareArea').style.display='block';
-  document.getElementById('researcherModeBar').style.display='flex';
-}
-</script>
-<script>
-// ── Supabase Auth ──────────────────────────────────────────
-let _sb = null;
-let _sbSession = null;
-async function initSupabase(){
-  if(_sb) return _sb;
-  const cfg = await fetch('/api/config').then(r=>r.json());
-  _sb = supabase.createClient(cfg.supabase_url, cfg.supabase_anon_key);
-  // Check existing session
-  const {data:{session}} = await _sb.auth.getSession();
-  if(session) { updateAuthUI(session.user); loadUserHistory(); }
-  // Listen for auth changes
-  _sb.auth.onAuthStateChange((_event, session)=>{
-    _sbSession = session; // session has .user property
-    if(session) { updateAuthUI(session.user); loadUserHistory(); }
-    else clearAuthUI();
-  });
-  return _sb;
-}
-
-async function loadUserHistory(){
-  if(!_sbSession) return;
-  try{
-    const r = await fetch('/api/user/history',{
-      headers:{'X-User-ID':_sbSession.user.id,'X-User-Email':_sbSession.user.email}
+  // Claims by bucket
+  const bkeys=Object.keys(buckets);
+  if(bkeys.length){
+    html+=`<div class="ep-card"><div class="ep-card-head"><span>Grounded Claims</span><span>${grounded.length}</span></div><div class="ep-card-body">`;
+    bkeys.forEach(dim=>{
+      const claims=buckets[dim]||[];
+      if(!claims.length)return;
+      html+=`<div style="font-family:var(--mono);font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--accent);margin:10px 0 6px;">${DIM_LABELS[dim]||dim} · ${claims.length}</div>`;
+      claims.forEach(gc=>{
+        const vd=gc.verdict||{};const verd=vd.verdict||'inconclusive';
+        const bcls=verd==='supported'?'s':verd==='partially_supported'?'p':verd==='contradicted'?'c':'i';
+        const bench=gc.benchmark_context||{};
+        const tags=[bench.hardware&&('🖥 '+bench.hardware),bench.task&&('📋 '+bench.task),bench.model_size&&('⚙ '+bench.model_size)].filter(Boolean);
+        html+=`<div class="claim-item">
+          <div class="claim-text">${gc.claim||''}</div>
+          ${tags.length?`<div style="display:flex;gap:4px;flex-wrap:wrap;margin-bottom:5px;">${tags.map(t=>`<span class="bench-tag">${t}</span>`).join('')}</div>`:''}
+          <div class="claim-foot">
+            <span class="claim-badge ${bcls}">${verd.replace(/_/g,' ')}</span>
+            <span class="claim-conf">conf: ${(vd.confidence||0).toFixed(2)}</span>
+            <span class="claim-conf">✅${vd.support_count||0} ❌${vd.contradict_count||0}</span>
+          </div>
+        </div>`;
+      });
     });
-    const d = await r.json();
-    const history = d.history || [];
-    if(!history.length) return;
-    const list = document.getElementById('historyList');
-    list.innerHTML = history.map(h=>{
-      const vc = h.verdict==='supported'?'#1a7a4a':h.verdict==='partially_supported'?'#8a5c00':'#9c948a';
-      return `<button onclick="document.getElementById('searchInput').value='${h.query.replace(/'/g,"\'")}';document.getElementById('historyPanel').style.display='none';"
-        style="padding:5px 12px;border:1px solid #e2ddd6;border-radius:4px;background:#f8f7f4;cursor:pointer;font-size:12px;color:#1a1714;font-family:var(--sans);text-align:left;">
-        <span style="color:${vc};font-weight:600;font-size:10px;margin-right:6px;">${h.verdict.replace(/_/g,' ').toUpperCase()}</span>${h.query}
-      </button>`;
-    }).join('');
-    document.getElementById('historyPanel').style.display='block';
-  }catch(e){}
+    html+=`</div></div>`;
+  }
+
+  // Contradictions
+  if(contras.length){
+    html+=`<div class="ep-card"><div class="ep-card-head" style="color:var(--red);">⚠ Contradictions · ${contras.length}</div><div class="ep-card-body">`;
+    contras.forEach(c=>{
+      html+=`<div class="contra-item">
+        <div class="contra-type">${(c.contradiction_type||'conflict').replace(/_/g,' ')}</div>
+        <table style="width:100%;border-collapse:collapse;margin-bottom:8px;font-size:10px;">
+          <tr style="background:var(--bg);">
+            <th style="padding:4px 6px;text-align:left;color:var(--dim);font-weight:600;border-bottom:1px solid var(--border);">PAPER</th>
+            <th style="padding:4px 6px;text-align:left;color:var(--dim);font-weight:600;border-bottom:1px solid var(--border);">FINDING</th>
+            <th style="padding:4px 6px;border-bottom:1px solid var(--border);"></th>
+          </tr>
+          <tr>
+            <td style="padding:5px 6px;color:var(--green);font-size:10px;">${(c.supporting_paper||'').slice(0,28)}…</td>
+            <td style="padding:5px 6px;color:var(--mid);font-size:10px;">${(c.supporting_claim||'').slice(0,55)}…</td>
+            <td style="padding:5px 6px;"><span style="font-size:9px;padding:1px 5px;background:var(--green-bg);color:var(--green);border-radius:2px;">SUPPORTS</span></td>
+          </tr>
+          <tr>
+            <td style="padding:5px 6px;color:var(--red);font-size:10px;">${(c.contradicting_paper||'').slice(0,28)}…</td>
+            <td style="padding:5px 6px;color:var(--mid);font-size:10px;">${(c.contradicting_claim||'').slice(0,55)}…</td>
+            <td style="padding:5px 6px;"><span style="font-size:9px;padding:1px 5px;background:var(--red-bg);color:var(--red);border-radius:2px;">CONTRADICTS</span></td>
+          </tr>
+        </table>
+        <div class="contra-impl">${c.implication||''}</div>
+        <button class="ask-btn red" onclick="ask('Explain the contradiction between ${(c.supporting_paper||'').slice(0,20).replace(/'/g,'').replace(/"/g,'')} and ${(c.contradicting_paper||'').slice(0,20).replace(/'/g,'').replace(/"/g,'')}')">Discuss →</button>
+      </div>`;
+    });
+    html+=`</div></div>`;
+  }
+
+  // Papers
+  if(papers.length){
+    html+=`<div class="ep-card"><div class="ep-card-head"><span>Evidence Sources</span><span>${papers.length}</span></div><div class="ep-card-body">`;
+    papers.slice(0,6).forEach((p,i)=>{
+      html+=`<div class="paper-row"><div class="paper-n">[${i+1}]</div><div class="paper-title">${p}</div></div>`;
+    });
+    html+=`</div></div>`;
+  }
+
+  // Experiments
+  if(exps.length){
+    html+=`<div class="ep-card"><div class="ep-card-head">🧪 Suggested Experiments</div><div class="ep-card-body">`;
+    exps.slice(0,4).forEach((e,i)=>{
+      html+=`<div class="exp-row"><div class="exp-n">EXPERIMENT ${i+1}</div><div class="exp-text">${e}</div>
+        <button class="ask-btn blue" onclick="ask('Tell me more about this experiment: ${e.slice(0,50).replace(/'/g,'').replace(/"/g,'')}')">Discuss →</button></div>`;
+    });
+    html+=`</div></div>`;
+  }
+
+  // Suggestions
+  if(suggestions){
+    const ideas=suggestions.new_ideas||[];
+    const gaps=suggestions.underresearched||[];
+    const alts=suggestions.alternatives||[];
+    if(ideas.length){
+      html+=`<div class="ep-card"><div class="ep-card-head">💡 Research Directions</div><div class="ep-card-body">`;
+      ideas.forEach(h=>{
+        html+=`<div class="hyp-row"><div class="hyp-type-label">Research Direction</div>
+          <div class="hyp-text">${_cleanHyp(h.hypothesis)}</div>
+          ${h.actionable?`<div class="hyp-action">→ ${h.actionable}</div>`:''}
+          <button class="ask-btn blue" onclick="ask('Evaluate this hypothesis: ${_cleanHyp(h.hypothesis).slice(0,60).replace(/'/g,'').replace(/"/g,'')}')">Explore →</button>
+        </div>`;
+      });
+      html+=`</div></div>`;
+    }
+    if(gaps.length){
+      html+=`<div class="ep-card"><div class="ep-card-head">🔍 Research Gaps</div><div class="ep-card-body">`;
+      gaps.forEach(g=>{
+        html+=`<div class="hyp-row"><div class="hyp-type-label">${g.concept} · ${g.edge_count} relations</div>
+          <div class="hyp-text">${g.gap}</div>
+          <button class="ask-btn blue" onclick="ask('What research opportunities exist around ${g.concept}?')">Explore →</button>
+        </div>`;
+      });
+      html+=`</div></div>`;
+    }
+    if(alts.length){
+      html+=`<div class="ep-card"><div class="ep-card-head">🔄 Alternatives</div><div class="ep-card-body">`;
+      alts.forEach(a=>{
+        html+=`<div class="hyp-row"><div class="hyp-type-label">${a.method}</div>
+          <div class="hyp-text">${a.description}</div>
+          <button class="ask-btn blue" onclick="ask('Compare ${a.method} to the approach I asked about')">Compare →</button>
+        </div>`;
+      });
+      html+=`</div></div>`;
+    }
+  }
+
+  el.innerHTML=html;
 }
 
+function setQuickPills(pills){
+  const el=document.getElementById('quickPills');
+  if(!pills||!pills.length){el.style.display='none';return;}
+  el.style.display='flex';
+  el.innerHTML=pills.map(p=>`<button class="qpill" onclick="ask('${p.replace(/'/g,"\\'")}')">${p}</button>`).join('');
+}
+
+async function sendMsg(){
+  const box=document.getElementById('inputBox');
+  const q=box.value.trim();
+  if(!q)return;
+  box.value='';box.style.height='auto';
+  document.getElementById('sendBtn').disabled=true;
+  document.getElementById('quickPills').style.display='none';
+  addUserMsg(q);
+  const tid=addTyping();
+  try{
+    const headers={'Content-Type':'application/json'};
+    if(_sbSession&&_sbSession.user){headers['X-User-ID']=_sbSession.user.id;headers['X-User-Email']=_sbSession.user.email;}
+    // Run research first for instant evidence, then chat
+    const rptRes=await fetch('/api/run_research',{method:'POST',headers,body:JSON.stringify({query:q})});
+    const rpt=await rptRes.json();
+    _lastRpt=rpt;
+    // Show evidence panel immediately
+    renderPanel(rpt,null);
+    // Now get Mistral response
+    const chatRes=await fetch('/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({query:q,history:_history,show_comparison:_showComparison})});
+    const chatData=await chatRes.json();
+    document.getElementById(tid)?.remove();
+    if(chatData.error){
+      addAssistantMsg('⚠ '+chatData.error);
+    } else {
+      const v=rpt.proposal_verdict||'inconclusive';
+      const verdict={cls:_vcls(v),label:_vlbl(v)};
+      const contras=rpt.contradictions||[];
+      const followUps=[];
+      if(contras.length)followUps.push('Explain the contradiction in detail');
+      followUps.push('Design an experiment to verify this');
+      if(_vcls(v)==='inconclusive')followUps.push('What IS known about this topic?');
+      if(_vcls(v)==='strong')followUps.push('What are the limitations?');
+      followUps.push('What hardware was used in these papers?');
+      _history.push({role:'user',content:q});
+      _history.push({role:'assistant',content:chatData.response});
+      addAssistantMsg(chatData.response,{
+        papers:chatData.papers||rpt.top_papers||[],
+        evidence_used:chatData.evidence_used||0,
+        verdict,contradictions:contras,
+        llm_response:chatData.llm_comparison||null,
+        followUps:followUps.slice(0,3)
+      });
+      renderPanel(rpt,null);
+      setQuickPills(followUps.slice(0,4));
+      fetch('/api/suggestions',{method:'POST',headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({query:q,verdict:v,confidence:rpt.proposal_confidence,top_papers:rpt.top_papers||[]})})
+        .then(r=>r.json()).then(s=>renderPanel(rpt,s)).catch(()=>{});
+    }
+  }catch(e){
+    document.getElementById(tid)?.remove();
+    addAssistantMsg('⚠ Error: '+e.message);
+  }
+  document.getElementById('sendBtn').disabled=false;
+  document.getElementById('inputBox').focus();
+}
+
+// Auth
+async function initSupabase(){
+  if(_sb2)return _sb2;
+  try{
+    const cfg=await fetch('/api/config').then(r=>r.json());
+    _sb2=supabase.createClient(cfg.supabase_url,cfg.supabase_anon_key);
+    const {data:{session}}=await _sb2.auth.getSession();
+    if(session){_sbSession=session;updateAuthUI(session.user);}
+    _sb2.auth.onAuthStateChange((_e,s)=>{_sbSession=s;if(s)updateAuthUI(s.user);else clearAuthUI();});
+  }catch(e){}
+  return _sb2;
+}
 function updateAuthUI(user){
   document.getElementById('loginBtn').style.display='none';
-  const ui = document.getElementById('userInfo');
-  ui.style.display='flex';
-  document.getElementById('userName').textContent = user.user_metadata?.full_name || user.email;
-  if(user.user_metadata?.avatar_url)
-    document.getElementById('userAvatar').src = user.user_metadata.avatar_url;
+  document.getElementById('userInfo').style.display='flex';
+  document.getElementById('userName').textContent=user.user_metadata?.full_name||user.email;
+  if(user.user_metadata?.avatar_url)document.getElementById('userAvatar').src=user.user_metadata.avatar_url;
 }
-
 function clearAuthUI(){
   document.getElementById('loginBtn').style.display='flex';
   document.getElementById('userInfo').style.display='none';
 }
-
-async function signInWithGoogle(){
-  const sb = await initSupabase();
-  await sb.auth.signInWithOAuth({
-    provider: 'google',
-    options: { redirectTo: window.location.origin }
-  });
-}
-
-async function signOut(){
-  const sb = await initSupabase();
-  await sb.auth.signOut();
-  clearAuthUI();
-}
-
-// Init on load
+async function signInWithGoogle(){const sb=await initSupabase();await sb.auth.signInWithOAuth({provider:'google',options:{redirectTo:window.location.origin}});}
+async function signOut(){const sb=await initSupabase();await sb.auth.signOut();clearAuthUI();}
 initSupabase();
-
-// ── Researcher Mode ──────────────────────────────────────
-// ── Practical Tools ─────────────────────────────────────
-async function runCompare(){
-  const a = document.getElementById('compareA').value.trim();
-  const b = document.getElementById('compareB').value.trim();
-  if(!a||!b){alert('Enter two methods to compare');return;}
-  const el = document.getElementById('compareResult');
-  el.innerHTML='<p style="font-size:12px;color:var(--dim);">Comparing...</p>';
-  try{
-    const r = await fetch('/api/compare',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({method_a:a,method_b:b})});
-    const d = await r.json();
-    if(d.error){el.innerHTML=`<p style="color:red;font-size:12px;">${d.error}</p>`;return;}
-    const ma=d.method_a||{};const mb=d.method_b||{};
-    el.innerHTML=`
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:12px;">
-        <div style="padding:12px;background:var(--bg);border-radius:6px;border-left:3px solid var(--green);">
-          <div style="font-size:12px;font-weight:600;color:var(--text);margin-bottom:8px;">${ma.method}</div>
-          ${(ma.strengths||[]).map(s=>`<div style="font-size:11px;color:var(--mid);padding:2px 0;">✓ ${s}</div>`).join('')}
-          ${(ma.weaknesses||[]).map(w=>`<div style="font-size:11px;color:var(--red);padding:2px 0;">⚠ ${w}</div>`).join('')}
-        </div>
-        <div style="padding:12px;background:var(--bg);border-radius:6px;border-left:3px solid var(--blue);">
-          <div style="font-size:12px;font-weight:600;color:var(--text);margin-bottom:8px;">${mb.method}</div>
-          ${(mb.strengths||[]).map(s=>`<div style="font-size:11px;color:var(--mid);padding:2px 0;">✓ ${s}</div>`).join('')}
-          ${(mb.weaknesses||[]).map(w=>`<div style="font-size:11px;color:var(--red);padding:2px 0;">⚠ ${w}</div>`).join('')}
-        </div>
-      </div>
-      <div style="font-size:12px;color:var(--mid);padding:10px;background:var(--bg);border-radius:6px;line-height:1.6;">
-        💡 ${d.recommendation||''}
-      </div>`;
-  }catch(e){el.innerHTML=`<p style="color:red;font-size:12px;">Error: ${e.message}</p>`;}
-}
-
-async function loadGaps(){
-  const el = document.getElementById('gapsResult');
-  el.innerHTML='<p style="font-size:12px;color:var(--dim);">Loading...</p>';
-  try{
-    const r = await fetch('/api/gaps');
-    const d = await r.json();
-    const gaps = d.gaps||[];
-    el.innerHTML=gaps.length?gaps.map(g=>`
-      <div style="padding:10px 0;border-bottom:1px solid var(--rule);">
-        <div style="display:flex;align-items:center;gap:8px;margin-bottom:3px;">
-          <span style="font-size:13px;font-weight:500;color:var(--text);">${g.concept}</span>
-          <span style="font-family:var(--mono);font-size:9px;padding:1px 6px;background:var(--amber-bg);color:var(--amber);border:1px solid var(--amber-border);border-radius:2px;">${g.edge_count} relations</span>
-        </div>
-        <div style="font-size:12px;color:var(--dim);line-height:1.5;">${g.gap}</div>
-      </div>`).join(''):'<p style="font-size:12px;color:var(--dim);">No gaps found.</p>';
-  }catch(e){el.innerHTML=`<p style="color:red;font-size:12px;">Error: ${e.message}</p>`;}
-}
-
-function showSummary(){
-  if(!_lastRpt){alert('Run a research query first.');return;}
-  const el = document.getElementById('summaryResult');
-  const verdict = _lastRpt.proposal_verdict||'inconclusive';
-  const conf = Math.round((_lastRpt.proposal_confidence||0)*100);
-  const papers = (_lastRpt.top_papers||[]).slice(0,6);
-  const grounded = _lastRpt.top_grounded||[];
-  const contradictions = _lastRpt.contradictions||[];
-  const buckets = _lastRpt.context_buckets||{};
-  
-  const VERDICT_LABELS = {'strong_evidence':'Strong Evidence','moderate_evidence':'Moderate Evidence','limited_evidence':'Limited Evidence','mixed_evidence':'Mixed Evidence','context_dependent':'Context-Dependent','inconclusive':'Inconclusive'};
-  
-  el.innerHTML=`
-    <div style="padding:16px;background:var(--bg);border-radius:8px;border:1px solid var(--border);">
-      <div style="font-size:14px;font-weight:600;color:var(--text);margin-bottom:12px;">Evidence Summary</div>
-      <div style="font-size:13px;color:var(--mid);margin-bottom:8px;line-height:1.7;">
-        <strong>Verdict:</strong> ${VERDICT_LABELS[verdict]||verdict} (${conf}% confidence)<br/>
-        <strong>Papers analyzed:</strong> ${papers.length}<br/>
-        <strong>Claims evaluated:</strong> ${grounded.length}<br/>
-        <strong>Contradictions:</strong> ${contradictions.length}<br/>
-        <strong>Dimensions covered:</strong> ${Object.keys(buckets).join(', ')||'general'}<br/>
-      </div>
-      <div style="font-size:12px;font-weight:600;color:var(--text);margin-bottom:6px;">Key Papers</div>
-      ${papers.map((p,i)=>`<div style="font-size:11px;color:var(--mid);padding:2px 0;">[${i+1}] ${p}</div>`).join('')}
-      ${contradictions.length?`
-      <div style="font-size:12px;font-weight:600;color:var(--red);margin:10px 0 6px;">Contradictions Detected</div>
-      ${contradictions.map(c=>`<div style="font-size:11px;color:var(--mid);padding:2px 0;">• ${c.supporting_paper} vs ${c.contradicting_paper}</div>`).join('')}`:''}
-      <div style="margin-top:12px;font-size:11px;color:var(--dim);">
-        ${_lastRpt.proposal_explanation||''}
-      </div>
-    </div>`;
-}
-
-async function shareResult(){
-  if(!_lastRpt) return;
-  const btn = document.getElementById('shareBtn');
-  btn.textContent = '🔗 Sharing...';
-  try{
-    const r = await fetch('/api/share',{
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({query: _lastRpt.query, result: _lastRpt})
-    });
-    const d = await r.json();
-    if(d.share_url){
-      const linkEl = document.getElementById('shareLink');
-      linkEl.innerHTML = `<span style="color:var(--dim);margin-right:8px;">Shareable link:</span><a href="${d.share_url}" target="_blank" style="color:var(--accent);">${d.share_url}</a> <button onclick="navigator.clipboard.writeText('${d.share_url}');this.textContent='Copied!'" style="margin-left:8px;padding:2px 8px;font-size:11px;background:var(--accent);color:white;border:none;border-radius:4px;cursor:pointer;">Copy</button>`;
-      linkEl.style.display='block';
-      btn.textContent = '✓ Link created';
-    }
-  }catch(e){
-    btn.textContent = '🔗 Share this result';
-    alert('Share failed: ' + e.message);
-  }
-}
-
-function showSummary(){
-  if(!_lastRpt){alert('Run a research query first.');return;}
-  const el = document.getElementById('summaryResult');
-  const verdict = _lastRpt.proposal_verdict||'inconclusive';
-  const conf = Math.round((_lastRpt.proposal_confidence||0)*100);
-  const papers = (_lastRpt.top_papers||[]).slice(0,6);
-  const grounded = _lastRpt.top_grounded||[];
-  const contradictions = _lastRpt.contradictions||[];
-  const buckets = _lastRpt.context_buckets||{};
-  
-  const VERDICT_LABELS = {'strong_evidence':'Strong Evidence','moderate_evidence':'Moderate Evidence','limited_evidence':'Limited Evidence','mixed_evidence':'Mixed Evidence','context_dependent':'Context-Dependent','inconclusive':'Inconclusive'};
-  
-  el.innerHTML=`
-    <div style="padding:16px;background:var(--bg);border-radius:8px;border:1px solid var(--border);">
-      <div style="font-size:14px;font-weight:600;color:var(--text);margin-bottom:12px;">Evidence Summary</div>
-      <div style="font-size:13px;color:var(--mid);margin-bottom:8px;line-height:1.7;">
-        <strong>Verdict:</strong> ${VERDICT_LABELS[verdict]||verdict} (${conf}% confidence)<br/>
-        <strong>Papers analyzed:</strong> ${papers.length}<br/>
-        <strong>Claims evaluated:</strong> ${grounded.length}<br/>
-        <strong>Contradictions:</strong> ${contradictions.length}<br/>
-        <strong>Dimensions covered:</strong> ${Object.keys(buckets).join(', ')||'general'}<br/>
-      </div>
-      <div style="font-size:12px;font-weight:600;color:var(--text);margin-bottom:6px;">Key Papers</div>
-      ${papers.map((p,i)=>`<div style="font-size:11px;color:var(--mid);padding:2px 0;">[${i+1}] ${p}</div>`).join('')}
-      ${contradictions.length?`
-      <div style="font-size:12px;font-weight:600;color:var(--red);margin:10px 0 6px;">Contradictions Detected</div>
-      ${contradictions.map(c=>`<div style="font-size:11px;color:var(--mid);padding:2px 0;">• ${c.supporting_paper} vs ${c.contradicting_paper}</div>`).join('')}`:''}
-      <div style="margin-top:12px;font-size:11px;color:var(--dim);">
-        ${_lastRpt.proposal_explanation||''}
-      </div>
-    </div>`;
-}
-
-
-function toggleSection(id, label){
-  const el = document.getElementById(id);
-  const toggle = label.querySelector('span');
-  if(!el) return;
-  if(el.style.display === 'none'){
-    el.style.display = 'block';
-    if(toggle) toggle.textContent = '▲ hide';
-  } else {
-    el.style.display = 'none';
-    if(toggle) toggle.textContent = '▼ show';
-  }
-}
-
-function toggleResearcherMode(enabled){
-  _researcherMode = enabled;
-  if(_lastRpt) renderEvidence(_lastRpt);
-}
-
-function renderClaim(gc){
-  const v=gc.verdict||{};const verd=v.verdict||'inconclusive';
-  const cls=verd==='supported'?'s':verd==='partially_supported'?'p':verd==='contradicted'?'c':'i';
-  const suppCount=v.support_count||0;const contrCount=v.contradict_count||0;const neutCount=v.neutral_count||0;
-  const totalEv=suppCount+contrCount+neutCount;const explanation=v.explanation||'';
-  
-  let researcherHtml = '';
-  if(_researcherMode){
-    const grounding = gc.grounding || {};
-    const topSupport = grounding.top_support || [];
-    const topContra = grounding.top_contradict || [];
-    const coverageScore = grounding.coverage_score || 0;
-    const diversityScore = grounding.diversity_score || 0;
-    const uniqueTitles = grounding.unique_titles || 0;
-    
-    researcherHtml = `<div style="margin-top:10px;padding:12px;background:#f0f4fb;border-radius:6px;border:1px solid #c8d8f0;">
-      <div style="font-family:var(--mono);font-size:9px;color:#1a3a7a;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:10px;">
-        🔬 Researcher Details
-      </div>
-      <div style="display:flex;gap:16px;margin-bottom:10px;flex-wrap:wrap;">
-        <span style="font-size:11px;color:#5c5650;">Coverage: <strong>${Math.round(coverageScore*100)}%</strong></span>
-        <span style="font-size:11px;color:#5c5650;">Source diversity: <strong>${Math.round(diversityScore*100)}%</strong></span>
-        <span style="font-size:11px;color:#5c5650;">Unique papers: <strong>${uniqueTitles}</strong></span>
-        ${gc.paper_quality ? `<span style="font-size:11px;color:#5c5650;">Paper quality: <strong>${Math.round((gc.paper_quality||0)*100)}%</strong></span>` : ''}
-      </div>
-      ${topSupport.length ? `
-      <div style="font-size:10px;font-weight:600;color:#1a7a4a;margin-bottom:6px;">Supporting Evidence</div>
-      ${topSupport.slice(0,2).map(e=>`
-        <div style="padding:8px;background:white;border-radius:4px;border-left:2px solid #1a7a4a;margin-bottom:6px;">
-          <div style="font-size:10px;color:#1a1714;line-height:1.5;margin-bottom:4px;">"${(e.text||'').slice(0,200)}${e.text&&e.text.length>200?'…':''}"</div>
-          <div style="font-size:9px;color:#9c948a;">— ${e.paper_title||'Unknown'} · overlap: ${Math.round((e.overlap||0)*100)}% · score: ${(e.score||0).toFixed(3)}</div>
-        </div>`).join('')}` : ''}
-      ${topContra.length ? `
-      <div style="font-size:10px;font-weight:600;color:#9a1a1a;margin-bottom:6px;margin-top:8px;">Contradicting Evidence</div>
-      ${topContra.slice(0,1).map(e=>`
-        <div style="padding:8px;background:white;border-radius:4px;border-left:2px solid #9a1a1a;margin-bottom:6px;">
-          <div style="font-size:10px;color:#1a1714;line-height:1.5;margin-bottom:4px;">"${(e.text||'').slice(0,200)}${e.text&&e.text.length>200?'…':''}"</div>
-          <div style="font-size:9px;color:#9c948a;">— ${e.paper_title||'Unknown'} · overlap: ${Math.round((e.overlap||0)*100)}%</div>
-        </div>`).join('')}` : ''}
-    </div>`;
-  }
-  
-  const bench = gc.benchmark_context || {};
-  const benchTags = [];
-  if(bench.hardware) benchTags.push('🖥 ' + bench.hardware);
-  if(bench.task) benchTags.push('📋 ' + bench.task);
-  if(bench.model_size) benchTags.push('⚙ ' + bench.model_size);
-  if(bench.sequence) benchTags.push('📏 ' + bench.sequence);
-  return `<div class="ev-item ${cls}">
-    <div class="ev-claim">${gc.claim||''}</div>
-    ${benchTags.length ? `<div style="display:flex;gap:6px;flex-wrap:wrap;margin:6px 0;">${benchTags.map(t=>`<span style="font-size:10px;padding:2px 8px;background:var(--blue-bg);color:var(--blue);border:1px solid #c8d8f0;border-radius:3px;">${t}</span>`).join('')}</div>` : ''}
-    <div class="ev-foot"><span class="ev-badge ${cls}">${verd.replace(/_/g,' ')}</span>
-    <span class="ev-conf">confidence: ${(v.confidence||0).toFixed(2)}</span></div>
-    ${totalEv > 0 ? `
-    <div style="margin-top:8px;padding:8px 10px;background:#f8f7f4;border-radius:6px;font-size:11px;color:#5c5650;">
-      <div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:${explanation?'6px':'0'};">
-        <span>✅ ${suppCount} supporting</span>
-        <span>❌ ${contrCount} contradicting</span>
-        <span>➖ ${neutCount} neutral</span>
-        <span style="color:#9c948a;">of ${totalEv} evidence chunks</span>
-      </div>
-      ${explanation ? `<div style="font-size:10px;color:#9c948a;font-style:italic;">${explanation}</div>` : ''}
-    </div>` : ''}
-    ${researcherHtml}
-  </div>`;
-}
 </script>
 </body>
-</html>
+</html>"""
