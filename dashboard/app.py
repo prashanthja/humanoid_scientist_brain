@@ -1685,45 +1685,25 @@ def api_chat():
         
         # Import scientist
         import sys
-        sys.path.insert(0, os.path.dirname(__file__))
-        from dashboard.scientist import chat, get_llm_comparison
+        sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+        sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+        try:
+            from scientist import chat, get_llm_comparison
+        except ImportError:
+            from dashboard.scientist import chat, get_llm_comparison
         
         # Retrieve evidence from your corpus
         chunks = []
         try:
-            encoder = _get_encoder()
-            retriever = _get_retriever(encoder)
+            store, encoder, retriever = _get_pipeline()
             chunks = retriever.retrieve(query, top_k=6)
             print(f"[chat] Retrieved {len(chunks)} chunks for: {query[:50]}")
         except Exception as e:
             print(f"[chat] Retrieval error: {e}")
+            import traceback
+            traceback.print_exc()
             chunks = []
         
-        # Get Tattva response (evidence-grounded)
-        # Get research verdict to inject into chat context
-        verdict_data = None
-        try:
-            from reasoning_module.claim_extractor import extract_claims
-            from reasoning_module.evidence_evaluator import evaluate_claims
-            encoder2 = _get_encoder()
-            retriever2 = _get_retriever(encoder2)
-            chunks2 = retriever2.retrieve(query, top_k=10)
-            # Quick verdict pass
-            import redis as _redis
-            import os as _os
-            _cache_key = f"rq:{hash(query)}"
-            _r = __import__('upstash_redis', fromlist=['Redis']).Redis(
-                url=_os.environ.get('UPSTASH_REDIS_REST_URL',''),
-                token=_os.environ.get('UPSTASH_REDIS_REST_TOKEN',''))
-            try:
-                _cached = _r.get(_cache_key)
-                if _cached:
-                    import json as _json
-                    verdict_data = _json.loads(_cached)
-            except:
-                pass
-        except:
-            pass
         result = chat(query, history, chunks, verdict_data)
         
         # Get generic LLM comparison if requested
