@@ -360,10 +360,7 @@ function addAssistantMsg(text,meta={}){
       ${contras.length?`<span class="ev-chip red">⚠ ${contras.length} contradiction${contras.length>1?'s':''}</span>`:''}
     </div>`:'';
   const fups=meta.followUps||[];
-  const fupHtml=fups.length?`
-    <div class="follow-ups">
-      ${fups.map(f=>`<button class="fup-btn" onclick="ask('${f.replace(/'/g,"\\'")}')"> ${f}</button>`).join('')}
-    </div>`:'';
+  const fupHtml='';
   const compHtml=llmResp?`
     <div class="comparison-grid">
       <div class="comp-col llm"><div class="comp-col-label">Generic LLM</div>${llmResp.slice(0,180)}…<div style="font-size:9px;color:var(--red);margin-top:5px;">⚠ No sources</div></div>
