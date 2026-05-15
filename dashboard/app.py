@@ -1704,7 +1704,7 @@ def api_chat():
             traceback.print_exc()
             chunks = []
         
-        result = chat(query, history, chunks, verdict_data)
+        result = chat(query, history, chunks)
         
         # Get generic LLM comparison if requested
         if show_comparison:
