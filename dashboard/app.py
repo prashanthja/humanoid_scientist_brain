@@ -1696,7 +1696,14 @@ def api_chat():
         chunks = []
         try:
             store, encoder, retriever = _get_pipeline()
-            chunks = retriever.retrieve(query, top_k=6)
+            # For follow-up questions, enrich query with conversation context
+            retrieval_query = query
+            if history and len(history) >= 2 and len(query.split()) < 8:
+                # Short follow-up — prepend the original question for better retrieval
+                original = next((h['content'] for h in history if h['role']=='user'), '')
+                if original and original != query:
+                    retrieval_query = original + ' ' + query
+            chunks = retriever.retrieve(retrieval_query, top_k=6)
             print(f"[chat] Retrieved {len(chunks)} chunks for: {query[:50]}")
         except Exception as e:
             print(f"[chat] Retrieval error: {e}")

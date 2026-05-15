@@ -322,6 +322,8 @@ function toggleComparison(){
 
 function addUserMsg(text){
   document.getElementById('welcomeScreen')?.remove();
+  // Remove follow-up buttons from previous messages
+  document.querySelectorAll('.follow-ups').forEach(el=>el.remove());
   document.getElementById('messages').innerHTML+=`
   <div class="msg user">
     <div class="msg-avatar">👤</div>
