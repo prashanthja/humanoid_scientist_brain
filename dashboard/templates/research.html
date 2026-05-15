@@ -373,7 +373,7 @@ function addAssistantMsg(text,meta={}){
       <div class="bubble">${text.replace(/\n/g,'<br/>')}${chipsHtml}${fupHtml}</div>
       ${compHtml}
       <div class="msg-time">Tattva · ${now()}${meta.evidence_used?' · '+meta.evidence_used+' papers read':''}</div>
-      ${(meta.followUps||[]).length?`<div class="follow-ups" style="margin-top:6px;">${(meta.followUps||[]).map(f=>`<button class="fup-btn" onclick="ask('${f.replace(/'/g,"\'")}')">${f}</button>`).join('')}</div>`:''}
+      ${(meta.followUps||[]).length?`<div class="follow-ups" style="margin-top:8px;">${(meta.followUps||[]).map(f=>`<button class="fup-btn" onclick="ask(\`${f}\`)">${f}</button>`).join('')}</div>`:''}
     </div>
   </div>`;
   scrollMsgs();
