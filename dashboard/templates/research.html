@@ -548,13 +548,17 @@ async function sendMsg(){
   box.value='';box.style.height='auto';
   document.getElementById('sendBtn').disabled=true;
   document.getElementById('quickPills').style.display='none';
+  // Remove follow-ups from previous messages
+  document.querySelectorAll('.follow-ups').forEach(el=>el.remove());
+  // Always use original research question for evidence panel
+  const researchQ = _history.length>0 ? (_history[0].content||q) : q;
   addUserMsg(q);
   const tid=addTyping();
   try{
     const headers={'Content-Type':'application/json'};
     if(_sbSession&&_sbSession.user){headers['X-User-ID']=_sbSession.user.id;headers['X-User-Email']=_sbSession.user.email;}
-    // Run research first for instant evidence, then chat
-    const rptRes=await fetch('/api/run_research',{method:'POST',headers,body:JSON.stringify({query:q})});
+    // Run research on ORIGINAL question for consistent evidence panel
+    const rptRes=await fetch('/api/run_research',{method:'POST',headers,body:JSON.stringify({query:researchQ})});
     const rpt=await rptRes.json();
     _lastRpt=rpt;
     // Show evidence panel immediately
