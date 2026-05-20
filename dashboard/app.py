@@ -1726,6 +1726,10 @@ def api_chat():
 def chat_page():
     return render_template("chat.html")
 
+@app.route("/map")
+def contradiction_map():
+    return render_template("map.html")
+
 if __name__ == "__main__":
     with _research_lock:
         _research_cache.clear()
