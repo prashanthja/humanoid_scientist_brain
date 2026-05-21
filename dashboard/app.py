@@ -1051,10 +1051,14 @@ def admin():
 def api_overview():
     reports = _load_reports(50)
     kg      = _kg_stats()
-    verdicts = {"supported":0,"partially_supported":0,"inconclusive":0,"contradicted":0}
+    verdicts = {"strong_evidence":0,"moderate_evidence":0,"limited_evidence":0,
+                    "mixed_evidence":0,"context_dependent":0,"inconclusive":0}
     for r in reports:
-        v = r.get("proposal_verdict","unknown")
-        if v in verdicts: verdicts[v] += 1
+        v = r.get("proposal_verdict","inconclusive")
+        if v in verdicts:
+            verdicts[v] += 1
+        else:
+            verdicts["inconclusive"] += 1
     confs = [float(r.get("proposal_confidence",0)) for r in reports if float(r.get("proposal_confidence",0)) > 0]
     return jsonify({
         "chunk_count":    _chunk_count(),
@@ -1068,7 +1072,14 @@ def api_overview():
 
 @app.route("/api/reports")
 def api_reports():
-    reports = _load_reports(50)
+    reports = _load_reports(100)
+    # Deduplicate by query — keep most recent
+    seen = {}
+    for r in reports:
+        q = (r.get("query","")).lower().strip()
+        if q not in seen:
+            seen[q] = r
+    unique = list(seen.values())[:50]
     return jsonify({"reports": [{
         "query":              r.get("query",""),
         "verdict":            r.get("proposal_verdict","unknown"),
@@ -1080,7 +1091,7 @@ def api_reports():
         "knowledge_gaps":     r.get("knowledge_gaps",[]),
         "timestamp":          r.get("timestamp",""),
         "file":               r.get("_file",""),
-    } for r in reports]})
+    } for r in unique]})
 
 @app.route("/api/report/<filename>")
 def api_report_detail(filename):
@@ -1096,7 +1107,27 @@ def api_kg():
 @app.route("/api/hypotheses")
 def api_hypotheses():
     hyps = _load_hypotheses(30)
-    return jsonify({"hypotheses": hyps, "count": len(hyps)})
+    # Clean up hypothesis text for display
+    import re as _re
+    cleaned = []
+    seen_hyp = set()
+    for h in hyps:
+        text = h.get("hypothesis","")
+        # Clean raw graph notation
+        text = _re.sub(r"--\[?[\w_]+\]?-->", "→", text)
+        text = _re.sub(r"\s*-->\s*", " → ", text)
+        text = text.strip()
+        # Deduplicate
+        if text.lower() in seen_hyp:
+            continue
+        seen_hyp.add(text.lower())
+        h["hypothesis"] = text
+        # Clean type label
+        h_type = h.get("type","")
+        if h_type == "graph_transitivity":
+            h["type"] = "Research Direction"
+        cleaned.append(h)
+    return jsonify({"hypotheses": cleaned[:30], "count": len(cleaned)})
 
 
 # ── SWMS ───────────────────────────────────────────────

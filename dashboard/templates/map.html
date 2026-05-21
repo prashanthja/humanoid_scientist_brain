@@ -120,7 +120,11 @@ canvas{position:absolute;inset:0;width:100%;height:100%;}
     </div>
   </div>
   <div class="sidebar">
-    <div class="sb-header">
+    <div id="sessionBanner" style="display:none;padding:8px 16px;background:#0D1A2E;border-bottom:1px solid var(--border);">
+  <div style="font-size:10px;color:var(--cyan);font-family:var(--mono);margin-bottom:2px;">FROM YOUR SESSION</div>
+  <div id="sessionQuery" style="font-size:12px;color:var(--text);"></div>
+</div>
+<div class="sb-header">
       <div class="sb-title">Where Science Disagrees</div>
       <div class="sb-sub">Live map of contradictions across 10,670 ML papers. Updated every 6 hours.</div>
     </div>
@@ -149,6 +153,7 @@ const TOPICS = [
 ];
 
 let _allContradictions = [];
+let _sessionContras = [];
 let _allGaps = [];
 let _nodes = [];
 let _edges = [];
@@ -476,6 +481,19 @@ function investigateContradiction(topic, idx){
   window.location.href = '/app?q=' + encodeURIComponent(q);
 }
 
+// Check for session contradictions
+const sessionData = sessionStorage.getItem('tattva_session_contras');
+if(sessionData){
+  try{
+    const sd = JSON.parse(sessionData);
+    if(sd.contradictions && sd.contradictions.length){
+      // Show session tab first
+      document.getElementById('sessionBanner').style.display='block';
+      document.getElementById('sessionQuery').textContent = sd.query || 'Current session';
+      _sessionContras = sd.contradictions;
+    }
+  }catch(e){}
+}
 // Init
 loadData();
 resize();

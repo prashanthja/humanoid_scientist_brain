@@ -624,10 +624,15 @@ let charts={};
 function mkChart(id,cfg){if(charts[id])charts[id].destroy();const ctx=document.getElementById(id);if(!ctx)return;charts[id]=new Chart(ctx.getContext('2d'),cfg);}
 
 function makeVerdictChart(id, v){
+  const strong = (v.strong_evidence||0)+(v.moderate_evidence||0)+(v.supported||0);
+  const limited = (v.limited_evidence||0)+(v.partially_supported||0);
+  const mixed = (v.mixed_evidence||0)+(v.context_dependent||0);
+  const inconclusive = (v.inconclusive||0);
+  const contradicted = (v.contradicted||0);
   mkChart(id,{type:'doughnut',data:{
-    labels:['Supported','Partial','Inconclusive','Contradicted'],
-    datasets:[{data:[v.supported||0,v.partially_supported||0,v.inconclusive||0,v.contradicted||0],
-    backgroundColor:['rgba(0,230,118,.8)','rgba(245,166,35,.8)','rgba(74,96,128,.6)','rgba(255,61,87,.8)'],
+    labels:['Strong/Moderate','Limited','Mixed','Inconclusive','Contradicted'],
+    datasets:[{data:[strong,limited,mixed,inconclusive,contradicted],
+    backgroundColor:['rgba(0,230,118,.8)','rgba(0,180,255,.8)','rgba(245,166,35,.8)','rgba(74,96,128,.6)','rgba(255,61,87,.8)'],
     borderWidth:0,hoverOffset:4}]},
     options:{responsive:true,maintainAspectRatio:false,
     plugins:{legend:{position:'right',labels:{boxWidth:8,padding:10}},
@@ -826,7 +831,7 @@ function renderIdeaLab(d){
   const dirs=(d.directions||[]).slice(0,4).map(dir=>`<div class="il-dir-item"><div style="display:flex;align-items:center;gap:6px;margin-bottom:3px;"><span style="font-size:11px;font-weight:600;color:var(--bright);">${dir.title}</span><span class="il-novelty">${dir.novelty}</span></div><div style="font-size:10px;color:var(--muted);line-height:1.5;">${dir.description}</div></div>`).join('') || '<div style="font-size:11px;color:var(--muted);">–</div>';
   const combos=(d.combinations||[]).slice(0,3).map(c=>`<div class="il-combo"><div style="font-family:var(--mono);font-size:10px;color:#4a9eff;margin-bottom:3px;">${c.a} + ${c.b}</div><div style="font-size:10px;color:var(--text);line-height:1.5;margin-bottom:4px;">${c.hypothesis}</div><div style="font-size:9px;color:var(--red);font-family:var(--mono);">⚠ ${c.risk}</div></div>`).join('') || '<div style="font-size:11px;color:var(--muted);">–</div>';
   const qs=(d.open_questions||[]).map((q,i)=>`<div class="il-q-item"><span style="font-family:var(--mono);font-size:9px;color:var(--muted);flex-shrink:0;">${i+1}.</span><span>${q}</span></div>`).join('') || '<div style="font-size:11px;color:var(--muted);">–</div>';
-  const prior=(d.prior_work||[]).map(p=>`<div class="il-prior"><div style="flex:1;font-size:11px;color:var(--text);">${p.query}</div><span style="font-family:var(--mono);font-size:9px;padding:1px 6px;border-radius:3px;background:${p.verdict==='supported'?'rgba(0,230,118,.1)':'rgba(74,96,128,.1)'};color:${p.verdict==='supported'?'var(--green)':'var(--muted)'};">${p.verdict.replace(/_/g,' ')}</span><span style="font-family:var(--mono);font-size:9px;color:var(--muted);">${p.confidence}</span></div>`).join('') || '<div style="font-family:var(--mono);font-size:10px;color:var(--muted);">No prior analysis yet.</div>';
+  const prior=(d.prior_work||[]).map(p=>`<div class="il-prior"><div style="flex:1;font-size:11px;color:var(--text);">${p.query}</div><span style="font-family:var(--mono);font-size:9px;padding:1px 6px;border-radius:3px;background:${['supported','strong_evidence','moderate_evidence'].includes(p.verdict)?'rgba(0,230,118,.1)':p.verdict==='mixed_evidence'?'rgba(255,160,0,.1)':'rgba(74,96,128,.1)'};color:${['supported','strong_evidence','moderate_evidence'].includes(p.verdict)?'var(--green)':p.verdict==='mixed_evidence'?'var(--amber)':'var(--muted)'};">${p.verdict.replace(/_/g,' ')}</span><span style="font-family:var(--mono);font-size:9px;color:var(--muted);">${p.confidence}</span></div>`).join('') || '<div style="font-family:var(--mono);font-size:10px;color:var(--muted);">No prior analysis yet.</div>';
 
   // Contradictions
   const contras=d.literature_contradictions||[];
