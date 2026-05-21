@@ -185,7 +185,7 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
   <div class="nav-right">
     <div class="nav-status"><div class="status-dot"></div><span>Live · 10,000+ papers</span></div>
     <button class="nav-btn" onclick="newSession()">+ New Session</button>
-    <button class="nav-btn" onclick="window.location.href='/map'">🗺 Contradiction Map</button>
+    <button class="nav-btn" onclick="openMap()" id="mapBtn">🗺 Contradiction Map <span id="contraNavCount" style="display:none;background:var(--red);color:white;border-radius:999px;padding:0 5px;font-size:10px;margin-left:4px;"></span></button>
     <button class="nav-btn" id="compareBtn" onclick="toggleComparison()">⚖ vs LLM</button>
     <label style="display:flex;align-items:center;gap:6px;cursor:pointer;">
       <input type="checkbox" id="researcherToggle" onchange="_researcherMode=this.checked"/>
@@ -234,6 +234,12 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
       </div>
     </div>
 
+    <!-- Session History Panel -->
+    <div id="sessionHistoryPanel" style="display:none;background:var(--paper);border-top:1px solid var(--border);padding:10px 24px;max-height:180px;overflow-y:auto;">
+      <div style="font-family:var(--mono);font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--dim);margin-bottom:8px;">Previous Sessions</div>
+      <div id="sessionHistoryList" style="display:flex;flex-direction:column;gap:6px;"></div>
+    </div>
+
     <div class="input-area">
       <div class="quick-pills" id="quickPills" style="display:none;"></div>
       <div class="input-row">
@@ -270,6 +276,9 @@ let _showComparison=false;
 let _lastRpt=null;
 let _sb2=null;
 let _sbSession=null;
+let _currentSessionQuery='';
+let _sessionHistory=[];
+let _sessionContradictions=[];
 
 function _vcls(v){return {strong_evidence:'strong',moderate_evidence:'moderate',limited_evidence:'moderate',mixed_evidence:'mixed',context_dependent:'moderate',inconclusive:'inconclusive'}[v]||'inconclusive';}
 function _vlbl(v){return {strong_evidence:'Strong Evidence',moderate_evidence:'Moderate Evidence',limited_evidence:'Limited Evidence',mixed_evidence:'Mixed Evidence',context_dependent:'Context-Dependent',inconclusive:'Inconclusive'}[v]||(v||'Inconclusive').replace(/_/g,' ');}
@@ -279,11 +288,84 @@ function now(){return new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2
 
 function ask(q){document.getElementById('inputBox').value=q;sendMsg();}
 
+function openMap(){
+  // If we have session contradictions, pass them to map
+  if(_sessionContradictions.length > 0){
+    sessionStorage.setItem('tattva_session_contras', JSON.stringify({
+      query: _currentSessionQuery,
+      contradictions: _sessionContradictions
+    }));
+  }
+  window.open('/map', '_blank');
+}
+
 function newSession(){
-  _history=[];_lastRpt=null;
+  // Save current session to sidebar history
+  if(_history.length > 0 && _currentSessionQuery){
+    const saved = _sessionHistory;
+    const verdictLabel = _lastRpt ? _vlbl(_lastRpt.proposal_verdict||'inconclusive') : '—';
+    saved.unshift({
+      query: _currentSessionQuery,
+      time: new Date().toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'}),
+      verdictLabel,
+      history: [..._history],
+      rpt: _lastRpt
+    });
+    _sessionHistory = saved.slice(0,10);
+    // Also save to localStorage for persistence
+    try{ localStorage.setItem('tattva_sessions', JSON.stringify(
+      _sessionHistory.map(s=>({query:s.query,time:s.time,verdictLabel:s.verdictLabel}))
+    )); }catch(e){}
+    renderSessionHistory();
+  }
+  _history=[];_lastRpt=null;_currentSessionQuery='';
   showWelcome();
   resetPanel();
   document.getElementById('quickPills').style.display='none';
+}
+
+function renderSessionHistory(){
+  const el = document.getElementById('sessionHistoryList');
+  const panel = document.getElementById('sessionHistoryPanel');
+  if(!el || !_sessionHistory.length){
+    if(panel) panel.style.display='none';
+    return;
+  }
+  panel.style.display = 'block';
+  el.innerHTML = _sessionHistory.map((s,i) => `
+    <div style="display:flex;align-items:center;justify-content:space-between;
+      padding:6px 10px;border:1px solid var(--border);border-radius:6px;
+      background:var(--bg);cursor:pointer;"
+      onclick="restoreSession(${i})">
+      <div>
+        <div style="font-size:12px;color:var(--text);margin-bottom:2px;">${s.query}</div>
+        <div style="font-size:10px;color:var(--dim);font-family:var(--mono);">${s.time} · ${s.verdictLabel||'—'}</div>
+      </div>
+      <span style="font-size:10px;padding:2px 8px;background:var(--blue-bg);color:var(--blue);
+        border:1px solid #c8d8f0;border-radius:3px;font-family:var(--mono);">Restore</span>
+    </div>`).join('');
+}
+
+function restoreSession(idx){
+  const s = _sessionHistory[idx];
+  if(!s) return;
+  document.getElementById('inputBox').value = s.query;
+  sendMsg();
+}
+
+async function saveSessionToCloud(){
+  if(!_sbSession || !_currentSessionQuery || !_lastRpt) return;
+  try{
+    await fetch('/api/run_research', {
+      method:'POST',
+      headers:{
+        'Content-Type':'application/json',
+        'X-User-ID': _sbSession.user.id,
+        'X-User-Email': _sbSession.user.email
+      },
+      body: JSON.stringify({query: _currentSessionQuery, _save_only: true})
+    });
+  }catch(e){}
 }
 
 function showWelcome(){
@@ -590,6 +672,12 @@ async function sendMsg(){
         llm_response:chatData.llm_comparison||null,
         followUps:followUps.slice(0,3)
       });
+      // Accumulate contradictions for this session
+      if(rpt.contradictions && rpt.contradictions.length){
+        _sessionContradictions = [..._sessionContradictions, ...rpt.contradictions].slice(0,20);
+        const badge = document.getElementById('contraNavCount');
+        if(badge){badge.textContent=_sessionContradictions.length;badge.style.display='inline';}
+      }
       renderPanel(rpt,null);
       setQuickPills(followUps.slice(0,4));
       fetch('/api/suggestions',{method:'POST',headers:{'Content-Type':'application/json'},
@@ -629,6 +717,16 @@ function clearAuthUI(){
 async function signInWithGoogle(){const sb=await initSupabase();await sb.auth.signInWithOAuth({provider:'google',options:{redirectTo:window.location.origin}});}
 async function signOut(){const sb=await initSupabase();await sb.auth.signOut();clearAuthUI();}
 initSupabase();
+
+// Load saved sessions from localStorage
+try{
+  const saved = localStorage.getItem('tattva_sessions');
+  if(saved){
+    const sessions = JSON.parse(saved);
+    _sessionHistory = sessions.map(s=>({...s, history:[], rpt:null}));
+    renderSessionHistory();
+  }
+}catch(e){}
 </script>
 </body>
 </html>"""
