@@ -682,6 +682,8 @@ async function sendMsg(){
   // quickPills disabled
   // Remove follow-ups from previous messages
   document.querySelectorAll('.follow-ups').forEach(el=>el.remove());
+  // Track first query of session
+  if(_history.length===0) _currentSessionQuery = q;
   // Always use original research question for evidence panel
   const researchQ = _history.length>0 ? (_history[0].content||q) : q;
   addUserMsg(q);
