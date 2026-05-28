@@ -411,10 +411,32 @@ canvas.addEventListener('wheel', e => {
 function resetZoom(){_zoom=1;_pan={x:0,y:0};draw();}
 function toggleLabels(){_showLabels=!_showLabels;draw();}
 
+function renderSessionContras(contras, query){
+  const el = document.getElementById('sbContent');
+  if(!contras || !contras.length){
+    el.innerHTML='<div style="text-align:center;padding:40px;color:var(--dim);font-size:12px;">No contradictions in this session.</div>';
+    return;
+  }
+  el.innerHTML = contras.map((c,i)=>`
+    <div class="contra-card" onclick="highlightContradiction(${i})">
+      <div class="contra-type">${c.topic||''} · ${(c.contradiction_type||'conflict').replace(/_/g,' ')}</div>
+      <div class="contra-papers">
+        <div class="contra-paper supports">✓ ${(c.supporting_paper||'').slice(0,45)}…</div>
+        <div class="contra-paper contradicts">✗ ${(c.contradicting_paper||'').slice(0,45)}…</div>
+      </div>
+      <div class="contra-impl">${(c.implication||'').slice(0,100)}</div>
+      <button class="ask-btn" onclick="event.stopPropagation();window.location.href='/app?q='+encodeURIComponent('Explain the contradiction between ${(c.supporting_paper||'').slice(0,20).replace(/'/g,'')} and ${(c.contradicting_paper||'').slice(0,20).replace(/'/g,'')}')">Investigate →</button>
+    </div>`).join('');
+}
+
 function showTab(tab, el){
   document.querySelectorAll('.sb-tab').forEach(t=>t.classList.remove('active'));
   el.classList.add('active');
-  renderSidebar(tab);
+  if(tab==='session'){
+    renderSessionContras(_sessionContras);
+  } else {
+    renderSidebar(tab);
+  }
 }
 
 function renderSidebar(tab){
@@ -482,17 +504,29 @@ function investigateContradiction(topic, idx){
 }
 
 // Check for session contradictions
-const sessionData = sessionStorage.getItem('tattva_session_contras');
+const sessionData = localStorage.getItem('tattva_session_contras');
 if(sessionData){
   try{
     const sd = JSON.parse(sessionData);
     if(sd.contradictions && sd.contradictions.length){
-      // Show session tab first
-      document.getElementById('sessionBanner').style.display='block';
-      document.getElementById('sessionQuery').textContent = sd.query || 'Current session';
       _sessionContras = sd.contradictions;
+      const banner = document.getElementById('sessionBanner');
+      const queryEl = document.getElementById('sessionQuery');
+      if(banner) banner.style.display='block';
+      if(queryEl) queryEl.textContent = 'Contradictions from: "' + (sd.query||'your session') + '"';
+      // Replace tabs
+      const tabsEl = document.querySelector('.sb-tabs');
+      if(tabsEl){
+        tabsEl.innerHTML = `
+          <div class="sb-tab active" id="sessionTab" onclick="showTab('session',this)">
+            This Session <span style="background:#f7566a;color:white;border-radius:999px;padding:0 6px;font-size:9px;margin-left:4px;">${sd.contradictions.length}</span>
+          </div>
+          <div class="sb-tab" onclick="showTab('contradictions',this)">All Papers</div>
+          <div class="sb-tab" onclick="showTab('gaps',this)">Gaps</div>`;
+      }
+      setTimeout(()=>renderSessionContras(sd.contradictions, sd.query), 600);
     }
-  }catch(e){}
+  }catch(e){console.error(e);}
 }
 // Init
 loadData();

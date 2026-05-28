@@ -73,7 +73,7 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
 .ev-chip.green{background:var(--green-bg);color:var(--green);border-color:var(--green-border);}
 .ev-chip.red{background:var(--red-bg);color:var(--red);border-color:var(--red-border);}
 .ev-chip.amber{background:var(--amber-bg);color:var(--amber);border-color:var(--amber-border);}
-.follow-ups{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px;}
+.follow-ups{display:flex;flex-wrap:nowrap;gap:6px;margin-top:10px;overflow-x:auto;padding-bottom:2px;}
 .fup-btn{font-size:12px;padding:6px 12px;border:1px solid var(--border);border-radius:999px;
   background:var(--bg);cursor:pointer;color:var(--mid);font-family:var(--sans);transition:all .15s;}
 .fup-btn:hover{border-color:var(--accent);color:var(--accent);background:var(--blue-bg);}
@@ -184,13 +184,23 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
   </div>
   <div class="nav-right">
     <div class="nav-status"><div class="status-dot"></div><span>Live · 10,000+ papers</span></div>
-    <button class="nav-btn" onclick="newSession()">+ New Session</button>
+    <div style="position:relative;">
+    <button class="nav-btn" onclick="newSession()" id="newSessionBtn">+ New Session</button>
+    <button onclick="toggleHistory()" style="padding:5px 8px;border:1px solid var(--border);border-left:none;border-radius:0 5px 5px 0;background:var(--bg);cursor:pointer;color:var(--mid);font-size:11px;" title="Session History">▾</button>
+    <div id="sessionHistoryPanel" style="display:none;position:absolute;top:36px;left:0;width:340px;
+      background:var(--paper);border:1px solid var(--border);border-radius:8px;
+      box-shadow:0 4px 16px rgba(0,0,0,.12);z-index:200;padding:10px;max-height:300px;overflow-y:auto;">
+      <div style="font-family:var(--mono);font-size:9px;letter-spacing:2px;text-transform:uppercase;
+        color:var(--dim);margin-bottom:8px;padding:0 4px;">Previous Sessions</div>
+      <div id="sessionHistoryList" style="display:flex;flex-direction:column;gap:6px;"></div>
+      <div id="noSessionsMsg" style="font-size:12px;color:var(--dim);padding:8px 4px;">
+        No saved sessions yet. Start a conversation and click + New Session to save it.
+      </div>
+    </div>
+  </div>
     <button class="nav-btn" onclick="openMap()" id="mapBtn">🗺 Contradiction Map <span id="contraNavCount" style="display:none;background:var(--red);color:white;border-radius:999px;padding:0 5px;font-size:10px;margin-left:4px;"></span></button>
     <button class="nav-btn" id="compareBtn" onclick="toggleComparison()">⚖ vs LLM</button>
-    <label style="display:flex;align-items:center;gap:6px;cursor:pointer;">
-      <input type="checkbox" id="researcherToggle" onchange="_researcherMode=this.checked"/>
-      <span style="font-size:12px;color:var(--mid);">Researcher Mode</span>
-    </label>
+
     <div style="display:flex;align-items:center;gap:8px;">
       <button class="google-btn" id="loginBtn" onclick="signInWithGoogle()">
         <svg width="14" height="14" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.18 1.48-4.97 2.31-8.16 2.31-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
@@ -210,7 +220,7 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
   <div class="conv-panel">
     <div class="messages" id="messages">
       <div class="welcome" id="welcomeScreen">
-        <div class="welcome-eyebrow">Tattva Scientist · Mistral 7B · 10,000+ papers</div>
+        <div class="welcome-eyebrow">Tattva Scientist · Llama 3.3 70B · 10,000+ papers</div>
         <h1 class="welcome-title">What do you want to investigate?</h1>
         <p class="welcome-sub">Ask a research question. I'll read real papers, evaluate evidence, find contradictions, and investigate with you — like a scientific partner.</p>
         <div class="welcome-grid">
@@ -234,11 +244,7 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
       </div>
     </div>
 
-    <!-- Session History Panel -->
-    <div id="sessionHistoryPanel" style="display:none;background:var(--paper);border-top:1px solid var(--border);padding:10px 24px;max-height:180px;overflow-y:auto;">
-      <div style="font-family:var(--mono);font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--dim);margin-bottom:8px;">Previous Sessions</div>
-      <div id="sessionHistoryList" style="display:flex;flex-direction:column;gap:6px;"></div>
-    </div>
+
 
     <div class="input-area">
       <div class="quick-pills" id="quickPills" style="display:none;"></div>
@@ -249,7 +255,7 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
           oninput="this.style.height='auto';this.style.height=Math.min(this.scrollHeight,120)+'px'"></textarea>
         <button class="send-btn" id="sendBtn" onclick="sendMsg()">Send →</button>
       </div>
-      <div class="input-foot">Evidence-grounded · Llama 3.1 70B · Groq · 10,000+ papers</div>
+      <div class="input-foot">Evidence-grounded · Llama 3.3 70B · Groq · 10,000+ papers</div>
     </div>
   </div>
 
@@ -257,7 +263,7 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
   <div class="evidence-panel">
     <div class="ep-header">
       <span class="ep-title">Live Evidence</span>
-      <span id="epStatus" style="font-size:10px;color:var(--dim);font-family:var(--mono);">Ask a question →</span>
+      <span id="epStatus" style="font-size:10px;color:var(--dim);font-family:var(--mono);"></span>
     </div>
     <div class="ep-scroll" id="epScroll">
       <div class="ep-empty" id="epEmpty">
@@ -286,12 +292,12 @@ function _cleanHyp(t){return (t||'').replace(/--\[?[\w_]+\]?-->/g,'→').replace
 function scrollMsgs(){const el=document.getElementById('messages');el.scrollTop=el.scrollHeight;}
 function now(){return new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});}
 
-function ask(q){document.getElementById('inputBox').value=q;sendMsg();}
+function ask(q){document.querySelectorAll('.follow-ups').forEach(el=>el.remove());document.getElementById('inputBox').value=q;sendMsg();}
 
 function openMap(){
   // If we have session contradictions, pass them to map
   if(_sessionContradictions.length > 0){
-    sessionStorage.setItem('tattva_session_contras', JSON.stringify({
+    localStorage.setItem('tattva_session_contras', JSON.stringify({
       query: _currentSessionQuery,
       contradictions: _sessionContradictions
     }));
@@ -300,57 +306,98 @@ function openMap(){
 }
 
 function newSession(){
-  // Save current session to sidebar history
+  // If already on welcome screen with no history, just show history panel
+  if(_history.length === 0){
+    toggleHistory();
+    return;
+  }
+  // Save current session
   if(_history.length > 0 && _currentSessionQuery){
-    const saved = _sessionHistory;
     const verdictLabel = _lastRpt ? _vlbl(_lastRpt.proposal_verdict||'inconclusive') : '—';
-    saved.unshift({
+    const session = {
       query: _currentSessionQuery,
       time: new Date().toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'}),
       verdictLabel,
-      history: [..._history],
-      rpt: _lastRpt
-    });
-    _sessionHistory = saved.slice(0,10);
-    // Also save to localStorage for persistence
-    try{ localStorage.setItem('tattva_sessions', JSON.stringify(
-      _sessionHistory.map(s=>({query:s.query,time:s.time,verdictLabel:s.verdictLabel}))
-    )); }catch(e){}
+      messages: document.getElementById('messages').innerHTML
+    };
+    _sessionHistory.unshift(session);
+    _sessionHistory = _sessionHistory.slice(0,8);
+    try{
+      localStorage.setItem('tattva_sessions', JSON.stringify(
+        _sessionHistory.map(s=>({query:s.query,time:s.time,verdictLabel:s.verdictLabel,messages:s.messages}))
+      ));
+    }catch(e){}
     renderSessionHistory();
   }
   _history=[];_lastRpt=null;_currentSessionQuery='';
+  _sessionContradictions=[];
+  const badge=document.getElementById('contraNavCount');
+  if(badge){badge.style.display='none';}
   showWelcome();
   resetPanel();
-  document.getElementById('quickPills').style.display='none';
+  // quickPills disabled
+}
+
+function toggleHistory(){
+  const panel = document.getElementById('sessionHistoryPanel');
+  if(!panel) return;
+  panel.style.display = panel.style.display==='none' ? 'block' : 'none';
+  if(panel.style.display==='block') renderSessionHistory();
+  // Close on outside click
+  setTimeout(()=>{
+    document.addEventListener('click', function closePanel(e){
+      if(!panel.contains(e.target) && !e.target.closest('[onclick="toggleHistory()"]')){
+        panel.style.display='none';
+        document.removeEventListener('click', closePanel);
+      }
+    });
+  }, 100);
 }
 
 function renderSessionHistory(){
   const el = document.getElementById('sessionHistoryList');
   const panel = document.getElementById('sessionHistoryPanel');
-  if(!el || !_sessionHistory.length){
-    if(panel) panel.style.display='none';
+  if(!el){return;}
+  const noMsg = document.getElementById('noSessionsMsg');
+  if(!_sessionHistory.length){
+    if(noMsg) noMsg.style.display='block';
+    el.innerHTML='';
     return;
   }
-  panel.style.display = 'block';
+  if(noMsg) noMsg.style.display='none';
   el.innerHTML = _sessionHistory.map((s,i) => `
     <div style="display:flex;align-items:center;justify-content:space-between;
-      padding:6px 10px;border:1px solid var(--border);border-radius:6px;
-      background:var(--bg);cursor:pointer;"
+      padding:8px 12px;border:1px solid var(--border);border-radius:6px;
+      background:var(--bg);cursor:pointer;transition:all .15s;"
+      onmouseover="this.style.borderColor='var(--accent)'"
+      onmouseout="this.style.borderColor='var(--border)'"
       onclick="restoreSession(${i})">
-      <div>
-        <div style="font-size:12px;color:var(--text);margin-bottom:2px;">${s.query}</div>
-        <div style="font-size:10px;color:var(--dim);font-family:var(--mono);">${s.time} · ${s.verdictLabel||'—'}</div>
+      <div style="flex:1;min-width:0;">
+        <div style="font-size:12px;color:var(--text);margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${s.query}</div>
+        <div style="font-size:10px;color:var(--dim);font-family:var(--mono);">${s.time} · <span style="color:var(--accent)">${s.verdictLabel||'—'}</span></div>
       </div>
       <span style="font-size:10px;padding:2px 8px;background:var(--blue-bg);color:var(--blue);
-        border:1px solid #c8d8f0;border-radius:3px;font-family:var(--mono);">Restore</span>
+        border:1px solid #c8d8f0;border-radius:3px;font-family:var(--mono);flex-shrink:0;margin-left:8px;">Restore →</span>
     </div>`).join('');
 }
 
 function restoreSession(idx){
   const s = _sessionHistory[idx];
   if(!s) return;
-  document.getElementById('inputBox').value = s.query;
-  sendMsg();
+  if(s.messages){
+    // Restore full conversation
+    document.getElementById('welcomeScreen')?.remove();
+    document.getElementById('messages').innerHTML = s.messages;
+    document.getElementById('sessionHistoryPanel').style.display='none';
+    // Re-ask last query to restore evidence panel
+    const lastQ = s.query;
+    fetch('/api/run_research',{method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({query:lastQ})})
+      .then(r=>r.json()).then(rpt=>renderPanel(rpt,null));
+  } else {
+    document.getElementById('inputBox').value = s.query;
+    sendMsg();
+  }
 }
 
 async function saveSessionToCloud(){
@@ -371,7 +418,7 @@ async function saveSessionToCloud(){
 function showWelcome(){
   document.getElementById('messages').innerHTML=`
   <div class="welcome" id="welcomeScreen">
-    <div class="welcome-eyebrow">Tattva Scientist · Mistral 7B · 10,000 papers</div>
+    <div class="welcome-eyebrow">Tattva Scientist · Llama 3.3 70B · 10,000+ papers</div>
     <h1 class="welcome-title">What do you want to investigate?</h1>
     <p class="welcome-sub">Ask a research question. I'll read real papers, evaluate evidence, find contradictions, and investigate with you.</p>
     <div class="welcome-grid">
@@ -405,8 +452,8 @@ function toggleComparison(){
 
 function addUserMsg(text){
   document.getElementById('welcomeScreen')?.remove();
-  // Remove follow-up buttons from previous messages
-  document.querySelectorAll('.follow-ups').forEach(el=>el.remove());
+  // Remove ALL follow-up buttons
+  document.querySelectorAll('.tattva-fups,.follow-ups').forEach(el=>el.remove());
   document.getElementById('messages').innerHTML+=`
   <div class="msg user">
     <div class="msg-avatar">👤</div>
@@ -434,6 +481,8 @@ function addTyping(){
 }
 
 function addAssistantMsg(text,meta={}){
+  // Remove ALL follow-up buttons before adding new message
+  document.querySelectorAll('.tattva-fups,.follow-ups').forEach(el=>el.remove());
   const papers=(meta.papers||[]).filter(p=>p);
   const verdict=meta.verdict;
   const contras=meta.contradictions||[];
@@ -458,7 +507,7 @@ function addAssistantMsg(text,meta={}){
       <div class="bubble">${text.replace(/\n/g,'<br/>')}${chipsHtml}${fupHtml}</div>
       ${compHtml}
       <div class="msg-time">Tattva · ${now()}${meta.evidence_used?' · '+meta.evidence_used+' papers read':''}</div>
-      ${(meta.followUps||[]).length?`<div class="follow-ups" style="margin-top:8px;">${(meta.followUps||[]).map(f=>`<button class="fup-btn" onclick="ask(\`${f}\`)">${f}</button>`).join('')}</div>`:''}
+      ${(meta.followUps||[]).length?`<div class="follow-ups tattva-fups" data-msgid="${Date.now()}" style="margin-top:8px;">${(meta.followUps||[]).map(f=>`<button class="fup-btn" onclick="ask(\`${f}\`)">${f}</button>`).join('')}</div>`:''}
     </div>
   </div>`;
   scrollMsgs();
@@ -617,12 +666,12 @@ function renderPanel(rpt,suggestions){
   el.innerHTML=html;
 }
 
-function setQuickPills(pills){
-  const el=document.getElementById('quickPills');
-  if(!pills||!pills.length){el.style.display='none';return;}
-  el.style.display='flex';
-  el.innerHTML=pills.map(p=>`<button class="qpill" onclick="ask('${p.replace(/'/g,"\\'")}')">${p}</button>`).join('');
-}
+
+function setQuickPills(pills){}
+
+
+
+
 
 async function sendMsg(){
   const box=document.getElementById('inputBox');
@@ -630,7 +679,7 @@ async function sendMsg(){
   if(!q)return;
   box.value='';box.style.height='auto';
   document.getElementById('sendBtn').disabled=true;
-  document.getElementById('quickPills').style.display='none';
+  // quickPills disabled
   // Remove follow-ups from previous messages
   document.querySelectorAll('.follow-ups').forEach(el=>el.remove());
   // Always use original research question for evidence panel
@@ -646,7 +695,7 @@ async function sendMsg(){
     _lastRpt=rpt;
     // Show evidence panel immediately
     renderPanel(rpt,null);
-    // Now get Mistral response
+    // Now get Groq response
     const chatRes=await fetch('/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},
       body:JSON.stringify({query:q,history:_history,show_comparison:_showComparison})});
     const chatData=await chatRes.json();
@@ -678,7 +727,6 @@ async function sendMsg(){
         const badge = document.getElementById('contraNavCount');
         if(badge){badge.textContent=_sessionContradictions.length;badge.style.display='inline';}
       }
-      renderPanel(rpt,null);
       setQuickPills(followUps.slice(0,4));
       fetch('/api/suggestions',{method:'POST',headers:{'Content-Type':'application/json'},
         body:JSON.stringify({query:q,verdict:v,confidence:rpt.proposal_confidence,top_papers:rpt.top_papers||[]})})
@@ -698,10 +746,30 @@ async function initSupabase(){
   try{
     const cfg=await fetch('/api/config').then(r=>r.json());
     _sb2=supabase.createClient(cfg.supabase_url,cfg.supabase_anon_key);
-    const {data:{session}}=await _sb2.auth.getSession();
-    if(session){_sbSession=session;updateAuthUI(session.user);}
-    _sb2.auth.onAuthStateChange((_e,s)=>{_sbSession=s;if(s)updateAuthUI(s.user);else clearAuthUI();});
-  }catch(e){}
+    // Handle OAuth redirect
+    const {data:{session}, error} = await _sb2.auth.getSession();
+    if(session){
+      _sbSession=session;
+      updateAuthUI(session.user);
+    }
+    // Listen for future auth changes
+    _sb2.auth.onAuthStateChange((_e,s)=>{
+      _sbSession=s;
+      if(s){updateAuthUI(s.user);}
+      else{clearAuthUI();}
+    });
+    // If URL has auth tokens (OAuth redirect), exchange them
+    if(window.location.hash.includes('access_token') || 
+       window.location.search.includes('code=')){
+      const {data} = await _sb2.auth.getSession();
+      if(data.session){
+        _sbSession=data.session;
+        updateAuthUI(data.session.user);
+        // Clean URL
+        window.history.replaceState({},document.title,window.location.pathname);
+      }
+    }
+  }catch(e){console.error('Supabase init error:',e);}
   return _sb2;
 }
 function updateAuthUI(user){
@@ -714,7 +782,7 @@ function clearAuthUI(){
   document.getElementById('loginBtn').style.display='flex';
   document.getElementById('userInfo').style.display='none';
 }
-async function signInWithGoogle(){const sb=await initSupabase();await sb.auth.signInWithOAuth({provider:'google',options:{redirectTo:window.location.origin}});}
+async function signInWithGoogle(){const sb=await initSupabase();await sb.auth.signInWithOAuth({provider:'google',options:{redirectTo:window.location.origin+'/app'}});}
 async function signOut(){const sb=await initSupabase();await sb.auth.signOut();clearAuthUI();}
 initSupabase();
 
