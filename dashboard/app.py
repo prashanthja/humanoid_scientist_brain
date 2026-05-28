@@ -1351,7 +1351,33 @@ def api_run_research():
                 if (gc.get("domain","") or "") not in ("unknown","")
             ))[:5] or ["transformer_efficiency"],
             "contradictions":       contradictions,
+            "best_experiments":     [],
         }
+        # Generate suggested experiments
+        try:
+            exps = []
+            if contradictions:
+                c = contradictions[0]
+                exps.append(
+                    f"Resolve conflict: run identical benchmark on {(c.get('supporting_paper','Paper A'))[:35]} "
+                    f"vs {(c.get('contradicting_paper','Paper B'))[:35]} — use same hardware, dataset, metrics"
+                )
+            if verdict in ("inconclusive","limited_evidence"):
+                exps.append(
+                    f"First proper study of '{query[:50]}': measure on A100 + H100, "
+                    f"compare 7B vs 70B, report wall-clock time and peak memory"
+                )
+            if slim["top_papers"]:
+                exps.append(
+                    f"Reproduce '{slim['top_papers'][0][:45]}' with your hardware "
+                    f"to verify generalizability beyond original lab conditions"
+                )
+            exps.append(
+                f"Ablation: vary the key parameter across 3 settings, "
+                f"measure accuracy vs efficiency tradeoff on standard benchmark"
+            )
+            slim["best_experiments"] = exps[:4]
+        except: pass
         # Save to Supabase research history if user is logged in
         try:
             user_id = request.headers.get("X-User-ID")
@@ -1748,7 +1774,7 @@ def api_chat():
         # Get generic LLM comparison if requested
         if show_comparison:
             result["llm_comparison"] = get_llm_comparison(query)
-        
+
         return jsonify(result)
     except Exception as e:
         return jsonify({"error": str(e)})
