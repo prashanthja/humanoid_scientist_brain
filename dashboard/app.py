@@ -1179,6 +1179,31 @@ def api_clear_sim_cache():
 
 # ── Research ───────────────────────────────────────────
 
+def _extract_scope(grounded_claims, contradictions):
+    hardware, tasks, model_sizes, seq_lengths = set(), set(), set(), set()
+    for gc in grounded_claims:
+        bc = gc.get("benchmark_context", {}) or {}
+        if bc.get("hardware"): hardware.add(bc["hardware"])
+        if bc.get("task"): tasks.add(bc["task"])
+        if bc.get("model_size"): model_sizes.add(bc["model_size"])
+    conflict_hw = set()
+    for c in contradictions:
+        if c.get("contradiction_type") == "hardware_variance":
+            for p in [c.get("supporting_paper",""), c.get("contradicting_paper","")]:
+                if "H100" in p: conflict_hw.add("H100")
+                if "A100" in p: conflict_hw.add("A100")
+    within, untested = [], []
+    if hardware: within.append("🖥 " + " · ".join(sorted(hardware)))
+    if tasks: within.append("📋 " + " · ".join(sorted(tasks)))
+    if model_sizes: within.append("⚙ " + " · ".join(sorted(model_sizes)))
+    all_hw = hardware | conflict_hw
+    if "A100" in all_hw and "H100" not in all_hw: untested.append("🖥 H100 Hopper (untested)")
+    if "H100" in all_hw and "A100" not in all_hw: untested.append("🖥 A100 (untested)")
+    if model_sizes and not any("70" in m or "405" in m for m in model_sizes): untested.append("⚙ 70B+ models (untested)")
+    if not seq_lengths: untested.append("📏 Long context >32k (untested)")
+    return {"within": within, "untested": untested, "has_scope": len(within) > 0}
+
+
 @app.route("/api/run_research", methods=["POST"])
 def api_run_research():
     try:
@@ -1194,14 +1219,32 @@ def api_run_research():
             if _r:
                 _hit = _r.get(_rkey)
                 if _hit:
-                    return jsonify(_json.loads(_hit))
+                    cached = _json.loads(_hit)
+                    try:
+                        from claim_drift_tracker import make_claim_id as _mcid, update_belief as _ub, get_belief as _gb
+                        qcid = _mcid(query)
+                        v = cached.get("proposal_verdict","inconclusive")
+                        _ub(qcid, query, "supports" if v in ("strong_evidence","moderate_evidence") else "contradicts", float(cached.get("proposal_confidence",0.5)), "", "cache")
+                        di = _gb(qcid)
+                        cached["drift"] = {"belief": di.get("belief",0.5), "direction": di.get("drift","stable"), "cusum_neg": round(di.get("cusum_neg",0),2)}
+                    except: pass
+                    return jsonify(cached)
         except: pass
 
         with _research_lock:
             if query in _research_cache:
                 age = time.time() - _research_cache_time.get(query, 0)
                 if age < _CACHE_TTL:
-                    return jsonify(_research_cache[query])
+                    cached = dict(_research_cache[query])
+                    try:
+                        from claim_drift_tracker import make_claim_id as _mcid, update_belief as _ub, get_belief as _gb
+                        qcid = _mcid(query)
+                        v = cached.get("proposal_verdict","inconclusive")
+                        _ub(qcid, query, "supports" if v in ("strong_evidence","moderate_evidence") else "contradicts", float(cached.get("proposal_confidence",0.5)), "", "cache")
+                        di = _gb(qcid)
+                        cached["drift"] = {"belief": di.get("belief",0.5), "direction": di.get("drift","stable"), "cusum_neg": round(di.get("cusum_neg",0),2)}
+                    except: pass
+                    return jsonify(cached)
                 else:
                     del _research_cache[query]
 
@@ -1327,11 +1370,13 @@ def api_run_research():
         if not explanation:
             explanation = report.proposal_explanation or "Evidence exists but is partial or indirect."
 
+        scope = _extract_scope(grounded, contradictions)
         slim = {
             "query":                query,
             "proposal_verdict":     verdict,
             "proposal_confidence":  round(max(float(confidence), 0.25),4),
             "proposal_explanation": explanation,
+            "scope":                scope,
             "evidence_count":       report.evidence_count,
             "supported_count":      supported_count,
             "contradicted_count":   contradicted_count,
@@ -1425,6 +1470,18 @@ def api_run_research():
             "contradictions_found": len(contradictions),
             "supported_count": supported_count,
         })
+        # Drift tracker
+        try:
+            from claim_drift_tracker import process_research_result as _pdr, make_claim_id as _mcid, update_belief as _ub, get_belief as _gb
+            _pdr(query, slim)
+            qcid = _mcid(query)
+            v = slim.get("proposal_verdict","inconclusive")
+            direction = "supports" if v in ("strong_evidence","moderate_evidence") else "contradicts"
+            _ub(qcid, query, direction, float(slim.get("proposal_confidence",0.5)), "", "pipeline")
+            drift_info = _gb(qcid)
+            slim["drift"] = {"belief": drift_info.get("belief",0.5), "direction": drift_info.get("drift","stable"), "cusum_neg": round(drift_info.get("cusum_neg",0),2)}
+        except Exception as _de:
+            print(f"[drift] error: {_de}")
         return jsonify(slim)
     except Exception as e:
         import traceback
