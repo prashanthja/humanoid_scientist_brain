@@ -1347,12 +1347,19 @@ def api_run_research():
         if contradicted_count >= 3:
             verdict = "mixed_evidence"
 
+
+
         # Check for contextual contradictions
         contextual_contradictions = [c for c in contradictions if c.get("context_differs")]
         if contextual_contradictions:
             ctx_dim = contextual_contradictions[0].get("context_dimension","context")
             verdict = "context_dependent"
             confidence = max(float(confidence), 0.45)
+
+        # Fallback: engine verdict wins when count-based gives inconclusive
+        if verdict == "inconclusive" and report.proposal_verdict in ("supported","partially_supported") and float(report.proposal_confidence or 0) >= 0.6:
+            verdict = "moderate_evidence"
+            confidence = max(float(confidence), float(report.proposal_confidence))
 
         # Generate rich explanation for every verdict
         contextual_contradictions = [c for c in contradictions if c.get("context_differs")]

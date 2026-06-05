@@ -182,12 +182,12 @@ def get_belief(claim_id: str) -> dict:
     belief = alpha / (alpha + beta)
     uncertainty = (alpha * beta) / ((alpha + beta)**2 * (alpha + beta + 1))
 
-    # Drift status
-    if cusum_pos > 5:   drift = "strengthening"
-    elif cusum_neg > 5: drift = "weakening"
-    elif cusum_neg > 2: drift = "slight_weakening"
-    elif cusum_pos > 2: drift = "slight_strengthening"
-    else:               drift = "stable"
+    # Drift status — matches CUSUM_THRESHOLD = 1.5
+    if cusum_pos > 1.5:   drift = "strengthening"
+    elif cusum_neg > 1.5: drift = "weakening"
+    elif cusum_neg > 0.8: drift = "slight_weakening"
+    elif cusum_pos > 0.8: drift = "slight_strengthening"
+    else:                 drift = "stable"
 
     return {
         "claim": row[5],

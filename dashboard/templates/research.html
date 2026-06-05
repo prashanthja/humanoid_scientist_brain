@@ -591,6 +591,24 @@ function renderPanel(rpt,suggestions){
         Consensus ${rpt.drift.direction.replace('_',' ')} · belief=${rpt.drift.belief}
       </span>
     </div>` : ''}
+    ${rpt.drift && rpt.drift.direction && rpt.drift.direction !== 'stable' && rpt.drift.direction !== 'unknown' ? `
+    <div style="margin-top:8px;padding:6px 10px;border-radius:4px;display:flex;align-items:center;gap:6px;
+      background:${['weakening','slight_weakening'].includes(rpt.drift.direction)?'var(--red-bg)':'var(--green-bg)'};
+      border:1px solid ${['weakening','slight_weakening'].includes(rpt.drift.direction)?'var(--red-border)':'var(--green-border)'};">
+      <span style="font-size:13px;">${['weakening','slight_weakening'].includes(rpt.drift.direction)?'⚠':'↑'}</span>
+      <div>
+        <div style="font-size:10px;font-weight:600;font-family:var(--mono);
+          color:${['weakening','slight_weakening'].includes(rpt.drift.direction)?'var(--red)':'var(--green)'};">
+          CONSENSUS ${rpt.drift.direction.replace('_',' ').toUpperCase()}
+        </div>
+        <div style="font-size:10px;color:var(--mid);">
+          Belief: ${(rpt.drift.belief*100).toFixed(0)}% · 
+          ${['weakening','slight_weakening'].includes(rpt.drift.direction)?
+            'New contradictions accumulating — verify before relying on this claim' :
+            'Evidence strengthening — growing support in literature'}
+        </div>
+      </div>
+    </div>` : ''}
     ${rpt.scope && rpt.scope.has_scope ? `
     <div style="margin-top:10px;padding-top:10px;border-top:1px solid var(--rule);">
       ${rpt.scope.within.length ? `
