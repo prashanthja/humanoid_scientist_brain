@@ -1,0 +1,990 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Tattva AI — Enterprise Autonomous Scientist</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --bg:#080b10;--surface:#0d1117;--card:#111720;--border:#1a2332;--border2:#243045;
+  --accent:#00e5ff;--accent2:#0066ff;--gold:#f5a623;--green:#00e676;--red:#ff3d57;--amber:#ffb300;--purple:#a855f7;
+  --text:#dde8f5;--muted:#4a6080;--dim:#2a3a52;--bright:#ffffff;
+  --mono:'JetBrains Mono',monospace;--sans:'Space Grotesk',sans-serif;
+  --radius:8px;--radius-lg:12px;
+}
+html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);font-family:var(--sans);}
+body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(0,229,255,.01) 3px,rgba(0,229,255,.01) 4px);pointer-events:none;z-index:9999;}
+
+/* LAYOUT */
+.layout{display:flex;height:100vh;overflow:hidden;}
+.sidebar{width:220px;background:var(--surface);border-right:1px solid var(--border);display:flex;flex-direction:column;flex-shrink:0;}
+.main{flex:1;display:flex;flex-direction:column;overflow:hidden;}
+.topbar{height:52px;background:var(--surface);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 24px;gap:16px;flex-shrink:0;}
+.content{flex:1;overflow-y:auto;padding:24px;}
+
+/* SIDEBAR */
+.sidebar-logo{padding:20px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;}
+.logo-hex{width:32px;height:32px;background:rgba(0,229,255,.08);border:1.5px solid var(--accent);clip-path:polygon(50% 0%,100% 25%,100% 75%,50% 100%,0% 75%,0% 25%);display:flex;align-items:center;justify-content:center;font-size:14px;color:var(--accent);}
+.logo-name{font-family:var(--mono);font-size:12px;font-weight:600;color:var(--bright);letter-spacing:2px;}
+.logo-tag{font-family:var(--mono);font-size:8px;color:var(--muted);letter-spacing:1px;text-transform:uppercase;}
+.nav{flex:1;padding:12px;overflow-y:auto;}
+.nav-section{font-family:var(--mono);font-size:8px;color:var(--muted);letter-spacing:2px;text-transform:uppercase;padding:12px 8px 4px;}
+.nav-item{display:flex;align-items:center;gap:8px;padding:8px 10px;border-radius:var(--radius);cursor:pointer;color:var(--muted);font-size:12px;font-weight:500;transition:all .15s;margin-bottom:1px;}
+.nav-item:hover{background:rgba(0,229,255,.05);color:var(--text);}
+.nav-item.active{background:rgba(0,229,255,.08);color:var(--accent);border:1px solid rgba(0,229,255,.15);}
+.nav-badge{margin-left:auto;background:var(--red);color:#fff;font-size:9px;font-family:var(--mono);padding:1px 5px;border-radius:3px;}
+.nav-badge.green{background:var(--green);color:#000;}
+.nav-badge.amber{background:var(--amber);color:#000;}
+.sidebar-footer{padding:12px 16px;border-top:1px solid var(--border);}
+.upgrade-btn{width:100%;padding:8px;background:linear-gradient(135deg,var(--accent2),var(--purple));border:none;border-radius:var(--radius);color:#fff;font-size:11px;font-weight:600;cursor:pointer;font-family:var(--sans);}
+
+/* TOPBAR */
+.tb-title{font-family:var(--mono);font-size:11px;color:var(--muted);letter-spacing:1px;text-transform:uppercase;}
+.tb-status{display:flex;align-items:center;gap:6px;font-size:11px;color:var(--green);font-family:var(--mono);}
+.tb-dot{width:6px;height:6px;background:var(--green);border-radius:50%;box-shadow:0 0 6px var(--green);animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:.4;}}
+.tb-spacer{flex:1;}
+.tb-btn{padding:6px 14px;border-radius:var(--radius);font-size:11px;font-weight:600;cursor:pointer;font-family:var(--sans);border:1px solid var(--border2);background:var(--card);color:var(--text);}
+.tb-btn.primary{background:var(--accent);color:#000;border-color:var(--accent);}
+
+/* CARDS */
+.grid{display:grid;gap:16px;}
+.grid-2{grid-template-columns:1fr 1fr;}
+.grid-3{grid-template-columns:1fr 1fr 1fr;}
+.grid-4{grid-template-columns:1fr 1fr 1fr 1fr;}
+.card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:20px;}
+.card-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;}
+.card-title{font-family:var(--mono);font-size:9px;color:var(--accent);letter-spacing:2px;text-transform:uppercase;display:flex;align-items:center;gap:6px;}
+.card-title::before{content:'';width:4px;height:4px;background:var(--accent);border-radius:50%;box-shadow:0 0 6px var(--accent);}
+
+/* STAT CARDS */
+.stat-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:16px 20px;}
+.stat-val{font-family:var(--mono);font-size:28px;font-weight:600;color:var(--bright);line-height:1;}
+.stat-label{font-size:11px;color:var(--muted);margin-top:4px;}
+.stat-trend{font-family:var(--mono);font-size:10px;margin-top:8px;}
+.stat-trend.up{color:var(--green);}
+.stat-trend.down{color:var(--red);}
+.stat-trend.neutral{color:var(--muted);}
+
+/* PORTFOLIO TABLE */
+.ptable{width:100%;border-collapse:collapse;}
+.ptable th{font-family:var(--mono);font-size:8px;color:var(--muted);letter-spacing:1.5px;text-transform:uppercase;padding:8px 12px;text-align:left;border-bottom:1px solid var(--border);}
+.ptable td{padding:10px 12px;border-bottom:1px solid rgba(26,35,50,.5);font-size:12px;vertical-align:middle;}
+.ptable tr:hover td{background:rgba(0,229,255,.02);}
+.verdict-pill{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:3px;font-family:var(--mono);font-size:9px;font-weight:600;}
+.verdict-pill.strong{background:rgba(0,230,118,.1);color:var(--green);border:1px solid rgba(0,230,118,.2);}
+.verdict-pill.moderate{background:rgba(0,229,255,.08);color:var(--accent);border:1px solid rgba(0,229,255,.15);}
+.verdict-pill.mixed{background:rgba(255,179,0,.08);color:var(--amber);border:1px solid rgba(255,179,0,.2);}
+.verdict-pill.limited{background:rgba(168,85,247,.08);color:var(--purple);border:1px solid rgba(168,85,247,.2);}
+.verdict-pill.inconclusive{background:rgba(74,96,128,.1);color:var(--muted);border:1px solid var(--border);}
+.risk-badge{display:inline-block;padding:2px 8px;border-radius:3px;font-family:var(--mono);font-size:9px;font-weight:600;}
+.risk-badge.high{background:rgba(255,61,87,.1);color:var(--red);border:1px solid rgba(255,61,87,.2);}
+.risk-badge.medium{background:rgba(255,179,0,.08);color:var(--amber);border:1px solid rgba(255,179,0,.2);}
+.risk-badge.low{background:rgba(0,230,118,.1);color:var(--green);border:1px solid rgba(0,230,118,.2);}
+.trend-arrow{font-size:12px;}
+
+/* INVESTIGATION CARD */
+.inv-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:16px 20px;margin-bottom:12px;position:relative;}
+.inv-card.auto{border-left:3px solid var(--accent);}
+.inv-card.user{border-left:3px solid var(--purple);}
+.inv-header{display:flex;align-items:center;gap:8px;margin-bottom:8px;}
+.inv-tag{font-family:var(--mono);font-size:8px;padding:2px 6px;border-radius:2px;font-weight:600;}
+.inv-tag.auto{background:rgba(0,229,255,.1);color:var(--accent);}
+.inv-tag.user{background:rgba(168,85,247,.1);color:var(--purple);}
+.inv-title{font-size:13px;font-weight:500;color:var(--bright);margin-bottom:6px;}
+.inv-finding{font-size:11px;color:var(--muted);line-height:1.5;margin-bottom:10px;}
+.inv-steps{display:flex;gap:4px;margin-bottom:10px;}
+.inv-step{width:20px;height:4px;border-radius:2px;background:var(--border);}
+.inv-step.done{background:var(--green);}
+.inv-step.active{background:var(--accent);animation:stepPulse 1.5s infinite;}
+@keyframes stepPulse{0%,100%{opacity:1;}50%{opacity:.4;}}
+.inv-actions{display:flex;gap:8px;}
+.inv-btn{padding:5px 12px;border-radius:var(--radius);font-size:10px;font-weight:600;cursor:pointer;font-family:var(--mono);border:1px solid var(--border2);background:transparent;color:var(--text);transition:all .15s;}
+.inv-btn:hover{border-color:var(--accent);color:var(--accent);}
+.inv-btn.primary{background:var(--accent);color:#000;border-color:var(--accent);}
+
+/* OPPORTUNITY CARD */
+.opp-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:16px 20px;margin-bottom:10px;}
+.opp-card.high{border-left:3px solid var(--red);}
+.opp-card.medium{border-left:3px solid var(--amber);}
+.opp-card.low{border-left:3px solid var(--green);}
+.opp-impact{font-family:var(--mono);font-size:8px;font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:6px;}
+.opp-impact.high{color:var(--red);}
+.opp-impact.medium{color:var(--amber);}
+.opp-impact.low{color:var(--green);}
+.opp-title{font-size:13px;font-weight:600;color:var(--bright);margin-bottom:4px;}
+.opp-desc{font-size:11px;color:var(--muted);line-height:1.5;margin-bottom:10px;}
+.opp-meta{display:flex;gap:12px;font-family:var(--mono);font-size:9px;color:var(--muted);}
+
+/* INTEL CARD */
+.intel-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:14px 18px;margin-bottom:8px;display:flex;gap:14px;align-items:flex-start;}
+.intel-org{font-family:var(--mono);font-size:10px;font-weight:700;color:var(--bright);min-width:90px;}
+.intel-body{flex:1;}
+.intel-paper{font-size:12px;color:var(--text);margin-bottom:3px;}
+.intel-verdict{font-size:10px;color:var(--muted);}
+.threat-badge{padding:2px 8px;border-radius:3px;font-family:var(--mono);font-size:8px;font-weight:700;flex-shrink:0;}
+.threat-badge.high{background:rgba(255,61,87,.1);color:var(--red);border:1px solid rgba(255,61,87,.2);}
+.threat-badge.medium{background:rgba(255,179,0,.08);color:var(--amber);border:1px solid rgba(255,179,0,.2);}
+.threat-badge.low{background:rgba(74,96,128,.1);color:var(--muted);border:1px solid var(--border);}
+
+/* EXPERIMENT DESIGNER */
+.exp-section{margin-bottom:16px;}
+.exp-label{font-family:var(--mono);font-size:8px;color:var(--muted);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:6px;}
+.exp-value{font-size:12px;color:var(--text);line-height:1.5;}
+.exp-highlight{background:rgba(0,229,255,.05);border:1px solid rgba(0,229,255,.1);border-radius:var(--radius);padding:10px 14px;font-family:var(--mono);font-size:11px;color:var(--accent);}
+.condition-row{display:flex;gap:8px;margin-bottom:6px;align-items:center;}
+.condition-pill{padding:3px 10px;background:var(--surface);border:1px solid var(--border2);border-radius:3px;font-family:var(--mono);font-size:10px;color:var(--text);}
+.condition-pill.h1{border-color:var(--green);color:var(--green);}
+.condition-pill.h2{border-color:var(--red);color:var(--red);}
+.cost-bar{height:4px;background:var(--border);border-radius:2px;overflow:hidden;margin-top:4px;}
+.cost-fill{height:100%;background:linear-gradient(90deg,var(--green),var(--accent));border-radius:2px;}
+
+/* LIT REVIEW */
+.lit-input{width:100%;padding:12px 16px;background:var(--surface);border:1px solid var(--border2);border-radius:var(--radius);color:var(--text);font-size:13px;font-family:var(--sans);outline:none;margin-bottom:12px;}
+.lit-input:focus{border-color:var(--accent);}
+.lit-section{margin-bottom:16px;padding-bottom:16px;border-bottom:1px solid var(--border);}
+.lit-section:last-child{border-bottom:none;}
+.lit-section-title{font-family:var(--mono);font-size:9px;color:var(--accent);letter-spacing:2px;text-transform:uppercase;margin-bottom:8px;}
+.lit-text{font-size:12px;color:var(--text);line-height:1.7;}
+.lit-cite{display:inline-flex;align-items:center;gap:3px;font-family:var(--mono);font-size:9px;color:var(--accent);background:rgba(0,229,255,.06);padding:1px 5px;border-radius:2px;cursor:pointer;}
+
+/* LOADING */
+.loading{display:flex;align-items:center;gap:8px;color:var(--muted);font-size:12px;font-family:var(--mono);}
+.spin{width:14px;height:14px;border:2px solid var(--border2);border-top-color:var(--accent);border-radius:50%;animation:spin .8s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg);}}
+
+/* PANES */
+.pane{display:none;}
+.pane.active{display:block;}
+
+/* QUERY INPUT */
+.query-bar{display:flex;gap:8px;margin-bottom:20px;}
+.query-input{flex:1;padding:10px 16px;background:var(--surface);border:1px solid var(--border2);border-radius:var(--radius);color:var(--text);font-size:13px;font-family:var(--sans);outline:none;}
+.query-input:focus{border-color:var(--accent);}
+.query-btn{padding:10px 20px;background:var(--accent);color:#000;border:none;border-radius:var(--radius);font-size:12px;font-weight:700;cursor:pointer;font-family:var(--sans);}
+
+/* DRIFT MINI */
+.drift-mini{display:flex;gap:3px;align-items:flex-end;height:20px;}
+.drift-bar{width:4px;background:var(--accent);border-radius:1px;opacity:.6;}
+
+/* SCROLLBAR */
+::-webkit-scrollbar{width:4px;}
+::-webkit-scrollbar-track{background:transparent;}
+::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px;}
+</style>
+</head>
+<body>
+<div class="layout">
+
+<!-- SIDEBAR -->
+<div class="sidebar">
+  <div class="sidebar-logo">
+    <div class="logo-hex">◈</div>
+    <div>
+      <div class="logo-name">TATTVA AI</div>
+      <div class="logo-tag">Enterprise</div>
+    </div>
+  </div>
+  <div class="nav">
+    <div class="nav-section">Intelligence</div>
+    <div class="nav-item active" onclick="goPane('portfolio')">📊 Portfolio Health</div>
+    <div class="nav-item" onclick="goPane('autopilot')">🤖 Autopilot <span class="nav-badge green">2</span></div>
+    <div class="nav-item" onclick="goPane('experiments')">🧪 Experiment Designer</div>
+    <div class="nav-section">Discovery</div>
+    <div class="nav-item" onclick="goPane('radar')">📡 Opportunity Radar <span class="nav-badge amber">3</span></div>
+    <div class="nav-item" onclick="goPane('intel')">🎯 Competitive Intel <span class="nav-badge red">5</span></div>
+    <div class="nav-item" onclick="goPane('litreview')">📄 Literature Review</div>
+    <div class="nav-section">Settings</div>
+    <div class="nav-item" onclick="window.location='/app'">↗ Researcher Tool</div>
+    <div class="nav-item" onclick="window.location='/map'">🗺 Contradiction Map</div>
+    <div class="nav-item" onclick="window.location='/admin'">⚙ Internal Tools</div>
+  </div>
+  <div class="sidebar-footer">
+    <button class="upgrade-btn">Upgrade to Enterprise →</button>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+
+  <!-- TOPBAR -->
+  <div class="topbar">
+    <span class="tb-title" id="tbTitle">RESEARCH PORTFOLIO HEALTH</span>
+    <div class="tb-status"><div class="tb-dot"></div><span id="tbStatus">Pipeline Active · 15,412 papers</span></div>
+    <div class="tb-spacer"></div>
+    <button class="tb-btn" onclick="refreshAll()">↺ Refresh</button>
+    <button class="tb-btn primary" onclick="goPane('autopilot')">+ New Investigation</button>
+  </div>
+
+  <!-- CONTENT -->
+  <div class="content">
+
+    <!-- ═══════════════════════════════════════════════
+         PANE 1: PORTFOLIO HEALTH
+    ═══════════════════════════════════════════════ -->
+    <div class="pane active" id="pane-portfolio">
+      <!-- Stats row -->
+      <div class="grid grid-4" style="margin-bottom:20px;">
+        <div class="stat-card">
+          <div class="stat-val" id="stat-directions">6</div>
+          <div class="stat-label">Research Directions</div>
+          <div class="stat-trend neutral">Tracked since onboarding</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-val" style="color:var(--red)" id="stat-risk">2</div>
+          <div class="stat-label">High Risk Directions</div>
+          <div class="stat-trend down">↑ 1 new this week</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-val" style="color:var(--green)" id="stat-opportunities">3</div>
+          <div class="stat-label">New Opportunities</div>
+          <div class="stat-trend up">↑ Detected this week</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-val" id="stat-conf">0.617</div>
+          <div class="stat-label">Mean Evidence Confidence</div>
+          <div class="stat-trend up">↑ +4.5% from last benchmark</div>
+        </div>
+      </div>
+
+      <!-- Portfolio Table -->
+      <div class="card">
+        <div class="card-head">
+          <div class="card-title">Research Portfolio</div>
+          <div style="font-family:var(--mono);font-size:9px;color:var(--muted);">Updated: <span id="portUpdated">now</span></div>
+        </div>
+        <table class="ptable">
+          <thead>
+            <tr>
+              <th>Direction</th>
+              <th>Evidence</th>
+              <th>Confidence</th>
+              <th>Trend</th>
+              <th>Risk</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="portfolioBody">
+            <tr><td colspan="6"><div class="loading"><div class="spin"></div>Loading portfolio...</div></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════
+         PANE 2: AUTOPILOT INVESTIGATIONS
+    ═══════════════════════════════════════════════ -->
+    <div class="pane" id="pane-autopilot">
+      <div class="grid grid-2" style="margin-bottom:20px;">
+        <div class="stat-card">
+          <div class="stat-val" style="color:var(--accent)">2</div>
+          <div class="stat-label">Active Investigations</div>
+          <div class="stat-trend neutral">Auto-triggered by anomaly detection</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-val" style="color:var(--green)">4</div>
+          <div class="stat-label">Completed This Month</div>
+          <div class="stat-trend up">↑ 3 experiments designed</div>
+        </div>
+      </div>
+
+      <!-- New investigation input -->
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-head"><div class="card-title">New Investigation</div></div>
+        <div class="query-bar">
+          <input class="query-input" id="invInput" placeholder="Enter research question to investigate autonomously..."/>
+          <button class="query-btn" onclick="startInvestigation()">Investigate →</button>
+        </div>
+      </div>
+
+      <!-- Active investigations -->
+      <div class="card-title" style="margin-bottom:12px;">ACTIVE INVESTIGATIONS</div>
+      <div id="investigationsList">
+        <div class="inv-card auto">
+          <div class="inv-header">
+            <span class="inv-tag auto">AUTO</span>
+            <span style="font-family:var(--mono);font-size:9px;color:var(--muted);">Triggered 2h ago · Step 4/6</span>
+          </div>
+          <div class="inv-title">Why does INT4 quantization degrade reasoning tasks but not classification?</div>
+          <div class="inv-finding">Anomaly detected: 4 papers confirm INT4 for classification, 3 contradict for reasoning. Hypothesis formed: attention precision loss in multi-step chains.</div>
+          <div class="inv-steps">
+            <div class="inv-step done"></div>
+            <div class="inv-step done"></div>
+            <div class="inv-step done"></div>
+            <div class="inv-step active"></div>
+            <div class="inv-step"></div>
+            <div class="inv-step"></div>
+          </div>
+          <div class="inv-actions">
+            <button class="inv-btn primary" onclick="viewInvestigation(0)">View Live →</button>
+            <button class="inv-btn" onclick="goPane('experiments')">Design Experiment</button>
+          </div>
+        </div>
+
+        <div class="inv-card auto">
+          <div class="inv-header">
+            <span class="inv-tag auto">AUTO</span>
+            <span style="font-family:var(--mono);font-size:9px;color:var(--muted);">Triggered 5h ago · Step 2/6</span>
+          </div>
+          <div class="inv-title">Does LoRA + FlashAttention interact to produce compounded memory savings?</div>
+          <div class="inv-finding">New opportunity detected: 0 papers have tested these together. Your corpus covers both separately. Potential: 2× memory reduction.</div>
+          <div class="inv-steps">
+            <div class="inv-step done"></div>
+            <div class="inv-step active"></div>
+            <div class="inv-step"></div>
+            <div class="inv-step"></div>
+            <div class="inv-step"></div>
+            <div class="inv-step"></div>
+          </div>
+          <div class="inv-actions">
+            <button class="inv-btn primary" onclick="viewInvestigation(1)">View Live →</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Investigation detail modal -->
+      <div id="invDetail" style="display:none;" class="card" style="margin-top:16px;">
+        <div class="card-head">
+          <div class="card-title" id="invDetailTitle">INVESTIGATION DETAIL</div>
+          <button class="inv-btn" onclick="document.getElementById('invDetail').style.display='none'">✕ Close</button>
+        </div>
+        <div id="invDetailBody" style="font-size:12px;line-height:1.7;color:var(--text);"></div>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════
+         PANE 3: EXPERIMENT DESIGNER
+    ═══════════════════════════════════════════════ -->
+    <div class="pane" id="pane-experiments">
+      <div class="grid grid-2" style="gap:20px;">
+        <!-- Left: Input -->
+        <div>
+          <div class="card" style="margin-bottom:16px;">
+            <div class="card-head"><div class="card-title">Design Experiment</div></div>
+            <input class="query-input" id="expQuery" placeholder="Research question to resolve..."/>
+            <button class="query-btn" style="width:100%;" onclick="designExperiment()">Generate Experiment Design →</button>
+          </div>
+
+          <div class="card" id="expContradiction" style="display:none;">
+            <div class="card-head"><div class="card-title">Contradiction Detected</div></div>
+            <div id="expContradictionBody"></div>
+          </div>
+        </div>
+
+        <!-- Right: Output -->
+        <div class="card" id="expOutput">
+          <div class="card-head"><div class="card-title">Experiment Design</div></div>
+          <div id="expBody">
+            <div style="color:var(--muted);font-size:12px;text-align:center;padding:40px 0;">
+              Enter a research question to generate a targeted experiment design.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════
+         PANE 4: OPPORTUNITY RADAR
+    ═══════════════════════════════════════════════ -->
+    <div class="pane" id="pane-radar">
+      <div class="card-title" style="margin-bottom:16px;">OPPORTUNITY RADAR · Based on your domain: LLM efficiency</div>
+
+      <div class="opp-card high">
+        <div class="opp-impact high">🔴 HIGH IMPACT — UNCLAIMED</div>
+        <div class="opp-title">FlashAttention + INT4 KV cache co-design</div>
+        <div class="opp-desc">Zero papers have tested FlashAttention with INT4-quantized KV cache simultaneously. Your corpus covers both separately. Combined approach could yield 2× memory reduction over either alone. First-mover window is open.</div>
+        <div class="opp-meta">
+          <span>0 papers combined</span>
+          <span>·</span>
+          <span>Est. 3 weeks research</span>
+          <span>·</span>
+          <span>High novelty</span>
+        </div>
+        <div style="margin-top:10px;display:flex;gap:8px;">
+          <button class="inv-btn primary" onclick="startOppInvestigation('FlashAttention + INT4 KV cache co-design')">Start Investigation →</button>
+          <button class="inv-btn" onclick="goPane('experiments')">Design Experiment</button>
+        </div>
+      </div>
+
+      <div class="opp-card medium">
+        <div class="opp-impact medium">🟡 MEDIUM — 1 COMPETITOR TOUCHED THIS</div>
+        <div class="opp-title">KV cache eviction under MoE routing</div>
+        <div class="opp-desc">DeepSeek acknowledged this gap in their MLA paper but did not solve it. MoE routing decisions affect which KV states are actually needed — eviction policy should be routing-aware. Your MoE corpus coverage makes this tractable.</div>
+        <div class="opp-meta">
+          <span>1 paper (partial)</span>
+          <span>·</span>
+          <span>Est. 4 weeks research</span>
+          <span>·</span>
+          <span>Medium novelty</span>
+        </div>
+        <div style="margin-top:10px;display:flex;gap:8px;">
+          <button class="inv-btn primary" onclick="startOppInvestigation('KV cache eviction under MoE routing')">Start Investigation →</button>
+        </div>
+      </div>
+
+      <div class="opp-card low">
+        <div class="opp-impact low">🟢 GROWING — FIRST MOVER WINDOW OPEN</div>
+        <div class="opp-title">Speculative decoding + prefix caching interaction</div>
+        <div class="opp-desc">2 papers on each technique separately, 0 combined. 47% of production LLM queries have repeated prefixes. Combined approach could yield 3-5× throughput over either alone. Evidence confidence currently limited — early advantage available.</div>
+        <div class="opp-meta">
+          <span>0 papers combined</span>
+          <span>·</span>
+          <span>Est. 2 weeks research</span>
+          <span>·</span>
+          <span>High novelty</span>
+        </div>
+        <div style="margin-top:10px;display:flex;gap:8px;">
+          <button class="inv-btn primary" onclick="startOppInvestigation('Speculative decoding + prefix caching combined throughput')">Start Investigation →</button>
+        </div>
+      </div>
+
+      <div id="radarLive" style="margin-top:16px;"></div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════
+         PANE 5: COMPETITIVE INTELLIGENCE
+    ═══════════════════════════════════════════════ -->
+    <div class="pane" id="pane-intel">
+      <div class="card-title" style="margin-bottom:16px;">COMPETITIVE INTELLIGENCE · This week: 5 new papers in your domain</div>
+
+      <div class="intel-card">
+        <div>
+          <div class="intel-org">DEEPSEEK</div>
+          <div style="font-family:var(--mono);font-size:8px;color:var(--muted);">3 papers · 2 days ago</div>
+        </div>
+        <div class="intel-body">
+          <div class="intel-paper">Multi-head Latent Attention — reduces KV cache 5-13×</div>
+          <div class="intel-verdict">Tattva verdict: Moderate Evidence (0.73) · 1 contradiction found in memory claims</div>
+          <div style="margin-top:6px;display:flex;gap:6px;">
+            <button class="inv-btn" onclick="analyzeCompetitor('DeepSeek Multi-head Latent Attention KV cache reduction')">Full Analysis →</button>
+            <button class="inv-btn" onclick="goPane('experiments')">Counter-Experiment</button>
+          </div>
+        </div>
+        <div class="threat-badge high">HIGH THREAT</div>
+      </div>
+
+      <div class="intel-card">
+        <div>
+          <div class="intel-org">GOOGLE DM</div>
+          <div style="font-family:var(--mono);font-size:8px;color:var(--muted);">1 paper · 3 days ago</div>
+        </div>
+        <div class="intel-body">
+          <div class="intel-paper">Speculative decoding improvement — 40% speedup claimed</div>
+          <div class="intel-verdict">Tattva verdict: Limited Evidence (0.40) · Single paper, no replication</div>
+          <div style="margin-top:6px;">
+            <button class="inv-btn" onclick="analyzeCompetitor('Speculative decoding 40% speedup Google DeepMind')">Full Analysis →</button>
+          </div>
+        </div>
+        <div class="threat-badge low">LOW THREAT</div>
+      </div>
+
+      <div class="intel-card">
+        <div>
+          <div class="intel-org">META AI</div>
+          <div style="font-family:var(--mono);font-size:8px;color:var(--muted);">2 papers · 4 days ago</div>
+        </div>
+        <div class="intel-body">
+          <div class="intel-paper">LoRA variants for 70B — new rank selection method</div>
+          <div class="intel-verdict">Tattva verdict: Moderate Evidence (0.65) · Directly relevant to fine-tuning work</div>
+          <div style="margin-top:6px;display:flex;gap:6px;">
+            <button class="inv-btn" onclick="analyzeCompetitor('LoRA variants 70B model rank selection Meta')">Full Analysis →</button>
+          </div>
+        </div>
+        <div class="threat-badge medium">MEDIUM THREAT</div>
+      </div>
+
+      <div id="intelDetail" style="display:none;margin-top:16px;" class="card">
+        <div class="card-head">
+          <div class="card-title" id="intelDetailTitle">ANALYSIS</div>
+          <button class="inv-btn" onclick="document.getElementById('intelDetail').style.display='none'">✕</button>
+        </div>
+        <div id="intelDetailBody" style="font-size:12px;line-height:1.7;"></div>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════
+         PANE 6: LITERATURE REVIEW WRITER
+    ═══════════════════════════════════════════════ -->
+    <div class="pane" id="pane-litreview">
+      <div class="grid grid-2" style="gap:20px;align-items:start;">
+        <div>
+          <div class="card">
+            <div class="card-head"><div class="card-title">Generate Literature Review</div></div>
+            <input class="lit-input" id="litTopic" placeholder="Topic: e.g. KV cache optimization for long context LLMs"/>
+            <button class="query-btn" style="width:100%;margin-bottom:12px;" onclick="generateLitReview()">Generate Review →</button>
+            <div style="font-size:11px;color:var(--muted);">Every sentence traced to real papers. Contradictions flagged. Scope qualifications included.</div>
+          </div>
+        </div>
+
+        <div class="card" id="litOutput">
+          <div class="card-head">
+            <div class="card-title">Literature Review</div>
+            <button class="inv-btn" id="litCopyBtn" style="display:none;" onclick="copyLitReview()">Copy</button>
+          </div>
+          <div id="litBody">
+            <div style="color:var(--muted);font-size:12px;text-align:center;padding:40px 0;">
+              Enter a topic to generate a cited literature review in 60 seconds.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /content -->
+</div><!-- /main -->
+</div><!-- /layout -->
+
+<script>
+// ── State ──────────────────────────────────────────────
+const DIRECTIONS = [
+  {name:"LoRA optimization",       query:"Does LoRA reduce fine-tuning cost?"},
+  {name:"MoE routing",             query:"Does Mixture of Experts reduce compute cost per token?"},
+  {name:"INT4 quantization",       query:"Does quantization to INT8 degrade model accuracy?"},
+  {name:"FlashAttention v3",       query:"Does FlashAttention reduce GPU memory usage during training?"},
+  {name:"KV cache compression",    query:"Does KV cache compression reduce memory overhead in long context?"},
+  {name:"Speculative decoding",    query:"Does speculative decoding improve inference throughput?"},
+];
+
+const PANE_TITLES = {
+  portfolio:   "RESEARCH PORTFOLIO HEALTH",
+  autopilot:   "AUTOPILOT — AUTONOMOUS INVESTIGATIONS",
+  experiments: "EXPERIMENT DESIGNER",
+  radar:       "OPPORTUNITY RADAR",
+  intel:       "COMPETITIVE INTELLIGENCE",
+  litreview:   "LITERATURE REVIEW WRITER",
+};
+
+function goPane(id) {
+  document.querySelectorAll('.pane').forEach(p => p.classList.remove('active'));
+  document.getElementById('pane-'+id).classList.add('active');
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  event.currentTarget.classList.add('active');
+  document.getElementById('tbTitle').textContent = PANE_TITLES[id] || id.toUpperCase();
+}
+
+// ── Portfolio ───────────────────────────────────────────
+async function loadPortfolio() {
+  const tbody = document.getElementById('portfolioBody');
+  tbody.innerHTML = '<tr><td colspan="6"><div class="loading"><div class="spin"></div>Running evidence pipeline on all directions...</div></td></tr>';
+
+  const results = [];
+  for (const d of DIRECTIONS) {
+    try {
+      const r = await fetch('/api/run_research', {
+        method:'POST', headers:{'Content-Type':'application/json'},
+        body: JSON.stringify({query: d.query})
+      });
+      const data = await r.json();
+      results.push({...d, ...data});
+    } catch(e) {
+      results.push({...d, proposal_verdict:'inconclusive', proposal_confidence:0.25});
+    }
+  }
+
+  tbody.innerHTML = results.map(r => {
+    const v = r.proposal_verdict || 'inconclusive';
+    const conf = (r.proposal_confidence || 0.25).toFixed(2);
+    const drift = r.drift?.direction || 'stable';
+    const supported = r.supported_count || 0;
+    const contradicted = r.contradicted_count || 0;
+
+    // Verdict pill
+    let pillClass = 'inconclusive';
+    if (v.includes('strong')) pillClass = 'strong';
+    else if (v.includes('moderate')) pillClass = 'moderate';
+    else if (v.includes('mixed') || v.includes('context')) pillClass = 'mixed';
+    else if (v.includes('limited')) pillClass = 'limited';
+
+    // Risk
+    let risk = 'low', riskLabel = 'Low';
+    if (v === 'inconclusive' || (r.drift?.cusum_neg > 1.0)) { risk='high'; riskLabel='HIGH'; }
+    else if (v.includes('mixed') || v.includes('context')) { risk='medium'; riskLabel='Medium'; }
+
+    // Trend
+    const trendIcon = drift === 'weakening' ? '↓' : drift === 'strengthening' ? '↑' : '→';
+    const trendColor = drift === 'weakening' ? 'var(--red)' : drift === 'strengthening' ? 'var(--green)' : 'var(--muted)';
+
+    return `<tr>
+      <td style="font-weight:500;color:var(--bright);">${r.name}</td>
+      <td><span class="verdict-pill ${pillClass}">${v.replace('_',' ')}</span></td>
+      <td><span style="font-family:var(--mono);font-size:12px;">${conf}</span></td>
+      <td><span style="color:${trendColor};font-size:14px;">${trendIcon}</span> <span style="font-size:10px;color:var(--muted);">${drift}</span></td>
+      <td><span class="risk-badge ${risk}">${riskLabel}</span></td>
+      <td><button class="inv-btn" onclick="investigateDirection('${r.query}')">Investigate</button></td>
+    </tr>`;
+  }).join('');
+
+  document.getElementById('portUpdated').textContent = new Date().toLocaleTimeString();
+}
+
+function investigateDirection(query) {
+  document.getElementById('invInput').value = query;
+  goPane('autopilot');
+  startInvestigation();
+}
+
+// ── Autopilot ───────────────────────────────────────────
+async function startInvestigation() {
+  const q = document.getElementById('invInput').value.trim();
+  if (!q) return;
+  const list = document.getElementById('investigationsList');
+  const card = document.createElement('div');
+  card.className = 'inv-card user';
+  card.innerHTML = `
+    <div class="inv-header">
+      <span class="inv-tag user">USER</span>
+      <span style="font-family:var(--mono);font-size:9px;color:var(--muted);">Just started · Step 1/6</span>
+    </div>
+    <div class="inv-title">${q}</div>
+    <div class="inv-finding"><div class="loading"><div class="spin"></div>Retrieving evidence from 15,412 papers...</div></div>
+    <div class="inv-steps">
+      <div class="inv-step active"></div>
+      <div class="inv-step"></div><div class="inv-step"></div>
+      <div class="inv-step"></div><div class="inv-step"></div><div class="inv-step"></div>
+    </div>`;
+  list.prepend(card);
+  document.getElementById('invInput').value = '';
+
+  try {
+    const r = await fetch('/api/run_research', {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({query: q})
+    });
+    const d = await r.json();
+    const contras = d.contradictions || [];
+    const verdict = (d.proposal_verdict||'inconclusive').replace('_',' ');
+    const finding = contras.length > 0
+      ? `Found ${contras.length} contradiction(s). Primary: ${contras[0]?.detection_explanation?.slice(0,120)||'conflict detected'}...`
+      : `Verdict: ${verdict} (confidence: ${d.proposal_confidence?.toFixed(2)||'—'}). ${d.proposal_explanation?.slice(0,120)||''}`;
+
+    card.innerHTML = `
+      <div class="inv-header">
+        <span class="inv-tag user">USER</span>
+        <span style="font-family:var(--mono);font-size:9px;color:var(--muted);">Complete · ${d.evidence_count||0} chunks analyzed</span>
+      </div>
+      <div class="inv-title">${q}</div>
+      <div class="inv-finding">${finding}</div>
+      <div class="inv-steps">
+        ${[1,2,3,4,5,6].map(i => `<div class="inv-step done"></div>`).join('')}
+      </div>
+      <div class="inv-actions">
+        <button class="inv-btn primary" onclick="showInvResult(this, ${JSON.stringify(d).replace(/"/g,'&quot;')})">View Full Report →</button>
+        <button class="inv-btn" onclick="loadExpFromInv('${q.replace(/'/g,'')}')">Design Experiment</button>
+      </div>`;
+  } catch(e) {
+    card.querySelector('.inv-finding').innerHTML = `Error: ${e.message}`;
+  }
+}
+
+function showInvResult(btn, data) {
+  const detail = document.getElementById('invDetail');
+  document.getElementById('invDetailTitle').textContent = data.query?.slice(0,60) || 'INVESTIGATION';
+  document.getElementById('invDetailBody').innerHTML = `
+    <div style="margin-bottom:12px;">
+      <span class="verdict-pill ${data.proposal_verdict?.includes('strong')?'strong':data.proposal_verdict?.includes('moderate')?'moderate':'mixed'}">
+        ${(data.proposal_verdict||'').replace('_',' ')}
+      </span>
+      <span style="font-family:var(--mono);font-size:11px;color:var(--muted);margin-left:8px;">conf: ${data.proposal_confidence?.toFixed(3)}</span>
+    </div>
+    <p style="margin-bottom:12px;">${data.proposal_explanation||''}</p>
+    ${data.contradictions?.length ? `<div style="font-family:var(--mono);font-size:9px;color:var(--red);letter-spacing:1px;margin-bottom:6px;">CONTRADICTIONS (${data.contradictions.length})</div>
+    ${data.contradictions.map(c=>`<div style="background:rgba(255,61,87,.05);border:1px solid rgba(255,61,87,.1);border-radius:6px;padding:10px;margin-bottom:8px;font-size:11px;">
+      <span style="color:var(--green);">✓ ${c.supporting_paper?.slice(0,50)}</span><br>
+      <span style="color:var(--red);">✗ ${c.contradicting_paper?.slice(0,50)}</span><br>
+      <span style="color:var(--muted);">${c.detection_explanation?.slice(0,150)}</span>
+    </div>`).join('')}` : ''}
+    ${data.scope?.has_scope ? `<div style="font-family:var(--mono);font-size:9px;color:var(--accent);letter-spacing:1px;margin:10px 0 4px;">SCOPE</div>
+    ${data.scope.within.map(s=>`<span style="display:inline-block;margin:2px;padding:2px 8px;background:rgba(0,230,118,.08);border:1px solid rgba(0,230,118,.2);border-radius:3px;font-size:10px;color:var(--green);">${s}</span>`).join('')}
+    ${data.scope.untested.map(s=>`<span style="display:inline-block;margin:2px;padding:2px 8px;background:rgba(255,179,0,.06);border:1px solid rgba(255,179,0,.2);border-radius:3px;font-size:10px;color:var(--amber);">${s}</span>`).join('')}` : ''}
+  `;
+  detail.style.display = 'block';
+  detail.scrollIntoView({behavior:'smooth'});
+}
+
+function viewInvestigation(idx) {
+  const details = [
+    {query:"Why does INT4 quantization degrade reasoning tasks but not classification?",
+     finding:"Hypothesis formed: attention precision loss in multi-step reasoning chains. Supporting: 4 papers confirm INT4 works for classification. Contradicting: 3 papers show 8-15% GSM8K degradation. Next step: isolating whether degradation is from weight precision or attention pattern disruption.",
+     experiment:"Run Llama-3-8B with INT4 weights only (keep attention FP16) vs INT4 weights + INT4 attention on GSM8K and SST-2. Decision boundary: if condition 2 ≈ condition 1, attention is the problem."},
+    {query:"Does LoRA + FlashAttention combine for compounded memory savings?",
+     finding:"Initial retrieval: 12 papers on LoRA, 8 on FlashAttention, 0 combined. Both target memory independently. Gap: no paper has measured the interaction. Hypothesis: combined savings are additive but not multiplicative — need empirical validation."}
+  ];
+  const d = details[idx];
+  const detail = document.getElementById('invDetail');
+  document.getElementById('invDetailTitle').textContent = d.query.slice(0,60);
+  document.getElementById('invDetailBody').innerHTML = `
+    <p style="margin-bottom:12px;color:var(--text);">${d.finding}</p>
+    <div style="font-family:var(--mono);font-size:9px;color:var(--accent);letter-spacing:1px;margin-bottom:6px;">EXPERIMENT READY</div>
+    <div style="background:rgba(0,229,255,.04);border:1px solid rgba(0,229,255,.1);border-radius:6px;padding:12px;font-size:11px;color:var(--muted);">${d.experiment}</div>
+    <div style="margin-top:12px;display:flex;gap:8px;">
+      <button class="inv-btn primary" onclick="loadExpFromInv('${d.query.replace(/'/g,'')}')">Open in Experiment Designer →</button>
+    </div>`;
+  detail.style.display = 'block';
+}
+
+// ── Experiment Designer ─────────────────────────────────
+async function designExperiment() {
+  const q = document.getElementById('expQuery').value.trim();
+  if (!q) return;
+  const body = document.getElementById('expBody');
+  body.innerHTML = '<div class="loading"><div class="spin"></div>Running evidence pipeline and designing experiment...</div>';
+
+  try {
+    const r = await fetch('/api/run_research', {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({query: q})
+    });
+    const d = await r.json();
+    const contras = d.contradictions || [];
+    const verdict = d.proposal_verdict || 'inconclusive';
+    const conf = d.proposal_confidence || 0.25;
+
+    // Show contradiction if found
+    if (contras.length > 0) {
+      const c = contras[0];
+      document.getElementById('expContradiction').style.display = 'block';
+      document.getElementById('expContradictionBody').innerHTML = `
+        <div style="font-size:11px;margin-bottom:8px;color:var(--muted);">Type: <span style="color:var(--amber);">${c.contradiction_type}</span></div>
+        <div style="display:flex;gap:8px;margin-bottom:6px;">
+          <div style="flex:1;background:rgba(0,230,118,.05);border:1px solid rgba(0,230,118,.15);border-radius:6px;padding:8px;font-size:10px;">
+            <div style="color:var(--green);font-family:var(--mono);font-size:8px;margin-bottom:4px;">SUPPORTING</div>
+            ${c.supporting_paper?.slice(0,50)}<br><span style="color:var(--muted);">${c.supporting_claim?.slice(0,80)}...</span>
+          </div>
+          <div style="flex:1;background:rgba(255,61,87,.05);border:1px solid rgba(255,61,87,.15);border-radius:6px;padding:8px;font-size:10px;">
+            <div style="color:var(--red);font-family:var(--mono);font-size:8px;margin-bottom:4px;">CONTRADICTING</div>
+            ${c.contradicting_paper?.slice(0,50)}<br><span style="color:var(--muted);">${c.contradicting_claim?.slice(0,80)}...</span>
+          </div>
+        </div>`;
+    }
+
+    // Generate experiment
+    const expType = contras.length > 0 ? 'Contradiction Resolution' :
+                    verdict === 'strong_evidence' ? 'Ablation Study' :
+                    verdict === 'inconclusive' ? 'First Proper Study' : 'Replication Study';
+
+    body.innerHTML = `
+      <div class="exp-section">
+        <div class="exp-label">Experiment Type</div>
+        <div class="exp-highlight">${expType}</div>
+      </div>
+      <div class="exp-section">
+        <div class="exp-label">Hypothesis</div>
+        <div class="exp-value">${contras.length > 0
+          ? `Resolve conflict on [${(contras[0].shared_concepts||[]).join(', ')}]: result depends on ${contras[0].contradiction_type?.replace('_',' ')} — test both conditions to find decision boundary.`
+          : `Verify that ${q.slice(0,80)} — measure under controlled conditions with matched baselines.`
+        }</div>
+      </div>
+      <div class="exp-section">
+        <div class="exp-label">Conditions</div>
+        ${contras.length > 0 ? `
+        <div class="condition-row">
+          <span style="font-size:10px;color:var(--muted);width:80px;">Condition 1</span>
+          <span class="condition-pill h1">${contras[0].supporting_paper?.slice(0,30)||'Setup A'}</span>
+        </div>
+        <div class="condition-row">
+          <span style="font-size:10px;color:var(--muted);width:80px;">Condition 2</span>
+          <span class="condition-pill h2">${contras[0].contradicting_paper?.slice(0,30)||'Setup B'}</span>
+        </div>` : `
+        <div class="condition-row">
+          <span class="condition-pill">7B model</span>
+          <span class="condition-pill">13B model</span>
+          <span class="condition-pill">70B model</span>
+        </div>`}
+      </div>
+      <div class="exp-section">
+        <div class="exp-label">Key Metrics</div>
+        <div class="exp-value">Peak GPU memory (GB) · Wall-clock latency (ms) · Task accuracy on standard benchmark</div>
+      </div>
+      <div class="exp-section">
+        <div class="exp-label">Decision Boundary</div>
+        <div class="exp-value">${contras.length > 0
+          ? `If condition 1 result > condition 2 by >15% → hardware/scale variance confirmed. If < 5% → direct contradiction.`
+          : `Improvement > 20% at p < 0.05 across ≥ 2 model sizes → claim confirmed.`
+        }</div>
+      </div>
+      <div class="exp-section">
+        <div class="exp-label">Estimated Cost</div>
+        <div style="display:flex;align-items:center;gap:12px;">
+          <span style="font-family:var(--mono);font-size:14px;color:var(--bright);">~$12–24</span>
+          <span style="font-size:11px;color:var(--muted);">on RunPod A100 · ~6 GPU hours</span>
+        </div>
+        <div class="cost-bar"><div class="cost-fill" style="width:25%;"></div></div>
+      </div>
+      <div style="display:flex;gap:8px;margin-top:4px;">
+        <button class="inv-btn primary" onclick="exportExpPython('${q.replace(/'/g,'')}')">Export Python →</button>
+        <button class="inv-btn">Share with Team</button>
+      </div>
+    `;
+  } catch(e) {
+    body.innerHTML = `<div style="color:var(--red);">Error: ${e.message}</div>`;
+  }
+}
+
+function loadExpFromInv(q) {
+  document.getElementById('expQuery').value = q;
+  goPane('experiments');
+  designExperiment();
+}
+
+function exportExpPython(q) {
+  const code = `# Tattva AI — Auto-generated Experiment
+# Query: ${q}
+# Generated: ${new Date().toISOString()}
+
+import torch
+from transformers import AutoModelForCausalLM, AutoTokenizer
+import time, json
+
+MODEL_IDS = ["meta-llama/Llama-2-7b-hf", "meta-llama/Llama-2-13b-hf"]
+DATASET = "gsm8k"  # Change to your benchmark
+RESULTS = {}
+
+for model_id in MODEL_IDS:
+    print(f"Testing: {model_id}")
+    tokenizer = AutoTokenizer.from_pretrained(model_id)
+    model = AutoModelForCausalLM.from_pretrained(model_id, torch_dtype=torch.float16)
+    model = model.cuda()
+    
+    # Measure peak memory
+    torch.cuda.reset_peak_memory_stats()
+    start = time.time()
+    
+    # TODO: Add your evaluation loop here
+    
+    peak_mem = torch.cuda.max_memory_allocated() / 1e9
+    elapsed = time.time() - start
+    
+    RESULTS[model_id] = {
+        "peak_memory_gb": peak_mem,
+        "latency_s": elapsed,
+    }
+    print(f"  Memory: {peak_mem:.2f}GB  Latency: {elapsed:.2f}s")
+
+with open("results.json", "w") as f:
+    json.dump(RESULTS, f, indent=2)
+print("Results saved to results.json")
+`;
+  const blob = new Blob([code], {type:'text/plain'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'tattva_experiment.py';
+  a.click();
+}
+
+// ── Opportunity Radar ────────────────────────────────────
+function startOppInvestigation(q) {
+  document.getElementById('invInput').value = q;
+  goPane('autopilot');
+  startInvestigation();
+}
+
+// ── Competitive Intel ────────────────────────────────────
+async function analyzeCompetitor(q) {
+  const detail = document.getElementById('intelDetail');
+  const body = document.getElementById('intelDetailBody');
+  document.getElementById('intelDetailTitle').textContent = q.slice(0,50).toUpperCase();
+  body.innerHTML = '<div class="loading"><div class="spin"></div>Running evidence pipeline...</div>';
+  detail.style.display = 'block';
+
+  try {
+    const r = await fetch('/api/run_research', {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({query: q})
+    });
+    const d = await r.json();
+    body.innerHTML = `
+      <div style="margin-bottom:10px;">
+        <span class="verdict-pill ${d.proposal_verdict?.includes('strong')?'strong':d.proposal_verdict?.includes('moderate')?'moderate':'mixed'}">
+          ${(d.proposal_verdict||'').replace('_',' ')}
+        </span>
+        <span style="font-family:var(--mono);font-size:11px;color:var(--muted);margin-left:8px;">confidence: ${d.proposal_confidence?.toFixed(3)}</span>
+      </div>
+      <p style="margin-bottom:10px;">${d.proposal_explanation||''}</p>
+      ${d.contradictions?.length ? `<div style="color:var(--amber);font-size:11px;margin-bottom:6px;">⚠ ${d.contradictions.length} contradiction(s) found in their claims</div>` : ''}
+      ${d.scope?.has_scope ? `<div style="font-size:11px;color:var(--muted);">Scope: ${d.scope.within.join(' · ')}</div>` : ''}
+      <div style="margin-top:12px;display:flex;gap:8px;">
+        <button class="inv-btn primary" onclick="loadExpFromInv('${q.replace(/'/g,'')}')">Design Counter-Experiment →</button>
+      </div>`;
+  } catch(e) {
+    body.innerHTML = `<div style="color:var(--red);">${e.message}</div>`;
+  }
+}
+
+// ── Literature Review ────────────────────────────────────
+async function generateLitReview() {
+  const topic = document.getElementById('litTopic').value.trim();
+  if (!topic) return;
+  const body = document.getElementById('litBody');
+  body.innerHTML = '<div class="loading"><div class="spin"></div>Retrieving evidence from 15,412 papers and generating review...</div>';
+  document.getElementById('litCopyBtn').style.display = 'none';
+
+  try {
+    const r = await fetch('/api/literature_review', {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({topic})
+    });
+    const d = await r.json();
+
+    if (d.review) {
+      body.innerHTML = `<div class="lit-text" style="white-space:pre-wrap;">${d.review}</div>`;
+    } else {
+      // Fallback: build from run_research
+      const r2 = await fetch('/api/run_research', {
+        method:'POST', headers:{'Content-Type':'application/json'},
+        body: JSON.stringify({query: topic})
+      });
+      const d2 = await r2.json();
+      body.innerHTML = `
+        <div class="lit-section">
+          <div class="lit-section-title">Overview</div>
+          <div class="lit-text">${d2.proposal_explanation || 'Evidence synthesis complete.'} Evidence confidence: ${d2.proposal_confidence?.toFixed(2)}.</div>
+        </div>
+        <div class="lit-section">
+          <div class="lit-section-title">Key Findings (${d2.evidence_count || 0} chunks analyzed)</div>
+          <div class="lit-text">${(d2.top_grounded||[]).slice(0,3).map((g,i)=>
+            `[${i+1}] ${g.claim?.slice(0,150)||'Finding'}`
+          ).join('<br><br>')}</div>
+        </div>
+        ${d2.contradictions?.length ? `
+        <div class="lit-section">
+          <div class="lit-section-title">Contradictions & Debates</div>
+          <div class="lit-text">${d2.contradictions.map(c=>
+            `${c.supporting_paper?.slice(0,40)} vs ${c.contradicting_paper?.slice(0,40)}: ${c.implication?.slice(0,120)}`
+          ).join('<br><br>')}</div>
+        </div>` : ''}
+        <div class="lit-section">
+          <div class="lit-section-title">Research Gaps</div>
+          <div class="lit-text">${(d2.knowledge_gaps||['Insufficient cross-hardware testing','Full-text paper indexing needed']).join('<br>')}</div>
+        </div>
+        ${d2.scope?.has_scope ? `
+        <div class="lit-section">
+          <div class="lit-section-title">Scope Qualification</div>
+          <div class="lit-text">Evidence tested within: ${d2.scope.within?.join(', ')}<br>Not tested: ${d2.scope.untested?.join(', ')}</div>
+        </div>` : ''}
+      `;
+    }
+    document.getElementById('litCopyBtn').style.display = 'block';
+  } catch(e) {
+    body.innerHTML = `<div style="color:var(--red);">Error: ${e.message}</div>`;
+  }
+}
+
+function copyLitReview() {
+  const text = document.getElementById('litBody').innerText;
+  navigator.clipboard.writeText(text);
+  document.getElementById('litCopyBtn').textContent = 'Copied ✓';
+  setTimeout(() => document.getElementById('litCopyBtn').textContent = 'Copy', 2000);
+}
+
+// ── Init ────────────────────────────────────────────────
+function refreshAll() { loadPortfolio(); }
+
+document.addEventListener('DOMContentLoaded', () => {
+  loadPortfolio();
+  document.getElementById('portUpdated').textContent = new Date().toLocaleTimeString();
+});
+</script>
+</body>
+</html>
