@@ -1032,6 +1032,22 @@ def index():
 def app_page():
     return render_template("research.html")
 
+@app.route("/company")
+def company():
+    auth = request.headers.get("Authorization","")
+    pwd = os.environ.get("COMPANY_PASSWORD","tattva-enterprise-2026")
+    import base64
+    try:
+        decoded = base64.b64decode(auth.replace("Basic ","")).decode()
+        if decoded.split(":",1)[1] == pwd:
+            return render_template("company.html")
+    except: pass
+    return Response(
+        "Tattva AI Enterprise — Contact sales@tattvaai.org for access",
+        401,
+        {"WWW-Authenticate": 'Basic realm="Tattva Enterprise"'}
+    )
+
 @app.route("/admin")
 def admin():
     # Only require password in production
