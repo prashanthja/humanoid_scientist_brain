@@ -169,6 +169,17 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
 .drift-mini{display:flex;gap:3px;align-items:flex-end;height:20px;}
 .drift-bar{width:4px;background:var(--accent);border-radius:1px;opacity:.6;}
 
+/* LOGIN OVERLAY */
+.login-overlay{position:fixed;inset:0;background:var(--bg);z-index:10000;display:flex;align-items:center;justify-content:center;}
+.login-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:40px;width:420px;position:relative;}
+.login-card::before{content:'';position:absolute;top:0;left:40px;right:40px;height:1px;background:linear-gradient(90deg,transparent,var(--accent),transparent);}
+.login-field{margin-bottom:16px;}
+.login-field label{display:block;font-family:var(--mono);font-size:9px;color:var(--muted);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:6px;}
+.login-field input{width:100%;padding:11px 14px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);color:var(--text);font-size:13px;font-family:var(--sans);outline:none;transition:border-color .15s;}
+.login-field input:focus{border-color:var(--accent);}
+.login-btn{width:100%;padding:12px;background:var(--accent);color:#000;border:none;border-radius:var(--radius);font-size:13px;font-weight:700;cursor:pointer;font-family:var(--sans);margin-top:8px;}
+.login-error{background:rgba(255,61,87,.08);border:1px solid rgba(255,61,87,.2);border-radius:var(--radius);padding:10px 14px;font-size:12px;color:#ff3d57;margin-top:12px;display:none;}
+
 /* SCROLLBAR */
 ::-webkit-scrollbar{width:4px;}
 ::-webkit-scrollbar-track{background:transparent;}
@@ -176,6 +187,35 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
 </style>
 </head>
 <body>
+<!-- LOGIN OVERLAY -->
+<div class="login-overlay" id="loginOverlay" style="display:none;">
+  <div class="login-card">
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:28px;">
+      <div style="width:36px;height:36px;background:rgba(0,229,255,.08);border:1.5px solid var(--accent);clip-path:polygon(50% 0%,100% 25%,100% 75%,50% 100%,0% 75%,0% 25%);display:flex;align-items:center;justify-content:center;font-size:16px;color:var(--accent);">◈</div>
+      <div>
+        <div style="font-family:var(--mono);font-size:13px;font-weight:600;color:var(--bright);letter-spacing:2px;">TATTVA AI</div>
+        <div style="font-family:var(--mono);font-size:9px;color:var(--muted);letter-spacing:1px;">Enterprise</div>
+      </div>
+    </div>
+    <div style="font-size:18px;font-weight:600;color:var(--bright);margin-bottom:4px;">Sign in</div>
+    <div style="font-size:12px;color:var(--muted);margin-bottom:24px;">Access your enterprise research dashboard</div>
+    <div class="login-field">
+      <label>Company ID</label>
+      <input type="text" id="overlayCompanyId" placeholder="Your company ID" autocomplete="username"/>
+    </div>
+    <div class="login-field">
+      <label>Password</label>
+      <input type="password" id="overlayPassword" placeholder="Your password" autocomplete="current-password"
+             onkeydown="if(event.key==='Enter') overlayLogin()"/>
+    </div>
+    <button class="login-btn" onclick="overlayLogin()">Sign In →</button>
+    <div class="login-error" id="overlayError">Invalid credentials. Contact sales@tattvaai.org</div>
+    <div style="margin-top:20px;text-align:center;font-size:11px;color:var(--muted);">
+      No access? <a href="mailto:sales@tattvaai.org" style="color:var(--accent);">sales@tattvaai.org</a>
+    </div>
+  </div>
+</div>
+
 <div class="layout">
 
 <!-- SIDEBAR -->
@@ -184,7 +224,7 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
     <div class="logo-hex">◈</div>
     <div>
       <div class="logo-name">TATTVA AI</div>
-      <div class="logo-tag">Enterprise</div>
+      <div class="logo-tag" id="companyNameTag">Enterprise</div>
     </div>
   </div>
   <div class="nav">
@@ -196,13 +236,15 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
     <div class="nav-item" onclick="goPane('radar')">📡 Opportunity Radar <span class="nav-badge amber">3</span></div>
     <div class="nav-item" onclick="goPane('intel')">🎯 Competitive Intel <span class="nav-badge red">5</span></div>
     <div class="nav-item" onclick="goPane('litreview')">📄 Literature Review</div>
+    <div class="nav-section">Private Corpus</div>
+    <div class="nav-item" onclick="goPane('corpus')">📁 Upload Documents <span class="nav-badge amber" id="corpusBadge">0</span></div>
+    <div class="nav-item" onclick="goPane('crosssearch')">🔍 Cross-Search</div>
     <div class="nav-section">Settings</div>
-    <div class="nav-item" onclick="window.location='/app'">↗ Researcher Tool</div>
-    <div class="nav-item" onclick="window.location='/map'">🗺 Contradiction Map</div>
-    <div class="nav-item" onclick="window.location='/admin'">⚙ Internal Tools</div>
+    <div class="nav-item" onclick="goPane('settings')">⚙ Account Settings</div>
+    <div class="nav-item" onclick="window.location='/app'" style="opacity:0.5;font-size:11px;">↗ Open Researcher Tool</div>
   </div>
   <div class="sidebar-footer">
-    <button class="upgrade-btn">Upgrade to Enterprise →</button>
+    <button class="upgrade-btn" onclick="goPane('settings')">⚙ Account Settings</button>
   </div>
 </div>
 
@@ -212,7 +254,7 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
   <!-- TOPBAR -->
   <div class="topbar">
     <span class="tb-title" id="tbTitle">RESEARCH PORTFOLIO HEALTH</span>
-    <div class="tb-status"><div class="tb-dot"></div><span id="tbStatus">Pipeline Active · 15,412 papers</span></div>
+    <div class="tb-status"><div class="tb-dot"></div><span id="tbStatus">Loading...</span></div>
     <div class="tb-spacer"></div>
     <button class="tb-btn" onclick="refreshAll()">↺ Refresh</button>
     <button class="tb-btn primary" onclick="goPane('autopilot')">+ New Investigation</button>
@@ -532,6 +574,190 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
       </div>
     </div>
 
+    <!-- ═══════════════════════════════════════════════
+         PANE 7: PRIVATE CORPUS UPLOAD
+    ═══════════════════════════════════════════════ -->
+    <div class="pane" id="pane-corpus">
+      <div class="grid grid-2" style="gap:20px;align-items:start;">
+
+        <!-- Upload -->
+        <div>
+          <div class="card" style="margin-bottom:16px;">
+            <div class="card-head"><div class="card-title">Upload Private Documents</div></div>
+            <div style="font-size:11px;color:var(--muted);margin-bottom:12px;">
+              Your documents are stored in a private namespace. Never mixed with public corpus or other clients.
+            </div>
+            <div style="margin-bottom:10px;">
+              <div class="exp-label">Company ID</div>
+              <input class="lit-input" id="corpCompanyId" placeholder="Your company ID (from onboarding)"/>
+            </div>
+            <div style="margin-bottom:10px;">
+              <div class="exp-label">Password</div>
+              <input class="lit-input" type="password" id="corpPassword" placeholder="Enterprise password"/>
+            </div>
+            <div style="margin-bottom:10px;">
+              <div class="exp-label">Document Title (optional)</div>
+              <input class="lit-input" id="corpTitle" placeholder="e.g. Q3 2025 Internal Research Report"/>
+            </div>
+            <div style="margin-bottom:12px;">
+              <div class="exp-label">PDF File</div>
+              <input type="file" id="corpFile" accept=".pdf"
+                style="width:100%;padding:8px;background:var(--surface);border:1px solid var(--border2);border-radius:var(--radius);color:var(--text);font-size:12px;"/>
+            </div>
+            <button class="query-btn" style="width:100%;" onclick="uploadDocument()">Upload & Index →</button>
+            <div id="uploadStatus" style="margin-top:10px;font-size:11px;"></div>
+          </div>
+        </div>
+
+        <!-- Stats -->
+        <div>
+          <div class="card" style="margin-bottom:16px;">
+            <div class="card-head">
+              <div class="card-title">Private Corpus Stats</div>
+              <button class="inv-btn" onclick="loadCorpusStats()">Refresh</button>
+            </div>
+            <div id="corpusStats" style="color:var(--muted);font-size:12px;">
+              Enter credentials and click Refresh to view your corpus.
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-head"><div class="card-title">Why Private Corpus?</div></div>
+            <div style="font-size:12px;color:var(--muted);line-height:1.8;">
+              <div style="margin-bottom:8px;">🔒 <strong style="color:var(--text);">Isolated namespace</strong> — your data never mixed with others</div>
+              <div style="margin-bottom:8px;">🔍 <strong style="color:var(--text);">Cross-reference</strong> — Tattva finds contradictions between your internal work and public literature</div>
+              <div style="margin-bottom:8px;">⚡ <strong style="color:var(--text);">Instant insights</strong> — "Your 2024 internal finding contradicts a new DeepSeek paper"</div>
+              <div>📊 <strong style="color:var(--text);">Competitive edge</strong> — know when competitors publish something that affects your work</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════
+         PANE 8: CROSS SEARCH
+    ═══════════════════════════════════════════════ -->
+    <div class="pane" id="pane-crosssearch">
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-head"><div class="card-title">Cross-Corpus Research</div></div>
+        <div style="font-size:11px;color:var(--muted);margin-bottom:12px;">
+          Search your private documents + 15,412 public papers simultaneously. Detects contradictions between your internal work and public literature.
+        </div>
+        <div style="display:flex;gap:8px;margin-bottom:8px;">
+          <input class="query-input" style="flex:1;" id="crossCompanyId" placeholder="Company ID"/>
+          <input class="query-input" style="flex:1;" type="password" id="crossPassword" placeholder="Password"/>
+        </div>
+        <div class="query-bar">
+          <input class="query-input" id="crossQuery" placeholder="Research question to search across public + private corpus..."/>
+          <button class="query-btn" onclick="crossSearch()">Search Both →</button>
+        </div>
+      </div>
+
+      <div id="crossResults" style="display:none;">
+        <div class="grid grid-2" style="gap:16px;margin-bottom:16px;">
+          <div class="stat-card">
+            <div class="stat-val" id="crossPublicCount">0</div>
+            <div class="stat-label">Public Chunks Found</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-val" style="color:var(--purple);" id="crossPrivateCount">0</div>
+            <div class="stat-label">Private Chunks Found</div>
+          </div>
+        </div>
+
+        <div id="crossContradictions"></div>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════
+         PANE: ACCOUNT SETTINGS
+    ═══════════════════════════════════════════════ -->
+    <div class="pane" id="pane-settings">
+      <div class="grid grid-2" style="gap:20px;align-items:start;">
+
+        <!-- Login Info -->
+        <div class="card">
+          <div class="card-head"><div class="card-title">Your Login Credentials</div></div>
+          <div style="font-size:12px;color:var(--muted);line-height:2;margin-bottom:16px;">
+            <div><span style="color:var(--text);font-family:var(--mono);">Dashboard URL</span><br>
+              <span style="color:var(--accent);">https://tattvaai.org/company</span></div>
+            <div style="margin-top:10px;"><span style="color:var(--text);font-family:var(--mono);">Username</span><br>
+              <span id="settingsCompanyId" style="color:var(--accent);">Loading...</span></div>
+            <div style="margin-top:10px;"><span style="color:var(--text);font-family:var(--mono);">How to login</span><br>
+              Use your Company ID as username and your corpus password</div>
+          </div>
+          <div style="background:rgba(0,229,255,.04);border:1px solid rgba(0,229,255,.1);border-radius:var(--radius);padding:12px;font-size:11px;color:var(--muted);margin-bottom:16px;">
+            <div style="color:var(--accent);font-family:var(--mono);font-size:9px;margin-bottom:6px;">HOW TO ACCESS</div>
+            1. Go to tattvaai.org/company<br>
+            2. Username = your Company ID<br>
+            3. Password = your corpus password<br>
+            4. Browser saves it for next time
+          </div>
+        </div>
+
+        <!-- Change Password -->
+        <div class="card">
+          <div class="card-head"><div class="card-title">Change Password</div></div>
+          <div style="margin-bottom:10px;">
+            <div class="exp-label">Company ID</div>
+            <input class="lit-input" id="settingsId" placeholder="Your company ID"/>
+          </div>
+          <div style="margin-bottom:10px;">
+            <div class="exp-label">Current Password</div>
+            <input class="lit-input" type="password" id="settingsOldPwd" placeholder="Current password"/>
+          </div>
+          <div style="margin-bottom:10px;">
+            <div class="exp-label">New Password</div>
+            <input class="lit-input" type="password" id="settingsNewPwd" placeholder="New password (min 8 chars)"/>
+          </div>
+          <div style="margin-bottom:12px;">
+            <div class="exp-label">Confirm New Password</div>
+            <input class="lit-input" type="password" id="settingsConfirmPwd" placeholder="Confirm new password"/>
+          </div>
+          <button class="query-btn" style="width:100%;" onclick="changePassword()">Update Password →</button>
+          <div id="pwdStatus" style="margin-top:10px;font-size:11px;"></div>
+        </div>
+
+        <!-- Plan Info -->
+        <div class="card">
+          <div class="card-head"><div class="card-title">Your Plan</div></div>
+          <div style="font-size:12px;color:var(--muted);line-height:1.8;">
+            <div style="font-family:var(--mono);font-size:20px;color:var(--bright);margin-bottom:8px;">Company Pro</div>
+            <div>✅ Portfolio Health monitoring</div>
+            <div>✅ Autonomous Investigations</div>
+            <div>✅ Experiment Designer</div>
+            <div>✅ Opportunity Radar</div>
+            <div>✅ Competitive Intelligence</div>
+            <div>✅ Literature Review Writer</div>
+            <div>✅ Private Document Upload</div>
+            <div>✅ Cross-Corpus Contradiction Detection</div>
+            <div style="margin-top:12px;padding-top:12px;border-top:1px solid var(--border);">
+              <div style="color:var(--text);">Need more?</div>
+              <div>→ TATTVA-1 custom model fine-tuning</div>
+              <div>→ Slack integration</div>
+              <div>→ API access ($0.10/query)</div>
+              <div>→ Dedicated support</div>
+              <a href="mailto:sales@tattvaai.org" style="display:inline-block;margin-top:10px;padding:6px 16px;background:linear-gradient(135deg,var(--accent2),var(--purple));border-radius:var(--radius);color:#fff;font-size:11px;font-weight:600;text-decoration:none;">Contact Sales →</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Contact -->
+        <div class="card">
+          <div class="card-head"><div class="card-title">Support</div></div>
+          <div style="font-size:12px;color:var(--muted);line-height:2;">
+            <div>📧 <a href="mailto:sales@tattvaai.org" style="color:var(--accent);">sales@tattvaai.org</a></div>
+            <div>🌐 <a href="https://tattvaai.org" target="_blank" style="color:var(--accent);">tattvaai.org</a></div>
+            <div style="margin-top:12px;padding:10px;background:var(--surface);border-radius:var(--radius);font-size:11px;">
+              <div style="color:var(--text);margin-bottom:4px;">Onboard your team</div>
+              Share your Company ID and password with your researchers. Everyone on your team can access the same private corpus.
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
   </div><!-- /content -->
 </div><!-- /main -->
 </div><!-- /layout -->
@@ -566,11 +792,16 @@ function goPane(id) {
 
 // ── Portfolio ───────────────────────────────────────────
 async function loadPortfolio() {
+  await loadPortfolioForDomain(currentDomain);
+}
+
+async function loadPortfolioForDomain_OLD(domain) {
+  const directions = DOMAIN_DIRECTIONS[domain] || DOMAIN_DIRECTIONS.ml;
   const tbody = document.getElementById('portfolioBody');
   tbody.innerHTML = '<tr><td colspan="6"><div class="loading"><div class="spin"></div>Running evidence pipeline on all directions...</div></td></tr>';
 
   const results = [];
-  for (const d of DIRECTIONS) {
+  for (const d of directions) {
     try {
       const r = await fetch('/api/run_research', {
         method:'POST', headers:{'Content-Type':'application/json'},
@@ -814,7 +1045,7 @@ async function designExperiment() {
       </div>
       <div style="display:flex;gap:8px;margin-top:4px;">
         <button class="inv-btn primary" onclick="exportExpPython('${q.replace(/'/g,'')}')">Export Python →</button>
-        <button class="inv-btn">Share with Team</button>
+        <button class="inv-btn" onclick="copyShareLink(this)">📋 Copy Link</button>
       </div>
     `;
   } catch(e) {
@@ -978,11 +1209,402 @@ function copyLitReview() {
   setTimeout(() => document.getElementById('litCopyBtn').textContent = 'Copy', 2000);
 }
 
+// ── Login Overlay ───────────────────────────────────────
+function showLoginOverlay() {
+  document.getElementById('loginOverlay').style.display = 'flex';
+}
+
+function hideLoginOverlay() {
+  document.getElementById('loginOverlay').style.display = 'none';
+}
+
+async function overlayLogin() {
+  const company_id = document.getElementById('overlayCompanyId').value.trim();
+  const password   = document.getElementById('overlayPassword').value.trim();
+  const err        = document.getElementById('overlayError');
+  err.style.display = 'none';
+
+  if (!company_id || !password) {
+    err.textContent = 'Please enter Company ID and password.';
+    err.style.display = 'block';
+    return;
+  }
+
+  try {
+    const r = await fetch('/api/company/login', {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({company_id, password})
+    });
+    const d = await r.json();
+    if (d.error) {
+      err.textContent = d.error;
+      err.style.display = 'block';
+      return;
+    }
+    // Save session
+    sessionStorage.setItem('tattva_company_id', company_id);
+    sessionStorage.setItem('tattva_password', password);
+    sessionStorage.setItem('tattva_company_name', d.company_name);
+    sessionStorage.setItem('tattva_domain', d.domain || 'ml');
+    hideLoginOverlay();
+
+    // Init dashboard
+    initDashboard(company_id, password, d.company_name, d.domain || 'ml');
+  } catch(e) {
+    err.textContent = 'Connection error. Try again.';
+    err.style.display = 'block';
+  }
+}
+
+function initDashboard(companyId, password, companyName, domain) {
+  currentDomain = domain;
+  document.getElementById('companyNameTag').textContent = companyName;
+  document.getElementById('tbStatus').textContent = `${companyName} · 15,412 papers`;
+  document.getElementById('settingsCompanyId').textContent = companyId;
+
+  // Auto-fill all credential fields
+  ['corpCompanyId','crossCompanyId','settingsId'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.value = companyId;
+  });
+  ['corpPassword','crossPassword','settingsOldPwd'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.value = password;
+  });
+
+  loadPortfolio();
+}
+
+// ── Private Corpus ──────────────────────────────────────
+async function uploadDocument() {
+  const company_id = document.getElementById('corpCompanyId').value.trim();
+  const password   = document.getElementById('corpPassword').value.trim();
+  const title      = document.getElementById('corpTitle').value.trim();
+  const fileInput  = document.getElementById('corpFile');
+  const status     = document.getElementById('uploadStatus');
+
+  if (!company_id || !password) {
+    status.innerHTML = '<span style="color:var(--red);">Enter company ID and password</span>';
+    return;
+  }
+  if (!fileInput.files[0]) {
+    status.innerHTML = '<span style="color:var(--red);">Select a PDF file</span>';
+    return;
+  }
+
+  status.innerHTML = '<div class="loading"><div class="spin"></div>Uploading and indexing...</div>';
+
+  const form = new FormData();
+  form.append('company_id', company_id);
+  form.append('password', password);
+  form.append('title', title);
+  form.append('file', fileInput.files[0]);
+
+  try {
+    const r = await fetch('/api/company/upload', {method:'POST', body: form});
+    const d = await r.json();
+    if (d.error) {
+      status.innerHTML = `<span style="color:var(--red);">Error: ${d.error}</span>`;
+    } else {
+      status.innerHTML = `<span style="color:var(--green);">✅ Indexed ${d.chunks_added} chunks from "${d.title}"</span>`;
+      document.getElementById('corpusBadge').textContent = '✓';
+      loadCorpusStats();
+    }
+  } catch(e) {
+    status.innerHTML = `<span style="color:var(--red);">Upload failed: ${e.message}</span>`;
+  }
+}
+
+async function loadCorpusStats() {
+  const company_id = document.getElementById('corpCompanyId').value.trim();
+  const password   = document.getElementById('corpPassword').value.trim();
+  if (!company_id || !password) return;
+
+  const r = await fetch('/api/company/stats', {
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({company_id, password})
+  });
+  const d = await r.json();
+  if (d.error) {
+    document.getElementById('corpusStats').innerHTML = `<span style="color:var(--red);">${d.error}</span>`;
+    return;
+  }
+
+  document.getElementById('corpusStats').innerHTML = `
+    <div style="margin-bottom:12px;">
+      <div style="font-family:var(--mono);font-size:22px;color:var(--bright);">${d.total_chunks || 0}</div>
+      <div style="font-size:11px;color:var(--muted);">Total private chunks indexed</div>
+    </div>
+    <div style="font-family:var(--mono);font-size:9px;color:var(--muted);letter-spacing:1px;margin-bottom:8px;">DOCUMENTS</div>
+    ${(d.documents||[]).length === 0 ? '<div style="color:var(--muted);font-size:11px;">No documents yet</div>' :
+      (d.documents||[]).map(doc => `
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:8px 12px;margin-bottom:6px;">
+          <div style="font-size:12px;color:var(--text);">${doc.title||doc.filename}</div>
+          <div style="font-family:var(--mono);font-size:9px;color:var(--muted);margin-top:2px;">${doc.chunks} chunks · ${doc.filename}</div>
+        </div>`).join('')
+    }
+  `;
+}
+
+async function crossSearch() {
+  const company_id = document.getElementById('crossCompanyId').value.trim();
+  const password   = document.getElementById('crossPassword').value.trim();
+  const query      = document.getElementById('crossQuery').value.trim();
+  if (!company_id || !password || !query) return;
+
+  document.getElementById('crossResults').style.display = 'none';
+  document.getElementById('crossContradictions').innerHTML =
+    '<div class="loading"><div class="spin"></div>Searching public + private corpus...</div>';
+  document.getElementById('crossResults').style.display = 'block';
+
+  try {
+    const r = await fetch('/api/company/research', {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({company_id, password, query})
+    });
+    const d = await r.json();
+    if (d.error) {
+      document.getElementById('crossContradictions').innerHTML =
+        `<span style="color:var(--red);">${d.error}</span>`;
+      return;
+    }
+
+    document.getElementById('crossPublicCount').textContent = d.public_chunks || 0;
+    document.getElementById('crossPrivateCount').textContent = d.private_chunks || 0;
+
+    let html = '';
+
+    // Cross-corpus contradictions (most important)
+    if (d.cross_corpus_contradictions?.length > 0) {
+      html += `<div style="background:rgba(255,179,0,.06);border:1px solid rgba(255,179,0,.2);border-radius:var(--radius-lg);padding:16px;margin-bottom:16px;">
+        <div style="font-family:var(--mono);font-size:9px;color:var(--amber);letter-spacing:1.5px;margin-bottom:10px;">
+          ⚠ CROSS-CORPUS CONTRADICTIONS — YOUR INTERNAL WORK VS PUBLIC LITERATURE
+        </div>
+        ${d.cross_corpus_contradictions.map(c => `
+          <div style="background:var(--card);border-radius:6px;padding:12px;margin-bottom:8px;">
+            <div style="font-size:11px;color:var(--amber);margin-bottom:6px;">${c.alert}</div>
+            <div style="display:flex;gap:8px;">
+              <div style="flex:1;background:rgba(0,230,118,.05);border:1px solid rgba(0,230,118,.15);border-radius:4px;padding:8px;font-size:10px;">
+                <div style="color:var(--green);font-family:var(--mono);font-size:8px;margin-bottom:3px;">SUPPORTING</div>
+                ${c.supporting_paper?.slice(0,60)}
+              </div>
+              <div style="flex:1;background:rgba(255,61,87,.05);border:1px solid rgba(255,61,87,.15);border-radius:4px;padding:8px;font-size:10px;">
+                <div style="color:var(--red);font-family:var(--mono);font-size:8px;margin-bottom:3px;">CONTRADICTING</div>
+                ${c.contradicting_paper?.slice(0,60)}
+              </div>
+            </div>
+          </div>`).join('')}
+      </div>`;
+    }
+
+    // All contradictions
+    if (d.contradictions?.length > 0) {
+      html += `<div class="card">
+        <div class="card-head"><div class="card-title">All Contradictions Found (${d.contradictions.length})</div></div>
+        ${d.contradictions.map(c => `
+          <div style="border-bottom:1px solid var(--border);padding:10px 0;font-size:11px;">
+            <span style="color:var(--amber);font-family:var(--mono);font-size:9px;">${c.contradiction_type}</span><br>
+            <span style="color:var(--green);">✓ ${c.supporting_paper?.slice(0,50)}</span> vs
+            <span style="color:var(--red);">✗ ${c.contradicting_paper?.slice(0,50)}</span>
+          </div>`).join('')}
+      </div>`;
+    } else {
+      html += `<div class="card" style="text-align:center;padding:30px;color:var(--muted);font-size:12px;">
+        No contradictions found between your private corpus and public literature for this query.
+      </div>`;
+    }
+
+    document.getElementById('crossContradictions').innerHTML = html;
+  } catch(e) {
+    document.getElementById('crossContradictions').innerHTML =
+      `<span style="color:var(--red);">${e.message}</span>`;
+  }
+}
+
+// ── Domain-specific portfolio queries ────────────────
+const DOMAIN_DIRECTIONS = {
+  ml: [
+    {name:"LoRA optimization",       query:"Does LoRA reduce fine-tuning cost?"},
+    {name:"MoE routing",             query:"Does Mixture of Experts reduce compute cost per token?"},
+    {name:"INT4 quantization",       query:"Does quantization to INT8 degrade model accuracy?"},
+    {name:"FlashAttention",          query:"Does FlashAttention reduce GPU memory usage during training?"},
+    {name:"KV cache compression",    query:"Does KV cache compression reduce memory overhead in long context?"},
+    {name:"Speculative decoding",    query:"Does speculative decoding improve inference throughput?"},
+  ],
+  neuro: [
+    {name:"Neural attention models",     query:"Does selective attention improve neural signal processing efficiency?"},
+    {name:"Sparse coding",               query:"Does sparse neural coding reduce energy consumption in cortex?"},
+    {name:"Memory consolidation",        query:"Does sleep improve memory consolidation in hippocampus?"},
+    {name:"Synaptic plasticity",         query:"Does hebbian learning improve neural network stability?"},
+    {name:"Predictive coding",           query:"Does predictive coding reduce prediction error in brain?"},
+    {name:"Neural efficiency",           query:"Does neural pruning improve cognitive efficiency?"},
+  ],
+  bio: [
+    {name:"CRISPR specificity",          query:"Does CRISPR-Cas9 reduce off-target effects in gene editing?"},
+    {name:"Protein folding",             query:"Does AlphaFold improve protein structure prediction accuracy?"},
+    {name:"Gene regulation",             query:"Does epigenetic modification affect gene expression stability?"},
+    {name:"Evolutionary algorithms",     query:"Does evolutionary optimization improve biological fitness?"},
+    {name:"Cell signaling",              query:"Does receptor density affect signal transduction efficiency?"},
+    {name:"Metabolic pathways",          query:"Does metabolic flux optimization improve cell growth rate?"},
+  ],
+  physics: [
+    {name:"Quantum annealing",           query:"Does quantum annealing outperform classical optimization?"},
+    {name:"Thermodynamic efficiency",    query:"Does entropy minimization improve thermodynamic efficiency?"},
+    {name:"Phase transitions",           query:"Does critical slowing down predict phase transitions?"},
+    {name:"Quantum error correction",    query:"Does surface code reduce quantum decoherence?"},
+    {name:"Material properties",         query:"Does doping concentration affect semiconductor conductivity?"},
+    {name:"Statistical mechanics",       query:"Does mean field theory accurately predict phase behavior?"},
+  ],
+  systems: [
+    {name:"Cache optimization",          query:"Does cache prefetching reduce memory latency?"},
+    {name:"Distributed consistency",     query:"Does Raft consensus algorithm ensure distributed consistency?"},
+    {name:"Compiler optimization",       query:"Does loop unrolling improve compiler performance?"},
+    {name:"OS scheduling",              query:"Does CFS scheduler improve CPU fairness?"},
+    {name:"Network throughput",          query:"Does TCP BBR improve network throughput?"},
+    {name:"Storage efficiency",          query:"Does log-structured storage reduce write amplification?"},
+  ],
+  custom: [
+    {name:"Custom Direction 1",          query:"Enter your research question"},
+    {name:"Custom Direction 2",          query:"Enter your research question"},
+    {name:"Custom Direction 3",          query:"Enter your research question"},
+  ]
+};
+
+let currentDomain = 'ml';
+
+function changeDomain() {
+  currentDomain = document.getElementById('domainSelect').value;
+  const domainNames = {
+    ml:'ML / AI EFFICIENCY', neuro:'NEUROSCIENCE',
+    bio:'BIOLOGY / GENOMICS', physics:'PHYSICS / MATERIALS',
+    systems:'COMPUTER SYSTEMS', custom:'CUSTOM DOMAIN'
+  };
+  loadPortfolioForDomain(currentDomain);
+}
+
+async function loadPortfolioForDomain(domain) {
+  const directions = DOMAIN_DIRECTIONS[domain] || DOMAIN_DIRECTIONS.ml;
+  const tbody = document.getElementById('portfolioBody');
+  tbody.innerHTML = '<tr><td colspan="6"><div class="loading"><div class="spin"></div>Running evidence pipeline...</div></td></tr>';
+
+  const results = [];
+  for (const d of directions) {
+    if (d.query === 'Enter your research question') {
+      results.push({...d, proposal_verdict:'inconclusive', proposal_confidence:0.25, custom:true});
+      continue;
+    }
+    try {
+      const r = await fetch('/api/run_research', {
+        method:'POST', headers:{'Content-Type':'application/json'},
+        body: JSON.stringify({query: d.query})
+      });
+      const data = await r.json();
+      results.push({...d, ...data});
+    } catch(e) {
+      results.push({...d, proposal_verdict:'inconclusive', proposal_confidence:0.25});
+    }
+  }
+
+  tbody.innerHTML = results.map(r => {
+    if (r.custom) {
+      return `<tr>
+        <td><input style="background:var(--surface);border:1px solid var(--border2);border-radius:4px;padding:4px 8px;color:var(--text);font-size:11px;width:200px;" placeholder="Enter research direction"/></td>
+        <td colspan="4" style="color:var(--muted);font-size:11px;">Enter direction and click Investigate</td>
+        <td><button class="inv-btn">Add Direction</button></td>
+      </tr>`;
+    }
+    const v = r.proposal_verdict || 'inconclusive';
+    const conf = (r.proposal_confidence || 0.25).toFixed(2);
+    const drift = r.drift?.direction || 'stable';
+    let pillClass = 'inconclusive';
+    if (v.includes('strong')) pillClass = 'strong';
+    else if (v.includes('moderate')) pillClass = 'moderate';
+    else if (v.includes('mixed') || v.includes('context')) pillClass = 'mixed';
+    else if (v.includes('limited')) pillClass = 'limited';
+    let risk = 'low', riskLabel = 'Low';
+    if (v === 'inconclusive') { risk='high'; riskLabel='HIGH'; }
+    else if (v.includes('mixed') || v.includes('context')) { risk='medium'; riskLabel='Medium'; }
+    const trendColor = drift==='weakening'?'var(--red)':drift==='strengthening'?'var(--green)':'var(--muted)';
+    const trendIcon = drift==='weakening'?'↓':drift==='strengthening'?'↑':'→';
+    return `<tr>
+      <td style="font-weight:500;color:var(--bright);">${r.name}</td>
+      <td><span class="verdict-pill ${pillClass}">${v.replace('_',' ')}</span></td>
+      <td><span style="font-family:var(--mono);font-size:12px;">${conf}</span></td>
+      <td><span style="color:${trendColor};font-size:14px;">${trendIcon}</span> <span style="font-size:10px;color:var(--muted);">${drift}</span></td>
+      <td><span class="risk-badge ${risk}">${riskLabel}</span></td>
+      <td><button class="inv-btn" onclick="investigateDirection('${r.query.replace(/'/g,"\'")}')">Investigate</button></td>
+    </tr>`;
+  }).join('');
+  document.getElementById('portUpdated').textContent = new Date().toLocaleTimeString();
+}
+
+// ── Password Change ──────────────────────────────────
+async function changePassword() {
+  const company_id = document.getElementById('settingsId').value.trim();
+  const old_pwd    = document.getElementById('settingsOldPwd').value.trim();
+  const new_pwd    = document.getElementById('settingsNewPwd').value.trim();
+  const confirm    = document.getElementById('settingsConfirmPwd').value.trim();
+  const status     = document.getElementById('pwdStatus');
+
+  if (!company_id || !old_pwd || !new_pwd) {
+    status.innerHTML = '<span style="color:var(--red);">All fields required</span>';
+    return;
+  }
+  if (new_pwd !== confirm) {
+    status.innerHTML = '<span style="color:var(--red);">Passwords do not match</span>';
+    return;
+  }
+  if (new_pwd.length < 8) {
+    status.innerHTML = '<span style="color:var(--red);">Password must be at least 8 characters</span>';
+    return;
+  }
+
+  status.innerHTML = '<div class="loading"><div class="spin"></div>Updating...</div>';
+
+  try {
+    const r = await fetch('/api/company/change_password', {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({company_id, old_password: old_pwd, new_password: new_pwd})
+    });
+    const d = await r.json();
+    if (d.error) {
+      status.innerHTML = `<span style="color:var(--red);">${d.error}</span>`;
+    } else {
+      status.innerHTML = '<span style="color:var(--green);">✅ Password updated successfully</span>';
+      document.getElementById('settingsOldPwd').value = '';
+      document.getElementById('settingsNewPwd').value = '';
+      document.getElementById('settingsConfirmPwd').value = '';
+    }
+  } catch(e) {
+    status.innerHTML = `<span style="color:var(--red);">${e.message}</span>`;
+  }
+}
+
+function copyShareLink(btn) {
+  const url = window.location.href;
+  navigator.clipboard.writeText(url);
+  const orig = btn.textContent;
+  btn.textContent = '✓ Copied';
+  setTimeout(() => btn.textContent = orig, 2000);
+}
+
 // ── Init ────────────────────────────────────────────────
 function refreshAll() { loadPortfolio(); }
 
 document.addEventListener('DOMContentLoaded', () => {
-  loadPortfolio();
+  // Read session
+  const companyId   = sessionStorage.getItem('tattva_company_id') || '';
+  const password    = sessionStorage.getItem('tattva_password') || '';
+  const companyName = sessionStorage.getItem('tattva_company_name') || 'Enterprise';
+  const domain      = sessionStorage.getItem('tattva_domain') || 'ml';
+
+  // If no session, show login overlay instead of redirect
+  if (!companyId) {
+    showLoginOverlay();
+    return;
+  }
+
+  initDashboard(companyId, password, companyName, domain);
   document.getElementById('portUpdated').textContent = new Date().toLocaleTimeString();
 });
 </script>
