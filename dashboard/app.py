@@ -1032,15 +1032,225 @@ def index():
 def app_page():
     return render_template("research.html")
 
+# ── Private Corpus API ─────────────────────────────────
+
+@app.route("/api/company/upload", methods=["POST"])
+def api_company_upload():
+    try:
+        from private_corpus import ingest_document, verify_company
+        company_id = request.form.get("company_id","")
+        password   = request.form.get("password","")
+        if not verify_company(company_id, password):
+            return jsonify({"error": "Invalid credentials"}), 401
+        if "file" not in request.files:
+            return jsonify({"error": "No file uploaded"}), 400
+        f = request.files["file"]
+        if not f.filename.endswith(".pdf"):
+            return jsonify({"error": "Only PDF files supported"}), 400
+        title = request.form.get("title", "")
+        pdf_bytes = f.read()
+        result = ingest_document(company_id, pdf_bytes, f.filename, title)
+        return jsonify(result)
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+@app.route("/api/company/search", methods=["POST"])
+def api_company_search():
+    try:
+        from private_corpus import search_private, verify_company
+        body = request.get_json(force=True) or {}
+        company_id = body.get("company_id","")
+        password   = body.get("password","")
+        query      = body.get("query","")
+        if not verify_company(company_id, password):
+            return jsonify({"error": "Invalid credentials"}), 401
+        chunks = search_private(company_id, query, top_k=10)
+        return jsonify({"chunks": chunks, "count": len(chunks)})
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+@app.route("/api/company/stats", methods=["POST"])
+def api_company_stats():
+    try:
+        from private_corpus import get_company_stats, verify_company
+        body = request.get_json(force=True) or {}
+        company_id = body.get("company_id","")
+        password   = body.get("password","")
+        if not verify_company(company_id, password):
+            return jsonify({"error": "Invalid credentials"}), 401
+        stats = get_company_stats(company_id)
+        return jsonify(stats)
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+@app.route("/api/company/research", methods=["POST"])
+def api_company_research():
+    """Research query against BOTH public + private corpus."""
+    try:
+        from private_corpus import search_private, verify_company
+        body = request.get_json(force=True) or {}
+        company_id = body.get("company_id","")
+        password   = body.get("password","")
+        query      = body.get("query","")
+        if not verify_company(company_id, password):
+            return jsonify({"error": "Invalid credentials"}), 401
+
+        # Get public results
+        import hashlib, json as _json
+        _rkey = "rq:" + hashlib.md5(query.encode()).hexdigest()
+        chunk_store, encoder, chunk_index = _get_pipeline()
+        public_chunks = chunk_index.retrieve(query, top_k=10)
+
+        # Get private results
+        private_chunks = search_private(company_id, query, top_k=6)
+
+        # Combine and run contradiction detection
+        all_chunks = public_chunks + private_chunks
+        contradictions = _find_contradictions(all_chunks)
+
+        # Check for cross-corpus contradictions (most valuable)
+        cross_contradictions = []
+        for c in contradictions:
+            sup_is_private = any(
+                pc.get("paper_title") == c.get("supporting_paper")
+                for pc in private_chunks
+            )
+            con_is_private = any(
+                pc.get("paper_title") == c.get("contradicting_paper")
+                for pc in private_chunks
+            )
+            if sup_is_private or con_is_private:
+                c["cross_corpus"] = True
+                c["alert"] = "⚠ Your internal research contradicts/supports public literature"
+                cross_contradictions.append(c)
+
+        return jsonify({
+            "query": query,
+            "public_chunks": len(public_chunks),
+            "private_chunks": len(private_chunks),
+            "contradictions": contradictions,
+            "cross_corpus_contradictions": cross_contradictions,
+            "has_cross_contradiction": len(cross_contradictions) > 0,
+        })
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+@app.route("/api/company/change_password", methods=["POST"])
+def api_company_change_password():
+    try:
+        from private_corpus import verify_company
+        import sqlite3
+        body = request.get_json(force=True) or {}
+        company_id   = body.get("company_id","")
+        old_password = body.get("old_password","")
+        new_password = body.get("new_password","")
+        if not verify_company(company_id, old_password):
+            return jsonify({"error": "Invalid credentials"}), 401
+        if len(new_password) < 8:
+            return jsonify({"error": "Password too short"}), 400
+        conn = sqlite3.connect("knowledge_base/knowledge.db")
+        conn.execute("UPDATE private_companies SET password=? WHERE company_id=?",
+                     (new_password, company_id))
+        conn.commit()
+        conn.close()
+        return jsonify({"status": "success"})
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+@app.route("/api/company/create", methods=["POST"])
+def api_company_create():
+    """Admin only - create new enterprise client."""
+    try:
+        admin_key = request.headers.get("X-Admin-Key","")
+        if admin_key != os.environ.get("ADMIN_KEY","tattva-admin-2026"):
+            return jsonify({"error": "Unauthorized"}), 401
+        from private_corpus import create_company, init_private_db
+        init_private_db()
+        body = request.get_json(force=True) or {}
+        name = body.get("name","")
+        password = body.get("password","")
+        if not name or not password:
+            return jsonify({"error": "name and password required"}), 400
+        domain = body.get("domain","ml")
+        result = create_company(name, password, domain)
+        return jsonify(result)
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
 @app.route("/company")
-def company():
-    auth = request.headers.get("Authorization","")
-    pwd = os.environ.get("COMPANY_PASSWORD","tattva-enterprise-2026")
+@app.route("/company/login")
+def company_login():
+    """Public login page for enterprise clients."""
+    return render_template("company_login.html")
+
+@app.route("/company/dashboard")
+def company_dashboard():
+    """Dashboard — served after login, auth via session."""
+    return render_template("company.html")
+
+@app.route("/api/company/login", methods=["POST"])
+def api_company_login():
+    """Verify company credentials and return session info."""
+    try:
+        from private_corpus import verify_company, get_company_stats
+        import sqlite3
+        body = request.get_json(force=True) or {}
+        company_id = body.get("company_id","").strip()
+        password   = body.get("password","").strip()
+
+        if not verify_company(company_id, password):
+            return jsonify({"error": "Invalid Company ID or password"}), 401
+
+        # Get company info including domain
+        conn = sqlite3.connect("knowledge_base/knowledge.db")
+        row = conn.execute(
+            "SELECT company_name, domain, chunk_count FROM private_companies WHERE company_id=?",
+            (company_id,)
+        ).fetchone()
+        conn.close()
+
+        if not row:
+            return jsonify({"error": "Company not found"}), 404
+
+        return jsonify({
+            "status": "ok",
+            "company_id": company_id,
+            "company_name": row[0],
+            "domain": row[1] or "ml",
+            "chunk_count": row[2] or 0,
+        })
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+@app.route("/company/old")
+def company_old():
     import base64
+    from private_corpus import init_private_db
+    init_private_db()
+    auth = request.headers.get("Authorization","")
+    master_pwd = os.environ.get("COMPANY_PASSWORD","tattva-enterprise-2026")
     try:
         decoded = base64.b64decode(auth.replace("Basic ","")).decode()
-        if decoded.split(":",1)[1] == pwd:
+        parts = decoded.split(":",1)
+        username = parts[0]
+        password = parts[1] if len(parts) > 1 else ""
+
+        # Master password — full access
+        if password == master_pwd:
             return render_template("company.html")
+
+        # Company-specific login: username=company_id, password=corpus_password
+        import sqlite3
+        conn = sqlite3.connect("knowledge_base/knowledge.db")
+        row = conn.execute(
+            "SELECT company_id FROM private_companies WHERE company_id=? AND password=?",
+            (username, password)
+        ).fetchone()
+        conn.close()
+        if row:
+            return render_template("company.html",
+                                   company_id=username,
+                                   auto_login=True)
     except: pass
     return Response(
         "Tattva AI Enterprise — Contact sales@tattvaai.org for access",

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Tattva AI — Enterprise Login</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --bg:#080b10;--surface:#0d1117;--card:#111720;--border:#1a2332;
+  --accent:#00e5ff;--text:#dde8f5;--muted:#4a6080;--bright:#fff;
+  --mono:'JetBrains Mono',monospace;--sans:'Space Grotesk',sans-serif;
+  --radius:8px;
+}
+body{min-height:100vh;background:var(--bg);display:flex;align-items:center;justify-content:center;font-family:var(--sans);}
+body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(0,229,255,.01) 3px,rgba(0,229,255,.01) 4px);pointer-events:none;}
+.card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:40px;width:420px;position:relative;}
+.card::before{content:'';position:absolute;top:0;left:40px;right:40px;height:1px;background:linear-gradient(90deg,transparent,var(--accent),transparent);}
+.logo{display:flex;align-items:center;gap:12px;margin-bottom:32px;}
+.hex{width:40px;height:40px;background:rgba(0,229,255,.08);border:1.5px solid var(--accent);clip-path:polygon(50% 0%,100% 25%,100% 75%,50% 100%,0% 75%,0% 25%);display:flex;align-items:center;justify-content:center;font-size:18px;color:var(--accent);}
+.logo-text .name{font-family:var(--mono);font-size:14px;font-weight:600;color:var(--bright);letter-spacing:2px;}
+.logo-text .tag{font-family:var(--mono);font-size:9px;color:var(--muted);letter-spacing:1.5px;text-transform:uppercase;margin-top:2px;}
+h2{font-size:20px;font-weight:600;color:var(--bright);margin-bottom:6px;}
+.subtitle{font-size:13px;color:var(--muted);margin-bottom:28px;}
+.field{margin-bottom:16px;}
+.field label{display:block;font-family:var(--mono);font-size:9px;color:var(--muted);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:6px;}
+.field input{width:100%;padding:11px 14px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);color:var(--text);font-size:13px;font-family:var(--sans);outline:none;transition:border-color .15s;}
+.field input:focus{border-color:var(--accent);}
+.btn{width:100%;padding:12px;background:var(--accent);color:#000;border:none;border-radius:var(--radius);font-size:13px;font-weight:700;cursor:pointer;font-family:var(--sans);margin-top:8px;transition:opacity .15s;}
+.btn:hover{opacity:.9;}
+.error{background:rgba(255,61,87,.08);border:1px solid rgba(255,61,87,.2);border-radius:var(--radius);padding:10px 14px;font-size:12px;color:#ff3d57;margin-top:12px;display:none;}
+.divider{height:1px;background:var(--border);margin:24px 0;}
+.contact{text-align:center;font-size:12px;color:var(--muted);}
+.contact a{color:var(--accent);text-decoration:none;}
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="logo">
+    <div class="hex">◈</div>
+    <div class="logo-text">
+      <div class="name">TATTVA AI</div>
+      <div class="tag">Enterprise</div>
+    </div>
+  </div>
+
+  <h2>Welcome back</h2>
+  <p class="subtitle">Sign in to your enterprise research dashboard</p>
+
+  <div class="field">
+    <label>Company ID</label>
+    <input type="text" id="companyId" placeholder="e.g. eab6908e51" autocomplete="username"/>
+  </div>
+  <div class="field">
+    <label>Password</label>
+    <input type="password" id="password" placeholder="Your enterprise password" autocomplete="current-password"
+           onkeydown="if(event.key==='Enter') login()"/>
+  </div>
+  <button class="btn" onclick="login()">Sign In →</button>
+  <div class="error" id="errorMsg">Invalid Company ID or password. Contact sales@tattvaai.org for help.</div>
+
+  <div class="divider"></div>
+  <div class="contact">
+    Don't have access? <a href="mailto:sales@tattvaai.org">Contact sales@tattvaai.org</a>
+  </div>
+</div>
+
+<script>
+async function login() {
+  const company_id = document.getElementById('companyId').value.trim();
+  const password   = document.getElementById('password').value.trim();
+  const err        = document.getElementById('errorMsg');
+  err.style.display = 'none';
+
+  if (!company_id || !password) {
+    err.textContent = 'Please enter your Company ID and password.';
+    err.style.display = 'block';
+    return;
+  }
+
+  try {
+    const r = await fetch('/api/company/login', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({company_id, password})
+    });
+    const d = await r.json();
+    if (d.error) {
+      err.textContent = d.error;
+      err.style.display = 'block';
+    } else {
+      // Store session
+      sessionStorage.setItem('tattva_company_id', company_id);
+      sessionStorage.setItem('tattva_password', password);
+      sessionStorage.setItem('tattva_company_name', d.company_name);
+      sessionStorage.setItem('tattva_domain', d.domain);
+      window.location.href = '/company/dashboard';
+    }
+  } catch(e) {
+    err.textContent = 'Connection error. Please try again.';
+    err.style.display = 'block';
+  }
+}
+</script>
+</body>
+</html>
