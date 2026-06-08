@@ -1164,8 +1164,7 @@ def api_company_create():
         admin_key = request.headers.get("X-Admin-Key","")
         if admin_key != os.environ.get("ADMIN_KEY","tattva-admin-2026"):
             return jsonify({"error": "Unauthorized"}), 401
-        from private_corpus import create_company, init_private_db
-        init_private_db()
+        from private_corpus import create_company
         body = request.get_json(force=True) or {}
         name = body.get("name","")
         password = body.get("password","")
@@ -1225,8 +1224,6 @@ def api_company_login():
 @app.route("/company/old")
 def company_old():
     import base64
-    from private_corpus import init_private_db
-    init_private_db()
     auth = request.headers.get("Authorization","")
     master_pwd = os.environ.get("COMPANY_PASSWORD","tattva-enterprise-2026")
     try:
