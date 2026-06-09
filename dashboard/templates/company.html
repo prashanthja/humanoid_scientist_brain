@@ -240,11 +240,13 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
     <div class="nav-item" onclick="goPane('corpus')">📁 Upload Documents <span class="nav-badge amber" id="corpusBadge">0</span></div>
     <div class="nav-item" onclick="goPane('crosssearch')">🔍 Cross-Search</div>
     <div class="nav-section">Settings</div>
-    <div class="nav-item" onclick="goPane('settings')">⚙ Account Settings</div>
     <div class="nav-item" onclick="window.location='/app'" style="opacity:0.5;font-size:11px;">↗ Open Researcher Tool</div>
   </div>
   <div class="sidebar-footer">
-    <button class="upgrade-btn" onclick="goPane('settings')">⚙ Account Settings</button>
+    <div style="display:flex;gap:6px;">
+      <button class="upgrade-btn" onclick="goPane('settings')" style="flex:1;">⚙ Settings</button>
+      <button class="upgrade-btn" onclick="window.location='/app'" style="flex:1;background:var(--surface);color:var(--text);border:1px solid var(--border2);">↗ App</button>
+    </div>
   </div>
 </div>
 
@@ -266,7 +268,7 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
     <!-- ═══════════════════════════════════════════════
          PANE 1: PORTFOLIO HEALTH
     ═══════════════════════════════════════════════ -->
-    <div class="pane active" id="pane-portfolio">
+    <div class="pane" id="pane-portfolio">
       <!-- Stats row -->
       <div class="grid grid-4" style="margin-bottom:20px;">
         <div class="stat-card">
