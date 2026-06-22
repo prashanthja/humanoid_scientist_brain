@@ -20,58 +20,261 @@ STATUS_PATH = os.path.join(ROOT, "data", "service_status.json")
 CHUNK_DB    = os.path.join(ROOT, "knowledge_base", "knowledge.db")
 INTERVAL_SEC = 6 * 60 * 60  # 6 hours
 
-SEARCH_QUERIES = [
-    "transformer attention efficiency memory",
-    "mixture of experts language model routing",
-    "KV cache compression LLM inference",
-    "FlashAttention IO aware memory efficient attention",
-    "LoRA low rank adaptation fine-tuning",
-    "speculative decoding LLM throughput",
-    "sparse attention long context transformer",
-    "quantization LLM inference INT8 INT4",
-    "MoE routing instability training sparse",
-    "rotary position embedding long context RoPE",
-    "continuous batching LLM serving vLLM",
-    "grouped query attention KV cache memory",
-    "PagedAttention virtual memory GPU LLM",
-    "pruning transformer inference cost",
-    "knowledge distillation model compression",
-    "sliding window attention sequence length",
-    "Mamba state space model transformers linear",
-    "tensor parallelism distributed LLM training",
-    "RWKV linear complexity recurrent transformer",
-    "model quantization downstream performance",
-    "prefix caching KV reuse inference",
-    "weight sharing parameter efficient transformers",
-    "linear attention kernel approximation",
-    "multi-head latent attention MLA DeepSeek",
-    "pipeline parallelism LLM disaggregation",
-    "attention sink outlier LLM generation",
-    "long context window extension LLM",
-    "activation checkpointing memory training",
-    "flash decoding parallel LLM inference",
-    "model merging weight averaging LLM",
-    "prompt compression token reduction LLM",
-    "retrieval augmented generation RAG efficiency",
-    "chain of thought reasoning LLM efficiency",
-    "batch inference dynamic padding LLM",
-    "early exit adaptive computation transformer",
-    "token merging vision transformer efficiency",
-    "mixture of depths adaptive compute",
-    "multi-query attention memory bandwidth",
-    "ALiBi positional encoding length generalization",
-    "gated linear units transformer FFN",
-    "sparse mixture experts switch transformer",
-    "continuous learning catastrophic forgetting LLM",
-    "reward model RLHF efficiency training",
-    "context compression summarization LLM",
-    "nested attention hierarchical transformer",
-    "recurrent neural network versus transformer",
-    "neural architecture search efficient transformer",
-    "heterogeneous inference serving LLM",
-    "disaggregated prefill decode LLM serving",
-    "cross layer KV sharing attention compression",
-]
+# ── Domain Configuration ─────────────────────────────────
+DOMAIN_QUERIES = {
+    "ml_ai": [
+        "transformer attention efficiency memory",
+        "mixture of experts language model routing",
+        "KV cache compression LLM inference",
+        "FlashAttention IO aware memory efficient attention",
+        "LoRA low rank adaptation fine-tuning",
+        "speculative decoding LLM throughput",
+        "sparse attention long context transformer",
+        "quantization LLM inference INT8 INT4",
+        "MoE routing instability training sparse",
+        "continuous batching LLM serving vLLM",
+        "grouped query attention KV cache memory",
+        "PagedAttention virtual memory GPU LLM",
+        "pruning transformer inference cost",
+        "knowledge distillation model compression",
+        "sliding window attention sequence length",
+        "Mamba state space model transformers linear",
+        "tensor parallelism distributed LLM training",
+        "RWKV linear complexity recurrent transformer",
+        "prefix caching KV reuse inference",
+        "flash decoding parallel LLM inference",
+    ],
+    "neuroscience": [
+        "neural attention mechanism selective perception brain",
+        "memory consolidation hippocampus sleep",
+        "synaptic plasticity hebbian learning",
+        "sparse coding visual cortex energy efficiency",
+        "predictive coding brain information processing",
+        "dopamine reward learning basal ganglia",
+        "prefrontal cortex decision making working memory",
+        "neural oscillations cognition gamma theta",
+        "cortical hierarchy sensory processing",
+        "neuroplasticity learning experience brain",
+        "default mode network resting state fMRI",
+        "optogenetics neural circuit causality",
+        "connectome neural wiring brain mapping",
+        "glial cells neuron support function",
+        "neurodegeneration Alzheimer Parkinson mechanism",
+    ],
+    "biology": [
+        "CRISPR Cas9 gene editing off-target specificity",
+        "protein folding structure prediction AlphaFold",
+        "gene regulatory network boolean transcription",
+        "cell signaling pathway receptor kinase",
+        "evolutionary biology natural selection fitness",
+        "microbiome gut bacteria health disease",
+        "stem cell differentiation pluripotent",
+        "epigenetics DNA methylation gene expression",
+        "CRISPR base editing prime editing precision",
+        "single cell RNA sequencing transcriptomics",
+        "synthetic biology genetic circuit design",
+        "metabolic engineering biosynthesis pathway",
+        "protein protein interaction network disease",
+        "mRNA vaccine delivery lipid nanoparticle",
+        "antibiotic resistance mechanism evolution",
+    ],
+    "medicine": [
+        "clinical trial randomized controlled efficacy",
+        "cancer immunotherapy checkpoint inhibitor",
+        "drug resistance tumor microenvironment",
+        "biomarker disease diagnosis prognosis",
+        "precision medicine genomics personalized treatment",
+        "vaccine efficacy immunogenicity safety",
+        "mental health depression anxiety treatment",
+        "cardiovascular disease risk factor prevention",
+        "diabetes insulin resistance metabolic syndrome",
+        "COVID long covid mechanism treatment",
+        "CAR T cell therapy cancer immunology",
+        "CRISPR gene therapy clinical trial",
+        "microbiome disease causality treatment",
+        "aging longevity mechanism intervention",
+        "drug repurposing computational discovery",
+    ],
+    "physics": [
+        "quantum computing error correction fault tolerant",
+        "quantum entanglement measurement Bell inequality",
+        "superconductor high temperature mechanism BCS",
+        "dark matter detection direct experiment",
+        "quantum field theory standard model particle",
+        "thermodynamics entropy information theory",
+        "condensed matter phase transition critical phenomena",
+        "quantum annealing optimization classical comparison",
+        "topological insulator quantum material property",
+        "gravitational wave detection LIGO black hole",
+        "photonic quantum computing optical qubit",
+        "nuclear fusion plasma confinement tokamak",
+        "quantum sensing metrology precision measurement",
+        "many body quantum simulation lattice",
+        "semiconductor material property doping",
+    ],
+    "chemistry": [
+        "catalyst reaction mechanism selectivity",
+        "organic synthesis drug molecule",
+        "electrochemical energy storage battery",
+        "photocatalysis solar energy conversion",
+        "nanoparticle synthesis optical electronic",
+        "polymer material mechanical thermal property",
+        "green chemistry sustainable solvent",
+        "reaction kinetics transition state theory",
+        "computational chemistry DFT molecular dynamics",
+        "metal organic framework porous material",
+        "electrocatalysis hydrogen evolution oxygen",
+        "surface chemistry heterogeneous catalysis",
+        "supramolecular chemistry self assembly",
+        "flow chemistry continuous synthesis",
+        "analytical chemistry spectroscopy detection",
+    ],
+    "climate": [
+        "carbon capture sequestration storage efficiency",
+        "climate model temperature projection scenario",
+        "renewable energy solar wind efficiency cost",
+        "ocean acidification marine ecosystem impact",
+        "greenhouse gas emission reduction pathway",
+        "sea level rise ice sheet melting prediction",
+        "biodiversity loss climate change species",
+        "carbon cycle feedback methane permafrost",
+        "climate tipping point threshold irreversible",
+        "direct air capture carbon dioxide removal",
+        "electric vehicle battery grid decarbonization",
+        "deforestation land use carbon stock",
+        "climate adaptation resilience vulnerability",
+        "geoengineering solar radiation management",
+        "extreme weather event attribution climate",
+    ],
+    "economics": [
+        "minimum wage employment effect labor market",
+        "monetary policy inflation central bank",
+        "income inequality growth redistribution",
+        "trade policy welfare gains tariff",
+        "behavioral economics bias decision making",
+        "market efficiency hypothesis asset pricing",
+        "fiscal policy multiplier government spending",
+        "automation labor displacement inequality",
+        "universal basic income poverty experiment",
+        "healthcare economics insurance market failure",
+        "environmental economics carbon tax externality",
+        "development economics poverty growth institution",
+        "financial crisis contagion systemic risk",
+        "game theory mechanism design auction",
+        "economic growth productivity innovation",
+    ],
+    "psychology": [
+        "cognitive behavioral therapy efficacy depression",
+        "mindfulness meditation stress anxiety reduction",
+        "cognitive bias heuristic judgment decision",
+        "trauma PTSD treatment exposure therapy",
+        "personality trait heritability twin study",
+        "social conformity influence group behavior",
+        "memory false recall reconstruction",
+        "attention deficit ADHD treatment intervention",
+        "motivation intrinsic extrinsic reward",
+        "emotion regulation strategy mental health",
+        "sleep quality mental health performance",
+        "placebo effect expectation treatment",
+        "childhood adversity adult mental health",
+        "positive psychology wellbeing intervention",
+        "psychedelic therapy psilocybin depression",
+    ],
+    "computer_systems": [
+        "cache memory hierarchy optimization prefetch",
+        "distributed systems consensus fault tolerance",
+        "compiler optimization loop vectorization",
+        "operating system scheduler fairness latency",
+        "network congestion control TCP throughput",
+        "storage system log structured write amplification",
+        "database query optimization index",
+        "security vulnerability side channel attack",
+        "cloud computing resource allocation scheduling",
+        "edge computing inference latency mobile",
+        "Byzantine fault tolerance blockchain consensus",
+        "memory safety Rust systems programming",
+        "kernel bypass DPDK network performance",
+        "containerization microservice orchestration",
+        "formal verification program correctness proof",
+    ],
+    "mathematics": [
+        "optimal transport Wasserstein distance application",
+        "random matrix theory neural network spectrum",
+        "information geometry Fisher information manifold",
+        "topology persistent homology data analysis",
+        "stochastic differential equation sampling",
+        "graph theory network analysis spectral",
+        "compressed sensing sparse recovery measurement",
+        "convex optimization convergence rate algorithm",
+        "differential geometry Riemannian manifold learning",
+        "number theory cryptography prime factorization",
+        "probability theory concentration inequality",
+        "numerical analysis stability convergence",
+        "algebraic geometry machine learning application",
+        "combinatorics counting probabilistic method",
+        "functional analysis operator Hilbert space",
+    ],
+}
+
+# Domain detection — tag every chunk with its domain
+def detect_domain(text: str, title: str = "", source_query: str = "") -> str:
+    """
+    Detect domain using STRICT signals.
+    Priority: source_query (most reliable) > title signals > text signals
+    """
+    combined = (text + " " + title).lower()
+    title_lower = title.lower()
+
+    # If we know which query fetched this paper, use that directly
+    if source_query:
+        for domain, queries in DOMAIN_QUERIES.items():
+            if source_query in queries:
+                return domain
+
+    # STRICT title-based detection — titles are reliable
+    # These are domain-exclusive terms unlikely to appear in ML papers
+    title_signals = {
+        "neuroscience": ["hippocampus","synapse","cortex","neuron","fmri","eeg","dopamine","serotonin","axon","dendrite","glial","amygdala","cerebellum","neural circuit","prefrontal","optogenetics"],
+        "biology":      ["crispr","gene editing","protein folding","genomics","transcriptomics","dna methylation","rna sequencing","cell biology","microbiome","epigenetics","stem cell","metabolomics"],
+        "medicine":     ["clinical trial","randomized controlled","patient outcome","drug efficacy","disease treatment","cancer therapy","vaccine efficacy","surgical outcome","epidemiology","cohort study"],
+        "physics":      ["quantum entanglement","superconductor","dark matter","particle physics","quantum computing","thermodynamics","condensed matter","gravitational wave","nuclear physics","plasma physics"],
+        "chemistry":    ["organic synthesis","catalyst","chemical reaction","polymer","electrochemistry","spectroscopy","crystallography","nanoparticle synthesis","photocatalysis","reaction mechanism"],
+        "climate":      ["climate change","carbon emission","greenhouse gas","sea level","ocean acidification","biodiversity loss","renewable energy","carbon capture","global warming","fossil fuel"],
+        "economics":    ["gdp growth","monetary policy","labor market","fiscal policy","income inequality","trade policy","unemployment rate","inflation rate","economic growth","market equilibrium"],
+        "psychology":   ["cognitive behavioral","mental health","anxiety disorder","depression treatment","psychological","ptsd","personality disorder","behavioral therapy","mindfulness","cognitive bias"],
+        "computer_systems": ["operating system","distributed system","network protocol","compiler optimization","database system","file system","cache replacement","cpu scheduling","memory management"],
+        "mathematics":  ["mathematical proof","theorem","algebraic","topological","stochastic process","differential equation","linear algebra","number theory","combinatorics","functional analysis"],
+    }
+
+    for domain, terms in title_signals.items():
+        if any(term in title_lower for term in terms):
+            return domain
+
+    # ML/AI is the default for our current corpus
+    # Only assign other domains if VERY strong signals in text
+    strong_text_signals = {
+        "neuroscience": ["hippocampal","synaptic plasticity","neural firing","cortical","cerebellar","dopaminergic"],
+        "biology":      ["crispr-cas","gene expression","rna-seq","whole genome","protein structure","cell line","in vitro","in vivo"],
+        "medicine":     ["patients with","clinical outcomes","randomized","placebo-controlled","hazard ratio","odds ratio"],
+        "physics":      ["quantum circuit","qubit","superconducting","entanglement","hamiltonian","fermion","boson"],
+        "chemistry":    ["synthesis of","reaction yield","catalytic activity","spectroscopic","crystalline"],
+        "climate":      ["co2 concentration","sea surface temperature","carbon cycle","climate model","ipcc"],
+        "economics":    ["gross domestic","central bank","elasticity","supply and demand","econometric"],
+        "psychology":   ["participants reported","clinical sample","psychometric","behavioral intervention"],
+        "computer_systems": ["page fault","cache miss","context switch","throughput latency","packet loss"],
+        "mathematics":  ["we prove","lemma","corollary","let g be","suppose x"],
+    }
+
+    for domain, terms in strong_text_signals.items():
+        if sum(1 for t in terms if t in combined) >= 2:
+            return domain
+
+    return "ml_ai"
+
+# Flatten all queries for backward compatibility
+SEARCH_QUERIES = [q for queries in DOMAIN_QUERIES.values() for q in queries]
+
+_LEGACY_SEARCH_QUERIES = []  # moved to DOMAIN_QUERIES above
 
 DOMAIN_KEYWORDS = [
     "attention", "transformer", "language model", "llm", "inference",
@@ -390,7 +593,7 @@ def _ingest_directly(papers: List[Dict]) -> int:
                     "text":        chunk_text,
                     "paper_title": paper["title"],
                     "source":      paper["source"],
-                    "domain":      "transformer_efficiency",
+                    "domain":      detect_domain(chunk_text, paper.get("title","")),
                     "chunk_idx":   i // chunk_size,
                 })
 
@@ -448,7 +651,7 @@ def _ingest_directly(papers: List[Dict]) -> int:
                         for i in range(0, len(new_rows), 100):
                             batch = new_rows[i:i+100]
                             data = [{"text": r.get("text",""), "paper_title": r.get("paper_title",""),
-                                     "source": r.get("source",""), "domain": r.get("domain","transformer_efficiency"),
+                                     "source": r.get("source",""), "domain": detect_domain(r.get("text",""), r.get("paper_title","")),
                                      "chunk_idx": 0} for r in batch]
                             sb.table("chunks").insert(data).execute()
                         log.info(f"  Synced {len(new_rows)} new chunks to Supabase")
@@ -474,7 +677,8 @@ def run_cycle():
                    "started_at": datetime.now().isoformat()})
 
     # ── Phase 1: Fetch ────────────────────────────────────
-    log.info(f"Phase 1: Fetching from all sources ({len(SEARCH_QUERIES)} queries)")
+    log.info(f"Phase 1: Fetching from all sources ({len(SEARCH_QUERIES)} queries across {len(DOMAIN_QUERIES)} domains)")
+    log.info("Domains: " + ", ".join(f"{d}({len(q)}q)" for d,q in DOMAIN_QUERIES.items()))
     all_papers: Dict[str, Dict] = {}
 
     for i, query in enumerate(SEARCH_QUERIES):
@@ -522,7 +726,7 @@ def run_cycle():
                     for i in range(0, len(local_rows), 100):
                         batch = local_rows[i:i+100]
                         data = [{"text": r.get("text",""), "paper_title": r.get("paper_title",""),
-                                 "source": r.get("source",""), "domain": r.get("domain","transformer_efficiency"),
+                                 "source": r.get("source",""), "domain": detect_domain(r.get("text",""), r.get("paper_title","")),
                                  "chunk_idx": 0} for r in batch]
                         sb.table("chunks").insert(data).execute()
                     log.info(f"Supabase synced: +{len(local_rows)} chunks")

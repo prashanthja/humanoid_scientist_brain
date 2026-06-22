@@ -119,7 +119,7 @@ def main():
 
     engine = build_engine(kg)
 
-    for q in queries:
+    for q in queries: 
         print("\n" + "=" * 80)
         print("QUERY:", q)
 
