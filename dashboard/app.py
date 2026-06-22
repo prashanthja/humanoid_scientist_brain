@@ -1427,6 +1427,23 @@ def _extract_scope(grounded_claims, contradictions):
     return {"within": within, "untested": untested, "has_scope": len(within) > 0}
 
 
+@app.route("/api/domain_stats", methods=["GET"])
+def api_domain_stats():
+    """Return chunk counts per domain."""
+    try:
+        import sqlite3
+        conn = sqlite3.connect("knowledge_base/knowledge.db")
+        rows = conn.execute(
+            "SELECT domain, COUNT(*) as n FROM chunks GROUP BY domain ORDER BY n DESC"
+        ).fetchall()
+        conn.close()
+        return jsonify({
+            "domains": [{"domain": r[0], "chunks": r[1]} for r in rows],
+            "total": sum(r[1] for r in rows)
+        })
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
 @app.route("/api/run_research", methods=["POST"])
 def api_run_research():
     try:
