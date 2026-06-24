@@ -3,811 +3,693 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>Tattva AI — Evidence-Grounded Research Intelligence</title>
-<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<title>Tattva AI</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@200;300;400;500;600;700;800;900&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet"/>
 <style>
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-:root{
-  --bg:#04080f;
-  --surface:#080d16;
-  --card:#0c1220;
-  --blue:#1a4fd6;
-  --blue-light:#3d6ee8;
-  --cyan:#00c8ff;
-  --gold:#f0a500;
-  --green:#00d48a;
-  --red:#ff4757;
-  --text:#e8edf5;
-  --muted:#6b7a96;
-  --dim:#2a3a52;
-  --white:#ffffff;
-  --serif:'Instrument Serif',Georgia,serif;
-  --mono:'DM Mono',monospace;
-  --sans:'DM Sans',system-ui,sans-serif;
-}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Space Grotesk',sans-serif;cursor:none;background:#000814;}
 
-html{scroll-behavior:smooth;}
-body{
-  background:var(--bg);
-  color:var(--text);
-  font-family:var(--sans);
-  overflow-x:hidden;
-  line-height:1.6;
-}
+/* Fixed canvas behind everything */
+#c{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;display:block;}
 
-/* ── NOISE TEXTURE ── */
-body::before{
-  content:'';
-  position:fixed;inset:0;
-  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
-  pointer-events:none;z-index:1000;opacity:.4;
-}
+/* Cursor */
+#cur{position:fixed;width:10px;height:10px;border-radius:50%;background:#4af;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);box-shadow:0 0 14px rgba(68,170,255,.9);}
+#cur2{position:fixed;width:36px;height:36px;border:1px solid rgba(68,170,255,.3);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:left .1s,top .1s;}
 
-/* ── NAV ── */
-nav{
-  position:fixed;top:0;left:0;right:0;z-index:100;
-  padding:20px 48px;
-  display:flex;align-items:center;justify-content:space-between;
-  background:rgba(4,8,15,.85);
-  backdrop-filter:blur(20px);
-  border-bottom:1px solid rgba(255,255,255,.06);
-}
-.nav-logo{display:flex;align-items:center;gap:12px;}
-.nav-logo img{height:38px;width:auto;}
-.nav-logo-text{font-family:var(--mono);font-size:16px;font-weight:500;color:var(--white);letter-spacing:2px;}
-.nav-links{display:flex;align-items:center;gap:32px;}
-.nav-links a{font-size:14px;color:var(--muted);text-decoration:none;transition:color .2s;}
-.nav-links a:hover{color:var(--text);}
-.nav-cta{
-  padding:9px 22px;
-  background:var(--blue);
-  color:var(--white);
-  font-size:14px;font-weight:500;
-  border-radius:6px;text-decoration:none;
-  transition:all .2s;border:1px solid transparent;
-}
-.nav-cta:hover{background:var(--blue-light);transform:translateY(-1px);}
+/* Nav */
+nav{position:fixed;top:0;left:0;right:0;z-index:500;padding:22px 60px;display:flex;align-items:center;justify-content:space-between;background:linear-gradient(180deg,rgba(0,8,20,.85) 0%,transparent 100%);}
+.logo{display:flex;align-items:center;gap:12px;text-decoration:none;}
+.logo-i{width:28px;height:28px;border:1.5px solid rgba(68,170,255,.7);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;color:#4af;position:relative;}
+.logo-i::after{content:'';position:absolute;inset:-5px;border-radius:50%;border:1px solid rgba(68,170,255,.18);animation:lspin 8s linear infinite;}
+@keyframes lspin{to{transform:rotate(360deg);}}
+.logo-n{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:3.5px;color:rgba(255,255,255,.5);}
+.nav-btn{padding:10px 26px;background:linear-gradient(135deg,#0055cc,#003399);color:#fff;border-radius:3px;font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;letter-spacing:.8px;text-decoration:none;border:1px solid rgba(68,170,255,.35);transition:all .25s;}
+.nav-btn:hover{background:linear-gradient(135deg,#0077ff,#0044cc);}
 
-/* ── HERO ── */
-.hero{
-  min-height:100vh;
-  display:flex;flex-direction:column;
-  align-items:center;justify-content:center;
-  padding:120px 48px 80px;
-  position:relative;
-  overflow:hidden;
-  text-align:center;
-}
+/* Fixed overlay — pointer-events:none so scroll passes through */
+#overlay{position:fixed;inset:0;z-index:200;pointer-events:none;}
+.sc{position:absolute;inset:0;opacity:0;transition:opacity .7s ease;}
+.sc.show{opacity:1;}
 
-/* Animated grid background */
-.hero::before{
-  content:'';
-  position:absolute;inset:0;
-  background-image:
-    linear-gradient(rgba(26,79,214,.08) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(26,79,214,.08) 1px, transparent 1px);
-  background-size:60px 60px;
-  animation:gridMove 20s linear infinite;
-}
-@keyframes gridMove{
-  0%{transform:translateY(0);}
-  100%{transform:translateY(60px);}
-}
+/* Chapter title — centered text, no box */
+.ch-wrap{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:0 40px;}
+.ch-tag{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:7px;color:#44aaff;margin-bottom:24px;display:block;}
+.ch-h{font-size:clamp(72px,10vw,152px);font-weight:900;line-height:.84;letter-spacing:-6px;display:block;}
+.ch-h .bl{background:linear-gradient(135deg,#aaeeff,#0088ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;filter:drop-shadow(0 0 40px rgba(68,170,255,.8));}
+.ch-h .wh{color:#fff;}
+.ch-h .dm{color:rgba(255,255,255,.2);font-weight:200;}
 
-/* Radial glow */
-.hero::after{
-  content:'';
-  position:absolute;
-  top:20%;left:50%;
-  transform:translate(-50%,-50%);
-  width:800px;height:800px;
-  background:radial-gradient(circle, rgba(26,79,214,.15) 0%, transparent 70%);
-  pointer-events:none;
-}
+/* Dialogue — solid dark panel at bottom */
+.dlg{position:absolute;bottom:0;left:0;right:0;padding:40px 7% 88px;}
+.dlg.right{text-align:right;}
+.dlg.center{text-align:center;}
+.spk{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:4px;color:#44aaff;margin-bottom:14px;display:flex;align-items:center;gap:10px;}
+.spk::before{content:'';display:block;width:20px;height:1px;background:#44aaff;}
+.dlg.right .spk{justify-content:flex-end;}
+.dlg.right .spk::before{display:none;}
+.dlg.right .spk::after{content:'';display:block;width:20px;height:1px;background:#44aaff;}
+.dlg.center .spk{justify-content:center;}
+.dlg.center .spk::before{display:none;}
+.dlg.center .spk::after{content:'';display:block;width:20px;height:1px;background:#44aaff;}
+.dh{font-size:clamp(40px,5vw,72px);font-weight:900;line-height:.9;letter-spacing:-2px;color:#fff;margin-bottom:18px;}
+.dh .hi{background:linear-gradient(135deg,#aaeeff,#55bbff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.dh .gw{color:#fff;text-shadow:0 0 40px rgba(255,255,255,.6);}
+.dp{font-size:17px;line-height:1.88;font-weight:400;color:#fff;max-width:580px;}
+.dlg.right .dp{margin-left:auto;}
+.dlg.center .dp{margin:0 auto;}
+.dp strong{color:#aaeeff;font-weight:700;}
 
-.hero-content{position:relative;z-index:2;max-width:820px;}
+/* Glass panel */
+.gpanel{position:absolute;top:18%;width:284px;font-family:'JetBrains Mono',monospace;}
+.gpanel.left{left:7%;}
+.gpanel.right{right:7%;}
+.gp-t{font-size:7.5px;letter-spacing:2.5px;color:rgba(68,170,255,.6);margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid rgba(68,170,255,.12);}
+.gp-r{display:flex;align-items:flex-start;gap:9px;font-size:9.5px;color:rgba(255,255,255,.7);padding:5px 0;border-bottom:1px solid rgba(255,255,255,.05);line-height:1.4;}
+.gp-r:last-of-type{border:none;}
+.gp-d{width:6px;height:6px;border-radius:50%;flex-shrink:0;margin-top:2px;}
+.gp-d.p{animation:dpp 2s ease infinite;}
+@keyframes dpp{0%,100%{opacity:.3;transform:scale(1);}50%{opacity:1;transform:scale(1.5);}}
+.gp-v{color:#fff;font-weight:600;}
+.vb{margin-bottom:8px;}
+.vb-m{display:flex;justify-content:space-between;font-size:8px;color:rgba(255,255,255,.32);margin-bottom:4px;}
+.vb-t{height:2px;background:rgba(255,255,255,.07);border-radius:1px;overflow:hidden;}
+.vb-f{height:100%;border-radius:1px;}
+.gnote{margin-top:12px;padding:9px 11px;background:rgba(68,170,255,.06);border-left:2px solid rgba(68,170,255,.35);font-size:8.5px;color:rgba(68,170,255,.7);line-height:1.65;}
 
-.hero-badge{
-  display:inline-flex;align-items:center;gap:8px;
-  padding:6px 16px;
-  background:rgba(26,79,214,.15);
-  border:1px solid rgba(26,79,214,.3);
-  border-radius:999px;
-  font-family:var(--mono);font-size:11px;color:var(--cyan);
-  letter-spacing:2px;text-transform:uppercase;
-  margin-bottom:32px;
-  animation:fadeUp .6s ease both;
-}
-.hero-badge-dot{
-  width:6px;height:6px;border-radius:50%;
-  background:var(--cyan);
-  box-shadow:0 0 8px var(--cyan);
-  animation:blink 2s ease infinite;
-}
-@keyframes blink{0%,100%{opacity:1;}50%{opacity:.3;}}
+/* CTA */
+.cta{display:inline-flex;align-items:center;gap:10px;padding:15px 42px;background:linear-gradient(135deg,#0066cc,#003eaa);color:#fff;border-radius:3px;font-size:14px;font-weight:700;font-family:'JetBrains Mono',monospace;letter-spacing:.8px;text-decoration:none;border:1px solid rgba(68,170,255,.4);pointer-events:all;transition:all .25s;margin-top:28px;}
+.cta:hover{background:linear-gradient(135deg,#0088ff,#0055cc);transform:translateY(-3px);}
 
-.hero-headline{
-  font-family:var(--serif);
-  font-size:clamp(42px,7vw,80px);
-  font-weight:400;
-  line-height:1.1;
-  color:var(--white);
-  margin-bottom:24px;
-  animation:fadeUp .6s .1s ease both;
-}
-.hero-headline em{
-  font-style:italic;
-  color:var(--cyan);
-}
+/* Progress UI */
+#pbar{position:fixed;bottom:0;left:0;right:0;height:2px;background:rgba(68,170,255,.07);z-index:500;}
+#pfill{height:100%;background:linear-gradient(90deg,#003eaa,#44aaff);transform-origin:left;transform:scaleX(0);}
+#pct{position:fixed;bottom:22px;right:56px;font-family:'JetBrains Mono',monospace;font-size:11px;color:rgba(255,255,255,.22);z-index:500;letter-spacing:2px;}
+#sname{position:fixed;bottom:22px;left:56px;font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:5px;color:rgba(68,170,255,.5);z-index:500;}
+#sdots{position:fixed;right:20px;top:50%;transform:translateY(-50%);z-index:500;display:flex;flex-direction:column;gap:10px;}
+.sd{width:3px;height:3px;border-radius:50%;background:rgba(255,255,255,.15);cursor:pointer;transition:all .4s;}
+.sd.on{height:22px;background:#44aaff;border-radius:1.5px;}
+#sh{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);z-index:500;display:flex;flex-direction:column;align-items:center;gap:4px;opacity:.5;transition:opacity .6s;}
+.sh-t{font-family:'JetBrains Mono',monospace;font-size:7px;letter-spacing:5px;color:rgba(68,170,255,.7);}
+.sh-l{width:1px;height:28px;background:linear-gradient(180deg,#44aaff,transparent);animation:shp 2s ease infinite;}
+@keyframes shp{0%,100%{opacity:.15;transform:scaleY(.3);}50%{opacity:1;transform:scaleY(1);}}
 
-.hero-sub{
-  font-size:18px;
-  color:var(--muted);
-  max-width:580px;
-  margin:0 auto 48px;
-  line-height:1.7;
-  animation:fadeUp .6s .2s ease both;
-}
+/* THE SCROLL SPACE — this is the only thing that creates page height */
+#scroll-space{height:1000vh;}
 
-.hero-actions{
-  display:flex;align-items:center;gap:16px;justify-content:center;
-  flex-wrap:wrap;
-  animation:fadeUp .6s .3s ease both;
-}
-.btn-primary{
-  padding:14px 32px;
-  background:var(--blue);
-  color:var(--white);
-  font-size:15px;font-weight:500;
-  border-radius:8px;text-decoration:none;
-  border:1px solid transparent;
-  transition:all .2s;
-  display:flex;align-items:center;gap:8px;
-}
-.btn-primary:hover{background:var(--blue-light);transform:translateY(-2px);box-shadow:0 8px 24px rgba(26,79,214,.4);}
-.btn-secondary{
-  padding:14px 32px;
-  background:transparent;
-  color:var(--text);
-  font-size:15px;font-weight:400;
-  border-radius:8px;text-decoration:none;
-  border:1px solid var(--dim);
-  transition:all .2s;
-}
-.btn-secondary:hover{border-color:var(--muted);transform:translateY(-2px);}
-
-.hero-stats{
-  display:flex;align-items:center;gap:40px;justify-content:center;
-  margin-top:64px;
-  padding-top:40px;
-  border-top:1px solid var(--dim);
-  animation:fadeUp .6s .4s ease both;
-}
-.hero-stat{text-align:center;}
-.hero-stat-num{font-family:var(--mono);font-size:28px;font-weight:500;color:var(--white);}
-.hero-stat-lbl{font-size:12px;color:var(--muted);margin-top:4px;letter-spacing:1px;}
-
-@keyframes fadeUp{
-  from{opacity:0;transform:translateY(20px);}
-  to{opacity:1;transform:translateY(0);}
-}
-
-/* ── DEMO SECTION ── */
-.demo{
-  padding:80px 48px;
-  max-width:1100px;margin:0 auto;
-}
-.section-label{
-  font-family:var(--mono);font-size:11px;color:var(--blue-light);
-  letter-spacing:3px;text-transform:uppercase;margin-bottom:16px;
-  display:flex;align-items:center;gap:10px;
-}
-.section-label::before{content:'';width:24px;height:1px;background:var(--blue-light);}
-.section-title{
-  font-family:var(--serif);font-size:clamp(32px,4vw,48px);
-  color:var(--white);margin-bottom:16px;line-height:1.2;
-}
-.section-sub{font-size:16px;color:var(--muted);max-width:520px;line-height:1.7;}
-
-.demo-window{
-  background:var(--card);
-  border:1px solid var(--dim);
-  border-radius:12px;
-  overflow:hidden;
-  margin-top:48px;
-  box-shadow:0 32px 80px rgba(0,0,0,.5);
-}
-.demo-titlebar{
-  background:var(--surface);
-  padding:14px 20px;
-  display:flex;align-items:center;gap:8px;
-  border-bottom:1px solid var(--dim);
-}
-.demo-dot{width:12px;height:12px;border-radius:50%;}
-.demo-dot.r{background:#ff5f57;}
-.demo-dot.y{background:#febc2e;}
-.demo-dot.g{background:#28c840;}
-.demo-url{
-  flex:1;text-align:center;
-  font-family:var(--mono);font-size:11px;color:var(--muted);
-}
-.demo-body{padding:32px;}
-.demo-query{
-  background:var(--bg);
-  border:1px solid var(--blue);
-  border-radius:8px;padding:16px 20px;
-  font-family:var(--mono);font-size:14px;color:var(--cyan);
-  margin-bottom:28px;
-  display:flex;align-items:center;gap:12px;
-}
-.demo-query-icon{font-size:18px;}
-.demo-result{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
-.demo-card{
-  background:var(--surface);
-  border:1px solid var(--dim);
-  border-radius:8px;padding:20px;
-}
-.demo-card-label{
-  font-family:var(--mono);font-size:9px;color:var(--muted);
-  letter-spacing:2px;text-transform:uppercase;margin-bottom:10px;
-}
-.demo-verdict{
-  font-family:var(--mono);font-size:22px;font-weight:500;
-  color:var(--green);
-}
-.demo-conf{font-size:13px;color:var(--muted);margin-top:4px;}
-.demo-papers{display:flex;flex-direction:column;gap:6px;}
-.demo-paper{
-  font-size:12px;color:var(--text);
-  display:flex;align-items:flex-start;gap:8px;
-  line-height:1.4;
-}
-.demo-paper::before{content:'[';color:var(--blue-light);font-family:var(--mono);flex-shrink:0;}
-.demo-paper::after{content:']';color:var(--blue-light);font-family:var(--mono);display:none;}
-.demo-contradiction{
-  grid-column:1/-1;
-  background:rgba(255,71,87,.06);
-  border:1px solid rgba(255,71,87,.2);
-  border-radius:8px;padding:16px;
-}
-.demo-contradiction-label{
-  font-family:var(--mono);font-size:9px;color:var(--red);
-  letter-spacing:2px;text-transform:uppercase;margin-bottom:8px;
-}
-.demo-contradiction-text{font-size:13px;color:var(--text);line-height:1.5;}
-
-/* ── HOW IT WORKS ── */
-.how{
-  padding:100px 48px;
-  background:var(--surface);
-  position:relative;overflow:hidden;
-}
-.how::before{
-  content:'';position:absolute;top:0;left:0;right:0;height:1px;
-  background:linear-gradient(90deg,transparent,var(--dim),transparent);
-}
-.how-inner{max-width:1100px;margin:0 auto;}
-.how-grid{
-  display:grid;grid-template-columns:repeat(5,1fr);
-  gap:0;margin-top:64px;
-  position:relative;
-}
-.how-grid::before{
-  content:'';
-  position:absolute;top:32px;left:10%;right:10%;height:1px;
-  background:linear-gradient(90deg,transparent,var(--dim),var(--dim),var(--dim),transparent);
-}
-.how-step{
-  text-align:center;padding:0 16px;
-  position:relative;
-}
-.how-num{
-  width:64px;height:64px;
-  border-radius:50%;
-  background:var(--card);
-  border:1px solid var(--dim);
-  display:flex;align-items:center;justify-content:center;
-  margin:0 auto 20px;
-  font-family:var(--mono);font-size:18px;font-weight:500;
-  position:relative;z-index:1;
-  transition:all .3s;
-}
-.how-step:hover .how-num{
-  border-color:var(--blue);
-  background:rgba(26,79,214,.15);
-  color:var(--cyan);
-  box-shadow:0 0 24px rgba(26,79,214,.3);
-}
-.how-step-title{font-size:14px;font-weight:600;color:var(--white);margin-bottom:8px;}
-.how-step-desc{font-size:12px;color:var(--muted);line-height:1.6;}
-
-/* ── COMPARISON ── */
-.compare{
-  padding:100px 48px;
-  max-width:1100px;margin:0 auto;
-}
-.compare-table{
-  margin-top:48px;
-  border:1px solid var(--dim);
-  border-radius:12px;
-  overflow:hidden;
-}
-.compare-head{
-  display:grid;grid-template-columns:2fr 1fr 1fr 1fr 1fr 1.5fr;
-  background:var(--surface);
-  padding:16px 24px;
-  border-bottom:1px solid var(--dim);
-}
-.compare-head-cell{
-  font-family:var(--mono);font-size:10px;color:var(--muted);
-  letter-spacing:1.5px;text-transform:uppercase;
-  text-align:center;
-}
-.compare-head-cell:first-child{text-align:left;}
-.compare-head-cell.highlight{color:var(--cyan);}
-.compare-row{
-  display:grid;grid-template-columns:2fr 1fr 1fr 1fr 1fr 1.5fr;
-  padding:14px 24px;
-  border-bottom:1px solid rgba(42,58,82,.5);
-  align-items:center;
-  transition:background .15s;
-}
-.compare-row:last-child{border-bottom:none;}
-.compare-row:hover{background:rgba(255,255,255,.02);}
-.compare-row.tattva-row{background:rgba(26,79,214,.06);}
-.compare-tool{font-size:14px;font-weight:500;color:var(--text);}
-.compare-cell{text-align:center;font-size:18px;}
-.compare-note{font-size:12px;color:var(--muted);text-align:center;}
-
-/* ── FEATURES ── */
-.features{
-  padding:100px 48px;
-  background:var(--surface);
-  position:relative;
-}
-.features::before{
-  content:'';position:absolute;top:0;left:0;right:0;height:1px;
-  background:linear-gradient(90deg,transparent,var(--dim),transparent);
-}
-.features-inner{max-width:1100px;margin:0 auto;}
-.features-grid{
-  display:grid;grid-template-columns:repeat(3,1fr);gap:24px;
-  margin-top:64px;
-}
-.feature-card{
-  background:var(--card);
-  border:1px solid var(--dim);
-  border-radius:12px;padding:32px;
-  transition:all .3s;
-  position:relative;overflow:hidden;
-}
-.feature-card::before{
-  content:'';
-  position:absolute;top:0;left:0;right:0;height:2px;
-  background:linear-gradient(90deg,var(--blue),var(--cyan));
-  opacity:0;transition:opacity .3s;
-}
-.feature-card:hover{
-  border-color:rgba(26,79,214,.4);
-  transform:translateY(-4px);
-  box-shadow:0 16px 48px rgba(0,0,0,.4);
-}
-.feature-card:hover::before{opacity:1;}
-.feature-icon{
-  width:48px;height:48px;
-  background:rgba(26,79,214,.15);
-  border:1px solid rgba(26,79,214,.3);
-  border-radius:10px;
-  display:flex;align-items:center;justify-content:center;
-  font-size:22px;margin-bottom:20px;
-}
-.feature-title{font-size:18px;font-weight:600;color:var(--white);margin-bottom:10px;}
-.feature-desc{font-size:14px;color:var(--muted);line-height:1.7;}
-
-/* ── WAITLIST ── */
-.waitlist{
-  padding:120px 48px;
-  text-align:center;
-  position:relative;overflow:hidden;
-}
-.waitlist::before{
-  content:'';
-  position:absolute;
-  top:50%;left:50%;
-  transform:translate(-50%,-50%);
-  width:600px;height:600px;
-  background:radial-gradient(circle, rgba(26,79,214,.12) 0%, transparent 70%);
-  pointer-events:none;
-}
-.waitlist-inner{
-  position:relative;z-index:1;
-  max-width:560px;margin:0 auto;
-}
-.waitlist-title{
-  font-family:var(--serif);font-size:clamp(36px,5vw,56px);
-  color:var(--white);margin-bottom:16px;line-height:1.15;
-}
-.waitlist-sub{font-size:16px;color:var(--muted);margin-bottom:40px;line-height:1.7;}
-.waitlist-form{
-  display:flex;gap:12px;
-  background:var(--card);
-  border:1px solid var(--dim);
-  border-radius:10px;padding:8px;
-}
-.waitlist-input{
-  flex:1;background:transparent;border:none;outline:none;
-  font-size:15px;color:var(--text);font-family:var(--sans);
-  padding:8px 12px;
-}
-.waitlist-input::placeholder{color:var(--muted);}
-.waitlist-btn{
-  padding:12px 28px;
-  background:var(--blue);color:var(--white);
-  font-size:14px;font-weight:500;
-  border:none;border-radius:7px;cursor:pointer;
-  transition:all .2s;white-space:nowrap;
-  font-family:var(--sans);
-}
-.waitlist-btn:hover{background:var(--blue-light);}
-.waitlist-note{font-size:12px;color:var(--muted);margin-top:16px;}
-.waitlist-success{
-  display:none;
-  padding:16px 24px;
-  background:rgba(0,212,138,.1);
-  border:1px solid rgba(0,212,138,.3);
-  border-radius:8px;
-  color:var(--green);
-  font-size:14px;
-  margin-top:16px;
-}
-
-/* ── FOOTER ── */
-footer{
-  padding:40px 48px;
-  border-top:1px solid var(--dim);
-  display:flex;align-items:center;justify-content:space-between;
-  flex-wrap:wrap;gap:16px;
-}
-.footer-logo{display:flex;align-items:center;gap:10px;}
-.footer-logo img{height:28px;width:auto;}
-.footer-logo-text{font-family:var(--mono);font-size:13px;color:var(--muted);}
-.footer-links{display:flex;gap:24px;}
-.footer-links a{font-size:13px;color:var(--muted);text-decoration:none;transition:color .2s;}
-.footer-links a:hover{color:var(--text);}
-.footer-copy{font-size:12px;color:var(--dim);}
-
-/* ── SCROLL ANIMATIONS ── */
-.reveal{
-  opacity:0;transform:translateY(24px);
-  transition:opacity .6s ease,transform .6s ease;
-}
-.reveal.visible{opacity:1;transform:translateY(0);}
-
-@media(max-width:768px){
-  nav{padding:16px 24px;}
-  .nav-links{display:none;}
-  .hero{padding:100px 24px 60px;}
-  .hero-stats{gap:24px;flex-wrap:wrap;}
-  .demo{padding:60px 24px;}
-  .demo-result{grid-template-columns:1fr;}
-  .how{padding:60px 24px;}
-  .how-grid{grid-template-columns:1fr 1fr;gap:32px;}
-  .how-grid::before{display:none;}
-  .compare{padding:60px 24px;}
-  .compare-head,.compare-row{grid-template-columns:1.5fr repeat(5,1fr);font-size:11px;}
-  .features{padding:60px 24px;}
-  .features-grid{grid-template-columns:1fr;}
-  .waitlist{padding:80px 24px;}
-  .waitlist-form{flex-direction:column;}
-  footer{padding:32px 24px;flex-direction:column;text-align:center;}
-}
+@media(max-width:768px){nav{padding:14px 22px;}.dlg{padding:28px 5% 60px;}.dh{font-size:clamp(28px,8vw,46px);}.gpanel{display:none;}#sdots{display:none;}}
 </style>
 </head>
 <body>
 
-<!-- NAV -->
+<!-- 3D canvas — fixed -->
+<canvas id="c"></canvas>
+
+<!-- Cursor -->
+<div id="cur"></div>
+<div id="cur2"></div>
+
+<!-- Nav -->
 <nav>
-  <div class="nav-logo">
-    <img src="/static/logo.jpg" alt="Tattva AI"/>
-    <span class="nav-logo-text">TATTVA AI</span>
-  </div>
-  <div class="nav-links">
-    <a href="#how">How it works</a>
-    <a href="#features">Features</a>
-    <a href="#compare">Compare</a>
-    <a href="/app">Research App →</a>
-  </div>
-  <a href="#waitlist" class="nav-cta">Join Waitlist</a>
+  <a href="/" class="logo"><img src="/static/logo.jpg" style="height:32px;width:auto;object-fit:contain;" alt="Tattva AI"/><span class="logo-n">TATTVA AI</span></a>
+  <a href="/app" class="nav-btn">Try Free →</a>
 </nav>
 
-<!-- HERO -->
-<section class="hero">
-  <div class="hero-content">
-    <div class="hero-badge">
-      <div class="hero-badge-dot"></div>
-      Live evidence pipeline · Updated every 6 hours
+<!-- Cinematic text overlay — fixed, pointer-events:none -->
+<div id="overlay">
+
+  <div class="sc show" id="sc0">
+    <div class="ch-wrap">
+      <span class="ch-tag">CHAPTER 01 · THE MACHINE</span>
+      <span class="ch-h">
+        <span class="wh" style="display:block;">Mechanical.</span>
+        <span class="wh" style="display:block;">Frozen.</span>
+        <span class="bl" style="display:block;">Blind.</span>
+      </span>
     </div>
-    <h1 class="hero-headline">
-      Ask a research question.<br/>
-      Get the <em>truth</em> from the papers.
-    </h1>
-    <p class="hero-sub">
-      Tattva verifies scientific claims against thousands of peer-reviewed papers, detects contradictions, and delivers structured verdicts — with full evidence transparency.
-    </p>
-    <div class="hero-actions">
-      <a href="/app" class="btn-primary">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-        Try it free
-      </a>
-      <a href="#how" class="btn-secondary">See how it works</a>
+  </div>
+
+  <div class="sc" id="sc1">
+    <div class="dlg">
+      <div class="spk"> PRASHANTH · FOUNDER, TATTVA AI</div>
+      <h2 class="dh">Every LLM you've used<br>is a <span class="hi">mechanical guesser.</span></h2>
+      <p class="dp">GPT-4. Gemini. Claude. All frozen after training. They predict the next word — <strong>they have never read a paper, verified a fact, or detected a contradiction.</strong></p>
     </div>
-    <div class="hero-stats">
-      <div class="hero-stat">
-        <div class="hero-stat-num">10,000+</div>
-        <div class="hero-stat-lbl">Evidence Chunks</div>
+    <div class="gpanel right">
+      <div class="gp-t">TRADITIONAL LLM · WHAT IT DOES</div>
+      <div class="gp-r"><div class="gp-d p" style="background:#4466ff;"></div><span>Tokens → transformer → next token</span></div>
+      <div class="gp-r"><div class="gp-d p" style="background:#4466ff;animation-delay:.4s;"></div><span>Frozen weights — no learning</span></div>
+      <div class="gp-r"><div class="gp-d" style="background:#ff5555;"></div><span style="color:rgba(255,140,140,.9);"><span class="gp-v" style="color:#ff5555;">ZERO</span> evidence verification</span></div>
+      <div class="gp-r"><div class="gp-d" style="background:#ff5555;"></div><span style="color:rgba(255,140,140,.9);"><span class="gp-v" style="color:#ff5555;">ZERO</span> contradiction detection</span></div>
+    </div>
+  </div>
+
+  <div class="sc" id="sc2">
+    <div class="dlg right">
+      <div class="spk">PRASHANTH · THE CRISIS IN SCIENCE</div>
+      <h2 class="dh">AI <span class="hi">hallucinates</span><br>40% of scientific<br>citations.</h2>
+      <p class="dp">We measured it. LLMs fabricate authors, journals, DOIs — and state them as truth. <strong>Researchers are building on phantom references.</strong></p>
+    </div>
+    <div class="gpanel left">
+      <div class="gp-t">GPT-4 OUTPUT · VERIFIED FALSE</div>
+      <div class="gp-r"><div class="gp-d" style="background:#ff5555;"></div><span style="color:rgba(255,150,150,.9);">"LoRA saves memory at all scales"</span></div>
+      <div class="gp-r"><div class="gp-d" style="background:#ff5555;"></div><span style="color:rgba(255,150,150,.9);">Confidence: <span class="gp-v" style="color:#ff5555;">100%</span> — UNVERIFIED</span></div>
+      <div class="gp-r"><div class="gp-d" style="background:#ff5555;"></div><span style="color:rgba(255,150,150,.9);">"Zhang et al. 2024" — <span class="gp-v" style="color:#ff5555;">FAKE</span></span></div>
+      <div class="gp-r"><div class="gp-d" style="background:#ff5555;"></div><span style="color:rgba(255,150,150,.9);">Contradictions found: <span class="gp-v" style="color:#ff5555;">ZERO</span></span></div>
+    </div>
+  </div>
+
+  <div class="sc" id="sc3">
+    <div class="ch-wrap">
+      <span class="ch-tag">ENTERING THE MIND</span>
+      <span class="ch-h">
+        <span class="wh" style="display:block;">We built</span>
+        <span class="bl" style="display:block;">something</span>
+        <span class="wh" style="display:block;">different.</span>
+      </span>
+    </div>
+  </div>
+
+  <div class="sc" id="sc4">
+    <div class="dlg">
+      <div class="spk">PRASHANTH · TATTVA AI</div>
+      <h2 class="dh">Tattva <span class="hi">actually reads</span><br>scientific papers.</h2>
+      <p class="dp">Not search. Not RAG. <strong>A 14-step evidence pipeline</strong> reading every claim across 23,198 papers — building a live map of what is actually true.</p>
+    </div>
+    <div class="gpanel right">
+      <div class="gp-t">TATTVA · LIVE PAPER INDEXING</div>
+      <div class="gp-r"><div class="gp-d p" style="background:#44aaff;"></div><span><span class="gp-v">arXiv:2401.0847</span> — LoRA Efficiency</span></div>
+      <div class="gp-r"><div class="gp-d p" style="background:#ff9944;animation-delay:.4s;"></div><span><span class="gp-v">arXiv:2309.0156</span> — ⚡ Contradicts above</span></div>
+      <div class="gp-r"><div class="gp-d p" style="background:#44aaff;animation-delay:.8s;"></div><span><span class="gp-v">arXiv:2312.0088</span> — Flash Attention 3</span></div>
+      <div class="gp-r"><div class="gp-d p" style="background:#44ccaa;animation-delay:1.2s;"></div><span><span class="gp-v">arXiv:2403.0932</span> — Consensus drift ↓</span></div>
+      <div class="gnote">23,198 papers · 11 domains · updating live</div>
+    </div>
+  </div>
+
+  <div class="sc" id="sc5">
+    <div class="dlg right">
+      <div class="spk">PRASHANTH · CONTRADICTION ENGINE</div>
+      <h2 class="dh">When papers<br><span class="hi">disagree</span> —<br>Tattva finds it.</h2>
+      <p class="dp"><strong>5 types of scientific contradiction detected automatically.</strong> Scope violations. Drift. Methodology conflicts. Every one explained.</p>
+    </div>
+    <div class="gpanel left">
+      <div class="gp-t">TATTVA VERDICT ENGINE · LIVE</div>
+      <div style="display:flex;align-items:center;gap:9px;margin-bottom:14px;">
+        <div style="width:8px;height:8px;border-radius:50%;background:#ffaa00;box-shadow:0 0 10px #ffaa00;animation:dpp 1.5s ease infinite;"></div>
+        <span style="font-size:11px;font-weight:700;color:#ffaa00;font-family:'JetBrains Mono',monospace;">MIXED EVIDENCE</span>
       </div>
-      <div class="hero-stat">
-        <div class="hero-stat-num">8</div>
-        <div class="hero-stat-lbl">Paper Sources</div>
-      </div>
-      <div class="hero-stat">
-        <div class="hero-stat-num">6h</div>
-        <div class="hero-stat-lbl">Auto-Update Cycle</div>
-      </div>
-      <div class="hero-stat">
-        <div class="hero-stat-num">0.1s</div>
-        <div class="hero-stat-lbl">Cached Query Speed</div>
+      <div class="vb"><div class="vb-m"><span>Confidence</span><span>52%</span></div><div class="vb-t"><div class="vb-f" style="width:52%;background:#44aaff;"></div></div></div>
+      <div class="vb"><div class="vb-m"><span>Supporting (7B–13B)</span><span>71%</span></div><div class="vb-t"><div class="vb-f" style="width:71%;background:#88ccff;"></div></div></div>
+      <div class="vb"><div class="vb-m"><span>Contradicting (>34B)</span><span>50%</span></div><div class="vb-t"><div class="vb-f" style="width:50%;background:rgba(255,100,100,.9);"></div></div></div>
+      <div class="gnote">⚡ Scope: 7B–13B only. A100 vs H100 diverge.</div>
+    </div>
+  </div>
+
+  <div class="sc" id="sc6">
+    <div class="dlg">
+      <div class="spk">PRASHANTH · BAYESIAN DRIFT</div>
+      <h2 class="dh">It tracks how<br><span class="hi">scientific truth</span><br>shifts over time.</h2>
+      <p class="dp">Tattva's Bayesian CUSUM drift detector watches consensus change. <strong>When a field's understanding moves — Tattva tells you before the review papers do.</strong></p>
+    </div>
+  </div>
+
+  <div class="sc" id="sc7">
+    <div class="ch-wrap">
+      <span class="ch-tag">CHAPTER 03 · THE THINKING BRAIN</span>
+      <span class="ch-h">
+        <span class="wh" style="display:block;">Tattva</span>
+        <span class="bl" style="display:block;">thinks.</span>
+        <span class="dm" style="display:block;">Like a scientist.</span>
+      </span>
+    </div>
+  </div>
+
+  <div class="sc" id="sc8">
+    <div class="dlg center">
+      <div class="spk">TATTVA AI · SAINT LOUIS UNIVERSITY · 2026</div>
+      <h2 class="dh">The AI that knows<br><span class="hi">what it</span><br><span class="gw">doesn't know.</span></h2>
+      <p class="dp" style="max-width:620px;"><strong>Contradiction detection. Evidence verification. Bayesian drift tracking.</strong> 23,000+ papers. 11 domains. Built by Prashanth Jamalapurapu, Saint Louis University.</p>
+      <div style="display:flex;justify-content:center;">
+        <a href="/app" class="cta">Try Tattva Free — No Card Needed →</a>
       </div>
     </div>
   </div>
-</section>
 
-<!-- DEMO -->
-<section class="demo reveal" id="demo">
-  <div class="section-label">Live Demo</div>
-  <h2 class="section-title">See it in action</h2>
-  <p class="section-sub">Ask any research question. Tattva retrieves evidence, evaluates every claim, and tells you exactly what the literature says.</p>
+</div>
 
-  <div class="demo-window">
-    <div class="demo-titlebar">
-      <div class="demo-dot r"></div>
-      <div class="demo-dot y"></div>
-      <div class="demo-dot g"></div>
-      <div class="demo-url">tattavaai.org — Scientific Evidence Platform</div>
-    </div>
-    <div class="demo-body">
-      <div class="demo-query">
-        <span class="demo-query-icon">🔍</span>
-        Does KV cache compression reduce LLM inference latency?
-      </div>
-      <div class="demo-result">
-        <div class="demo-card">
-          <div class="demo-card-label">Research Verdict</div>
-          <div class="demo-verdict">SUPPORTED</div>
-          <div class="demo-conf">63% confidence · 10 evidence chunks · 3 supporting claims</div>
-        </div>
-        <div class="demo-card">
-          <div class="demo-card-label">Evidence Sources</div>
-          <div class="demo-papers">
-            <div class="demo-paper">EvolKV: Evolutionary KV Cache Compression for LLM Inference</div>
-            <div class="demo-paper">MiniKV: 2-Bit Layer-Discriminative KV Cache</div>
-            <div class="demo-paper">LMCache: Efficient KV Cache Layer for Enterprise LLMs</div>
-          </div>
-        </div>
-        <div class="demo-contradiction">
-          <div class="demo-contradiction-label">⚠ Contradiction Detected</div>
-          <div class="demo-contradiction-text">
-            <strong style="color:#fff">EvolKV</strong> reports gains across all KV budgets, while <strong style="color:#fff">KVTuner</strong> finds three unsolved challenges in current methods. Methodology differences likely explain the gap — check sequence length and model size.
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
+<!-- Progress UI — fixed -->
+<div id="pbar"><div id="pfill"></div></div>
+<div id="pct">00%</div>
+<div id="sname">MECHANICAL LLM</div>
+<div id="sdots"></div>
+<div id="sh"><span class="sh-t">SCROLL</span><div class="sh-l"></div></div>
 
-<!-- HOW IT WORKS -->
-<section class="how reveal" id="how">
-  <div class="how-inner">
-    <div class="section-label">Process</div>
-    <h2 class="section-title">How Tattva works</h2>
-    <p class="section-sub">Five steps from question to evidence-grounded verdict. No hallucination. Every claim traceable to a real paper.</p>
+<!-- THE ONLY THING THAT CREATES SCROLL HEIGHT -->
+<div id="scroll-space"></div>
 
-    <div class="how-grid">
-      <div class="how-step">
-        <div class="how-num">1</div>
-        <div class="how-step-title">Query Input</div>
-        <div class="how-step-desc">You ask a research question in natural language</div>
-      </div>
-      <div class="how-step">
-        <div class="how-num">2</div>
-        <div class="how-step-title">Vector Search</div>
-        <div class="how-step-desc">Pinecone finds the 10 most semantically relevant paper chunks</div>
-      </div>
-      <div class="how-step">
-        <div class="how-num">3</div>
-        <div class="how-step-title">Claim Extraction</div>
-        <div class="how-step-desc">NLP extracts sentence-level scientific claims from evidence</div>
-      </div>
-      <div class="how-step">
-        <div class="how-num">4</div>
-        <div class="how-step-title">Evidence Scoring</div>
-        <div class="how-step-desc">Each claim scored: supported, contradicted, or inconclusive</div>
-      </div>
-      <div class="how-step">
-        <div class="how-num">5</div>
-        <div class="how-step-title">Verdict</div>
-        <div class="how-step-desc">Aggregated verdict with confidence, papers, and contradictions</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- COMPARE -->
-<section class="compare reveal" id="compare">
-  <div class="section-label">Comparison</div>
-  <h2 class="section-title">Why not just use Google Scholar?</h2>
-  <p class="section-sub">Every other tool finds papers. Only Tattva tells you what the papers actually say about your specific claim.</p>
-
-  <div class="compare-table">
-    <div class="compare-head">
-      <div class="compare-head-cell">Tool</div>
-      <div class="compare-head-cell">Finds papers</div>
-      <div class="compare-head-cell">Evaluates claims</div>
-      <div class="compare-head-cell">Detects contradictions</div>
-      <div class="compare-head-cell">Real-time updates</div>
-      <div class="compare-head-cell highlight">Verdict + confidence</div>
-    </div>
-    <div class="compare-row">
-      <div class="compare-tool">Google Scholar</div>
-      <div class="compare-cell">✓</div>
-      <div class="compare-cell">✗</div>
-      <div class="compare-cell">✗</div>
-      <div class="compare-cell">✓</div>
-      <div class="compare-cell">✗</div>
-    </div>
-    <div class="compare-row">
-      <div class="compare-tool">Semantic Scholar</div>
-      <div class="compare-cell">✓</div>
-      <div class="compare-cell">✗</div>
-      <div class="compare-cell">✗</div>
-      <div class="compare-cell">✓</div>
-      <div class="compare-cell">✗</div>
-    </div>
-    <div class="compare-row">
-      <div class="compare-tool">Consensus</div>
-      <div class="compare-cell">✓</div>
-      <div class="compare-cell">~</div>
-      <div class="compare-cell">✗</div>
-      <div class="compare-cell">~</div>
-      <div class="compare-cell">~</div>
-    </div>
-    <div class="compare-row">
-      <div class="compare-tool">ChatGPT / Perplexity</div>
-      <div class="compare-cell">~</div>
-      <div class="compare-cell">~</div>
-      <div class="compare-cell">✗</div>
-      <div class="compare-cell">✗</div>
-      <div class="compare-cell">✗</div>
-    </div>
-    <div class="compare-row tattva-row">
-      <div class="compare-tool" style="color:#00c8ff;font-weight:600;">Tattva AI ✦</div>
-      <div class="compare-cell" style="color:#00d48a;">✓</div>
-      <div class="compare-cell" style="color:#00d48a;">✓</div>
-      <div class="compare-cell" style="color:#00d48a;">✓</div>
-      <div class="compare-cell" style="color:#00d48a;">✓</div>
-      <div class="compare-cell" style="color:#00d48a;">✓</div>
-    </div>
-  </div>
-</section>
-
-<!-- FEATURES -->
-<section class="features reveal" id="features">
-  <div class="features-inner">
-    <div class="section-label">Capabilities</div>
-    <h2 class="section-title">Built for serious researchers</h2>
-    <div class="features-grid">
-      <div class="feature-card">
-        <div class="feature-icon">⚡</div>
-        <div class="feature-title">Evidence Grounding</div>
-        <div class="feature-desc">Every verdict links to the exact sentence in the exact paper that supports it. No black boxes. Full transparency.</div>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon">⚠️</div>
-        <div class="feature-title">Contradiction Detection</div>
-        <div class="feature-desc">Automatically identifies when papers disagree and explains why — sequence length, model size, methodology differences.</div>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon">🧬</div>
-        <div class="feature-title">Knowledge Graph</div>
-        <div class="feature-desc">48 scientific concepts with 79 causal relationships. Surfaces connections between ideas that aren't obvious from any single paper.</div>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon">⟳</div>
-        <div class="feature-title">Auto-Updated Every 6 Hours</div>
-        <div class="feature-desc">Continuously ingests from 8 paper sources including arXiv, Semantic Scholar, and Europe PMC. Always current.</div>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon">🔮</div>
-        <div class="feature-title">Field Simulation</div>
-        <div class="feature-desc">300 Monte Carlo simulations forecast which research methods will dominate over the next 4 years.</div>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon">💡</div>
-        <div class="feature-title">Idea Lab</div>
-        <div class="feature-desc">Analyze your research ideas against the knowledge graph. Get experiment designs, outcome predictions, and blockers.</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- WAITLIST -->
-<section class="waitlist reveal" id="waitlist">
-  <div class="waitlist-inner">
-    <h2 class="waitlist-title">Join the waitlist</h2>
-    <p class="waitlist-sub">
-      Be the first to access Tattva when we expand beyond ML to neuroscience, biology, and materials science.
-    </p>
-    <div class="waitlist-form">
-      <input class="waitlist-input" type="email" placeholder="your@email.com" id="emailInput"/>
-      <button class="waitlist-btn" onclick="joinWaitlist()">Get Early Access</button>
-    </div>
-    <div class="waitlist-success" id="waitlistSuccess">
-      ✓ You're on the list. We'll reach out when new domains launch.
-    </div>
-    <p class="waitlist-note">No spam. Unsubscribe anytime. ~50 researchers already waiting.</p>
-  </div>
-</section>
-
-<!-- FOOTER -->
-<footer>
-  <div class="footer-logo">
-    <img src="/static/logo.jpg" alt="Tattva AI"/>
-    <span class="footer-logo-text">TATTVA AI — Research Intelligence</span>
-  </div>
-  <div class="footer-links">
-    <a href="/app">Research App</a>
-    <a href="mailto:support@tattvaai.org">Contact</a>
-    <a href="https://github.com/prashanthja/humanoid_scientist_brain">GitHub</a>
-  </div>
-  <div class="footer-copy">© 2026 Tattva AI. All rights reserved.</div>
-</footer>
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script>
-// Scroll reveal
-const observer = new IntersectionObserver((entries)=>{
-  entries.forEach(e=>{
-    if(e.isIntersecting) e.target.classList.add('visible');
-  });
-},{threshold:0.1});
-document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
+'use strict';
 
-// Waitlist
-function joinWaitlist(){
-  const email = document.getElementById('emailInput').value.trim();
-  if(!email || !email.includes('@')){
-    document.getElementById('emailInput').style.borderColor='#ff4757';
-    return;
+/* ── CURSOR ── */
+var curA=document.getElementById('cur'),curB=document.getElementById('cur2');
+window.addEventListener('mousemove',function(e){
+  curA.style.left=e.clientX+'px';curA.style.top=e.clientY+'px';
+  curB.style.left=e.clientX+'px';curB.style.top=e.clientY+'px';
+},{passive:true});
+
+/* ── DOTS ── */
+var SNAMES=['MECHANICAL LLM','THE PROBLEM','HALLUCINATION','ENTERING BRAIN','READING PAPERS','CONTRADICTIONS','DRIFT TRACKING','BRAIN ALIVE','TATTVA AI'];
+var sdEl=document.getElementById('sdots');
+var dots=SNAMES.map(function(_,i){
+  var d=document.createElement('div');d.className='sd'+(i===0?' on':'');
+  d.addEventListener('click',function(){
+    var maxY=document.documentElement.scrollHeight-window.innerHeight;
+    window.scrollTo({top:(i/SNAMES.length)*maxY,behavior:'smooth'});
+  });
+  sdEl.appendChild(d);return d;
+});
+
+/* ── SCROLL HANDLER ── */
+var prog=0;
+var scenes=Array.from(document.querySelectorAll('.sc'));
+var pfill=document.getElementById('pfill');
+var pctEl=document.getElementById('pct');
+var snEl=document.getElementById('sname');
+var shEl=document.getElementById('sh');
+var lastFI=0,lastSI=0;
+
+function onScroll(){
+  var maxY=document.documentElement.scrollHeight-window.innerHeight;
+  if(maxY<=0)return;
+  prog=window.scrollY/maxY;
+  prog=prog<0?0:prog>1?1:prog;
+
+  pfill.style.transform='scaleX('+prog+')';
+  pctEl.textContent=String(Math.round(prog*100)).padStart(2,'0')+'%';
+  shEl.style.opacity=prog<0.02?'0.5':'0';
+
+  var fi=Math.floor(prog*scenes.length);
+  if(fi>=scenes.length)fi=scenes.length-1;
+  if(fi!==lastFI){
+    scenes[lastFI].classList.remove('show');
+    scenes[fi].classList.add('show');
+    lastFI=fi;
   }
-  // Store in localStorage for now
-  const waitlist = JSON.parse(localStorage.getItem('tattva_waitlist')||'[]');
-  waitlist.push({email, date: new Date().toISOString()});
-  localStorage.setItem('tattva_waitlist', JSON.stringify(waitlist));
-  
-  document.querySelector('.waitlist-form').style.display='none';
-  document.getElementById('waitlistSuccess').style.display='block';
-  
-  // Also try to POST to backend
-  fetch('/api/waitlist', {
-    method:'POST',
-    headers:{'Content-Type':'application/json'},
-    body: JSON.stringify({email})
-  }).catch(()=>{});
+
+  var si=Math.floor(prog*dots.length);
+  if(si>=dots.length)si=dots.length-1;
+  if(si!==lastSI){
+    dots[lastSI].classList.remove('on');
+    dots[si].classList.add('on');
+    snEl.textContent=SNAMES[si]||'';
+    lastSI=si;
+  }
+}
+window.addEventListener('scroll',onScroll,{passive:true});
+
+/* ── THREE.JS ── */
+var canvas=document.getElementById('c');
+var renderer=new THREE.WebGLRenderer({canvas:canvas,antialias:true,alpha:false,powerPreference:'high-performance'});
+renderer.setPixelRatio(Math.min(window.devicePixelRatio,2));
+renderer.setSize(window.innerWidth,window.innerHeight);
+renderer.shadowMap.enabled=true;
+renderer.toneMapping=THREE.ACESFilmicToneMapping;
+renderer.toneMappingExposure=1.1;
+window.addEventListener('resize',function(){
+  renderer.setSize(window.innerWidth,window.innerHeight);
+  cam.aspect=window.innerWidth/window.innerHeight;
+  cam.updateProjectionMatrix();
+});
+
+var scene=new THREE.Scene();
+scene.fog=new THREE.FogExp2(new THREE.Color(0,0.002,0.05),0.007);
+
+var cam=new THREE.PerspectiveCamera(65,window.innerWidth/window.innerHeight,0.02,500);
+cam.position.set(0,0.3,5.8);cam.lookAt(0,0,0);
+
+var mouse={x:0,y:0,sx:0,sy:0};
+window.addEventListener('mousemove',function(e){
+  mouse.x=(e.clientX/window.innerWidth-0.5)*2;
+  mouse.y=-(e.clientY/window.innerHeight-0.5)*2;
+},{passive:true});
+
+/* LIGHTS */
+scene.add(new THREE.AmbientLight(0x000a1a,1.5));
+var kL=new THREE.SpotLight(0x0044ff,22,60,Math.PI*0.18,0.35);
+kL.position.set(-5,8,6);kL.castShadow=true;scene.add(kL);
+var fL=new THREE.PointLight(0xaaddff,8,40);fL.position.set(6,4,5);scene.add(fL);
+var rL2=new THREE.DirectionalLight(0x0066ff,2);rL2.position.set(0,-3,-6);scene.add(rL2);
+var tL=new THREE.PointLight(0x88ccff,6,30);tL.position.set(0,8,1);scene.add(tL);
+var uL=new THREE.PointLight(0x0033cc,4,22);uL.position.set(0,-6,2);scene.add(uL);
+var iGlow=new THREE.PointLight(0x0055ff,0,16);scene.add(iGlow);
+var sideL=new THREE.PointLight(0x0055cc,6,20);sideL.position.set(4,0,0);scene.add(sideL);
+var sideR=new THREE.PointLight(0x0055cc,6,20);sideR.position.set(-4,0,0);scene.add(sideR);
+var backL=new THREE.PointLight(0x003399,6,22);backL.position.set(0,0,-6);scene.add(backL);
+
+/* MATERIALS */
+function mkM(col,emit,ei,met,rou,tr,op){
+  var m=new THREE.MeshStandardMaterial({color:col,emissive:new THREE.Color(emit||0),emissiveIntensity:ei||0,metalness:met!==undefined?met:0.88,roughness:rou!==undefined?rou:0.18});
+  if(tr){m.transparent=true;m.opacity=op!==undefined?op:0;}
+  return m;
+}
+var mShell=mkM(0x060f1e,0x001a44,0.2);
+var mSeam= mkM(0x0044aa,0x0066ff,0.5,0.85,0.15);
+var mRivet=mkM(0x99bbdd,0xddeeff,0.08,0.68,0.28);
+var mGearA=mkM(0x0033aa,0x0055ee,0.6,0.88,0.12);
+var mGearB=mkM(0x223344,0x4466aa,0.1,0.8,0.2);
+var mGearC=mkM(0x0055cc,0x0088ff,0.7,0.82,0.15);
+var mPist= mkM(0x7799aa,0xbbddff,0.06,0.75,0.22);
+var mTube= mkM(0x003388,0x0066cc,0.65,0.5,0.28);
+var mCortex=mkM(0x001133,0x003388,0.28,0.04,0.82,true,0);
+var mFold=  mkM(0x002266,0x0055cc,0.6,0.05,0.85,true,0);
+var mNeuW=  mkM(0xffffff,0xffffff,3.0,0.08,0.35,true,0);
+var mNeuB=  mkM(0xaaddff,0x66aaff,2.2,0.1,0.4,true,0);
+var mAxA=   mkM(0x44aaff,0x66ccff,0.9,0.15,0.55,true,0);
+var mAxB=   mkM(0xffffff,0xeef8ff,0.8,0.15,0.45,true,0);
+var mSigA=  mkM(0x88ccff,0xaaddff,3.5,0.1,0.3,true,0);
+var mSigB=  mkM(0xffffff,0xffffff,4.0,0.08,0.25,true,0);
+
+var G=new THREE.Group();scene.add(G);G.scale.setScalar(2.2);
+var mechG=new THREE.Group();G.add(mechG);
+var orgG=new THREE.Group();G.add(orgG);
+
+/* SHELL LOBES */
+function addLobe(side){
+  var m=new THREE.Mesh(new THREE.SphereGeometry(1.08,14,10),mShell.clone());
+  m.scale.set(0.88,1,0.9);m.position.x=side*0.48;m.castShadow=true;mechG.add(m);
+  /* Seam rings wrapping all around */
+  var angles=[0,0.7,1.4,2.1,2.8,3.5,4.2,4.9,5.6];
+  angles.forEach(function(a){
+    var pg=new THREE.Mesh(new THREE.BoxGeometry(0.006,1.6,0.05),mSeam.clone());
+    pg.position.set(side*0.48+Math.sin(a)*0.82,0,Math.cos(a)*0.82);
+    pg.rotation.y=a;mechG.add(pg);
+  });
+  /* Horizontal torus rings */
+  [-0.4,0.1,0.55].forEach(function(y){
+    var r=new THREE.Mesh(new THREE.TorusGeometry(0.88,0.018,6,32),mSeam.clone());
+    r.position.set(side*0.48,y,0);r.rotation.x=Math.PI/2;mechG.add(r);
+  });
+  /* Vents on front, back, sides */
+  [[0,0.7],[Math.PI,0.7],[Math.PI/2,0.7],[-Math.PI/2,0.7]].forEach(function(va){
+    for(var j=0;j<6;j++){
+      var v=new THREE.Mesh(new THREE.BoxGeometry(0.55,0.007,0.09),mGearA.clone());
+      v.position.set(side*0.48+Math.sin(va[0])*0.72,-0.58+j*0.22,Math.cos(va[0])*0.72);
+      v.rotation.y=va[0];mechG.add(v);
+    }
+  });
+  /* Bolt rings */
+  for(var k=0;k<16;k++){
+    var a2=(k/16)*Math.PI*2;
+    var rv=new THREE.Mesh(new THREE.SphereGeometry(0.04,7,5),mRivet);
+    rv.position.set(side*0.48+Math.cos(a2)*0.86,-0.3,Math.sin(a2)*0.86);mechG.add(rv);
+    var rv2=new THREE.Mesh(new THREE.SphereGeometry(0.04,7,5),mRivet);
+    rv2.position.set(side*0.48+Math.cos(a2)*0.86,0.5,Math.sin(a2)*0.86);mechG.add(rv2);
+  }
+}
+addLobe(-1);addLobe(1);
+
+/* Spine, stem, cap */
+mechG.add(new THREE.Mesh(new THREE.BoxGeometry(0.09,2.18,0.94),mSeam.clone()));
+var stemM=new THREE.Mesh(new THREE.CylinderGeometry(0.24,0.3,0.44,12),mShell.clone());
+stemM.position.set(0,-1.16,0);mechG.add(stemM);
+var topCap=new THREE.Mesh(new THREE.CylinderGeometry(0.2,0.24,0.1,10),mGearC.clone());
+topCap.position.set(0,1.08,0);mechG.add(topCap);
+var topRing=new THREE.Mesh(new THREE.TorusGeometry(0.36,0.028,8,24),mSeam.clone());
+topRing.rotation.x=Math.PI/2;topRing.position.set(0,1.07,0);mechG.add(topRing);
+[-0.28,0,0.28].forEach(function(x){
+  var p=new THREE.Mesh(new THREE.CylinderGeometry(0.04,0.04,0.22,8),mGearA.clone());
+  p.position.set(x,1.19,0);mechG.add(p);
+});
+
+/* GEAR BUILDER */
+function buildGear(t,iR,oR,th,mat){
+  var pts=[];
+  for(var i=0;i<t;i++){
+    var a0=(i/t)*Math.PI*2,a1=((i+.28)/t)*Math.PI*2,a2=((i+.52)/t)*Math.PI*2,a3=((i+.78)/t)*Math.PI*2;
+    pts.push(new THREE.Vector2(Math.cos(a0)*iR,Math.sin(a0)*iR));
+    pts.push(new THREE.Vector2(Math.cos(a1)*oR,Math.sin(a1)*oR));
+    pts.push(new THREE.Vector2(Math.cos(a2)*oR,Math.sin(a2)*oR));
+    pts.push(new THREE.Vector2(Math.cos(a3)*iR,Math.sin(a3)*iR));
+  }
+  var shape=new THREE.Shape(pts);
+  var hole=new THREE.Path();
+  for(var k=0;k<=32;k++)hole.lineTo(Math.cos(k/32*Math.PI*2)*iR*0.38,Math.sin(k/32*Math.PI*2)*iR*0.38);
+  shape.holes.push(hole);
+  return new THREE.Mesh(new THREE.ExtrudeGeometry(shape,{depth:th,bevelEnabled:true,bevelThickness:0.02,bevelSize:0.02,bevelSegments:2}),mat.clone());
+}
+var gears=[];
+function addG(x,y,z,t,iR,oR,th,mat,sp,dir){
+  var m=buildGear(t,iR,oR,th,mat);
+  m.position.set(x,y,z);
+  if(z<-0.4)m.rotation.y=Math.PI;
+  m.castShadow=true;mechG.add(m);
+  gears.push({m:m,sp:sp,dir:dir});
+}
+/* Front gears */
+addG(-0.5,0.2,1.06,16,0.36,0.5,0.14,mGearA,1.0,1);
+addG(0.5,0.2,1.06,16,0.36,0.5,0.14,mGearA,1.0,-1);
+addG(-0.88,-0.26,0.97,12,0.24,0.34,0.11,mGearB,1.5,-1);
+addG(0.88,-0.26,0.97,12,0.24,0.34,0.11,mGearB,1.5,1);
+addG(0,0.74,1.02,10,0.16,0.24,0.1,mRivet.clone(),2.2,1);
+addG(0,-0.14,0.98,14,0.28,0.4,0.12,mGearC,0.8,-1);
+addG(-0.7,0.58,0.9,8,0.13,0.19,0.08,mGearC.clone(),2.8,-1);
+addG(0.7,0.58,0.9,8,0.13,0.19,0.08,mGearC.clone(),2.8,1);
+addG(-0.82,-0.55,0.86,7,0.11,0.16,0.07,mGearA.clone(),3.2,1);
+addG(0.82,-0.55,0.86,7,0.11,0.16,0.07,mGearA.clone(),3.2,-1);
+/* Back gears */
+addG(-0.5,0.2,-1.06,16,0.36,0.5,0.14,mGearA,0.9,-1);
+addG(0.5,0.2,-1.06,16,0.36,0.5,0.14,mGearA,0.9,1);
+addG(-0.88,-0.26,-0.97,12,0.24,0.34,0.11,mGearB,1.4,1);
+addG(0.88,-0.26,-0.97,12,0.24,0.34,0.11,mGearB,1.4,-1);
+addG(0,0.74,-1.02,10,0.16,0.24,0.1,mRivet.clone(),2.0,-1);
+addG(0,-0.14,-0.98,14,0.28,0.4,0.12,mGearC,0.75,1);
+addG(-0.7,0.58,-0.9,8,0.13,0.19,0.08,mGearC.clone(),2.6,1);
+addG(0.7,0.58,-0.9,8,0.13,0.19,0.08,mGearC.clone(),2.6,-1);
+addG(-0.82,-0.55,-0.86,7,0.11,0.16,0.07,mGearA.clone(),3.0,-1);
+addG(0.82,-0.55,-0.86,7,0.11,0.16,0.07,mGearA.clone(),3.0,1);
+
+/* SIDE GEARS — pivot group so they spin correctly */
+var sideGears=[];
+function addSideGear(x,y,z,t,iR,oR,th,mat,sp,dir){
+  var mesh=buildGear(t,iR,oR,th,mat);
+  var pivot=new THREE.Group();
+  pivot.add(mesh);
+  mesh.position.z=-th/2;
+  pivot.rotation.y=Math.PI/2;
+  pivot.position.set(x,y,z);
+  mechG.add(pivot);
+  sideGears.push({pivot:pivot,sp:sp,dir:dir});
+}
+/* Left side */
+addSideGear(-1.06,0.22,0.0,14,0.26,0.38,0.12,mGearA,1.1,1);
+addSideGear(-1.04,0.62,0.48,10,0.18,0.27,0.10,mGearB,1.8,-1);
+addSideGear(-1.04,0.62,-0.48,10,0.18,0.27,0.10,mGearC.clone(),1.8,1);
+addSideGear(-1.04,-0.18,0.52,9,0.15,0.22,0.09,mGearA.clone(),2.3,-1);
+addSideGear(-1.04,-0.18,-0.52,9,0.15,0.22,0.09,mGearA.clone(),2.3,1);
+addSideGear(-1.03,-0.60,0.0,11,0.20,0.30,0.11,mGearC.clone(),1.4,-1);
+addSideGear(-1.04,0.22,0.74,8,0.13,0.19,0.08,mGearB.clone(),2.8,1);
+addSideGear(-1.04,0.22,-0.74,8,0.13,0.19,0.08,mGearB.clone(),2.8,-1);
+/* Right side */
+addSideGear(1.06,0.22,0.0,14,0.26,0.38,0.12,mGearA,1.1,-1);
+addSideGear(1.04,0.62,0.48,10,0.18,0.27,0.10,mGearB,1.8,1);
+addSideGear(1.04,0.62,-0.48,10,0.18,0.27,0.10,mGearC.clone(),1.8,-1);
+addSideGear(1.04,-0.18,0.52,9,0.15,0.22,0.09,mGearA.clone(),2.3,1);
+addSideGear(1.04,-0.18,-0.52,9,0.15,0.22,0.09,mGearA.clone(),2.3,-1);
+addSideGear(1.03,-0.60,0.0,11,0.20,0.30,0.11,mGearC.clone(),1.4,1);
+addSideGear(1.04,0.22,0.74,8,0.13,0.19,0.08,mGearB.clone(),2.8,-1);
+addSideGear(1.04,0.22,-0.74,8,0.13,0.19,0.08,mGearB.clone(),2.8,1);
+
+/* PISTONS */
+var pistons=[];
+function addPiston(x,y,z,rz,rx){
+  var pg=new THREE.Group();
+  var rod=new THREE.Mesh(new THREE.CylinderGeometry(0.048,0.048,0.7,10),mPist.clone());pg.add(rod);
+  var head=new THREE.Mesh(new THREE.CylinderGeometry(0.11,0.11,0.12,10),mGearA.clone());head.position.y=0.41;pg.add(head);
+  var cap=new THREE.Mesh(new THREE.CylinderGeometry(0.07,0.07,0.06,8),mRivet);cap.position.y=-0.41;pg.add(cap);
+  pg.position.set(x,y,z);if(rz)pg.rotation.z=rz;if(rx)pg.rotation.x=rx;
+  mechG.add(pg);pistons.push({g:pg,ph:Math.random()*Math.PI*2,rod:rod,head:head});
+}
+addPiston(-0.64,0.68,0.62,Math.PI/5);addPiston(0.64,0.68,0.62,-Math.PI/5);
+addPiston(-1.02,-0.04,0.52,Math.PI/3.2);addPiston(1.02,-0.04,0.52,-Math.PI/3.2);
+addPiston(0,-0.82,0.75,0);
+addPiston(-0.64,0.68,-0.62,-Math.PI/5);addPiston(0.64,0.68,-0.62,Math.PI/5);
+addPiston(-1.02,-0.04,-0.52,-Math.PI/3.2);addPiston(1.02,-0.04,-0.52,Math.PI/3.2);
+addPiston(0,-0.82,-0.75,0);
+addPiston(-0.88,0.3,0.0,0,Math.PI/2);addPiston(0.88,0.3,0.0,0,-Math.PI/2);
+
+/* TUBES */
+var ctubs=[];
+function addTube(pts,mat){
+  var curve=new THREE.CatmullRomCurve3(pts.map(function(p){return new THREE.Vector3(p[0],p[1],p[2]);}));
+  var m=new THREE.Mesh(new THREE.TubeGeometry(curve,26,0.022,7,false),mat.clone());
+  mechG.add(m);ctubs.push(m);
+}
+addTube([[-0.9,0.52,0.7],[-0.42,0.74,0.97],[0.14,0.7,1.03],[0.56,0.52,0.88]],mTube);
+addTube([[0.92,0.44,0.72],[0.34,0.64,0.97],[-0.24,0.6,1.02],[-0.64,0.34,0.84]],mTube);
+addTube([[-0.84,-0.2,0.78],[-0.32,-0.44,0.92],[0.34,-0.4,0.94],[0.84,-0.14,0.74]],mTube);
+addTube([[0,0.9,0.52],[0.1,0.6,0.9],[0,0.22,1.0],[-0.1,-0.2,0.88]],mTube);
+addTube([[-0.9,0.52,-0.7],[-0.42,0.74,-0.97],[0.14,0.7,-1.03],[0.56,0.52,-0.88]],mTube);
+addTube([[0.92,0.44,-0.72],[0.34,0.64,-0.97],[-0.24,0.6,-1.02],[-0.64,0.34,-0.84]],mTube);
+addTube([[-0.84,-0.2,-0.78],[-0.32,-0.44,-0.92],[0.34,-0.4,-0.94],[0.84,-0.14,-0.74]],mTube);
+addTube([[-1.0,0.55,0.7],[-1.05,0.3,0.0],[-1.0,0.05,-0.7]],mTube);
+addTube([[1.0,0.55,0.7],[1.05,0.3,0.0],[1.0,0.05,-0.7]],mTube);
+addTube([[-1.0,-0.1,0.7],[-1.04,-0.3,0.0],[-1.0,-0.45,-0.7]],mTube);
+addTube([[1.0,-0.1,0.7],[1.04,-0.3,0.0],[1.0,-0.45,-0.7]],mTube);
+addTube([[-0.5,1.02,0.3],[0,1.1,0.0],[0.5,1.02,-0.3]],mTube);
+addTube([[-0.5,1.02,-0.3],[0,1.1,0.0],[0.5,1.02,0.3]],mTube);
+
+/* ORGANIC BRAIN */
+function mkCortex(side){
+  var geo=new THREE.SphereGeometry(1.14,48,32);
+  var pos=geo.attributes.position;
+  for(var i=0;i<pos.count;i++){
+    var x=pos.getX(i),y=pos.getY(i),z=pos.getZ(i);
+    var n1=Math.sin(x*5.2+y*4.1)*Math.cos(y*6.3+z*5.0)*Math.sin(z*4.4+x*6.1);
+    var n2=Math.cos(x*8.5+z*3.2)*Math.sin(y*7.4+x*2.1);
+    var d=1+n1*0.08+n2*0.044;
+    pos.setXYZ(i,x*d*(i%3===0?0.9:1.02),y*d,z*d);
+  }
+  geo.computeVertexNormals();
+  var mat=mCortex.clone();var m=new THREE.Mesh(geo,mat);
+  m.scale.set(0.88,1,0.88);m.position.x=side*0.48;orgG.add(m);return{mesh:m,mat:mat};
+}
+var LC=mkCortex(-1),RC=mkCortex(1);
+var folds=[];
+function addFold(pts){
+  var curve=new THREE.CatmullRomCurve3(pts.map(function(p){return new THREE.Vector3(p[0],p[1],p[2]);}));
+  var mat=mFold.clone();orgG.add(new THREE.Mesh(new THREE.TubeGeometry(curve,22,0.03,6,false),mat));
+  folds.push(mat);
+}
+addFold([[-0.08,0.83,0.55],[-0.33,0.63,0.77],[-0.43,0.29,0.84],[-0.37,-0.1,0.8]]);
+addFold([[0.1,0.79,0.59],[0.29,0.59,0.81],[0.39,0.23,0.87],[0.33,-0.19,0.8]]);
+addFold([[-0.51,0.51,0.53],[-0.73,0.29,0.65],[-0.83,-0.1,0.58]]);
+addFold([[0.51,0.51,0.53],[0.73,0.29,0.65],[0.83,-0.1,0.58]]);
+addFold([[-0.19,0.91,0.37],[0,0.87,0.51],[0.19,0.91,0.37]]);
+addFold([[-0.33,0.23,0.89],[0,0.19,0.97],[0.33,0.23,0.89]]);
+addFold([[-0.63,0.11,0.61],[-0.51,0.43,0.74],[-0.31,0.67,0.74]]);
+addFold([[0.63,0.11,0.61],[0.51,0.43,0.74],[0.31,0.67,0.74]]);
+addFold([[-0.47,-0.53,0.49],[-0.21,-0.61,0.67],[0.01,-0.56,0.73]]);
+addFold([[0.47,-0.53,0.49],[0.21,-0.61,0.67],[0.01,-0.56,0.73]]);
+
+var NP=[[-0.6,0.56,0.55],[0.6,0.56,0.55],[0,0.82,0.42],[-0.76,0,0.42],[0.76,0,0.42],[-0.45,-0.55,0.53],[0.45,-0.55,0.53],[-0.5,0.3,-0.18],[0.5,0.3,-0.18],[0,0.1,0.77],[-0.3,0.72,-0.14],[0.3,0.72,-0.14],[-0.82,0.26,0.12],[0.82,0.26,0.12],[0,-0.66,0.3],[-0.56,-0.36,0.12],[0.56,-0.36,0.12],[0,0.28,0.66],[-0.66,0.42,0.3],[0.66,0.42,0.3],[-0.28,-0.7,0.12],[0.28,-0.7,0.12],[0,-0.3,0.7],[-0.86,-0.1,0.22],[0.86,-0.1,0.22]];
+var neurons=[];
+var nGeo=new THREE.SphereGeometry(0.075,14,10);
+NP.forEach(function(pos,i){
+  var mat=(i%3===0?mNeuW:mNeuB).clone();var m=new THREE.Mesh(nGeo,mat);
+  m.position.set(0,0,0);orgG.add(m);
+  neurons.push({m:m,mat:mat,tx:pos[0],ty:pos[1],tz:pos[2],ph:Math.random()*Math.PI*2,spd:0.4+Math.random()*0.8,fireT:Math.random()*4,firing:false});
+});
+var AC=[[0,2],[1,2],[0,9],[1,9],[2,9],[2,17],[3,9],[4,9],[0,3],[1,4],[3,5],[4,6],[5,14],[6,14],[14,22],[0,7],[1,8],[7,8],[10,11],[10,12],[11,13],[12,15],[13,16],[17,22],[17,9],[18,0],[19,1],[3,12],[4,13],[5,20],[6,21],[20,21],[23,3],[24,4],[7,10],[8,11],[2,10],[2,11],[9,17],[15,20],[16,21]];
+var axons=[];
+AC.forEach(function(pair,i){
+  var pa=new THREE.Vector3(NP[pair[0]][0],NP[pair[0]][1],NP[pair[0]][2]);
+  var pb=new THREE.Vector3(NP[pair[1]][0],NP[pair[1]][1],NP[pair[1]][2]);
+  var mid=new THREE.Vector3().addVectors(pa,pb).multiplyScalar(0.5);
+  mid.x+=(Math.random()-0.5)*0.2;mid.y+=(Math.random()-0.5)*0.2;mid.z+=(Math.random()-0.5)*0.12;
+  var curve=new THREE.QuadraticBezierCurve3(pa,mid,pb);
+  var mat=(i%3===0?mAxB:mAxA).clone();
+  orgG.add(new THREE.Mesh(new THREE.TubeGeometry(curve,18,0.014,5,false),mat));
+  axons.push({mat:mat,ph:Math.random()*Math.PI*2,curve:curve});
+});
+var sigs=[];var sGeo=new THREE.SphereGeometry(0.05,9,7);
+AC.slice(0,22).forEach(function(pair,i){
+  var pa=new THREE.Vector3(NP[pair[0]][0],NP[pair[0]][1],NP[pair[0]][2]);
+  var pb=new THREE.Vector3(NP[pair[1]][0],NP[pair[1]][1],NP[pair[1]][2]);
+  var mid=new THREE.Vector3().addVectors(pa,pb).multiplyScalar(0.5);
+  mid.x+=(Math.random()-0.5)*0.2;mid.y+=(Math.random()-0.5)*0.2;
+  var curve=new THREE.QuadraticBezierCurve3(pa,mid,pb);
+  var mat=(i%4===0?mSigB:mSigA).clone();var m=new THREE.Mesh(sGeo,mat);
+  orgG.add(m);sigs.push({m:m,mat:mat,curve:curve,t:Math.random(),spd:0.005+Math.random()*0.015});
+});
+
+/* AMBIENT PARTICLES */
+var abN=1800;var abGeo=new THREE.BufferGeometry();
+var abPos=new Float32Array(abN*3);var abCol=new Float32Array(abN*3);
+for(var ai=0;ai<abN;ai++){
+  abPos[ai*3]=(Math.random()-0.5)*22;abPos[ai*3+1]=(Math.random()-0.5)*16;abPos[ai*3+2]=(Math.random()-0.5)*14-1;
+  var av=Math.random()*0.08;abCol[ai*3]=av*0.03;abCol[ai*3+1]=av*0.18;abCol[ai*3+2]=av*0.92;
+}
+abGeo.setAttribute('position',new THREE.BufferAttribute(abPos,3));
+abGeo.setAttribute('color',new THREE.BufferAttribute(abCol,3));
+scene.add(new THREE.Points(abGeo,new THREE.PointsMaterial({size:0.05,vertexColors:true,transparent:true,opacity:0.55,blending:THREE.AdditiveBlending,depthWrite:false,sizeAttenuation:true})));
+
+/* ANIMATE */
+var timeV=0;var clk=new THREE.Clock();
+function cl(v,lo,hi){return v<lo?lo:v>hi?hi:v;}
+function eio(x){return x<0.5?2*x*x:1-Math.pow(-2*x+2,2)/2;}
+
+function getCam(p){
+  var x,y,z,fov;
+  if(p<0.28){var t=p/0.28;z=5.8-t*2.3;y=0.3;x=Math.sin(t*Math.PI*0.6)*0.15;fov=65;}
+  else if(p<0.45){var t=(p-0.28)/0.17,e=eio(t);z=3.5-e*4.0;y=0.4-e*0.5;x=0;fov=65+e*25;}
+  else if(p<0.60){var t=(p-0.45)/0.15;z=-0.5+t*0.2;y=-0.1+Math.sin(t*Math.PI)*0.3;x=Math.sin(t*Math.PI*2)*0.25;fov=90-t*10;}
+  else if(p<0.80){var t=(p-0.60)/0.20,e=eio(t);z=-0.3+e*4.5;y=-0.1+e*0.5;x=0;fov=80-e*15;}
+  else{var t=(p-0.80)/0.20;z=4.2+t*1.0;y=0.4;x=0;fov=65;}
+  return{x:x,y:y,z:z,fov:fov};
 }
 
-document.getElementById('emailInput').addEventListener('keydown', e=>{
-  if(e.key==='Enter') joinWaitlist();
-  e.target.style.borderColor='';
-});
+function animate(){
+  requestAnimationFrame(animate);
+  var dt=Math.min(clk.getDelta(),0.05);timeV+=dt;
+  mouse.sx+=(mouse.x-mouse.sx)*0.04;mouse.sy+=(mouse.y-mouse.sy)*0.04;
+
+  var mechA=cl(1-eio(cl((prog-0.30)/0.18,0,1)),0,1);
+  var neuA= cl(eio(cl((prog-0.36)/0.20,0,1)),0,1);
+  var axA=  cl(eio(cl((prog-0.48)/0.18,0,1)),0,1);
+  var orgA= cl(eio(cl((prog-0.55)/0.18,0,1)),0,1);
+  var foldA=cl(eio(cl((prog-0.60)/0.18,0,1)),0,1);
+  var sigA= cl(eio(cl((prog-0.65)/0.18,0,1)),0,1);
+
+  /* Mechanical */
+  mechG.visible=mechA>0.002;
+  if(mechG.visible){
+    gears.forEach(function(g){g.m.rotation.z+=dt*g.sp*g.dir;});
+    sideGears.forEach(function(g){g.pivot.rotation.z+=dt*g.sp*g.dir;});
+    pistons.forEach(function(p){var off=Math.sin(timeV*4+p.ph)*0.13;p.rod.scale.y=1+Math.abs(off)*2.2;p.head.position.y=0.41+off;});
+    ctubs.forEach(function(tb,i){tb.material.emissiveIntensity=0.5+Math.sin(timeV*3+i*1.3)*0.3;});
+    mechG.traverse(function(o){if(o.isMesh&&o.material){o.material.transparent=true;o.material.opacity=mechA;}});
+    sideGears.forEach(function(g){g.pivot.traverse(function(o){if(o.isMesh&&o.material){o.material.transparent=true;o.material.opacity=mechA;}});});
+    kL.intensity=22+Math.sin(timeV*5)*2.5;kL.color.setHex(0x0044ff);
+    sideL.intensity=6+Math.sin(timeV*3)*1;sideR.intensity=6+Math.sin(timeV*3+1)*1;
+  }
+
+  /* Organic */
+  orgG.visible=(neuA+axA+orgA+sigA)>0.002;
+  if(orgG.visible){
+    [LC,RC].forEach(function(c){c.mat.opacity=orgA*0.92;c.mat.emissiveIntensity=0.2+orgA*0.45+Math.sin(timeV*0.6)*0.08;var br=1+Math.sin(timeV*0.5)*0.018;c.mesh.scale.set(0.88*br,br*0.96,0.88*br);});
+    folds.forEach(function(mat,i){mat.opacity=cl((foldA-0.1)/0.9,0,1)*0.88;mat.emissiveIntensity=0.32+Math.sin(timeV*0.5+i*0.35)*0.22;});
+    neurons.forEach(function(n){
+      n.mat.opacity=neuA;var e=eio(Math.min(1,neuA*1.2));
+      n.m.position.set(n.tx*e+(neuA>0.8?Math.sin(timeV*n.spd*0.4+n.ph)*0.012:0),n.ty*e+(neuA>0.8?Math.cos(timeV*n.spd*0.35+n.ph)*0.008:0),n.tz*e);
+      n.fireT-=dt;if(n.fireT<0){n.firing=true;n.fireT=0.8+Math.random()*2.5;}
+      if(n.firing){n.mat.emissiveIntensity=4.5+Math.sin(timeV*28+n.ph)*2.5;n.m.scale.setScalar(1.5);if(n.fireT>0.7)n.firing=false;}
+      else{n.mat.emissiveIntensity=0.8+Math.sin(timeV*n.spd+n.ph)*0.45;n.m.scale.setScalar(1+Math.sin(timeV*n.spd+n.ph)*0.09);}
+    });
+    axons.forEach(function(ax){ax.mat.opacity=axA*0.78;ax.mat.emissiveIntensity=0.38+Math.sin(timeV*1.2+ax.ph)*0.28;});
+    var ss=1+sigA*4;
+    sigs.forEach(function(s){s.mat.opacity=sigA;s.t=(s.t+s.spd*ss)%1;s.m.position.copy(s.curve.getPoint(s.t));var pulse=0.88+Math.sin(timeV*18+s.t*28)*0.55;s.m.scale.setScalar(pulse);s.mat.emissiveIntensity=3+pulse*2.2;});
+    kL.color.lerp(new THREE.Color(0x88ccff),0.025);kL.intensity=8+Math.sin(timeV*1.4)*1.2;
+    fL.intensity=5+sigA*5;iGlow.intensity=orgA*6+Math.sin(timeV*2)*0.5;
+  }
+
+  var rotSpd=(prog>0.28&&prog<0.65)?0.008:0.05;
+  G.rotation.y+=dt*rotSpd;
+  G.rotation.x+=(mouse.sy*0.12-G.rotation.x)*0.04;
+  G.rotation.y+=mouse.sx*(prog>0.28&&prog<0.65?0.003:0.007);
+  G.position.y=Math.sin(timeV*0.4)*0.08;
+
+  var ct=getCam(prog);
+  cam.position.x+=(ct.x+mouse.sx*0.28-cam.position.x)*0.04;
+  cam.position.y+=(ct.y+mouse.sy*0.16-cam.position.y)*0.04;
+  cam.position.z+=(ct.z-cam.position.z)*0.04;
+  cam.fov+=(ct.fov-cam.fov)*0.06;cam.updateProjectionMatrix();
+  cam.lookAt(0,0,0);
+
+  renderer.setClearColor(new THREE.Color(0,0.002,0.045+prog*0.04),1);
+  if(scene.fog){scene.fog.color.set(new THREE.Color(0,0.002,0.04+prog*0.02));scene.fog.density=0.007+prog*0.004;}
+  renderer.render(scene,cam);
+}
+animate();
 </script>
 </body>
 </html>
