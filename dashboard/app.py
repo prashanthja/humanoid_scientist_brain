@@ -2055,25 +2055,37 @@ def api_chat():
         
         # Retrieve evidence from your corpus
         chunks = []
+        retriever_obj = None
         try:
             store, encoder, retriever = _get_pipeline()
-            # Always anchor retrieval to the original research question
             retrieval_query = query
             if history:
-                # Find the first user message — the original research question
                 original = next((h['content'] for h in history if h['role']=='user'), '')
                 if original and original != query:
-                    # Combine original topic with current follow-up for best retrieval
                     retrieval_query = original + '. ' + query
-            chunks = retriever.retrieve(retrieval_query, top_k=6)
+            # Use fallback-aware retrieval
+            from retrieval.simple_retriever import SimpleRetriever
+            retriever_obj = SimpleRetriever()
+            chunks = retriever_obj.retrieve_with_fallback(retrieval_query, top_k=10)
             print(f"[chat] Retrieved {len(chunks)} chunks for: {query[:50]}")
         except Exception as e:
             print(f"[chat] Retrieval error: {e}")
-            import traceback
-            traceback.print_exc()
-            chunks = []
-        
-        result = chat(query, history, chunks)
+            try:
+                from retrieval.simple_retriever import SimpleRetriever
+                retriever_obj = SimpleRetriever()
+                chunks = retriever_obj.retrieve_sqlite(query, top_k=10)
+                print(f"[chat] SQLite fallback: {len(chunks)} chunks")
+            except Exception as e2:
+                print(f"[chat] SQLite fallback error: {e2}")
+                chunks = []
+
+        # Get researcher_id from session if available
+        researcher_id = request.json.get('researcher_id', 'anonymous')
+
+        # Chain-of-thought with agentic retriever
+        result = chat(query, history, chunks,
+                     retriever=retriever_obj,
+                     researcher_id=researcher_id)
         
         # Get generic LLM comparison if requested
         if show_comparison:

@@ -146,6 +146,40 @@ class SimpleRetriever:
         return result
 
     def rebuild(self):
+
+    def retrieve_sqlite(self, query: str, top_k: int = 10) -> list:
+        """SQLite keyword fallback when Pinecone is empty."""
+        try:
+            import sqlite3, os
+            db_path = os.path.join(os.path.dirname(os.path.dirname(
+                os.path.abspath(__file__))), 'knowledge_base', 'knowledge.db')
+            conn = sqlite3.connect(db_path)
+            stopwords = {'does','what','when','how','the','and','for',
+                        'with','that','this','are','was','were','been',
+                        'have','from','they','will','would','could','should'}
+            keywords = [w for w in query.lower().split()
+                       if len(w) > 3 and w not in stopwords][:6]
+            if not keywords:
+                return []
+            conditions = ' OR '.join([f"text LIKE '%{k}%'" for k in keywords])
+            rows = conn.execute(f"""
+                SELECT text, paper_title, domain, source FROM chunks
+                WHERE {conditions}
+                ORDER BY RANDOM() LIMIT {top_k * 2}
+            """).fetchall()
+            conn.close()
+            return [{'text':r[0],'paper_title':r[1],
+                     'domain':r[2],'source':r[3]} for r in rows[:top_k]]
+        except Exception as e:
+            return []
+
+    def retrieve_with_fallback(self, query: str, top_k: int = 10) -> list:
+        """Try Pinecone first, fall back to SQLite."""
+        results = self.retrieve(query, top_k=top_k)
+        if not results:
+            results = self.retrieve_sqlite(query, top_k=top_k)
+        return results
+
         """Rebuild index from ChunkStore — uploads to Pinecone or saves numpy locally."""
         from knowledge_base.chunk_store import ChunkStore
         cs = ChunkStore()
