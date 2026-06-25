@@ -172,6 +172,16 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
 .user-avatar{width:24px;height:24px;border-radius:50%;border:1px solid var(--border);}
 .user-name{font-size:12px;color:var(--text);}
 .signout-btn{font-size:11px;color:var(--dim);background:none;border:none;cursor:pointer;}
+/* Chain of thought styles */
+.cot-steps{padding:8px 12px;background:rgba(204,0,0,.04);border-left:2px solid rgba(204,0,0,.2);border-radius:0 4px 4px 0;margin-bottom:10px;font-size:11px;}
+.cot-label{font-family:monospace;font-size:9px;color:rgba(204,0,0,.5);letter-spacing:2px;margin-bottom:6px;}
+.cot-step{color:#666;padding:2px 0;font-size:10px;}
+.cot-step em{color:#333;font-style:normal;font-weight:500;}
+.conf-bar-wrap{margin-bottom:12px;}
+.conf-bar-meta{display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;}
+.conf-num{font-family:monospace;font-size:11px;font-weight:600;}
+.conf-bar-track{height:3px;background:rgba(0,0,0,.06);border-radius:2px;overflow:hidden;}
+.conf-bar-fill{height:100%;border-radius:2px;transition:width 1s ease;}
 </style>
 </head>
 <body>
@@ -774,7 +784,7 @@ async function sendMsg(){
     renderPanel(rpt,null);
     // Now get Groq response
     const chatRes=await fetch('/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({query:q,history:_history,show_comparison:_showComparison})});
+      body:JSON.stringify({query:q,history:_history,show_comparison:_showComparison,researcher_id:(_sbSession?.user?.id||'anonymous')})});
     const chatData=await chatRes.json();
     document.getElementById(tid)?.remove();
     if(chatData.error){
@@ -791,7 +801,35 @@ async function sendMsg(){
       followUps.push('What hardware was used in these papers?');
       _history.push({role:'user',content:q});
       _history.push({role:'assistant',content:chatData.response});
-      addAssistantMsg(chatData.response,{
+      // Build chain-of-thought header
+      const iterations = chatData.iterations || 1;
+      const followupSearches = chatData.followup_searches || [];
+      const confidence = chatData.confidence || rpt.proposal_confidence || 0;
+      const verdictLabel = chatData.verdict || rpt.proposal_verdict || 'INCONCLUSIVE';
+
+      // Inject thinking steps before the response
+      let thinkingHtml = '';
+      if(followupSearches.length > 0){
+        thinkingHtml = `<div class="cot-steps">
+          <div class="cot-label">◈ TATTVA THOUGHT PROCESS · ${iterations} iteration${iterations>1?'s':''}</div>
+          ${followupSearches.map(s=>`<div class="cot-step">↳ searched: <em>${s}</em></div>`).join('')}
+        </div>`;
+      }
+
+      // Inject confidence bar
+      const confPct = Math.round(confidence * 100);
+      const confColor = confidence > 0.7 ? '#22c55e' : confidence > 0.4 ? '#f59e0b' : '#cc0000';
+      const confHtml = `<div class="conf-bar-wrap">
+        <div class="conf-bar-meta">
+          <span class="verdict-badge verdict-${_vcls(verdictLabel.toLowerCase())}">${verdictLabel}</span>
+          <span class="conf-num" style="color:${confColor}">${confPct}% confidence</span>
+        </div>
+        <div class="conf-bar-track">
+          <div class="conf-bar-fill" style="width:${confPct}%;background:${confColor}"></div>
+        </div>
+      </div>`;
+
+      addAssistantMsg(thinkingHtml + confHtml + chatData.response,{
         papers:chatData.papers||rpt.top_papers||[],
         evidence_used:chatData.evidence_used||0,
         verdict,contradictions:contras,
