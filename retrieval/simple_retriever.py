@@ -146,7 +146,7 @@ class SimpleRetriever:
         return result
 
     def rebuild(self):
-
+        pass
     def retrieve_sqlite(self, query: str, top_k: int = 10) -> list:
         """SQLite keyword fallback when Pinecone is empty."""
         try:

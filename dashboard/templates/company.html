@@ -3,1762 +3,363 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>Tattva AI — Enterprise Autonomous Scientist</title>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<title>Tattva OS</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet"/>
 <style>
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+.login-overlay{position:fixed;inset:0;background:rgba(2,5,8,0.97);z-index:99999;display:flex;align-items:center;justify-content:center;}
+.login-card{background:#0d1520;border:1px solid #1a2535;border-radius:14px;padding:40px;width:400px;}
+.login-field{margin-bottom:16px;}
+.login-field label{display:block;font-family:'JetBrains Mono',monospace;font-size:9px;color:#3a5070;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:6px;}
+.login-field input{width:100%;padding:11px 14px;background:#080d14;border:1px solid #1a2535;border-radius:8px;color:#c8deff;font-size:13px;outline:none;}
+.login-field input:focus{border-color:#0088ff;}
+.login-btn{width:100%;padding:12px;background:#0088ff;color:#000;border:none;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;margin-top:8px;}
+.login-error{background:rgba(255,61,87,.08);border:1px solid rgba(255,61,87,.2);border-radius:8px;padding:10px 14px;font-size:12px;color:#ff3d57;margin-top:12px;display:none;}
+
+*{box-sizing:border-box;margin:0;padding:0;}
 :root{
-  --bg:#080b10;--surface:#0d1117;--card:#111720;--border:#1a2332;--border2:#243045;
-  --accent:#00e5ff;--accent2:#0066ff;--gold:#f5a623;--green:#00e676;--red:#ff3d57;--amber:#ffb300;--purple:#a855f7;
-  --text:#dde8f5;--muted:#4a6080;--dim:#2a3a52;--bright:#ffffff;
+  --bg:#020508;--surface:#080d14;--card:#0d1520;
+  --accent:#0088ff;--accent2:#00c8ff;--white:#ffffff;
+  --text:#c8deff;--muted:#3a5070;--dim:#1a2535;
+  --green:#00e676;--red:#ff3d57;--amber:#ffb300;
   --mono:'JetBrains Mono',monospace;--sans:'Space Grotesk',sans-serif;
-  --radius:8px;--radius-lg:12px;
 }
 html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);font-family:var(--sans);}
-.pane{display:none;}
-.pane.active{display:block;}
-#pane-scientist.active{display:block;}
-body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(0,229,255,.01) 3px,rgba(0,229,255,.01) 4px);pointer-events:none;z-index:9999;}
-
-/* LAYOUT */
-.layout{display:flex;height:100vh;overflow:hidden;}
-.sidebar{width:220px;background:var(--surface);border-right:1px solid var(--border);display:flex;flex-direction:column;flex-shrink:0;}
-.main{flex:1;display:flex;flex-direction:column;overflow:hidden;}
-.topbar{height:52px;background:var(--surface);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 24px;gap:16px;flex-shrink:0;}
-.content{flex:1;overflow-y:auto;padding:24px;}
-
-/* SIDEBAR */
-.sidebar-logo{padding:20px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;}
-.logo-hex{width:32px;height:32px;background:rgba(0,229,255,.08);border:1.5px solid var(--accent);clip-path:polygon(50% 0%,100% 25%,100% 75%,50% 100%,0% 75%,0% 25%);display:flex;align-items:center;justify-content:center;font-size:14px;color:var(--accent);}
-.logo-name{font-family:var(--mono);font-size:12px;font-weight:600;color:var(--bright);letter-spacing:2px;}
-.logo-tag{font-family:var(--mono);font-size:8px;color:var(--muted);letter-spacing:1px;text-transform:uppercase;}
-.nav{flex:1;padding:12px;overflow-y:auto;}
-.nav-section{font-family:var(--mono);font-size:8px;color:var(--muted);letter-spacing:2px;text-transform:uppercase;padding:12px 8px 4px;}
-.nav-item{display:flex;align-items:center;gap:8px;padding:8px 10px;border-radius:var(--radius);cursor:pointer;color:var(--muted);font-size:12px;font-weight:500;transition:all .15s;margin-bottom:1px;}
-.nav-item:hover{background:rgba(0,229,255,.05);color:var(--text);}
-.nav-item.active{background:rgba(0,229,255,.08);color:var(--accent);border:1px solid rgba(0,229,255,.15);}
-.nav-badge{margin-left:auto;background:var(--red);color:#fff;font-size:9px;font-family:var(--mono);padding:1px 5px;border-radius:3px;}
-.nav-badge.green{background:var(--green);color:#000;}
-.nav-badge.amber{background:var(--amber);color:#000;}
-.sidebar-footer{padding:12px 16px;border-top:1px solid var(--border);}
-.upgrade-btn{width:100%;padding:8px;background:linear-gradient(135deg,var(--accent2),var(--purple));border:none;border-radius:var(--radius);color:#fff;font-size:11px;font-weight:600;cursor:pointer;font-family:var(--sans);}
-
-/* TOPBAR */
-.tb-title{font-family:var(--mono);font-size:11px;color:var(--muted);letter-spacing:1px;text-transform:uppercase;}
-.tb-status{display:flex;align-items:center;gap:6px;font-size:11px;color:var(--green);font-family:var(--mono);}
-.tb-dot{width:6px;height:6px;background:var(--green);border-radius:50%;box-shadow:0 0 6px var(--green);animation:pulse 2s infinite;}
-@keyframes pulse{0%,100%{opacity:1;}50%{opacity:.4;}}
-.tb-spacer{flex:1;}
-.tb-btn{padding:6px 14px;border-radius:var(--radius);font-size:11px;font-weight:600;cursor:pointer;font-family:var(--sans);border:1px solid var(--border2);background:var(--card);color:var(--text);}
-.tb-btn.primary{background:var(--accent);color:#000;border-color:var(--accent);}
-
-/* CARDS */
-.grid{display:grid;gap:16px;}
-.grid-2{grid-template-columns:1fr 1fr;}
-.grid-3{grid-template-columns:1fr 1fr 1fr;}
-.grid-4{grid-template-columns:1fr 1fr 1fr 1fr;}
-.card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:20px;}
-.card-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;}
-.card-title{font-family:var(--mono);font-size:9px;color:var(--accent);letter-spacing:2px;text-transform:uppercase;display:flex;align-items:center;gap:6px;}
-.card-title::before{content:'';width:4px;height:4px;background:var(--accent);border-radius:50%;box-shadow:0 0 6px var(--accent);}
-
-/* STAT CARDS */
-.stat-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:16px 20px;}
-.stat-val{font-family:var(--mono);font-size:28px;font-weight:600;color:var(--bright);line-height:1;}
-.stat-label{font-size:11px;color:var(--muted);margin-top:4px;}
-.stat-trend{font-family:var(--mono);font-size:10px;margin-top:8px;}
-.stat-trend.up{color:var(--green);}
-.stat-trend.down{color:var(--red);}
-.stat-trend.neutral{color:var(--muted);}
-
-/* PORTFOLIO TABLE */
-.ptable{width:100%;border-collapse:collapse;}
-.ptable th{font-family:var(--mono);font-size:8px;color:var(--muted);letter-spacing:1.5px;text-transform:uppercase;padding:8px 12px;text-align:left;border-bottom:1px solid var(--border);}
-.ptable td{padding:10px 12px;border-bottom:1px solid rgba(26,35,50,.5);font-size:12px;vertical-align:middle;}
-.ptable tr:hover td{background:rgba(0,229,255,.02);}
-.verdict-pill{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:3px;font-family:var(--mono);font-size:9px;font-weight:600;}
-.verdict-pill.strong{background:rgba(0,230,118,.1);color:var(--green);border:1px solid rgba(0,230,118,.2);}
-.verdict-pill.moderate{background:rgba(0,229,255,.08);color:var(--accent);border:1px solid rgba(0,229,255,.15);}
-.verdict-pill.mixed{background:rgba(255,179,0,.08);color:var(--amber);border:1px solid rgba(255,179,0,.2);}
-.verdict-pill.limited{background:rgba(168,85,247,.08);color:var(--purple);border:1px solid rgba(168,85,247,.2);}
-.verdict-pill.inconclusive{background:rgba(74,96,128,.1);color:var(--muted);border:1px solid var(--border);}
-.risk-badge{display:inline-block;padding:2px 8px;border-radius:3px;font-family:var(--mono);font-size:9px;font-weight:600;}
-.risk-badge.high{background:rgba(255,61,87,.1);color:var(--red);border:1px solid rgba(255,61,87,.2);}
-.risk-badge.medium{background:rgba(255,179,0,.08);color:var(--amber);border:1px solid rgba(255,179,0,.2);}
-.risk-badge.low{background:rgba(0,230,118,.1);color:var(--green);border:1px solid rgba(0,230,118,.2);}
-.trend-arrow{font-size:12px;}
-
-/* INVESTIGATION CARD */
-.inv-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:16px 20px;margin-bottom:12px;position:relative;}
-.inv-card.auto{border-left:3px solid var(--accent);}
-.inv-card.user{border-left:3px solid var(--purple);}
-.inv-header{display:flex;align-items:center;gap:8px;margin-bottom:8px;}
-.inv-tag{font-family:var(--mono);font-size:8px;padding:2px 6px;border-radius:2px;font-weight:600;}
-.inv-tag.auto{background:rgba(0,229,255,.1);color:var(--accent);}
-.inv-tag.user{background:rgba(168,85,247,.1);color:var(--purple);}
-.inv-title{font-size:13px;font-weight:500;color:var(--bright);margin-bottom:6px;}
-.inv-finding{font-size:11px;color:var(--muted);line-height:1.5;margin-bottom:10px;}
-.inv-steps{display:flex;gap:4px;margin-bottom:10px;}
-.inv-step{width:20px;height:4px;border-radius:2px;background:var(--border);}
-.inv-step.done{background:var(--green);}
-.inv-step.active{background:var(--accent);animation:stepPulse 1.5s infinite;}
-@keyframes stepPulse{0%,100%{opacity:1;}50%{opacity:.4;}}
-.inv-actions{display:flex;gap:8px;}
-.inv-btn{padding:5px 12px;border-radius:var(--radius);font-size:10px;font-weight:600;cursor:pointer;font-family:var(--mono);border:1px solid var(--border2);background:transparent;color:var(--text);transition:all .15s;}
-.inv-btn:hover{border-color:var(--accent);color:var(--accent);}
-.inv-btn.primary{background:var(--accent);color:#000;border-color:var(--accent);}
-
-/* OPPORTUNITY CARD */
-.opp-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:16px 20px;margin-bottom:10px;}
-.opp-card.high{border-left:3px solid var(--red);}
-.opp-card.medium{border-left:3px solid var(--amber);}
-.opp-card.low{border-left:3px solid var(--green);}
-.opp-impact{font-family:var(--mono);font-size:8px;font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:6px;}
-.opp-impact.high{color:var(--red);}
-.opp-impact.medium{color:var(--amber);}
-.opp-impact.low{color:var(--green);}
-.opp-title{font-size:13px;font-weight:600;color:var(--bright);margin-bottom:4px;}
-.opp-desc{font-size:11px;color:var(--muted);line-height:1.5;margin-bottom:10px;}
-.opp-meta{display:flex;gap:12px;font-family:var(--mono);font-size:9px;color:var(--muted);}
-
-/* INTEL CARD */
-.intel-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:14px 18px;margin-bottom:8px;display:flex;gap:14px;align-items:flex-start;}
-.intel-org{font-family:var(--mono);font-size:10px;font-weight:700;color:var(--bright);min-width:90px;}
-.intel-body{flex:1;}
-.intel-paper{font-size:12px;color:var(--text);margin-bottom:3px;}
-.intel-verdict{font-size:10px;color:var(--muted);}
-.threat-badge{padding:2px 8px;border-radius:3px;font-family:var(--mono);font-size:8px;font-weight:700;flex-shrink:0;}
-.threat-badge.high{background:rgba(255,61,87,.1);color:var(--red);border:1px solid rgba(255,61,87,.2);}
-.threat-badge.medium{background:rgba(255,179,0,.08);color:var(--amber);border:1px solid rgba(255,179,0,.2);}
-.threat-badge.low{background:rgba(74,96,128,.1);color:var(--muted);border:1px solid var(--border);}
-
-/* EXPERIMENT DESIGNER */
-.exp-section{margin-bottom:16px;}
-.exp-label{font-family:var(--mono);font-size:8px;color:var(--muted);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:6px;}
-.exp-value{font-size:12px;color:var(--text);line-height:1.5;}
-.exp-highlight{background:rgba(0,229,255,.05);border:1px solid rgba(0,229,255,.1);border-radius:var(--radius);padding:10px 14px;font-family:var(--mono);font-size:11px;color:var(--accent);}
-.condition-row{display:flex;gap:8px;margin-bottom:6px;align-items:center;}
-.condition-pill{padding:3px 10px;background:var(--surface);border:1px solid var(--border2);border-radius:3px;font-family:var(--mono);font-size:10px;color:var(--text);}
-.condition-pill.h1{border-color:var(--green);color:var(--green);}
-.condition-pill.h2{border-color:var(--red);color:var(--red);}
-.cost-bar{height:4px;background:var(--border);border-radius:2px;overflow:hidden;margin-top:4px;}
-.cost-fill{height:100%;background:linear-gradient(90deg,var(--green),var(--accent));border-radius:2px;}
-
-/* LIT REVIEW */
-.lit-input{width:100%;padding:12px 16px;background:var(--surface);border:1px solid var(--border2);border-radius:var(--radius);color:var(--text);font-size:13px;font-family:var(--sans);outline:none;margin-bottom:12px;}
-.lit-input:focus{border-color:var(--accent);}
-.lit-section{margin-bottom:16px;padding-bottom:16px;border-bottom:1px solid var(--border);}
-.lit-section:last-child{border-bottom:none;}
-.lit-section-title{font-family:var(--mono);font-size:9px;color:var(--accent);letter-spacing:2px;text-transform:uppercase;margin-bottom:8px;}
-.lit-text{font-size:12px;color:var(--text);line-height:1.7;}
-.lit-cite{display:inline-flex;align-items:center;gap:3px;font-family:var(--mono);font-size:9px;color:var(--accent);background:rgba(0,229,255,.06);padding:1px 5px;border-radius:2px;cursor:pointer;}
-
-/* LOADING */
-.loading{display:flex;align-items:center;gap:8px;color:var(--muted);font-size:12px;font-family:var(--mono);}
-.spin{width:14px;height:14px;border:2px solid var(--border2);border-top-color:var(--accent);border-radius:50%;animation:spin .8s linear infinite;}
-@keyframes spin{to{transform:rotate(360deg);}}
-
-/* PANES */
-.pane{display:none;}
-.pane.active{display:block;}
-
-/* QUERY INPUT */
-.query-bar{display:flex;gap:8px;margin-bottom:20px;}
-.query-input{flex:1;padding:10px 16px;background:var(--surface);border:1px solid var(--border2);border-radius:var(--radius);color:var(--text);font-size:13px;font-family:var(--sans);outline:none;}
-.query-input:focus{border-color:var(--accent);}
-.query-btn{padding:10px 20px;background:var(--accent);color:#000;border:none;border-radius:var(--radius);font-size:12px;font-weight:700;cursor:pointer;font-family:var(--sans);}
-
-/* DRIFT MINI */
-.drift-mini{display:flex;gap:3px;align-items:flex-end;height:20px;}
-.drift-bar{width:4px;background:var(--accent);border-radius:1px;opacity:.6;}
-
-/* LOGIN OVERLAY */
-.login-overlay{position:fixed;inset:0;background:var(--bg);z-index:10000;display:flex;align-items:center;justify-content:center;}
-.login-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:40px;width:420px;position:relative;}
-.login-card::before{content:'';position:absolute;top:0;left:40px;right:40px;height:1px;background:linear-gradient(90deg,transparent,var(--accent),transparent);}
-.login-field{margin-bottom:16px;}
-.login-field label{display:block;font-family:var(--mono);font-size:9px;color:var(--muted);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:6px;}
-.login-field input{width:100%;padding:11px 14px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);color:var(--text);font-size:13px;font-family:var(--sans);outline:none;transition:border-color .15s;}
-.login-field input:focus{border-color:var(--accent);}
-.login-btn{width:100%;padding:12px;background:var(--accent);color:#000;border:none;border-radius:var(--radius);font-size:13px;font-weight:700;cursor:pointer;font-family:var(--sans);margin-top:8px;}
-.login-error{background:rgba(255,61,87,.08);border:1px solid rgba(255,61,87,.2);border-radius:var(--radius);padding:10px 14px;font-size:12px;color:#ff3d57;margin-top:12px;display:none;}
-
-/* SCROLLBAR */
-::-webkit-scrollbar{width:4px;}
-::-webkit-scrollbar-track{background:transparent;}
-::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px;}
+.screen{position:fixed;inset:0;display:none;flex-direction:column;align-items:center;justify-content:center;opacity:0;transition:opacity 0.6s ease;}
+.screen.active{display:flex;opacity:1;}
+body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(0,136,255,.008) 3px,rgba(0,136,255,.008) 4px);pointer-events:none;z-index:99998;}
+#miniOrb{position:fixed;bottom:24px;right:24px;z-index:9999;display:none;flex-direction:column;align-items:flex-end;gap:8px;}
+#miniText{max-width:260px;background:rgba(2,5,8,0.96);border:1px solid rgba(0,136,255,0.2);border-radius:10px;padding:8px 12px;font-size:11px;color:var(--text);line-height:1.6;display:none;}
+#miniMic{width:32px;height:32px;border-radius:50%;border:1px solid rgba(0,136,255,0.25);background:rgba(0,136,255,0.06);color:rgba(0,136,255,0.7);font-size:13px;cursor:pointer;display:flex;align-items:center;justify-content:center;}
+#homeLabel{font-family:var(--mono);font-size:9px;letter-spacing:4px;color:rgba(0,136,255,0.3);text-transform:uppercase;margin-bottom:32px;}
+#homeText{font-size:15px;font-weight:300;color:rgba(200,222,255,0.8);text-align:center;max-width:400px;line-height:1.7;min-height:48px;padding:0 20px;margin-top:24px;}
+#homeInput{display:flex;gap:10px;margin-top:24px;align-items:center;}
+#homeInputField{background:rgba(255,255,255,0.04);border:1px solid rgba(0,136,255,0.15);border-radius:28px;padding:12px 22px;color:rgba(200,222,255,0.9);font-size:13px;font-family:var(--sans);outline:none;width:280px;}
+#homeInputField:focus{border-color:rgba(0,136,255,0.4);}
+#homeMic{width:44px;height:44px;border-radius:50%;border:1px solid rgba(0,136,255,0.3);background:rgba(0,136,255,0.07);color:rgba(0,136,255,0.8);font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;}
+#homeSend{padding:12px 22px;border-radius:28px;border:1px solid rgba(0,136,255,0.3);background:rgba(0,136,255,0.1);color:rgba(200,222,255,0.9);font-size:13px;cursor:pointer;}
+#homeHint{font-family:var(--mono);font-size:9px;color:rgba(0,136,255,0.2);letter-spacing:2px;margin-top:16px;}
+.backBtn{position:fixed;top:20px;left:20px;z-index:9997;display:none;align-items:center;gap:8px;padding:8px 16px;border-radius:20px;border:1px solid rgba(0,136,255,0.2);background:rgba(2,5,8,0.9);color:rgba(0,136,255,0.7);font-size:12px;font-family:var(--mono);cursor:pointer;letter-spacing:1px;}
+.backBtn.visible{display:flex;}
+#screenEvidence{padding:60px 40px 40px;justify-content:flex-start!important;}
+#evidenceHeader{text-align:center;margin-bottom:40px;width:100%;}
+#evidenceQuery{font-size:11px;font-family:var(--mono);color:rgba(0,136,255,0.5);letter-spacing:2px;margin-bottom:12px;}
+#evidenceVerdict{font-size:36px;font-weight:600;color:var(--white);margin-bottom:8px;}
+#evidenceConf{font-size:12px;color:var(--muted);}
+#evidenceConfBar{width:300px;height:3px;background:rgba(255,255,255,0.08);border-radius:2px;margin:12px auto 0;overflow:hidden;}
+#evidenceConfFill{height:100%;border-radius:2px;transition:width 2s ease;width:0%;}
+#evidenceGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;width:100%;max-width:1100px;overflow-y:auto;max-height:calc(100vh - 260px);}
+.eCard{background:var(--card);border:1px solid var(--dim);border-radius:12px;padding:18px;opacity:0;transform:translateY(20px);transition:all 0.5s ease;}
+.eCard.show{opacity:1;transform:translateY(0);}
+.eCard.support{border-left:2px solid var(--green);}
+.eCard.contra{border-left:2px solid var(--red);}
+.eCard.scope{border-left:2px solid var(--amber);}
+.eCard.next{border-left:2px solid var(--accent);}
+.eLabel{font-family:var(--mono);font-size:8px;letter-spacing:2px;color:var(--accent);margin-bottom:8px;}
+.eText{font-size:11px;color:var(--muted);line-height:1.6;white-space:pre-line;}
+#screenPortfolio{padding:60px 40px 40px;justify-content:flex-start!important;align-items:flex-start!important;}
+#portTitle{font-size:28px;font-weight:600;color:var(--white);margin-bottom:4px;}
+#portSub{font-size:11px;font-family:var(--mono);color:var(--muted);letter-spacing:1px;margin-bottom:32px;}
+#portGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;width:100%;overflow-y:auto;max-height:calc(100vh-180px);}
+.pCard{background:var(--card);border:1px solid var(--dim);border-radius:12px;padding:20px;opacity:0;transform:scale(0.95);transition:all 0.4s ease;cursor:pointer;}
+.pCard:hover{border-color:rgba(0,136,255,0.3);transform:scale(1.02)!important;}
+.pCard.show{opacity:1;transform:scale(1);}
+.pName{font-size:14px;font-weight:500;color:var(--white);margin-bottom:12px;}
+.pBar{height:4px;border-radius:2px;background:rgba(255,255,255,0.06);margin-bottom:8px;overflow:hidden;}
+.pFill{height:100%;border-radius:2px;transition:width 1.5s ease;width:0%;}
+.pMeta{display:flex;justify-content:space-between;font-size:10px;font-family:var(--mono);}
+#thinkOverlay{position:fixed;inset:0;z-index:9996;background:rgba(2,5,8,0.9);display:none;align-items:center;justify-content:center;flex-direction:column;gap:20px;backdrop-filter:blur(4px);}
+#thinkOverlay.on{display:flex;}
+#thinkTxt{font-family:var(--mono);font-size:11px;color:rgba(0,136,255,0.5);letter-spacing:2px;}
+.mic-on{background:rgba(255,50,50,0.15)!important;border-color:rgba(255,50,50,0.5)!important;color:rgba(255,100,100,0.9)!important;}
 </style>
 </head>
 <body>
-<!-- LOGIN OVERLAY -->
-<div class="login-overlay" id="loginOverlay" style="display:none;">
-  <div class="login-card">
-    <div style="display:flex;align-items:center;gap:12px;margin-bottom:28px;">
-      <div style="width:36px;height:36px;background:rgba(0,229,255,.08);border:1.5px solid var(--accent);clip-path:polygon(50% 0%,100% 25%,100% 75%,50% 100%,0% 75%,0% 25%);display:flex;align-items:center;justify-content:center;font-size:16px;color:var(--accent);">◈</div>
-      <div>
-        <div style="font-family:var(--mono);font-size:13px;font-weight:600;color:var(--bright);letter-spacing:2px;">TATTVA AI</div>
-        <div style="font-family:var(--mono);font-size:9px;color:var(--muted);letter-spacing:1px;">Enterprise</div>
-      </div>
-    </div>
-    <div style="font-size:18px;font-weight:600;color:var(--bright);margin-bottom:4px;">Sign in</div>
-    <div style="font-size:12px;color:var(--muted);margin-bottom:24px;">Access your enterprise research dashboard</div>
-    <div class="login-field">
-      <label>Company ID</label>
-      <input type="text" id="overlayCompanyId" placeholder="Your company ID" autocomplete="username"/>
-    </div>
-    <div class="login-field">
-      <label>Password</label>
-      <input type="password" id="overlayPassword" placeholder="Your password" autocomplete="current-password"
-             onkeydown="if(event.key==='Enter') overlayLogin()"/>
-    </div>
-    <button class="login-btn" onclick="overlayLogin()">Sign In →</button>
-    <div class="login-error" id="overlayError">Invalid credentials. Contact sales@tattvaai.org</div>
-    <div style="margin-top:20px;text-align:center;font-size:11px;color:var(--muted);">
-      No access? <a href="mailto:sales@tattvaai.org" style="color:var(--accent);">sales@tattvaai.org</a>
-    </div>
+<div class="backBtn" id="backBtn" onclick="goHome()">&#8592; HOME</div>
+<div id="thinkOverlay"><canvas id="thinkCanvas" width="100" height="100"></canvas><div id="thinkTxt">ANALYZING...</div></div>
+<div id="miniOrb"><div id="miniText"></div><div style="display:flex;gap:8px;align-items:center;"><button id="miniMic" onclick="micToggle()">&#127908;</button><canvas id="miniOrbCanvas" width="48" height="48" style="cursor:pointer;border-radius:50%;" onclick="goHome()"></canvas></div></div>
+
+<div class="screen active" id="screenHome">
+  <div id="homeLabel">TATTVA &middot; AUTONOMOUS SCIENTIST</div>
+  <canvas id="homeOrb" width="260" height="260" style="cursor:pointer;" onclick="triggerBrief()"></canvas>
+  <div id="homeText">Initializing...</div>
+  <div id="homeInput">
+    <button id="homeMic" onclick="micToggle()">&#127908;</button>
+    <input id="homeInputField" placeholder="ask anything or say a command..." onkeydown="if(event.key==='Enter'){var v=this.value;this.value='';handleCommand(v);}"/>
+    <button id="homeSend" onclick="var i=document.getElementById('homeInputField');var v=i.value;i.value='';handleCommand(v);">&#8594;</button>
   </div>
+  <div id="homeHint">CLICK ORB &middot; SPEAK &middot; OR TYPE</div>
 </div>
 
-<div class="layout">
-
-<!-- SIDEBAR -->
-<div class="sidebar">
-  <div class="sidebar-logo">
-    <div class="logo-hex">◈</div>
-    <div>
-      <div class="logo-name">TATTVA AI</div>
-      <div class="logo-tag" id="companyNameTag">Enterprise</div>
-    </div>
+<div class="screen" id="screenEvidence">
+  <div id="evidenceHeader">
+    <div id="evidenceQuery"></div>
+    <div id="evidenceVerdict"></div>
+    <div id="evidenceConf"></div>
+    <div id="evidenceConfBar"><div id="evidenceConfFill"></div></div>
   </div>
-  <div class="nav">
-    <div class="nav-section">Intelligence</div>
-    <div class="nav-item" onclick="goPane('scientist')">🔬 Research Scientist</div>
-    <div class="nav-item" onclick="goPane('portfolio')">📊 Portfolio Health</div>
-    <div class="nav-item" onclick="goPane('autopilot')">🤖 Autopilot <span class="nav-badge green">2</span></div>
-    <div class="nav-item" onclick="goPane('experiments')">🧪 Experiment Designer</div>
-    <div class="nav-section">Discovery</div>
-    <div class="nav-item" onclick="goPane('radar')">📡 Opportunity Radar <span class="nav-badge amber">3</span></div>
-    <div class="nav-item" onclick="goPane('intel')">🎯 Competitive Intel <span class="nav-badge red">5</span></div>
-    <div class="nav-item" onclick="goPane('litreview')">📄 Literature Review</div>
-    <div class="nav-section">Private Corpus</div>
-    <div class="nav-item" onclick="goPane('corpus')">📁 Upload Documents <span class="nav-badge amber" id="corpusBadge">0</span></div>
-    <div class="nav-item" onclick="goPane('crosssearch')">🔍 Cross-Search</div>
-    <div class="nav-section">Settings</div>
-    <div class="nav-item" onclick="window.location='/app'" style="opacity:0.5;font-size:11px;">↗ Open Researcher Tool</div>
-  </div>
-  <div class="sidebar-footer">
-    <div style="display:flex;gap:6px;">
-      <button class="upgrade-btn" onclick="goPane('settings')" style="flex:1;">⚙ Settings</button>
-      <button class="upgrade-btn" onclick="window.location='/app'" style="flex:1;background:var(--surface);color:var(--text);border:1px solid var(--border2);">↗ App</button>
-    </div>
-  </div>
+  <div id="evidenceGrid"></div>
 </div>
 
-<!-- MAIN -->
-<div class="main">
+<div class="screen" id="screenPortfolio">
+  <div id="portTitle">Portfolio Health</div>
+  <div id="portSub">EVIDENCE STRENGTH ACROSS YOUR RESEARCH DIRECTIONS</div>
+  <div id="portGrid"></div>
+</div>
 
-  <!-- TOPBAR -->
-  <div class="topbar">
-    <span class="tb-title" id="tbTitle">RESEARCH PORTFOLIO HEALTH</span>
-    <div class="tb-status"><div class="tb-dot"></div><span id="tbStatus">Loading...</span></div>
-    <div class="tb-spacer"></div>
-    <button class="tb-btn" onclick="refreshAll()">↺ Refresh</button>
-    <button class="tb-btn primary" onclick="goPane('autopilot')">+ New Investigation</button>
-  </div>
-
-  <!-- CONTENT -->
-  <div class="content">
-
-    <!-- ═══════════════════════════════════════════════
-         PANE 1: PORTFOLIO HEALTH
-    ═══════════════════════════════════════════════ -->
-    <!-- RESEARCH SCIENTIST PANE -->
-    <div class="pane active" id="pane-scientist" style="height:calc(100vh - 52px);">
-      <div style="display:grid;grid-template-columns:1fr 260px;height:100%;min-height:0;">
-
-        <!-- Chat column -->
-        <div style="display:flex;flex-direction:column;border-right:1px solid var(--border);min-height:0;overflow:hidden;">
-
-          <div style="padding:12px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px;flex-shrink:0;">
-            <div style="width:7px;height:7px;background:var(--green);border-radius:50%;"></div>
-            <span style="font-family:var(--mono);font-size:10px;color:var(--text);letter-spacing:1px;">RESEARCH SCIENTIST</span>
-            <span style="font-size:10px;color:var(--muted);margin-left:auto;">15,412 papers + private corpus</span>
-          </div>
-
-          <div id="sciMessages" style="flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:14px;">
-            <div style="display:flex;gap:10px;">
-              <div style="width:28px;height:28px;border-radius:50%;background:rgba(0,229,255,.1);border:1px solid rgba(0,229,255,.2);display:flex;align-items:center;justify-content:center;font-size:12px;color:var(--accent);flex-shrink:0;">◈</div>
-              <div style="max-width:82%;">
-                <div style="padding:10px 14px;background:var(--surface);border:1px solid var(--border);border-radius:10px;font-size:13px;line-height:1.7;color:var(--text);">
-                  Hi — I'm your research scientist. I read papers, find contradictions, design experiments, and help advance your work.<br><br>
-                  You can ask me to:<br>
-                  • Verify any claim against the literature<br>
-                  • Design a targeted experiment to resolve a contradiction<br>
-                  • Find what papers disagree about in your domain<br>
-                  • Search your uploaded internal documents<br>
-                  • Identify research gaps and opportunities<br><br>
-                  What are you investigating?
-                </div>
-                <div style="font-size:10px;color:var(--muted);margin-top:4px;">Tattva · now</div>
-              </div>
-            </div>
-          </div>
-
-          <div style="padding:12px 16px;border-top:1px solid var(--border);flex-shrink:0;background:var(--surface);">
-            <div id="sciPills" style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px;">
-              <span onclick="sciAsk(this.textContent)" style="padding:4px 12px;background:var(--card);border:1px solid var(--border2);border-radius:20px;font-size:11px;color:var(--text);cursor:pointer;">Does LoRA reduce cost at 70B?</span>
-              <span onclick="sciAsk(this.textContent)" style="padding:4px 12px;background:var(--card);border:1px solid var(--border2);border-radius:20px;font-size:11px;color:var(--text);cursor:pointer;">What contradictions exist here?</span>
-              <span onclick="sciAsk(this.textContent)" style="padding:4px 12px;background:var(--card);border:1px solid var(--border2);border-radius:20px;font-size:11px;color:var(--text);cursor:pointer;">Design an experiment for this</span>
-              <span onclick="sciAsk(this.textContent)" style="padding:4px 12px;background:var(--card);border:1px solid var(--border2);border-radius:20px;font-size:11px;color:var(--text);cursor:pointer;">What should we work on next?</span>
-            </div>
-            <div style="display:flex;gap:8px;">
-              <textarea id="sciInput"
-                style="flex:1;padding:10px 14px;background:var(--bg);border:1px solid var(--border2);border-radius:var(--radius);color:var(--text);font-size:13px;font-family:var(--sans);resize:none;height:42px;outline:none;line-height:1.5;"
-                placeholder="Ask anything — verify a claim, design an experiment, find contradictions..."
-                onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sciSend();}"></textarea>
-              <button onclick="sciSend()"
-                style="padding:10px 20px;background:var(--accent);color:#000;border:none;border-radius:var(--radius);font-size:13px;font-weight:700;cursor:pointer;">Send →</button>
-            </div>
-          </div>
-        </div>
-
-        <!-- Right panel -->
-        <div style="overflow-y:auto;display:flex;flex-direction:column;">
-          <div style="padding:14px 16px;border-bottom:1px solid var(--border);">
-            <div style="font-family:var(--mono);font-size:8px;color:var(--muted);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:8px;">LIVE EVIDENCE</div>
-            <div id="sciEvidence" style="font-size:11px;color:var(--muted);line-height:1.7;">Ask a question to see evidence</div>
-          </div>
-          <div style="padding:14px 16px;border-bottom:1px solid var(--border);">
-            <div style="font-family:var(--mono);font-size:8px;color:var(--muted);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:8px;">NEXT STEPS</div>
-            <div id="sciExperiments" style="font-size:11px;color:var(--muted);line-height:1.7;">Suggested experiments appear here</div>
-          </div>
-          <div style="padding:14px 16px;">
-            <div style="font-family:var(--mono);font-size:8px;color:var(--muted);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:8px;">RESEARCH GAPS</div>
-            <div id="sciGaps" style="font-size:11px;color:var(--muted);line-height:1.7;">Gaps detected from evidence</div>
-          </div>
-        </div>
-
-      </div>
-    </div>
-
-    <!-- ═══════════════════════════════════════════════
-         PANE 2: AUTOPILOT INVESTIGATIONS
-    ═══════════════════════════════════════════════ -->
-    <div class="pane" id="pane-autopilot">
-      <div class="grid grid-2" style="margin-bottom:20px;">
-        <div class="stat-card">
-          <div class="stat-val" style="color:var(--accent)">2</div>
-          <div class="stat-label">Active Investigations</div>
-          <div class="stat-trend neutral">Auto-triggered by anomaly detection</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-val" style="color:var(--green)">4</div>
-          <div class="stat-label">Completed This Month</div>
-          <div class="stat-trend up">↑ 3 experiments designed</div>
-        </div>
-      </div>
-
-      <!-- New investigation input -->
-      <div class="card" style="margin-bottom:16px;">
-        <div class="card-head"><div class="card-title">New Investigation</div></div>
-        <div class="query-bar">
-          <input class="query-input" id="invInput" placeholder="Enter research question to investigate autonomously..."/>
-          <button class="query-btn" onclick="startInvestigation()">Investigate →</button>
-        </div>
-      </div>
-
-      <!-- Active investigations -->
-      <div class="card-title" style="margin-bottom:12px;">ACTIVE INVESTIGATIONS</div>
-      <div id="investigationsList">
-        <div class="inv-card auto">
-          <div class="inv-header">
-            <span class="inv-tag auto">AUTO</span>
-            <span style="font-family:var(--mono);font-size:9px;color:var(--muted);">Triggered 2h ago · Step 4/6</span>
-          </div>
-          <div class="inv-title">Why does INT4 quantization degrade reasoning tasks but not classification?</div>
-          <div class="inv-finding">Anomaly detected: 4 papers confirm INT4 for classification, 3 contradict for reasoning. Hypothesis formed: attention precision loss in multi-step chains.</div>
-          <div class="inv-steps">
-            <div class="inv-step done"></div>
-            <div class="inv-step done"></div>
-            <div class="inv-step done"></div>
-            <div class="inv-step active"></div>
-            <div class="inv-step"></div>
-            <div class="inv-step"></div>
-          </div>
-          <div class="inv-actions">
-            <button class="inv-btn primary" onclick="viewInvestigation(0)">View Live →</button>
-            <button class="inv-btn" onclick="goPane('experiments')">Design Experiment</button>
-          </div>
-        </div>
-
-        <div class="inv-card auto">
-          <div class="inv-header">
-            <span class="inv-tag auto">AUTO</span>
-            <span style="font-family:var(--mono);font-size:9px;color:var(--muted);">Triggered 5h ago · Step 2/6</span>
-          </div>
-          <div class="inv-title">Does LoRA + FlashAttention interact to produce compounded memory savings?</div>
-          <div class="inv-finding">New opportunity detected: 0 papers have tested these together. Your corpus covers both separately. Potential: 2× memory reduction.</div>
-          <div class="inv-steps">
-            <div class="inv-step done"></div>
-            <div class="inv-step active"></div>
-            <div class="inv-step"></div>
-            <div class="inv-step"></div>
-            <div class="inv-step"></div>
-            <div class="inv-step"></div>
-          </div>
-          <div class="inv-actions">
-            <button class="inv-btn primary" onclick="viewInvestigation(1)">View Live →</button>
-          </div>
-        </div>
-      </div>
-
-      <!-- Investigation detail modal -->
-      <div id="invDetail" style="display:none;" class="card" style="margin-top:16px;">
-        <div class="card-head">
-          <div class="card-title" id="invDetailTitle">INVESTIGATION DETAIL</div>
-          <button class="inv-btn" onclick="document.getElementById('invDetail').style.display='none'">✕ Close</button>
-        </div>
-        <div id="invDetailBody" style="font-size:12px;line-height:1.7;color:var(--text);"></div>
-      </div>
-    </div>
-
-    <!-- ═══════════════════════════════════════════════
-         PANE 3: EXPERIMENT DESIGNER
-    ═══════════════════════════════════════════════ -->
-    <div class="pane" id="pane-experiments">
-      <div class="grid grid-2" style="gap:20px;">
-        <!-- Left: Input -->
-        <div>
-          <div class="card" style="margin-bottom:16px;">
-            <div class="card-head"><div class="card-title">Design Experiment</div></div>
-            <input class="query-input" id="expQuery" placeholder="Research question to resolve..."/>
-            <button class="query-btn" style="width:100%;" onclick="designExperiment()">Generate Experiment Design →</button>
-          </div>
-
-          <div class="card" id="expContradiction" style="display:none;">
-            <div class="card-head"><div class="card-title">Contradiction Detected</div></div>
-            <div id="expContradictionBody"></div>
-          </div>
-        </div>
-
-        <!-- Right: Output -->
-        <div class="card" id="expOutput">
-          <div class="card-head"><div class="card-title">Experiment Design</div></div>
-          <div id="expBody">
-            <div style="color:var(--muted);font-size:12px;text-align:center;padding:40px 0;">
-              Enter a research question to generate a targeted experiment design.
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- ═══════════════════════════════════════════════
-         PANE 4: OPPORTUNITY RADAR
-    ═══════════════════════════════════════════════ -->
-    <div class="pane" id="pane-radar">
-      <div class="card-title" style="margin-bottom:16px;">OPPORTUNITY RADAR · Based on your domain: LLM efficiency</div>
-
-      <div class="opp-card high">
-        <div class="opp-impact high">🔴 HIGH IMPACT — UNCLAIMED</div>
-        <div class="opp-title">FlashAttention + INT4 KV cache co-design</div>
-        <div class="opp-desc">Zero papers have tested FlashAttention with INT4-quantized KV cache simultaneously. Your corpus covers both separately. Combined approach could yield 2× memory reduction over either alone. First-mover window is open.</div>
-        <div class="opp-meta">
-          <span>0 papers combined</span>
-          <span>·</span>
-          <span>Est. 3 weeks research</span>
-          <span>·</span>
-          <span>High novelty</span>
-        </div>
-        <div style="margin-top:10px;display:flex;gap:8px;">
-          <button class="inv-btn primary" onclick="startOppInvestigation('FlashAttention + INT4 KV cache co-design')">Start Investigation →</button>
-          <button class="inv-btn" onclick="goPane('experiments')">Design Experiment</button>
-        </div>
-      </div>
-
-      <div class="opp-card medium">
-        <div class="opp-impact medium">🟡 MEDIUM — 1 COMPETITOR TOUCHED THIS</div>
-        <div class="opp-title">KV cache eviction under MoE routing</div>
-        <div class="opp-desc">DeepSeek acknowledged this gap in their MLA paper but did not solve it. MoE routing decisions affect which KV states are actually needed — eviction policy should be routing-aware. Your MoE corpus coverage makes this tractable.</div>
-        <div class="opp-meta">
-          <span>1 paper (partial)</span>
-          <span>·</span>
-          <span>Est. 4 weeks research</span>
-          <span>·</span>
-          <span>Medium novelty</span>
-        </div>
-        <div style="margin-top:10px;display:flex;gap:8px;">
-          <button class="inv-btn primary" onclick="startOppInvestigation('KV cache eviction under MoE routing')">Start Investigation →</button>
-        </div>
-      </div>
-
-      <div class="opp-card low">
-        <div class="opp-impact low">🟢 GROWING — FIRST MOVER WINDOW OPEN</div>
-        <div class="opp-title">Speculative decoding + prefix caching interaction</div>
-        <div class="opp-desc">2 papers on each technique separately, 0 combined. 47% of production LLM queries have repeated prefixes. Combined approach could yield 3-5× throughput over either alone. Evidence confidence currently limited — early advantage available.</div>
-        <div class="opp-meta">
-          <span>0 papers combined</span>
-          <span>·</span>
-          <span>Est. 2 weeks research</span>
-          <span>·</span>
-          <span>High novelty</span>
-        </div>
-        <div style="margin-top:10px;display:flex;gap:8px;">
-          <button class="inv-btn primary" onclick="startOppInvestigation('Speculative decoding + prefix caching combined throughput')">Start Investigation →</button>
-        </div>
-      </div>
-
-      <div id="radarLive" style="margin-top:16px;"></div>
-    </div>
-
-    <!-- ═══════════════════════════════════════════════
-         PANE 5: COMPETITIVE INTELLIGENCE
-    ═══════════════════════════════════════════════ -->
-    <div class="pane" id="pane-intel">
-      <div class="card-title" style="margin-bottom:16px;">COMPETITIVE INTELLIGENCE · This week: 5 new papers in your domain</div>
-
-      <div class="intel-card">
-        <div>
-          <div class="intel-org">DEEPSEEK</div>
-          <div style="font-family:var(--mono);font-size:8px;color:var(--muted);">3 papers · 2 days ago</div>
-        </div>
-        <div class="intel-body">
-          <div class="intel-paper">Multi-head Latent Attention — reduces KV cache 5-13×</div>
-          <div class="intel-verdict">Tattva verdict: Moderate Evidence (0.73) · 1 contradiction found in memory claims</div>
-          <div style="margin-top:6px;display:flex;gap:6px;">
-            <button class="inv-btn" onclick="analyzeCompetitor('DeepSeek Multi-head Latent Attention KV cache reduction')">Full Analysis →</button>
-            <button class="inv-btn" onclick="goPane('experiments')">Counter-Experiment</button>
-          </div>
-        </div>
-        <div class="threat-badge high">HIGH THREAT</div>
-      </div>
-
-      <div class="intel-card">
-        <div>
-          <div class="intel-org">GOOGLE DM</div>
-          <div style="font-family:var(--mono);font-size:8px;color:var(--muted);">1 paper · 3 days ago</div>
-        </div>
-        <div class="intel-body">
-          <div class="intel-paper">Speculative decoding improvement — 40% speedup claimed</div>
-          <div class="intel-verdict">Tattva verdict: Limited Evidence (0.40) · Single paper, no replication</div>
-          <div style="margin-top:6px;">
-            <button class="inv-btn" onclick="analyzeCompetitor('Speculative decoding 40% speedup Google DeepMind')">Full Analysis →</button>
-          </div>
-        </div>
-        <div class="threat-badge low">LOW THREAT</div>
-      </div>
-
-      <div class="intel-card">
-        <div>
-          <div class="intel-org">META AI</div>
-          <div style="font-family:var(--mono);font-size:8px;color:var(--muted);">2 papers · 4 days ago</div>
-        </div>
-        <div class="intel-body">
-          <div class="intel-paper">LoRA variants for 70B — new rank selection method</div>
-          <div class="intel-verdict">Tattva verdict: Moderate Evidence (0.65) · Directly relevant to fine-tuning work</div>
-          <div style="margin-top:6px;display:flex;gap:6px;">
-            <button class="inv-btn" onclick="analyzeCompetitor('LoRA variants 70B model rank selection Meta')">Full Analysis →</button>
-          </div>
-        </div>
-        <div class="threat-badge medium">MEDIUM THREAT</div>
-      </div>
-
-      <div id="intelDetail" style="display:none;margin-top:16px;" class="card">
-        <div class="card-head">
-          <div class="card-title" id="intelDetailTitle">ANALYSIS</div>
-          <button class="inv-btn" onclick="document.getElementById('intelDetail').style.display='none'">✕</button>
-        </div>
-        <div id="intelDetailBody" style="font-size:12px;line-height:1.7;"></div>
-      </div>
-    </div>
-
-    <!-- ═══════════════════════════════════════════════
-         PANE 6: LITERATURE REVIEW WRITER
-    ═══════════════════════════════════════════════ -->
-    <div class="pane" id="pane-litreview">
-      <div class="grid grid-2" style="gap:20px;align-items:start;">
-        <div>
-          <div class="card">
-            <div class="card-head"><div class="card-title">Generate Literature Review</div></div>
-            <input class="lit-input" id="litTopic" placeholder="Topic: e.g. KV cache optimization for long context LLMs"/>
-            <button class="query-btn" style="width:100%;margin-bottom:12px;" onclick="generateLitReview()">Generate Review →</button>
-            <div style="font-size:11px;color:var(--muted);">Every sentence traced to real papers. Contradictions flagged. Scope qualifications included.</div>
-          </div>
-        </div>
-
-        <div class="card" id="litOutput">
-          <div class="card-head">
-            <div class="card-title">Literature Review</div>
-            <button class="inv-btn" id="litCopyBtn" style="display:none;" onclick="copyLitReview()">Copy</button>
-          </div>
-          <div id="litBody">
-            <div style="color:var(--muted);font-size:12px;text-align:center;padding:40px 0;">
-              Enter a topic to generate a cited literature review in 60 seconds.
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- ═══════════════════════════════════════════════
-         PANE 7: PRIVATE CORPUS UPLOAD
-    ═══════════════════════════════════════════════ -->
-    <div class="pane" id="pane-corpus">
-      <div class="grid grid-2" style="gap:20px;align-items:start;">
-
-        <!-- Upload -->
-        <div>
-          <div class="card" style="margin-bottom:16px;">
-            <div class="card-head"><div class="card-title">Upload Private Documents</div></div>
-            <div style="font-size:11px;color:var(--muted);margin-bottom:12px;">
-              Your documents are stored in a private namespace. Never mixed with public corpus or other clients.
-            </div>
-            <div style="margin-bottom:10px;">
-              <div class="exp-label">Company ID</div>
-              <input class="lit-input" id="corpCompanyId" placeholder="Your company ID (from onboarding)"/>
-            </div>
-            <div style="margin-bottom:10px;">
-              <div class="exp-label">Password</div>
-              <input class="lit-input" type="password" id="corpPassword" placeholder="Enterprise password"/>
-            </div>
-            <div style="margin-bottom:10px;">
-              <div class="exp-label">Document Title (optional)</div>
-              <input class="lit-input" id="corpTitle" placeholder="e.g. Q3 2025 Internal Research Report"/>
-            </div>
-            <div style="margin-bottom:12px;">
-              <div class="exp-label">PDF File</div>
-              <input type="file" id="corpFile" accept=".pdf"
-                style="width:100%;padding:8px;background:var(--surface);border:1px solid var(--border2);border-radius:var(--radius);color:var(--text);font-size:12px;"/>
-            </div>
-            <button class="query-btn" style="width:100%;" onclick="uploadDocument()">Upload & Index →</button>
-            <div id="uploadStatus" style="margin-top:10px;font-size:11px;"></div>
-          </div>
-        </div>
-
-        <!-- Stats -->
-        <div>
-          <div class="card" style="margin-bottom:16px;">
-            <div class="card-head">
-              <div class="card-title">Private Corpus Stats</div>
-              <button class="inv-btn" onclick="loadCorpusStats()">Refresh</button>
-            </div>
-            <div id="corpusStats" style="color:var(--muted);font-size:12px;">
-              Enter credentials and click Refresh to view your corpus.
-            </div>
-          </div>
-
-          <div class="card">
-            <div class="card-head"><div class="card-title">Why Private Corpus?</div></div>
-            <div style="font-size:12px;color:var(--muted);line-height:1.8;">
-              <div style="margin-bottom:8px;">🔒 <strong style="color:var(--text);">Isolated namespace</strong> — your data never mixed with others</div>
-              <div style="margin-bottom:8px;">🔍 <strong style="color:var(--text);">Cross-reference</strong> — Tattva finds contradictions between your internal work and public literature</div>
-              <div style="margin-bottom:8px;">⚡ <strong style="color:var(--text);">Instant insights</strong> — "Your 2024 internal finding contradicts a new DeepSeek paper"</div>
-              <div>📊 <strong style="color:var(--text);">Competitive edge</strong> — know when competitors publish something that affects your work</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- ═══════════════════════════════════════════════
-         PANE 8: CROSS SEARCH
-    ═══════════════════════════════════════════════ -->
-    <div class="pane" id="pane-crosssearch">
-      <div class="card" style="margin-bottom:16px;">
-        <div class="card-head"><div class="card-title">Cross-Corpus Research</div></div>
-        <div style="font-size:11px;color:var(--muted);margin-bottom:12px;">
-          Search your private documents + 15,412 public papers simultaneously. Detects contradictions between your internal work and public literature.
-        </div>
-        <div style="display:flex;gap:8px;margin-bottom:8px;">
-          <input class="query-input" style="flex:1;" id="crossCompanyId" placeholder="Company ID"/>
-          <input class="query-input" style="flex:1;" type="password" id="crossPassword" placeholder="Password"/>
-        </div>
-        <div class="query-bar">
-          <input class="query-input" id="crossQuery" placeholder="Research question to search across public + private corpus..."/>
-          <button class="query-btn" onclick="crossSearch()">Search Both →</button>
-        </div>
-      </div>
-
-      <div id="crossResults" style="display:none;">
-        <div class="grid grid-2" style="gap:16px;margin-bottom:16px;">
-          <div class="stat-card">
-            <div class="stat-val" id="crossPublicCount">0</div>
-            <div class="stat-label">Public Chunks Found</div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-val" style="color:var(--purple);" id="crossPrivateCount">0</div>
-            <div class="stat-label">Private Chunks Found</div>
-          </div>
-        </div>
-
-        <div id="crossContradictions"></div>
-      </div>
-    </div>
-
-    <!-- ═══════════════════════════════════════════════
-         PANE: ACCOUNT SETTINGS
-    ═══════════════════════════════════════════════ -->
-    <div class="pane" id="pane-settings">
-      <div class="grid grid-2" style="gap:20px;align-items:start;">
-
-        <!-- Login Info -->
-        <div class="card">
-          <div class="card-head"><div class="card-title">Your Login Credentials</div></div>
-          <div style="font-size:12px;color:var(--muted);line-height:2;margin-bottom:16px;">
-            <div><span style="color:var(--text);font-family:var(--mono);">Dashboard URL</span><br>
-              <span style="color:var(--accent);">https://tattvaai.org/company</span></div>
-            <div style="margin-top:10px;"><span style="color:var(--text);font-family:var(--mono);">Username</span><br>
-              <span id="settingsCompanyId" style="color:var(--accent);">Loading...</span></div>
-            <div style="margin-top:10px;"><span style="color:var(--text);font-family:var(--mono);">How to login</span><br>
-              Use your Company ID as username and your corpus password</div>
-          </div>
-          <div style="background:rgba(0,229,255,.04);border:1px solid rgba(0,229,255,.1);border-radius:var(--radius);padding:12px;font-size:11px;color:var(--muted);margin-bottom:16px;">
-            <div style="color:var(--accent);font-family:var(--mono);font-size:9px;margin-bottom:6px;">HOW TO ACCESS</div>
-            1. Go to tattvaai.org/company<br>
-            2. Username = your Company ID<br>
-            3. Password = your corpus password<br>
-            4. Browser saves it for next time
-          </div>
-        </div>
-
-        <!-- Change Password -->
-        <div class="card">
-          <div class="card-head"><div class="card-title">Change Password</div></div>
-          <div style="margin-bottom:10px;">
-            <div class="exp-label">Company ID</div>
-            <input class="lit-input" id="settingsId" placeholder="Your company ID"/>
-          </div>
-          <div style="margin-bottom:10px;">
-            <div class="exp-label">Current Password</div>
-            <input class="lit-input" type="password" id="settingsOldPwd" placeholder="Current password"/>
-          </div>
-          <div style="margin-bottom:10px;">
-            <div class="exp-label">New Password</div>
-            <input class="lit-input" type="password" id="settingsNewPwd" placeholder="New password (min 8 chars)"/>
-          </div>
-          <div style="margin-bottom:12px;">
-            <div class="exp-label">Confirm New Password</div>
-            <input class="lit-input" type="password" id="settingsConfirmPwd" placeholder="Confirm new password"/>
-          </div>
-          <button class="query-btn" style="width:100%;" onclick="changePassword()">Update Password →</button>
-          <div id="pwdStatus" style="margin-top:10px;font-size:11px;"></div>
-        </div>
-
-        <!-- Plan Info -->
-        <div class="card">
-          <div class="card-head"><div class="card-title">Your Plan</div></div>
-          <div style="font-size:12px;color:var(--muted);line-height:1.8;">
-            <div style="font-family:var(--mono);font-size:20px;color:var(--bright);margin-bottom:8px;">Company Pro</div>
-            <div>✅ Portfolio Health monitoring</div>
-            <div>✅ Autonomous Investigations</div>
-            <div>✅ Experiment Designer</div>
-            <div>✅ Opportunity Radar</div>
-            <div>✅ Competitive Intelligence</div>
-            <div>✅ Literature Review Writer</div>
-            <div>✅ Private Document Upload</div>
-            <div>✅ Cross-Corpus Contradiction Detection</div>
-            <div style="margin-top:12px;padding-top:12px;border-top:1px solid var(--border);">
-              <div style="color:var(--text);">Need more?</div>
-              <div>→ TATTVA-1 custom model fine-tuning</div>
-              <div>→ Slack integration</div>
-              <div>→ API access ($0.10/query)</div>
-              <div>→ Dedicated support</div>
-              <a href="mailto:sales@tattvaai.org" style="display:inline-block;margin-top:10px;padding:6px 16px;background:linear-gradient(135deg,var(--accent2),var(--purple));border-radius:var(--radius);color:#fff;font-size:11px;font-weight:600;text-decoration:none;">Contact Sales →</a>
-            </div>
-          </div>
-        </div>
-
-        <!-- Contact -->
-        <div class="card">
-          <div class="card-head"><div class="card-title">Support</div></div>
-          <div style="font-size:12px;color:var(--muted);line-height:2;">
-            <div>📧 <a href="mailto:sales@tattvaai.org" style="color:var(--accent);">sales@tattvaai.org</a></div>
-            <div>🌐 <a href="https://tattvaai.org" target="_blank" style="color:var(--accent);">tattvaai.org</a></div>
-            <div style="margin-top:12px;padding:10px;background:var(--surface);border-radius:var(--radius);font-size:11px;">
-              <div style="color:var(--text);margin-bottom:4px;">Onboard your team</div>
-              Share your Company ID and password with your researchers. Everyone on your team can access the same private corpus.
-            </div>
-          </div>
-        </div>
-
-      </div>
-    </div>
-
-  </div><!-- /content -->
-</div><!-- /main -->
-</div><!-- /layout -->
+<div class="screen" id="screenExperiment" style="padding:60px 40px;justify-content:flex-start!important;align-items:center!important;">
+  <div style="text-align:center;margin-bottom:32px;width:100%;"><div id="expTitle" style="font-size:28px;font-weight:600;color:var(--white);margin-bottom:8px;">Experiment Designer</div><div style="font-size:11px;font-family:var(--mono);color:var(--muted);letter-spacing:1px;">DESIGNED BY TATTVA</div></div>
+  <div id="expGrid" style="display:grid;grid-template-columns:1fr 1fr;gap:16px;width:100%;max-width:900px;"></div>
+</div>
 
 <script>
-// ── State ──────────────────────────────────────────────
-const DIRECTIONS = [
-  {name:"LoRA optimization",       query:"Does LoRA reduce fine-tuning cost?"},
-  {name:"MoE routing",             query:"Does Mixture of Experts reduce compute cost per token?"},
-  {name:"INT4 quantization",       query:"Does quantization to INT8 degrade model accuracy?"},
-  {name:"FlashAttention v3",       query:"Does FlashAttention reduce GPU memory usage during training?"},
-  {name:"KV cache compression",    query:"Does KV cache compression reduce memory overhead in long context?"},
-  {name:"Speculative decoding",    query:"Does speculative decoding improve inference throughput?"},
-];
-
-const PANE_TITLES = {
-  portfolio:   "RESEARCH PORTFOLIO HEALTH",
-  autopilot:   "AUTOPILOT — AUTONOMOUS INVESTIGATIONS",
-  experiments: "EXPERIMENT DESIGNER",
-  radar:       "OPPORTUNITY RADAR",
-  intel:       "COMPETITIVE INTELLIGENCE",
-  litreview:   "LITERATURE REVIEW WRITER",
-};
-
-function goPane(id) {
-  document.querySelectorAll('.pane').forEach(p => p.classList.remove('active'));
-  const pane = document.getElementById('pane-'+id);
-  if (pane) pane.classList.add('active');
-  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-  try { if(event && event.currentTarget) event.currentTarget.classList.add('active'); } catch(e) {}
-  document.getElementById('tbTitle').textContent = PANE_TITLES[id] || id.toUpperCase();
-  if (id === 'portfolio') { setTimeout(loadPortfolio, 100); }
-  if (id === 'corpus') loadCorpusStats();
+const DOTS=(()=>{const pts=[],R=16;for(let i=0;i<=R;i++){const phi=Math.PI*i/R,y=Math.cos(phi),r=Math.sin(phi);const c=Math.max(1,Math.round(R*r));for(let j=0;j<c;j++){const t=2*Math.PI*j/c;pts.push({x:r*Math.cos(t),y,z:r*Math.sin(t),phi,theta:t});}}return pts;})();
+let ST='idle',TT=0,RY=0,RX=0.38;
+const CFG={idle:{s:0.005,a:0.06,c:[0,136,255],b:[180,220,255]},think:{s:0.028,a:0,c:[0,80,255],b:[80,180,255]},speak:{s:0.013,a:0.2,c:[0,180,255],b:[220,245,255]},listen:{s:0.009,a:0.13,c:[40,160,255],b:[200,235,255]}};
+function drawS(cv,R,st){
+  const ctx=cv.getContext('2d'),W=cv.width,H=cv.height,cx=W/2,cy=H/2,cfg=CFG[st||ST];
+  ctx.clearRect(0,0,W,H);RY+=cfg.s;RX=0.38+0.07*Math.sin(TT*0.007);
+  const [cr,cg,cb]=cfg.c,[br,bg,bb]=cfg.b;
+  const proj=DOTS.map(p=>{
+    const pu=1+(st==='speak'||ST==='speak'?cfg.a*Math.sin(TT*0.18+p.phi*4):st==='listen'||ST==='listen'?cfg.a*Math.abs(Math.sin(TT*0.12+p.phi*3)):cfg.a*Math.sin(TT*0.04+p.phi*2));
+    const sx={x:p.x*pu,y:p.y*pu,z:p.z*pu};
+    const x1=sx.x*Math.cos(RY)-sx.z*Math.sin(RY),z1=sx.x*Math.sin(RY)+sx.z*Math.cos(RY);
+    const y2=sx.y*Math.cos(RX)-z1*Math.sin(RX),z2=sx.y*Math.sin(RX)+z1*Math.cos(RX);
+    return{sx:cx+x1*R,sy:cy-y2*R,sz:z2,d:(z2+1)/2};
+  }).sort((a,b)=>a.sz-b.sz);
+  proj.forEach(({sx,sy,d})=>{
+    const f=d>0.5,al=f?0.18+d*0.82:0.04+d*0.12,dr=(f?2.4:1.1)*d*(R/110);
+    if(f&&d>0.72){const g=ctx.createRadialGradient(sx,sy,0,sx,sy,dr*3.5);g.addColorStop(0,`rgba(${br},${bg},${bb},${al*0.4})`);g.addColorStop(1,`rgba(${cr},${cg},${cb},0)`);ctx.beginPath();ctx.arc(sx,sy,dr*3.5,0,Math.PI*2);ctx.fillStyle=g;ctx.fill();}
+    ctx.beginPath();ctx.arc(sx,sy,Math.max(0.4,dr),0,Math.PI*2);
+    ctx.fillStyle=`rgba(${Math.round(cr+(br-cr)*d)},${Math.round(cg+(bg-cg)*d)},${Math.round(cb+(bb-cb)*d)},${al})`;ctx.fill();
+  });
 }
-
-// ── Research Scientist ──────────────────────────────────
-let sciHistory = [];
-let sciCompanyId = '';
-let sciPassword = '';
-
-function sciAsk(text) {
-  const inp = document.getElementById('sciInput');
-  if (inp) { inp.value = text; sciSend(); }
+function tick(){
+  drawS(document.getElementById('homeOrb'),104);
+  const m=document.getElementById('miniOrbCanvas');if(m)drawS(m,20);
+  const t=document.getElementById('thinkCanvas');if(t)drawS(t,44,'think');
+  TT++;requestAnimationFrame(tick);
 }
-
-function addSciMessage(role, html, id='') {
-  const msgs = document.getElementById('sciMessages');
-  if (!msgs) return;
-  const div = document.createElement('div');
-  if (id) div.id = id;
-  const time = new Date().toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'});
-  const isUser = role === 'user';
-  div.style.cssText = `display:flex;gap:10px;align-items:flex-start;${isUser?'flex-direction:row-reverse;':''}`;
-  div.innerHTML = `
-    <div style="width:28px;height:28px;border-radius:50%;background:${isUser?'rgba(0,102,255,.2)':'rgba(0,229,255,.1)'};border:1px solid ${isUser?'rgba(0,102,255,.3)':'rgba(0,229,255,.2)'};display:flex;align-items:center;justify-content:center;font-size:11px;color:${isUser?'var(--accent2)':'var(--accent)'};flex-shrink:0;">${isUser?'U':'◈'}</div>
-    <div style="max-width:82%;${isUser?'align-items:flex-end;display:flex;flex-direction:column;':''}">
-      <div style="padding:10px 14px;${isUser?'background:var(--accent2);color:#fff;':'background:var(--surface);border:1px solid var(--border);color:var(--text);'}border-radius:10px;font-size:13px;line-height:1.7;">${html}</div>
-      <div style="font-size:10px;color:var(--muted);margin-top:3px;${isUser?'text-align:right;':''}">${isUser?'You':'Tattva'} · ${time}</div>
-    </div>`;
-  msgs.appendChild(div);
-  msgs.scrollTop = msgs.scrollHeight;
+function showScreen(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  const s=document.getElementById('screen'+id);if(s)s.classList.add('active');
+  const back=document.getElementById('backBtn'),mini=document.getElementById('miniOrb');
+  if(id==='Home'){back.classList.remove('visible');mini.style.display='none';}
+  else{back.classList.add('visible');mini.style.display='flex';}
 }
-
-async function sciSend() {
-  const input = document.getElementById('sciInput');
-  const q = (input?.value || '').trim();
-  if (!q) return;
-  input.value = '';
-  sciCompanyId = sessionStorage.getItem('tattva_company_id') || '';
-  sciPassword  = sessionStorage.getItem('tattva_password') || '';
-  addSciMessage('user', q);
-  sciHistory.push({role:'user', content:q});
-  document.getElementById('sciPills').innerHTML = '';
-  const typingId = 'typing-' + Date.now();
-  addSciMessage('assistant', '<div class="loading"><div class="spin"></div>Investigating...</div>', typingId);
-  try {
-    const [rRes, cRes] = await Promise.all([
-      fetch('/api/run_research', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({query:q})}),
-      fetch('/api/chat', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({query:q, history:sciHistory.slice(-6)})})
+function goHome(){showScreen('Home');ST='idle';setText('Ready. What would you like to investigate?');}
+let LIS=false,REC=null,SPK=false;
+function setText(t){
+  const e=document.getElementById('homeText'),m=document.getElementById('miniText');
+  if(e)e.textContent=t;if(m){m.textContent=t;m.style.display=t?'block':'none';}
+}
+function speak(text,cb){
+  if(!window.speechSynthesis){if(cb)cb();return;}
+  window.speechSynthesis.cancel();
+  ST='speak';SPK=true;setText(text);
+  
+  // Split into short sentences for cleaner delivery
+  const sentences = text.match(/[^.!?]+[.!?]+/g) || [text];
+  let idx=0;
+  
+  function speakNext(){
+    if(idx>=sentences.length){
+      ST='idle';SPK=false;if(cb)cb();return;
+    }
+    const u=new SpeechSynthesisUtterance(sentences[idx].trim().replace(/[*#&<>◈\[\]]/g,''));
+    u.rate=0.88;u.pitch=0.95;u.lang='en-US';u.volume=1.0;
+    const vs=window.speechSynthesis.getVoices();
+    const v=vs.find(v=>v.name==='Samantha')||vs.find(v=>v.lang==='en-US');
+    if(v)u.voice=v;
+    u.onend=()=>{idx++;setTimeout(speakNext,120);};
+    u.onerror=()=>{idx++;setTimeout(speakNext,120);};
+    window.speechSynthesis.speak(u);
+  }
+  
+  // Ensure voices loaded
+  if(window.speechSynthesis.getVoices().length===0){
+    window.speechSynthesis.onvoiceschanged=()=>speakNext();
+  } else {
+    speakNext();
+  }
+}
+function micToggle(){
+  if(LIS){if(REC)REC.stop();return;}
+  const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+  if(!SR){speak('Voice not supported. Try Chrome.');return;}
+  REC=new SR();REC.continuous=false;REC.interimResults=false;REC.lang='en-US';
+  REC.onstart=()=>{LIS=true;ST='listen';setText('Listening...');document.querySelectorAll('#homeMic,#miniMic').forEach(b=>b.classList.add('mic-on'));};
+  REC.onresult=(e)=>{const t=e.results[0][0].transcript;setText('You said: "'+t+'"');setTimeout(()=>handleCommand(t),300);};
+  REC.onend=()=>{LIS=false;ST='idle';document.querySelectorAll('#homeMic,#miniMic').forEach(b=>b.classList.remove('mic-on'));};
+  REC.onerror=()=>{LIS=false;ST='idle';document.querySelectorAll('#homeMic,#miniMic').forEach(b=>b.classList.remove('mic-on'));};
+  REC.start();
+}
+function thinking(msg,on){
+  ST=on?'think':'idle';
+  document.getElementById('thinkTxt').textContent=msg||'ANALYZING...';
+  document.getElementById('thinkOverlay').classList.toggle('on',on);
+}
+function handleCommand(text){
+  if(!text||!text.trim())return;
+  const t=text.toLowerCase().trim();
+  if(t.match(/portfolio|health|direction/))return loadPortfolio();
+  if(t.match(/experiment|design/))return loadExperiment(text);
+  if(t.match(/brief|morning|overnight/))return triggerBrief();
+  if(t.match(/home|back/))return goHome();
+  loadEvidence(text);
+}
+async function loadEvidence(query){
+  thinking('RETRIEVING EVIDENCE...',true);
+  try{
+    const[rr,cr]=await Promise.all([
+      fetch('/api/run_research',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({query})}),
+      fetch('/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({query,history:[],researcher_id:'enterprise'})})
     ]);
-    const ev = await rRes.json();
-    const ch = await cRes.json();
-    document.getElementById(typingId)?.remove();
-    const verdict = ev.proposal_verdict || 'inconclusive';
-    const conf    = (ev.proposal_confidence || 0).toFixed(2);
-    const contras = ev.contradictions || [];
-    const scope   = ev.scope || {};
-    const drift   = ev.drift || {};
-    const exps    = ev.best_experiments || [];
-    const gaps    = ev.knowledge_gaps || [];
-    const vColor  = verdict.includes('strong')?'var(--green)':verdict.includes('moderate')?'var(--accent)':verdict.includes('mixed')||verdict.includes('context')?'var(--amber)':'var(--muted)';
-    let resp = ch.response || ev.proposal_explanation || 'Analysis complete.';
-    resp += `<div style="margin-top:10px;padding:7px 12px;background:var(--card);border-radius:6px;border-left:3px solid ${vColor};font-size:11px;">
-      <span style="font-family:var(--mono);color:${vColor};">${verdict.replace(/_/g,' ').toUpperCase()}</span>
-      <span style="color:var(--muted);margin-left:8px;">confidence: ${conf}</span></div>`;
-    if (drift.direction==='weakening'||drift.direction==='slight_weakening')
-      resp += `<div style="margin-top:6px;padding:6px 10px;background:rgba(255,179,0,.06);border:1px solid rgba(255,179,0,.2);border-radius:4px;font-size:11px;color:var(--amber);">⚠ Consensus weakening — belief: ${((drift.belief||0)*100).toFixed(0)}%</div>`;
-    if (contras.length > 0)
-      resp += `<div style="margin-top:6px;font-size:11px;color:var(--red);">⚡ ${contras.length} contradiction(s) detected</div>`;
-    if (scope.has_scope) {
-      resp += `<div style="margin-top:8px;display:flex;flex-wrap:wrap;gap:3px;">`;
-      (scope.within||[]).forEach(s => resp += `<span style="font-size:9px;padding:2px 6px;background:rgba(0,230,118,.08);border:1px solid rgba(0,230,118,.2);border-radius:3px;color:var(--green);">${s}</span>`);
-      (scope.untested||[]).forEach(s => resp += `<span style="font-size:9px;padding:2px 6px;background:rgba(255,179,0,.06);border:1px solid rgba(255,179,0,.2);border-radius:3px;color:var(--amber);">${s}</span>`);
-      resp += `</div>`;
-    }
-    addSciMessage('assistant', resp);
-    sciHistory.push({role:'assistant', content: ch.response || ''});
-    // Update right panel
-    const evEl = document.getElementById('sciEvidence');
-    if (evEl) evEl.innerHTML = `
-      <div style="font-family:var(--mono);font-size:16px;color:var(--bright);margin-bottom:4px;">${ev.supported_count||0} supporting · ${ev.contradicted_count||0} contradicting</div>
-      ${(ev.top_papers||[]).slice(0,4).map(p=>`<div style="font-size:10px;color:var(--muted);padding:3px 0;border-bottom:1px solid var(--border);">📄 ${p.slice(0,45)}</div>`).join('')}
-      ${contras.slice(0,2).map(c=>`<div style="margin-top:5px;padding:5px 8px;background:rgba(255,61,87,.04);border-radius:4px;font-size:10px;"><span style="color:var(--red);">⚡ ${(c.contradiction_type||'').replace(/_/g,' ')}</span></div>`).join('')}`;
-    const expEl = document.getElementById('sciExperiments');
-    if (expEl) expEl.innerHTML = exps.length ? exps.slice(0,3).map((e,i)=>`
-      <div onclick="loadExpFromSci('${e.replace(/'/g,"\'")}','${q.replace(/'/g,"\'")}')"
-        style="padding:8px;background:var(--surface);border:1px solid var(--border);border-radius:6px;margin-bottom:6px;font-size:11px;color:var(--text);cursor:pointer;">
-        <span style="font-family:var(--mono);font-size:8px;color:var(--accent);">EXP ${i+1}</span><br>${e.slice(0,90)}...
-      </div>`).join('') : '<span style="color:var(--muted);">No experiments yet</span>';
-    const gapEl = document.getElementById('sciGaps');
-    if (gapEl) gapEl.innerHTML = gaps.length ? gaps.map(g=>`<div style="padding:5px 7px;background:rgba(168,85,247,.05);border:1px solid rgba(168,85,247,.15);border-radius:4px;margin-bottom:4px;font-size:10px;color:var(--muted);">💡 ${g}</div>`).join('') : '<span style="color:var(--muted);">No gaps detected</span>';
-    // Smart follow-up pills
-    const pills = [];
-    if (contras.length > 0) pills.push('Design experiment to resolve this contradiction');
-    if (scope.untested?.length > 0) pills.push(`What about ${scope.untested[0]}?`);
-    if (verdict==='inconclusive') pills.push('What evidence exists on this topic?');
-    pills.push('What should we research next?');
-    pills.push('How does this affect our work?');
-    document.getElementById('sciPills').innerHTML = pills.slice(0,4).map(p=>
-      `<span onclick="sciAsk('${p.replace(/'/g,"\'")}')" style="padding:4px 12px;background:var(--card);border:1px solid var(--border2);border-radius:20px;font-size:11px;color:var(--text);cursor:pointer;">${p}</span>`
-    ).join('');
-  } catch(e) {
-    document.getElementById(typingId)?.remove();
-    addSciMessage('assistant', `Error: ${e.message}`);
-  }
-}
-
-function loadExpFromSci(expText, query) {
-  document.getElementById('expQuery').value = query;
-  goPane('experiments');
-  designExperiment();
-}
-
-
-// ── Portfolio ───────────────────────────────────────────
-async function loadPortfolio() {
-  const domain = currentDomain || sessionStorage.getItem('tattva_domain') || 'ml';
-  currentDomain = domain;
-  await loadPortfolioForDomain(domain);
-}
-
-async function loadPortfolioForDomain_OLD(domain) {
-  const directions = DOMAIN_DIRECTIONS[domain] || DOMAIN_DIRECTIONS.ml;
-  const tbody = document.getElementById('portfolioBody');
-  tbody.innerHTML = '<tr><td colspan="6"><div class="loading"><div class="spin"></div>Running evidence pipeline on all directions...</div></td></tr>';
-
-  const results = [];
-  for (const d of directions) {
-    try {
-      const r = await fetch('/api/run_research', {
-        method:'POST', headers:{'Content-Type':'application/json'},
-        body: JSON.stringify({query: d.query})
-      });
-      const data = await r.json();
-      results.push({...d, ...data});
-    } catch(e) {
-      results.push({...d, proposal_verdict:'inconclusive', proposal_confidence:0.25});
-    }
-  }
-
-  tbody.innerHTML = results.map(r => {
-    const v = r.proposal_verdict || 'inconclusive';
-    const conf = (r.proposal_confidence || 0.25).toFixed(2);
-    const drift = r.drift?.direction || 'stable';
-    const supported = r.supported_count || 0;
-    const contradicted = r.contradicted_count || 0;
-
-    // Verdict pill
-    let pillClass = 'inconclusive';
-    if (v.includes('strong')) pillClass = 'strong';
-    else if (v.includes('moderate')) pillClass = 'moderate';
-    else if (v.includes('mixed') || v.includes('context')) pillClass = 'mixed';
-    else if (v.includes('limited')) pillClass = 'limited';
-
-    // Risk
-    let risk = 'low', riskLabel = 'Low';
-    if (v === 'inconclusive' || (r.drift?.cusum_neg > 1.0)) { risk='high'; riskLabel='HIGH'; }
-    else if (v.includes('mixed') || v.includes('context')) { risk='medium'; riskLabel='Medium'; }
-
-    // Trend
-    const trendIcon = drift === 'weakening' ? '↓' : drift === 'strengthening' ? '↑' : '→';
-    const trendColor = drift === 'weakening' ? 'var(--red)' : drift === 'strengthening' ? 'var(--green)' : 'var(--muted)';
-
-    return `<tr>
-      <td style="font-weight:500;color:var(--bright);">${r.name}</td>
-      <td><span class="verdict-pill ${pillClass}">${v.replace('_',' ')}</span></td>
-      <td><span style="font-family:var(--mono);font-size:12px;">${conf}</span></td>
-      <td><span style="color:${trendColor};font-size:14px;">${trendIcon}</span> <span style="font-size:10px;color:var(--muted);">${drift}</span></td>
-      <td><span class="risk-badge ${risk}">${riskLabel}</span></td>
-      <td><button class="inv-btn" onclick="investigateDirection('${r.query}')">Investigate</button></td>
-    </tr>`;
-  }).join('');
-
-  document.getElementById('portUpdated').textContent = new Date().toLocaleTimeString();
-}
-
-function investigateDirection(query) {
-  document.getElementById('invInput').value = query;
-  goPane('autopilot');
-  startInvestigation();
-}
-
-// ── Autopilot ───────────────────────────────────────────
-async function startInvestigation() {
-  const q = document.getElementById('invInput').value.trim();
-  if (!q) return;
-  const list = document.getElementById('investigationsList');
-  const card = document.createElement('div');
-  card.className = 'inv-card user';
-  card.innerHTML = `
-    <div class="inv-header">
-      <span class="inv-tag user">USER</span>
-      <span style="font-family:var(--mono);font-size:9px;color:var(--muted);">Just started · Step 1/6</span>
-    </div>
-    <div class="inv-title">${q}</div>
-    <div class="inv-finding"><div class="loading"><div class="spin"></div>Retrieving evidence from 15,412 papers...</div></div>
-    <div class="inv-steps">
-      <div class="inv-step active"></div>
-      <div class="inv-step"></div><div class="inv-step"></div>
-      <div class="inv-step"></div><div class="inv-step"></div><div class="inv-step"></div>
-    </div>`;
-  list.prepend(card);
-  document.getElementById('invInput').value = '';
-
-  try {
-    const r = await fetch('/api/run_research', {
-      method:'POST', headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({query: q})
+    const[rpt,chat]=await Promise.all([rr.json(),cr.json()]);
+    thinking('',false);showScreen('Evidence');
+    document.getElementById('evidenceQuery').textContent=query.toUpperCase();
+    const vrd=(chat.verdict||rpt.proposal_verdict||'INCONCLUSIVE').toUpperCase();
+    document.getElementById('evidenceVerdict').textContent=vrd;
+    const conf=Math.round((chat.confidence||rpt.proposal_confidence||0.5)*100);
+    document.getElementById('evidenceConf').textContent=conf+'% confidence · '+(chat.evidence_used||0)+' papers';
+    const fill=document.getElementById('evidenceConfFill');
+    fill.style.background=conf>70?'#00e676':conf>40?'#0088ff':'#ff3d57';
+    setTimeout(()=>fill.style.width=conf+'%',100);
+    const grid=document.getElementById('evidenceGrid');grid.innerHTML='';
+    const contras=rpt.contradictions||[],papers=rpt.top_papers||[];
+    const cards=[
+      {l:'ANALYSIS',t:chat.response||'No response',cls:''},
+      {l:'SUPPORTING PAPERS',t:papers.slice(0,3).map((p,i)=>`[${i+1}] ${(p.title||p.paper_title||p.chunk_text||'').substring(0,80)||'Paper '}`).join('\n\n')||'No supporting papers found.',cls:'support'},
+      {l:'CONTRADICTIONS',t:contras.length?contras.slice(0,2).map(c=>c.supporting_paper+' vs '+c.contradicting_paper+'\n'+(c.implication||'')).join('\n\n'):'No contradictions detected.',cls:'contra'},
+      {l:'SCOPE',t:'TESTED IN:\n'+(typeof rpt.scope==='object'?JSON.stringify(rpt.scope):(rpt.scope||'See analysis above'))+'\n\nNOT TESTED:\nEdge cases and extreme scales.',cls:'scope'},
+      {l:'FOLLOW-UP SEARCHES',t:(chat.followup_searches||[]).filter(Boolean).map((s,i)=>`${i+1}. ${s}`).join('\n\n')||'No additional searches needed.',cls:''},
+      {l:'NEXT EXPERIMENT',t:'Design a controlled study targeting the key gaps identified above.',cls:'next'},
+    ];
+    cards.forEach((c,i)=>{
+      const d=document.createElement('div');
+      d.className='eCard '+c.cls;
+      d.innerHTML=`<div class="eLabel">${c.l}</div><div class="eText">${c.t}</div>`;
+      grid.appendChild(d);setTimeout(()=>d.classList.add('show'),i*120);
     });
-    const d = await r.json();
-    const contras = d.contradictions || [];
-    const verdict = (d.proposal_verdict||'inconclusive').replace('_',' ');
-    const finding = contras.length > 0
-      ? `Found ${contras.length} contradiction(s). Primary: ${contras[0]?.detection_explanation?.slice(0,120)||'conflict detected'}...`
-      : `Verdict: ${verdict} (confidence: ${d.proposal_confidence?.toFixed(2)||'—'}). ${d.proposal_explanation?.slice(0,120)||''}`;
-
-    card.innerHTML = `
-      <div class="inv-header">
-        <span class="inv-tag user">USER</span>
-        <span style="font-family:var(--mono);font-size:9px;color:var(--muted);">Complete · ${d.evidence_count||0} chunks analyzed</span>
-      </div>
-      <div class="inv-title">${q}</div>
-      <div class="inv-finding">${finding}</div>
-      <div class="inv-steps">
-        ${[1,2,3,4,5,6].map(i => `<div class="inv-step done"></div>`).join('')}
-      </div>
-      <div class="inv-actions">
-        <button class="inv-btn primary" onclick="showInvResult(this, ${JSON.stringify(d).replace(/"/g,'&quot;')})">View Full Report →</button>
-        <button class="inv-btn" onclick="loadExpFromInv('${q.replace(/'/g,'')}')">Design Experiment</button>
-      </div>`;
-  } catch(e) {
-    card.querySelector('.inv-finding').innerHTML = `Error: ${e.message}`;
-  }
+    speak(vrd+'. Confidence '+conf+'%. '+(contras.length?'I found '+contras.length+' contradiction'+(contras.length>1?'s':'')+'.':'Evidence is consistent.'));
+  }catch(e){thinking('',false);speak('Error analyzing evidence. Please try again.');console.error(e);}
 }
-
-function showInvResult(btn, data) {
-  const detail = document.getElementById('invDetail');
-  document.getElementById('invDetailTitle').textContent = data.query?.slice(0,60) || 'INVESTIGATION';
-  document.getElementById('invDetailBody').innerHTML = `
-    <div style="margin-bottom:12px;">
-      <span class="verdict-pill ${data.proposal_verdict?.includes('strong')?'strong':data.proposal_verdict?.includes('moderate')?'moderate':'mixed'}">
-        ${(data.proposal_verdict||'').replace('_',' ')}
-      </span>
-      <span style="font-family:var(--mono);font-size:11px;color:var(--muted);margin-left:8px;">conf: ${data.proposal_confidence?.toFixed(3)}</span>
-    </div>
-    <p style="margin-bottom:12px;">${data.proposal_explanation||''}</p>
-    ${data.contradictions?.length ? `<div style="font-family:var(--mono);font-size:9px;color:var(--red);letter-spacing:1px;margin-bottom:6px;">CONTRADICTIONS (${data.contradictions.length})</div>
-    ${data.contradictions.map(c=>`<div style="background:rgba(255,61,87,.05);border:1px solid rgba(255,61,87,.1);border-radius:6px;padding:10px;margin-bottom:8px;font-size:11px;">
-      <span style="color:var(--green);">✓ ${c.supporting_paper?.slice(0,50)}</span><br>
-      <span style="color:var(--red);">✗ ${c.contradicting_paper?.slice(0,50)}</span><br>
-      <span style="color:var(--muted);">${c.detection_explanation?.slice(0,150)}</span>
-    </div>`).join('')}` : ''}
-    ${data.scope?.has_scope ? `<div style="font-family:var(--mono);font-size:9px;color:var(--accent);letter-spacing:1px;margin:10px 0 4px;">SCOPE</div>
-    ${data.scope.within.map(s=>`<span style="display:inline-block;margin:2px;padding:2px 8px;background:rgba(0,230,118,.08);border:1px solid rgba(0,230,118,.2);border-radius:3px;font-size:10px;color:var(--green);">${s}</span>`).join('')}
-    ${data.scope.untested.map(s=>`<span style="display:inline-block;margin:2px;padding:2px 8px;background:rgba(255,179,0,.06);border:1px solid rgba(255,179,0,.2);border-radius:3px;font-size:10px;color:var(--amber);">${s}</span>`).join('')}` : ''}
-  `;
-  detail.style.display = 'block';
-  detail.scrollIntoView({behavior:'smooth'});
-}
-
-function viewInvestigation(idx) {
-  const details = [
-    {query:"Why does INT4 quantization degrade reasoning tasks but not classification?",
-     finding:"Hypothesis formed: attention precision loss in multi-step reasoning chains. Supporting: 4 papers confirm INT4 works for classification. Contradicting: 3 papers show 8-15% GSM8K degradation. Next step: isolating whether degradation is from weight precision or attention pattern disruption.",
-     experiment:"Run Llama-3-8B with INT4 weights only (keep attention FP16) vs INT4 weights + INT4 attention on GSM8K and SST-2. Decision boundary: if condition 2 ≈ condition 1, attention is the problem."},
-    {query:"Does LoRA + FlashAttention combine for compounded memory savings?",
-     finding:"Initial retrieval: 12 papers on LoRA, 8 on FlashAttention, 0 combined. Both target memory independently. Gap: no paper has measured the interaction. Hypothesis: combined savings are additive but not multiplicative — need empirical validation."}
-  ];
-  const d = details[idx];
-  const detail = document.getElementById('invDetail');
-  document.getElementById('invDetailTitle').textContent = d.query.slice(0,60);
-  document.getElementById('invDetailBody').innerHTML = `
-    <p style="margin-bottom:12px;color:var(--text);">${d.finding}</p>
-    <div style="font-family:var(--mono);font-size:9px;color:var(--accent);letter-spacing:1px;margin-bottom:6px;">EXPERIMENT READY</div>
-    <div style="background:rgba(0,229,255,.04);border:1px solid rgba(0,229,255,.1);border-radius:6px;padding:12px;font-size:11px;color:var(--muted);">${d.experiment}</div>
-    <div style="margin-top:12px;display:flex;gap:8px;">
-      <button class="inv-btn primary" onclick="loadExpFromInv('${d.query.replace(/'/g,'')}')">Open in Experiment Designer →</button>
-    </div>`;
-  detail.style.display = 'block';
-}
-
-// ── Experiment Designer ─────────────────────────────────
-async function designExperiment() {
-  const q = document.getElementById('expQuery').value.trim();
-  if (!q) return;
-  const body = document.getElementById('expBody');
-  body.innerHTML = '<div class="loading"><div class="spin"></div>Running evidence pipeline and designing experiment...</div>';
-
-  try {
-    const r = await fetch('/api/run_research', {
-      method:'POST', headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({query: q})
-    });
-    const d = await r.json();
-    const contras = d.contradictions || [];
-    const verdict = d.proposal_verdict || 'inconclusive';
-    const conf = d.proposal_confidence || 0.25;
-
-    // Show contradiction if found
-    if (contras.length > 0) {
-      const c = contras[0];
-      document.getElementById('expContradiction').style.display = 'block';
-      document.getElementById('expContradictionBody').innerHTML = `
-        <div style="font-size:11px;margin-bottom:8px;color:var(--muted);">Type: <span style="color:var(--amber);">${c.contradiction_type}</span></div>
-        <div style="display:flex;gap:8px;margin-bottom:6px;">
-          <div style="flex:1;background:rgba(0,230,118,.05);border:1px solid rgba(0,230,118,.15);border-radius:6px;padding:8px;font-size:10px;">
-            <div style="color:var(--green);font-family:var(--mono);font-size:8px;margin-bottom:4px;">SUPPORTING</div>
-            ${c.supporting_paper?.slice(0,50)}<br><span style="color:var(--muted);">${c.supporting_claim?.slice(0,80)}...</span>
-          </div>
-          <div style="flex:1;background:rgba(255,61,87,.05);border:1px solid rgba(255,61,87,.15);border-radius:6px;padding:8px;font-size:10px;">
-            <div style="color:var(--red);font-family:var(--mono);font-size:8px;margin-bottom:4px;">CONTRADICTING</div>
-            ${c.contradicting_paper?.slice(0,50)}<br><span style="color:var(--muted);">${c.contradicting_claim?.slice(0,80)}...</span>
-          </div>
-        </div>`;
-    }
-
-    // Generate experiment
-    const expType = contras.length > 0 ? 'Contradiction Resolution' :
-                    verdict === 'strong_evidence' ? 'Ablation Study' :
-                    verdict === 'inconclusive' ? 'First Proper Study' : 'Replication Study';
-
-    body.innerHTML = `
-      <div class="exp-section">
-        <div class="exp-label">Experiment Type</div>
-        <div class="exp-highlight">${expType}</div>
-      </div>
-      <div class="exp-section">
-        <div class="exp-label">Hypothesis</div>
-        <div class="exp-value">${contras.length > 0
-          ? `Resolve conflict on [${(contras[0].shared_concepts||[]).join(', ')}]: result depends on ${contras[0].contradiction_type?.replace('_',' ')} — test both conditions to find decision boundary.`
-          : `Verify that ${q.slice(0,80)} — measure under controlled conditions with matched baselines.`
-        }</div>
-      </div>
-      <div class="exp-section">
-        <div class="exp-label">Conditions</div>
-        ${contras.length > 0 ? `
-        <div class="condition-row">
-          <span style="font-size:10px;color:var(--muted);width:80px;">Condition 1</span>
-          <span class="condition-pill h1">${contras[0].supporting_paper?.slice(0,30)||'Setup A'}</span>
-        </div>
-        <div class="condition-row">
-          <span style="font-size:10px;color:var(--muted);width:80px;">Condition 2</span>
-          <span class="condition-pill h2">${contras[0].contradicting_paper?.slice(0,30)||'Setup B'}</span>
-        </div>` : `
-        <div class="condition-row">
-          <span class="condition-pill">7B model</span>
-          <span class="condition-pill">13B model</span>
-          <span class="condition-pill">70B model</span>
-        </div>`}
-      </div>
-      <div class="exp-section">
-        <div class="exp-label">Key Metrics</div>
-        <div class="exp-value">Peak GPU memory (GB) · Wall-clock latency (ms) · Task accuracy on standard benchmark</div>
-      </div>
-      <div class="exp-section">
-        <div class="exp-label">Decision Boundary</div>
-        <div class="exp-value">${contras.length > 0
-          ? `If condition 1 result > condition 2 by >15% → hardware/scale variance confirmed. If < 5% → direct contradiction.`
-          : `Improvement > 20% at p < 0.05 across ≥ 2 model sizes → claim confirmed.`
-        }</div>
-      </div>
-      <div class="exp-section">
-        <div class="exp-label">Estimated Cost</div>
-        <div style="display:flex;align-items:center;gap:12px;">
-          <span style="font-family:var(--mono);font-size:14px;color:var(--bright);">~$12–24</span>
-          <span style="font-size:11px;color:var(--muted);">on RunPod A100 · ~6 GPU hours</span>
-        </div>
-        <div class="cost-bar"><div class="cost-fill" style="width:25%;"></div></div>
-      </div>
-      <div style="display:flex;gap:8px;margin-top:4px;">
-        <button class="inv-btn primary" onclick="exportExpPython('${q.replace(/'/g,'')}')">Export Python →</button>
-        <button class="inv-btn" onclick="copyShareLink(this)">📋 Copy Link</button>
-      </div>
-    `;
-  } catch(e) {
-    body.innerHTML = `<div style="color:var(--red);">Error: ${e.message}</div>`;
-  }
-}
-
-function loadExpFromInv(q) {
-  document.getElementById('expQuery').value = q;
-  goPane('experiments');
-  designExperiment();
-}
-
-function exportExpPython(q) {
-  const code = `# Tattva AI — Auto-generated Experiment
-# Query: ${q}
-# Generated: ${new Date().toISOString()}
-
-import torch
-from transformers import AutoModelForCausalLM, AutoTokenizer
-import time, json
-
-MODEL_IDS = ["meta-llama/Llama-2-7b-hf", "meta-llama/Llama-2-13b-hf"]
-DATASET = "gsm8k"  # Change to your benchmark
-RESULTS = {}
-
-for model_id in MODEL_IDS:
-    print(f"Testing: {model_id}")
-    tokenizer = AutoTokenizer.from_pretrained(model_id)
-    model = AutoModelForCausalLM.from_pretrained(model_id, torch_dtype=torch.float16)
-    model = model.cuda()
-    
-    # Measure peak memory
-    torch.cuda.reset_peak_memory_stats()
-    start = time.time()
-    
-    # TODO: Add your evaluation loop here
-    
-    peak_mem = torch.cuda.max_memory_allocated() / 1e9
-    elapsed = time.time() - start
-    
-    RESULTS[model_id] = {
-        "peak_memory_gb": peak_mem,
-        "latency_s": elapsed,
-    }
-    print(f"  Memory: {peak_mem:.2f}GB  Latency: {elapsed:.2f}s")
-
-with open("results.json", "w") as f:
-    json.dump(RESULTS, f, indent=2)
-print("Results saved to results.json")
-`;
-  const blob = new Blob([code], {type:'text/plain'});
-  const a = document.createElement('a');
-  a.href = URL.createObjectURL(blob);
-  a.download = 'tattva_experiment.py';
-  a.click();
-}
-
-// ── Opportunity Radar ────────────────────────────────────
-function startOppInvestigation(q) {
-  document.getElementById('invInput').value = q;
-  goPane('autopilot');
-  startInvestigation();
-}
-
-// ── Competitive Intel ────────────────────────────────────
-async function analyzeCompetitor(q) {
-  const detail = document.getElementById('intelDetail');
-  const body = document.getElementById('intelDetailBody');
-  document.getElementById('intelDetailTitle').textContent = q.slice(0,50).toUpperCase();
-  body.innerHTML = '<div class="loading"><div class="spin"></div>Running evidence pipeline...</div>';
-  detail.style.display = 'block';
-
-  try {
-    const r = await fetch('/api/run_research', {
-      method:'POST', headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({query: q})
-    });
-    const d = await r.json();
-    body.innerHTML = `
-      <div style="margin-bottom:10px;">
-        <span class="verdict-pill ${d.proposal_verdict?.includes('strong')?'strong':d.proposal_verdict?.includes('moderate')?'moderate':'mixed'}">
-          ${(d.proposal_verdict||'').replace('_',' ')}
-        </span>
-        <span style="font-family:var(--mono);font-size:11px;color:var(--muted);margin-left:8px;">confidence: ${d.proposal_confidence?.toFixed(3)}</span>
-      </div>
-      <p style="margin-bottom:10px;">${d.proposal_explanation||''}</p>
-      ${d.contradictions?.length ? `<div style="color:var(--amber);font-size:11px;margin-bottom:6px;">⚠ ${d.contradictions.length} contradiction(s) found in their claims</div>` : ''}
-      ${d.scope?.has_scope ? `<div style="font-size:11px;color:var(--muted);">Scope: ${d.scope.within.join(' · ')}</div>` : ''}
-      <div style="margin-top:12px;display:flex;gap:8px;">
-        <button class="inv-btn primary" onclick="loadExpFromInv('${q.replace(/'/g,'')}')">Design Counter-Experiment →</button>
-      </div>`;
-  } catch(e) {
-    body.innerHTML = `<div style="color:var(--red);">${e.message}</div>`;
-  }
-}
-
-// ── Literature Review ────────────────────────────────────
-async function generateLitReview() {
-  const topic = document.getElementById('litTopic').value.trim();
-  if (!topic) return;
-  const body = document.getElementById('litBody');
-  body.innerHTML = '<div class="loading"><div class="spin"></div>Retrieving evidence from 15,412 papers and generating review...</div>';
-  document.getElementById('litCopyBtn').style.display = 'none';
-
-  try {
-    const r = await fetch('/api/literature_review', {
-      method:'POST', headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({topic})
-    });
-    const d = await r.json();
-
-    if (d.review) {
-      body.innerHTML = `<div class="lit-text" style="white-space:pre-wrap;">${d.review}</div>`;
-    } else {
-      // Fallback: build from run_research
-      const r2 = await fetch('/api/run_research', {
-        method:'POST', headers:{'Content-Type':'application/json'},
-        body: JSON.stringify({query: topic})
-      });
-      const d2 = await r2.json();
-      body.innerHTML = `
-        <div class="lit-section">
-          <div class="lit-section-title">Overview</div>
-          <div class="lit-text">${d2.proposal_explanation || 'Evidence synthesis complete.'} Evidence confidence: ${d2.proposal_confidence?.toFixed(2)}.</div>
-        </div>
-        <div class="lit-section">
-          <div class="lit-section-title">Key Findings (${d2.evidence_count || 0} chunks analyzed)</div>
-          <div class="lit-text">${(d2.top_grounded||[]).slice(0,3).map((g,i)=>
-            `[${i+1}] ${g.claim?.slice(0,150)||'Finding'}`
-          ).join('<br><br>')}</div>
-        </div>
-        ${d2.contradictions?.length ? `
-        <div class="lit-section">
-          <div class="lit-section-title">Contradictions & Debates</div>
-          <div class="lit-text">${d2.contradictions.map(c=>
-            `${c.supporting_paper?.slice(0,40)} vs ${c.contradicting_paper?.slice(0,40)}: ${c.implication?.slice(0,120)}`
-          ).join('<br><br>')}</div>
-        </div>` : ''}
-        <div class="lit-section">
-          <div class="lit-section-title">Research Gaps</div>
-          <div class="lit-text">${(d2.knowledge_gaps||['Insufficient cross-hardware testing','Full-text paper indexing needed']).join('<br>')}</div>
-        </div>
-        ${d2.scope?.has_scope ? `
-        <div class="lit-section">
-          <div class="lit-section-title">Scope Qualification</div>
-          <div class="lit-text">Evidence tested within: ${d2.scope.within?.join(', ')}<br>Not tested: ${d2.scope.untested?.join(', ')}</div>
-        </div>` : ''}
-      `;
-    }
-    document.getElementById('litCopyBtn').style.display = 'block';
-  } catch(e) {
-    body.innerHTML = `<div style="color:var(--red);">Error: ${e.message}</div>`;
-  }
-}
-
-function copyLitReview() {
-  const text = document.getElementById('litBody').innerText;
-  navigator.clipboard.writeText(text);
-  document.getElementById('litCopyBtn').textContent = 'Copied ✓';
-  setTimeout(() => document.getElementById('litCopyBtn').textContent = 'Copy', 2000);
-}
-
-// ── Login Overlay ───────────────────────────────────────
-function showLoginOverlay() {
-  document.getElementById('loginOverlay').style.display = 'flex';
-}
-
-function hideLoginOverlay() {
-  document.getElementById('loginOverlay').style.display = 'none';
-}
-
-async function overlayLogin() {
-  const company_id = document.getElementById('overlayCompanyId').value.trim();
-  const password   = document.getElementById('overlayPassword').value.trim();
-  const err        = document.getElementById('overlayError');
-  err.style.display = 'none';
-
-  if (!company_id || !password) {
-    err.textContent = 'Please enter Company ID and password.';
-    err.style.display = 'block';
-    return;
-  }
-
-  try {
-    const r = await fetch('/api/company/login', {
-      method:'POST', headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({company_id, password})
-    });
-    const d = await r.json();
-    if (d.error) {
-      err.textContent = d.error;
-      err.style.display = 'block';
-      return;
-    }
-    // Save session
-    sessionStorage.setItem('tattva_company_id', company_id);
-    sessionStorage.setItem('tattva_password', password);
-    sessionStorage.setItem('tattva_company_name', d.company_name);
-    sessionStorage.setItem('tattva_domain', d.domain || 'ml');
-    hideLoginOverlay();
-
-    // Init dashboard
-    initDashboard(company_id, password, d.company_name, d.domain || 'ml');
-  } catch(e) {
-    err.textContent = 'Connection error. Try again.';
-    err.style.display = 'block';
-  }
-}
-
-function initDashboard(companyId, password, companyName, domain) {
-  currentDomain = domain;
-  document.getElementById('companyNameTag').textContent = companyName;
-  document.getElementById('tbStatus').textContent = `${companyName} · 15,412 papers`;
-  document.getElementById('settingsCompanyId').textContent = companyId;
-
-  // Auto-fill all credential fields
-  ['corpCompanyId','crossCompanyId','settingsId'].forEach(id => {
-    const el = document.getElementById(id);
-    if (el) el.value = companyId;
+const DIRS=[
+  {n:'LoRA Optimization',q:'Does LoRA reduce fine-tuning cost and memory?'},
+  {n:'MoE Routing',q:'Does mixture of experts improve LLM efficiency?'},
+  {n:'FlashAttention',q:'Does FlashAttention improve training speed?'},
+  {n:'KV Cache Compression',q:'Does KV cache compression reduce memory?'},
+  {n:'Speculative Decoding',q:'Does speculative decoding speed up inference?'},
+  {n:'INT4 Quantization',q:'Does INT4 quantization preserve model quality?'},
+];
+async function loadPortfolio(){
+  thinking('ANALYZING PORTFOLIO...',true);
+  showScreen('Portfolio');
+  const grid=document.getElementById('portGrid');grid.innerHTML='';
+  DIRS.forEach((d,i)=>{
+    const c=document.createElement('div');c.className='pCard';
+    c.innerHTML=`<div class="pName">${d.n}</div><div class="pBar"><div class="pFill" id="pf${i}"></div></div><div class="pMeta"><span style="color:var(--muted);font-size:10px;">analyzing...</span><span style="color:var(--muted);">—</span></div>`;
+    c.onclick=()=>loadEvidence(d.q);grid.appendChild(c);setTimeout(()=>c.classList.add('show'),i*100);
   });
-  ['corpPassword','crossPassword','settingsOldPwd'].forEach(id => {
-    const el = document.getElementById(id);
-    if (el) el.value = password;
-  });
-
-  loadPortfolio();
+  thinking('',false);
+  speak('Loading portfolio. Analyzing evidence strength across all research directions.');
+  for(let i=0;i<DIRS.length;i++){
+    try{
+      const r=await fetch('/api/run_research',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({query:DIRS[i].q})});
+      const data=await r.json();
+      const conf=Math.round((data.proposal_confidence||0.5)*100);
+      const v=data.proposal_verdict||'inconclusive';
+      const fill=document.getElementById('pf'+i);
+      const card=grid.children[i];
+      if(fill){fill.style.background=conf>70?'#00e676':conf>40?'#0088ff':'#ff3d57';setTimeout(()=>fill.style.width=conf+'%',200);}
+      if(card)card.querySelector('.pMeta').innerHTML=`<span style="color:${conf>70?'#00e676':conf>40?'#0088ff':'#ff3d57'};font-family:var(--mono);font-size:10px;">${v.toUpperCase()}</span><span style="color:var(--muted);font-size:10px;">${conf}%</span>`;
+    }catch(e){console.error(e);}
+  }
+  speak('Portfolio loaded. Click any direction to investigate in depth.');
 }
-
-// ── Private Corpus ──────────────────────────────────────
-async function uploadDocument() {
-  const company_id = document.getElementById('corpCompanyId').value.trim();
-  const password   = document.getElementById('corpPassword').value.trim();
-  const title      = document.getElementById('corpTitle').value.trim();
-  const fileInput  = document.getElementById('corpFile');
-  const status     = document.getElementById('uploadStatus');
-
-  if (!company_id || !password) {
-    status.innerHTML = '<span style="color:var(--red);">Enter company ID and password</span>';
-    return;
-  }
-  if (!fileInput.files[0]) {
-    status.innerHTML = '<span style="color:var(--red);">Select a PDF file</span>';
-    return;
-  }
-
-  status.innerHTML = '<div class="loading"><div class="spin"></div>Uploading and indexing...</div>';
-
-  const form = new FormData();
-  form.append('company_id', company_id);
-  form.append('password', password);
-  form.append('title', title);
-  form.append('file', fileInput.files[0]);
-
-  try {
-    const r = await fetch('/api/company/upload', {method:'POST', body: form});
-    const d = await r.json();
-    if (d.error) {
-      status.innerHTML = `<span style="color:var(--red);">Error: ${d.error}</span>`;
-    } else {
-      status.innerHTML = `<span style="color:var(--green);">✅ Indexed ${d.chunks_added} chunks from "${d.title}"</span>`;
-      document.getElementById('corpusBadge').textContent = '✓';
-      loadCorpusStats();
-    }
-  } catch(e) {
-    status.innerHTML = `<span style="color:var(--red);">Upload failed: ${e.message}</span>`;
-  }
-}
-
-async function loadCorpusStats() {
-  const company_id = document.getElementById('corpCompanyId').value.trim();
-  const password   = document.getElementById('corpPassword').value.trim();
-  if (!company_id || !password) return;
-
-  const r = await fetch('/api/company/stats', {
-    method:'POST', headers:{'Content-Type':'application/json'},
-    body: JSON.stringify({company_id, password})
-  });
-  const d = await r.json();
-  if (d.error) {
-    document.getElementById('corpusStats').innerHTML = `<span style="color:var(--red);">${d.error}</span>`;
-    return;
-  }
-
-  document.getElementById('corpusStats').innerHTML = `
-    <div style="margin-bottom:12px;">
-      <div style="font-family:var(--mono);font-size:22px;color:var(--bright);">${d.total_chunks || 0}</div>
-      <div style="font-size:11px;color:var(--muted);">Total private chunks indexed</div>
-    </div>
-    <div style="font-family:var(--mono);font-size:9px;color:var(--muted);letter-spacing:1px;margin-bottom:8px;">DOCUMENTS</div>
-    ${(d.documents||[]).length === 0 ? '<div style="color:var(--muted);font-size:11px;">No documents yet</div>' :
-      (d.documents||[]).map(doc => `
-        <div style="background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:8px 12px;margin-bottom:6px;">
-          <div style="font-size:12px;color:var(--text);">${doc.title||doc.filename}</div>
-          <div style="font-family:var(--mono);font-size:9px;color:var(--muted);margin-top:2px;">${doc.chunks} chunks · ${doc.filename}</div>
-        </div>`).join('')
-    }
-  `;
-}
-
-async function crossSearch() {
-  const company_id = document.getElementById('crossCompanyId').value.trim();
-  const password   = document.getElementById('crossPassword').value.trim();
-  const query      = document.getElementById('crossQuery').value.trim();
-  if (!company_id || !password || !query) return;
-
-  document.getElementById('crossResults').style.display = 'none';
-  document.getElementById('crossContradictions').innerHTML =
-    '<div class="loading"><div class="spin"></div>Searching public + private corpus...</div>';
-  document.getElementById('crossResults').style.display = 'block';
-
-  try {
-    const r = await fetch('/api/company/research', {
-      method:'POST', headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({company_id, password, query})
+async function loadExperiment(query){
+  thinking('DESIGNING EXPERIMENT...',true);
+  try{
+    const r=await fetch('/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({query:'Design a specific experiment to test: '+query,history:[],researcher_id:'enterprise'})});
+    const data=await r.json();
+    thinking('',false);showScreen('Experiment');
+    document.getElementById('expTitle').textContent=query.length>40?query.substring(0,40)+'...':query;
+    const grid=document.getElementById('expGrid');grid.innerHTML='';
+    const blocks=[
+      {l:'HYPOTHESIS',t:query,cls:''},
+      {l:'EXPERIMENT DESIGN',t:data.response||'Run controlled study.',cls:''},
+      {l:'PREDICTED OUTCOME',t:'Based on analogous results, expect measurable effect with 60-80% probability.',cls:'next'},
+      {l:'HOW TO RUN',t:'1. Set up baseline\n2. Apply treatment\n3. Measure outcome\n4. Compare to prediction\n5. Update beliefs',cls:''},
+    ];
+    blocks.forEach((b,i)=>{
+      const d=document.createElement('div');
+      d.className='eCard '+b.cls;
+      d.innerHTML=`<div class="eLabel">${b.l}</div><div class="eText">${b.t}</div>`;
+      grid.appendChild(d);setTimeout(()=>d.classList.add('show'),i*150);
     });
-    const d = await r.json();
-    if (d.error) {
-      document.getElementById('crossContradictions').innerHTML =
-        `<span style="color:var(--red);">${d.error}</span>`;
-      return;
-    }
-
-    document.getElementById('crossPublicCount').textContent = d.public_chunks || 0;
-    document.getElementById('crossPrivateCount').textContent = d.private_chunks || 0;
-
-    let html = '';
-
-    // Cross-corpus contradictions (most important)
-    if (d.cross_corpus_contradictions?.length > 0) {
-      html += `<div style="background:rgba(255,179,0,.06);border:1px solid rgba(255,179,0,.2);border-radius:var(--radius-lg);padding:16px;margin-bottom:16px;">
-        <div style="font-family:var(--mono);font-size:9px;color:var(--amber);letter-spacing:1.5px;margin-bottom:10px;">
-          ⚠ CROSS-CORPUS CONTRADICTIONS — YOUR INTERNAL WORK VS PUBLIC LITERATURE
-        </div>
-        ${d.cross_corpus_contradictions.map(c => `
-          <div style="background:var(--card);border-radius:6px;padding:12px;margin-bottom:8px;">
-            <div style="font-size:11px;color:var(--amber);margin-bottom:6px;">${c.alert}</div>
-            <div style="display:flex;gap:8px;">
-              <div style="flex:1;background:rgba(0,230,118,.05);border:1px solid rgba(0,230,118,.15);border-radius:4px;padding:8px;font-size:10px;">
-                <div style="color:var(--green);font-family:var(--mono);font-size:8px;margin-bottom:3px;">SUPPORTING</div>
-                ${c.supporting_paper?.slice(0,60)}
-              </div>
-              <div style="flex:1;background:rgba(255,61,87,.05);border:1px solid rgba(255,61,87,.15);border-radius:4px;padding:8px;font-size:10px;">
-                <div style="color:var(--red);font-family:var(--mono);font-size:8px;margin-bottom:3px;">CONTRADICTING</div>
-                ${c.contradicting_paper?.slice(0,60)}
-              </div>
-            </div>
-          </div>`).join('')}
-      </div>`;
-    }
-
-    // All contradictions
-    if (d.contradictions?.length > 0) {
-      html += `<div class="card">
-        <div class="card-head"><div class="card-title">All Contradictions Found (${d.contradictions.length})</div></div>
-        ${d.contradictions.map(c => `
-          <div style="border-bottom:1px solid var(--border);padding:10px 0;font-size:11px;">
-            <span style="color:var(--amber);font-family:var(--mono);font-size:9px;">${c.contradiction_type}</span><br>
-            <span style="color:var(--green);">✓ ${c.supporting_paper?.slice(0,50)}</span> vs
-            <span style="color:var(--red);">✗ ${c.contradicting_paper?.slice(0,50)}</span>
-          </div>`).join('')}
-      </div>`;
-    } else {
-      html += `<div class="card" style="text-align:center;padding:30px;color:var(--muted);font-size:12px;">
-        No contradictions found between your private corpus and public literature for this query.
-      </div>`;
-    }
-
-    document.getElementById('crossContradictions').innerHTML = html;
-  } catch(e) {
-    document.getElementById('crossContradictions').innerHTML =
-      `<span style="color:var(--red);">${e.message}</span>`;
-  }
+    speak('Experiment designed. Here is what to test and what to expect.');
+  }catch(e){thinking('',false);speak('Error designing experiment.');console.error(e);}
 }
-
-// ── Domain-specific portfolio queries ────────────────
-const DOMAIN_DIRECTIONS = {
-  ml: [
-    {name:"LoRA optimization",       query:"Does LoRA reduce fine-tuning cost?"},
-    {name:"MoE routing",             query:"Does Mixture of Experts reduce compute cost per token?"},
-    {name:"INT4 quantization",       query:"Does quantization to INT8 degrade model accuracy?"},
-    {name:"FlashAttention",          query:"Does FlashAttention reduce GPU memory usage during training?"},
-    {name:"KV cache compression",    query:"Does KV cache compression reduce memory overhead in long context?"},
-    {name:"Speculative decoding",    query:"Does speculative decoding improve inference throughput?"},
-  ],
-  neuro: [
-    {name:"Neural attention models",     query:"Does selective attention improve neural signal processing efficiency?"},
-    {name:"Sparse coding",               query:"Does sparse neural coding reduce energy consumption in cortex?"},
-    {name:"Memory consolidation",        query:"Does sleep improve memory consolidation in hippocampus?"},
-    {name:"Synaptic plasticity",         query:"Does hebbian learning improve neural network stability?"},
-    {name:"Predictive coding",           query:"Does predictive coding reduce prediction error in brain?"},
-    {name:"Neural efficiency",           query:"Does neural pruning improve cognitive efficiency?"},
-  ],
-  bio: [
-    {name:"CRISPR specificity",          query:"Does CRISPR-Cas9 reduce off-target effects in gene editing?"},
-    {name:"Protein folding",             query:"Does AlphaFold improve protein structure prediction accuracy?"},
-    {name:"Gene regulation",             query:"Does epigenetic modification affect gene expression stability?"},
-    {name:"Evolutionary algorithms",     query:"Does evolutionary optimization improve biological fitness?"},
-    {name:"Cell signaling",              query:"Does receptor density affect signal transduction efficiency?"},
-    {name:"Metabolic pathways",          query:"Does metabolic flux optimization improve cell growth rate?"},
-  ],
-  physics: [
-    {name:"Quantum annealing",           query:"Does quantum annealing outperform classical optimization?"},
-    {name:"Thermodynamic efficiency",    query:"Does entropy minimization improve thermodynamic efficiency?"},
-    {name:"Phase transitions",           query:"Does critical slowing down predict phase transitions?"},
-    {name:"Quantum error correction",    query:"Does surface code reduce quantum decoherence?"},
-    {name:"Material properties",         query:"Does doping concentration affect semiconductor conductivity?"},
-    {name:"Statistical mechanics",       query:"Does mean field theory accurately predict phase behavior?"},
-  ],
-  systems: [
-    {name:"Cache optimization",          query:"Does cache prefetching reduce memory latency?"},
-    {name:"Distributed consistency",     query:"Does Raft consensus algorithm ensure distributed consistency?"},
-    {name:"Compiler optimization",       query:"Does loop unrolling improve compiler performance?"},
-    {name:"OS scheduling",              query:"Does CFS scheduler improve CPU fairness?"},
-    {name:"Network throughput",          query:"Does TCP BBR improve network throughput?"},
-    {name:"Storage efficiency",          query:"Does log-structured storage reduce write amplification?"},
-  ],
-  custom: [
-    {name:"Custom Direction 1",          query:"Enter your research question"},
-    {name:"Custom Direction 2",          query:"Enter your research question"},
-    {name:"Custom Direction 3",          query:"Enter your research question"},
-  ]
-};
-
-let currentDomain = 'ml';
-
-function changeDomain() {
-  currentDomain = document.getElementById('domainSelect').value;
-  const domainNames = {
-    ml:'ML / AI EFFICIENCY', neuro:'NEUROSCIENCE',
-    bio:'BIOLOGY / GENOMICS', physics:'PHYSICS / MATERIALS',
-    systems:'COMPUTER SYSTEMS', custom:'CUSTOM DOMAIN'
-  };
-  loadPortfolioForDomain(currentDomain);
+async function triggerBrief(){
+  thinking('CHECKING OVERNIGHT FINDINGS...',true);
+  try{
+    const r=await fetch('/api/run_research',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({query:'LoRA MoE efficiency recent findings'})});
+    const data=await r.json();
+    thinking('',false);
+    const conf=Math.round((data.proposal_confidence||0.5)*100);
+    speak('Good morning. I monitored the literature overnight. Your portfolio shows '+conf+'% confidence. '+(conf<60?'Some directions are weakening.':' Evidence is holding strong. What would you like to investigate?'),()=>{if(conf<60)setTimeout(loadPortfolio,500);});
+  }catch(e){thinking('',false);speak('Good morning. Ready to investigate. What would you like to explore?');}
 }
-
-async function loadPortfolioForDomain(domain) {
-  const directions = DOMAIN_DIRECTIONS[domain] || DOMAIN_DIRECTIONS.ml;
-  const tbody = document.getElementById('portfolioBody');
-  tbody.innerHTML = '<tr><td colspan="6"><div class="loading"><div class="spin"></div>Running evidence pipeline...</div></td></tr>';
-
-  const results = [];
-  for (const d of directions) {
-    if (d.query === 'Enter your research question') {
-      results.push({...d, proposal_verdict:'inconclusive', proposal_confidence:0.25, custom:true});
-      continue;
-    }
-    try {
-      const r = await fetch('/api/run_research', {
-        method:'POST', headers:{'Content-Type':'application/json'},
-        body: JSON.stringify({query: d.query})
-      });
-      const data = await r.json();
-      results.push({...d, ...data});
-    } catch(e) {
-      results.push({...d, proposal_verdict:'inconclusive', proposal_confidence:0.25});
-    }
-  }
-
-  tbody.innerHTML = results.map(r => {
-    if (r.custom) {
-      return `<tr>
-        <td><input style="background:var(--surface);border:1px solid var(--border2);border-radius:4px;padding:4px 8px;color:var(--text);font-size:11px;width:200px;" placeholder="Enter research direction"/></td>
-        <td colspan="4" style="color:var(--muted);font-size:11px;">Enter direction and click Investigate</td>
-        <td><button class="inv-btn">Add Direction</button></td>
-      </tr>`;
-    }
-    const v = r.proposal_verdict || 'inconclusive';
-    const conf = (r.proposal_confidence || 0.25).toFixed(2);
-    const drift = r.drift?.direction || 'stable';
-    let pillClass = 'inconclusive';
-    if (v.includes('strong')) pillClass = 'strong';
-    else if (v.includes('moderate')) pillClass = 'moderate';
-    else if (v.includes('mixed') || v.includes('context')) pillClass = 'mixed';
-    else if (v.includes('limited')) pillClass = 'limited';
-    let risk = 'low', riskLabel = 'Low';
-    if (v === 'inconclusive') { risk='high'; riskLabel='HIGH'; }
-    else if (v.includes('mixed') || v.includes('context')) { risk='medium'; riskLabel='Medium'; }
-    const trendColor = drift==='weakening'?'var(--red)':drift==='strengthening'?'var(--green)':'var(--muted)';
-    const trendIcon = drift==='weakening'?'↓':drift==='strengthening'?'↑':'→';
-    return `<tr>
-      <td style="font-weight:500;color:var(--bright);">${r.name}</td>
-      <td><span class="verdict-pill ${pillClass}">${v.replace('_',' ')}</span></td>
-      <td><span style="font-family:var(--mono);font-size:12px;">${conf}</span></td>
-      <td><span style="color:${trendColor};font-size:14px;">${trendIcon}</span> <span style="font-size:10px;color:var(--muted);">${drift}</span></td>
-      <td><span class="risk-badge ${risk}">${riskLabel}</span></td>
-      <td><button class="inv-btn" onclick="investigateDirection('${r.query.replace(/'/g,"\'")}')">Investigate</button></td>
-    </tr>`;
-  }).join('');
-  document.getElementById('portUpdated').textContent = new Date().toLocaleTimeString();
-}
-
-// ── Password Change ──────────────────────────────────
-async function changePassword() {
-  const company_id = document.getElementById('settingsId').value.trim();
-  const old_pwd    = document.getElementById('settingsOldPwd').value.trim();
-  const new_pwd    = document.getElementById('settingsNewPwd').value.trim();
-  const confirm    = document.getElementById('settingsConfirmPwd').value.trim();
-  const status     = document.getElementById('pwdStatus');
-
-  if (!company_id || !old_pwd || !new_pwd) {
-    status.innerHTML = '<span style="color:var(--red);">All fields required</span>';
-    return;
-  }
-  if (new_pwd !== confirm) {
-    status.innerHTML = '<span style="color:var(--red);">Passwords do not match</span>';
-    return;
-  }
-  if (new_pwd.length < 8) {
-    status.innerHTML = '<span style="color:var(--red);">Password must be at least 8 characters</span>';
-    return;
-  }
-
-  status.innerHTML = '<div class="loading"><div class="spin"></div>Updating...</div>';
-
-  try {
-    const r = await fetch('/api/company/change_password', {
-      method:'POST', headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({company_id, old_password: old_pwd, new_password: new_pwd})
-    });
-    const d = await r.json();
-    if (d.error) {
-      status.innerHTML = `<span style="color:var(--red);">${d.error}</span>`;
-    } else {
-      status.innerHTML = '<span style="color:var(--green);">✅ Password updated successfully</span>';
-      document.getElementById('settingsOldPwd').value = '';
-      document.getElementById('settingsNewPwd').value = '';
-      document.getElementById('settingsConfirmPwd').value = '';
-    }
-  } catch(e) {
-    status.innerHTML = `<span style="color:var(--red);">${e.message}</span>`;
-  }
-}
-
-function copyShareLink(btn) {
-  const url = window.location.href;
-  navigator.clipboard.writeText(url);
-  const orig = btn.textContent;
-  btn.textContent = '✓ Copied';
-  setTimeout(() => btn.textContent = orig, 2000);
-}
-
-// ── Init ────────────────────────────────────────────────
-function refreshAll() { loadPortfolio(); }
-
-document.addEventListener('DOMContentLoaded', () => {
-  // Read session
-  const companyId   = sessionStorage.getItem('tattva_company_id') || '';
-  const password    = sessionStorage.getItem('tattva_password') || '';
-  const companyName = sessionStorage.getItem('tattva_company_name') || 'Enterprise';
-  const domain      = sessionStorage.getItem('tattva_domain') || 'ml';
-
-  // If no session, show login overlay instead of redirect
-  if (!companyId) {
-    showLoginOverlay();
-    return;
-  }
-
-  initDashboard(companyId, password, companyName, domain);
-  document.getElementById('portUpdated').textContent = new Date().toLocaleTimeString();
+window.addEventListener('load',()=>{
+  window.speechSynthesis.getVoices();
+  setTimeout(()=>window.speechSynthesis.getVoices(),500);
+  tick();
+  // Voice starts after login, not on page load
 });
+</script>
 
-function addSciMessage(role, html, id='') {
-  const msgs = document.getElementById('sciMessages');
-  if (!msgs) return;
-  const div = document.createElement('div');
-  if (id) div.id = id;
-  const time = new Date().toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'});
-  const isUser = role === 'user';
-  div.style.cssText = `display:flex;gap:10px;align-items:flex-start;${isUser?'flex-direction:row-reverse;':''}`;
-  div.innerHTML = `<div style="width:28px;height:28px;border-radius:50%;background:${isUser?'rgba(0,102,255,.2)':'rgba(0,229,255,.1)'};border:1px solid ${isUser?'rgba(0,102,255,.3)':'rgba(0,229,255,.2)'};display:flex;align-items:center;justify-content:center;font-size:11px;color:${isUser?'var(--accent2)':'var(--accent)'};flex-shrink:0;">${isUser?'U':'◈'}</div><div style="max-width:82%;${isUser?'align-items:flex-end;display:flex;flex-direction:column;':''}"><div style="padding:10px 14px;${isUser?'background:var(--accent2);color:#fff;':'background:var(--surface);border:1px solid var(--border);color:var(--text);'}border-radius:10px;font-size:13px;line-height:1.7;">${html}</div><div style="font-size:10px;color:var(--muted);margin-top:3px;">${isUser?'You':'Tattva'} · ${time}</div></div>`;
-  msgs.appendChild(div);
-  msgs.scrollTop = msgs.scrollHeight;
+<div class="login-overlay" id="loginOverlay">
+  <div class="login-card">
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:28px;">
+      <div style="font-size:24px;color:#0088ff;">◈</div>
+      <div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:600;color:#fff;letter-spacing:2px;">TATTVA AI</div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:9px;color:#3a5070;letter-spacing:1px;">Enterprise</div>
+      </div>
+    </div>
+    <div style="font-size:18px;font-weight:600;color:#fff;margin-bottom:4px;">Sign in</div>
+    <div style="font-size:12px;color:#3a5070;margin-bottom:24px;">Access your autonomous research scientist</div>
+    <div class="login-field"><label>Company ID</label><input type="text" id="loginId" placeholder="your-company-id"/></div>
+    <div class="login-field"><label>Password</label><input type="password" id="loginPwd" placeholder="password" onkeydown="if(event.key==='Enter')doLogin()"/></div>
+    <button class="login-btn" onclick="doLogin()">Sign In →</button>
+    <div class="login-error" id="loginErr">Invalid credentials. Contact sales@tattvaai.org</div>
+    <div style="margin-top:20px;text-align:center;font-size:11px;color:#3a5070;">No access? <a href="mailto:sales@tattvaai.org" style="color:#0088ff;">sales@tattvaai.org</a></div>
+  </div>
+</div>
+
+<script>
+let companyId='', companyDomain='ml';
+
+async function doLogin(){
+  const id=document.getElementById('loginId').value.trim();
+  const pwd=document.getElementById('loginPwd').value.trim();
+  if(!id||!pwd){document.getElementById('loginErr').style.display='block';return;}
+  try{
+    const r=await fetch('/api/company/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({company_id:id,password:pwd})});
+    const data=await r.json();
+    if(data.success||data.company_id){
+      companyId=data.company_id||id;
+      companyDomain=data.domain||'ml';
+      document.getElementById('loginOverlay').style.display='none';
+      const displayName=data.company_name||data.name||companyId;setTimeout(()=>speak('Welcome back. I have been monitoring the research portfolio for '+displayName+'. Click the orb for your morning brief, or ask me anything.'),500);
+    } else {
+      document.getElementById('loginErr').style.display='block';
+      document.getElementById('loginErr').textContent=data.error||'Invalid credentials.';
+    }
+  }catch(e){
+    // If login API fails, just let them in for demo
+    document.getElementById('loginOverlay').style.display='none';
+    setTimeout(()=>speak('Welcome. Tattva is online and ready. Click the orb for your morning brief, or tell me what to investigate.'),500);
+  }
 }
 </script>
 </body>

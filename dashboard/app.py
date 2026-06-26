@@ -2064,9 +2064,20 @@ def api_chat():
                 if original and original != query:
                     retrieval_query = original + '. ' + query
             # Use fallback-aware retrieval
-            from retrieval.simple_retriever import SimpleRetriever
-            retriever_obj = SimpleRetriever()
-            chunks = retriever_obj.retrieve_with_fallback(retrieval_query, top_k=10)
+            # Use same chunk_index as run_research for consistent results
+            chunks = retriever.retrieve(retrieval_query, top_k=10)
+            retriever_obj = retriever
+            if not chunks:
+                from retrieval.simple_retriever import SimpleRetriever
+                retriever_obj = SimpleRetriever()
+                chunks = retriever_obj.retrieve_with_fallback(retrieval_query, top_k=10)
+            # Filter to relevant chunks only
+            if chunks:
+                scored = [(c, sum(1 for w in retrieval_query.lower().split()
+                          if len(w)>3 and w in (c.get('text','')+'  '+c.get('paper_title','')).lower()))
+                         for c in chunks]
+                scored.sort(key=lambda x: x[1], reverse=True)
+                chunks = [c for c,s in scored if s > 0] or chunks
             print(f"[chat] Retrieved {len(chunks)} chunks for: {query[:50]}")
         except Exception as e:
             print(f"[chat] Retrieval error: {e}")
@@ -2094,6 +2105,11 @@ def api_chat():
         return jsonify(result)
     except Exception as e:
         return jsonify({"error": str(e)})
+
+
+@app.route("/os")
+def tattva_os():
+    return render_template("tattva_os.html")
 
 @app.route("/chat")
 def chat_page():
