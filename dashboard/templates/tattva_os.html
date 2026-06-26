@@ -6,15 +6,6 @@
 <title>Tattva OS</title>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet"/>
 <style>
-.login-overlay{position:fixed;inset:0;background:rgba(2,5,8,0.97);z-index:99999;display:flex;align-items:center;justify-content:center;}
-.login-card{background:#0d1520;border:1px solid #1a2535;border-radius:14px;padding:40px;width:400px;}
-.login-field{margin-bottom:16px;}
-.login-field label{display:block;font-family:'JetBrains Mono',monospace;font-size:9px;color:#3a5070;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:6px;}
-.login-field input{width:100%;padding:11px 14px;background:#080d14;border:1px solid #1a2535;border-radius:8px;color:#c8deff;font-size:13px;outline:none;}
-.login-field input:focus{border-color:#0088ff;}
-.login-btn{width:100%;padding:12px;background:#0088ff;color:#000;border:none;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;margin-top:8px;}
-.login-error{background:rgba(255,61,87,.08);border:1px solid rgba(255,61,87,.2);border-radius:8px;padding:10px 14px;font-size:12px;color:#ff3d57;margin-top:12px;display:none;}
-
 *{box-sizing:border-box;margin:0;padding:0;}
 :root{
   --bg:#020508;--surface:#080d14;--card:#0d1520;
@@ -228,7 +219,7 @@ async function loadEvidence(query){
     const contras=rpt.contradictions||[],papers=rpt.top_papers||[];
     const cards=[
       {l:'ANALYSIS',t:chat.response||'No response',cls:''},
-      {l:'SUPPORTING PAPERS',t:papers.slice(0,3).map((p,i)=>`[${i+1}] ${(p.title||p.paper_title||p.chunk_text||'').substring(0,80)||'Paper '}`).join('\n\n')||'No supporting papers found.',cls:'support'},
+      {l:'SUPPORTING PAPERS',t:papers.slice(0,3).map((p,i)=>`[${i+1}] ${(p.title||p.paper_title||p.text||'').substring(0,80)||'Paper '}`).join('\n\n')||'No supporting papers found.',cls:'support'},
       {l:'CONTRADICTIONS',t:contras.length?contras.slice(0,2).map(c=>c.supporting_paper+' vs '+c.contradicting_paper+'\n'+(c.implication||'')).join('\n\n'):'No contradictions detected.',cls:'contra'},
       {l:'SCOPE',t:'TESTED IN:\n'+(typeof rpt.scope==='object'?JSON.stringify(rpt.scope):(rpt.scope||'See analysis above'))+'\n\nNOT TESTED:\nEdge cases and extreme scales.',cls:'scope'},
       {l:'FOLLOW-UP SEARCHES',t:(chat.followup_searches||[]).filter(Boolean).map((s,i)=>`${i+1}. ${s}`).join('\n\n')||'No additional searches needed.',cls:''},
@@ -313,54 +304,8 @@ window.addEventListener('load',()=>{
   window.speechSynthesis.getVoices();
   setTimeout(()=>window.speechSynthesis.getVoices(),500);
   tick();
-  // Voice starts after login, not on page load
+  setTimeout(()=>speak('Tattva online. Click the orb for your morning brief, or tell me what to investigate.'),1200);
 });
-</script>
-
-<div class="login-overlay" id="loginOverlay">
-  <div class="login-card">
-    <div style="display:flex;align-items:center;gap:12px;margin-bottom:28px;">
-      <div style="font-size:24px;color:#0088ff;">◈</div>
-      <div>
-        <div style="font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:600;color:#fff;letter-spacing:2px;">TATTVA AI</div>
-        <div style="font-family:'JetBrains Mono',monospace;font-size:9px;color:#3a5070;letter-spacing:1px;">Enterprise</div>
-      </div>
-    </div>
-    <div style="font-size:18px;font-weight:600;color:#fff;margin-bottom:4px;">Sign in</div>
-    <div style="font-size:12px;color:#3a5070;margin-bottom:24px;">Access your autonomous research scientist</div>
-    <div class="login-field"><label>Company ID</label><input type="text" id="loginId" placeholder="your-company-id"/></div>
-    <div class="login-field"><label>Password</label><input type="password" id="loginPwd" placeholder="password" onkeydown="if(event.key==='Enter')doLogin()"/></div>
-    <button class="login-btn" onclick="doLogin()">Sign In →</button>
-    <div class="login-error" id="loginErr">Invalid credentials. Contact sales@tattvaai.org</div>
-    <div style="margin-top:20px;text-align:center;font-size:11px;color:#3a5070;">No access? <a href="mailto:sales@tattvaai.org" style="color:#0088ff;">sales@tattvaai.org</a></div>
-  </div>
-</div>
-
-<script>
-let companyId='', companyDomain='ml';
-
-async function doLogin(){
-  const id=document.getElementById('loginId').value.trim();
-  const pwd=document.getElementById('loginPwd').value.trim();
-  if(!id||!pwd){document.getElementById('loginErr').style.display='block';return;}
-  try{
-    const r=await fetch('/api/company/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({company_id:id,password:pwd})});
-    const data=await r.json();
-    if(data.success||data.company_id){
-      companyId=data.company_id||id;
-      companyDomain=data.domain||'ml';
-      document.getElementById('loginOverlay').style.display='none';
-      const displayName=data.company_name||data.name||companyId;setTimeout(()=>speak('Welcome back. I have been monitoring the research portfolio for '+displayName+'. Click the orb for your morning brief, or ask me anything.'),500);
-    } else {
-      document.getElementById('loginErr').style.display='block';
-      document.getElementById('loginErr').textContent=data.error||'Invalid credentials.';
-    }
-  }catch(e){
-    // If login API fails, just let them in for demo
-    document.getElementById('loginOverlay').style.display='none';
-    setTimeout(()=>speak('Welcome. Tattva is online and ready. Click the orb for your morning brief, or tell me what to investigate.'),500);
-  }
-}
 </script>
 </body>
 </html>

@@ -225,7 +225,7 @@ def extract_verdict(response_text):
 
 # ── MAIN CHAT FUNCTION ────────────────────────────────────────
 def chat(query, history, chunks, verdict_data=None,
-         retriever=None, researcher_id=None):
+         retriever=None, researcher_id=None, model_override=None):
     """
     Main entry point.
     Full agentic chain-of-thought reasoning.
@@ -248,8 +248,9 @@ def chat(query, history, chunks, verdict_data=None,
     # 5. Call Groq
     try:
         client = _client()
+        model = model_override or "llama-3.3-70b-versatile"
         response = client.chat.completions.create(
-            model="llama-3.3-70b-versatile",
+            model=model,
             messages=messages,
             max_tokens=600,
             temperature=0.25
