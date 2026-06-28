@@ -1,0 +1,11 @@
+{
+  "experiment": "STDP-Transformer v2 (regularizer)",
+  "date": "2026-06-28T01:19:17.791772",
+  "v1_result": "Naive STDP weight modification: -6% (worse)",
+  "v1_insight": "STDP interferes with gradient updates when applied directly",
+  "v2_approach": "STDP as attention regularizer (entropy + consistency)",
+  "std_forgetting": 0.5400000095367432,
+  "stdp_forgetting": 0.5539999961853027,
+  "improvement_pct": -2.5925900743168233,
+  "supported": false
+}

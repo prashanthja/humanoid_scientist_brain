@@ -2093,6 +2093,28 @@ def api_chat():
         # Get researcher_id from session if available
         researcher_id = request.json.get('researcher_id', 'anonymous')
 
+        # Auto-trigger discovery engine for discovery queries
+        discovery_triggers = ['find anything','new discovery','anything new',
+                             'found something','discover','run experiment',
+                             'what did you find','overnight','hypothesis']
+        if any(t in query.lower() for t in discovery_triggers):
+            try:
+                sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+                from discovery_engine import run_full_discovery
+                discovery = run_full_discovery()
+                hyp = discovery.get('hypothesis','')[:500]
+                result = {
+                    'response': f"I ran the autonomous discovery engine.\n\nMECHANISM FOUND: {discovery.get('mechanism','').upper()} transferring from {discovery.get('from_domain','')} to {discovery.get('to_domain','')}\n\nNOVELTY SCORE: {discovery.get('novelty_score',0)} (only {discovery.get('bridge_papers',0)} papers connect these)\n\nHYPOTHESIS:\n{hyp}\n\nEXPERIMENT RESULT:\n{discovery.get('result_line','Experiment ran — check outputs/discoveries/')}",
+                    'verdict': 'DISCOVERY',
+                    'confidence': discovery.get('novelty_score', 0.7),
+                    'evidence_used': discovery.get('bridge_papers', 0),
+                    'papers': [],
+                    'followup_searches': ['Run the experiment', 'Write the paper', 'Show me the hypothesis']
+                }
+                return jsonify(result)
+            except Exception as de:
+                print(f"[discovery] error: {de}")
+
         # Chain-of-thought with agentic retriever
         result = chat(query, history, chunks,
                      retriever=retriever_obj,
@@ -2106,10 +2128,6 @@ def api_chat():
     except Exception as e:
         return jsonify({"error": str(e)})
 
-
-@app.route("/os")
-def tattva_os():
-    return render_template("tattva_os.html")
 
 @app.route("/chat")
 def chat_page():
