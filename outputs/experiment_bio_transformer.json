@@ -1,0 +1,12 @@
+{
+  "experiment": "Bio-Inspired Transformer (Sparse+EWC)",
+  "date": "2026-06-28T01:20:16.521362",
+  "v1_naive_stdp": -6.0,
+  "v2_stdp_reg": -2.6,
+  "v3_sparse_ewc": 22.592597138570913,
+  "insight": "STDP fails because dense activations differ from sparse neural firing. Sparse attention + EWC mimics biological consolidation more faithfully.",
+  "std_forgetting": 0.5400000095367432,
+  "bio_forgetting": 0.4179999828338623,
+  "improvement_pct": 22.592597138570913,
+  "supported": true
+}

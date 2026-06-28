@@ -3,252 +3,391 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>Tattva OS</title>
+<title>Tattva AI — Enterprise</title>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet"/>
 <style>
-.login-overlay{position:fixed;inset:0;background:rgba(2,5,8,0.97);z-index:99999;display:flex;align-items:center;justify-content:center;}
-.login-card{background:#0d1520;border:1px solid #1a2535;border-radius:14px;padding:40px;width:400px;}
-.login-field{margin-bottom:16px;}
-.login-field label{display:block;font-family:'JetBrains Mono',monospace;font-size:9px;color:#3a5070;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:6px;}
-.login-field input{width:100%;padding:11px 14px;background:#080d14;border:1px solid #1a2535;border-radius:8px;color:#c8deff;font-size:13px;outline:none;}
-.login-field input:focus{border-color:#0088ff;}
-.login-btn{width:100%;padding:12px;background:#0088ff;color:#000;border:none;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;margin-top:8px;}
-.login-error{background:rgba(255,61,87,.08);border:1px solid rgba(255,61,87,.2);border-radius:8px;padding:10px 14px;font-size:12px;color:#ff3d57;margin-top:12px;display:none;}
-
 *{box-sizing:border-box;margin:0;padding:0;}
 :root{
-  --bg:#020508;--surface:#080d14;--card:#0d1520;
-  --accent:#0088ff;--accent2:#00c8ff;--white:#ffffff;
-  --text:#c8deff;--muted:#3a5070;--dim:#1a2535;
+  --bg:#020508;--card:#0d1520;--dim:#1a2535;
+  --accent:#0088ff;--white:#ffffff;
+  --text:#c8deff;--muted:#3a5070;
   --green:#00e676;--red:#ff3d57;--amber:#ffb300;
   --mono:'JetBrains Mono',monospace;--sans:'Space Grotesk',sans-serif;
 }
 html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);font-family:var(--sans);}
-.screen{position:fixed;inset:0;display:none;flex-direction:column;align-items:center;justify-content:center;opacity:0;transition:opacity 0.6s ease;}
-.screen.active{display:flex;opacity:1;}
 body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(0,136,255,.008) 3px,rgba(0,136,255,.008) 4px);pointer-events:none;z-index:99998;}
-#miniOrb{position:fixed;bottom:24px;right:24px;z-index:9999;display:none;flex-direction:column;align-items:flex-end;gap:8px;}
-#miniText{max-width:260px;background:rgba(2,5,8,0.96);border:1px solid rgba(0,136,255,0.2);border-radius:10px;padding:8px 12px;font-size:11px;color:var(--text);line-height:1.6;display:none;}
-#miniMic{width:32px;height:32px;border-radius:50%;border:1px solid rgba(0,136,255,0.25);background:rgba(0,136,255,0.06);color:rgba(0,136,255,0.7);font-size:13px;cursor:pointer;display:flex;align-items:center;justify-content:center;}
-#homeLabel{font-family:var(--mono);font-size:9px;letter-spacing:4px;color:rgba(0,136,255,0.3);text-transform:uppercase;margin-bottom:32px;}
-#homeText{font-size:15px;font-weight:300;color:rgba(200,222,255,0.8);text-align:center;max-width:400px;line-height:1.7;min-height:48px;padding:0 20px;margin-top:24px;}
-#homeInput{display:flex;gap:10px;margin-top:24px;align-items:center;}
-#homeInputField{background:rgba(255,255,255,0.04);border:1px solid rgba(0,136,255,0.15);border-radius:28px;padding:12px 22px;color:rgba(200,222,255,0.9);font-size:13px;font-family:var(--sans);outline:none;width:280px;}
-#homeInputField:focus{border-color:rgba(0,136,255,0.4);}
-#homeMic{width:44px;height:44px;border-radius:50%;border:1px solid rgba(0,136,255,0.3);background:rgba(0,136,255,0.07);color:rgba(0,136,255,0.8);font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;}
-#homeSend{padding:12px 22px;border-radius:28px;border:1px solid rgba(0,136,255,0.3);background:rgba(0,136,255,0.1);color:rgba(200,222,255,0.9);font-size:13px;cursor:pointer;}
-#homeHint{font-family:var(--mono);font-size:9px;color:rgba(0,136,255,0.2);letter-spacing:2px;margin-top:16px;}
-.backBtn{position:fixed;top:20px;left:20px;z-index:9997;display:none;align-items:center;gap:8px;padding:8px 16px;border-radius:20px;border:1px solid rgba(0,136,255,0.2);background:rgba(2,5,8,0.9);color:rgba(0,136,255,0.7);font-size:12px;font-family:var(--mono);cursor:pointer;letter-spacing:1px;}
-.backBtn.visible{display:flex;}
-#screenEvidence{padding:60px 40px 40px;justify-content:flex-start!important;}
-#evidenceHeader{text-align:center;margin-bottom:40px;width:100%;}
-#evidenceQuery{font-size:11px;font-family:var(--mono);color:rgba(0,136,255,0.5);letter-spacing:2px;margin-bottom:12px;}
-#evidenceVerdict{font-size:36px;font-weight:600;color:var(--white);margin-bottom:8px;}
-#evidenceConf{font-size:12px;color:var(--muted);}
-#evidenceConfBar{width:300px;height:3px;background:rgba(255,255,255,0.08);border-radius:2px;margin:12px auto 0;overflow:hidden;}
-#evidenceConfFill{height:100%;border-radius:2px;transition:width 2s ease;width:0%;}
-#evidenceGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;width:100%;max-width:1100px;overflow-y:auto;max-height:calc(100vh - 260px);}
-.eCard{background:var(--card);border:1px solid var(--dim);border-radius:12px;padding:18px;opacity:0;transform:translateY(20px);transition:all 0.5s ease;}
-.eCard.show{opacity:1;transform:translateY(0);}
-.eCard.support{border-left:2px solid var(--green);}
-.eCard.contra{border-left:2px solid var(--red);}
-.eCard.scope{border-left:2px solid var(--amber);}
-.eCard.next{border-left:2px solid var(--accent);}
-.eLabel{font-family:var(--mono);font-size:8px;letter-spacing:2px;color:var(--accent);margin-bottom:8px;}
-.eText{font-size:11px;color:var(--muted);line-height:1.6;white-space:pre-line;}
-#screenPortfolio{padding:60px 40px 40px;justify-content:flex-start!important;align-items:flex-start!important;}
-#portTitle{font-size:28px;font-weight:600;color:var(--white);margin-bottom:4px;}
-#portSub{font-size:11px;font-family:var(--mono);color:var(--muted);letter-spacing:1px;margin-bottom:32px;}
-#portGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;width:100%;overflow-y:auto;max-height:calc(100vh-180px);}
-.pCard{background:var(--card);border:1px solid var(--dim);border-radius:12px;padding:20px;opacity:0;transform:scale(0.95);transition:all 0.4s ease;cursor:pointer;}
-.pCard:hover{border-color:rgba(0,136,255,0.3);transform:scale(1.02)!important;}
-.pCard.show{opacity:1;transform:scale(1);}
-.pName{font-size:14px;font-weight:500;color:var(--white);margin-bottom:12px;}
-.pBar{height:4px;border-radius:2px;background:rgba(255,255,255,0.06);margin-bottom:8px;overflow:hidden;}
-.pFill{height:100%;border-radius:2px;transition:width 1.5s ease;width:0%;}
-.pMeta{display:flex;justify-content:space-between;font-size:10px;font-family:var(--mono);}
-#thinkOverlay{position:fixed;inset:0;z-index:9996;background:rgba(2,5,8,0.9);display:none;align-items:center;justify-content:center;flex-direction:column;gap:20px;backdrop-filter:blur(4px);}
+
+/* LOGIN */
+#loginScreen{position:fixed;inset:0;z-index:99999;background:var(--bg);display:flex;align-items:center;justify-content:center;}
+.lcard{background:#0d1520;border:1px solid #1a2535;border-radius:14px;padding:40px;width:400px;}
+.lfield{margin-bottom:16px;}
+.lfield label{display:block;font-family:var(--mono);font-size:9px;color:var(--muted);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:6px;}
+.lfield input{width:100%;padding:11px 14px;background:#080d14;border:1px solid #1a2535;border-radius:8px;color:var(--text);font-size:13px;outline:none;transition:border-color .2s;}
+.lfield input:focus{border-color:var(--accent);}
+.lbtn{width:100%;padding:12px;background:var(--accent);color:#000;border:none;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;margin-top:8px;}
+.lerr{background:rgba(255,61,87,.08);border:1px solid rgba(255,61,87,.2);border-radius:8px;padding:10px 14px;font-size:12px;color:var(--red);margin-top:12px;display:none;}
+
+/* SCREENS */
+.screen{position:fixed;inset:0;display:none;flex-direction:column;align-items:center;justify-content:center;opacity:0;transition:opacity 0.5s ease;}
+.screen.active{display:flex;opacity:1;}
+
+/* HOME */
+#homeLabel{font-family:var(--mono);font-size:9px;letter-spacing:4px;color:rgba(0,136,255,0.3);text-transform:uppercase;margin-bottom:28px;}
+#homeText{font-size:14px;font-weight:300;color:rgba(200,222,255,0.8);text-align:center;max-width:380px;line-height:1.7;min-height:44px;padding:0 20px;margin-top:20px;}
+#homeInput{display:flex;gap:10px;margin-top:20px;align-items:center;}
+#homeField{background:rgba(255,255,255,0.04);border:1px solid rgba(0,136,255,0.15);border-radius:28px;padding:11px 20px;color:rgba(200,222,255,0.9);font-size:13px;font-family:var(--sans);outline:none;width:260px;}
+#homeField:focus{border-color:rgba(0,136,255,0.35);}
+.hbtn{padding:11px 18px;border-radius:28px;border:1px solid rgba(0,136,255,0.3);background:rgba(0,136,255,0.1);color:rgba(200,222,255,0.9);font-size:13px;cursor:pointer;width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;}
+#homeHint{font-family:var(--mono);font-size:9px;color:rgba(0,136,255,0.2);letter-spacing:2px;margin-top:14px;}
+
+/* BACK */
+#backBtn{position:fixed;top:18px;left:18px;z-index:9997;display:none;align-items:center;gap:8px;padding:7px 14px;border-radius:20px;border:1px solid rgba(0,136,255,0.2);background:rgba(2,5,8,0.9);color:rgba(0,136,255,0.6);font-size:11px;font-family:var(--mono);cursor:pointer;letter-spacing:1px;}
+#backBtn.show{display:flex;}
+
+/* MINI ORB */
+#miniOrb{position:fixed;bottom:20px;right:20px;z-index:9997;display:none;flex-direction:column;align-items:flex-end;gap:8px;}
+#miniOrb.show{display:flex;}
+#miniText{max-width:240px;background:rgba(2,5,8,0.95);border:1px solid rgba(0,136,255,0.2);border-radius:10px;padding:8px 12px;font-size:11px;color:var(--text);line-height:1.6;display:none;}
+
+/* THINKING */
+#thinkOverlay{position:fixed;inset:0;z-index:9995;background:rgba(2,5,8,0.88);display:none;align-items:center;justify-content:center;flex-direction:column;gap:16px;backdrop-filter:blur(4px);}
 #thinkOverlay.on{display:flex;}
 #thinkTxt{font-family:var(--mono);font-size:11px;color:rgba(0,136,255,0.5);letter-spacing:2px;}
+
+/* EVIDENCE SCREEN */
+#screenEvidence{padding:56px 40px 40px;justify-content:flex-start!important;}
+#evHeader{text-align:center;margin-bottom:32px;width:100%;}
+#evQuery{font-size:10px;font-family:var(--mono);color:rgba(0,136,255,0.45);letter-spacing:2px;margin-bottom:10px;}
+#evVerdict{font-size:32px;font-weight:600;color:var(--white);margin-bottom:6px;}
+#evConf{font-size:12px;color:var(--muted);}
+#evBar{width:280px;height:3px;background:rgba(255,255,255,0.07);border-radius:2px;margin:10px auto 0;overflow:hidden;}
+#evFill{height:100%;border-radius:2px;transition:width 2s ease;width:0%;}
+#evGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;width:100%;max-width:1080px;overflow-y:auto;max-height:calc(100vh - 240px);}
+.eCard{background:var(--card);border:1px solid var(--dim);border-radius:12px;padding:16px;opacity:0;transform:translateY(18px);transition:all 0.45s ease;}
+.eCard.show{opacity:1;transform:translateY(0);}
+.eCard.sup{border-left:2px solid var(--green);}
+.eCard.con{border-left:2px solid var(--red);}
+.eCard.sco{border-left:2px solid var(--amber);}
+.eCard.nxt{border-left:2px solid var(--accent);}
+.eL{font-family:var(--mono);font-size:8px;letter-spacing:2px;color:var(--accent);margin-bottom:7px;}
+.eT{font-size:11px;color:var(--muted);line-height:1.6;white-space:pre-line;}
+
+/* PORTFOLIO SCREEN */
+#screenPortfolio{padding:56px 40px 40px;justify-content:flex-start!important;align-items:flex-start!important;}
+#portGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;width:100%;overflow-y:auto;max-height:calc(100vh - 160px);}
+.pCard{background:var(--card);border:1px solid var(--dim);border-radius:12px;padding:18px;opacity:0;transform:scale(0.96);transition:all 0.4s ease;cursor:pointer;}
+.pCard:hover{border-color:rgba(0,136,255,0.3);transform:scale(1.02)!important;}
+.pCard.show{opacity:1;transform:scale(1);}
+.pName{font-size:14px;font-weight:500;color:var(--white);margin-bottom:10px;}
+.pBar{height:4px;border-radius:2px;background:rgba(255,255,255,0.06);margin-bottom:7px;overflow:hidden;}
+.pFill{height:100%;border-radius:2px;transition:width 1.5s ease;width:0%;}
+.pMeta{display:flex;justify-content:space-between;font-size:10px;font-family:var(--mono);}
+
+/* EXPERIMENT SCREEN */
+#screenExperiment{padding:56px 40px 40px;justify-content:flex-start!important;align-items:center!important;}
+#expGrid{display:grid;grid-template-columns:1fr 1fr;gap:14px;width:100%;max-width:880px;}
+
+/* CHAT SCREEN */
+#screenChat{padding:56px 40px 120px;justify-content:flex-start!important;align-items:flex-start!important;}
+#chatMsgs{width:100%;max-width:780px;flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:14px;}
+.cmsg{display:flex;gap:10px;align-items:flex-start;opacity:0;transform:translateY(8px);transition:all 0.3s ease;}
+.cmsg.show{opacity:1;transform:translateY(0);}
+.cmsg.user{flex-direction:row-reverse;}
+.cav{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;flex-shrink:0;}
+.cbbl{max-width:74%;padding:11px 15px;border-radius:12px;font-size:13px;line-height:1.7;}
+.cmsg.ai .cav{background:rgba(0,136,255,0.1);border:1px solid rgba(0,136,255,0.2);color:var(--accent);}
+.cmsg.ai .cbbl{background:var(--card);border:1px solid var(--dim);color:var(--text);}
+.cmsg.user .cav{background:rgba(0,136,255,0.2);color:var(--white);}
+.cmsg.user .cbbl{background:rgba(0,136,255,0.15);color:var(--white);}
+#chatBar{position:fixed;bottom:0;left:0;right:0;padding:14px 40px;background:linear-gradient(transparent,var(--bg) 40%);display:none;}
+#chatBar.show{display:block;}
+#chatWrap{display:flex;gap:10px;max-width:780px;margin:0 auto;}
+#chatIn{flex:1;background:var(--card);border:1px solid var(--dim);border-radius:28px;padding:11px 18px;color:var(--text);font-size:13px;font-family:var(--sans);outline:none;}
+#chatSend{padding:11px 18px;border-radius:28px;border:none;background:var(--accent);color:#000;font-size:13px;cursor:pointer;font-weight:500;}
+
 .mic-on{background:rgba(255,50,50,0.15)!important;border-color:rgba(255,50,50,0.5)!important;color:rgba(255,100,100,0.9)!important;}
 </style>
 </head>
 <body>
-<div class="backBtn" id="backBtn" onclick="goHome()">&#8592; HOME</div>
-<div id="thinkOverlay"><canvas id="thinkCanvas" width="100" height="100"></canvas><div id="thinkTxt">ANALYZING...</div></div>
-<div id="miniOrb"><div id="miniText"></div><div style="display:flex;gap:8px;align-items:center;"><button id="miniMic" onclick="micToggle()">&#127908;</button><canvas id="miniOrbCanvas" width="48" height="48" style="cursor:pointer;border-radius:50%;" onclick="goHome()"></canvas></div></div>
 
+<!-- LOGIN -->
+<div id="loginScreen">
+  <div class="lcard">
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:28px;">
+      <div style="font-size:22px;color:var(--accent);">◈</div>
+      <div>
+        <div style="font-family:var(--mono);font-size:13px;font-weight:600;color:var(--white);letter-spacing:2px;">TATTVA AI</div>
+        <div style="font-family:var(--mono);font-size:9px;color:var(--muted);letter-spacing:1px;">Enterprise</div>
+      </div>
+    </div>
+    <div style="font-size:18px;font-weight:600;color:var(--white);margin-bottom:4px;">Sign in</div>
+    <div style="font-size:12px;color:var(--muted);margin-bottom:24px;">Access your autonomous research scientist</div>
+    <div class="lfield"><label>Company ID</label><input type="text" id="overlayCompanyId" placeholder="your-company-id"/></div>
+    <div class="lfield"><label>Password</label><input type="password" id="overlayPassword" placeholder="password" onkeydown="if(event.key==='Enter')doLogin()"/></div>
+    <button class="lbtn" onclick="doLogin()">Sign In →</button>
+    <div class="lerr" id="loginErr">Invalid credentials. Contact sales@tattvaai.org</div>
+    <div style="margin-top:20px;text-align:center;font-size:11px;color:var(--muted);">No access? <a href="mailto:sales@tattvaai.org" style="color:var(--accent);">sales@tattvaai.org</a></div>
+  </div>
+</div>
+
+<!-- BACK BTN -->
+<div id="backBtn" onclick="goHome()">← HOME</div>
+
+<!-- THINKING -->
+<div id="thinkOverlay">
+  <canvas id="thinkCanvas" width="90" height="90"></canvas>
+  <div id="thinkTxt">ANALYZING...</div>
+</div>
+
+<!-- MINI ORB -->
+<div id="miniOrb">
+  <div id="miniText"></div>
+  <div style="display:flex;gap:8px;align-items:center;">
+    <button id="miniMic" onclick="micToggle()" style="width:30px;height:30px;border-radius:50%;border:1px solid rgba(0,136,255,0.25);background:rgba(0,136,255,0.06);color:rgba(0,136,255,0.7);font-size:13px;cursor:pointer;display:flex;align-items:center;justify-content:center;">🎤</button>
+    <canvas id="miniCanvas" width="44" height="44" style="cursor:pointer;border-radius:50%;" onclick="goHome()"></canvas>
+  </div>
+</div>
+
+<!-- HOME SCREEN -->
 <div class="screen active" id="screenHome">
-  <div id="homeLabel">TATTVA &middot; AUTONOMOUS SCIENTIST</div>
-  <canvas id="homeOrb" width="260" height="260" style="cursor:pointer;" onclick="triggerBrief()"></canvas>
-  <div id="homeText">Initializing...</div>
+  <div id="homeLabel">TATTVA · AUTONOMOUS SCIENTIST</div>
+  <canvas id="homeOrb" width="240" height="240" style="cursor:pointer;" onclick="triggerBrief()"></canvas>
+  <div id="homeText"></div>
   <div id="homeInput">
-    <button id="homeMic" onclick="micToggle()">&#127908;</button>
-    <input id="homeInputField" placeholder="ask anything or say a command..." onkeydown="if(event.key==='Enter'){var v=this.value;this.value='';handleCommand(v);}"/>
-    <button id="homeSend" onclick="var i=document.getElementById('homeInputField');var v=i.value;i.value='';handleCommand(v);">&#8594;</button>
+    <button class="hbtn" id="homeMic" onclick="micToggle()">🎤</button>
+    <input id="homeField" placeholder="ask anything or say a command..."
+           onkeydown="if(event.key==='Enter'){var v=this.value;this.value='';handleCmd(v);}"/>
+    <button class="hbtn" onclick="var i=document.getElementById('homeField');var v=i.value;i.value='';handleCmd(v);">→</button>
   </div>
-  <div id="homeHint">CLICK ORB &middot; SPEAK &middot; OR TYPE</div>
+  <div id="homeHint">CLICK ORB · SPEAK · OR TYPE</div>
 </div>
 
+<!-- EVIDENCE SCREEN -->
 <div class="screen" id="screenEvidence">
-  <div id="evidenceHeader">
-    <div id="evidenceQuery"></div>
-    <div id="evidenceVerdict"></div>
-    <div id="evidenceConf"></div>
-    <div id="evidenceConfBar"><div id="evidenceConfFill"></div></div>
+  <div id="evHeader">
+    <div id="evQuery"></div>
+    <div id="evVerdict"></div>
+    <div id="evConf"></div>
+    <div id="evBar"><div id="evFill"></div></div>
   </div>
-  <div id="evidenceGrid"></div>
+  <div id="evGrid"></div>
 </div>
 
+<!-- PORTFOLIO SCREEN -->
 <div class="screen" id="screenPortfolio">
-  <div id="portTitle">Portfolio Health</div>
-  <div id="portSub">EVIDENCE STRENGTH ACROSS YOUR RESEARCH DIRECTIONS</div>
+  <div style="margin-bottom:28px;width:100%;">
+    <div style="font-size:26px;font-weight:600;color:var(--white);">Portfolio Health</div>
+    <div style="font-size:11px;font-family:var(--mono);color:var(--muted);margin-top:4px;letter-spacing:1px;">EVIDENCE STRENGTH ACROSS YOUR RESEARCH DIRECTIONS</div>
+  </div>
   <div id="portGrid"></div>
 </div>
 
-<div class="screen" id="screenExperiment" style="padding:60px 40px;justify-content:flex-start!important;align-items:center!important;">
-  <div style="text-align:center;margin-bottom:32px;width:100%;"><div id="expTitle" style="font-size:28px;font-weight:600;color:var(--white);margin-bottom:8px;">Experiment Designer</div><div style="font-size:11px;font-family:var(--mono);color:var(--muted);letter-spacing:1px;">DESIGNED BY TATTVA</div></div>
-  <div id="expGrid" style="display:grid;grid-template-columns:1fr 1fr;gap:16px;width:100%;max-width:900px;"></div>
+<!-- EXPERIMENT SCREEN -->
+<div class="screen" id="screenExperiment">
+  <div style="text-align:center;margin-bottom:28px;width:100%;">
+    <div id="expTitle" style="font-size:26px;font-weight:600;color:var(--white);margin-bottom:6px;">Experiment Designer</div>
+    <div style="font-size:11px;font-family:var(--mono);color:var(--muted);letter-spacing:1px;">DESIGNED BY TATTVA</div>
+  </div>
+  <div id="expGrid"></div>
+</div>
+
+<!-- CHAT SCREEN -->
+<div class="screen" id="screenChat">
+  <div id="chatMsgs"></div>
+  <div id="chatBar">
+    <div id="chatWrap">
+      <input id="chatIn" placeholder="continue the investigation..."
+             onkeydown="if(event.key==='Enter'){var v=this.value;this.value='';chatSend(v);}"/>
+      <button id="chatSend" onclick="var i=document.getElementById('chatIn');var v=i.value;i.value='';chatSend(v);">Send</button>
+    </div>
+  </div>
 </div>
 
 <script>
-const DOTS=(()=>{const pts=[],R=16;for(let i=0;i<=R;i++){const phi=Math.PI*i/R,y=Math.cos(phi),r=Math.sin(phi);const c=Math.max(1,Math.round(R*r));for(let j=0;j<c;j++){const t=2*Math.PI*j/c;pts.push({x:r*Math.cos(t),y,z:r*Math.sin(t),phi,theta:t});}}return pts;})();
+// ── SPHERE ────────────────────────────────────────────────────
+const DOTS=(()=>{const pts=[],R=16;for(let i=0;i<=R;i++){const phi=Math.PI*i/R,y=Math.cos(phi),r=Math.sin(phi);const c=Math.max(1,Math.round(R*r));for(let j=0;j<c;j++){const t=2*Math.PI*j/c;pts.push({x:r*Math.cos(t),y,z:r*Math.sin(t),phi});}}return pts;})();
 let ST='idle',TT=0,RY=0,RX=0.38;
-const CFG={idle:{s:0.005,a:0.06,c:[0,136,255],b:[180,220,255]},think:{s:0.028,a:0,c:[0,80,255],b:[80,180,255]},speak:{s:0.013,a:0.2,c:[0,180,255],b:[220,245,255]},listen:{s:0.009,a:0.13,c:[40,160,255],b:[200,235,255]}};
-function drawS(cv,R,st){
-  const ctx=cv.getContext('2d'),W=cv.width,H=cv.height,cx=W/2,cy=H/2,cfg=CFG[st||ST];
-  ctx.clearRect(0,0,W,H);RY+=cfg.s;RX=0.38+0.07*Math.sin(TT*0.007);
+const CFG={
+  idle:  {s:0.005,a:0.06,c:[0,136,255],b:[180,220,255]},
+  think: {s:0.026,a:0.0, c:[0,80,255], b:[80,180,255]},
+  speak: {s:0.012,a:0.2, c:[0,180,255],b:[220,245,255]},
+  listen:{s:0.008,a:0.13,c:[40,160,255],b:[200,235,255]},
+};
+function drawSphere(cv,R){
+  if(!cv)return;
+  const ctx=cv.getContext('2d'),W=cv.width,H=cv.height,cx=W/2,cy=H/2;
+  const cfg=CFG[ST]||CFG.idle;
+  ctx.clearRect(0,0,W,H);
+  RY+=cfg.s; RX=0.38+0.07*Math.sin(TT*0.007);
   const [cr,cg,cb]=cfg.c,[br,bg,bb]=cfg.b;
   const proj=DOTS.map(p=>{
-    const pu=1+(st==='speak'||ST==='speak'?cfg.a*Math.sin(TT*0.18+p.phi*4):st==='listen'||ST==='listen'?cfg.a*Math.abs(Math.sin(TT*0.12+p.phi*3)):cfg.a*Math.sin(TT*0.04+p.phi*2));
-    const sx={x:p.x*pu,y:p.y*pu,z:p.z*pu};
-    const x1=sx.x*Math.cos(RY)-sx.z*Math.sin(RY),z1=sx.x*Math.sin(RY)+sx.z*Math.cos(RY);
-    const y2=sx.y*Math.cos(RX)-z1*Math.sin(RX),z2=sx.y*Math.sin(RX)+z1*Math.cos(RX);
+    const pu=1+(ST==='speak'?cfg.a*Math.sin(TT*0.18+p.phi*4):ST==='listen'?cfg.a*Math.abs(Math.sin(TT*0.12+p.phi*3)):cfg.a*Math.sin(TT*0.04+p.phi*2));
+    const s={x:p.x*pu,y:p.y*pu,z:p.z*pu};
+    const x1=s.x*Math.cos(RY)-s.z*Math.sin(RY),z1=s.x*Math.sin(RY)+s.z*Math.cos(RY);
+    const y2=s.y*Math.cos(RX)-z1*Math.sin(RX),z2=s.y*Math.sin(RX)+z1*Math.cos(RX);
     return{sx:cx+x1*R,sy:cy-y2*R,sz:z2,d:(z2+1)/2};
   }).sort((a,b)=>a.sz-b.sz);
   proj.forEach(({sx,sy,d})=>{
-    const f=d>0.5,al=f?0.18+d*0.82:0.04+d*0.12,dr=(f?2.4:1.1)*d*(R/110);
-    if(f&&d>0.72){const g=ctx.createRadialGradient(sx,sy,0,sx,sy,dr*3.5);g.addColorStop(0,`rgba(${br},${bg},${bb},${al*0.4})`);g.addColorStop(1,`rgba(${cr},${cg},${cb},0)`);ctx.beginPath();ctx.arc(sx,sy,dr*3.5,0,Math.PI*2);ctx.fillStyle=g;ctx.fill();}
-    ctx.beginPath();ctx.arc(sx,sy,Math.max(0.4,dr),0,Math.PI*2);
-    ctx.fillStyle=`rgba(${Math.round(cr+(br-cr)*d)},${Math.round(cg+(bg-cg)*d)},${Math.round(cb+(bb-cb)*d)},${al})`;ctx.fill();
+    const f=d>0.5,al=f?0.38+d*0.62:0.07+d*0.18,dr=(f?3.0:1.3)*d*(R/100);
+    if(f&&d>0.7){const g=ctx.createRadialGradient(sx,sy,0,sx,sy,dr*3.2);g.addColorStop(0,`rgba(${br},${bg},${bb},${al*0.42})`);g.addColorStop(1,`rgba(${cr},${cg},${cb},0)`);ctx.beginPath();ctx.arc(sx,sy,dr*3.2,0,Math.PI*2);ctx.fillStyle=g;ctx.fill();}
+    ctx.beginPath();ctx.arc(sx,sy,Math.max(0.5,dr),0,Math.PI*2);
+    ctx.fillStyle=`rgba(${Math.round(cr+(br-cr)*d)},${Math.round(cg+(bg-cg)*d)},${Math.round(cb+(bb-cb)*d)},${al})`;
+    ctx.fill();
   });
 }
 function tick(){
-  drawS(document.getElementById('homeOrb'),104);
-  const m=document.getElementById('miniOrbCanvas');if(m)drawS(m,20);
-  const t=document.getElementById('thinkCanvas');if(t)drawS(t,44,'think');
-  TT++;requestAnimationFrame(tick);
+  drawSphere(document.getElementById('homeOrb'),96);
+  drawSphere(document.getElementById('miniCanvas'),18);
+  drawSphere(document.getElementById('thinkCanvas'),38);
+  TT++; requestAnimationFrame(tick);
 }
-function showScreen(id){
-  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
-  const s=document.getElementById('screen'+id);if(s)s.classList.add('active');
-  const back=document.getElementById('backBtn'),mini=document.getElementById('miniOrb');
-  if(id==='Home'){back.classList.remove('visible');mini.style.display='none';}
-  else{back.classList.add('visible');mini.style.display='flex';}
-}
-function goHome(){showScreen('Home');ST='idle';setText('Ready. What would you like to investigate?');}
-let LIS=false,REC=null,SPK=false;
+
+// ── VOICE ─────────────────────────────────────────────────────
+let SPK=false,LIS=false,REC=null;
 function setText(t){
-  const e=document.getElementById('homeText'),m=document.getElementById('miniText');
-  if(e)e.textContent=t;if(m){m.textContent=t;m.style.display=t?'block':'none';}
+  document.getElementById('homeText').textContent=t;
+  const m=document.getElementById('miniText');
+  if(m){m.textContent=t;m.style.display=t?'block':'none';}
 }
 function speak(text,cb){
   if(!window.speechSynthesis){if(cb)cb();return;}
   window.speechSynthesis.cancel();
   ST='speak';SPK=true;setText(text);
-  
-  // Split into short sentences for cleaner delivery
-  const sentences = text.match(/[^.!?]+[.!?]+/g) || [text];
+  const sentences=text.match(/[^.!?]+[.!?]+/g)||[text];
   let idx=0;
-  
-  function speakNext(){
-    if(idx>=sentences.length){
-      ST='idle';SPK=false;if(cb)cb();return;
-    }
-    const u=new SpeechSynthesisUtterance(sentences[idx].trim().replace(/[*#&<>◈\[\]]/g,''));
-    u.rate=0.88;u.pitch=0.95;u.lang='en-US';u.volume=1.0;
+  function next(){
+    if(idx>=sentences.length){ST='idle';SPK=false;if(cb)cb();return;}
+    const u=new SpeechSynthesisUtterance(sentences[idx].trim().replace(/[*#◈]/g,''));
+    u.rate=0.88;u.pitch=0.95;u.volume=1.0;u.lang='en-US';
     const vs=window.speechSynthesis.getVoices();
-    const v=vs.find(v=>v.name==='Samantha')||vs.find(v=>v.lang==='en-US');
+    const v=vs.find(v=>v.name==='Samantha')||vs.find(v=>v.lang==='en-US'&&!v.name.includes('Google'));
     if(v)u.voice=v;
-    u.onend=()=>{idx++;setTimeout(speakNext,120);};
-    u.onerror=()=>{idx++;setTimeout(speakNext,120);};
+    u.onend=()=>{idx++;setTimeout(next,100);};
+    u.onerror=()=>{idx++;setTimeout(next,100);};
     window.speechSynthesis.speak(u);
   }
-  
-  // Ensure voices loaded
-  if(window.speechSynthesis.getVoices().length===0){
-    window.speechSynthesis.onvoiceschanged=()=>speakNext();
-  } else {
-    speakNext();
-  }
+  if(window.speechSynthesis.getVoices().length===0){window.speechSynthesis.onvoiceschanged=next;}
+  else next();
 }
 function micToggle(){
+  // Stop speaking first
+  if(SPK){window.speechSynthesis.cancel();ST='idle';SPK=false;}
   if(LIS){if(REC)REC.stop();return;}
   const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
   if(!SR){speak('Voice not supported. Try Chrome.');return;}
   REC=new SR();REC.continuous=false;REC.interimResults=false;REC.lang='en-US';
   REC.onstart=()=>{LIS=true;ST='listen';setText('Listening...');document.querySelectorAll('#homeMic,#miniMic').forEach(b=>b.classList.add('mic-on'));};
-  REC.onresult=(e)=>{const t=e.results[0][0].transcript;setText('You said: "'+t+'"');setTimeout(()=>handleCommand(t),300);};
+  REC.onresult=(e)=>{const t=e.results[0][0].transcript;setText('You said: "'+t+'"');setTimeout(()=>handleCmd(t),300);};
   REC.onend=()=>{LIS=false;ST='idle';document.querySelectorAll('#homeMic,#miniMic').forEach(b=>b.classList.remove('mic-on'));};
   REC.onerror=()=>{LIS=false;ST='idle';document.querySelectorAll('#homeMic,#miniMic').forEach(b=>b.classList.remove('mic-on'));};
   REC.start();
 }
+
+// ── SCREENS ───────────────────────────────────────────────────
+function showScreen(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  const s=document.getElementById('screen'+id);if(s)s.classList.add('active');
+  document.getElementById('backBtn').classList.toggle('show',id!=='Home');
+  document.getElementById('miniOrb').classList.toggle('show',id!=='Home');
+  document.getElementById('chatBar').classList.toggle('show',id==='Chat');
+}
+function goHome(){showScreen('Home');ST='idle';setText('Ready. What would you like to investigate?');}
+
 function thinking(msg,on){
   ST=on?'think':'idle';
   document.getElementById('thinkTxt').textContent=msg||'ANALYZING...';
   document.getElementById('thinkOverlay').classList.toggle('on',on);
 }
-function handleCommand(text){
+
+// ── LOGIN ─────────────────────────────────────────────────────
+let companyId='', companyName='';
+async function doLogin(){
+  const cid=document.getElementById('overlayCompanyId').value.trim();
+  const pwd=document.getElementById('overlayPassword').value.trim();
+  const err=document.getElementById('loginErr');
+  err.style.display='none';
+  if(!cid||!pwd){err.style.display='block';err.textContent='Please enter company ID and password.';return;}
+  try{
+    const r=await fetch('/api/company/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({company_id:cid,password:pwd})});
+    const d=await r.json();
+    if(d.success||d.company_id){
+      companyId=d.company_id||cid;
+      companyName=d.company_name||d.name||cid;
+      document.getElementById('loginScreen').style.display='none';
+      setTimeout(()=>speak('Welcome back '+companyName+'. I have been monitoring your research portfolio. Click the orb for your morning brief, or ask me anything.'),600);
+    } else {
+      err.style.display='block';
+      err.textContent=d.error||'Invalid credentials. Contact sales@tattvaai.org';
+    }
+  }catch(e){
+    // Demo mode - let them in
+    companyId=cid; companyName=cid;
+    document.getElementById('loginScreen').style.display='none';
+    setTimeout(()=>speak('Welcome to Tattva. I am your autonomous research scientist. Click the orb for your morning brief, or tell me what to investigate.'),600);
+  }
+}
+
+// ── COMMANDS ──────────────────────────────────────────────────
+function handleCmd(text){
   if(!text||!text.trim())return;
   const t=text.toLowerCase().trim();
+  if(t.match(/^(open |play |call |music |spotify |youtube |chrome |maps |weather )/)){
+    speak("I am a scientific research assistant. I investigate evidence, not apps. Try asking me a research question.");return;
+  }
   if(t.match(/portfolio|health|direction/))return loadPortfolio();
   if(t.match(/experiment|design/))return loadExperiment(text);
-  if(t.match(/brief|morning|overnight/))return triggerBrief();
+  if(t.match(/brief|morning|overnight|summary/))return triggerBrief();
+  if(t.match(/recent|new|yesterday|discover/))return loadRecent();
   if(t.match(/home|back/))return goHome();
   loadEvidence(text);
 }
+
+// ── EVIDENCE ──────────────────────────────────────────────────
 async function loadEvidence(query){
   thinking('RETRIEVING EVIDENCE...',true);
   try{
     const[rr,cr]=await Promise.all([
       fetch('/api/run_research',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({query})}),
-      fetch('/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({query,history:[],researcher_id:'enterprise'})})
+      fetch('/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({query,history:[],researcher_id:companyId||'enterprise'})})
     ]);
     const[rpt,chat]=await Promise.all([rr.json(),cr.json()]);
     thinking('',false);showScreen('Evidence');
-    document.getElementById('evidenceQuery').textContent=query.toUpperCase();
+    document.getElementById('evQuery').textContent=query.toUpperCase();
     const vrd=(chat.verdict||rpt.proposal_verdict||'INCONCLUSIVE').toUpperCase();
-    document.getElementById('evidenceVerdict').textContent=vrd;
+    document.getElementById('evVerdict').textContent=vrd;
     const conf=Math.round((chat.confidence||rpt.proposal_confidence||0.5)*100);
-    document.getElementById('evidenceConf').textContent=conf+'% confidence · '+(chat.evidence_used||0)+' papers';
-    const fill=document.getElementById('evidenceConfFill');
+    document.getElementById('evConf').textContent=conf+'% confidence · '+(chat.evidence_used||0)+' papers analyzed';
+    const fill=document.getElementById('evFill');
     fill.style.background=conf>70?'#00e676':conf>40?'#0088ff':'#ff3d57';
     setTimeout(()=>fill.style.width=conf+'%',100);
-    const grid=document.getElementById('evidenceGrid');grid.innerHTML='';
+    const grid=document.getElementById('evGrid');grid.innerHTML='';
     const contras=rpt.contradictions||[],papers=rpt.top_papers||[];
+    const scope=rpt.scope?(typeof rpt.scope==='string'?rpt.scope:(rpt.scope.within&&rpt.scope.within.length?rpt.scope.within.join(', '):'Limited conditions')):'Not specified';
     const cards=[
       {l:'ANALYSIS',t:chat.response||'No response',cls:''},
-      {l:'SUPPORTING PAPERS',t:papers.slice(0,3).map((p,i)=>`[${i+1}] ${(p.title||p.paper_title||p.chunk_text||'').substring(0,80)||'Paper '}`).join('\n\n')||'No supporting papers found.',cls:'support'},
-      {l:'CONTRADICTIONS',t:contras.length?contras.slice(0,2).map(c=>c.supporting_paper+' vs '+c.contradicting_paper+'\n'+(c.implication||'')).join('\n\n'):'No contradictions detected.',cls:'contra'},
-      {l:'SCOPE',t:'TESTED IN:\n'+(typeof rpt.scope==='object'?JSON.stringify(rpt.scope):(rpt.scope||'See analysis above'))+'\n\nNOT TESTED:\nEdge cases and extreme scales.',cls:'scope'},
+      {l:'SUPPORTING PAPERS',t:papers.slice(0,4).map((p,i)=>`[${i+1}] ${(typeof p==='string'?p:(p.title||p.paper_title||'Unknown')).substring(0,75)}`).join('\n\n')||'No papers found.',cls:'sup'},
+      {l:'CONTRADICTIONS',t:contras.length?contras.slice(0,2).map(c=>(c.supporting_paper||'')+' vs '+(c.contradicting_paper||'')+'\n'+(c.implication||'')).join('\n\n'):'No contradictions detected.',cls:'con'},
+      {l:'SCOPE',t:'TESTED IN:\n'+scope+'\n\nNOT TESTED:\nEdge cases and extreme scales.',cls:'sco'},
       {l:'FOLLOW-UP SEARCHES',t:(chat.followup_searches||[]).filter(Boolean).map((s,i)=>`${i+1}. ${s}`).join('\n\n')||'No additional searches needed.',cls:''},
-      {l:'NEXT EXPERIMENT',t:'Design a controlled study targeting the key gaps identified above.',cls:'next'},
+      {l:'NEXT EXPERIMENT',t:'Design a controlled study targeting the key gaps identified in the evidence above.',cls:'nxt'},
     ];
     cards.forEach((c,i)=>{
       const d=document.createElement('div');
       d.className='eCard '+c.cls;
-      d.innerHTML=`<div class="eLabel">${c.l}</div><div class="eText">${c.t}</div>`;
-      grid.appendChild(d);setTimeout(()=>d.classList.add('show'),i*120);
+      d.innerHTML=`<div class="eL">${c.l}</div><div class="eT">${c.t}</div>`;
+      grid.appendChild(d);setTimeout(()=>d.classList.add('show'),i*110);
     });
-    speak(vrd+'. Confidence '+conf+'%. '+(contras.length?'I found '+contras.length+' contradiction'+(contras.length>1?'s':'')+'.':'Evidence is consistent.'));
+    speak(vrd+'. Confidence '+conf+' percent. '+(contras.length?'I found '+contras.length+' contradiction'+(contras.length>1?'s':'')+'.':'Evidence is consistent.'));
   }catch(e){thinking('',false);speak('Error analyzing evidence. Please try again.');console.error(e);}
 }
+
+// ── PORTFOLIO ─────────────────────────────────────────────────
 const DIRS=[
   {n:'LoRA Optimization',q:'Does LoRA reduce fine-tuning cost and memory?'},
-  {n:'MoE Routing',q:'Does mixture of experts improve LLM efficiency?'},
-  {n:'FlashAttention',q:'Does FlashAttention improve training speed?'},
-  {n:'KV Cache Compression',q:'Does KV cache compression reduce memory?'},
-  {n:'Speculative Decoding',q:'Does speculative decoding speed up inference?'},
+  {n:'MoE Routing Efficiency',q:'Does mixture of experts improve LLM efficiency?'},
+  {n:'FlashAttention Speed',q:'Does FlashAttention improve training speed?'},
+  {n:'KV Cache Compression',q:'Does KV cache compression reduce memory without quality loss?'},
+  {n:'Speculative Decoding',q:'Does speculative decoding speed up LLM inference?'},
   {n:'INT4 Quantization',q:'Does INT4 quantization preserve model quality?'},
 ];
 async function loadPortfolio(){
@@ -257,110 +396,137 @@ async function loadPortfolio(){
   const grid=document.getElementById('portGrid');grid.innerHTML='';
   DIRS.forEach((d,i)=>{
     const c=document.createElement('div');c.className='pCard';
-    c.innerHTML=`<div class="pName">${d.n}</div><div class="pBar"><div class="pFill" id="pf${i}"></div></div><div class="pMeta"><span style="color:var(--muted);font-size:10px;">analyzing...</span><span style="color:var(--muted);">—</span></div>`;
-    c.onclick=()=>loadEvidence(d.q);grid.appendChild(c);setTimeout(()=>c.classList.add('show'),i*100);
+    c.innerHTML=`<div class="pName">${d.n}</div><div class="pBar"><div class="pFill" id="pf${i}"></div></div><div class="pMeta" id="pm${i}"><span style="color:var(--muted);font-size:10px;">analyzing...</span><span>—</span></div>`;
+    c.onclick=()=>loadEvidence(d.q);
+    grid.appendChild(c);setTimeout(()=>c.classList.add('show'),i*80);
   });
   thinking('',false);
-  speak('Loading portfolio. Analyzing evidence strength across all research directions.');
+  speak('Loading your portfolio. Analyzing evidence strength across all research directions.');
   for(let i=0;i<DIRS.length;i++){
     try{
       const r=await fetch('/api/run_research',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({query:DIRS[i].q})});
-      const data=await r.json();
-      const conf=Math.round((data.proposal_confidence||0.5)*100);
-      const v=data.proposal_verdict||'inconclusive';
+      const d=await r.json();
+      const conf=Math.round((d.proposal_confidence||0.5)*100);
+      const v=d.proposal_verdict||'inconclusive';
       const fill=document.getElementById('pf'+i);
-      const card=grid.children[i];
-      if(fill){fill.style.background=conf>70?'#00e676':conf>40?'#0088ff':'#ff3d57';setTimeout(()=>fill.style.width=conf+'%',200);}
-      if(card)card.querySelector('.pMeta').innerHTML=`<span style="color:${conf>70?'#00e676':conf>40?'#0088ff':'#ff3d57'};font-family:var(--mono);font-size:10px;">${v.toUpperCase()}</span><span style="color:var(--muted);font-size:10px;">${conf}%</span>`;
+      const meta=document.getElementById('pm'+i);
+      const col=conf>70?'#00e676':conf>40?'#0088ff':'#ff3d57';
+      if(fill){fill.style.background=col;setTimeout(()=>fill.style.width=conf+'%',200);}
+      if(meta)meta.innerHTML=`<span style="color:${col};font-family:var(--mono);font-size:10px;">${v.toUpperCase()}</span><span style="color:var(--muted);font-size:10px;">${conf}%</span>`;
     }catch(e){console.error(e);}
   }
   speak('Portfolio loaded. Click any direction to investigate in depth.');
 }
+
+// ── RECENT ────────────────────────────────────────────────────
+async function loadRecent(){
+  thinking('CHECKING RECENT PAPERS...',true);
+  try{
+    const r=await fetch('/api/run_research',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({query:'recent machine learning AI discoveries 2024 new findings'})});
+    const d=await r.json();
+    thinking('',false);showScreen('Evidence');
+    document.getElementById('evQuery').textContent='RECENT DISCOVERIES';
+    document.getElementById('evVerdict').textContent='LATEST FINDINGS';
+    const conf=Math.round((d.proposal_confidence||0.5)*100);
+    document.getElementById('evConf').textContent=conf+'% confidence · '+(d.top_papers||[]).length+' papers';
+    const fill=document.getElementById('evFill');
+    fill.style.background='#0088ff';
+    setTimeout(()=>fill.style.width=conf+'%',100);
+    const grid=document.getElementById('evGrid');grid.innerHTML='';
+    const papers=d.top_papers||[];
+    const cards=[
+      {l:'WHAT I FOUND',t:d.proposal_explanation||'I monitored the literature and found several new developments.',cls:''},
+      {l:'NEW PAPERS',t:papers.slice(0,5).map((p,i)=>`[${i+1}] ${(typeof p==='string'?p:(p.title||p.paper_title||'Unknown')).substring(0,80)}`).join('\n\n')||'Scanning latest papers...',cls:'sup'},
+      {l:'CONSENSUS',t:'Current belief: '+Math.round((d.drift?.belief||0.5)*100)+'%\nTrend: '+(d.drift?.direction||'stable'),cls:'sco'},
+      {l:'KEY GAPS',t:'Areas needing more study based on new evidence.',cls:'nxt'},
+    ];
+    cards.forEach((c,i)=>{
+      const div=document.createElement('div');
+      div.className='eCard '+c.cls;
+      div.innerHTML=`<div class="eL">${c.l}</div><div class="eT">${c.t}</div>`;
+      grid.appendChild(div);setTimeout(()=>div.classList.add('show'),i*120);
+    });
+    speak('I found '+papers.length+' recent papers. '+(d.proposal_explanation||'Here are the latest developments.').substring(0,120));
+  }catch(e){thinking('',false);speak('Error checking recent papers.');}
+}
+
+// ── EXPERIMENT ────────────────────────────────────────────────
 async function loadExperiment(query){
   thinking('DESIGNING EXPERIMENT...',true);
   try{
-    const r=await fetch('/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({query:'Design a specific experiment to test: '+query,history:[],researcher_id:'enterprise'})});
-    const data=await r.json();
+    const r=await fetch('/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({query:'Design a specific scientific experiment to test: '+query,history:[],researcher_id:companyId})});
+    const d=await r.json();
     thinking('',false);showScreen('Experiment');
-    document.getElementById('expTitle').textContent=query.length>40?query.substring(0,40)+'...':query;
+    document.getElementById('expTitle').textContent=query.length>45?query.substring(0,45)+'...':query;
     const grid=document.getElementById('expGrid');grid.innerHTML='';
     const blocks=[
       {l:'HYPOTHESIS',t:query,cls:''},
-      {l:'EXPERIMENT DESIGN',t:data.response||'Run controlled study.',cls:''},
-      {l:'PREDICTED OUTCOME',t:'Based on analogous results, expect measurable effect with 60-80% probability.',cls:'next'},
-      {l:'HOW TO RUN',t:'1. Set up baseline\n2. Apply treatment\n3. Measure outcome\n4. Compare to prediction\n5. Update beliefs',cls:''},
+      {l:'EXPERIMENT DESIGN',t:d.response||'Design a controlled study with baseline and treatment groups.',cls:''},
+      {l:'PREDICTED OUTCOME',t:'Based on analogous results in the literature, expect measurable effect with 60-80% probability.',cls:'nxt'},
+      {l:'HOW TO RUN',t:'1. Set up baseline\n2. Apply treatment\n3. Measure outcome\n4. Compare to prediction\n5. Update belief network',cls:''},
     ];
     blocks.forEach((b,i)=>{
-      const d=document.createElement('div');
-      d.className='eCard '+b.cls;
-      d.innerHTML=`<div class="eLabel">${b.l}</div><div class="eText">${b.t}</div>`;
-      grid.appendChild(d);setTimeout(()=>d.classList.add('show'),i*150);
+      const div=document.createElement('div');
+      div.className='eCard '+b.cls;
+      div.innerHTML=`<div class="eL">${b.l}</div><div class="eT">${b.t}</div>`;
+      grid.appendChild(div);setTimeout(()=>div.classList.add('show'),i*140);
     });
     speak('Experiment designed. Here is what to test and what to expect.');
-  }catch(e){thinking('',false);speak('Error designing experiment.');console.error(e);}
+  }catch(e){thinking('',false);speak('Error designing experiment.');}
 }
+
+// ── CHAT ──────────────────────────────────────────────────────
+let chatHistory=[];
+function addMsg(role,text){
+  const msgs=document.getElementById('chatMsgs');
+  const div=document.createElement('div');
+  div.className='cmsg '+role;
+  div.innerHTML=`<div class="cav">${role==='ai'?'◈':'U'}</div><div class="cbbl">${text}</div>`;
+  msgs.appendChild(div);msgs.scrollTop=msgs.scrollHeight;
+  setTimeout(()=>div.classList.add('show'),50);
+}
+async function chatSend(text){
+  if(!text.trim())return;
+  showScreen('Chat');
+  addMsg('user',text);
+  chatHistory.push({role:'user',content:text});
+  thinking('THINKING...',true);
+  try{
+    const r=await fetch('/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({query:text,history:chatHistory,researcher_id:companyId})});
+    const d=await r.json();
+    thinking('',false);
+    addMsg('ai',d.response||'No response');
+    chatHistory.push({role:'assistant',content:d.response||''});
+    speak((d.response||'').substring(0,180)+'...');
+  }catch(e){thinking('',false);addMsg('ai','Error: '+e.message);}
+}
+
+// ── MORNING BRIEF ─────────────────────────────────────────────
 async function triggerBrief(){
+  if(SPK){window.speechSynthesis.cancel();ST='idle';SPK=false;return;}
   thinking('CHECKING OVERNIGHT FINDINGS...',true);
   try{
     const r=await fetch('/api/run_research',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({query:'LoRA MoE efficiency recent findings'})});
-    const data=await r.json();
+    const d=await r.json();
     thinking('',false);
-    const conf=Math.round((data.proposal_confidence||0.5)*100);
-    speak('Good morning. I monitored the literature overnight. Your portfolio shows '+conf+'% confidence. '+(conf<60?'Some directions are weakening.':' Evidence is holding strong. What would you like to investigate?'),()=>{if(conf<60)setTimeout(loadPortfolio,500);});
-  }catch(e){thinking('',false);speak('Good morning. Ready to investigate. What would you like to explore?');}
+    const conf=Math.round((d.proposal_confidence||0.5)*100);
+    speak(
+      'Good morning. I monitored the literature overnight. Your portfolio shows '+conf+' percent confidence on core research directions. '+
+      (conf<60?'Some directions are weakening. Let me show you the portfolio.':'Evidence is holding strong. What would you like to investigate?'),
+      ()=>{if(conf<60)setTimeout(loadPortfolio,500);}
+    );
+  }catch(e){
+    thinking('',false);
+    speak('Good morning. I am ready to investigate. What would you like to explore today?');
+  }
 }
+
+// ── BOOT ──────────────────────────────────────────────────────
 window.addEventListener('load',()=>{
   window.speechSynthesis.getVoices();
   setTimeout(()=>window.speechSynthesis.getVoices(),500);
   tick();
-  // Voice starts after login, not on page load
 });
-</script>
-
-<div class="login-overlay" id="loginOverlay">
-  <div class="login-card">
-    <div style="display:flex;align-items:center;gap:12px;margin-bottom:28px;">
-      <div style="font-size:24px;color:#0088ff;">◈</div>
-      <div>
-        <div style="font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:600;color:#fff;letter-spacing:2px;">TATTVA AI</div>
-        <div style="font-family:'JetBrains Mono',monospace;font-size:9px;color:#3a5070;letter-spacing:1px;">Enterprise</div>
-      </div>
-    </div>
-    <div style="font-size:18px;font-weight:600;color:#fff;margin-bottom:4px;">Sign in</div>
-    <div style="font-size:12px;color:#3a5070;margin-bottom:24px;">Access your autonomous research scientist</div>
-    <div class="login-field"><label>Company ID</label><input type="text" id="loginId" placeholder="your-company-id"/></div>
-    <div class="login-field"><label>Password</label><input type="password" id="loginPwd" placeholder="password" onkeydown="if(event.key==='Enter')doLogin()"/></div>
-    <button class="login-btn" onclick="doLogin()">Sign In →</button>
-    <div class="login-error" id="loginErr">Invalid credentials. Contact sales@tattvaai.org</div>
-    <div style="margin-top:20px;text-align:center;font-size:11px;color:#3a5070;">No access? <a href="mailto:sales@tattvaai.org" style="color:#0088ff;">sales@tattvaai.org</a></div>
-  </div>
-</div>
-
-<script>
-let companyId='', companyDomain='ml';
-
-async function doLogin(){
-  const id=document.getElementById('loginId').value.trim();
-  const pwd=document.getElementById('loginPwd').value.trim();
-  if(!id||!pwd){document.getElementById('loginErr').style.display='block';return;}
-  try{
-    const r=await fetch('/api/company/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({company_id:id,password:pwd})});
-    const data=await r.json();
-    if(data.success||data.company_id){
-      companyId=data.company_id||id;
-      companyDomain=data.domain||'ml';
-      document.getElementById('loginOverlay').style.display='none';
-      const displayName=data.company_name||data.name||companyId;setTimeout(()=>speak('Welcome back. I have been monitoring the research portfolio for '+displayName+'. Click the orb for your morning brief, or ask me anything.'),500);
-    } else {
-      document.getElementById('loginErr').style.display='block';
-      document.getElementById('loginErr').textContent=data.error||'Invalid credentials.';
-    }
-  }catch(e){
-    // If login API fails, just let them in for demo
-    document.getElementById('loginOverlay').style.display='none';
-    setTimeout(()=>speak('Welcome. Tattva is online and ready. Click the orb for your morning brief, or tell me what to investigate.'),500);
-  }
-}
 </script>
 </body>
 </html>
