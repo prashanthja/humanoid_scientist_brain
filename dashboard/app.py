@@ -2033,6 +2033,24 @@ def api_service_trigger():
 
 # ── Startup ────────────────────────────────────────────
 
+
+@app.route("/api/discoveries")
+def api_discoveries():
+    """Return stored overnight discoveries."""
+    import glob, json as _json
+    try:
+        files = sorted(glob.glob("outputs/discoveries/*.json"), reverse=True)[:5]
+        discoveries = []
+        for f in files:
+            try:
+                with open(f) as fp:
+                    d = _json.load(fp)
+                    discoveries.append(d)
+            except: pass
+        return jsonify({"discoveries": discoveries, "count": len(discoveries)})
+    except Exception as e:
+        return jsonify({"discoveries": [], "error": str(e)})
+
 @app.route("/api/chat", methods=["POST"])
 def api_chat():
     try:

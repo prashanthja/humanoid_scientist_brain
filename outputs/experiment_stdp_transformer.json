@@ -1,7 +1,0 @@
-{
-  "experiment": "STDP-Transformer",
-  "date": "2026-06-28T01:18:20.478294",
-  "std_forgetting": 0.46166666348775226,
-  "stdp_forgetting": 0.48916666706403095,
-  "improvement_pct": -5.956679516022331,
-  "supported": 

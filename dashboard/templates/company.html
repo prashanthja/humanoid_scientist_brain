@@ -3,19 +3,18 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>Tattva AI — Enterprise</title>
+<title>Tattva AI Enterprise</title>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet"/>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;}
 :root{
-  --bg:#020508;--card:#0d1520;--dim:#1a2535;
-  --accent:#0088ff;--white:#ffffff;
-  --text:#c8deff;--muted:#3a5070;
-  --green:#00e676;--red:#ff3d57;--amber:#ffb300;
+  --bg:#020508;--card:#0d1520;--dim:#1a2535;--surface:#080d14;
+  --accent:#0088ff;--accent2:#00c8ff;--white:#ffffff;
+  --text:#c8deff;--muted:#5a7090;--green:#00e676;--red:#ff3d57;--amber:#ffb300;
   --mono:'JetBrains Mono',monospace;--sans:'Space Grotesk',sans-serif;
 }
 html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);font-family:var(--sans);}
-body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(0,136,255,.008) 3px,rgba(0,136,255,.008) 4px);pointer-events:none;z-index:99998;}
+body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(0,136,255,.007) 3px,rgba(0,136,255,.007) 4px);pointer-events:none;z-index:99998;}
 
 /* LOGIN */
 #loginScreen{position:fixed;inset:0;z-index:99999;background:var(--bg);display:flex;align-items:center;justify-content:center;}
@@ -27,85 +26,85 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
 .lbtn{width:100%;padding:12px;background:var(--accent);color:#000;border:none;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;margin-top:8px;}
 .lerr{background:rgba(255,61,87,.08);border:1px solid rgba(255,61,87,.2);border-radius:8px;padding:10px 14px;font-size:12px;color:var(--red);margin-top:12px;display:none;}
 
-/* SCREENS */
-.screen{position:fixed;inset:0;display:none;flex-direction:column;align-items:center;justify-content:center;opacity:0;transition:opacity 0.5s ease;}
-.screen.active{display:flex;opacity:1;}
+/* OS OVERLAY */
+#osScreen{position:fixed;inset:0;z-index:99990;background:#020508;display:none;flex-direction:column;align-items:center;justify-content:center;gap:24px;transition:opacity 0.8s ease;}
+#osScreen.active{display:flex;}
+#osLabel{font-family:var(--mono);font-size:9px;letter-spacing:4px;color:rgba(0,136,255,0.3);}
+#osText{font-size:15px;font-weight:300;color:rgba(220,235,255,0.9);text-align:center;max-width:420px;line-height:1.7;min-height:44px;padding:0 20px;}
+#osInputRow{display:flex;gap:10px;align-items:center;}
+#osField{background:rgba(255,255,255,0.05);border:1px solid rgba(0,136,255,0.2);border-radius:24px;padding:11px 20px;color:rgba(220,235,255,0.9);font-size:13px;font-family:var(--sans);outline:none;width:260px;}
+.osbtn{width:42px;height:42px;border-radius:50%;border:1px solid rgba(0,136,255,0.3);background:rgba(0,136,255,0.08);color:rgba(0,136,255,0.8);font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;}
+#osHint{font-family:var(--mono);font-size:9px;color:rgba(0,136,255,0.2);letter-spacing:2px;}
+#osSkip{position:absolute;top:20px;right:20px;background:none;border:1px solid rgba(0,136,255,0.15);border-radius:20px;color:rgba(0,136,255,0.35);font-size:11px;padding:6px 14px;cursor:pointer;font-family:var(--mono);}
 
-/* HOME */
-#homeLabel{font-family:var(--mono);font-size:9px;letter-spacing:4px;color:rgba(0,136,255,0.3);text-transform:uppercase;margin-bottom:28px;}
-#homeText{font-size:14px;font-weight:300;color:rgba(200,222,255,0.8);text-align:center;max-width:380px;line-height:1.7;min-height:44px;padding:0 20px;margin-top:20px;}
-#homeInput{display:flex;gap:10px;margin-top:20px;align-items:center;}
-#homeField{background:rgba(255,255,255,0.04);border:1px solid rgba(0,136,255,0.15);border-radius:28px;padding:11px 20px;color:rgba(200,222,255,0.9);font-size:13px;font-family:var(--sans);outline:none;width:260px;}
-#homeField:focus{border-color:rgba(0,136,255,0.35);}
-.hbtn{padding:11px 18px;border-radius:28px;border:1px solid rgba(0,136,255,0.3);background:rgba(0,136,255,0.1);color:rgba(200,222,255,0.9);font-size:13px;cursor:pointer;width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;}
-#homeHint{font-family:var(--mono);font-size:9px;color:rgba(0,136,255,0.2);letter-spacing:2px;margin-top:14px;}
+/* DASHBOARD */
+#dashboard{display:none;height:100vh;overflow:hidden;flex-direction:row;}
+#dashboard.active{display:flex;}
+.sidebar{width:220px;background:var(--surface);border-right:1px solid var(--dim);display:flex;flex-direction:column;flex-shrink:0;}
+.sidebar-logo{padding:20px 16px;border-bottom:1px solid var(--dim);display:flex;align-items:center;gap:10px;}
+.logo-hex{width:32px;height:32px;background:rgba(0,136,255,.1);border:1.5px solid var(--accent);clip-path:polygon(50% 0%,100% 25%,100% 75%,50% 100%,0% 75%,0% 25%);display:flex;align-items:center;justify-content:center;font-size:14px;color:var(--accent);}
+.logo-name{font-family:var(--mono);font-size:12px;font-weight:600;color:var(--white);letter-spacing:2px;}
+.logo-tag{font-family:var(--mono);font-size:9px;color:var(--muted);}
+.nav{flex:1;padding:12px 0;overflow-y:auto;}
+.nav-section{font-family:var(--mono);font-size:8px;color:var(--muted);letter-spacing:2px;padding:12px 16px 4px;text-transform:uppercase;}
+.nav-item{padding:8px 16px;font-size:13px;color:var(--text);cursor:pointer;transition:all .15s;border-radius:0;}
+.nav-item:hover{background:rgba(0,136,255,.06);color:var(--white);}
+.nav-item.active{background:rgba(0,136,255,.1);color:var(--accent2);border-left:2px solid var(--accent);}
+.nav-badge{font-size:9px;padding:1px 5px;border-radius:10px;margin-left:6px;font-family:var(--mono);}
+.nav-badge.green{background:rgba(0,230,118,.15);color:var(--green);}
+.nav-badge.amber{background:rgba(255,179,0,.15);color:var(--amber);}
+.nav-badge.red{background:rgba(255,61,87,.15);color:var(--red);}
+.sidebar-footer{padding:12px 16px;border-top:1px solid var(--dim);display:flex;gap:6px;}
+.sidebar-footer button{flex:1;padding:8px;background:var(--surface);border:1px solid var(--dim);border-radius:6px;color:var(--muted);font-size:11px;cursor:pointer;}
+.main{flex:1;display:flex;flex-direction:column;overflow:hidden;}
+.topbar{height:52px;background:var(--surface);border-bottom:1px solid var(--dim);display:flex;align-items:center;padding:0 24px;gap:16px;flex-shrink:0;}
+.tb-title{font-family:var(--mono);font-size:10px;letter-spacing:2px;color:var(--muted);text-transform:uppercase;flex:1;}
+.tb-btn{padding:6px 14px;border-radius:6px;border:1px solid var(--dim);background:transparent;color:var(--text);font-size:12px;cursor:pointer;}
+.tb-btn.primary{background:var(--accent);color:#000;border-color:var(--accent);}
+.content{flex:1;overflow-y:auto;padding:24px;}
+.pane{display:none;}
+.pane.active{display:block;}
 
-/* BACK */
-#backBtn{position:fixed;top:18px;left:18px;z-index:9997;display:none;align-items:center;gap:8px;padding:7px 14px;border-radius:20px;border:1px solid rgba(0,136,255,0.2);background:rgba(2,5,8,0.9);color:rgba(0,136,255,0.6);font-size:11px;font-family:var(--mono);cursor:pointer;letter-spacing:1px;}
-#backBtn.show{display:flex;}
-
-/* MINI ORB */
-#miniOrb{position:fixed;bottom:20px;right:20px;z-index:9997;display:none;flex-direction:column;align-items:flex-end;gap:8px;}
-#miniOrb.show{display:flex;}
-#miniText{max-width:240px;background:rgba(2,5,8,0.95);border:1px solid rgba(0,136,255,0.2);border-radius:10px;padding:8px 12px;font-size:11px;color:var(--text);line-height:1.6;display:none;}
+/* DISCOVERY SCREEN */
+#discoveryScreen{position:fixed;inset:0;z-index:9990;background:var(--bg);display:none;flex-direction:column;padding:60px 40px 40px;overflow-y:auto;}
+#discoveryScreen.active{display:flex;}
+#discBack{position:fixed;top:18px;left:18px;z-index:9991;padding:7px 14px;border-radius:20px;border:1px solid rgba(0,136,255,0.2);background:rgba(2,5,8,0.9);color:rgba(0,136,255,0.6);font-size:11px;font-family:var(--mono);cursor:pointer;}
+#discGrid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;width:100%;max-width:900px;margin:0 auto;}
+.discCard{background:var(--card);border:1px solid var(--dim);border-radius:12px;padding:20px;opacity:0;transform:translateY(16px);transition:all 0.4s ease;}
+.discCard.show{opacity:1;transform:translateY(0);}
+.discCard.confirmed{border-left:3px solid var(--green);}
+.discCard.untested{border-left:3px solid var(--amber);}
+.dLabel{font-family:var(--mono);font-size:8px;letter-spacing:2px;color:var(--accent2);margin-bottom:8px;}
+.dText{font-size:13px;color:rgba(200,220,255,0.85);line-height:1.6;margin-bottom:12px;}
+.dMeta{font-size:10px;color:var(--muted);font-family:var(--mono);margin-bottom:10px;}
+.dBtn{padding:7px 16px;border-radius:6px;border:1px solid rgba(0,136,255,0.3);background:rgba(0,136,255,0.1);color:rgba(200,220,255,0.9);font-size:11px;cursor:pointer;font-family:var(--mono);}
 
 /* THINKING */
-#thinkOverlay{position:fixed;inset:0;z-index:9995;background:rgba(2,5,8,0.88);display:none;align-items:center;justify-content:center;flex-direction:column;gap:16px;backdrop-filter:blur(4px);}
+#thinkOverlay{position:fixed;inset:0;z-index:9985;background:rgba(2,5,8,0.88);display:none;align-items:center;justify-content:center;flex-direction:column;gap:16px;backdrop-filter:blur(4px);}
 #thinkOverlay.on{display:flex;}
 #thinkTxt{font-family:var(--mono);font-size:11px;color:rgba(0,136,255,0.5);letter-spacing:2px;}
 
-/* EVIDENCE SCREEN */
-#screenEvidence{padding:56px 40px 40px;justify-content:flex-start!important;}
-#evHeader{text-align:center;margin-bottom:32px;width:100%;}
-#evQuery{font-size:10px;font-family:var(--mono);color:rgba(0,136,255,0.45);letter-spacing:2px;margin-bottom:10px;}
-#evVerdict{font-size:32px;font-weight:600;color:var(--white);margin-bottom:6px;}
-#evConf{font-size:12px;color:var(--muted);}
-#evBar{width:280px;height:3px;background:rgba(255,255,255,0.07);border-radius:2px;margin:10px auto 0;overflow:hidden;}
-#evFill{height:100%;border-radius:2px;transition:width 2s ease;width:0%;}
-#evGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;width:100%;max-width:1080px;overflow-y:auto;max-height:calc(100vh - 240px);}
-.eCard{background:var(--card);border:1px solid var(--dim);border-radius:12px;padding:16px;opacity:0;transform:translateY(18px);transition:all 0.45s ease;}
-.eCard.show{opacity:1;transform:translateY(0);}
-.eCard.sup{border-left:2px solid var(--green);}
-.eCard.con{border-left:2px solid var(--red);}
-.eCard.sco{border-left:2px solid var(--amber);}
-.eCard.nxt{border-left:2px solid var(--accent);}
-.eL{font-family:var(--mono);font-size:8px;letter-spacing:2px;color:var(--accent);margin-bottom:7px;}
-.eT{font-size:11px;color:var(--muted);line-height:1.6;white-space:pre-line;}
-
-/* PORTFOLIO SCREEN */
-#screenPortfolio{padding:56px 40px 40px;justify-content:flex-start!important;align-items:flex-start!important;}
-#portGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;width:100%;overflow-y:auto;max-height:calc(100vh - 160px);}
-.pCard{background:var(--card);border:1px solid var(--dim);border-radius:12px;padding:18px;opacity:0;transform:scale(0.96);transition:all 0.4s ease;cursor:pointer;}
-.pCard:hover{border-color:rgba(0,136,255,0.3);transform:scale(1.02)!important;}
-.pCard.show{opacity:1;transform:scale(1);}
-.pName{font-size:14px;font-weight:500;color:var(--white);margin-bottom:10px;}
-.pBar{height:4px;border-radius:2px;background:rgba(255,255,255,0.06);margin-bottom:7px;overflow:hidden;}
-.pFill{height:100%;border-radius:2px;transition:width 1.5s ease;width:0%;}
-.pMeta{display:flex;justify-content:space-between;font-size:10px;font-family:var(--mono);}
-
-/* EXPERIMENT SCREEN */
-#screenExperiment{padding:56px 40px 40px;justify-content:flex-start!important;align-items:center!important;}
-#expGrid{display:grid;grid-template-columns:1fr 1fr;gap:14px;width:100%;max-width:880px;}
-
-/* CHAT SCREEN */
-#screenChat{padding:56px 40px 120px;justify-content:flex-start!important;align-items:flex-start!important;}
-#chatMsgs{width:100%;max-width:780px;flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:14px;}
-.cmsg{display:flex;gap:10px;align-items:flex-start;opacity:0;transform:translateY(8px);transition:all 0.3s ease;}
-.cmsg.show{opacity:1;transform:translateY(0);}
-.cmsg.user{flex-direction:row-reverse;}
-.cav{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;flex-shrink:0;}
-.cbbl{max-width:74%;padding:11px 15px;border-radius:12px;font-size:13px;line-height:1.7;}
-.cmsg.ai .cav{background:rgba(0,136,255,0.1);border:1px solid rgba(0,136,255,0.2);color:var(--accent);}
-.cmsg.ai .cbbl{background:var(--card);border:1px solid var(--dim);color:var(--text);}
-.cmsg.user .cav{background:rgba(0,136,255,0.2);color:var(--white);}
-.cmsg.user .cbbl{background:rgba(0,136,255,0.15);color:var(--white);}
-#chatBar{position:fixed;bottom:0;left:0;right:0;padding:14px 40px;background:linear-gradient(transparent,var(--bg) 40%);display:none;}
-#chatBar.show{display:block;}
-#chatWrap{display:flex;gap:10px;max-width:780px;margin:0 auto;}
-#chatIn{flex:1;background:var(--card);border:1px solid var(--dim);border-radius:28px;padding:11px 18px;color:var(--text);font-size:13px;font-family:var(--sans);outline:none;}
-#chatSend{padding:11px 18px;border-radius:28px;border:none;background:var(--accent);color:#000;font-size:13px;cursor:pointer;font-weight:500;}
-
+/* VOICE ORB - mini */
+#miniOrb{position:fixed;bottom:20px;right:20px;z-index:9980;display:none;flex-direction:column;align-items:flex-end;gap:8px;}
+#miniOrb.show{display:flex;}
+#miniText{max-width:240px;background:rgba(2,5,8,0.95);border:1px solid rgba(0,136,255,0.2);border-radius:10px;padding:8px 12px;font-size:12px;color:var(--text);line-height:1.6;display:none;}
 .mic-on{background:rgba(255,50,50,0.15)!important;border-color:rgba(255,50,50,0.5)!important;color:rgba(255,100,100,0.9)!important;}
+
+/* PORTFOLIO */
+.port-table{width:100%;border-collapse:collapse;}
+.port-table th{font-family:var(--mono);font-size:9px;color:var(--muted);letter-spacing:1px;text-align:left;padding:8px 4px;border-bottom:1px solid var(--dim);}
+.port-table td{padding:10px 4px;font-size:13px;border-bottom:1px solid rgba(26,37,53,0.5);}
+.verdict-pill{padding:3px 8px;border-radius:4px;font-size:10px;font-family:var(--mono);}
+.v-strong{background:rgba(0,230,118,.1);color:var(--green);}
+.v-moderate{background:rgba(0,136,255,.1);color:var(--accent2);}
+.v-mixed{background:rgba(255,179,0,.1);color:var(--amber);}
+.v-limited,.v-inconclusive{background:rgba(255,61,87,.1);color:var(--red);}
+.risk-badge{padding:2px 6px;border-radius:3px;font-size:9px;font-family:var(--mono);}
+.risk-badge.low{background:rgba(0,230,118,.08);color:var(--green);}
+.risk-badge.medium{background:rgba(255,179,0,.08);color:var(--amber);}
+.risk-badge.high{background:rgba(255,61,87,.08);color:var(--red);}
+.inv-btn{padding:5px 12px;border-radius:4px;border:1px solid var(--dim);background:transparent;color:var(--text);font-size:11px;cursor:pointer;}
+.inv-btn:hover{border-color:var(--accent);color:var(--accent);}
 </style>
 </head>
 <body>
@@ -114,28 +113,25 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
 <div id="loginScreen">
   <div class="lcard">
     <div style="display:flex;align-items:center;gap:12px;margin-bottom:28px;">
-      <div style="font-size:22px;color:var(--accent);">◈</div>
+      <div style="font-size:22px;color:var(--accent);">&#9672;</div>
       <div>
         <div style="font-family:var(--mono);font-size:13px;font-weight:600;color:var(--white);letter-spacing:2px;">TATTVA AI</div>
-        <div style="font-family:var(--mono);font-size:9px;color:var(--muted);letter-spacing:1px;">Enterprise</div>
+        <div style="font-family:var(--mono);font-size:9px;color:var(--muted);">Enterprise</div>
       </div>
     </div>
     <div style="font-size:18px;font-weight:600;color:var(--white);margin-bottom:4px;">Sign in</div>
     <div style="font-size:12px;color:var(--muted);margin-bottom:24px;">Access your autonomous research scientist</div>
-    <div class="lfield"><label>Company ID</label><input type="text" id="overlayCompanyId" placeholder="your-company-id"/></div>
-    <div class="lfield"><label>Password</label><input type="password" id="overlayPassword" placeholder="password" onkeydown="if(event.key==='Enter')doLogin()"/></div>
-    <button class="lbtn" onclick="doLogin()">Sign In →</button>
+    <div class="lfield"><label>Company ID</label><input type="text" id="loginId" placeholder="your-company-id"/></div>
+    <div class="lfield"><label>Password</label><input type="password" id="loginPwd" placeholder="password" onkeydown="if(event.key==='Enter')doLogin()"/></div>
+    <button class="lbtn" onclick="doLogin()">Sign In</button>
     <div class="lerr" id="loginErr">Invalid credentials. Contact sales@tattvaai.org</div>
     <div style="margin-top:20px;text-align:center;font-size:11px;color:var(--muted);">No access? <a href="mailto:sales@tattvaai.org" style="color:var(--accent);">sales@tattvaai.org</a></div>
   </div>
 </div>
 
-<!-- BACK BTN -->
-<div id="backBtn" onclick="goHome()">← HOME</div>
-
 <!-- THINKING -->
 <div id="thinkOverlay">
-  <canvas id="thinkCanvas" width="90" height="90"></canvas>
+  <canvas id="thinkCanvas" width="80" height="80"></canvas>
   <div id="thinkTxt">ANALYZING...</div>
 </div>
 
@@ -143,390 +139,683 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
 <div id="miniOrb">
   <div id="miniText"></div>
   <div style="display:flex;gap:8px;align-items:center;">
-    <button id="miniMic" onclick="micToggle()" style="width:30px;height:30px;border-radius:50%;border:1px solid rgba(0,136,255,0.25);background:rgba(0,136,255,0.06);color:rgba(0,136,255,0.7);font-size:13px;cursor:pointer;display:flex;align-items:center;justify-content:center;">🎤</button>
-    <canvas id="miniCanvas" width="44" height="44" style="cursor:pointer;border-radius:50%;" onclick="goHome()"></canvas>
+    <button id="miniMic" class="osbtn" onclick="micToggle()" style="width:32px;height:32px;font-size:13px;">&#127908;</button>
+    <canvas id="miniCanvas" width="44" height="44" style="cursor:pointer;border-radius:50%;" onclick="showOSScreen()"></canvas>
   </div>
 </div>
 
-<!-- HOME SCREEN -->
-<div class="screen active" id="screenHome">
-  <div id="homeLabel">TATTVA · AUTONOMOUS SCIENTIST</div>
-  <canvas id="homeOrb" width="240" height="240" style="cursor:pointer;" onclick="triggerBrief()"></canvas>
-  <div id="homeText"></div>
-  <div id="homeInput">
-    <button class="hbtn" id="homeMic" onclick="micToggle()">🎤</button>
-    <input id="homeField" placeholder="ask anything or say a command..."
-           onkeydown="if(event.key==='Enter'){var v=this.value;this.value='';handleCmd(v);}"/>
-    <button class="hbtn" onclick="var i=document.getElementById('homeField');var v=i.value;i.value='';handleCmd(v);">→</button>
+<!-- OS SCREEN -->
+<div id="osScreen">
+  <div id="osLabel">TATTVA &middot; AUTONOMOUS SCIENTIST</div>
+  <canvas id="osOrb" width="220" height="220" style="cursor:pointer;" onclick="osBrief()"></canvas>
+  <div id="osText">Initializing...</div>
+  <div id="osInputRow">
+    <button id="osMic" class="osbtn" onclick="micToggle()">&#127908;</button>
+    <input id="osField" placeholder="ask anything or say a command..." onkeydown="if(event.key==='Enter'){var v=this.value;this.value='';osCommand(v);}"/>
+    <button class="osbtn" style="width:auto;padding:0 16px;border-radius:24px;" onclick="var i=document.getElementById('osField');var v=i.value;i.value='';osCommand(v);">&#8594;</button>
   </div>
-  <div id="homeHint">CLICK ORB · SPEAK · OR TYPE</div>
+  <div id="osHint">CLICK ORB &middot; SPEAK &middot; OR TYPE &middot; ESC TO SKIP</div>
+  <button id="osSkip" onclick="showDashboard()">SKIP &#8594;</button>
 </div>
 
-<!-- EVIDENCE SCREEN -->
-<div class="screen" id="screenEvidence">
-  <div id="evHeader">
-    <div id="evQuery"></div>
-    <div id="evVerdict"></div>
-    <div id="evConf"></div>
-    <div id="evBar"><div id="evFill"></div></div>
+<!-- DISCOVERY SCREEN -->
+<div id="discoveryScreen">
+  <button id="discBack" onclick="showDashboard()">&#8592; DASHBOARD</button>
+  <div style="text-align:center;margin-bottom:32px;">
+    <div id="discTitle" style="font-size:28px;font-weight:600;color:var(--white);margin-bottom:6px;">Overnight Discoveries</div>
+    <div id="discSub" style="font-size:11px;font-family:var(--mono);color:var(--muted);letter-spacing:1px;">AUTONOMOUS CROSS-DOMAIN ANALYSIS</div>
   </div>
-  <div id="evGrid"></div>
+  <div id="discGrid"></div>
 </div>
 
-<!-- PORTFOLIO SCREEN -->
-<div class="screen" id="screenPortfolio">
-  <div style="margin-bottom:28px;width:100%;">
-    <div style="font-size:26px;font-weight:600;color:var(--white);">Portfolio Health</div>
-    <div style="font-size:11px;font-family:var(--mono);color:var(--muted);margin-top:4px;letter-spacing:1px;">EVIDENCE STRENGTH ACROSS YOUR RESEARCH DIRECTIONS</div>
+<!-- DASHBOARD -->
+<div id="dashboard" style="display:none;">
+  <div class="sidebar">
+    <div class="sidebar-logo">
+      <div class="logo-hex">&#9672;</div>
+      <div>
+        <div class="logo-name">TATTVA AI</div>
+        <div class="logo-tag" id="companyTag">Enterprise</div>
+      </div>
+    </div>
+    <div class="nav">
+      <div class="nav-section">Intelligence</div>
+      <div class="nav-item active" onclick="goPane('scientist')">&#128302; Research Scientist</div>
+      <div class="nav-item" onclick="goPane('portfolio')">&#128202; Portfolio Health</div>
+      <div class="nav-item" onclick="showDiscoveryScreen()">&#128269; Discoveries <span class="nav-badge amber" id="discBadge">0</span></div>
+      <div class="nav-item" onclick="goPane('experiments')">&#129514; Experiment Designer</div>
+      <div class="nav-section">Settings</div>
+      <div class="nav-item" onclick="showOSScreen()" style="font-size:12px;opacity:0.6;">&#9672; Tattva OS</div>
+    </div>
+    <div class="sidebar-footer">
+      <button onclick="showOSScreen()">&#9672; OS</button>
+      <button onclick="window.location='/app'">&#8599; App</button>
+    </div>
   </div>
-  <div id="portGrid"></div>
-</div>
+  <div class="main">
+    <div class="topbar">
+      <span class="tb-title" id="tbTitle">RESEARCH SCIENTIST</span>
+      <button class="tb-btn" onclick="micToggle()">&#127908; Voice</button>
+      <button class="tb-btn primary" onclick="showDiscoveryScreen()">&#128269; Discoveries</button>
+    </div>
+    <div class="content">
 
-<!-- EXPERIMENT SCREEN -->
-<div class="screen" id="screenExperiment">
-  <div style="text-align:center;margin-bottom:28px;width:100%;">
-    <div id="expTitle" style="font-size:26px;font-weight:600;color:var(--white);margin-bottom:6px;">Experiment Designer</div>
-    <div style="font-size:11px;font-family:var(--mono);color:var(--muted);letter-spacing:1px;">DESIGNED BY TATTVA</div>
-  </div>
-  <div id="expGrid"></div>
-</div>
+      <!-- SCIENTIST PANE -->
+      <div class="pane active" id="pane-scientist">
+        <div style="max-width:800px;margin:0 auto;">
+          <div id="sciMessages" style="min-height:200px;margin-bottom:20px;display:flex;flex-direction:column;gap:14px;"></div>
+          <div style="display:flex;gap:10px;">
+            <textarea id="sciInput" placeholder="Ask a research question..." style="flex:1;background:var(--card);border:1px solid var(--dim);border-radius:10px;padding:12px 16px;color:var(--text);font-size:13px;font-family:var(--sans);outline:none;resize:none;height:52px;" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sciSend();}"></textarea>
+            <button onclick="sciSend()" style="padding:12px 20px;border-radius:10px;border:none;background:var(--accent);color:#000;font-size:13px;cursor:pointer;font-weight:500;">Send</button>
+          </div>
+        </div>
+      </div>
 
-<!-- CHAT SCREEN -->
-<div class="screen" id="screenChat">
-  <div id="chatMsgs"></div>
-  <div id="chatBar">
-    <div id="chatWrap">
-      <input id="chatIn" placeholder="continue the investigation..."
-             onkeydown="if(event.key==='Enter'){var v=this.value;this.value='';chatSend(v);}"/>
-      <button id="chatSend" onclick="var i=document.getElementById('chatIn');var v=i.value;i.value='';chatSend(v);">Send</button>
+      <!-- PORTFOLIO PANE -->
+      <div class="pane" id="pane-portfolio">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
+          <div>
+            <div style="font-size:18px;font-weight:600;color:var(--white);">Portfolio Health</div>
+            <div style="font-size:11px;color:var(--muted);margin-top:2px;font-family:var(--mono);">Evidence strength across research directions</div>
+          </div>
+          <button class="inv-btn" onclick="loadPortfolio()">&#8635; Refresh</button>
+        </div>
+        <table class="port-table">
+          <thead><tr><th>Direction</th><th>Verdict</th><th>Confidence</th><th>Trend</th><th>Risk</th><th>Action</th></tr></thead>
+          <tbody id="portBody"><tr><td colspan="6" style="padding:40px;text-align:center;color:var(--muted);">Click Refresh to load portfolio</td></tr></tbody>
+        </table>
+      </div>
+
+      <!-- EXPERIMENTS PANE -->
+      <div class="pane" id="pane-experiments">
+        <div style="font-size:18px;font-weight:600;color:var(--white);margin-bottom:20px;">Experiment Designer</div>
+        <div id="expContent" style="color:var(--muted);padding:40px;text-align:center;">Ask the Research Scientist to design an experiment</div>
+      </div>
+
     </div>
   </div>
 </div>
 
 <script>
-// ── SPHERE ────────────────────────────────────────────────────
-const DOTS=(()=>{const pts=[],R=16;for(let i=0;i<=R;i++){const phi=Math.PI*i/R,y=Math.cos(phi),r=Math.sin(phi);const c=Math.max(1,Math.round(R*r));for(let j=0;j<c;j++){const t=2*Math.PI*j/c;pts.push({x:r*Math.cos(t),y,z:r*Math.sin(t),phi});}}return pts;})();
-let ST='idle',TT=0,RY=0,RX=0.38;
-const CFG={
-  idle:  {s:0.005,a:0.06,c:[0,136,255],b:[180,220,255]},
-  think: {s:0.026,a:0.0, c:[0,80,255], b:[80,180,255]},
-  speak: {s:0.012,a:0.2, c:[0,180,255],b:[220,245,255]},
-  listen:{s:0.008,a:0.13,c:[40,160,255],b:[200,235,255]},
-};
-function drawSphere(cv,R){
-  if(!cv)return;
-  const ctx=cv.getContext('2d'),W=cv.width,H=cv.height,cx=W/2,cy=H/2;
-  const cfg=CFG[ST]||CFG.idle;
+var companyId = '';
+var companyName = '';
+var allDiscoveries = [];
+var chatHistory = [];
+var SPK = false;
+var LIS = false;
+var REC = null;
+
+// ── SPHERE ────────────────────────────────────────────────
+var DOTS = (function(){
+  var pts = [], R = 14;
+  for(var i = 0; i <= R; i++){
+    var phi = Math.PI*i/R, y = Math.cos(phi), r = Math.sin(phi);
+    var c = Math.max(1, Math.round(R*r));
+    for(var j = 0; j < c; j++){
+      var t = 2*Math.PI*j/c;
+      pts.push({x:r*Math.cos(t), y:y, z:r*Math.sin(t), phi:phi});
+    }
+  }
+  return pts;
+})();
+var TT = 0, RY = 0, RX = 0.38;
+
+function drawSphere(cv, R){
+  if(!cv) return;
+  var ctx = cv.getContext('2d'), W = cv.width, H = cv.height, cx = W/2, cy = H/2;
   ctx.clearRect(0,0,W,H);
-  RY+=cfg.s; RX=0.38+0.07*Math.sin(TT*0.007);
-  const [cr,cg,cb]=cfg.c,[br,bg,bb]=cfg.b;
-  const proj=DOTS.map(p=>{
-    const pu=1+(ST==='speak'?cfg.a*Math.sin(TT*0.18+p.phi*4):ST==='listen'?cfg.a*Math.abs(Math.sin(TT*0.12+p.phi*3)):cfg.a*Math.sin(TT*0.04+p.phi*2));
-    const s={x:p.x*pu,y:p.y*pu,z:p.z*pu};
-    const x1=s.x*Math.cos(RY)-s.z*Math.sin(RY),z1=s.x*Math.sin(RY)+s.z*Math.cos(RY);
-    const y2=s.y*Math.cos(RX)-z1*Math.sin(RX),z2=s.y*Math.sin(RX)+z1*Math.cos(RX);
-    return{sx:cx+x1*R,sy:cy-y2*R,sz:z2,d:(z2+1)/2};
-  }).sort((a,b)=>a.sz-b.sz);
-  proj.forEach(({sx,sy,d})=>{
-    const f=d>0.5,al=f?0.38+d*0.62:0.07+d*0.18,dr=(f?3.0:1.3)*d*(R/100);
-    if(f&&d>0.7){const g=ctx.createRadialGradient(sx,sy,0,sx,sy,dr*3.2);g.addColorStop(0,`rgba(${br},${bg},${bb},${al*0.42})`);g.addColorStop(1,`rgba(${cr},${cg},${cb},0)`);ctx.beginPath();ctx.arc(sx,sy,dr*3.2,0,Math.PI*2);ctx.fillStyle=g;ctx.fill();}
-    ctx.beginPath();ctx.arc(sx,sy,Math.max(0.5,dr),0,Math.PI*2);
-    ctx.fillStyle=`rgba(${Math.round(cr+(br-cr)*d)},${Math.round(cg+(bg-cg)*d)},${Math.round(cb+(bb-cb)*d)},${al})`;
+  RY += 0.006; RX = 0.38 + 0.06*Math.sin(TT*0.007);
+  var proj = DOTS.map(function(p){
+    var pu = 1 + 0.07*Math.sin(TT*0.05+p.phi*2);
+    var sx = {x:p.x*pu, y:p.y*pu, z:p.z*pu};
+    var x1 = sx.x*Math.cos(RY)-sx.z*Math.sin(RY), z1 = sx.x*Math.sin(RY)+sx.z*Math.cos(RY);
+    var y2 = sx.y*Math.cos(RX)-z1*Math.sin(RX), z2 = sx.y*Math.sin(RX)+z1*Math.cos(RX);
+    return {sx:cx+x1*R, sy:cy-y2*R, sz:z2, d:(z2+1)/2};
+  }).sort(function(a,b){return a.sz-b.sz;});
+  proj.forEach(function(p){
+    var f = p.d > 0.5;
+    var al = f ? 0.4+p.d*0.6 : 0.07+p.d*0.15;
+    var dr = (f?3.0:1.3)*p.d*(R/90);
+    if(f && p.d > 0.7){
+      var g = ctx.createRadialGradient(p.sx,p.sy,0,p.sx,p.sy,dr*3);
+      g.addColorStop(0,'rgba(180,220,255,'+(al*0.4)+')');
+      g.addColorStop(1,'rgba(0,136,255,0)');
+      ctx.beginPath(); ctx.arc(p.sx,p.sy,dr*3,0,Math.PI*2);
+      ctx.fillStyle = g; ctx.fill();
+    }
+    ctx.beginPath(); ctx.arc(p.sx,p.sy,Math.max(0.5,dr),0,Math.PI*2);
+    ctx.fillStyle = 'rgba('+Math.round(180*p.d)+','+Math.round(136+(220-136)*p.d)+',255,'+al+')';
     ctx.fill();
   });
 }
 function tick(){
-  drawSphere(document.getElementById('homeOrb'),96);
-  drawSphere(document.getElementById('miniCanvas'),18);
-  drawSphere(document.getElementById('thinkCanvas'),38);
+  drawSphere(document.getElementById('osOrb'), 90);
+  drawSphere(document.getElementById('miniCanvas'), 18);
+  drawSphere(document.getElementById('thinkCanvas'), 32);
   TT++; requestAnimationFrame(tick);
 }
 
-// ── VOICE ─────────────────────────────────────────────────────
-let SPK=false,LIS=false,REC=null;
-function setText(t){
-  document.getElementById('homeText').textContent=t;
-  const m=document.getElementById('miniText');
-  if(m){m.textContent=t;m.style.display=t?'block':'none';}
+// ── VOICE ─────────────────────────────────────────────────
+function setOSText(t){
+  var e = document.getElementById('osText');
+  var m = document.getElementById('miniText');
+  if(e) e.textContent = t;
+  if(m){ m.textContent = t; m.style.display = t ? 'block' : 'none'; }
 }
-function speak(text,cb){
-  if(!window.speechSynthesis){if(cb)cb();return;}
+
+function speak(text, cb){
+  if(!window.speechSynthesis){ if(cb) cb(); return; }
   window.speechSynthesis.cancel();
-  ST='speak';SPK=true;setText(text);
-  const sentences=text.match(/[^.!?]+[.!?]+/g)||[text];
-  let idx=0;
+  SPK = true; setOSText(text);
+  var sentences = text.match(/[^.!?]+[.!?]+/g) || [text];
+  var idx = 0;
   function next(){
-    if(idx>=sentences.length){ST='idle';SPK=false;if(cb)cb();return;}
-    const u=new SpeechSynthesisUtterance(sentences[idx].trim().replace(/[*#◈]/g,''));
-    u.rate=0.88;u.pitch=0.95;u.volume=1.0;u.lang='en-US';
-    const vs=window.speechSynthesis.getVoices();
-    const v=vs.find(v=>v.name==='Samantha')||vs.find(v=>v.lang==='en-US'&&!v.name.includes('Google'));
-    if(v)u.voice=v;
-    u.onend=()=>{idx++;setTimeout(next,100);};
-    u.onerror=()=>{idx++;setTimeout(next,100);};
+    if(idx >= sentences.length){ SPK = false; if(cb) cb(); return; }
+    var u = new SpeechSynthesisUtterance(sentences[idx].trim().replace(/[*#]/g,''));
+    u.rate = 0.88; u.pitch = 0.95; u.volume = 1.0; u.lang = 'en-US';
+    var vs = window.speechSynthesis.getVoices();
+    var v = vs.find(function(v){ return v.name === 'Samantha'; }) ||
+            vs.find(function(v){ return v.lang === 'en-US'; });
+    if(v) u.voice = v;
+    u.onend = function(){ idx++; setTimeout(next, 100); };
+    u.onerror = function(){ idx++; setTimeout(next, 100); };
     window.speechSynthesis.speak(u);
   }
-  if(window.speechSynthesis.getVoices().length===0){window.speechSynthesis.onvoiceschanged=next;}
-  else next();
+  if(window.speechSynthesis.getVoices().length === 0){
+    window.speechSynthesis.onvoiceschanged = next;
+  } else { next(); }
 }
+
 function micToggle(){
-  // Stop speaking first
-  if(SPK){window.speechSynthesis.cancel();ST='idle';SPK=false;}
-  if(LIS){if(REC)REC.stop();return;}
-  const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
-  if(!SR){speak('Voice not supported. Try Chrome.');return;}
-  REC=new SR();REC.continuous=false;REC.interimResults=false;REC.lang='en-US';
-  REC.onstart=()=>{LIS=true;ST='listen';setText('Listening...');document.querySelectorAll('#homeMic,#miniMic').forEach(b=>b.classList.add('mic-on'));};
-  REC.onresult=(e)=>{const t=e.results[0][0].transcript;setText('You said: "'+t+'"');setTimeout(()=>handleCmd(t),300);};
-  REC.onend=()=>{LIS=false;ST='idle';document.querySelectorAll('#homeMic,#miniMic').forEach(b=>b.classList.remove('mic-on'));};
-  REC.onerror=()=>{LIS=false;ST='idle';document.querySelectorAll('#homeMic,#miniMic').forEach(b=>b.classList.remove('mic-on'));};
+  window.speechSynthesis.cancel(); SPK = false;
+  if(LIS){ if(REC) REC.stop(); LIS = false; return; }
+  var SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if(!SR){ speak('Voice not supported. Try Chrome.'); return; }
+  REC = new SR(); REC.continuous = false; REC.interimResults = false; REC.lang = 'en-US';
+  REC.onstart = function(){
+    LIS = true;
+    document.querySelectorAll('#osMic,#miniMic').forEach(function(b){ b.classList.add('mic-on'); });
+    setOSText('Listening...');
+  };
+  REC.onresult = function(e){
+    var t = e.results[0][0].transcript;
+    setOSText('You said: "'+t+'"');
+    setTimeout(function(){ osCommand(t); }, 300);
+  };
+  REC.onend = function(){
+    LIS = false;
+    document.querySelectorAll('#osMic,#miniMic').forEach(function(b){ b.classList.remove('mic-on'); });
+  };
+  REC.onerror = function(){
+    LIS = false;
+    document.querySelectorAll('#osMic,#miniMic').forEach(function(b){ b.classList.remove('mic-on'); });
+  };
   REC.start();
 }
 
-// ── SCREENS ───────────────────────────────────────────────────
-function showScreen(id){
-  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
-  const s=document.getElementById('screen'+id);if(s)s.classList.add('active');
-  document.getElementById('backBtn').classList.toggle('show',id!=='Home');
-  document.getElementById('miniOrb').classList.toggle('show',id!=='Home');
-  document.getElementById('chatBar').classList.toggle('show',id==='Chat');
+// ── SCREENS ───────────────────────────────────────────────
+function showOSScreen(){
+  document.getElementById('osScreen').classList.add('active');
+  document.getElementById('dashboard').classList.remove('active');
+  document.getElementById('discoveryScreen').classList.remove('active');
+  document.getElementById('miniOrb').classList.remove('show');
 }
-function goHome(){showScreen('Home');ST='idle';setText('Ready. What would you like to investigate?');}
-
-function thinking(msg,on){
-  ST=on?'think':'idle';
-  document.getElementById('thinkTxt').textContent=msg||'ANALYZING...';
-  document.getElementById('thinkOverlay').classList.toggle('on',on);
+function showDashboard(){
+  // No sidebar dashboard - go back to OS screen
+  document.getElementById('osScreen').classList.add('active');
+  document.getElementById('discoveryScreen').classList.remove('active');
+  document.getElementById('miniOrb').classList.remove('show');
+  window.speechSynthesis.cancel();
+}
+function showDiscoveryScreen(){
+  document.getElementById('osScreen').classList.remove('active');
+  document.getElementById('dashboard').classList.remove('active');
+  document.getElementById('discoveryScreen').classList.add('active');
+  document.getElementById('miniOrb').classList.add('show');
+  loadDiscoveries();
 }
 
-// ── LOGIN ─────────────────────────────────────────────────────
-let companyId='', companyName='';
-async function doLogin(){
-  const cid=document.getElementById('overlayCompanyId').value.trim();
-  const pwd=document.getElementById('overlayPassword').value.trim();
-  const err=document.getElementById('loginErr');
-  err.style.display='none';
-  if(!cid||!pwd){err.style.display='block';err.textContent='Please enter company ID and password.';return;}
-  try{
-    const r=await fetch('/api/company/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({company_id:cid,password:pwd})});
-    const d=await r.json();
-    if(d.success||d.company_id){
-      companyId=d.company_id||cid;
-      companyName=d.company_name||d.name||cid;
-      document.getElementById('loginScreen').style.display='none';
-      setTimeout(()=>speak('Welcome back '+companyName+'. I have been monitoring your research portfolio. Click the orb for your morning brief, or ask me anything.'),600);
+function thinking(msg, on){
+  document.getElementById('thinkTxt').textContent = msg || 'ANALYZING...';
+  document.getElementById('thinkOverlay').classList.toggle('on', on);
+}
+
+// ── LOGIN ─────────────────────────────────────────────────
+function doLogin(){
+  var cid = document.getElementById('loginId').value.trim();
+  var pwd = document.getElementById('loginPwd').value.trim();
+  var err = document.getElementById('loginErr');
+  err.style.display = 'none';
+  if(!cid || !pwd){ err.style.display = 'block'; err.textContent = 'Enter company ID and password.'; return; }
+  fetch('/api/company/login', {
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({company_id:cid, password:pwd})
+  }).then(function(r){ return r.json(); }).then(function(d){
+    if(d.success || d.company_id){
+      companyId = d.company_id || cid;
+      companyName = d.company_name || d.name || cid;
+      document.getElementById('companyTag').textContent = companyName;
+      document.getElementById('loginScreen').style.display = 'none';
+      // No dashboard - just OS screen
+      document.getElementById('osScreen').classList.add('active');
+      // Check discoveries count
+      fetch('/api/discoveries').then(function(r){ return r.json(); }).then(function(d){
+        allDiscoveries = d.discoveries || [];
+        var badge = document.getElementById('discBadge');
+        if(badge) badge.textContent = allDiscoveries.length;
+        setTimeout(function(){
+          if(allDiscoveries.length > 0){
+            speak('Welcome back '+companyName+'. I found '+allDiscoveries.length+
+              ' discover'+(allDiscoveries.length===1?'y':'ies')+' overnight. Click the orb for details.');
+          } else {
+            speak('Welcome back '+companyName+'. I am ready to investigate. Click the orb for your morning brief.');
+          }
+        }, 600);
+      }).catch(function(){
+        setTimeout(function(){
+          speak('Welcome back '+companyName+'. I am ready. Click the orb for your morning brief.');
+        }, 600);
+      });
     } else {
-      err.style.display='block';
-      err.textContent=d.error||'Invalid credentials. Contact sales@tattvaai.org';
+      err.style.display = 'block';
+      err.textContent = d.error || 'Invalid credentials.';
     }
-  }catch(e){
-    // Demo mode - let them in
-    companyId=cid; companyName=cid;
-    document.getElementById('loginScreen').style.display='none';
-    setTimeout(()=>speak('Welcome to Tattva. I am your autonomous research scientist. Click the orb for your morning brief, or tell me what to investigate.'),600);
-  }
-}
-
-// ── COMMANDS ──────────────────────────────────────────────────
-function handleCmd(text){
-  if(!text||!text.trim())return;
-  const t=text.toLowerCase().trim();
-  if(t.match(/^(open |play |call |music |spotify |youtube |chrome |maps |weather )/)){
-    speak("I am a scientific research assistant. I investigate evidence, not apps. Try asking me a research question.");return;
-  }
-  if(t.match(/portfolio|health|direction/))return loadPortfolio();
-  if(t.match(/experiment|design/))return loadExperiment(text);
-  if(t.match(/brief|morning|overnight|summary/))return triggerBrief();
-  if(t.match(/recent|new|yesterday|discover/))return loadRecent();
-  if(t.match(/home|back/))return goHome();
-  loadEvidence(text);
-}
-
-// ── EVIDENCE ──────────────────────────────────────────────────
-async function loadEvidence(query){
-  thinking('RETRIEVING EVIDENCE...',true);
-  try{
-    const[rr,cr]=await Promise.all([
-      fetch('/api/run_research',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({query})}),
-      fetch('/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({query,history:[],researcher_id:companyId||'enterprise'})})
-    ]);
-    const[rpt,chat]=await Promise.all([rr.json(),cr.json()]);
-    thinking('',false);showScreen('Evidence');
-    document.getElementById('evQuery').textContent=query.toUpperCase();
-    const vrd=(chat.verdict||rpt.proposal_verdict||'INCONCLUSIVE').toUpperCase();
-    document.getElementById('evVerdict').textContent=vrd;
-    const conf=Math.round((chat.confidence||rpt.proposal_confidence||0.5)*100);
-    document.getElementById('evConf').textContent=conf+'% confidence · '+(chat.evidence_used||0)+' papers analyzed';
-    const fill=document.getElementById('evFill');
-    fill.style.background=conf>70?'#00e676':conf>40?'#0088ff':'#ff3d57';
-    setTimeout(()=>fill.style.width=conf+'%',100);
-    const grid=document.getElementById('evGrid');grid.innerHTML='';
-    const contras=rpt.contradictions||[],papers=rpt.top_papers||[];
-    const scope=rpt.scope?(typeof rpt.scope==='string'?rpt.scope:(rpt.scope.within&&rpt.scope.within.length?rpt.scope.within.join(', '):'Limited conditions')):'Not specified';
-    const cards=[
-      {l:'ANALYSIS',t:chat.response||'No response',cls:''},
-      {l:'SUPPORTING PAPERS',t:papers.slice(0,4).map((p,i)=>`[${i+1}] ${(typeof p==='string'?p:(p.title||p.paper_title||'Unknown')).substring(0,75)}`).join('\n\n')||'No papers found.',cls:'sup'},
-      {l:'CONTRADICTIONS',t:contras.length?contras.slice(0,2).map(c=>(c.supporting_paper||'')+' vs '+(c.contradicting_paper||'')+'\n'+(c.implication||'')).join('\n\n'):'No contradictions detected.',cls:'con'},
-      {l:'SCOPE',t:'TESTED IN:\n'+scope+'\n\nNOT TESTED:\nEdge cases and extreme scales.',cls:'sco'},
-      {l:'FOLLOW-UP SEARCHES',t:(chat.followup_searches||[]).filter(Boolean).map((s,i)=>`${i+1}. ${s}`).join('\n\n')||'No additional searches needed.',cls:''},
-      {l:'NEXT EXPERIMENT',t:'Design a controlled study targeting the key gaps identified in the evidence above.',cls:'nxt'},
-    ];
-    cards.forEach((c,i)=>{
-      const d=document.createElement('div');
-      d.className='eCard '+c.cls;
-      d.innerHTML=`<div class="eL">${c.l}</div><div class="eT">${c.t}</div>`;
-      grid.appendChild(d);setTimeout(()=>d.classList.add('show'),i*110);
-    });
-    speak(vrd+'. Confidence '+conf+' percent. '+(contras.length?'I found '+contras.length+' contradiction'+(contras.length>1?'s':'')+'.':'Evidence is consistent.'));
-  }catch(e){thinking('',false);speak('Error analyzing evidence. Please try again.');console.error(e);}
-}
-
-// ── PORTFOLIO ─────────────────────────────────────────────────
-const DIRS=[
-  {n:'LoRA Optimization',q:'Does LoRA reduce fine-tuning cost and memory?'},
-  {n:'MoE Routing Efficiency',q:'Does mixture of experts improve LLM efficiency?'},
-  {n:'FlashAttention Speed',q:'Does FlashAttention improve training speed?'},
-  {n:'KV Cache Compression',q:'Does KV cache compression reduce memory without quality loss?'},
-  {n:'Speculative Decoding',q:'Does speculative decoding speed up LLM inference?'},
-  {n:'INT4 Quantization',q:'Does INT4 quantization preserve model quality?'},
-];
-async function loadPortfolio(){
-  thinking('ANALYZING PORTFOLIO...',true);
-  showScreen('Portfolio');
-  const grid=document.getElementById('portGrid');grid.innerHTML='';
-  DIRS.forEach((d,i)=>{
-    const c=document.createElement('div');c.className='pCard';
-    c.innerHTML=`<div class="pName">${d.n}</div><div class="pBar"><div class="pFill" id="pf${i}"></div></div><div class="pMeta" id="pm${i}"><span style="color:var(--muted);font-size:10px;">analyzing...</span><span>—</span></div>`;
-    c.onclick=()=>loadEvidence(d.q);
-    grid.appendChild(c);setTimeout(()=>c.classList.add('show'),i*80);
+  }).catch(function(){
+    // Demo mode
+    companyId = cid; companyName = cid;
+    document.getElementById('companyTag').textContent = cid;
+    document.getElementById('loginScreen').style.display = 'none';
+    showOSScreen();
+    setTimeout(function(){ speak('Welcome to Tattva. I am ready to investigate.'); }, 600);
   });
-  thinking('',false);
-  speak('Loading your portfolio. Analyzing evidence strength across all research directions.');
-  for(let i=0;i<DIRS.length;i++){
-    try{
-      const r=await fetch('/api/run_research',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({query:DIRS[i].q})});
-      const d=await r.json();
-      const conf=Math.round((d.proposal_confidence||0.5)*100);
-      const v=d.proposal_verdict||'inconclusive';
-      const fill=document.getElementById('pf'+i);
-      const meta=document.getElementById('pm'+i);
-      const col=conf>70?'#00e676':conf>40?'#0088ff':'#ff3d57';
-      if(fill){fill.style.background=col;setTimeout(()=>fill.style.width=conf+'%',200);}
-      if(meta)meta.innerHTML=`<span style="color:${col};font-family:var(--mono);font-size:10px;">${v.toUpperCase()}</span><span style="color:var(--muted);font-size:10px;">${conf}%</span>`;
-    }catch(e){console.error(e);}
-  }
-  speak('Portfolio loaded. Click any direction to investigate in depth.');
 }
 
-// ── RECENT ────────────────────────────────────────────────────
-async function loadRecent(){
-  thinking('CHECKING RECENT PAPERS...',true);
-  try{
-    const r=await fetch('/api/run_research',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({query:'recent machine learning AI discoveries 2024 new findings'})});
-    const d=await r.json();
-    thinking('',false);showScreen('Evidence');
-    document.getElementById('evQuery').textContent='RECENT DISCOVERIES';
-    document.getElementById('evVerdict').textContent='LATEST FINDINGS';
-    const conf=Math.round((d.proposal_confidence||0.5)*100);
-    document.getElementById('evConf').textContent=conf+'% confidence · '+(d.top_papers||[]).length+' papers';
-    const fill=document.getElementById('evFill');
-    fill.style.background='#0088ff';
-    setTimeout(()=>fill.style.width=conf+'%',100);
-    const grid=document.getElementById('evGrid');grid.innerHTML='';
-    const papers=d.top_papers||[];
-    const cards=[
-      {l:'WHAT I FOUND',t:d.proposal_explanation||'I monitored the literature and found several new developments.',cls:''},
-      {l:'NEW PAPERS',t:papers.slice(0,5).map((p,i)=>`[${i+1}] ${(typeof p==='string'?p:(p.title||p.paper_title||'Unknown')).substring(0,80)}`).join('\n\n')||'Scanning latest papers...',cls:'sup'},
-      {l:'CONSENSUS',t:'Current belief: '+Math.round((d.drift?.belief||0.5)*100)+'%\nTrend: '+(d.drift?.direction||'stable'),cls:'sco'},
-      {l:'KEY GAPS',t:'Areas needing more study based on new evidence.',cls:'nxt'},
-    ];
-    cards.forEach((c,i)=>{
-      const div=document.createElement('div');
-      div.className='eCard '+c.cls;
-      div.innerHTML=`<div class="eL">${c.l}</div><div class="eT">${c.t}</div>`;
-      grid.appendChild(div);setTimeout(()=>div.classList.add('show'),i*120);
-    });
-    speak('I found '+papers.length+' recent papers. '+(d.proposal_explanation||'Here are the latest developments.').substring(0,120));
-  }catch(e){thinking('',false);speak('Error checking recent papers.');}
-}
-
-// ── EXPERIMENT ────────────────────────────────────────────────
-async function loadExperiment(query){
-  thinking('DESIGNING EXPERIMENT...',true);
-  try{
-    const r=await fetch('/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({query:'Design a specific scientific experiment to test: '+query,history:[],researcher_id:companyId})});
-    const d=await r.json();
-    thinking('',false);showScreen('Experiment');
-    document.getElementById('expTitle').textContent=query.length>45?query.substring(0,45)+'...':query;
-    const grid=document.getElementById('expGrid');grid.innerHTML='';
-    const blocks=[
-      {l:'HYPOTHESIS',t:query,cls:''},
-      {l:'EXPERIMENT DESIGN',t:d.response||'Design a controlled study with baseline and treatment groups.',cls:''},
-      {l:'PREDICTED OUTCOME',t:'Based on analogous results in the literature, expect measurable effect with 60-80% probability.',cls:'nxt'},
-      {l:'HOW TO RUN',t:'1. Set up baseline\n2. Apply treatment\n3. Measure outcome\n4. Compare to prediction\n5. Update belief network',cls:''},
-    ];
-    blocks.forEach((b,i)=>{
-      const div=document.createElement('div');
-      div.className='eCard '+b.cls;
-      div.innerHTML=`<div class="eL">${b.l}</div><div class="eT">${b.t}</div>`;
-      grid.appendChild(div);setTimeout(()=>div.classList.add('show'),i*140);
-    });
-    speak('Experiment designed. Here is what to test and what to expect.');
-  }catch(e){thinking('',false);speak('Error designing experiment.');}
-}
-
-// ── CHAT ──────────────────────────────────────────────────────
-let chatHistory=[];
-function addMsg(role,text){
-  const msgs=document.getElementById('chatMsgs');
-  const div=document.createElement('div');
-  div.className='cmsg '+role;
-  div.innerHTML=`<div class="cav">${role==='ai'?'◈':'U'}</div><div class="cbbl">${text}</div>`;
-  msgs.appendChild(div);msgs.scrollTop=msgs.scrollHeight;
-  setTimeout(()=>div.classList.add('show'),50);
-}
-async function chatSend(text){
-  if(!text.trim())return;
-  showScreen('Chat');
-  addMsg('user',text);
-  chatHistory.push({role:'user',content:text});
-  thinking('THINKING...',true);
-  try{
-    const r=await fetch('/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({query:text,history:chatHistory,researcher_id:companyId})});
-    const d=await r.json();
-    thinking('',false);
-    addMsg('ai',d.response||'No response');
-    chatHistory.push({role:'assistant',content:d.response||''});
-    speak((d.response||'').substring(0,180)+'...');
-  }catch(e){thinking('',false);addMsg('ai','Error: '+e.message);}
-}
-
-// ── MORNING BRIEF ─────────────────────────────────────────────
-async function triggerBrief(){
-  if(SPK){window.speechSynthesis.cancel();ST='idle';SPK=false;return;}
-  thinking('CHECKING OVERNIGHT FINDINGS...',true);
-  try{
-    const r=await fetch('/api/run_research',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({query:'LoRA MoE efficiency recent findings'})});
-    const d=await r.json();
-    thinking('',false);
-    const conf=Math.round((d.proposal_confidence||0.5)*100);
+// ── OS COMMANDS ───────────────────────────────────────────
+function osBrief(){
+  window.speechSynthesis.cancel();
+  if(allDiscoveries.length > 0){
+    var d = allDiscoveries[0];
     speak(
-      'Good morning. I monitored the literature overnight. Your portfolio shows '+conf+' percent confidence on core research directions. '+
-      (conf<60?'Some directions are weakening. Let me show you the portfolio.':'Evidence is holding strong. What would you like to investigate?'),
-      ()=>{if(conf<60)setTimeout(loadPortfolio,500);}
+      'Good morning. I found '+allDiscoveries.length+' discover'+(allDiscoveries.length===1?'y':'ies')+' overnight. '+
+      'The most promising connects '+d.from_domain+' to machine learning via '+d.mechanism+'. '+
+      'Novelty score '+d.novelty_score+'. Say show discoveries or run discovery 1.',
+      function(){ setTimeout(showDiscoveryScreen, 500); }
     );
-  }catch(e){
-    thinking('',false);
-    speak('Good morning. I am ready to investigate. What would you like to explore today?');
+  } else {
+    thinking('CHECKING PORTFOLIO...', true);
+    fetch('/api/run_research',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({query:'LoRA MoE efficiency recent findings'})})
+    .then(function(r){ return r.json(); }).then(function(d){
+      thinking('', false);
+      var conf = Math.round((d.proposal_confidence||0.5)*100);
+      speak('Good morning. I monitored the literature overnight. Your portfolio shows '+conf+
+        ' percent confidence. No new discoveries yet. What would you like to investigate?');
+    }).catch(function(){ thinking('',false); speak('Good morning. I am ready. What would you like to investigate?'); });
   }
 }
 
-// ── BOOT ──────────────────────────────────────────────────────
-window.addEventListener('load',()=>{
+function osCommand(text){
+  var t = text.toLowerCase().trim();
+  if(!t) return;
+  if(t.match(/^(open |play |call |music |youtube |chrome |maps )/)){
+    speak('I investigate science, not apps. Ask me a research question.'); return;
+  }
+  if(t.match(/skip|dismiss|dashboard|enter/)) return showDashboard();
+  if(t.match(/discover|found|overnight|new finding|what did you find/)){
+    speak('Let me show you what I found.');
+    setTimeout(showDiscoveryScreen, 1200); return;
+  }
+  if(t.match(/portfolio|health/)){
+    showDashboard();
+    setTimeout(function(){ goPane('portfolio'); loadPortfolio(); speak('Opening your portfolio health.'); }, 900); return;
+  }
+  if(t.match(/brief|morning/)) return osBrief();
+  if(t.match(/run discovery ?(\d+)/)){
+    var m = t.match(/run discovery ?(\d+)/);
+    var n = parseInt(m[1]) - 1;
+    if(allDiscoveries[n]){ showDiscoveryScreen(); setTimeout(function(){ runDiscovery(allDiscoveries[n].id, n); }, 600); }
+    return;
+  }
+  // Research question
+  speak('Let me investigate that for you.', function(){
+    showDashboard();
+    setTimeout(function(){
+      goPane('scientist');
+      setTimeout(function(){
+        var inp = document.getElementById('sciInput');
+        if(inp){ inp.value = text; sciSend(); }
+      }, 400);
+    }, 900);
+  });
+}
+
+document.addEventListener('keydown', function(e){ if(e.key==='Escape') showDashboard(); });
+
+// ── DISCOVERIES ───────────────────────────────────────────
+function loadDiscoveries(){
+  fetch('/api/discoveries').then(function(r){ return r.json(); }).then(function(d){
+    allDiscoveries = d.discoveries || [];
+    var badge = document.getElementById('discBadge');
+    if(badge) badge.textContent = allDiscoveries.length;
+    renderDiscoveries();
+  }).catch(function(){ renderDiscoveries(); });
+}
+
+function renderDiscoveries(){
+  var grid = document.getElementById('discGrid');
+  var title = document.getElementById('discTitle');
+  var sub = document.getElementById('discSub');
+  if(!grid) return;
+  if(allDiscoveries.length === 0){
+    title.textContent = 'No Discoveries Yet';
+    sub.textContent = 'BACKGROUND SERVICE IS SCANNING THE LITERATURE';
+    grid.innerHTML = '<div class="discCard show" style="grid-column:1/-1;text-align:center;padding:40px;">' +
+      '<div class="dLabel">STATUS</div>' +
+      '<div class="dText">I have not found any cross-domain discoveries yet. The background service runs every 6 hours. Say run discovery engine to start a scan now.</div>' +
+      '<button class="dBtn" onclick="runDiscoveryEngine()">Run Discovery Engine Now</button></div>';
+    speak('No discoveries yet. The background service is still scanning. I can run a scan right now if you want.');
+    return;
+  }
+  title.textContent = 'I Found ' + allDiscoveries.length + (allDiscoveries.length===1?' Discovery':' Discoveries');
+  sub.textContent = allDiscoveries.filter(function(d){ return d.status==='confirmed'; }).length + ' CONFIRMED BY EXPERIMENT';
+  grid.innerHTML = '';
+  allDiscoveries.forEach(function(disc, i){
+    var div = document.createElement('div');
+    div.className = 'discCard ' + (disc.status==='confirmed'?'confirmed':'untested');
+    var imp = disc.improvement_pct ? ' &middot; '+disc.improvement_pct.toFixed(1)+'% improvement' : '';
+    div.innerHTML =
+      '<div class="dLabel">DISCOVERY '+(i+1)+' &middot; '+(disc.mechanism||'').toUpperCase()+' &middot; '+(disc.status==='confirmed'?'CONFIRMED':'UNTESTED')+'</div>' +
+      '<div class="dText">'+(disc.hypothesis||'').substring(0,250)+'</div>' +
+      '<div class="dMeta">'+(disc.from_domain||'')+' &rarr; '+(disc.to_domain||'')+' &middot; novelty '+(disc.novelty_score||0)+imp+'</div>' +
+      '<button class="dBtn" onclick="runDiscovery('+disc.id+','+i+')">'+(disc.status==='confirmed'?'View Results':'Run Experiment')+'</button>';
+    grid.appendChild(div);
+    setTimeout(function(){ div.classList.add('show'); }, i*150);
+  });
+  var top = allDiscoveries[0];
+  speak('I found '+allDiscoveries.length+' discover'+(allDiscoveries.length===1?'y':'ies')+'. '+
+    'The top one: '+top.mechanism+' from '+top.from_domain+' to machine learning. '+
+    'Click Run Experiment to test it, or say run discovery 1.');
+}
+
+function runDiscovery(id, idx){
+  var disc = allDiscoveries.find(function(d){ return d.id===id; }) || allDiscoveries[idx];
+  if(!disc) return;
+  if(disc.status === 'confirmed'){
+    speak('Discovery '+(idx+1)+' was already confirmed. Improvement: '+(disc.improvement_pct||0).toFixed(1)+' percent.'); return;
+  }
+  thinking('RUNNING EXPERIMENT FOR DISCOVERY '+(idx+1)+'...', true);
+  speak('Running the experiment for discovery '+(idx+1)+'. This takes about 2 minutes.');
+  fetch('/api/discoveries/run/'+id, {method:'POST'})
+  .then(function(r){ return r.json(); }).then(function(d){
+    thinking('', false);
+    if(d.error){ speak('Experiment error: '+d.error); return; }
+    loadDiscoveries();
+    speak('Experiment complete. '+( d.result || 'Check the results on screen.'));
+  }).catch(function(){ thinking('',false); speak('Experiment failed.'); });
+}
+
+function runDiscoveryEngine(){
+  thinking('RUNNING DISCOVERY ENGINE...', true);
+  speak('Starting the discovery engine. Scanning 24,858 papers for cross-domain connections.');
+  fetch('/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({query:'run cross domain discovery engine',history:[],researcher_id:companyId})})
+  .then(function(r){ return r.json(); }).then(function(){
+    thinking('',false); loadDiscoveries();
+  }).catch(function(){ thinking('',false); speak('Discovery engine finished. Refreshing.'); loadDiscoveries(); });
+}
+
+// ── DASHBOARD ─────────────────────────────────────────────
+var PANE_TITLES = {scientist:'RESEARCH SCIENTIST',portfolio:'PORTFOLIO HEALTH',experiments:'EXPERIMENT DESIGNER'};
+
+function goPane(id){
+  // Show as full screen discovery screen style
+  if(id === 'portfolio'){
+    showFullScreen('portfolio');
+  } else if(id === 'scientist'){
+    showFullScreen('scientist');
+  } else {
+    showFullScreen(id);
+  }
+}
+
+function showFullScreen(id){
+  document.getElementById('osScreen').classList.remove('active');
+  document.getElementById('discoveryScreen').classList.remove('active');
+  document.getElementById('miniOrb').classList.add('show');
+  // Show the pane fullscreen
+  document.querySelectorAll('.fullpane').forEach(function(p){ p.style.display='none'; });
+  var p = document.getElementById('fullpane-'+id);
+  if(p){ p.style.display='flex'; }
+  if(id === 'portfolio') setTimeout(loadPortfolio, 100);
+}
+
+// ── SCIENTIST ─────────────────────────────────────────────
+var sciHistory = [];
+function addSciMsg(role, text){
+  var msgs = document.getElementById('sciMessages');
+  if(!msgs) return;
+  var div = document.createElement('div');
+  var isUser = role === 'user';
+  div.style.cssText = 'display:flex;gap:10px;align-items:flex-start;'+(isUser?'flex-direction:row-reverse;':'');
+  div.innerHTML = '<div style="width:28px;height:28px;border-radius:50%;background:'+(isUser?'rgba(0,102,255,.2)':'rgba(0,136,255,.1)')+';border:1px solid '+(isUser?'rgba(0,102,255,.3)':'rgba(0,136,255,.2)')+';display:flex;align-items:center;justify-content:center;font-size:11px;color:'+(isUser?'#0066ff':'var(--accent)')+';flex-shrink:0;">'+(isUser?'U':'&#9672;')+'</div>' +
+    '<div style="max-width:80%;"><div style="padding:10px 14px;'+(isUser?'background:var(--accent);color:#000;':'background:var(--card);border:1px solid var(--dim);color:var(--text);')+'border-radius:10px;font-size:13px;line-height:1.7;">'+text+'</div></div>';
+  msgs.appendChild(div);
+  msgs.scrollTop = msgs.scrollHeight;
+  if(role === 'ai') speak(text.substring(0,200).replace(/<[^>]*>/g,''));
+}
+
+function sciSend(){
+  var inp = document.getElementById('sciInput');
+  if(!inp) return;
+  var q = inp.value.trim();
+  if(!q) return;
+  inp.value = '';
+  addSciMsg('user', q);
+  sciHistory.push({role:'user', content:q});
+  // Check for special commands
+  var t = q.toLowerCase();
+  if(t.match(/discover|found|overnight/)){
+    showDiscoveryScreen(); return;
+  }
+  thinking('ANALYZING EVIDENCE...', true);
+  fetch('/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({query:q,history:sciHistory,researcher_id:companyId})})
+  .then(function(r){ return r.json(); }).then(function(d){
+    thinking('',false);
+    var resp = d.response || 'No response';
+    addSciMsg('ai', resp);
+    sciHistory.push({role:'assistant', content:resp});
+  }).catch(function(e){ thinking('',false); addSciMsg('ai','Error: '+e.message); });
+}
+
+// ── PORTFOLIO ─────────────────────────────────────────────
+var DIRS = [
+  {name:'LoRA Optimization',query:'Does LoRA reduce fine-tuning cost and memory?'},
+  {name:'MoE Routing Efficiency',query:'Does mixture of experts improve LLM efficiency?'},
+  {name:'FlashAttention Speed',query:'Does FlashAttention improve training speed?'},
+  {name:'KV Cache Compression',query:'Does KV cache compression reduce memory without quality loss?'},
+  {name:'Speculative Decoding',query:'Does speculative decoding speed up LLM inference?'},
+  {name:'INT4 Quantization',query:'Does INT4 quantization preserve model quality?'},
+];
+
+function loadPortfolio(){
+  var tbody = document.getElementById('portBody');
+  if(!tbody) return;
+  tbody.innerHTML = '<tr><td colspan="6" style="padding:20px;text-align:center;color:var(--muted);">Loading...</td></tr>';
+  var results = [];
+  var done = 0;
+  DIRS.forEach(function(d, i){
+    fetch('/api/run_research',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({query:d.query})})
+    .then(function(r){ return r.json(); }).then(function(data){
+      results[i] = {name:d.name, query:d.query, data:data};
+      done++;
+      if(done === DIRS.length) renderPortfolio(results);
+    }).catch(function(){
+      results[i] = {name:d.name, query:d.query, data:{}};
+      done++;
+      if(done === DIRS.length) renderPortfolio(results);
+    });
+  });
+}
+
+function renderPortfolio(results){
+  var tbody = document.getElementById('portBody');
+  tbody.innerHTML = results.map(function(r){
+    var v = (r.data.proposal_verdict||'inconclusive').toLowerCase();
+    var conf = ((r.data.proposal_confidence||0.5)*100).toFixed(0);
+    var drift = (r.data.drift&&r.data.drift.direction)||'stable';
+    var vc = v.includes('strong')?'v-strong':v.includes('moderate')?'v-moderate':v.includes('mixed')?'v-mixed':'v-limited';
+    var risk = v==='inconclusive'?'high':v.includes('mixed')?'medium':'low';
+    var tIcon = drift==='strengthening'?'&#8593;':drift==='weakening'?'&#8595;':'&#8594;';
+    return '<tr>' +
+      '<td style="font-weight:500;color:var(--white);">'+r.name+'</td>' +
+      '<td><span class="verdict-pill '+vc+'">'+v.replace('_',' ')+'</span></td>' +
+      '<td style="font-family:var(--mono);font-size:12px;">'+conf+'%</td>' +
+      '<td style="font-size:14px;">'+tIcon+' <span style="font-size:10px;color:var(--muted);">'+drift+'</span></td>' +
+      '<td><span class="risk-badge '+risk+'">'+risk.toUpperCase()+'</span></td>' +
+      '<td><button class="inv-btn" onclick="sciAsk(this.dataset.q)" data-q="'+r.query.replace(/"/g,"&quot;")+'">Investigate</button></td>' +
+      '</tr>';
+  }).join('');
+}
+
+function sciAsk(text){
+  goPane('scientist');
+  var inp = document.getElementById('sciInput');
+  if(inp){ inp.value = text; sciSend(); }
+}
+
+// ── BOOT ──────────────────────────────────────────────────
+window.addEventListener('load', function(){
   window.speechSynthesis.getVoices();
-  setTimeout(()=>window.speechSynthesis.getVoices(),500);
+  setTimeout(function(){ window.speechSynthesis.getVoices(); }, 500);
   tick();
 });
+</script>
+
+<style>
+.fullpane{position:fixed;inset:0;z-index:9970;background:var(--bg);display:none;flex-direction:column;padding:60px 40px 40px;overflow-y:auto;}
+#fpBack{position:fixed;top:18px;left:18px;z-index:9975;padding:7px 14px;border-radius:20px;border:1px solid rgba(0,136,255,0.2);background:rgba(2,5,8,0.9);color:rgba(0,136,255,0.6);font-size:11px;font-family:var(--mono);cursor:pointer;}
+.fp-title{font-size:26px;font-weight:600;color:var(--white);margin-bottom:6px;}
+.fp-sub{font-size:11px;font-family:var(--mono);color:var(--muted);letter-spacing:1px;margin-bottom:28px;}
+</style>
+
+<div id="fpBack" style="display:none;" onclick="backToOS()">← BACK</div>
+
+<!-- FULL SCREEN SCIENTIST -->
+<div class="fullpane" id="fullpane-scientist">
+  <div style="max-width:800px;margin:0 auto;width:100%;">
+    <div class="fp-title">Research Scientist</div>
+    <div class="fp-sub">ASK ANY SCIENTIFIC QUESTION</div>
+    <div id="sciMessages2" style="min-height:200px;margin-bottom:20px;display:flex;flex-direction:column;gap:14px;max-height:calc(100vh-300px);overflow-y:auto;"></div>
+    <div style="display:flex;gap:10px;">
+      <textarea id="sciInput2" placeholder="Ask a research question..." style="flex:1;background:var(--card);border:1px solid var(--dim);border-radius:10px;padding:12px 16px;color:var(--text);font-size:14px;font-family:var(--sans);outline:none;resize:none;height:52px;" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sciSend2();}"></textarea>
+      <button onclick="sciSend2()" style="padding:12px 22px;border-radius:10px;border:none;background:var(--accent);color:#000;font-size:13px;cursor:pointer;font-weight:600;">Send</button>
+    </div>
+    <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap;" id="sciSuggestions2"></div>
+  </div>
+</div>
+
+<!-- FULL SCREEN PORTFOLIO -->
+<div class="fullpane" id="fullpane-portfolio">
+  <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:28px;">
+    <div>
+      <div class="fp-title">Portfolio Health</div>
+      <div class="fp-sub">EVIDENCE STRENGTH ACROSS YOUR RESEARCH DIRECTIONS</div>
+    </div>
+    <button class="inv-btn" onclick="loadPortfolio2()">Refresh</button>
+  </div>
+  <table class="port-table" style="max-width:1000px;">
+    <thead><tr><th>Direction</th><th>Verdict</th><th>Confidence</th><th>Trend</th><th>Risk</th><th>Action</th></tr></thead>
+    <tbody id="portBody2"><tr><td colspan="6" style="padding:40px;text-align:center;color:var(--muted);">Loading...</td></tr></tbody>
+  </table>
+</div>
+
+<script>
+function backToOS(){
+  document.querySelectorAll(".fullpane").forEach(function(p){p.style.display="none";});
+  document.getElementById("fpBack").style.display="none";
+  document.getElementById("miniOrb").classList.remove("show");
+  document.getElementById("osScreen").classList.add("active");
+  window.speechSynthesis.cancel();
+}
+
+var origShowFullScreen = window.showFullScreen;
+function patchShowFullScreen(){
+  var orig = showFullScreen;
+  showFullScreen = function(id){
+    orig(id);
+    document.getElementById("fpBack").style.display="block";
+  };
+}
+
+function sciSend2(){
+  var inp=document.getElementById("sciInput2");
+  if(!inp)return;
+  var q=inp.value.trim();
+  if(!q)return;
+  inp.value="";
+  var msgs=document.getElementById("sciMessages2");
+  var udiv=document.createElement("div");
+  udiv.style.cssText="display:flex;gap:10px;flex-direction:row-reverse;align-items:flex-start;";
+  udiv.innerHTML='<div style="width:28px;height:28px;border-radius:50%;background:rgba(0,102,255,.2);display:flex;align-items:center;justify-content:center;font-size:11px;color:#0066ff;">U</div><div style="max-width:80%;padding:10px 14px;background:var(--accent);color:#000;border-radius:10px;font-size:13px;line-height:1.7;">'+q+'</div>';
+  msgs.appendChild(udiv);
+  thinking("ANALYZING...",true);
+  fetch("/api/chat",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({query:q,history:sciHistory,researcher_id:companyId})})
+  .then(function(r){return r.json();})
+  .then(function(d){
+    thinking("",false);
+    var resp=d.response||"No response";
+    sciHistory.push({role:"user",content:q},{role:"assistant",content:resp});
+    var adiv=document.createElement("div");
+    adiv.style.cssText="display:flex;gap:10px;align-items:flex-start;";
+    adiv.innerHTML='<div style="width:28px;height:28px;border-radius:50%;background:rgba(0,136,255,.1);border:1px solid rgba(0,136,255,.2);display:flex;align-items:center;justify-content:center;font-size:11px;color:var(--accent);">&#9672;</div><div style="max-width:80%;padding:10px 14px;background:var(--card);border:1px solid var(--dim);color:var(--text);border-radius:10px;font-size:13px;line-height:1.7;">'+resp+'</div>';
+    msgs.appendChild(adiv);
+    msgs.scrollTop=msgs.scrollHeight;
+    speak(resp.substring(0,200));
+  }).catch(function(e){thinking("",false);alert("Error: "+e.message);});
+}
+
+function loadPortfolio2(){
+  var tbody=document.getElementById("portBody2");
+  if(!tbody)return;
+  tbody.innerHTML='<tr><td colspan="6" style="padding:20px;text-align:center;color:var(--muted);">Loading...</td></tr>';
+  var done=0;
+  var results=[];
+  DIRS.forEach(function(d,i){
+    fetch("/api/run_research",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({query:d.query})})
+    .then(function(r){return r.json();})
+    .then(function(data){
+      results[i]={name:d.name,query:d.query,data:data};
+      done++;
+      if(done===DIRS.length){
+        tbody.innerHTML=results.map(function(r){
+          var v=(r.data.proposal_verdict||"inconclusive").toLowerCase();
+          var conf=((r.data.proposal_confidence||0.5)*100).toFixed(0);
+          var drift=(r.data.drift&&r.data.drift.direction)||"stable";
+          var vc=v.includes("strong")?"v-strong":v.includes("moderate")?"v-moderate":v.includes("mixed")?"v-mixed":"v-limited";
+          var risk=v==="inconclusive"?"high":v.includes("mixed")?"medium":"low";
+          return "<tr><td style=\"font-weight:500;color:var(--white);\">"+r.name+"</td><td><span class=\"verdict-pill "+vc+"\">"+v.replace("_"," ")+"</span></td><td style=\"font-family:var(--mono);font-size:12px;\">"+conf+"%</td><td>"+(drift==="strengthening"?"&#8593;":drift==="weakening"?"&#8595;":"&#8594;")+" <span style=\"font-size:10px;color:var(--muted)\">"+drift+"</span></td><td><span class=\"risk-badge "+risk+"\">"+risk.toUpperCase()+"</span></td><td><button class=\"inv-btn\" onclick=\"goPane('scientist')\">Investigate</button></td></tr>";
+        }).join("");
+      }
+    }).catch(function(){
+      results[i]={name:d.name,query:d.query,data:{}};
+      done++;
+      if(done===DIRS.length)renderPortfolio(results);
+    });
+  });
+}
+
+// Patch showFullScreen to show back button
+function showFullScreen(id){
+  document.querySelectorAll(".fullpane").forEach(function(p){p.style.display="none";});
+  document.getElementById("osScreen").classList.remove("active");
+  document.getElementById("discoveryScreen").classList.remove("active");
+  document.getElementById("miniOrb").classList.add("show");
+  document.getElementById("fpBack").style.display="block";
+  var p=document.getElementById("fullpane-"+id);
+  if(p){p.style.display="flex";}
+  if(id==="portfolio") setTimeout(loadPortfolio2, 100);
+  if(id==="scientist") setTimeout(function(){var i=document.getElementById("sciInput2");if(i)i.focus();},300);
+}
 </script>
 </body>
 </html>
