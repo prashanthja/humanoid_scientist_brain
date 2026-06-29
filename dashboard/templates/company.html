@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8"/>
+<meta http-equiv="Content-Security-Policy" content="default-src * 'unsafe-inline' 'unsafe-eval' data: blob:;">
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
 <title>Tattva AI Enterprise</title>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet"/>
@@ -382,6 +383,11 @@ function thinking(msg, on){
 
 // ── LOGIN ─────────────────────────────────────────────────
 function doLogin(){
+  // Unlock audio on user gesture
+  window.speechSynthesis.cancel();
+  var unlock = new SpeechSynthesisUtterance('.');
+  unlock.volume = 0;
+  window.speechSynthesis.speak(unlock);
   var cid = document.getElementById('loginId').value.trim();
   var pwd = document.getElementById('loginPwd').value.trim();
   var err = document.getElementById('loginErr');
@@ -432,7 +438,11 @@ function doLogin(){
 
 // ── OS COMMANDS ───────────────────────────────────────────
 function osBrief(){
+  // Must start speech synchronously on user click for autoplay policy
   window.speechSynthesis.cancel();
+  var u = new SpeechSynthesisUtterance('.');
+  u.volume = 0;
+  window.speechSynthesis.speak(u);
   if(allDiscoveries.length > 0){
     var d = allDiscoveries[0];
     speak(
@@ -684,6 +694,18 @@ function sciAsk(text){
 }
 
 // ── BOOT ──────────────────────────────────────────────────
+// Unlock Web Speech API on first user interaction
+var audioUnlocked = false;
+document.addEventListener('click', function unlockAudio(){
+  if(audioUnlocked) return;
+  audioUnlocked = true;
+  var u = new SpeechSynthesisUtterance('');
+  u.volume = 0;
+  window.speechSynthesis.speak(u);
+  window.speechSynthesis.cancel();
+  document.removeEventListener('click', unlockAudio);
+}, true);
+
 window.addEventListener('load', function(){
   window.speechSynthesis.getVoices();
   setTimeout(function(){ window.speechSynthesis.getVoices(); }, 500);
