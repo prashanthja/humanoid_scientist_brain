@@ -7,6 +7,12 @@ import sqlite3, os, json, subprocess, sys, tempfile
 from datetime import datetime
 from groq import Groq
 
+# Load environment variables
+try:
+    from dotenv import load_dotenv
+    load_dotenv(os.path.join(os.path.dirname(os.path.abspath(__file__)), '.env'))
+except: pass
+
 DB = 'knowledge_base/knowledge.db'
 OUT = 'outputs/discoveries'
 os.makedirs(OUT, exist_ok=True)

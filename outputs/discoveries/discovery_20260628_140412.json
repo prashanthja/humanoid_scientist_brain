@@ -1,0 +1,11 @@
+{
+  "timestamp": "2026-06-28T14:04:12.585794",
+  "mechanism": "compression",
+  "from_domain": "biology",
+  "to_domain": "ml_ai",
+  "bridge_papers": 17,
+  "novelty_score": 0.37,
+  "hypothesis": "HYPOTHESIS: The integration of compression mechanisms from biology into machine learning models, such as Vision Transformer-based sparse multi-view 3D object detectors, can significantly improve their inference latency and accuracy.\n\nPREDICTION: We expect to find that the application of biological compression mechanisms can reduce the inference latency of ViT-based sparse multi-view 3D object detectors by at least 30% and improve their accuracy by 15% on standard benchmarks.\n\nEXPERIMENT: To test this hypothesis, we will design and implement a novel compression algorithm inspired by the Carlo model and the black-winged kite algorithm, and integrate it into a ViT-based sparse multi-view 3D object detector, which will then be evaluated on the ScanNet and Waymo datasets. The performance of the proposed model will be compared to state-of-the-art models using metrics such as mean Average Precision (mAP) and frames per second (FPS).\n\nIMPACT: This research has the potential to significantly improve the efficiency and accuracy of computer vision models, enabling their deployment in real-time applications such as autonomous vehicles, robotics, and surveillance systems, which can have a major impact on industries such as transportation, healthcare, and security.",
+  "experiment_output": "  File \"/var/folders/_2/7yt2d7hn1ybcynjw9_72nftw0000gn/T/tmpw6enosv1.py\", line 1\n    ```python\n    ^\nSyntaxError: invalid syntax\n",
+  "result_line": null
+}

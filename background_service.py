@@ -853,3 +853,14 @@ def start_background_service(run_immediately: bool = False):
     t.start()
     log.info("Background service thread started (6h interval)")
     return t
+if __name__ == "__main__":
+    import sys
+    run_now = "--now" in sys.argv
+    print(f"Starting Tattva background service (run_now={run_now})")
+    t = start_background_service(run_immediately=run_now)
+    try:
+        while t.is_alive():
+            time.sleep(60)
+    except KeyboardInterrupt:
+        print("Background service stopped.")
+

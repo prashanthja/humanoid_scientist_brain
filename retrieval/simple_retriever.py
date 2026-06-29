@@ -156,12 +156,27 @@ class SimpleRetriever:
             conn = sqlite3.connect(db_path)
             stopwords = {'does','what','when','how','the','and','for',
                         'with','that','this','are','was','were','been',
-                        'have','from','they','will','would','could','should'}
-            keywords = [w for w in query.lower().split()
-                       if len(w) > 3 and w not in stopwords][:6]
+                        'have','from','they','will','would','could','should',
+                        'work','good','best','make','more','less','very',
+                        'also','into','than','then','them','their','there'}
+            # Extract meaningful keywords - preserve technical terms
+            words = query.lower().split()
+            keywords = []
+            for w in words:
+                # Keep short technical terms (LoRA, MoE, etc)
+                clean = w.strip('?.,!')
+                if clean.upper() == clean and len(clean) >= 2:
+                    keywords.append(clean)  # acronyms
+                elif len(clean) > 4 and clean not in stopwords:
+                    keywords.append(clean)
+            keywords = keywords[:8]
+            if not keywords:
+                keywords = [w.strip('?.,!') for w in words if len(w.strip('?.,!')) > 2][:4]
             if not keywords:
                 return []
-            conditions = ' OR '.join([f"text LIKE '%{k}%'" for k in keywords])
+            # Score by number of keyword matches
+            conditions = ' OR '.join([f"(text LIKE '%{k}%' OR paper_title LIKE '%{k}%')" 
+                                      for k in keywords])
             rows = conn.execute(f"""
                 SELECT text, paper_title, domain, source FROM chunks
                 WHERE {conditions}
