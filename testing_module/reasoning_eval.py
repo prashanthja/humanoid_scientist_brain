@@ -181,7 +181,6 @@ def test_hypotheses():
 
     try:
         encoder = EmbeddingBridge()
-        encoder = EmbeddingBridge(trainer)
     except Exception:
         encoder = None
         print("No encoder — graph-only mode")
