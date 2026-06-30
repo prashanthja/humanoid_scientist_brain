@@ -29,6 +29,13 @@ def _get_pinecone_index():
 
 class SimpleRetriever:
     def __init__(self, encoder=None):
+        if encoder is None:
+            try:
+                from sentence_transformers import SentenceTransformer
+                encoder = SentenceTransformer('all-MiniLM-L6-v2')
+                log.info("SimpleRetriever: auto-loaded all-MiniLM-L6-v2 encoder")
+            except Exception as e:
+                log.warning(f"Could not auto-load encoder: {e}")
         self.encoder = encoder
         self._vecs = None
         self._meta = None

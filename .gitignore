@@ -47,3 +47,4 @@ data/chunk_index_vecs.npy
 data/chunk_index_meta.json
 data/chunk_index_vecs.npy
 .env
+models/polarity_encoder/
