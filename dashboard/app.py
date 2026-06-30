@@ -326,7 +326,28 @@ def _bucket_claims(grounded: list) -> dict:
         buckets[dim].append(gc)
     return buckets
 
-def _find_contradictions(chunks):
+def _find_contradictions_tattva1(chunks):
+    """TATTVA-1 polarity encoder - real AI contradiction detection (87% val accuracy)."""
+    try:
+        from polarity_encoder import find_contradictions
+        results = find_contradictions(chunks)
+        contradictions = []
+        for r in results:
+            contradictions.append({
+                "supporting_paper": r['chunk_a'],
+                "contradicting_paper": r['chunk_b'],
+                "type": "ai_detected",
+                "confidence": r['confidence'],
+                "text_a": r['text_a'],
+                "text_b": r['text_b'],
+            })
+        return contradictions
+    except Exception as e:
+        log = globals().get('log')
+        if log: log.warning(f"TATTVA-1 polarity check failed: {e}")
+        return None
+
+def _find_contradictions_keyword(chunks):
     if not chunks or len(chunks) < 2:
         return []
     positive_signals = [
@@ -540,6 +561,39 @@ def _find_contradictions(chunks):
                 return contradictions
 
     return contradictions
+
+
+def _find_contradictions(chunks):
+    """
+    Runs BOTH detection methods in parallel and merges results:
+      - TATTVA-1 (our trained SciBERT polarity encoder, 87% val acc)
+        labeled status='confirmed' - high precision, AI-verified
+      - Keyword/heuristic method (context-aware signal analysis)
+        labeled status='possible' - broader recall, unverified
+    """
+    if not chunks or len(chunks) < 2:
+        return []
+
+    merged = []
+
+    tattva1_result = _find_contradictions_tattva1(chunks)
+    if tattva1_result:
+        for c in tattva1_result:
+            c["status"] = "confirmed"
+            c["source"] = "tattva-1"
+            c["label"] = "CONFIRMED"
+            merged.append(c)
+
+    keyword_result = _find_contradictions_keyword(chunks)
+    if keyword_result:
+        for c in keyword_result:
+            c["status"] = "possible"
+            c["source"] = "keyword_heuristic"
+            c["label"] = "POSSIBLE"
+            merged.append(c)
+
+    return merged
+
 
 
 def _contradiction_implication(concepts, severity, c_type=""):
@@ -2141,6 +2195,12 @@ def api_chat():
         # Get generic LLM comparison if requested
         if show_comparison:
             result["llm_comparison"] = get_llm_comparison(query)
+
+        # Run merged contradiction detection (TATTVA-1 + keyword heuristic)
+        try:
+            result["contradictions"] = _find_contradictions(chunks)
+        except Exception as ce:
+            print(f"[chat] contradiction detection error: {ce}")
 
         return jsonify(result)
     except Exception as e:
