@@ -45,6 +45,14 @@ DOMAIN_QUERIES = {
         "flash decoding parallel LLM inference",
     ],
     "neuroscience": [
+        "hippocampal neurogenesis memory formation dentate gyrus",
+        "cortical interneuron inhibitory GABAergic circuit",
+        "synaptic vesicle neurotransmitter release calcium",
+        "long term potentiation NMDA receptor spine",
+        "astrocyte gliotransmission tripartite synapse",
+        "microglia neuroinflammation cytokine brain",
+        "myelination oligodendrocyte white matter tract",
+        "neuronal apoptosis caspase brain development",
         "neural attention mechanism selective perception brain",
         "memory consolidation hippocampus sleep",
         "synaptic plasticity hebbian learning",
@@ -234,7 +242,15 @@ def detect_domain(text: str, title: str = "", source_query: str = "") -> str:
     # STRICT title-based detection — titles are reliable
     # These are domain-exclusive terms unlikely to appear in ML papers
     title_signals = {
-        "neuroscience": ["hippocampus","synapse","cortex","neuron","fmri","eeg","dopamine","serotonin","axon","dendrite","glial","amygdala","cerebellum","neural circuit","prefrontal","optogenetics"],
+        "neuroscience": [
+        "hippocampal neurogenesis memory formation dentate gyrus",
+        "cortical interneuron inhibitory GABAergic circuit",
+        "synaptic vesicle neurotransmitter release calcium",
+        "long term potentiation NMDA receptor spine",
+        "astrocyte gliotransmission tripartite synapse",
+        "microglia neuroinflammation cytokine brain",
+        "myelination oligodendrocyte white matter tract",
+        "neuronal apoptosis caspase brain development","hippocampus","synapse","cortex","neuron","fmri","eeg","dopamine","serotonin","axon","dendrite","glial","amygdala","cerebellum","neural circuit","prefrontal","optogenetics"],
         "biology":      ["crispr","gene editing","protein folding","genomics","transcriptomics","dna methylation","rna sequencing","cell biology","microbiome","epigenetics","stem cell","metabolomics"],
         "medicine":     ["clinical trial","randomized controlled","patient outcome","drug efficacy","disease treatment","cancer therapy","vaccine efficacy","surgical outcome","epidemiology","cohort study"],
         "physics":      ["quantum entanglement","superconductor","dark matter","particle physics","quantum computing","thermodynamics","condensed matter","gravitational wave","nuclear physics","plasma physics"],
@@ -253,7 +269,15 @@ def detect_domain(text: str, title: str = "", source_query: str = "") -> str:
     # ML/AI is the default for our current corpus
     # Only assign other domains if VERY strong signals in text
     strong_text_signals = {
-        "neuroscience": ["hippocampal","synaptic plasticity","neural firing","cortical","cerebellar","dopaminergic"],
+        "neuroscience": [
+        "hippocampal neurogenesis memory formation dentate gyrus",
+        "cortical interneuron inhibitory GABAergic circuit",
+        "synaptic vesicle neurotransmitter release calcium",
+        "long term potentiation NMDA receptor spine",
+        "astrocyte gliotransmission tripartite synapse",
+        "microglia neuroinflammation cytokine brain",
+        "myelination oligodendrocyte white matter tract",
+        "neuronal apoptosis caspase brain development","hippocampal","synaptic plasticity","neural firing","cortical","cerebellar","dopaminergic"],
         "biology":      ["crispr-cas","gene expression","rna-seq","whole genome","protein structure","cell line","in vitro","in vivo"],
         "medicine":     ["patients with","clinical outcomes","randomized","placebo-controlled","hazard ratio","odds ratio"],
         "physics":      ["quantum circuit","qubit","superconducting","entanglement","hamiltonian","fermion","boson"],
