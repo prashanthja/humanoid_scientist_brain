@@ -223,6 +223,20 @@ def extract_verdict(response_text):
         except:
             pass
 
+    # Also infer confidence from verdict language
+    text_low = text.lower()
+    if confidence == 0.5:
+        if any(w in text_low for w in ['clearly','definitively','well established','strong evidence','no doubt','definitely']):
+            confidence = 0.85
+        elif any(w in text_low for w in ['solid','good evidence','multiple papers','consistent findings','well supported']):
+            confidence = 0.75
+        elif any(w in text_low for w in ['some evidence','partially','limited','few papers','mixed results']):
+            confidence = 0.45
+        elif any(w in text_low for w in ['unclear','insufficient','conflicting','no evidence','not enough']):
+            confidence = 0.25
+        elif any(w in text_low for w in ['moderate','likely','probably','suggests','indicates']):
+            confidence = 0.62
+
     # Determine verdict
     if any(w in text for w in ['strong support','strongly support','well established','consensus']):
         verdict = 'STRONG SUPPORT'
