@@ -6,6 +6,37 @@ import os, logging, numpy as np
 log = logging.getLogger("tattva.retriever")
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+PG_URL = os.environ.get("DATABASE_URL", "")
+
+def _get_pg_connection():
+    """Get PostgreSQL connection if available."""
+    if not PG_URL:
+        return None
+    try:
+        import psycopg2
+        return psycopg2.connect(PG_URL)
+    except Exception as e:
+        log.warning(f"PostgreSQL connection failed: {e}")
+        return None
+
+def _fetch_chunks_pg(chunk_ids):
+    """Fetch full chunk text from PostgreSQL."""
+    conn = _get_pg_connection()
+    if not conn:
+        return {}
+    try:
+        cur = conn.cursor()
+        placeholders = ','.join(['%s'] * len(chunk_ids))
+        cur.execute(f"SELECT chunk_id, text, paper_title, domain FROM chunks WHERE chunk_id IN ({placeholders})", chunk_ids)
+        rows = cur.fetchall()
+        conn.close()
+        return {r[0]: {'text':r[1], 'paper_title':r[2], 'domain':r[3]} for r in rows}
+    except Exception as e:
+        log.warning(f"PostgreSQL fetch failed: {e}")
+        return {}
+
+
 VEC_PATH  = os.path.join(ROOT, "data", "chunk_index_vecs.npy")
 META_PATH = os.path.join(ROOT, "data", "chunk_index_meta.json")
 
@@ -75,9 +106,24 @@ class SimpleRetriever:
             pinecone_idx = _get_pinecone_index()
             if pinecone_idx is not None:
                 results = pinecone_idx.query(vector=vec.tolist(), top_k=top_k, include_metadata=True)
+                # Fetch full text from PostgreSQL if available
+                chunk_ids = []
+                for match in results.matches:
+                    try:
+                        cid = int(match.id.replace('chunk-',''))
+                        chunk_ids.append(cid)
+                    except: pass
+                pg_data = _fetch_chunks_pg(chunk_ids) if chunk_ids else {}
+
                 chunks = []
                 for match in results.matches:
                     m = match.metadata or {}
+                    # Use PostgreSQL full text if available
+                    try:
+                        cid = int(match.id.replace('chunk-',''))
+                        if cid in pg_data:
+                            m = {**m, **pg_data[cid]}
+                    except: pass
                     chunks.append({
                         "text": m.get("text",""),
                         "paper_title": m.get("paper_title",""),
