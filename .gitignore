@@ -48,3 +48,10 @@ data/chunk_index_meta.json
 data/chunk_index_vecs.npy
 .env
 models/polarity_encoder/
+knowledge_base/*.db
+knowledge_base/*.db-shm
+knowledge_base/*.db-wal
+nli_training.json
+models/polarity_encoder/
+logs/
+data/
