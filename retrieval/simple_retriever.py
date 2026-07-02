@@ -27,6 +27,19 @@ def _get_pinecone_index():
             log.warning(f"Pinecone init failed: {e}")
     return _pinecone_index
 
+def _clean_title(title, text=""):
+    """Clean paper title — if it looks like chunk text, generate a cleaner label."""
+    if not title or len(title) < 5:
+        return text[:60] + "..." if text else "Unknown Paper"
+    # If title starts lowercase it's likely chunk text
+    if title and title[0].islower():
+        # Try to extract first sentence as a cleaner title
+        import re
+        sentences = re.split(r'[.!?]', title)
+        first = sentences[0].strip()[:80] if sentences else title[:80]
+        return first.capitalize() + "..."
+    return title[:100]
+
 class SimpleRetriever:
     def __init__(self, encoder=None):
         if encoder is None:
