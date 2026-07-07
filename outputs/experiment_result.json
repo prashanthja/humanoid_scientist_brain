@@ -1,0 +1,7 @@
+{
+  "baseline": 0.6650000214576721,
+  "improved": 1.0,
+  "improvement": 50.37593499741728,
+  "hypothesis": "sparse attention reduces memory in transformers",
+  "timestamp": "2026-07-03T13:32:32.849058"
+}

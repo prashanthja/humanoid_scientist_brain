@@ -265,9 +265,11 @@ function drawSphere(cv, R){
   if(!cv) return;
   var ctx = cv.getContext('2d'), W = cv.width, H = cv.height, cx = W/2, cy = H/2;
   ctx.clearRect(0,0,W,H);
-  RY += 0.006; RX = 0.38 + 0.06*Math.sin(TT*0.007);
+  RY += SPK ? 0.02 : 0.006; RX = 0.38 + (SPK ? 0.15 : 0.06)*Math.sin(TT*0.007);
   var proj = DOTS.map(function(p){
-    var pu = 1 + 0.07*Math.sin(TT*0.05+p.phi*2);
+    var pulse = SPK ? 0.25 : 0.07;
+    var speed = SPK ? 0.15 : 0.05;
+    var pu = 1 + pulse*Math.sin(TT*speed+p.phi*2);
     var sx = {x:p.x*pu, y:p.y*pu, z:p.z*pu};
     var x1 = sx.x*Math.cos(RY)-sx.z*Math.sin(RY), z1 = sx.x*Math.sin(RY)+sx.z*Math.cos(RY);
     var y2 = sx.y*Math.cos(RX)-z1*Math.sin(RX), z2 = sx.y*Math.sin(RX)+z1*Math.cos(RX);
@@ -402,26 +404,8 @@ function doLogin(){
       companyName = d.company_name || d.name || cid;
       document.getElementById('companyTag').textContent = companyName;
       document.getElementById('loginScreen').style.display = 'none';
-      // No dashboard - just OS screen
-      document.getElementById('osScreen').classList.add('active');
-      // Check discoveries count
-      fetch('/api/discoveries').then(function(r){ return r.json(); }).then(function(d){
-        allDiscoveries = d.discoveries || [];
-        var badge = document.getElementById('discBadge');
-        if(badge) badge.textContent = allDiscoveries.length;
-        setTimeout(function(){
-          if(allDiscoveries.length > 0){
-            speak('Welcome back '+companyName+'. I found '+allDiscoveries.length+
-              ' discover'+(allDiscoveries.length===1?'y':'ies')+' overnight. Click the orb for details.');
-          } else {
-            speak('Welcome back '+companyName+'. I am ready to investigate. Click the orb for your morning brief.');
-          }
-        }, 600);
-      }).catch(function(){
-        setTimeout(function(){
-          speak('Welcome back '+companyName+'. I am ready. Click the orb for your morning brief.');
-        }, 600);
-      });
+      window.speechSynthesis.getVoices();
+      checkOnboarding(companyId);
     } else {
       err.style.display = 'block';
       err.textContent = d.error || 'Invalid credentials.';
@@ -431,8 +415,8 @@ function doLogin(){
     companyId = cid; companyName = cid;
     document.getElementById('companyTag').textContent = cid;
     document.getElementById('loginScreen').style.display = 'none';
-    showOSScreen();
-    setTimeout(function(){ speak('Welcome to Tattva. I am ready to investigate.'); }, 600);
+    window.speechSynthesis.getVoices();
+    checkOnboarding(companyId);
   });
 }
 
@@ -479,6 +463,7 @@ function osCommand(text){
     setTimeout(function(){ goPane('portfolio'); loadPortfolio(); speak('Opening your portfolio health.'); }, 900); return;
   }
   if(t.match(/brief|morning/)) return osBrief();
+  if(t.match(/run experiment|test this|test hypothesis|run test/)){runExperiment(lastHypothesis,'');return;}
   if(t.match(/run discovery ?(\d+)/)){
     var m = t.match(/run discovery ?(\d+)/);
     var n = parseInt(m[1]) - 1;
@@ -706,6 +691,85 @@ document.addEventListener('click', function unlockAudio(){
   document.removeEventListener('click', unlockAudio);
 }, true);
 
+
+var selectedDomains = [];
+
+function toggleDomain(btn, domain) {
+  if(btn.classList.contains('selected')) {
+    btn.classList.remove('selected');
+    selectedDomains = selectedDomains.filter(d => d !== domain);
+  } else {
+    btn.classList.add('selected');
+    selectedDomains.push(domain);
+  }
+}
+
+function showOnboarding() {
+  document.getElementById('onboardingScreen').style.display = 'flex';
+}
+
+function skipOnboarding() {
+  document.getElementById('onboardingScreen').style.display = 'none';
+  showOSScreen();
+}
+
+function saveOnboarding() {
+  var focus = document.getElementById('ob_focus').value.trim();
+  var topics = document.getElementById('ob_topics').value.split(',').map(t=>t.trim()).filter(Boolean);
+  if(!focus) { alert('Please describe your research focus'); return; }
+  if(selectedDomains.length === 0) selectedDomains = ['ml_ai'];
+
+  fetch('/api/company/profile', {
+    method: 'POST',
+    headers: {'Content-Type':'application/json'},
+    body: JSON.stringify({
+      company_id: companyId,
+      company_name: companyName,
+      research_focus: focus,
+      research_domains: selectedDomains,
+      key_topics: topics,
+      team_size: 10
+    })
+  }).then(r => r.json()).then(d => {
+    document.getElementById('onboardingScreen').style.display = 'none';
+    showOSScreen();
+    speak('Profile saved. I now know what your team researches. I will monitor these domains overnight and report back in the morning.');
+  });
+}
+
+// Check if company needs onboarding after login
+function checkOnboarding(cid) {
+  fetch('/api/company/profile?company_id=' + cid)
+  .then(r => r.json())
+  .then(d => {
+    if(!d.onboarded) {
+      setTimeout(showOnboarding, 800);
+    } else {
+      showOSScreen();
+      if(d.profile) window.companyProfile = d.profile;
+      // Trigger welcome after sphere loads
+      setTimeout(function(){
+        fetch('/api/discoveries').then(r=>r.json()).then(function(disc){
+          allDiscoveries = disc.discoveries || [];
+          var badge = document.getElementById('discBadge');
+          if(badge) badge.textContent = allDiscoveries.length;
+          if(allDiscoveries.length > 0){
+            speak('Welcome back '+companyName+'. I found '+allDiscoveries.length+' discover'+(allDiscoveries.length===1?'y':'ies')+' overnight. Click the orb for details.');
+          } else {
+            speak('Welcome back '+companyName+'. I am ready to investigate. Click the orb for your morning brief, or ask me anything.');
+          }
+        }).catch(function(){
+          speak('Welcome back '+companyName+'. I am ready. Click the orb or ask me anything.');
+        });
+      }, 800);
+    }
+  })
+  .catch(function(){
+    showOSScreen();
+    setTimeout(function(){ speak('Welcome. I am ready to investigate.'); }, 800);
+  });
+}
+
 window.addEventListener('load', function(){
   window.speechSynthesis.getVoices();
   setTimeout(function(){ window.speechSynthesis.getVoices(); }, 500);
@@ -780,6 +844,15 @@ function sciSend2(){
   udiv.style.cssText="display:flex;gap:10px;flex-direction:row-reverse;align-items:flex-start;";
   udiv.innerHTML='<div style="width:28px;height:28px;border-radius:50%;background:rgba(0,102,255,.2);display:flex;align-items:center;justify-content:center;font-size:11px;color:#0066ff;">U</div><div style="max-width:80%;padding:10px 14px;background:var(--accent);color:#000;border-radius:10px;font-size:13px;line-height:1.7;">'+q+'</div>';
   msgs.appendChild(udiv);
+  // Store hypothesis for experiment runner
+  if(t.match(/hypothesi|experiment|test if|what if|could we/)) {
+    lastHypothesis = q;
+  }
+  // Auto-run experiment if asked
+  if(t.match(/^run experiment|^test this|^run this|^execute/i)) {
+    runExperiment(lastHypothesis || q, '');
+    return;
+  }
   thinking("ANALYZING...",true);
   fetch("/api/chat",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({query:q,history:sciHistory,researcher_id:companyId})})
   .then(function(r){return r.json();})
@@ -839,5 +912,57 @@ function showFullScreen(id){
   if(id==="scientist") setTimeout(function(){var i=document.getElementById("sciInput2");if(i)i.focus();},300);
 }
 </script>
+
+<!-- ONBOARDING SCREEN -->
+<div id="onboardingScreen" style="display:none;position:fixed;inset:0;z-index:99995;background:#020508;align-items:center;justify-content:center;flex-direction:column;">
+  <div style="max-width:560px;width:100%;padding:40px;background:#0d1520;border:1px solid #1a2535;border-radius:16px;">
+    <div style="font-size:22px;color:#0088ff;margin-bottom:8px;">◈</div>
+    <div style="font-size:22px;font-weight:600;color:#fff;margin-bottom:4px;">Welcome to Tattva</div>
+    <div style="font-size:13px;color:#5a7090;margin-bottom:28px;">Tell me about your research so I can work for you overnight</div>
+
+    <div style="margin-bottom:16px;">
+      <label style="display:block;font-family:monospace;font-size:9px;color:#5a7090;letter-spacing:1.5px;margin-bottom:6px;">WHAT DOES YOUR TEAM RESEARCH?</label>
+      <input id="ob_focus" placeholder="e.g. protein folding, drug discovery, ML efficiency..." style="width:100%;padding:11px 14px;background:#080d14;border:1px solid #1a2535;border-radius:8px;color:#c8deff;font-size:13px;outline:none;"/>
+    </div>
+
+    <div style="margin-bottom:16px;">
+      <label style="display:block;font-family:monospace;font-size:9px;color:#5a7090;letter-spacing:1.5px;margin-bottom:8px;">WHICH DOMAINS? (select all that apply)</label>
+      <div style="display:flex;flex-wrap:wrap;gap:8px;" id="ob_domains">
+        <button onclick="toggleDomain(this,'ml_ai')" class="ob-domain">Machine Learning</button>
+        <button onclick="toggleDomain(this,'neuroscience')" class="ob-domain">Neuroscience</button>
+        <button onclick="toggleDomain(this,'biology')" class="ob-domain">Biology</button>
+        <button onclick="toggleDomain(this,'medicine')" class="ob-domain">Medicine</button>
+        <button onclick="toggleDomain(this,'physics')" class="ob-domain">Physics</button>
+        <button onclick="toggleDomain(this,'chemistry')" class="ob-domain">Chemistry</button>
+        <button onclick="toggleDomain(this,'climate')" class="ob-domain">Climate</button>
+        <button onclick="toggleDomain(this,'economics')" class="ob-domain">Economics</button>
+      </div>
+    </div>
+
+    <div style="margin-bottom:24px;">
+      <label style="display:block;font-family:monospace;font-size:9px;color:#5a7090;letter-spacing:1.5px;margin-bottom:6px;">KEY TOPICS OR METHODS (comma separated)</label>
+      <input id="ob_topics" placeholder="e.g. CRISPR, LoRA, attention mechanism, drug targets..." style="width:100%;padding:11px 14px;background:#080d14;border:1px solid #1a2535;border-radius:8px;color:#c8deff;font-size:13px;outline:none;"/>
+    </div>
+
+    <button onclick="saveOnboarding()" style="width:100%;padding:13px;background:#0088ff;color:#000;border:none;border-radius:8px;font-size:14px;font-weight:700;cursor:pointer;">
+      Start Investigating →
+    </button>
+    <div style="text-align:center;margin-top:12px;">
+      <span onclick="skipOnboarding()" style="font-size:11px;color:#3a5070;cursor:pointer;">Skip for now</span>
+    </div>
+  </div>
+</div>
+
+<style>
+.ob-domain {
+  padding:6px 14px;border-radius:20px;border:1px solid #1a2535;
+  background:transparent;color:#5a7090;font-size:12px;cursor:pointer;
+  transition:all .15s;
+}
+.ob-domain.selected {
+  background:rgba(0,136,255,0.15);border-color:#0088ff;color:#0088ff;
+}
+</style>
+
 </body>
 </html>

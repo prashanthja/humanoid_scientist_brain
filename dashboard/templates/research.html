@@ -230,7 +230,7 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
   <div class="conv-panel">
     <div class="messages" id="messages">
       <div class="welcome" id="welcomeScreen">
-        <div class="welcome-eyebrow">Tattva Scientist · Llama 3.3 70B · 10,000+ papers</div>
+        <div class="welcome-eyebrow">Tattva Scientist · Llama 3.3 70B · 337,000+ papers</div>
         <h1 class="welcome-title">What do you want to investigate?</h1>
         <p class="welcome-sub">Ask a research question. I'll read real papers, evaluate evidence, find contradictions, and investigate with you — like a scientific partner.</p>
         <div class="welcome-grid">
@@ -265,7 +265,7 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
           oninput="this.style.height='auto';this.style.height=Math.min(this.scrollHeight,120)+'px'"></textarea>
         <button class="send-btn" id="sendBtn" onclick="sendMsg()">Send →</button>
       </div>
-      <div class="input-foot">Evidence-grounded · Llama 3.3 70B · Groq · 10,000+ papers</div>
+      <div class="input-foot">Evidence-grounded · Llama 3.3 70B · Groq · 337,000+ papers</div>
     </div>
   </div>
 
@@ -462,7 +462,7 @@ async function saveSessionToCloud(){
 function showWelcome(){
   document.getElementById('messages').innerHTML=`
   <div class="welcome" id="welcomeScreen">
-    <div class="welcome-eyebrow">Tattva Scientist · Llama 3.3 70B · 10,000+ papers</div>
+    <div class="welcome-eyebrow">Tattva Scientist · Llama 3.3 70B · 337,000+ papers</div>
     <h1 class="welcome-title">What do you want to investigate?</h1>
     <p class="welcome-sub">Ask a research question. I'll read real papers, evaluate evidence, find contradictions, and investigate with you.</p>
     <div class="welcome-grid">

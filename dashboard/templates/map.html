@@ -126,7 +126,7 @@ canvas{position:absolute;inset:0;width:100%;height:100%;}
 </div>
 <div class="sb-header">
       <div class="sb-title">Where Science Disagrees</div>
-      <div class="sb-sub">Live map of contradictions across 10,670 ML papers. Updated every 6 hours.</div>
+      <div class="sb-sub">Live map of contradictions across your recent research sessions. Updates as you investigate.</div>
     </div>
     <div class="sb-tabs">
       <div class="sb-tab active" onclick="showTab('contradictions',this)">Contradictions</div>
@@ -151,6 +151,22 @@ const TOPICS = [
   {id:'paged', label:'PagedAttention', query:'PagedAttention memory serving throughput'},
   {id:'rope', label:'RoPE', query:'rotary position embedding long context'},
 ];
+
+// Load user session topics and merge with defaults
+async function loadSessionTopics() {
+  try {
+    const rid = localStorage.getItem('researcher_id') || 'anonymous';
+    const r = await fetch('/api/recent_queries?researcher_id=' + rid);
+    const d = await r.json();
+    if (d.topics && d.source === 'session') {
+      // Merge session topics with defaults, session first
+      const existingIds = new Set(TOPICS.map(t => t.id));
+      d.topics.forEach(t => {
+        if (!existingIds.has(t.id)) TOPICS.unshift(t);
+      });
+    }
+  } catch(e) { console.log('Session topics unavailable:', e); }
+}
 
 let _allContradictions = [];
 let _sessionContras = [];
@@ -178,6 +194,7 @@ window.addEventListener('resize', resize);
 
 // Load all contradiction data
 async function loadData(){
+  await loadSessionTopics();
   const results = await Promise.all(
     TOPICS.map(t => 
       fetch('/api/run_research', {
@@ -197,7 +214,7 @@ async function loadData(){
   const W = canvas.offsetWidth;
   const H = canvas.offsetHeight;
   const cx = W/2, cy = H/2;
-  const radius = Math.min(W,H) * 0.32;
+  const radius = Math.min(W,H) * 0.42;
 
   // Topic nodes in circle
   TOPICS.forEach((t,i) => {
@@ -232,7 +249,7 @@ async function loadData(){
     const parentNode = _nodes.find(n=>n.id===c.topicId);
     if(!parentNode) return;
     const angle = Math.random() * Math.PI * 2;
-    const r = 40 + Math.random() * 60;
+    const r = 80 + Math.random() * 120;
     _nodes.push({
       id: c.topicId+'_contra_'+(i+1),
       label: '⚠',
