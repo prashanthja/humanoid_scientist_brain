@@ -45,6 +45,35 @@ Return ONLY valid JSON array. No markdown.
 Text:
 """
 
+def llm_complete(prompt, max_tokens=800):
+    """Call Together AI if available, else Groq."""
+    import os
+    together_key = os.environ.get('TOGETHER_API_KEY', '')
+    if together_key:
+        try:
+            from together import Together
+            client = Together(api_key=together_key)
+            r = client.chat.completions.create(
+                model="meta-llama/Llama-3.3-70B-Instruct-Turbo",
+                messages=[{"role": "user", "content": prompt}],
+                max_tokens=max_tokens,
+                temperature=0.1
+            )
+            return r.choices[0].message.content.strip()
+        except Exception as e:
+            print(f"Together AI error: {e}, falling back to Groq")
+    
+    # Groq fallback
+    from groq import Groq
+    groq_client = Groq(api_key=os.environ.get('GROQ_API_KEY', ''))
+    r = groq_client.chat.completions.create(
+        model="llama-3.3-70b-versatile",
+        messages=[{"role": "user", "content": prompt}],
+        max_tokens=max_tokens,
+        temperature=0.1
+    )
+    return r.choices[0].message.content.strip()
+
 def setup_observations_table(conn):
     cur = conn.cursor()
     cur.execute("""
@@ -72,13 +101,7 @@ def setup_observations_table(conn):
 def extract_observations(text, chunk_id, domain, paper_title=""):
     """Extract atomic observations from a paper chunk."""
     try:
-        r = client.chat.completions.create(
-            model="llama-3.3-70b-versatile",
-            messages=[{"role":"user","content": OBSERVE_PROMPT + text[:800]}],
-            max_tokens=800,
-            temperature=0.1
-        )
-        raw = r.choices[0].message.content.strip()
+        raw = llm_complete(OBSERVE_PROMPT + text[:800], max_tokens=800)
         if raw.startswith('```'):
             lines = raw.split('\n')
             raw = '\n'.join(lines[1:-1] if lines[-1]=='```' else lines[1:])
@@ -89,12 +112,32 @@ def extract_observations(text, chunk_id, domain, paper_title=""):
     except Exception as e:
         return []
 
+# Noise patterns to filter out
+OBS_NOISE = [
+    'is not mentioned', 'not mentioned', 'is_not_mentioned',
+    'no relationship', 'not applicable', 'not relevant',
+    'not present', 'not discussed', 'not described',
+    'not provided', 'not specified', 'n/a', 'none',
+    'in the text', 'in this text', 'in the provided',
+    'in the given', 'in this context', 'in_this_context'
+]
+
+def is_noise_observation(obs):
+    """Return True if observation is an extraction artifact."""
+    subj = (obs.get('subject','') or '').lower()
+    pred = (obs.get('predicate','') or '').lower()
+    obj = (obs.get('object','') or '').lower()
+    combined = f"{subj} {pred} {obj}"
+    return any(noise in combined for noise in OBS_NOISE)
+
 def save_observations(conn, obs_list, chunk_id, domain, paper_title):
     """Save observations to the store."""
     cur = conn.cursor()
     saved = 0
     for obs in obs_list:
         if not obs.get('subject') or not obs.get('predicate') or not obs.get('object'):
+            continue
+        if is_noise_observation(obs):
             continue
         try:
             cur.execute("""

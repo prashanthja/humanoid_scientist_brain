@@ -107,8 +107,25 @@ def clean_json(raw):
     except:
         return None
 
+# Negation signals — if observation contains these, it contradicts
+NEGATION_PREDICATES = [
+    'does not', 'cannot', 'fails to', 'no significant', 'no effect',
+    'not associated', 'not improve', 'not reduce', 'not increase',
+    'not decrease', 'worsens', 'inhibits', 'prevents', 'contradicts',
+    'opposite', 'contrary', 'however', 'but not', 'except'
+]
+
+# Opposite predicate pairs
+OPPOSITE_PREDICATES = {
+    'increases': 'decreases', 'decreases': 'increases',
+    'improves': 'worsens', 'worsens': 'improves',
+    'reduces': 'increases', 'enhances': 'diminishes',
+    'supports': 'contradicts', 'enables': 'prevents',
+    'causes': 'prevents', 'promotes': 'inhibits',
+}
+
 def extract_belief_simple(obs):
-    """Extract belief directly from SPO without LLM — saves tokens."""
+    """Extract belief from SPO — detect contradictions vs existing beliefs."""
     subject = obs.get('subject','').strip()
     predicate = obs.get('predicate','').strip()
     obj = obs.get('object','').strip()
@@ -118,8 +135,11 @@ def extract_belief_simple(obs):
     if not subject or not predicate or not obj:
         return None
     
-    # Build belief text directly
-    if negated:
+    # Detect negation from predicate or negated flag
+    pred_lower = predicate.lower()
+    is_negated = negated or any(n in pred_lower for n in NEGATION_PREDICATES)
+    
+    if is_negated:
         belief = f"{subject} does not {predicate} {obj}"
         obs_type = "contradicts"
     else:
@@ -155,11 +175,31 @@ def extract_belief_from_observation(obs):
         return clean_json(raw)
     except Exception as e:
         return None
+def find_contradicting_beliefs(conn, concept_name, obj, predicate):
+    """Find existing beliefs that contradict this new observation."""
+    cur = conn.cursor()
+    # Find beliefs about same concept and object with opposite predicates
+    opposite = OPPOSITE_PREDICATES.get(predicate.lower(), '')
+    contradicted = []
+    
+    if opposite:
+        cur.execute("""
+            SELECT id, belief_text, supporting_count FROM beliefs
+            WHERE LOWER(concept_name) LIKE LOWER(%s)
+            AND LOWER(belief_text) LIKE LOWER(%s)
+            LIMIT 5
+        """, (f'%{concept_name[:30]}%', f'%{obj[:30]}%'))
+        rows = cur.fetchall()
+        for bid, btext, sup in rows:
+            if opposite in btext.lower() or predicate in btext.lower():
+                contradicted.append(bid)
+    return contradicted
+
 def upsert_belief(conn, belief_text, concept_name, obs_type, domain, confidence):
-    """Insert or update a belief based on new observation."""
+    """Insert or update a belief — detect contradictions with existing beliefs."""
     cur = conn.cursor()
     
-    # Check if belief exists
+    # Check if exact belief exists
     cur.execute("""
         SELECT id, supporting_count, contradicting_count, 
                refining_count, narrowing_count, neutral_count
@@ -170,22 +210,12 @@ def upsert_belief(conn, belief_text, concept_name, obs_type, domain, confidence)
     
     if existing:
         bid, sup, con, ref, nar, neu = existing
-        # Update counts
-        col_map = {
-            'supports': 'supporting_count',
-            'contradicts': 'contradicting_count', 
-            'refines': 'refining_count',
-            'narrows': 'narrowing_count',
-            'neutral': 'neutral_count'
-        }
-        col = col_map.get(obs_type, 'neutral_count')
         new_sup = sup + (1 if obs_type == 'supports' else 0)
         new_con = con + (1 if obs_type == 'contradicts' else 0)
         new_ref = ref + (1 if obs_type == 'refines' else 0)
         new_nar = nar + (1 if obs_type == 'narrows' else 0)
         new_neu = neu + (1 if obs_type == 'neutral' else 0)
         new_conf = compute_confidence(new_sup, new_con, new_ref, new_nar, new_neu)
-        
         cur.execute("""
             UPDATE beliefs SET
                 supporting_count=%s, contradicting_count=%s,
@@ -199,7 +229,6 @@ def upsert_belief(conn, belief_text, concept_name, obs_type, domain, confidence)
         s = 1 if obs_type == 'supports' else 0
         c = 1 if obs_type == 'contradicts' else 0
         conf = compute_confidence(s, c, 0, 0, 0)
-        
         cur.execute("""
             INSERT INTO beliefs 
             (belief_text, concept_name, supporting_count, contradicting_count,
@@ -208,6 +237,21 @@ def upsert_belief(conn, belief_text, concept_name, obs_type, domain, confidence)
         """, (belief_text[:500], concept_name, s, c, conf, domain))
         bid = cur.fetchone()[0]
         conn.commit()
+        
+        # If this observation contradicts something, find and update opposite beliefs
+        if obs_type == 'supports' and c == 0:
+            # Look for beliefs about same concept with negated predicates
+            cur.execute("""
+                UPDATE beliefs 
+                SET contradicting_count = contradicting_count + 1,
+                    confidence = confidence - 0.05,
+                    updated_at = NOW()
+                WHERE LOWER(concept_name) = LOWER(%s)
+                AND (belief_text LIKE %s OR belief_text LIKE %s)
+                AND belief_text LIKE '%%does not%%'
+            """, (concept_name, f'%{concept_name[:20]}%', f'%does not%'))
+            conn.commit()
+        
         return 'created', bid
 
 def build_beliefs_from_observations(domain=None, limit=100):

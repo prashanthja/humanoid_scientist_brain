@@ -6,7 +6,19 @@ import os
 from groq import Groq
 
 def _client():
-    return Groq(api_key=os.environ.get('GROQ_API_KEY',''))
+    together_key = os.environ.get("TOGETHER_API_KEY","")
+    if together_key:
+        try:
+            from together import Together
+            return Together(api_key=together_key)
+        except:
+            pass
+    return Groq(api_key=os.environ.get("GROQ_API_KEY",""))
+
+def _model():
+    if os.environ.get("TOGETHER_API_KEY",""):
+        return "meta-llama/Llama-3.3-70B-Instruct-Turbo"
+    return "llama-3.3-70b-versatile"
 
 # ── SYSTEM PROMPT — The Scientist Identity ──────────────────
 IDENTITY = """You are Tattva.
@@ -130,7 +142,7 @@ Reply with ONLY the search query or DONE. Nothing else."""
 
         client = _client()
         r = client.chat.completions.create(
-            model="llama-3.3-70b-versatile",
+            model=_model(),
             messages=[{"role":"user","content":prompt}],
             max_tokens=50,
             temperature=0.2
@@ -280,7 +292,7 @@ def chat(query, history, chunks, verdict_data=None,
     # 5. Call Groq
     try:
         client = _client()
-        model = model_override or "llama-3.3-70b-versatile"
+        model = model_override or _model()
         response = client.chat.completions.create(
             model=model,
             messages=messages,
@@ -323,7 +335,7 @@ def get_llm_comparison(query):
     try:
         client = _client()
         r = client.chat.completions.create(
-            model="llama-3.3-70b-versatile",
+            model=_model(),
             messages=[
                 {"role":"system","content":"Answer confidently. No sources needed."},
                 {"role":"user","content":query}

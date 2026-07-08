@@ -2,962 +2,476 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>Tattva AI — Research Intelligence</title>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500;600&display=swap" rel="stylesheet"/>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<title>Tattva AI - Mission Control</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
 <style>
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-:root{
-  --bg:#080b10;--surface:#0d1117;--card:#111720;--border:#1a2332;--border2:#243045;
-  --accent:#00e5ff;--accent2:#0066ff;--gold:#f5a623;--green:#00e676;--red:#ff3d57;--purple:#a855f7;
-  --text:#dde8f5;--muted:#4a6080;--dim:#2a3a52;--bright:#ffffff;
-  --mono:'JetBrains Mono',monospace;--sans:'Space Grotesk',sans-serif;
-  --radius:8px;--radius-lg:12px;
-}
-html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);font-family:var(--sans);}
-
-/* Scanline overlay */
-body::after{content:'';position:fixed;inset:0;
-  background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(0,229,255,.01) 3px,rgba(0,229,255,.01) 4px);
-  pointer-events:none;z-index:9999;}
-
-/* ── SIDEBAR ── */
-.sidebar{
-  position:fixed;left:0;top:0;bottom:0;width:220px;
-  background:var(--surface);border-right:1px solid var(--border);
-  display:flex;flex-direction:column;z-index:100;
-}
-.sidebar-logo{
-  padding:24px 20px 20px;border-bottom:1px solid var(--border);
-  display:flex;align-items:center;gap:12px;
-}
-.logo-icon{
-  width:36px;height:36px;border:1.5px solid var(--accent);
-  display:flex;align-items:center;justify-content:center;position:relative;
-  clip-path:polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
-  background:rgba(0,229,255,.06);
-}
-.logo-icon::before{content:'◈';color:var(--accent);font-size:16px;}
-.logo-text .name{font-family:var(--mono);font-size:13px;font-weight:600;color:var(--bright);letter-spacing:2px;}
-.logo-text .tag{font-family:var(--mono);font-size:8px;color:var(--muted);letter-spacing:1.5px;text-transform:uppercase;margin-top:2px;}
-
-.sidebar-nav{flex:1;padding:16px 12px;display:flex;flex-direction:column;gap:2px;overflow-y:auto;}
-.nav-section{font-family:var(--mono);font-size:8px;color:var(--muted);letter-spacing:2px;text-transform:uppercase;padding:12px 8px 6px;}
-.nav-item{
-  display:flex;align-items:center;gap:10px;padding:9px 10px;border-radius:var(--radius);
-  cursor:pointer;transition:all .15s;color:var(--muted);font-size:13px;font-weight:500;
-  border:1px solid transparent;
-}
-.nav-item:hover{background:rgba(255,255,255,.04);color:var(--text);}
-.nav-item.active{background:rgba(0,229,255,.08);color:var(--accent);border-color:rgba(0,229,255,.2);}
-.nav-item .ni{font-size:14px;width:18px;text-align:center;flex-shrink:0;}
-.nav-badge{margin-left:auto;font-family:var(--mono);font-size:9px;background:var(--border2);
-  color:var(--muted);padding:1px 6px;border-radius:999px;}
-
-.sidebar-footer{
-  padding:16px;border-top:1px solid var(--border);
-  display:flex;flex-direction:column;gap:8px;
-}
-.status-pill{
-  display:flex;align-items:center;gap:6px;
-  font-family:var(--mono);font-size:9px;color:var(--muted);
-}
-.dot{width:5px;height:5px;border-radius:50%;flex-shrink:0;}
-.dot.green{background:var(--green);box-shadow:0 0 6px var(--green);}
-.dot.amber{background:var(--gold);box-shadow:0 0 6px var(--gold);}
-.dot.pulse{animation:pulse 2s ease-in-out infinite;}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
-.user-btn{
-  display:flex;align-items:center;justify-content:center;gap:6px;
-  padding:8px;border:1px solid var(--border2);border-radius:var(--radius);
-  color:var(--accent);font-family:var(--mono);font-size:10px;letter-spacing:1px;
-  cursor:pointer;transition:all .15s;text-decoration:none;
-}
-.user-btn:hover{background:rgba(0,229,255,.08);border-color:rgba(0,229,255,.3);}
-
-/* ── MAIN ── */
-.main{margin-left:220px;height:100vh;display:flex;flex-direction:column;overflow:hidden;}
-
-/* ── TOPBAR ── */
-.topbar{
-  flex-shrink:0;height:52px;background:var(--surface);
-  border-bottom:1px solid var(--border);
-  display:flex;align-items:center;justify-content:space-between;
-  padding:0 24px;
-}
-.topbar-left{display:flex;align-items:center;gap:16px;}
-.page-title{font-size:14px;font-weight:600;color:var(--bright);}
-.page-sub{font-family:var(--mono);font-size:10px;color:var(--muted);}
-.topbar-right{display:flex;align-items:center;gap:12px;}
-.ts{font-family:var(--mono);font-size:10px;color:var(--muted);}
-.trigger-btn{
-  padding:6px 14px;background:transparent;border:1px solid var(--border2);
-  color:var(--muted);font-family:var(--mono);font-size:9px;letter-spacing:1px;
-  border-radius:var(--radius);cursor:pointer;transition:all .15s;
-}
-.trigger-btn:hover{border-color:var(--accent);color:var(--accent);}
-
-/* ── METRICS BAR ── */
-.metrics{
-  flex-shrink:0;display:grid;grid-template-columns:repeat(5,1fr);
-  border-bottom:1px solid var(--border);background:var(--surface);
-}
-.metric{
-  padding:14px 20px;border-right:1px solid var(--border);
-  position:relative;overflow:hidden;cursor:default;
-  transition:background .2s;
-}
-.metric:last-child{border-right:none;}
-.metric:hover{background:rgba(0,229,255,.03);}
-.metric::after{
-  content:'';position:absolute;bottom:0;left:0;right:0;height:2px;
-  background:linear-gradient(90deg,var(--accent),transparent);
-  opacity:0;transition:opacity .2s;
-}
-.metric:hover::after{opacity:.4;}
-.m-label{font-family:var(--mono);font-size:8px;color:var(--muted);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:6px;}
-.m-val{font-family:var(--mono);font-size:22px;font-weight:600;line-height:1;}
-.m-val.c-accent{color:var(--accent);}
-.m-val.c-green{color:var(--green);}
-.m-val.c-gold{color:var(--gold);}
-.m-val.c-purple{color:var(--purple);}
-.m-val.c-blue{color:#4a9eff;}
-.m-sub{font-family:var(--mono);font-size:8px;color:var(--dim);margin-top:3px;}
-
-/* ── WORKSPACE ── */
-.workspace{flex:1;min-height:0;overflow:hidden;}
-.pane{display:none;height:100%;overflow:hidden;}
-.pane.active{display:flex;flex-direction:column;}
-
-/* ── SUBTABS ── */
-.subtabs{
-  flex-shrink:0;height:40px;background:var(--surface);border-bottom:1px solid var(--border);
-  display:flex;align-items:stretch;padding:0 20px;gap:0;
-}
-.stab{
-  font-family:var(--mono);font-size:10px;letter-spacing:1px;text-transform:uppercase;
-  padding:0 16px;display:flex;align-items:center;gap:6px;
-  color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;
-  transition:all .15s;position:relative;
-}
-.stab:hover{color:var(--text);}
-.stab.active{color:var(--accent);border-bottom-color:var(--accent);}
-
-/* ── PANELS ── */
-.panel-grid{flex:1;min-height:0;display:grid;overflow:hidden;gap:1px;background:var(--border);}
-.panel{background:var(--surface);display:flex;flex-direction:column;overflow:hidden;}
-.panel-head{
-  flex-shrink:0;height:38px;display:flex;align-items:center;justify-content:space-between;
-  padding:0 16px;border-bottom:1px solid var(--border);background:rgba(0,0,0,.2);
-}
-.panel-title{
-  font-family:var(--mono);font-size:9px;letter-spacing:1.5px;text-transform:uppercase;
-  color:var(--muted);display:flex;align-items:center;gap:8px;
-}
-.panel-title::before{content:'';width:4px;height:4px;background:var(--accent);border-radius:50%;box-shadow:0 0 6px var(--accent);}
-.panel-badge{
-  font-family:var(--mono);font-size:9px;color:var(--muted);
-  background:var(--border);padding:2px 8px;border-radius:4px;
-}
-.panel-body{flex:1;min-height:0;overflow:hidden;}
-.scroll{height:100%;overflow-y:auto;padding:12px 16px;}
-.scroll::-webkit-scrollbar{width:3px;}
-.scroll::-webkit-scrollbar-thumb{background:var(--border2);}
-
-/* ── KG OVERVIEW LAYOUT ── */
-#sub-kg{grid-template-columns:1fr 300px;grid-template-rows:1fr 160px;}
-#sub-analytics{grid-template-columns:1fr 1fr;grid-template-rows:1fr;}
-#sub-reports{grid-template-columns:1fr 1fr;grid-template-rows:1fr;}
-
-/* ── SIMULATOR ── */
-#pane-sim .panel-grid{grid-template-columns:260px 1fr 260px;grid-template-rows:1fr 1fr;}
-.sim-ctrl{grid-column:1;grid-row:1/3;}
-.sim-out{grid-column:2;grid-row:1;}
-.sim-traj{grid-column:2;grid-row:2;}
-.sim-dom{grid-column:3;grid-row:1;}
-.sim-exp{grid-column:3;grid-row:2;}
-
-/* ── IDEA LAB ── */
-#pane-idea .panel-grid{grid-template-columns:280px 1fr;}
-
-/* ── FORM ELEMENTS ── */
-textarea.field{
-  width:100%;background:var(--bg);border:1px solid var(--border2);
-  color:var(--text);font-family:var(--mono);font-size:11px;
-  padding:10px 12px;resize:none;outline:none;border-radius:var(--radius);
-  transition:border-color .15s;line-height:1.6;
-}
-textarea.field:focus{border-color:var(--accent);}
-.btn-primary{
-  width:100%;padding:10px;background:transparent;
-  border:1px solid var(--accent);color:var(--accent);
-  font-family:var(--mono);font-size:10px;letter-spacing:1.5px;text-transform:uppercase;
-  cursor:pointer;transition:all .15s;border-radius:var(--radius);
-}
-.btn-primary:hover{background:rgba(0,229,255,.08);}
-.btn-primary:disabled{opacity:.3;cursor:not-allowed;}
-.btn-primary.running{border-color:var(--gold);color:var(--gold);animation:shimmer 1.2s infinite;}
-@keyframes shimmer{0%,100%{opacity:.7}50%{opacity:1}}
-.divider{height:1px;background:var(--border);margin:14px 0;}
-.field-label{font-family:var(--mono);font-size:8px;color:var(--muted);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:6px;}
-.qbtn{
-  font-family:var(--mono);font-size:9px;padding:5px 10px;
-  border:1px solid var(--border2);color:var(--dim);cursor:pointer;
-  transition:all .12s;background:transparent;border-radius:4px;
-  display:inline-block;margin:2px;
-}
-.qbtn:hover{border-color:var(--accent);color:var(--accent);}
-
-/* ── REPORT ROW ── */
-.rpt-row{
-  padding:10px 16px;border-bottom:1px solid var(--border);
-  cursor:pointer;transition:background .12s;display:flex;align-items:flex-start;gap:10px;
-}
-.rpt-row:hover{background:rgba(0,229,255,.03);}
-.rpt-q{font-size:12px;line-height:1.4;color:var(--text);flex:1;}
-.rpt-meta{font-family:var(--mono);font-size:9px;color:var(--muted);margin-top:3px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
-.rpt-bar-bg{background:var(--border);height:2px;border-radius:1px;width:40px;flex-shrink:0;margin-top:8px;}
-.rpt-bar-fill{height:2px;border-radius:1px;background:var(--accent);}
-
-/* ── VERDICT PILLS ── */
-.vp{display:inline-block;font-family:var(--mono);font-size:8px;letter-spacing:.5px;text-transform:uppercase;padding:2px 7px;border-radius:3px;}
-.vp-s{background:rgba(0,230,118,.1);color:var(--green);border:1px solid rgba(0,230,118,.2);}
-.vp-p{background:rgba(245,166,35,.1);color:var(--gold);border:1px solid rgba(245,166,35,.2);}
-.vp-i{background:rgba(74,96,128,.15);color:var(--muted);border:1px solid rgba(74,96,128,.2);}
-.vp-c{background:rgba(255,61,87,.1);color:var(--red);border:1px solid rgba(255,61,87,.2);}
-
-/* ── HYP ITEM ── */
-.hyp-item{padding:10px 0;border-bottom:1px solid var(--border);}
-.hyp-tag{font-family:var(--mono);font-size:8px;letter-spacing:1px;text-transform:uppercase;color:var(--gold);margin-bottom:4px;}
-.hyp-text{font-size:11px;line-height:1.5;color:var(--text);}
-.hyp-prem{font-family:var(--mono);font-size:9px;color:var(--muted);padding-left:8px;border-left:1px solid var(--border2);margin-top:4px;}
-.hyp-score{font-family:var(--mono);font-size:9px;color:var(--dim);margin-top:4px;}
-
-/* ── SIM OUTPUT ── */
-.score-display{text-align:center;padding:24px 0 12px;}
-.score-num{font-family:var(--mono);font-size:56px;font-weight:600;line-height:1;letter-spacing:-3px;}
-.score-lbl{font-family:var(--mono);font-size:8px;letter-spacing:3px;text-transform:uppercase;color:var(--muted);margin-top:5px;}
-.score-desc{font-size:12px;color:var(--muted);margin-top:8px;padding:0 16px;line-height:1.6;}
-.focus-row{display:flex;flex-wrap:wrap;gap:4px;padding:10px 16px;border-top:1px solid var(--border);}
-.focus-chip{font-family:var(--mono);font-size:9px;padding:2px 8px;border:1px solid rgba(0,229,255,.25);color:var(--accent);background:rgba(0,229,255,.05);border-radius:3px;}
-.dom-item{padding:8px 0;border-bottom:1px solid var(--border);}
-.dom-row{display:flex;align-items:center;gap:8px;margin-bottom:4px;}
-.dom-name{font-family:var(--mono);font-size:10px;color:var(--text);flex:1;}
-.dom-pct{font-family:var(--mono);font-size:10px;color:var(--accent);width:32px;text-align:right;}
-.dom-track{background:var(--border);height:2px;border-radius:1px;overflow:hidden;}
-.dom-fill{height:2px;background:linear-gradient(90deg,var(--accent),var(--accent2));border-radius:1px;transition:width .8s ease;}
-.exp-item{display:flex;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);font-size:11px;line-height:1.4;color:var(--muted);}
-.exp-n{font-family:var(--mono);font-size:10px;color:var(--accent);flex-shrink:0;width:16px;}
-.risk-item{display:flex;gap:8px;font-size:11px;line-height:1.4;color:var(--muted);padding:5px 0;}
-.risk-item::before{content:'⚠';color:var(--gold);font-size:10px;flex-shrink:0;}
-
-/* ── IDEA LAB CARDS ── */
-.il-card{background:var(--card);border:1px solid var(--border2);border-radius:var(--radius-lg);padding:14px;margin-bottom:12px;}
-.il-card-title{font-family:var(--mono);font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--accent);margin-bottom:10px;}
-.il-step{display:flex;gap:12px;padding:8px 0;border-bottom:1px solid var(--border);}
-.il-step:last-child{border-bottom:none;}
-.il-step-n{
-  font-family:var(--mono);font-size:10px;color:var(--accent);flex-shrink:0;
-  width:22px;height:22px;border:1px solid rgba(0,229,255,.3);border-radius:50%;
-  display:flex;align-items:center;justify-content:center;margin-top:1px;
-}
-.il-step-action{font-size:12px;font-weight:600;color:var(--bright);margin-bottom:2px;}
-.il-step-detail{font-size:11px;color:var(--muted);line-height:1.5;}
-.il-dir-item{padding:7px 0;border-bottom:1px solid var(--border);}
-.il-dir-item:last-child{border-bottom:none;}
-.il-novelty{font-family:var(--mono);font-size:8px;padding:1px 5px;background:rgba(0,229,255,.08);color:var(--accent);border-radius:3px;}
-.il-combo{padding:7px 0;border-bottom:1px solid var(--border);}
-.il-combo:last-child{border-bottom:none;}
-.il-q-item{display:flex;gap:8px;padding:6px 0;border-bottom:1px solid var(--border);font-size:11px;color:var(--text);line-height:1.4;}
-.il-q-item:last-child{border-bottom:none;}
-.il-prior{display:flex;align-items:center;gap:10px;padding:7px 0;border-bottom:1px solid var(--border);}
-.il-prior:last-child{border-bottom:none;}
-.il-blocker{padding:7px 0;border-bottom:1px solid var(--border);font-size:11px;line-height:1.5;}
-.il-blocker:last-child{border-bottom:none;}
-
-/* ── KG ── */
-#kgSvg{width:100%;height:100%;display:block;}
-.kg-tt{position:absolute;background:var(--card);border:1px solid var(--border2);
-  border-left:2px solid var(--accent);
-  padding:8px 12px;font-family:var(--mono);font-size:10px;color:var(--text);
-  pointer-events:none;opacity:0;transition:opacity .12s;max-width:220px;line-height:1.6;z-index:50;}
-
-/* ── MODAL ── */
-.modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:300;
-  align-items:center;justify-content:center;backdrop-filter:blur(4px);}
-.modal-bg.open{display:flex;}
-.modal{background:var(--card);border:1px solid var(--border2);border-top:2px solid var(--accent);
-  width:90%;max-width:640px;max-height:80vh;overflow-y:auto;padding:24px;border-radius:var(--radius-lg);}
-.modal-close{float:right;background:none;border:none;color:var(--muted);cursor:pointer;font-size:18px;font-family:var(--mono);}
-.modal-q{font-size:15px;font-weight:600;color:var(--bright);margin-bottom:16px;line-height:1.4;padding-right:20px;}
-.msec{margin-top:16px;}
-.msec-title{font-family:var(--mono);font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:8px;}
-.mclaim{padding:8px 10px;border-left:2px solid var(--border2);margin-bottom:5px;font-size:12px;line-height:1.4;}
-.mclaim.s{border-color:var(--green);}.mclaim.p{border-color:var(--gold);}.mclaim.i{border-color:var(--muted);}
-.mpaper{font-size:11px;color:var(--muted);padding:3px 0;border-bottom:1px solid var(--border);}
-.mgap{font-size:11px;color:var(--muted);padding:3px 0;}
-
-/* ── EMPTY STATE ── */
-.empty{display:flex;flex-direction:column;align-items:center;justify-content:center;
-  height:100%;gap:8px;color:var(--muted);font-family:var(--mono);font-size:11px;letter-spacing:1px;}
-.empty-icon{font-size:28px;opacity:.2;margin-bottom:4px;}
-
-/* ── CHART ── */
-.chart-wrap{position:relative;width:100%;height:100%;}
-.chart-wrap canvas{position:absolute;inset:0;width:100%!important;height:100%!important;}
+*{box-sizing:border-box;margin:0;padding:0;}
+:root{--bg:#05080f;--surface:#090d16;--card:#0d1320;--border:#162030;--accent:#00c896;--gold:#f5a623;--red:#ff3d57;--purple:#a855f7;--blue:#3b82f6;--text:#c8deff;--muted:#3a5070;--dim:#1a2840;--mono:"JetBrains Mono",monospace;--sans:"Space Grotesk",sans-serif;}
+html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--sans);overflow:hidden;}
+.shell{display:grid;grid-template-columns:200px 1fr;height:100vh;}
+.sidebar{background:var(--surface);border-right:1px solid var(--border);display:flex;flex-direction:column;}
+.main{overflow-y:auto;padding:20px;}
+.logo{padding:18px 16px;border-bottom:1px solid var(--border);}
+.logo-mark{font-family:var(--mono);font-size:17px;color:var(--accent);letter-spacing:3px;}
+.logo-sub{font-family:var(--mono);font-size:7px;color:var(--muted);letter-spacing:2px;margin-top:2px;}
+.nav{padding:12px 8px;flex:1;}
+.nav-label{font-family:var(--mono);font-size:7px;color:var(--muted);letter-spacing:2px;padding:10px 8px 4px;text-transform:uppercase;}
+.nav-item{display:flex;align-items:center;gap:8px;padding:7px 10px;border-radius:6px;cursor:pointer;font-size:12px;color:var(--muted);margin-bottom:1px;transition:all .1s;}
+.nav-item:hover,.nav-item.active{background:rgba(0,200,150,.08);color:var(--accent);}
+.dot{width:6px;height:6px;border-radius:50%;background:var(--accent);margin-left:auto;animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:.3;}}
+.panel{display:none;}.panel.active{display:block;}
+.header{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;}
+.htitle{font-family:var(--mono);font-size:10px;color:var(--muted);letter-spacing:2px;text-transform:uppercase;}
+.stage-bar{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:13px 16px;margin-bottom:16px;}
+.stages{display:flex;gap:3px;margin:6px 0;}
+.stage{flex:1;height:4px;border-radius:2px;background:var(--dim);}
+.stage.done{background:var(--accent);}.stage.cur{background:var(--gold);}
+.slabels{display:flex;justify-content:space-between;}
+.sl{font-family:var(--mono);font-size:7px;color:var(--muted);}
+.sl.done{color:var(--accent);}.sl.cur{color:var(--gold);}
+.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:16px;}
+.metric{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:14px;}
+.mval{font-family:var(--mono);font-size:22px;font-weight:500;color:var(--accent);}
+.mlabel{font-family:var(--mono);font-size:7px;color:var(--muted);letter-spacing:1.5px;margin-top:4px;text-transform:uppercase;}
+.msub{font-size:10px;color:var(--muted);margin-top:2px;}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px;}
+.three-col{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:16px;}
+.card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:14px;}
+.ctitle{font-family:var(--mono);font-size:7px;color:var(--muted);letter-spacing:2px;text-transform:uppercase;margin-bottom:10px;}
+.tnode{display:flex;align-items:center;gap:8px;padding:4px 0;border-bottom:1px solid var(--dim);}
+.tnode:last-child{border-bottom:none;}
+.tbar{flex:1;height:3px;border-radius:2px;background:var(--dim);overflow:hidden;}
+.tfill{height:100%;border-radius:2px;}
+.tdom{font-family:var(--mono);font-size:9px;color:var(--muted);width:100px;flex-shrink:0;}
+.tcnt{font-family:var(--mono);font-size:9px;color:var(--accent);width:40px;text-align:right;}
+.crow{display:flex;align-items:center;gap:6px;padding:4px 0;border-bottom:1px solid var(--dim);}
+.crow:last-child{border-bottom:none;}
+.cn{font-size:11px;color:var(--text);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.cd{font-family:var(--mono);font-size:8px;width:70px;flex-shrink:0;}
+.ce{font-family:var(--mono);font-size:9px;color:var(--accent);width:25px;text-align:right;}
+.badge{display:inline-block;padding:1px 5px;border-radius:3px;font-family:var(--mono);font-size:7px;}
+.b-established{background:rgba(0,200,150,.1);color:var(--accent);border:1px solid rgba(0,200,150,.2);}
+.b-emerging{background:rgba(245,166,35,.1);color:var(--gold);border:1px solid rgba(245,166,35,.2);}
+.b-candidate{background:rgba(58,80,112,.2);color:var(--muted);border:1px solid var(--dim);}
+.lcgrid{display:flex;gap:6px;}
+.lci{background:var(--dim);border-radius:6px;padding:8px 10px;text-align:center;flex:1;}
+.lcn{font-family:var(--mono);font-size:18px;}
+.lcl{font-family:var(--mono);font-size:7px;color:var(--muted);margin-top:2px;}
+.prow{display:flex;align-items:center;gap:8px;padding:5px 0;border-bottom:1px solid var(--dim);}
+.prow:last-child{border-bottom:none;}
+.pl{font-size:11px;color:var(--text);flex:1;}
+.pc{font-family:var(--mono);font-size:10px;color:var(--accent);}
+.pn{font-size:10px;color:var(--muted);}
+.bbar{display:flex;align-items:center;gap:6px;margin-top:5px;}
+.bfill{height:5px;border-radius:3px;}
+.bnum{font-family:var(--mono);font-size:9px;color:var(--muted);width:35px;}
+.comprow{display:flex;align-items:center;gap:8px;padding:5px 0;border-bottom:1px solid var(--dim);}
+.comprow:last-child{border-bottom:none;}
+.cav{width:26px;height:26px;border-radius:5px;background:var(--dim);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:10px;color:var(--accent);}
+.compn{flex:1;font-size:11px;color:var(--text);}
+.comps{font-family:var(--mono);font-size:8px;color:var(--accent);}
+.rbtn{font-family:var(--mono);font-size:9px;color:var(--muted);background:none;border:1px solid var(--border);border-radius:4px;padding:3px 8px;cursor:pointer;}
+.rbtn:hover{color:var(--accent);border-color:var(--accent);}
+.tooltip{position:fixed;background:var(--card);border:1px solid var(--border);border-radius:6px;padding:8px 12px;font-family:var(--mono);font-size:10px;color:var(--text);pointer-events:none;opacity:0;transition:opacity .15s;z-index:999;max-width:200px;line-height:1.5;}
 </style>
 </head>
 <body>
-
-<!-- SIDEBAR -->
+<div class="tooltip" id="tt"></div>
+<div class="shell">
 <div class="sidebar">
-  <div class="sidebar-logo">
-    <img src="/static/logo.jpg" alt="Tattva AI" style="height:48px;width:auto;object-fit:contain;"/>
-    <div class="logo-text">
-      <div class="name">TATTVA AI</div>
-      <div class="tag">Research Intelligence</div>
-    </div>
-  </div>
-  <div class="sidebar-nav">
-    <div class="nav-section">Intelligence</div>
-    <div class="nav-item active" onclick="goPane('overview')">
-      <span class="ni">◈</span> Knowledge Graph
-    </div>
-    <div class="nav-item" onclick="goPane('sim')">
-      <span class="ni">⟳</span> World Simulator
-    </div>
-    <div class="nav-item" onclick="goPane('idea')">
-      <span class="ni">💡</span> Idea Lab
-    </div>
-    <div class="nav-section">Data</div>
-    <div class="nav-item" onclick="goPane('reports')">
-      <span class="ni">📄</span> Discovery Reports
-      <span class="nav-badge" id="navReports">–</span>
-    </div>
-    <div class="nav-item" onclick="goPane('hypotheses')">
-      <span class="ni">🧬</span> Hypotheses
-      <span class="nav-badge" id="navHyps">–</span>
-    </div>
-    <div class="nav-item" onclick="goPane('analytics')">
-      <span class="ni">📊</span> Analytics
-    </div>
-  </div>
-  <div class="sidebar-footer">
-    <div class="status-pill"><div class="dot green pulse"></div>Pipeline Active</div>
-    <div class="status-pill"><div class="dot amber pulse"></div>KG Live</div>
-    <a class="user-btn" href="/app" target="_blank">↗ Open User Product</a>
+  <div class="logo"><div class="logo-mark">&#9672; TATTVA</div><div class="logo-sub">Mission Control</div></div>
+  <div class="nav">
+    <div class="nav-label">Dashboard</div>
+    <div class="nav-item active" onclick="show(this,'overview')">&#127758; Overview <div class="dot"></div></div>
+    <div class="nav-item" onclick="show(this,'worldgraph')">&#128375; World Graph</div>
+    <div class="nav-item" onclick="show(this,'beliefs')">&#129504; Beliefs</div>
+    <div class="nav-item" onclick="show(this,'concepts')">&#128161; Concepts</div>
+    <div class="nav-label">Products</div>
+    <div class="nav-item" onclick="window.open('/app','_blank')">&#128302; Research Tool</div>
+    <div class="nav-item" onclick="window.open('/company/dashboard','_blank')">&#127970; Enterprise OS</div>
+    <div class="nav-item" onclick="window.open('/map','_blank')">&#128506; Contradiction Map</div>
   </div>
 </div>
-
-<!-- MAIN -->
 <div class="main">
-  <!-- TOPBAR -->
-  <div class="topbar">
-    <div class="topbar-left">
-      <div>
-        <div class="page-title" id="pageTitle">Knowledge Graph</div>
-        <div class="page-sub" id="pageSub">Force-directed concept network</div>
-      </div>
-    </div>
-    <div class="topbar-right">
-      <div class="ts" id="ts">–</div>
-      <button class="trigger-btn" onclick="triggerCycle()">⟳ Trigger Ingestion</button>
-    </div>
-  </div>
 
-  <!-- METRICS -->
+<div id="ov" class="panel active">
+  <div class="header">
+    <div class="htitle">Tattva AI &mdash; Mission Control</div>
+    <div style="display:flex;gap:10px;align-items:center;"><span id="clock" style="font-family:var(--mono);font-size:10px;color:var(--muted);"></span><button class="rbtn" onclick="loadAll()">&#8635; refresh</button></div>
+  </div>
+  <div class="stage-bar">
+    <div style="font-family:var(--mono);font-size:7px;color:var(--muted);letter-spacing:2px;">COGNITIVE ARCHITECTURE &mdash; STAGE 7 OF 10</div>
+    <div class="stages"><div class="stage done"></div><div class="stage done"></div><div class="stage done"></div><div class="stage done"></div><div class="stage done"></div><div class="stage done"></div><div class="stage cur"></div><div class="stage"></div><div class="stage"></div><div class="stage"></div></div>
+    <div class="slabels"><span class="sl done">Papers</span><span class="sl done">Vectors</span><span class="sl done">Graph</span><span class="sl done">Obs</span><span class="sl done">Concepts</span><span class="sl done">Lifecycle</span><span class="sl cur">Beliefs&larr;</span><span class="sl">Identity</span><span class="sl">Causal</span><span class="sl">Reasoning</span></div>
+  </div>
   <div class="metrics">
-    <div class="metric">
-      <div class="m-label">Evidence Chunks</div>
-      <div class="m-val c-accent" id="mChunks">–</div>
-      <div class="m-sub">knowledge corpus</div>
+    <div class="metric"><div class="mval" id="m0">-</div><div class="mlabel">Paper Chunks</div><div class="msub">11 domains</div></div>
+    <div class="metric"><div class="mval" style="color:var(--gold)" id="m1">-</div><div class="mlabel">Observations</div><div class="msub">atomic facts</div></div>
+    <div class="metric"><div class="mval" style="color:var(--purple)" id="m2">-</div><div class="mlabel">Beliefs</div><div class="msub">with evidence</div></div>
+    <div class="metric"><div class="mval" style="color:var(--blue)" id="m3">-</div><div class="mlabel">Concept Cells</div><div class="msub">organized knowledge</div></div>
+  </div>
+  <div class="three-col">
+    <div class="card">
+      <div class="ctitle">Pipeline</div>
+      <div class="prow"><span>&#128196;</span><div class="pl">Paper chunks</div><div class="pc" id="p0">-</div></div>
+      <div class="prow"><span style="color:var(--muted);font-size:10px;">&darr;</span><div class="pn">Together AI extracts</div></div>
+      <div class="prow"><span>&#128065;</span><div class="pl">Observations</div><div class="pc" id="p1">-</div></div>
+      <div class="prow"><span style="color:var(--muted);font-size:10px;">&darr;</span><div class="pn">evidence-based</div></div>
+      <div class="prow"><span>&#128161;</span><div class="pl">Concept cells</div><div class="pc" id="p2">-</div></div>
+      <div class="prow"><span style="color:var(--muted);font-size:10px;">&darr;</span><div class="pn">no LLM needed</div></div>
+      <div class="prow"><span>&#129504;</span><div class="pl">Beliefs</div><div class="pc" id="p3">-</div></div>
     </div>
-    <div class="metric">
-      <div class="m-label">Discovery Reports</div>
-      <div class="m-val c-green" id="mReports">–</div>
-      <div class="m-sub">queries analyzed</div>
+    <div class="card">
+      <div class="ctitle">Concept Lifecycle</div>
+      <div class="lcgrid" id="lcg">
+        <div class="lci"><div class="lcn" style="color:var(--accent)">-</div><div class="lcl">Established</div></div>
+        <div class="lci"><div class="lcn" style="color:var(--gold)">-</div><div class="lcl">Emerging</div></div>
+        <div class="lci"><div class="lcn">-</div><div class="lcl">Candidate</div></div>
+        <div class="lci"><div class="lcn" style="color:var(--red)">-</div><div class="lcl">Contested</div></div>
+      </div>
+      <div style="margin-top:12px;padding-top:10px;border-top:1px solid var(--dim);">
+        <div class="ctitle">Belief Evidence</div>
+        <div class="bbar"><div class="bnum" id="sn">-</div><div style="flex:1;height:5px;border-radius:3px;background:var(--dim);overflow:hidden;"><div class="bfill" id="sb" style="width:0%;background:var(--accent);"></div></div><div style="font-family:var(--mono);font-size:8px;color:var(--muted);">supporting</div></div>
+        <div class="bbar"><div class="bnum" id="cn2">-</div><div style="flex:1;height:5px;border-radius:3px;background:var(--dim);overflow:hidden;"><div class="bfill" id="cb" style="width:0%;background:var(--red);"></div></div><div style="font-family:var(--mono);font-size:8px;color:var(--muted);">contradicting</div></div>
+      </div>
     </div>
-    <div class="metric">
-      <div class="m-label">KG Concepts</div>
-      <div class="m-val c-blue" id="mNodes">–</div>
-      <div class="m-sub">scientific concepts</div>
-    </div>
-    <div class="metric">
-      <div class="m-label">KG Relations</div>
-      <div class="m-val c-gold" id="mEdges">–</div>
-      <div class="m-sub">causal links</div>
-    </div>
-    <div class="metric">
-      <div class="m-label">Mean Confidence</div>
-      <div class="m-val c-purple" id="mConf">–</div>
-      <div class="m-sub">evidence quality</div>
+    <div class="card">
+      <div class="ctitle">Companies</div>
+      <div class="comprow"><div class="cav">F</div><div class="compn">Friendzy LLC</div><div class="comps">&#9679; active</div></div>
+      <div class="comprow"><div class="cav" style="color:var(--muted);">+</div><div class="compn" style="color:var(--muted);">Add enterprise client</div></div>
+      <div style="margin-top:10px;padding-top:10px;border-top:1px solid var(--dim);">
+        <div class="ctitle">Products</div>
+        <div class="prow">&#128302;<div class="pl">Tattva Research</div><div class="pc">$99/mo</div></div>
+        <div class="prow">&#127970;<div class="pl">Tattva Enterprise</div><div class="pc">$2K/mo</div></div>
+        <div class="prow">&#128187;<div class="pl">Tattva OS</div><div class="pc" style="color:var(--muted);">Q4 2026</div></div>
+      </div>
     </div>
   </div>
-
-  <!-- WORKSPACE -->
-  <div class="workspace">
-
-    <!-- KNOWLEDGE GRAPH -->
-    <div class="pane active" id="pane-overview">
-      <div class="panel-grid" style="grid-template-columns:1fr 280px;grid-template-rows:1fr;">
-        <div class="panel">
-          <div class="panel-head">
-            <div class="panel-title">Knowledge Graph — Force Network</div>
-            <div class="panel-badge" id="kgBadge">–</div>
-          </div>
-          <div class="panel-body" style="position:relative;">
-            <svg id="kgSvg"></svg>
-            <div class="kg-tt" id="kgTT"></div>
-          </div>
-        </div>
-        <div class="panel" style="display:flex;flex-direction:column;">
-          <!-- Subtabs for right panel -->
-          <div class="subtabs" style="height:36px;">
-            <div class="stab active" onclick="kgRtab('hyps')">Hypotheses</div>
-            <div class="stab" onclick="kgRtab('analytics')">Analytics</div>
-          </div>
-          <div id="kgr-hyps" style="flex:1;min-height:0;overflow:hidden;">
-            <div class="scroll" id="hypList" style="padding:12px;"></div>
-          </div>
-          <div id="kgr-analytics" style="display:none;flex:1;min-height:0;overflow:hidden;padding:10px;">
-            <div style="height:calc(50% - 5px);position:relative;margin-bottom:10px;"><div class="chart-wrap"><canvas id="cVerdict"></canvas></div></div>
-            <div style="height:calc(50% - 5px);position:relative;"><div class="chart-wrap"><canvas id="cConf"></canvas></div></div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- WORLD SIMULATOR -->
-    <div class="pane" id="pane-sim">
-      <div class="panel-grid" style="grid-template-columns:240px 1fr 240px;grid-template-rows:1fr 1fr;">
-        <div class="panel sim-ctrl">
-          <div class="panel-head"><div class="panel-title">Parameters</div></div>
-          <div class="panel-body scroll" style="padding:14px;">
-            <div class="field-label">Research Query</div>
-            <textarea class="field" id="simQ" style="height:72px;">How will transformer efficiency research evolve?</textarea>
-            <button class="btn-primary" id="simBtn" onclick="runSim()" style="margin-top:8px;">▶ Run Simulation</button>
-            <div class="divider"></div>
-            <div class="field-label">Quick Queries</div>
-            <div style="display:flex;flex-wrap:wrap;gap:2px;margin-top:4px;">
-              <div class="qbtn" onclick="setQ(this)">Does MoE improve efficiency?</div>
-              <div class="qbtn" onclick="setQ(this)">Does FlashAttention reduce memory?</div>
-              <div class="qbtn" onclick="setQ(this)">Does KV cache reduce latency?</div>
-              <div class="qbtn" onclick="setQ(this)">Does LoRA reduce fine-tuning cost?</div>
-              <div class="qbtn" onclick="setQ(this)">Does speculative decoding help?</div>
-            </div>
-            <div class="divider"></div>
-            <div class="field-label">System Info</div>
-            <div style="font-family:var(--mono);font-size:9px;color:var(--muted);line-height:2;">
-              Simulations: 300<br>Timesteps: 8 (~4 years)<br>Method: Monte Carlo<br>Source: KG + Domain
-            </div>
-          </div>
-        </div>
-        <div class="panel sim-out" style="display:flex;flex-direction:column;">
-          <div class="panel-head"><div class="panel-title">Simulation Output</div><div class="panel-badge" id="simBadge">–</div></div>
-          <div id="simMain" style="flex:1;min-height:0;display:flex;flex-direction:column;">
-            <div class="empty"><div class="empty-icon">⟳</div>No simulation run yet</div>
-          </div>
-        </div>
-        <div class="panel sim-traj" style="display:flex;flex-direction:column;">
-          <div class="panel-head"><div class="panel-title">Field Trajectory</div></div>
-          <div class="panel-body" style="flex:1;min-height:0;"><div class="chart-wrap"><canvas id="cTraj"></canvas></div></div>
-        </div>
-        <div class="panel sim-dom" style="display:flex;flex-direction:column;">
-          <div class="panel-head"><div class="panel-title">Method Dominance</div></div>
-          <div style="flex:1;min-height:0;"><div class="scroll" id="simDom"><div class="empty"><div class="empty-icon">◈</div>Run simulation</div></div></div>
-        </div>
-        <div class="panel sim-exp" style="display:flex;flex-direction:column;">
-          <div class="panel-head"><div class="panel-title">Recommended Experiments</div></div>
-          <div style="flex:1;min-height:0;"><div class="scroll" id="simExp"><div class="empty"><div class="empty-icon">◈</div>Run simulation</div></div></div>
-        </div>
-      </div>
-    </div>
-
-    <!-- IDEA LAB -->
-    <div class="pane" id="pane-idea">
-      <div class="panel-grid" style="grid-template-columns:260px 1fr;grid-template-rows:1fr;">
-        <div class="panel" style="display:flex;flex-direction:column;">
-          <div class="panel-head"><div class="panel-title">Idea Input</div><div class="panel-badge" id="ideaStageLabel">–</div></div>
-          <div class="panel-body scroll" style="padding:14px;display:flex;flex-direction:column;gap:12px;">
-            <div>
-              <div class="field-label">Your Idea or Problem</div>
-              <textarea class="field" id="ideaInput" style="height:110px;" placeholder="Type a half-formed idea, a blocker, or a new research direction..."></textarea>
-              <button class="btn-primary" id="ideaBtn" onclick="runIdeaLab()" style="margin-top:8px;">💡 Analyze Idea</button>
-            </div>
-            <div class="divider"></div>
-            <div class="field-label">Quick Starters</div>
-            <div style="display:flex;flex-direction:column;gap:4px;">
-              <div class="qbtn" style="text-align:left;padding:7px;line-height:1.4;display:block;" onclick="setIdea(this)">What if we combined MoE routing with KV cache eviction?</div>
-              <div class="qbtn" style="text-align:left;padding:7px;line-height:1.4;display:block;" onclick="setIdea(this)">Could FlashAttention combine with sliding window?</div>
-              <div class="qbtn" style="text-align:left;padding:7px;line-height:1.4;display:block;" onclick="setIdea(this)">Stuck — my LoRA fine-tuning doesn't work on math reasoning</div>
-              <div class="qbtn" style="text-align:left;padding:7px;line-height:1.4;display:block;" onclick="setIdea(this)">Could speculative decoding combine with sparse attention?</div>
-            </div>
-          </div>
-        </div>
-        <div class="panel" style="display:flex;flex-direction:column;overflow:hidden;">
-          <div class="panel-head"><div class="panel-title">Idea Analysis</div></div>
-          <div class="scroll" id="ideaResults" style="padding:16px;">
-            <div class="empty" id="ideaEmpty" style="height:300px;">
-              <div class="empty-icon">💡</div>Type an idea and click Analyze
-            </div>
-            <div id="ideaContent" style="display:none;"></div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- DISCOVERY REPORTS -->
-    <div class="pane" id="pane-reports">
-      <div class="panel-grid" style="grid-template-columns:1fr 340px;grid-template-rows:1fr;">
-        <div class="panel" style="display:flex;flex-direction:column;">
-          <div class="panel-head">
-            <div class="panel-title">Discovery Reports</div>
-            <div class="panel-badge" id="rptBadge">–</div>
-          </div>
-          <div style="flex:1;min-height:0;"><div class="scroll" id="rptList" style="padding:0;"><div style="padding:12px 16px;font-family:var(--mono);font-size:10px;color:var(--muted);">Loading…</div></div></div>
-        </div>
-        <div class="panel" style="display:flex;flex-direction:column;">
-          <div class="panel-head"><div class="panel-title">Verdict Distribution</div></div>
-          <div style="flex:1;min-height:0;display:flex;flex-direction:column;">
-            <div style="flex:1;min-height:0;padding:10px;position:relative;"><div class="chart-wrap"><canvas id="cVerdict2"></canvas></div></div>
-            <div style="flex:1;min-height:0;" id="verdictList" style="overflow:hidden;"></div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- HYPOTHESES -->
-    <div class="pane" id="pane-hypotheses">
-      <div class="panel-grid" style="grid-template-columns:1fr;grid-template-rows:1fr;">
-        <div class="panel" style="display:flex;flex-direction:column;">
-          <div class="panel-head">
-            <div class="panel-title">Generated Hypotheses</div>
-            <div class="panel-badge" id="hypBadge2">–</div>
-          </div>
-          <div style="flex:1;min-height:0;">
-            <div class="scroll" id="hypList2" style="padding:12px 16px;display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:12px;align-content:start;"></div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- ANALYTICS -->
-    <div class="pane" id="pane-analytics">
-      <div class="panel-grid" style="grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;">
-        <div class="panel" style="display:flex;flex-direction:column;">
-          <div class="panel-head"><div class="panel-title">Verdict Distribution</div></div>
-          <div class="panel-body" style="flex:1;min-height:0;"><div class="chart-wrap"><canvas id="cVerdict3"></canvas></div></div>
-        </div>
-        <div class="panel" style="display:flex;flex-direction:column;">
-          <div class="panel-head"><div class="panel-title">Confidence Distribution</div></div>
-          <div class="panel-body" style="flex:1;min-height:0;"><div class="chart-wrap"><canvas id="cConf2"></canvas></div></div>
-        </div>
-        <div class="panel" style="display:flex;flex-direction:column;">
-          <div class="panel-head"><div class="panel-title">Recent Verdicts</div></div>
-          <div style="flex:1;min-height:0;"><div class="scroll" id="verdictList2"></div></div>
-        </div>
-        <div class="panel" style="display:flex;flex-direction:column;">
-          <div class="panel-head"><div class="panel-title">Service Status</div></div>
-          <div class="panel-body scroll" id="serviceStatus" style="padding:14px;font-family:var(--mono);font-size:10px;color:var(--muted);line-height:2;">Loading…</div>
-        </div>
-      </div>
-    </div>
-
-  </div><!-- workspace -->
-</div><!-- main -->
-
-<!-- MODAL -->
-<div class="modal-bg" id="modalBg">
-  <div class="modal">
-    <button class="modal-close" onclick="closeModal()">✕</button>
-    <div class="modal-q" id="mQ"></div>
-    <div id="mBody"></div>
+  <div class="two-col">
+    <div class="card"><div class="ctitle">World Tree &mdash; Observations by Domain</div><div id="wtree"></div></div>
+    <div class="card"><div class="ctitle">Top Concept Cells</div><div id="clist"></div></div>
   </div>
 </div>
 
+<div id="worldgraph" class="panel">
+  <div class="header"><div class="htitle">World Graph &mdash; Neural Concept Network</div></div>
+  <div style="display:flex;gap:6px;margin-bottom:12px;flex-wrap:wrap;" id="ng-tabs">
+    <button class="rbtn" onclick="setNG(this,'public')" style="border-color:var(--accent);color:var(--accent);">Public world model</button>
+    <button class="rbtn" onclick="setNG(this,'friendzy')">Friendzy private branch</button>
+
+  </div>
+  <div class="card" style="margin-bottom:12px;padding:8px;">
+    <canvas id="ngc" style="width:100%;height:420px;border-radius:8px;display:block;"></canvas>
+    <div id="ngt" style="position:absolute;background:var(--card);border:1px solid var(--border);border-radius:6px;padding:8px 12px;font-family:var(--mono);font-size:10px;color:var(--text);pointer-events:none;display:none;max-width:200px;line-height:1.5;z-index:20;"></div>
+  </div>
+  <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px;" id="ng-leg"></div>
+  <div class="card" id="ng-info" style="font-size:12px;color:var(--muted);line-height:1.7;"></div>
+</div>
+
+<div id="beliefs" class="panel">
+  <div class="header"><div class="htitle">Belief Engine &mdash; Stage 7</div></div>
+  <div class="metrics">
+    <div class="metric"><div class="mval" style="color:var(--purple)" id="bt">-</div><div class="mlabel">Total Beliefs</div></div>
+    <div class="metric"><div class="mval" style="color:var(--accent)" id="bs">-</div><div class="mlabel">Supporting</div></div>
+    <div class="metric"><div class="mval" style="color:var(--red)" id="bc">-</div><div class="mlabel">Contradicting</div></div>
+    <div class="metric"><div class="mval" style="color:var(--gold)" id="bo">-</div><div class="mlabel">Observations</div></div>
+  </div>
+  <div class="card" style="margin-bottom:12px;"><div class="ctitle">Knowledge Layers</div><div id="bgraph" style="min-height:160px;"></div></div>
+  <div class="card">
+    <div class="ctitle">Layer Architecture</div>
+    <div class="prow"><span>&#128065;</span><div class="pl">Observation</div><div class="pn">Raw atomic fact from paper &mdash; immutable</div></div>
+    <div class="prow"><span>&#129504;</span><div class="pl">Belief</div><div class="pn">Claim with supporting + contradicting evidence</div></div>
+    <div class="prow"><span>&#128161;</span><div class="pl">Concept Cell</div><div class="pn">Organized abstraction owning hundreds of beliefs</div></div>
+    <div class="prow"><span>&#128375;</span><div class="pl">World Model</div><div class="pn">Concepts connected by causal relations &mdash; Stage 9</div></div>
+  </div>
+</div>
+
+<div id="concepts" class="panel">
+  <div class="header"><div class="htitle">Concept Cells &mdash; Full List</div></div>
+  <div class="card"><div class="ctitle">All concept cells sorted by evidence</div><div id="clfull"></div></div>
+</div>
+
+</div>
+</div>
 <script>
-Chart.defaults.color='#4a6080';
-Chart.defaults.borderColor='#1a2332';
-Chart.defaults.font.family="'JetBrains Mono',monospace";
-Chart.defaults.font.size=9;
+var S={};
+const DC={ml_ai:'#3b82f6',biology:'#00c896',medicine:'#f59e0b',neuroscience:'#a855f7',physics:'#06b6d4',chemistry:'#10b981',climate:'#84cc16',economics:'#f97316',psychology:'#ec4899',mathematics:'#8b5cf6',computer_systems:'#14b8a6'};
+function dc(d){return DC[d]||'#3a5070';}
+setInterval(()=>{document.getElementById('clock').textContent=new Date().toLocaleTimeString();},1000);
 
-const PAGE_TITLES = {
-  overview:['Knowledge Graph','Force-directed concept network'],
-  sim:['World Simulator','Monte Carlo field simulation'],
-  idea:['Idea Lab','AI-powered research analysis'],
-  reports:['Discovery Reports','All research queries and verdicts'],
-  hypotheses:['Hypotheses','Generated from knowledge graph'],
-  analytics:['Analytics','Evidence quality and verdict distribution'],
+function show(el,p){
+  document.querySelectorAll('.panel').forEach(x=>x.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(x=>x.classList.remove('active'));
+  if(document.getElementById(p)) document.getElementById(p).classList.add('active');
+  el.classList.add('active');
+  if(p==='worldgraph'){setTimeout(function(){ngInit();},100);}
+  if(p==='beliefs') setTimeout(drawBG,100);
+  if(p==='concepts') renderFull();
+}
+
+
+var NG_COLORS={ml_ai:'#3b82f6',biology:'#10b981',medicine:'#f59e0b',neuroscience:'#a855f7',physics:'#06b6d4',chemistry:'#22c55e',climate:'#84cc16',economics:'#f97316',psychology:'#ec4899',mathematics:'#8b5cf6',computer_systems:'#14b8a6',private_ml:'#EF9F27',private_bio:'#E24B4A'};
+var NG_INFO={
+  public:'<b>Public world model</b> — shared by all companies. Built from 338K papers across 11 scientific domains. Nodes grow stronger as more papers confirm them.',
+  friendzy:'<b>Friendzy LLC</b> — no private corpus uploaded yet. When papers are uploaded at the Enterprise OS, their concepts appear here as orange dashed nodes connecting to the public world model.',
+  biotech:'<b>Biotech Co. private branch</b> — their unpublished drug trials and compounds. Never visible to other companies. Cross-domain bridges emerge automatically.',
+  both:'<b>Both layers merged</b> — how Tattva reasons per company. Public + private activated simultaneously. Dashed lines = bridges between private and public knowledge.'
 };
+var ng_nodes=[],ng_links=[],ng_view='public';
+var ng_canvas=null,ng_ctx=null;
 
-async function fj(u,o){const r=await fetch(u,o);return r.json();}
+var NG_PUB=[
+  {name:'Spectrally Nudged\nStorylines',domain:'climate',ev:11,state:'established'},
+  {name:'RustSEM',domain:'computer_systems',ev:9,state:'established'},
+  {name:'Graphene\nadsorbents',domain:'chemistry',ev:7,state:'established'},
+  {name:'Anthropogenic\nClimate',domain:'climate',ev:7,state:'established'},
+  {name:'Astrocyte\ninteractions',domain:'neuroscience',ev:7,state:'candidate'},
+  {name:"Rust's type\nsystem",domain:'computer_systems',ev:5,state:'emerging'},
+  {name:'Ionic liquids',domain:'chemistry',ev:4,state:'emerging'},
+  {name:'EvolKV',domain:'ml_ai',ev:3,state:'emerging'},
+  {name:'DPP III',domain:'chemistry',ev:16,state:'candidate'},
+  {name:'Chronic LED\nexposure',domain:'neuroscience',ev:4,state:'candidate'},
+  {name:'Laparoscopic\ntechniques',domain:'medicine',ev:4,state:'candidate'},
+  {name:'CAR target\ndiscovery',domain:'medicine',ev:3,state:'candidate'},
+  {name:'Zinc Ion\nBinding',domain:'chemistry',ev:4,state:'candidate'},
+  {name:'Synaptic\nPlasticity',domain:'neuroscience',ev:6,state:'emerging'},
+  {name:'Sparse Expert\nRouting',domain:'ml_ai',ev:1,state:'candidate'},
+];
+var NG_FRIENDZY=[];
+var NG_BIOTECH=[];
 
-function goPane(name){
-  document.querySelectorAll('.nav-item').forEach(el=>{
-    el.classList.toggle('active', el.getAttribute('onclick')===`goPane('${name}')`);
+function ngInit(){
+  ng_canvas=document.getElementById('ngc');
+  if(!ng_canvas)return;
+  ng_ctx=ng_canvas.getContext('2d');
+  ngResize();
+  ng_canvas.addEventListener('mousemove',ngHover);
+  ng_canvas.addEventListener('mouseleave',function(){document.getElementById('ngt').style.display='none';});
+  ngBuild();
+}
+
+function setNG(el,v){
+  ng_view=v;
+  document.querySelectorAll('#ng-tabs .rbtn').forEach(function(b){
+    b.style.borderColor='';b.style.color='';
   });
-  document.querySelectorAll('.pane').forEach(p=>p.classList.toggle('active',p.id===`pane-${name}`));
-  const [title,sub]=PAGE_TITLES[name]||['',''];
-  document.getElementById('pageTitle').textContent=title;
-  document.getElementById('pageSub').textContent=sub;
+  el.style.borderColor='var(--accent)';el.style.color='var(--accent)';
+  var info=document.getElementById('ng-info');
+  if(info)info.innerHTML=NG_INFO[v]||'';
+  ngBuild();
 }
 
-function kgRtab(name){
-  document.querySelectorAll('.stab').forEach((t,i)=>t.classList.toggle('active',['hyps','analytics'][i]===name));
-  document.getElementById('kgr-hyps').style.display=name==='hyps'?'':'none';
-  document.getElementById('kgr-analytics').style.display=name==='analytics'?'':'none';
+function ngBuild(){
+  if(!ng_canvas)ng_canvas=document.getElementById('ngc');
+  if(!ng_canvas||!ng_ctx)return;
+  var raw=ng_view==='public'?NG_PUB:ng_view==='friendzy'?NG_PUB.concat(NG_FRIENDZY):ng_view==='biotech'?NG_PUB.concat(NG_BIOTECH):NG_PUB.concat(NG_FRIENDZY).concat(NG_BIOTECH);
+  var W=ng_canvas.width/(window.devicePixelRatio||1),H=ng_canvas.height/(window.devicePixelRatio||1);
+  ng_nodes=raw.map(function(d,i){return Object.assign({},d,{id:i,r:Math.max(14,Math.min(38,d.ev*2.5)),x:W/2+(Math.random()-.5)*500,y:H/2+(Math.random()-.5)*360,vx:0,vy:0});});
+  ng_links=[];
+  ng_nodes.forEach(function(a,i){
+    ng_nodes.forEach(function(b,j){
+      if(i>=j)return;
+      if(a.domain===b.domain)ng_links.push({s:i,t:j,str:.6,same:true,cross:false});
+      else if(a.state==='established'&&b.state==='established')ng_links.push({s:i,t:j,str:.2,same:false,cross:false});
+      else if(a.priv!==b.priv&&Math.random()<.3)ng_links.push({s:i,t:j,str:.1,same:false,cross:true});
+    });
+  });
+  ngSimulate();
+  ngLegend();
+  var info=document.getElementById('ng-info');
+  if(info)info.innerHTML=NG_INFO[ng_view]||'';
 }
 
-function setStats(o){
-  document.getElementById('mChunks').textContent=o.chunk_count??'–';
-  document.getElementById('mReports').textContent=o.report_count??'–';
-  document.getElementById('mNodes').textContent=o.kg_nodes??'–';
-  document.getElementById('mEdges').textContent=o.kg_edges??'–';
-  document.getElementById('mConf').textContent=o.avg_confidence!=null?o.avg_confidence.toFixed(2):'–';
-  document.getElementById('ts').textContent=o.timestamp??'';
-  document.getElementById('navReports').textContent=o.report_count??'–';
-}
-
-let charts={};
-function mkChart(id,cfg){if(charts[id])charts[id].destroy();const ctx=document.getElementById(id);if(!ctx)return;charts[id]=new Chart(ctx.getContext('2d'),cfg);}
-
-function makeVerdictChart(id, v){
-  const strong = (v.strong_evidence||0)+(v.moderate_evidence||0)+(v.supported||0);
-  const limited = (v.limited_evidence||0)+(v.partially_supported||0);
-  const mixed = (v.mixed_evidence||0)+(v.context_dependent||0);
-  const inconclusive = (v.inconclusive||0);
-  const contradicted = (v.contradicted||0);
-  mkChart(id,{type:'doughnut',data:{
-    labels:['Strong/Moderate','Limited','Mixed','Inconclusive','Contradicted'],
-    datasets:[{data:[strong,limited,mixed,inconclusive,contradicted],
-    backgroundColor:['rgba(0,230,118,.8)','rgba(0,180,255,.8)','rgba(245,166,35,.8)','rgba(74,96,128,.6)','rgba(255,61,87,.8)'],
-    borderWidth:0,hoverOffset:4}]},
-    options:{responsive:true,maintainAspectRatio:false,
-    plugins:{legend:{position:'right',labels:{boxWidth:8,padding:10}},
-    tooltip:{callbacks:{label:c=>`${c.label}: ${c.parsed}`}}},cutout:'65%'}});
-}
-
-function makeConfChart(id, reports){
-  const bins=[0,0,0,0,0,0,0,0,0,0];
-  reports.forEach(r=>{const i=Math.min(Math.floor((r.confidence||0)*10),9);bins[i]++;});
-  mkChart(id,{type:'bar',data:{
-    labels:['0.0','0.1','0.2','0.3','0.4','0.5','0.6','0.7','0.8','0.9'],
-    datasets:[{data:bins,backgroundColor:'rgba(0,229,255,.4)',borderColor:'rgba(0,229,255,.8)',borderWidth:1,borderRadius:2}]},
-    options:{responsive:true,maintainAspectRatio:false,
-    plugins:{legend:{display:false},title:{display:true,text:'Confidence Distribution',color:'#4a6080',padding:{bottom:4}}},
-    scales:{x:{grid:{color:'#1a2332'},ticks:{font:{size:8}}},y:{grid:{color:'#1a2332'},ticks:{stepSize:1,font:{size:8}}}}}});
-}
-
-function makeTrajChart(traj){
-  mkChart('cTraj',{type:'line',data:{
-    labels:traj.map(t=>`+${t.year_offset}yr`),
-    datasets:[{label:'Field Score',data:traj.map(t=>t.avg_field_score),
-    borderColor:'#00e5ff',backgroundColor:'rgba(0,229,255,.06)',
-    borderWidth:1.5,pointRadius:2,pointBackgroundColor:'#00e5ff',fill:true,tension:.4}]},
-    options:{responsive:true,maintainAspectRatio:false,
-    plugins:{legend:{display:false}},
-    scales:{x:{grid:{color:'#1a2332'},ticks:{font:{size:9}}},
-    y:{grid:{color:'#1a2332'},min:.4,max:1.0,ticks:{font:{size:9}}}}}});
-}
-
-function buildKG(kg){
-  document.getElementById('kgBadge').textContent=`${kg.nodes} concepts · ${kg.edges} relations`;
-  const svg=d3.select('#kgSvg');svg.selectAll('*').remove();
-  const cleanRels=(kg.relations||[]).filter(r=>r.relation!=='evidenced_by'&&!r.subject.includes(':')&&!r.object.includes(':')&&r.subject.length<30&&r.object.length<30&&r.subject!=='GeneralLimitation'&&r.object!=='GeneralLimitation');
-  if(!cleanRels.length){svg.append('text').attr('x',20).attr('y',40).attr('fill','#4a6080').attr('font-size',11).text('No relations yet.');return;}
-  const el=document.getElementById('kgSvg');const W=el.clientWidth||800,H=el.clientHeight||400;
-  svg.attr('viewBox',`0 0 ${W} ${H}`);
-  const nodeMap={};
-  cleanRels.forEach(r=>{nodeMap[r.subject]=nodeMap[r.subject]||{id:r.subject,count:0};nodeMap[r.object]=nodeMap[r.object]||{id:r.object,count:0};nodeMap[r.subject].count++;});
-  const nodes=Object.values(nodeMap),links=cleanRels.map(r=>({source:r.subject,target:r.object,rel:r.relation}));
-  const relColors={supports_efficiency:'#00e676',reduces:'#4a9eff',improves:'#4a9eff',has_tradeoff:'#ff3d57',partially_supports:'#f5a623',related_to:'#2a3a52',contradicts:'#ff3d57',causes:'#00e676',leads_to:'#00e676'};
-  const defs=svg.append('defs');
-  Object.entries(relColors).forEach(([k,c])=>defs.append('marker').attr('id','mx-'+k).attr('viewBox','0 -3 7 6').attr('refX',18).attr('refY',0).attr('markerWidth',5).attr('markerHeight',5).attr('orient','auto').append('path').attr('d','M0,-3L7,0L0,3').attr('fill',c).attr('opacity',.7));
-  svg.append('rect').attr('width',W).attr('height',H).attr('fill','transparent');
-  const g=svg.append('g');svg.call(d3.zoom().scaleExtent([.3,4]).on('zoom',e=>g.attr('transform',e.transform)));
-  const link=g.append('g').selectAll('line').data(links).join('line').attr('stroke',d=>relColors[d.rel]||'#2a3a52').attr('stroke-width',1).attr('stroke-opacity',.5).attr('marker-end',d=>`url(#mx-${relColors[d.rel]?d.rel:'related_to'})`);
-  const llabel=g.append('g').selectAll('text').data(links).join('text').attr('font-family','JetBrains Mono,monospace').attr('font-size',7).attr('fill','#2a3a52').attr('text-anchor','middle').text(d=>d.rel.replace(/_/g,' '));
-  const tt=document.getElementById('kgTT');
-  function nodeColor(id){
-    if(id.includes('Flash')||id.includes('Attention'))return'#f5a623';
-    if(id.includes('MoE')||id.includes('Mixture'))return'#ff8c42';
-    if(id.includes('KV')||id.includes('Cache')||id.includes('Memory'))return'#4a9eff';
-    if(id.includes('LoRA')||id.includes('Quant'))return'#a855f7';
-    if(id.includes('RWKV')||id.includes('Mamba')||id.includes('Linear'))return'#00e676';
-    return'#4a6080';
+function ngSimulate(){
+  for(var k=0;k<500;k++){
+    ng_nodes.forEach(function(a,i){
+      ng_nodes.forEach(function(b,j){
+        if(i===j)return;
+        var dx=a.x-b.x,dy=a.y-b.y,d=Math.sqrt(dx*dx+dy*dy)||1;
+        var min=a.r+b.r+50;
+        if(d<min*3){var f=(min-d)/d*.35;a.vx+=dx*f;a.vy+=dy*f;b.vx-=dx*f;b.vy-=dy*f;}
+      });
+    });
+    ng_links.forEach(function(l){
+      var a=ng_nodes[l.s],b=ng_nodes[l.t];
+      var dx=b.x-a.x,dy=b.y-a.y,d=Math.sqrt(dx*dx+dy*dy)||1;
+      var tgt=l.same?160:l.cross?280:220;
+      var f=(d-tgt)/d*l.str*.03;
+      a.vx+=dx*f;a.vy+=dy*f;b.vx-=dx*f;b.vy-=dy*f;
+    });
+    var W=ng_canvas.width/(window.devicePixelRatio||1),H=ng_canvas.height/(window.devicePixelRatio||1);
+    ng_nodes.forEach(function(n){
+      n.vx+=(W/2-n.x)*.002;n.vy+=(H/2-n.y)*.002;
+      n.vx*=.80;n.vy*=.80;n.x+=n.vx;n.y+=n.vy;
+      n.x=Math.max(n.r+20,Math.min(W-n.r-20,n.x));
+      n.y=Math.max(n.r+20,Math.min(H-n.r-20,n.y));
+    });
   }
-  const nodeG=g.append('g').selectAll('g').data(nodes).join('g')
-    .call(d3.drag().on('start',(e,d)=>{if(!e.active)sim.alphaTarget(.3).restart();d.fx=d.x;d.fy=d.y;}).on('drag',(e,d)=>{d.fx=e.x;d.fy=e.y;}).on('end',(e,d)=>{if(!e.active)sim.alphaTarget(0);d.fx=null;d.fy=null;}));
-  nodeG.append('circle').attr('r',d=>6+Math.min(d.count*4,18)).attr('fill',d=>nodeColor(d.id)+'18').attr('stroke',d=>nodeColor(d.id)).attr('stroke-width',1.5).attr('cursor','pointer')
-    .on('mouseover',(e,d)=>{const rels=links.filter(l=>l.source.id===d.id||l.target.id===d.id);tt.innerHTML=`<strong style="color:#fff">${d.id}</strong><br>`+rels.slice(0,5).map(l=>`<span style="color:#4a6080">${l.source.id||l.source}</span> <span style="color:#00e5ff">${l.rel}</span> <span style="color:#4a6080">${l.target.id||l.target}</span>`).join('<br>');tt.style.opacity='1';})
-    .on('mousemove',e=>{const b=document.getElementById('kgSvg').getBoundingClientRect();tt.style.left=(e.clientX-b.left+14)+'px';tt.style.top=(e.clientY-b.top-8)+'px';})
-    .on('mouseout',()=>tt.style.opacity='0');
-  nodeG.append('text').attr('font-family','JetBrains Mono,monospace').attr('font-size',8).attr('fill','#6a8aaa').attr('dy',3).attr('dx',d=>(8+Math.min(d.count*4,18))+4).text(d=>d.id.length>16?d.id.slice(0,16)+'…':d.id);
-  const sim=d3.forceSimulation(nodes).force('link',d3.forceLink(links).id(d=>d.id).distance(110).strength(.4)).force('charge',d3.forceManyBody().strength(-280)).force('center',d3.forceCenter(W/2,H/2)).force('collision',d3.forceCollide().radius(d=>14+Math.min(d.count*4,18)))
-    .on('tick',()=>{link.attr('x1',d=>d.source.x).attr('y1',d=>d.source.y).attr('x2',d=>d.target.x).attr('y2',d=>d.target.y);llabel.attr('x',d=>(d.source.x+d.target.x)/2).attr('y',d=>(d.source.y+d.target.y)/2);nodeG.attr('transform',d=>`translate(${d.x},${d.y})`);});
+  ngDraw();
 }
 
-function buildReports(reports){
-  document.getElementById('rptBadge').textContent=reports.length;
-  document.getElementById('navReports').textContent=reports.length;
-  if(!reports.length){
-    document.getElementById('rptList').innerHTML='<div style="padding:20px;font-family:var(--mono);font-size:10px;color:var(--muted);">No reports yet. Run research queries on the user product.</div>';
-    return;
-  }
-  document.getElementById('rptList').innerHTML=reports.map(r=>{
-    const vc=r.verdict==='supported'?'vp-s':r.verdict==='partially_supported'?'vp-p':r.verdict==='contradicted'?'vp-c':'vp-i';
-    return`<div class="rpt-row" onclick="openRpt('${r.file}')">
-      <div style="flex:1">
-        <div class="rpt-q">${r.query}</div>
-        <div class="rpt-meta">
-          <span class="vp ${vc}">${(r.verdict||'').replace(/_/g,' ')}</span>
-          <span>${(r.confidence||0).toFixed(2)} conf</span>
-          <span>${r.evidence_count||0} chunks</span>
-          <span>${(r.timestamp||'').slice(0,16)}</span>
-        </div>
-      </div>
-      <div>
-        <div class="rpt-bar-bg"><div class="rpt-bar-fill" style="width:${Math.round((r.confidence||0)*100)}%"></div></div>
-      </div>
-    </div>`;}).join('');
-
-  // Verdict list for analytics
-  const vl = reports.slice(0,20).map(r=>{
-    const vc=r.verdict==='supported'?'vp-s':r.verdict==='partially_supported'?'vp-p':r.verdict==='contradicted'?'vp-c':'vp-i';
-    return`<div style="padding:7px 16px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;gap:8px;">
-      <div style="font-size:11px;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${(r.query||'').slice(0,55)}</div>
-      <span class="vp ${vc}" style="flex-shrink:0">${(r.verdict||'').replace(/_/g,' ')}</span>
-    </div>`;}).join('');
-  ['verdictList','verdictList2'].forEach(id=>{const el=document.getElementById(id);if(el)el.innerHTML=vl;});
+function ngDraw(){
+  if(!ng_canvas||!ng_ctx)return;
+  var dpr=window.devicePixelRatio||1;
+  var W=ng_canvas.width/dpr,H=ng_canvas.height/dpr;
+  ng_ctx.clearRect(0,0,ng_canvas.width,ng_canvas.height);
+  ng_ctx.fillStyle='#05080f';ng_ctx.fillRect(0,0,ng_canvas.width,ng_canvas.height);
+  ng_links.forEach(function(l){
+    var a=ng_nodes[l.s],b=ng_nodes[l.t];
+    ng_ctx.beginPath();ng_ctx.moveTo(a.x,a.y);ng_ctx.lineTo(b.x,b.y);
+    if(l.cross){ng_ctx.strokeStyle='#EF9F2788';ng_ctx.setLineDash([5,5]);ng_ctx.lineWidth=1.2;}
+    else if(l.same){ng_ctx.strokeStyle=(NG_COLORS[a.domain]||'#888')+'55';ng_ctx.setLineDash([]);ng_ctx.lineWidth=1.3;}
+    else{ng_ctx.strokeStyle='#ffffff12';ng_ctx.setLineDash([3,6]);ng_ctx.lineWidth=.6;}
+    ng_ctx.stroke();ng_ctx.setLineDash([]);
+  });
+  ng_nodes.forEach(function(n){
+    var col=NG_COLORS[n.domain]||'#888';
+    if(n.state==='established'){ng_ctx.beginPath();ng_ctx.arc(n.x,n.y,n.r+8,0,Math.PI*2);ng_ctx.fillStyle=col+'18';ng_ctx.fill();}
+    if(n.priv){ng_ctx.beginPath();ng_ctx.arc(n.x,n.y,n.r+5,0,Math.PI*2);ng_ctx.strokeStyle=col+'cc';ng_ctx.setLineDash([4,3]);ng_ctx.lineWidth=1.8;ng_ctx.stroke();ng_ctx.setLineDash([]);}
+    if(n.state==='contested'){ng_ctx.beginPath();ng_ctx.arc(n.x,n.y,n.r+3,0,Math.PI*2);ng_ctx.strokeStyle='#E24B4A88';ng_ctx.lineWidth=1.2;ng_ctx.stroke();}
+    ng_ctx.beginPath();ng_ctx.arc(n.x,n.y,n.r,0,Math.PI*2);ng_ctx.fillStyle=col+'38';ng_ctx.fill();ng_ctx.strokeStyle=col;ng_ctx.lineWidth=n.state==='established'?2.2:1;ng_ctx.stroke();
+    var lines=n.name.split('\n');
+    ng_ctx.fillStyle='#c8deff';ng_ctx.textAlign='center';ng_ctx.textBaseline='middle';
+    var fs=n.r>22?9:7;ng_ctx.font='500 '+fs+'px "JetBrains Mono",monospace';
+    var lh=fs+3;
+    lines.forEach(function(ln,i){ng_ctx.fillText(ln,n.x,n.y+(i-(lines.length-1)/2)*lh);});
+  });
 }
 
-function buildHyps(hyps){
-  document.getElementById('hypBadge2').textContent=hyps.length;
-  document.getElementById('navHyps').textContent=hyps.length;
-  const html = hyps.map(h=>`
-    <div style="background:var(--card);border:1px solid var(--border2);border-radius:var(--radius);padding:12px;">
-      <div class="hyp-tag">${(h.type||'').replace(/_/g,' ')}</div>
-      <div class="hyp-text">${h.hypothesis}</div>
-      ${(h.premises||[]).slice(0,2).map(p=>`<div class="hyp-prem">${p}</div>`).join('')}
-      <div class="hyp-score">score: ${h.score??'–'}</div>
-    </div>`).join('');
-  ['hypList','hypList2'].forEach(id=>{const el=document.getElementById(id);if(el)el.innerHTML=html||'<div class="empty"><div class="empty-icon">🧬</div>No hypotheses yet</div>';});
+function ngHover(e){
+  if(!ng_canvas)return;
+  var rect=ng_canvas.getBoundingClientRect();
+  var dpr=window.devicePixelRatio||1;
+  var mx=(e.clientX-rect.left)*(ng_canvas.width/rect.width)/dpr;
+  var my=(e.clientY-rect.top)*(ng_canvas.height/rect.height)/dpr;
+  var found=null;
+  ng_nodes.forEach(function(n){var dx=mx-n.x,dy=my-n.y;if(Math.sqrt(dx*dx+dy*dy)<n.r)found=n;});
+  var tip=document.getElementById('ngt');
+  if(found&&tip){
+    tip.style.display='block';
+    tip.style.left=(e.clientX-rect.left+14)+'px';
+    tip.style.top=(e.clientY-rect.top-10)+'px';
+    tip.innerHTML='<b>'+found.name.replace('\n',' ')+'</b><br>'+found.domain+'<br>evidence: '+found.ev+'<br>'+found.state+(found.priv?'<br><span style="color:#EF9F27">&#9649; private</span>':'');
+    ng_canvas.style.cursor='pointer';
+  } else {if(tip)tip.style.display='none';ng_canvas.style.cursor='default';}
 }
 
-async function openRpt(file){
-  const r=await fj(`/api/report/${file}`);
-  document.getElementById('mQ').textContent=r.query||'';
-  const vc=r.proposal_verdict==='supported'?'s':r.proposal_verdict==='partially_supported'?'p':'i';
-  const grounded=(r.top_grounded||[]).map(gc=>{const v=gc.verdict||{};const cls=v.verdict==='supported'?'s':v.verdict==='partially_supported'?'p':'i';return`<div class="mclaim ${cls}"><div style="margin-bottom:3px;display:flex;gap:8px;"><span class="vp vp-${cls}">${(v.verdict||'').replace(/_/g,' ')}</span><span style="font-family:var(--mono);font-size:9px;color:var(--muted)">conf ${(v.confidence||0).toFixed(2)}</span></div><div>${gc.claim||''}</div></div>`;}).join('');
-  const papers=(r.top_papers||[]).slice(0,6).map(p=>`<div class="mpaper">${p}</div>`).join('');
-  const gaps=(r.knowledge_gaps||[]).map(g=>`<div class="mgap">⚠ ${g}</div>`).join('');
-  document.getElementById('mBody').innerHTML=`
-    <div style="display:flex;gap:10px;align-items:center;margin-bottom:14px;flex-wrap:wrap;">
-      <span class="vp vp-${vc}">${(r.proposal_verdict||'').replace(/_/g,' ')}</span>
-      <span style="font-family:var(--mono);font-size:9px;color:var(--muted)">conf ${(r.proposal_confidence||0).toFixed(2)} · ${r.domain||''} · ${r.evidence_count||0} chunks</span>
-    </div>
-    ${papers?`<div class="msec"><div class="msec-title">Evidence Sources</div>${papers}</div>`:''}
-    <div class="msec"><div class="msec-title">Grounded Claims</div>${grounded||'<div style="color:var(--muted);font-size:11px">None</div>'}</div>
-    ${gaps?`<div class="msec"><div class="msec-title">Knowledge Gaps</div>${gaps}</div>`:''}`;
-  document.getElementById('modalBg').classList.add('open');
-}
-function closeModal(){document.getElementById('modalBg').classList.remove('open');}
-document.getElementById('modalBg').addEventListener('click',function(e){if(e.target===this)closeModal();});
-
-function setQ(el){document.getElementById('simQ').value=el.textContent.trim();}
-function setIdea(el){document.getElementById('ideaInput').value=el.textContent.trim();}
-
-async function runSim(){
-  const btn=document.getElementById('simBtn'),q=document.getElementById('simQ').value.trim();
-  if(!q)return;
-  btn.disabled=true;btn.classList.add('running');btn.textContent='⟳ Simulating…';
-  try{const r=await fj('/api/simulate',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({query:q})});if(r.error){alert(r.error);return;}renderSim(r);}
-  catch(e){alert('Error: '+e);}
-  finally{btn.disabled=false;btn.classList.remove('running');btn.textContent='▶ Run Simulation';}
+function ngResize(){
+  if(!ng_canvas)return;
+  var dpr=window.devicePixelRatio||1;
+  var w=ng_canvas.offsetWidth,h=420;
+  ng_canvas.width=w*dpr;ng_canvas.height=h*dpr;
+  ng_canvas.style.width=w+'px';ng_canvas.style.height=h+'px';
+  ng_ctx.scale(dpr,dpr);
 }
 
-function renderSim(r){
-  document.getElementById('simBadge').textContent=`${r.n_simulations||0} sims`;
-  const score=r.avg_field_score||0;
-  const scoreColor=score>0.72?'var(--green)':score>0.58?'var(--gold)':'var(--red)';
-  document.getElementById('simMain').innerHTML=`
-    <div class="score-display">
-      <div class="score-num" style="color:${scoreColor}">${(score*100).toFixed(1)}</div>
-      <div class="score-lbl">Field Advancement Score</div>
-      <div class="score-desc">${r.summary||''}</div>
-    </div>
-    <div class="focus-row">${(r.focus_nodes||[]).map(n=>`<span class="focus-chip">${n}</span>`).join('')}</div>
-    <div style="border-top:1px solid var(--border);padding:12px 16px;flex:1;overflow-y:auto;">
-      <div style="font-family:var(--mono);font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:8px;">Contradiction Risks</div>
-      ${(r.contradiction_risks||[]).slice(0,3).map(x=>`<div class="risk-item">${x}</div>`).join('')||'<div style="font-family:var(--mono);font-size:9px;color:var(--green)">No major risks</div>'}
-    </div>`;
-  makeTrajChart(r.field_trajectory||[]);
-  document.getElementById('simDom').innerHTML=(r.dominant_methods||[]).length
-    ?(r.dominant_methods||[]).slice(0,6).map(d=>`<div class="dom-item" style="padding:8px 16px;">
-        <div class="dom-row"><div class="dom-name">${d.method}</div><div class="dom-pct">${Math.round(d.probability*100)}%</div></div>
-        <div class="dom-track"><div class="dom-fill" style="width:${Math.round(d.probability*100)}%"></div></div>
-      </div>`).join('')
-    :'<div class="empty"><div class="empty-icon">◈</div>No data</div>';
-  document.getElementById('simExp').innerHTML=(r.best_experiments||[]).length
-    ?(r.best_experiments||[]).slice(0,5).map((e,i)=>`<div class="exp-item" style="padding:8px 16px;"><div class="exp-n">${i+1}</div><div>${e}</div></div>`).join('')
-    :'<div class="empty"><div class="empty-icon">◈</div>No data</div>';
+function ngLegend(){
+  var doms=[...new Set(ng_nodes.map(function(n){return n.domain;}))];
+  var leg=document.getElementById('ng-leg');
+  if(!leg)return;
+  leg.innerHTML=doms.map(function(d){return '<div style="display:flex;align-items:center;gap:5px;font-size:10px;color:var(--muted);font-family:var(--mono);"><div style="width:8px;height:8px;border-radius:50%;background:'+(NG_COLORS[d]||'#888')+'"></div>'+(d==='private_ml'?'&#9649; Friendzy':d==='private_bio'?'&#9649; Biotech':d)+'</div>';}).join('');
 }
 
-async function runIdeaLab(){
-  const idea=document.getElementById('ideaInput').value.trim();
-  if(!idea)return;
-  const btn=document.getElementById('ideaBtn');
-  btn.disabled=true;btn.classList.add('running');btn.textContent='⟳ Analyzing…';
-  document.getElementById('ideaEmpty').style.display='none';
-  document.getElementById('ideaContent').style.display='none';
+async function loadAll(){
   try{
-    const d=await fj('/api/idea_lab',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({idea})});
-    if(d.error){alert(d.error);return;}
-    renderIdeaLab(d);
-  }catch(e){alert('Error: '+e);}
-  finally{btn.disabled=false;btn.classList.remove('running');btn.textContent='💡 Analyze Idea';}
-}
-
-function renderIdeaLab(d){
-  const stage=d.stage||{};
-  const stageColor=stage.color==='green'?'var(--green)':stage.color==='red'?'var(--red)':stage.color==='blue'?'#4a9eff':'var(--gold)';
-  document.getElementById('ideaStageLabel').textContent=stage.label||'–';
-
-  const concepts=(d.concepts||[]).map(c=>`<span style="font-family:var(--mono);font-size:9px;padding:2px 8px;border:1px solid var(--border2);border-radius:999px;color:var(--accent);">${c}</span>`).join('');
-  const blockers=(d.blockers||[]).map(b=>`<div class="il-blocker"><div style="font-family:var(--mono);font-size:9px;color:${b.severity==='high'?'var(--red)':'var(--gold)'};text-transform:uppercase;letter-spacing:1px;margin-bottom:3px;">${b.type}</div><div style="color:var(--text)">${b.description}</div></div>`).join('') || '<div style="font-family:var(--mono);font-size:10px;color:var(--green);">No major blockers</div>';
-  const unstick=(d.unstick||[]).map(s=>`<div class="il-step"><div class="il-step-n">${s.step}</div><div><div class="il-step-action">${s.action}</div><div class="il-step-detail">${s.detail}</div></div></div>`).join('');
-  const dirs=(d.directions||[]).slice(0,4).map(dir=>`<div class="il-dir-item"><div style="display:flex;align-items:center;gap:6px;margin-bottom:3px;"><span style="font-size:11px;font-weight:600;color:var(--bright);">${dir.title}</span><span class="il-novelty">${dir.novelty}</span></div><div style="font-size:10px;color:var(--muted);line-height:1.5;">${dir.description}</div></div>`).join('') || '<div style="font-size:11px;color:var(--muted);">–</div>';
-  const combos=(d.combinations||[]).slice(0,3).map(c=>`<div class="il-combo"><div style="font-family:var(--mono);font-size:10px;color:#4a9eff;margin-bottom:3px;">${c.a} + ${c.b}</div><div style="font-size:10px;color:var(--text);line-height:1.5;margin-bottom:4px;">${c.hypothesis}</div><div style="font-size:9px;color:var(--red);font-family:var(--mono);">⚠ ${c.risk}</div></div>`).join('') || '<div style="font-size:11px;color:var(--muted);">–</div>';
-  const qs=(d.open_questions||[]).map((q,i)=>`<div class="il-q-item"><span style="font-family:var(--mono);font-size:9px;color:var(--muted);flex-shrink:0;">${i+1}.</span><span>${q}</span></div>`).join('') || '<div style="font-size:11px;color:var(--muted);">–</div>';
-  const prior=(d.prior_work||[]).map(p=>`<div class="il-prior"><div style="flex:1;font-size:11px;color:var(--text);">${p.query}</div><span style="font-family:var(--mono);font-size:9px;padding:1px 6px;border-radius:3px;background:${['supported','strong_evidence','moderate_evidence'].includes(p.verdict)?'rgba(0,230,118,.1)':p.verdict==='mixed_evidence'?'rgba(255,160,0,.1)':'rgba(74,96,128,.1)'};color:${['supported','strong_evidence','moderate_evidence'].includes(p.verdict)?'var(--green)':p.verdict==='mixed_evidence'?'var(--amber)':'var(--muted)'};">${p.verdict.replace(/_/g,' ')}</span><span style="font-family:var(--mono);font-size:9px;color:var(--muted);">${p.confidence}</span></div>`).join('') || '<div style="font-family:var(--mono);font-size:10px;color:var(--muted);">No prior analysis yet.</div>';
-
-  // Contradictions
-  const contras=d.literature_contradictions||[];
-  const contraHTML = contras.length ? `
-    <div class="il-card" style="border-color:rgba(255,61,87,.4);">
-      <div class="il-card-title" style="color:var(--red);">⚠ Literature Contradictions</div>
-      ${contras.map(c=>`<div style="padding:8px 0;border-bottom:1px solid var(--border);">
-        <div style="display:flex;gap:4px;margin-bottom:6px;">${(c.shared_concepts||[]).map(s=>`<span style="font-family:var(--mono);font-size:8px;padding:1px 5px;border:1px solid var(--gold);color:var(--gold);border-radius:2px;">${s}</span>`).join('')}<span style="font-family:var(--mono);font-size:8px;padding:1px 5px;border:1px solid var(--red);color:var(--red);border-radius:2px;">${c.severity}</span></div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:6px;">
-          <div style="padding:6px;background:rgba(0,230,118,.04);border-left:2px solid var(--green);border-radius:2px;font-size:9px;color:var(--text);">${(c.supporting_claim||'').substring(0,100)}… <div style="color:var(--muted);margin-top:3px;font-style:italic;">— ${(c.supporting_paper||'').substring(0,40)}</div></div>
-          <div style="padding:6px;background:rgba(255,61,87,.04);border-left:2px solid var(--red);border-radius:2px;font-size:9px;color:var(--text);">${(c.contradicting_claim||'').substring(0,100)}… <div style="color:var(--muted);margin-top:3px;font-style:italic;">— ${(c.contradicting_paper||'').substring(0,40)}</div></div>
-        </div>
-        <div style="font-size:10px;color:var(--muted);">💡 ${c.implication||''}</div>
-      </div>`).join('')}
-    </div>` : '';
-
-  // Hypothesis
-  const hyp=d.reconciling_hypothesis;
-  const hypHTML = hyp ? `
-    <div class="il-card" style="border-color:var(--gold);border-width:2px;">
-      <div class="il-card-title" style="color:var(--gold);">🧬 Reconciling Hypothesis</div>
-      <div style="font-size:13px;line-height:1.6;color:var(--bright);margin-bottom:12px;border-left:3px solid var(--gold);padding-left:10px;">${hyp.hypothesis}</div>
-      <div style="background:rgba(245,166,35,.06);border:1px solid rgba(245,166,35,.2);border-radius:6px;padding:10px;margin-bottom:10px;">
-        <div style="font-family:var(--mono);font-size:8px;color:var(--gold);margin-bottom:4px;">TESTABLE PREDICTION</div>
-        <div style="font-size:11px;color:var(--text);line-height:1.5;">${hyp.prediction}</div>
-      </div>
-      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px;">
-        <div style="text-align:center;padding:8px;background:var(--bg);border-radius:4px;border:1px solid var(--border2);">
-          <div style="font-family:var(--mono);font-size:18px;color:var(--gold);">${Math.round((hyp.testability_score||0)*100)}%</div>
-          <div style="font-family:var(--mono);font-size:8px;color:var(--muted);">Testable</div>
-        </div>
-        <div style="text-align:center;padding:8px;background:var(--bg);border-radius:4px;border:1px solid var(--border2);">
-          <div style="font-family:var(--mono);font-size:18px;color:var(--gold);">${Math.round((hyp.confidence||0)*100)}%</div>
-          <div style="font-family:var(--mono);font-size:8px;color:var(--muted);">Confidence</div>
-        </div>
-        <div style="text-align:center;padding:8px;background:var(--bg);border-radius:4px;border:1px solid var(--border2);">
-          <div style="font-family:var(--mono);font-size:12px;color:var(--green);margin-top:4px;">Novel</div>
-          <div style="font-family:var(--mono);font-size:8px;color:var(--muted);">Status</div>
-        </div>
-      </div>
-    </div>` : '';
-
-  // Experiment
-  const exp=d.experiment_design;
-  const expHTML = exp ? `
-    <div class="il-card" style="border-color:rgba(0,229,255,.3);">
-      <div class="il-card-title" style="color:var(--accent);">🧪 Experiment Design</div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px;">
-        ${['model','dataset','primary_metric','baseline'].map(k=>`<div style="padding:7px;background:var(--bg);border-radius:4px;"><div style="font-family:var(--mono);font-size:8px;color:var(--muted);margin-bottom:2px;">${k.toUpperCase().replace('_',' ')}</div><div style="font-size:10px;color:var(--text);">${exp[k]||'–'}</div></div>`).join('')}
-      </div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;">
-        <div style="padding:7px;background:rgba(0,230,118,.05);border:1px solid rgba(0,230,118,.2);border-radius:4px;"><div style="font-family:var(--mono);font-size:8px;color:var(--muted);">EST. COST</div><div style="font-size:11px;color:var(--green);">${exp.estimated_cost||'–'}</div></div>
-        <div style="padding:7px;background:rgba(245,166,35,.05);border:1px solid rgba(245,166,35,.2);border-radius:4px;"><div style="font-family:var(--mono);font-size:8px;color:var(--muted);">EST. TIME</div><div style="font-size:11px;color:var(--gold);">${exp.estimated_time||'–'}</div></div>
-      </div>
-    </div>` : '';
-
-  document.getElementById('ideaContent').innerHTML = `
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;">
-      <div class="il-card">
-        <div class="il-card-title">Idea Stage</div>
-        <div style="font-size:14px;font-weight:600;color:${stageColor};margin-bottom:4px;">${stage.label||'–'}</div>
-        <div style="font-family:var(--mono);font-size:10px;color:var(--muted);line-height:1.5;margin-bottom:8px;">${stage.description||''}</div>
-        <div style="font-family:var(--mono);font-size:8px;color:var(--muted);margin-bottom:6px;letter-spacing:1px;">CONCEPTS</div>
-        <div style="display:flex;flex-wrap:wrap;gap:4px;">${concepts||'<span style="font-size:10px;color:var(--muted);">None detected</span>'}</div>
-      </div>
-      <div class="il-card">
-        <div class="il-card-title">Where You're Stuck</div>
-        ${blockers}
-      </div>
-    </div>
-    <div class="il-card" style="margin-bottom:12px;">
-      <div class="il-card-title">How To Unstick It</div>
-      ${unstick}
-    </div>
-    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:12px;">
-      <div class="il-card"><div class="il-card-title">New Directions</div>${dirs}</div>
-      <div class="il-card"><div class="il-card-title">Combinations</div>${combos}</div>
-      <div class="il-card"><div class="il-card-title">Open Questions</div>${qs}</div>
-    </div>
-    <div class="il-card" style="margin-bottom:12px;">
-      <div class="il-card-title">Related Prior Analysis</div>
-      ${prior}
-    </div>
-    ${contraHTML}${hypHTML}${expHTML}
-  `;
-  document.getElementById('ideaContent').style.display='block';
-  document.getElementById('ideaEmpty').style.display='none';
-}
-
-async function triggerCycle(){
-  const btn = document.querySelector('.trigger-btn');
-  if(btn){btn.textContent='⟳ Triggering…';btn.disabled=true;}
-  try{
-    await fj('/api/service/trigger',{method:'POST'});
-    if(btn){btn.textContent='✓ Triggered!';setTimeout(()=>{btn.textContent='⟳ Trigger Ingestion';btn.disabled=false;},3000);}
-  }catch(e){
-    if(btn){btn.textContent='⟳ Trigger Ingestion';btn.disabled=false;}
-  }
-}
-
-async function loadServiceStatus(){
-  try{
-    const s=await fj('/api/service/status');
-    document.getElementById('serviceStatus').innerHTML=Object.entries(s).map(([k,v])=>`<div><span style="color:var(--muted)">${k}:</span> <span style="color:var(--text)">${v}</span></div>`).join('');
-  }catch(e){}
-}
-
-async function refresh(){
-  try{
-    const [ov,rd,kg,hd]=await Promise.all([fj('/api/overview'),fj('/api/reports'),fj('/api/kg'),fj('/api/hypotheses')]);
-    const reports=rd.reports||[],hyps=hd.hypotheses||[];
-    setStats(ov);
-    buildKG(kg);
-    buildReports(reports);
-    buildHyps(hyps);
-    makeVerdictChart('cVerdict',ov.verdicts||{});
-    makeVerdictChart('cVerdict2',ov.verdicts||{});
-    makeVerdictChart('cVerdict3',ov.verdicts||{});
-    makeConfChart('cConf',reports);
-    makeConfChart('cConf2',reports);
-    loadServiceStatus();
+    const r=await fetch('/api/world_model_stats');
+    const d=await r.json();
+    if(d.error){console.error(d.error);return;}
+    S=d;
+    document.getElementById('m0').textContent=(d.chunks||0).toLocaleString();
+    document.getElementById('m1').textContent=(d.observations||0).toLocaleString();
+    document.getElementById('m2').textContent=(d.beliefs||0).toLocaleString();
+    document.getElementById('m3').textContent=(d.concepts||0).toLocaleString();
+    document.getElementById('p0').textContent=(d.chunks||0).toLocaleString();
+    document.getElementById('p1').textContent=(d.observations||0).toLocaleString();
+    document.getElementById('p2').textContent=(d.concepts||0).toLocaleString();
+    document.getElementById('p3').textContent=(d.beliefs||0).toLocaleString();
+    const lc=d.lifecycle||{};
+    document.getElementById('lcg').innerHTML=
+      '<div class="lci"><div class="lcn" style="color:var(--accent)">'+(lc.established||0)+'</div><div class="lcl">Established</div></div>'+
+      '<div class="lci"><div class="lcn" style="color:var(--gold)">'+(lc.emerging||0)+'</div><div class="lcl">Emerging</div></div>'+
+      '<div class="lci"><div class="lcn">'+(lc.candidate||0)+'</div><div class="lcl">Candidate</div></div>'+
+      '<div class="lci"><div class="lcn" style="color:var(--red)">'+(lc.contested||0)+'</div><div class="lcl">Contested</div></div>';
+    const sup=d.supporting||0,con=d.contradicting||0,tot=sup+con||1;
+    document.getElementById('sn').textContent=sup.toLocaleString();
+    document.getElementById('cn2').textContent=con.toLocaleString();
+    document.getElementById('sb').style.width=(sup/tot*100)+'%';
+    document.getElementById('cb').style.width=(con/tot*100)+'%';
+    const doms=d.by_domain||[],mx=Math.max(...doms.map(x=>x.count),1);
+    document.getElementById('wtree').innerHTML=doms.map(x=>
+      '<div class="tnode"><div class="tdom">'+x.domain+'</div><div class="tbar"><div class="tfill" style="width:'+(x.count/mx*100)+'%;background:'+dc(x.domain)+'"></div></div><div class="tcnt">'+x.count+'</div></div>'
+    ).join('');
+    const cx=d.top_concepts||[];
+    document.getElementById('clist').innerHTML=cx.slice(0,12).map(c=>
+      '<div class="crow"><div class="cn" title="'+c.name+'">'+c.name+'</div><div class="cd" style="color:'+dc(c.domain)+'">'+c.domain+'</div><span class="badge b-'+c.state+'">'+c.state+'</span><div class="ce">'+c.evidence+'</div></div>'
+    ).join('');
   }catch(e){console.error(e);}
 }
-refresh();setInterval(refresh,30000);
-document.getElementById('simQ').addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();runSim();}});
-document.getElementById('ideaInput').addEventListener('keydown',e=>{if(e.key==='Enter'&&e.metaKey){runIdeaLab();}});
+
+function drawWG(){
+  if(!S.top_concepts) return;
+  const cx=S.top_concepts||[];
+  const el=document.getElementById('wgraph');
+  el.innerHTML='';
+  const W=el.offsetWidth||600,H=320;
+  const svg=d3.select('#wgraph').append('svg').attr('viewBox','0 0 '+W+' '+H);
+  const nodes=cx.map((c,i)=>({id:i,name:c.name,domain:c.domain,evidence:c.evidence,state:c.state,r:Math.max(10,Math.min(32,c.evidence*2.5))}));
+  const sim=d3.forceSimulation(nodes)
+    .force('charge',d3.forceManyBody().strength(-150))
+    .force('center',d3.forceCenter(W/2,H/2))
+    .force('collision',d3.forceCollide().radius(d=>d.r+10))
+    .stop();
+  for(let i=0;i<300;i++) sim.tick();
+  const tt=document.getElementById('tt');
+  svg.selectAll('.gn').data(nodes).enter().append('g').attr('class','gn')
+    .attr('transform',d=>'translate('+Math.max(d.r,Math.min(W-d.r,d.x))+','+Math.max(d.r,Math.min(H-d.r,d.y))+')')
+    .on('mousemove',(e,d)=>{tt.style.opacity=1;tt.style.left=(e.clientX+12)+'px';tt.style.top=(e.clientY-10)+'px';tt.innerHTML='<b>'+d.name+'</b><br>'+d.domain+'<br>evidence: '+d.evidence+'<br>'+d.state;})
+    .on('mouseleave',()=>tt.style.opacity=0)
+    .each(function(d){
+      d3.select(this).append('circle').attr('r',d.r).attr('fill',dc(d.domain)+'44').attr('stroke',dc(d.domain)).attr('stroke-width',d.state==='established'?2:1);
+      d3.select(this).append('text').attr('text-anchor','middle').attr('dy','0.35em').attr('fill','#c8deff').attr('font-size',d.r>15?9:7).attr('font-family','JetBrains Mono').text(d.name.length>12?d.name.slice(0,10)+'...':d.name);
+    });
+  const bd={};cx.forEach(c=>{bd[c.domain]=(bd[c.domain]||0)+c.evidence;});
+  const da=Object.entries(bd).sort((a,b)=>b[1]-a[1]),me=Math.max(...da.map(x=>x[1]),1);
+  document.getElementById('dbars').innerHTML=da.map(([dom,ev])=>
+    '<div class="tnode"><div class="tdom" style="color:'+dc(dom)+'">'+dom+'</div><div class="tbar"><div class="tfill" style="width:'+(ev/me*100)+'%;background:'+dc(dom)+'"></div></div><div class="tcnt">'+ev+'</div></div>'
+  ).join('');
+}
+
+function drawBG(){
+  if(!S.observations) return;
+  const el=document.getElementById('bgraph');
+  el.innerHTML='';
+  const W=el.offsetWidth||600,H=160;
+  const svg=d3.select('#bgraph').append('svg').attr('viewBox','0 0 '+W+' '+H);
+  const layers=[{l:'Papers',c:S.chunks,col:'#3a5070'},{l:'Observations',c:S.observations,col:'#f5a623'},{l:'Beliefs',c:S.beliefs,col:'#a855f7'},{l:'Concepts',c:S.concepts,col:'#3b82f6'}];
+  const mc=Math.max(...layers.map(x=>x.c),1);
+  const xs=[W*.1,W*.37,W*.63,W*.9];
+  svg.append('defs').append('marker').attr('id','ar').attr('viewBox','0 0 10 10').attr('refX',8).attr('refY',5).attr('markerWidth',6).attr('markerHeight',6).attr('orient','auto').append('path').attr('d','M2 1L8 5L2 9').attr('fill','none').attr('stroke','#2a3a52').attr('stroke-width',1.5);
+  layers.forEach((l,i)=>{
+    const bh=Math.max(20,l.c/mc*100),by=H-bh-25;
+    svg.append('rect').attr('x',xs[i]-28).attr('y',by).attr('width',56).attr('height',bh).attr('fill',l.col+'33').attr('stroke',l.col).attr('stroke-width',1).attr('rx',4);
+    svg.append('text').attr('x',xs[i]).attr('y',by-5).attr('text-anchor','middle').attr('fill',l.col).attr('font-family','JetBrains Mono').attr('font-size',9).text(l.c.toLocaleString());
+    svg.append('text').attr('x',xs[i]).attr('y',H-8).attr('text-anchor','middle').attr('fill','#3a5070').attr('font-family','JetBrains Mono').attr('font-size',8).text(l.l);
+    if(i<3) svg.append('line').attr('x1',xs[i]+28).attr('y1',H/2).attr('x2',xs[i+1]-28).attr('y2',H/2).attr('stroke','#2a3a52').attr('stroke-width',1.5).attr('marker-end','url(#ar)');
+  });
+  document.getElementById('bt').textContent=(S.beliefs||0).toLocaleString();
+  document.getElementById('bs').textContent=(S.supporting||0).toLocaleString();
+  document.getElementById('bc').textContent=(S.contradicting||0).toLocaleString();
+  document.getElementById('bo').textContent=(S.observations||0).toLocaleString();
+}
+
+function renderFull(){
+  const cx=S.top_concepts||[];
+  document.getElementById('clfull').innerHTML=cx.map(c=>
+    '<div class="crow"><div class="cn" title="'+c.name+'">'+c.name+'</div><div class="cd" style="color:'+dc(c.domain)+'">'+c.domain+'</div><span class="badge b-'+c.state+'">'+c.state+'</span><div style="font-family:var(--mono);font-size:9px;color:var(--muted);width:50px;text-align:right;">c:'+c.confidence+'</div><div class="ce">'+c.evidence+'</div></div>'
+  ).join('');
+}
+
+loadAll();
+setInterval(loadAll,30000);
 </script>
 </body>
 </html>

@@ -1082,6 +1082,10 @@ def _make_actionable(hypothesis, hyp_type):
 def index():
     return render_template("landing.html")
 
+
+@app.route("/login")
+def login_page():
+    return render_template("login.html")
 @app.route("/app")
 def app_page():
     return render_template("research.html")
@@ -1318,6 +1322,71 @@ def company_old():
         401,
         {"WWW-Authenticate": 'Basic realm="Tattva Enterprise"'}
     )
+
+
+@app.route("/api/world_model_stats")
+def api_world_model_stats():
+    """World model statistics for admin dashboard."""
+    import psycopg2
+    try:
+        pg_url = os.environ.get("DATABASE_URL","")
+        conn = psycopg2.connect(pg_url)
+        cur = conn.cursor()
+        
+        cur.execute("SELECT COUNT(*) FROM observations")
+        obs = cur.fetchone()[0]
+        
+        cur.execute("SELECT COUNT(*) FROM beliefs")
+        beliefs = cur.fetchone()[0]
+        
+        cur.execute("SELECT COUNT(*) FROM concept_cells")
+        concepts = cur.fetchone()[0]
+        
+        cur.execute("SELECT SUM(supporting_count), SUM(contradicting_count) FROM beliefs")
+        row = cur.fetchone()
+        supporting = row[0] or 0
+        contradicting = row[1] or 0
+        
+        cur.execute("SELECT lifecycle_state, COUNT(*) FROM concept_cells GROUP BY lifecycle_state")
+        lifecycle = {r[0]: r[1] for r in cur.fetchall()}
+        
+        cur.execute("SELECT domain, COUNT(*) FROM observations GROUP BY domain ORDER BY COUNT(*) DESC")
+        by_domain = [{"domain": r[0], "count": r[1]} for r in cur.fetchall()]
+        
+        cur.execute("SELECT canonical_name, domain, evidence_count, confidence_score, lifecycle_state FROM concept_cells ORDER BY evidence_count DESC LIMIT 20")
+        top_concepts = [{"name": r[0], "domain": r[1], "evidence": r[2], "confidence": round(r[3],2), "state": r[4]} for r in cur.fetchall()]
+        
+        cur.execute("SELECT COUNT(*) FROM chunks")
+        chunks = cur.fetchone()[0]
+        
+        cur.execute("SELECT domain, COUNT(*) FROM chunks GROUP BY domain ORDER BY COUNT(*) DESC")
+        chunks_by_domain = [{"domain": r[0], "count": r[1]} for r in cur.fetchall()]
+        
+        # Company count
+        try:
+            from supabase import create_client
+            sb = create_client(os.environ.get("SUPABASE_URL",""), os.environ.get("SUPABASE_KEY",""))
+            companies = len(sb.table("private_companies").select("company_id").execute().data or [])
+        except:
+            companies = 1
+        
+        conn.close()
+        return jsonify({
+            "observations": obs,
+            "beliefs": beliefs,
+            "concepts": concepts,
+            "supporting": supporting,
+            "contradicting": contradicting,
+            "lifecycle": lifecycle,
+            "by_domain": by_domain,
+            "top_concepts": top_concepts,
+            "chunks": chunks,
+            "chunks_by_domain": chunks_by_domain,
+            "companies": companies,
+            "stage": 6
+        })
+    except Exception as e:
+        return jsonify({"error": str(e)})
 
 @app.route("/admin")
 def admin():
