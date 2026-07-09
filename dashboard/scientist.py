@@ -3,6 +3,12 @@ Tattva Scientist — Actual Thinking
 Chain of thought + agentic loop + contradiction reasoning
 """
 import os
+try:
+    from world_model.query_engine import world_model_context, format_world_model_prompt
+    WORLD_MODEL_ENABLED = True
+except Exception:
+    WORLD_MODEL_ENABLED = False
+
 from groq import Groq
 
 def _client():
@@ -282,6 +288,17 @@ def chat(query, history, chunks, verdict_data=None,
 
     # 3. Build chain-of-thought prompt
     prompt = build_cot_prompt(query, final_chunks, history, memory)
+
+    # 3b. Inject world model context
+    if WORLD_MODEL_ENABLED:
+        try:
+            wm_ctx = world_model_context(query)
+            if wm_ctx and wm_ctx.get('concepts'):
+                wm_prompt = format_world_model_prompt(query, wm_ctx)
+                if wm_prompt:
+                    prompt = prompt + "\n\n" + wm_prompt
+        except Exception:
+            pass
 
     # 4. Build message history
     messages = [{"role":"system","content":prompt}]

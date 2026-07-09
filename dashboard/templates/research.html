@@ -580,6 +580,87 @@ function resetPanel(){
   document.getElementById('epStatus').textContent='Ask a question →';
 }
 
+
+function renderWorldModel(wm) {
+  if(!wm || !wm.concepts || wm.concepts.length === 0) return;
+  const el = document.getElementById('epScroll');
+  if(!el) return;
+
+  let html = '<div style="margin-bottom:16px;padding:14px;background:var(--paper);border:1px solid var(--border);border-radius:10px;">';
+  html += '<div style="font-family:var(--mono);font-size:9px;color:var(--accent);letter-spacing:2px;margin-bottom:10px;">WORLD MODEL REASONING</div>';
+
+  // Activated concepts
+  if(wm.concepts.length > 0) {
+    html += '<div style="margin-bottom:10px;">';
+    html += '<div style="font-size:11px;color:var(--muted);margin-bottom:5px;">ACTIVATED CONCEPTS</div>';
+    wm.concepts.forEach(c => {
+      const stateColor = c.state==='established'?'var(--green)':c.state==='emerging'?'var(--gold)':'var(--muted)';
+      html += `<div style="display:flex;align-items:center;gap:8px;padding:4px 0;border-bottom:1px solid var(--border);">
+        <span style="color:${stateColor};font-size:11px;">●</span>
+        <span style="font-size:12px;color:var(--text);flex:1;">${c.name}</span>
+        <span style="font-family:var(--mono);font-size:9px;color:var(--muted);">${c.domain}</span>
+        <span style="font-family:var(--mono);font-size:9px;color:var(--accent);">ev=${c.evidence}</span>
+      </div>`;
+    });
+    html += '</div>';
+  }
+
+  // Beliefs used
+  if(wm.beliefs && wm.beliefs.length > 0) {
+    html += '<div style="margin-bottom:10px;">';
+    html += '<div style="font-size:11px;color:var(--muted);margin-bottom:5px;">BELIEFS WITH EVIDENCE</div>';
+    wm.beliefs.slice(0,6).forEach(b => {
+      const contested = b.contradicting > 0;
+      const confPct = Math.round((b.confidence||0.5)*100);
+      html += `<div style="padding:6px 8px;margin-bottom:4px;background:var(--bg);border-radius:6px;border-left:2px solid ${contested?'var(--red)':'var(--green)'};">
+        <div style="font-size:11px;color:var(--text);margin-bottom:3px;">${contested?'⚡':'✓'} ${b.belief}</div>
+        <div style="display:flex;gap:10px;">
+          <span style="font-family:var(--mono);font-size:9px;color:var(--accent);">conf ${confPct}%</span>
+          <span style="font-family:var(--mono);font-size:9px;color:var(--green);">sup=${b.supporting}</span>
+          ${contested?`<span style="font-family:var(--mono);font-size:9px;color:var(--red);">con=${b.contradicting}</span>`:''}
+        </div>
+      </div>`;
+    });
+    html += '</div>';
+  }
+
+  // Causal paths
+  if(wm.causal_paths && wm.causal_paths.length > 0) {
+    html += '<div style="margin-bottom:10px;">';
+    html += '<div style="font-size:11px;color:var(--muted);margin-bottom:5px;">CAUSAL PATHS</div>';
+    wm.causal_paths.slice(0,4).forEach(c => {
+      html += `<div style="font-size:11px;color:var(--text);padding:3px 0;">
+        <span style="color:var(--accent);">${c.from}</span>
+        <span style="color:var(--muted);margin:0 4px;">──[${c.relation}]──▶</span>
+        <span style="color:var(--text);">${c.to}</span>
+        <span style="font-family:var(--mono);font-size:9px;color:var(--muted);margin-left:4px;">${Math.round(c.confidence*100)}%</span>
+      </div>`;
+    });
+    html += '</div>';
+  }
+
+  // Contradictions
+  if(wm.contradictions && wm.contradictions.length > 0) {
+    html += '<div>';
+    html += '<div style="font-size:11px;color:var(--red);margin-bottom:5px;">⚡ CONTRADICTED BELIEFS</div>';
+    wm.contradictions.forEach(c => {
+      html += `<div style="padding:6px 8px;background:var(--red-bg,rgba(255,61,87,.05));border:1px solid var(--red-border,rgba(255,61,87,.2));border-radius:6px;margin-bottom:4px;">
+        <div style="font-size:11px;color:var(--text);">${c.belief}</div>
+        <div style="font-family:var(--mono);font-size:9px;margin-top:3px;">
+          <span style="color:var(--green);">sup=${c.supporting}</span>
+          <span style="color:var(--red);margin-left:8px;">con=${c.contradicting}</span>
+        </div>
+      </div>`;
+    });
+    html += '</div>';
+  }
+
+  html += '</div>';
+
+  // Prepend to evidence panel
+  el.innerHTML = html + el.innerHTML;
+}
+
 function renderPanel(rpt,suggestions){
   const el=document.getElementById('epScroll');
   const v=rpt.proposal_verdict||'inconclusive';
@@ -843,6 +924,7 @@ async function sendMsg(){
         </div>
       </div>`;
 
+      if(chatData.world_model) renderWorldModel(chatData.world_model);
       addAssistantMsg(thinkingHtml + confHtml + chatData.response,{
         papers:chatData.papers||rpt.top_papers||[],
         evidence_used:chatData.evidence_used||0,
