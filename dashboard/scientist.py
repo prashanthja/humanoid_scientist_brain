@@ -24,7 +24,7 @@ def _client():
 def _model():
     if os.environ.get("TOGETHER_API_KEY",""):
         return "meta-llama/Llama-3.3-70B-Instruct-Turbo"
-    return "llama-3.3-70b-versatile"
+    return "llama-3.1-70b-versatile"
 
 # ── SYSTEM PROMPT — The Scientist Identity ──────────────────
 IDENTITY = """You are Tattva.
