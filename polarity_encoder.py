@@ -8,7 +8,30 @@ import torch
 from transformers import AutoTokenizer, AutoModelForSequenceClassification
 import os
 
-_MODEL_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'models', 'polarity_encoder')
+_LOCAL_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'models', 'polarity_encoder')
+_HF_MODEL_ID = "prashanthja/tattva-1-polarity-encoder"
+
+def _get_model_path():
+    """Use local model if available, else download from Hugging Face."""
+    if os.path.exists(os.path.join(_LOCAL_PATH, 'model.safetensors')):
+        return _LOCAL_PATH
+    # Download from HF (Render deployment)
+    try:
+        from huggingface_hub import snapshot_download
+        import tempfile
+        cache_dir = os.path.join(tempfile.gettempdir(), 'tattva1')
+        os.makedirs(cache_dir, exist_ok=True)
+        path = snapshot_download(
+            repo_id=_HF_MODEL_ID,
+            cache_dir=cache_dir,
+            token=os.environ.get('HF_TOKEN', None)
+        )
+        return path
+    except Exception as e:
+        print(f"HF download failed: {e}")
+        return _LOCAL_PATH
+
+_MODEL_PATH = _get_model_path()
 _tokenizer = None
 _model = None
 _device = None
