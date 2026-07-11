@@ -19,3 +19,5 @@ supabase
 upstash-redis
 groq
 optimum[onnxruntime]
+together==2.22.0
+optimum==1.26.4
