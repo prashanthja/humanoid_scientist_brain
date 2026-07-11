@@ -2473,18 +2473,6 @@ json.dump({{"baseline": base_acc, "improved": imp_acc, "improvement": improvemen
         return jsonify({"error": "Experiment timed out after 90 seconds"})
     except Exception as e:
         return jsonify({"error": str(e)})
-
-@app.route("/api/debug/env")
-def api_debug_env():
-    import os
-    together = os.environ.get('TOGETHER_API_KEY','NOT_SET')
-    groq = os.environ.get('GROQ_API_KEY','NOT_SET')
-    return jsonify({
-        "together_key_set": together != 'NOT_SET',
-        "together_key_prefix": together[:10] if together != 'NOT_SET' else 'none',
-        "groq_key_set": groq != 'NOT_SET',
-        "model": "meta-llama/Llama-3.3-70B-Instruct-Turbo" if together != 'NOT_SET' else "groq-fallback"
-    })
 @app.route("/api/chat", methods=["POST"])
 def api_chat():
     try:
