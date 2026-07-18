@@ -947,6 +947,27 @@ def run_cycle():
 
             log.info("Phase 6: World model update complete")
 
+            # Extract new mechanisms
+            try:
+                from world_model.mechanism_extractor import extract_mechanisms, save_mechanisms, setup_mechanisms_table
+                conn_m = psycopg2.connect(PG_URL, connect_timeout=10)
+                setup_mechanisms_table(conn_m)
+                cur_m = conn_m.cursor()
+                cur_m.execute("""
+                    SELECT canonical_name FROM concept_cells
+                    WHERE lifecycle_state IN ('established','emerging')
+                    AND evidence_count >= 5
+                    ORDER BY evidence_count DESC LIMIT 10
+                """)
+                for (cname,) in cur_m.fetchall():
+                    mechs = extract_mechanisms(conn_m, cname, max_depth=3)
+                    if mechs:
+                        save_mechanisms(conn_m, mechs)
+                conn_m.close()
+                log.info("Mechanisms updated")
+            except Exception as e:
+                log.warning(f"Mechanism extraction failed: {e}")
+
     except Exception as e:
         log.error(f"World model update failed: {e}")
 

@@ -5,6 +5,8 @@ Chain of thought + agentic loop + contradiction reasoning
 import os
 try:
     from world_model.query_engine import world_model_context, format_world_model_prompt
+    from world_model.mechanism_extractor import get_mechanism_for_query, format_mechanism_prompt
+    from world_model.hypothesis_generator import get_hypotheses_for_query, format_hypothesis_prompt
     WORLD_MODEL_ENABLED = True
 except Exception:
     WORLD_MODEL_ENABLED = False
@@ -297,6 +299,30 @@ def chat(query, history, chunks, verdict_data=None,
                 wm_prompt = format_world_model_prompt(query, wm_ctx)
                 if wm_prompt:
                     prompt = prompt + "\n\n" + wm_prompt
+        except Exception:
+            pass
+    # 3c. Inject mechanism chains (Layer 3)
+    if WORLD_MODEL_ENABLED:
+        try:
+            import psycopg2, os
+            conn = psycopg2.connect(os.environ.get('DATABASE_URL',''), connect_timeout=5)
+            mechs = get_mechanism_for_query(conn, query, limit=2)
+            conn.close()
+            if mechs:
+                mech_prompt = format_mechanism_prompt(mechs)
+                prompt = prompt + "\n\n" + mech_prompt
+        except Exception:
+            pass
+    # 3d. Inject novel hypotheses (Layer 4)
+    if WORLD_MODEL_ENABLED:
+        try:
+            import psycopg2, os
+            conn = psycopg2.connect(os.environ.get('DATABASE_URL',''), connect_timeout=5)
+            hyps = get_hypotheses_for_query(conn, query, limit=2)
+            conn.close()
+            if hyps:
+                hyp_prompt = format_hypothesis_prompt(hyps)
+                prompt = prompt + "\n\n" + hyp_prompt
         except Exception:
             pass
 

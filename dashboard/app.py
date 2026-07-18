@@ -1340,12 +1340,18 @@ def api_company_brief():
                    contradicting_count, confidence, domain
             FROM beliefs
             WHERE contradicting_count > 0
-            AND LENGTH(belief_text) > 30
+            AND supporting_count >= 3
+            AND LENGTH(belief_text) > 40
+            AND LENGTH(belief_text) < 200
             AND belief_text NOT LIKE '%does not does not%'
             AND belief_text NOT LIKE '%not mentioned%'
             AND belief_text NOT LIKE '%not applicable%'
-            AND supporting_count >= 2
-            ORDER BY contradicting_count DESC, supporting_count DESC LIMIT 3
+            AND belief_text NOT LIKE '%Creative Commons%'
+            AND belief_text NOT LIKE '%license%'
+            AND belief_text NOT LIKE '%copyright%'
+            AND concept_name NOT IN ('Module','time','age','Intervention')
+            AND domain NOT IN ('unknown','other')
+            ORDER BY (contradicting_count * supporting_count) DESC LIMIT 3
         """)
         threats = [{"concept": r[0], "belief": r[1],
                     "supporting": r[2], "contradicting": r[3],
@@ -1379,6 +1385,11 @@ def api_company_brief():
         cur.execute("""
             SELECT source_concept, relation_type, target_concept, confidence
             FROM causal_relations
+            WHERE LENGTH(source_concept) > 5
+            AND LENGTH(target_concept) > 5
+            AND source_concept NOT IN ('Module','time','age','chaos','it')
+            AND target_concept NOT IN ('Module','time','age','chaos','it')
+            AND source_concept NOT LIKE '%Creative Commons%'
             ORDER BY confidence DESC, evidence_count DESC LIMIT 4
         """)
         causal = [{"from": r[0], "relation": r[1],
