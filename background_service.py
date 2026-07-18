@@ -827,6 +827,129 @@ def run_cycle():
     except Exception as e:
         log.error(f"Hypothesis generation failed: {e}")
 
+
+    # ── Phase 6: World Model Update ───────────────────────
+    log.info("Phase 6: Updating world model from new chunks")
+    _write_status({**read_status(), "phase": "updating world model"})
+    try:
+        import sys
+        sys.path.insert(0, ROOT)
+        import psycopg2
+        from world_model.observation_store import extract_observations, save_observations, setup_observations_table
+        from world_model.concept_formation import run_formation
+        from world_model.belief_engine import extract_belief_simple, upsert_belief
+        from world_model.concept_lifecycle import add_lifecycle_column, compute_state
+        from world_model.causal_graph import setup_causal_graph_table, extract_causal_from_beliefs, save_causal_relations
+
+        PG_URL = os.environ.get("DATABASE_URL", "")
+        if not PG_URL:
+            log.warning("DATABASE_URL not set — skipping world model update")
+        else:
+            # Get newest chunks not yet in world model (limit 50 per cycle)
+            conn = psycopg2.connect(PG_URL, connect_timeout=10)
+            setup_observations_table(conn)
+            setup_causal_graph_table(conn)
+            cur = conn.cursor()
+
+            # Get chunks added in last cycle
+            cur.execute("""
+                SELECT chunk_id, text, domain, paper_title
+                FROM chunks
+                WHERE LENGTH(text) > 100
+                AND chunk_id NOT IN (
+                    SELECT DISTINCT chunk_id FROM observations
+                    WHERE chunk_id IS NOT NULL
+                )
+                ORDER BY RANDOM()
+                LIMIT 50
+            """)
+            new_chunks = cur.fetchall()
+            conn.close()
+
+            log.info(f"  World model: processing {len(new_chunks)} new chunks")
+            total_obs = 0
+
+            for cid, text, domain, title in new_chunks:
+                obs = extract_observations(text, cid, domain or 'ml_ai', title or '')
+                if obs:
+                    try:
+                        conn2 = psycopg2.connect(PG_URL, connect_timeout=10)
+                        saved = save_observations(conn2, obs, cid, domain or 'ml_ai', title or '')
+                        conn2.close()
+                        total_obs += saved
+                    except Exception as e:
+                        log.warning(f"  obs save error: {e}")
+                import time as _time
+                _time.sleep(0.3)
+
+            log.info(f"  World model: {total_obs} new observations extracted")
+
+            # Update concepts for each domain that got new observations
+            if total_obs > 0:
+                domains_updated = set(c[2] for c in new_chunks if c[2])
+                for domain in domains_updated:
+                    try:
+                        run_formation(domain=domain)
+                    except Exception as e:
+                        log.warning(f"  concept formation error ({domain}): {e}")
+
+                # Build beliefs from new observations
+                conn3 = psycopg2.connect(PG_URL, connect_timeout=10)
+                cur3 = conn3.cursor()
+                cur3.execute("""
+                    SELECT subject, predicate, object, conditions, confidence, negated, domain
+                    FROM observations ORDER BY id DESC LIMIT 200
+                """)
+                obs_rows = cur3.fetchall()
+                conn3.close()
+
+                created = updated = 0
+                for row in obs_rows:
+                    obs_d = {'subject':row[0],'predicate':row[1],'object':row[2],
+                             'conditions':row[3],'confidence':row[4],'negated':row[5],'domain':row[6]}
+                    belief = extract_belief_simple(obs_d)
+                    if not belief: continue
+                    try:
+                        conn4 = psycopg2.connect(PG_URL, connect_timeout=10)
+                        status, _ = upsert_belief(conn4, belief['belief'], belief['concept'],
+                                                  belief['observation_type'], row[6],
+                                                  belief.get('confidence', 0.75))
+                        conn4.close()
+                        if status == 'created': created += 1
+                        else: updated += 1
+                    except: pass
+
+                log.info(f"  World model: beliefs created={created} updated={updated}")
+
+                # Update lifecycle
+                try:
+                    conn5 = psycopg2.connect(PG_URL, connect_timeout=10)
+                    add_lifecycle_column(conn5)
+                    cur5 = conn5.cursor()
+                    cur5.execute("SELECT id, evidence_count, confidence_score, contradiction_count FROM concept_cells")
+                    for cid2, ev, conf, contra in cur5.fetchall():
+                        state = compute_state(ev or 1, conf or 0.5, contra or 0)
+                        cur5.execute("UPDATE concept_cells SET lifecycle_state=%s WHERE id=%s", (state, cid2))
+                    conn5.commit()
+                    conn5.close()
+                except Exception as e:
+                    log.warning(f"  lifecycle error: {e}")
+
+                # Update causal graph
+                try:
+                    conn6 = psycopg2.connect(PG_URL, connect_timeout=10)
+                    relations = extract_causal_from_beliefs(conn6)
+                    saved_r, updated_r = save_causal_relations(conn6, relations)
+                    conn6.close()
+                    log.info(f"  World model: causal relations saved={saved_r} updated={updated_r}")
+                except Exception as e:
+                    log.warning(f"  causal graph error: {e}")
+
+            log.info("Phase 6: World model update complete")
+
+    except Exception as e:
+        log.error(f"World model update failed: {e}")
+
     # ── Done ──────────────────────────────────────────────
     total_chunks = _get_chunk_count()
     elapsed      = round(time.time() - start, 1)

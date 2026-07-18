@@ -1324,6 +1324,85 @@ def company_old():
     )
 
 
+
+@app.route("/api/company/brief")
+def api_company_brief():
+    """Overnight brief — real findings for enterprise dashboard."""
+    import psycopg2
+    try:
+        pg_url = os.environ.get("DATABASE_URL","")
+        conn = psycopg2.connect(pg_url)
+        cur = conn.cursor()
+
+        # Get contested/contradicted beliefs — filter noise
+        cur.execute("""
+            SELECT concept_name, belief_text, supporting_count,
+                   contradicting_count, confidence, domain
+            FROM beliefs
+            WHERE contradicting_count > 0
+            AND LENGTH(belief_text) > 30
+            AND belief_text NOT LIKE '%does not does not%'
+            AND belief_text NOT LIKE '%not mentioned%'
+            AND belief_text NOT LIKE '%not applicable%'
+            AND supporting_count >= 2
+            ORDER BY contradicting_count DESC, supporting_count DESC LIMIT 3
+        """)
+        threats = [{"concept": r[0], "belief": r[1],
+                    "supporting": r[2], "contradicting": r[3],
+                    "confidence": round(r[4],2), "domain": r[5]}
+                   for r in cur.fetchall()]
+
+        # Get strongest established concepts — opportunities
+        cur.execute("""
+            SELECT canonical_name, domain, evidence_count,
+                   confidence_score, lifecycle_state
+            FROM concept_cells
+            WHERE lifecycle_state = 'established'
+            ORDER BY evidence_count DESC LIMIT 3
+        """)
+        established = [{"name": r[0], "domain": r[1],
+                        "evidence": r[2], "confidence": round(r[3],2)}
+                       for r in cur.fetchall()]
+
+        # Get emerging concepts — new signals
+        cur.execute("""
+            SELECT canonical_name, domain, evidence_count, confidence_score
+            FROM concept_cells
+            WHERE lifecycle_state = 'emerging'
+            ORDER BY evidence_count DESC LIMIT 3
+        """)
+        emerging = [{"name": r[0], "domain": r[1],
+                     "evidence": r[2], "confidence": round(r[3],2)}
+                    for r in cur.fetchall()]
+
+        # Get cross-domain causal relations
+        cur.execute("""
+            SELECT source_concept, relation_type, target_concept, confidence
+            FROM causal_relations
+            ORDER BY confidence DESC, evidence_count DESC LIMIT 4
+        """)
+        causal = [{"from": r[0], "relation": r[1],
+                   "to": r[2], "confidence": round(r[3],2)}
+                  for r in cur.fetchall()]
+
+        # Stats
+        cur.execute("SELECT COUNT(*) FROM observations")
+        obs = cur.fetchone()[0]
+        cur.execute("SELECT COUNT(*) FROM beliefs WHERE contradicting_count > 0")
+        contested = cur.fetchone()[0]
+
+        conn.close()
+        return jsonify({
+            "threats": threats,
+            "established": established,
+            "emerging": emerging,
+            "causal": causal,
+            "observations": obs,
+            "contested_beliefs": contested
+        })
+    except Exception as e:
+        return jsonify({"error": str(e)})
+
 @app.route("/api/world_model_stats")
 def api_world_model_stats():
     """World model statistics for admin dashboard."""

@@ -2,254 +2,369 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8"/>
-<meta http-equiv="Content-Security-Policy" content="default-src * 'unsafe-inline' 'unsafe-eval' data: blob:;">
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>Tattva AI Enterprise</title>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet"/>
+<meta http-equiv="Content-Security-Policy" content="default-src * 'unsafe-inline' 'unsafe-eval' data: blob:;">
+<title>Tattva — Autonomous Scientist</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;}
 :root{
-  --bg:#020508;--card:#0d1520;--dim:#1a2535;--surface:#080d14;
-  --accent:#0088ff;--accent2:#00c8ff;--white:#ffffff;
-  --text:#c8deff;--muted:#5a7090;--green:#00e676;--red:#ff3d57;--amber:#ffb300;
-  --mono:'JetBrains Mono',monospace;--sans:'Space Grotesk',sans-serif;
+  --bg:#03050a;--surface:#020609;--card:#030d1e;--dim:#0a1525;
+  --border:#0d1a2e;--border2:#1a2a3e;
+  --accent:#1a6cf0;--accent2:#4a9eff;
+  --text:#c8deff;--muted:#4a6080;--dim2:#1e3050;
+  --green:#10b981;--amber:#f59e0b;--red:#ef4444;--purple:#8b5cf6;
+  --mono:'JetBrains Mono',monospace;--sans:'Inter',sans-serif;
 }
-html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);font-family:var(--sans);}
-body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(0,136,255,.007) 3px,rgba(0,136,255,.007) 4px);pointer-events:none;z-index:99998;}
+html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--sans);overflow:hidden;}
 
-/* LOGIN */
+/* ── LOGIN ── */
 #loginScreen{position:fixed;inset:0;z-index:99999;background:var(--bg);display:flex;align-items:center;justify-content:center;}
-.lcard{background:#0d1520;border:1px solid #1a2535;border-radius:14px;padding:40px;width:400px;}
-.lfield{margin-bottom:16px;}
-.lfield label{display:block;font-family:var(--mono);font-size:9px;color:var(--muted);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:6px;}
-.lfield input{width:100%;padding:11px 14px;background:#080d14;border:1px solid #1a2535;border-radius:8px;color:var(--text);font-size:13px;outline:none;transition:border-color .2s;}
-.lfield input:focus{border-color:var(--accent);}
-.lbtn{width:100%;padding:12px;background:var(--accent);color:#000;border:none;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;margin-top:8px;}
-.lerr{background:rgba(255,61,87,.08);border:1px solid rgba(255,61,87,.2);border-radius:8px;padding:10px 14px;font-size:12px;color:var(--red);margin-top:12px;display:none;}
+.login-card{background:var(--card);border:0.5px solid var(--border2);border-radius:16px;padding:40px;width:360px;}
+.login-logo{font-size:11px;color:var(--muted);letter-spacing:3px;margin-bottom:6px;}
+.login-title{font-size:20px;font-weight:500;color:var(--text);margin-bottom:4px;}
+.login-sub{font-size:12px;color:var(--muted);margin-bottom:28px;}
+.login-field{margin-bottom:14px;}
+.login-field label{display:block;font-size:10px;color:var(--muted);letter-spacing:1px;margin-bottom:5px;}
+.login-field input{width:100%;background:var(--bg);border:0.5px solid var(--border2);border-radius:8px;padding:10px 12px;color:var(--text);font-size:13px;outline:none;font-family:var(--sans);}
+.login-field input:focus{border-color:var(--accent);}
+.login-btn{width:100%;padding:11px;background:var(--accent);color:#fff;border:none;border-radius:8px;font-size:13px;font-weight:500;cursor:pointer;margin-top:6px;}
+.login-btn:hover{background:#1560d8;}
+.login-err{color:var(--red);font-size:11px;margin-top:8px;display:none;}
+.login-help{font-size:11px;color:var(--muted);text-align:center;margin-top:16px;}
+.login-help a{color:var(--accent);}
 
-/* OS OVERLAY */
-#osScreen{position:fixed;inset:0;z-index:99990;background:#020508;display:none;flex-direction:column;align-items:center;justify-content:center;gap:24px;transition:opacity 0.8s ease;}
-#osScreen.active{display:flex;}
-#osLabel{font-family:var(--mono);font-size:9px;letter-spacing:4px;color:rgba(0,136,255,0.3);}
-#osText{font-size:15px;font-weight:300;color:rgba(220,235,255,0.9);text-align:center;max-width:420px;line-height:1.7;min-height:44px;padding:0 20px;}
-#osInputRow{display:flex;gap:10px;align-items:center;}
-#osField{background:rgba(255,255,255,0.05);border:1px solid rgba(0,136,255,0.2);border-radius:24px;padding:11px 20px;color:rgba(220,235,255,0.9);font-size:13px;font-family:var(--sans);outline:none;width:260px;}
-.osbtn{width:42px;height:42px;border-radius:50%;border:1px solid rgba(0,136,255,0.3);background:rgba(0,136,255,0.08);color:rgba(0,136,255,0.8);font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;}
-#osHint{font-family:var(--mono);font-size:9px;color:rgba(0,136,255,0.2);letter-spacing:2px;}
-#osSkip{position:absolute;top:20px;right:20px;background:none;border:1px solid rgba(0,136,255,0.15);border-radius:20px;color:rgba(0,136,255,0.35);font-size:11px;padding:6px 14px;cursor:pointer;font-family:var(--mono);}
+/* ── SHELL ── */
+#shell{display:none;height:100vh;flex-direction:column;}
+#shell.active{display:flex;}
 
-/* DASHBOARD */
-#dashboard{display:none;height:100vh;overflow:hidden;flex-direction:row;}
-#dashboard.active{display:flex;}
-.sidebar{width:220px;background:var(--surface);border-right:1px solid var(--dim);display:flex;flex-direction:column;flex-shrink:0;}
-.sidebar-logo{padding:20px 16px;border-bottom:1px solid var(--dim);display:flex;align-items:center;gap:10px;}
-.logo-hex{width:32px;height:32px;background:rgba(0,136,255,.1);border:1.5px solid var(--accent);clip-path:polygon(50% 0%,100% 25%,100% 75%,50% 100%,0% 75%,0% 25%);display:flex;align-items:center;justify-content:center;font-size:14px;color:var(--accent);}
-.logo-name{font-family:var(--mono);font-size:12px;font-weight:600;color:var(--white);letter-spacing:2px;}
-.logo-tag{font-family:var(--mono);font-size:9px;color:var(--muted);}
-.nav{flex:1;padding:12px 0;overflow-y:auto;}
-.nav-section{font-family:var(--mono);font-size:8px;color:var(--muted);letter-spacing:2px;padding:12px 16px 4px;text-transform:uppercase;}
-.nav-item{padding:8px 16px;font-size:13px;color:var(--text);cursor:pointer;transition:all .15s;border-radius:0;}
-.nav-item:hover{background:rgba(0,136,255,.06);color:var(--white);}
-.nav-item.active{background:rgba(0,136,255,.1);color:var(--accent2);border-left:2px solid var(--accent);}
-.nav-badge{font-size:9px;padding:1px 5px;border-radius:10px;margin-left:6px;font-family:var(--mono);}
-.nav-badge.green{background:rgba(0,230,118,.15);color:var(--green);}
-.nav-badge.amber{background:rgba(255,179,0,.15);color:var(--amber);}
-.nav-badge.red{background:rgba(255,61,87,.15);color:var(--red);}
-.sidebar-footer{padding:12px 16px;border-top:1px solid var(--dim);display:flex;gap:6px;}
-.sidebar-footer button{flex:1;padding:8px;background:var(--surface);border:1px solid var(--dim);border-radius:6px;color:var(--muted);font-size:11px;cursor:pointer;}
-.main{flex:1;display:flex;flex-direction:column;overflow:hidden;}
-.topbar{height:52px;background:var(--surface);border-bottom:1px solid var(--dim);display:flex;align-items:center;padding:0 24px;gap:16px;flex-shrink:0;}
-.tb-title{font-family:var(--mono);font-size:10px;letter-spacing:2px;color:var(--muted);text-transform:uppercase;flex:1;}
-.tb-btn{padding:6px 14px;border-radius:6px;border:1px solid var(--dim);background:transparent;color:var(--text);font-size:12px;cursor:pointer;}
-.tb-btn.primary{background:var(--accent);color:#000;border-color:var(--accent);}
-.content{flex:1;overflow-y:auto;padding:24px;}
-.pane{display:none;}
-.pane.active{display:block;}
+/* ── TOPBAR ── */
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:12px 20px;border-bottom:0.5px solid var(--border);flex-shrink:0;z-index:20;}
+.topbar-logo{font-size:12px;font-weight:500;color:#c0d8f0;letter-spacing:3px;}
+.topbar-logo span{color:var(--accent);}
+.topbar-back{display:none;align-items:center;gap:6px;font-size:11px;color:var(--accent);cursor:pointer;padding:4px 10px;border:0.5px solid var(--border2);border-radius:20px;background:var(--card);}
+.topbar-back:hover{background:var(--dim);}
+.topbar-status{display:flex;align-items:center;gap:6px;font-size:10px;color:#5a80a0;}
+.status-dot{width:5px;height:5px;border-radius:50%;background:var(--accent);animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:.3;}}
+.topbar-company{font-size:10px;color:#6090b0;background:#080f1e;border:0.5px solid #1a3050;padding:3px 10px;border-radius:20px;}
 
-/* DISCOVERY SCREEN */
-#discoveryScreen{position:fixed;inset:0;z-index:9990;background:var(--bg);display:none;flex-direction:column;padding:60px 40px 40px;overflow-y:auto;}
-#discoveryScreen.active{display:flex;}
-#discBack{position:fixed;top:18px;left:18px;z-index:9991;padding:7px 14px;border-radius:20px;border:1px solid rgba(0,136,255,0.2);background:rgba(2,5,8,0.9);color:rgba(0,136,255,0.6);font-size:11px;font-family:var(--mono);cursor:pointer;}
-#discGrid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;width:100%;max-width:900px;margin:0 auto;}
-.discCard{background:var(--card);border:1px solid var(--dim);border-radius:12px;padding:20px;opacity:0;transform:translateY(16px);transition:all 0.4s ease;}
-.discCard.show{opacity:1;transform:translateY(0);}
-.discCard.confirmed{border-left:3px solid var(--green);}
-.discCard.untested{border-left:3px solid var(--amber);}
-.dLabel{font-family:var(--mono);font-size:8px;letter-spacing:2px;color:var(--accent2);margin-bottom:8px;}
-.dText{font-size:13px;color:rgba(200,220,255,0.85);line-height:1.6;margin-bottom:12px;}
-.dMeta{font-size:10px;color:var(--muted);font-family:var(--mono);margin-bottom:10px;}
-.dBtn{padding:7px 16px;border-radius:6px;border:1px solid rgba(0,136,255,0.3);background:rgba(0,136,255,0.1);color:rgba(200,220,255,0.9);font-size:11px;cursor:pointer;font-family:var(--mono);}
+/* ── SCENE ── */
+.scene{flex:1;position:relative;overflow:hidden;min-height:400px;}
 
-/* THINKING */
-#thinkOverlay{position:fixed;inset:0;z-index:9985;background:rgba(2,5,8,0.88);display:none;align-items:center;justify-content:center;flex-direction:column;gap:16px;backdrop-filter:blur(4px);}
-#thinkOverlay.on{display:flex;}
-#thinkTxt{font-family:var(--mono);font-size:11px;color:rgba(0,136,255,0.5);letter-spacing:2px;}
+/* ── HOME VIEW ── */
+#homeView{position:absolute;inset:0;transition:transform .55s cubic-bezier(.4,0,.2,1),opacity .55s;transform-origin:center;}
+#homeView.zoom-ul{transform:scale(5) translate(-18%,-18%);opacity:0;pointer-events:none;}
+#homeView.zoom-u{transform:scale(5) translateY(-25%);opacity:0;pointer-events:none;}
+#homeView.zoom-ur{transform:scale(5) translate(18%,-18%);opacity:0;pointer-events:none;}
+#homeView.zoom-r{transform:scale(5) translateX(25%);opacity:0;pointer-events:none;}
+#homeView.zoom-dr{transform:scale(5) translate(18%,18%);opacity:0;pointer-events:none;}
+#homeView.zoom-l{transform:scale(5) translateX(-25%);opacity:0;pointer-events:none;}
 
-/* VOICE ORB - mini */
-#miniOrb{position:fixed;bottom:20px;right:20px;z-index:9980;display:none;flex-direction:column;align-items:flex-end;gap:8px;}
-#miniOrb.show{display:flex;}
-#miniText{max-width:240px;background:rgba(2,5,8,0.95);border:1px solid rgba(0,136,255,0.2);border-radius:10px;padding:8px 12px;font-size:12px;color:var(--text);line-height:1.6;display:none;}
-.mic-on{background:rgba(255,50,50,0.15)!important;border-color:rgba(255,50,50,0.5)!important;color:rgba(255,100,100,0.9)!important;}
+/* ── ORB ── */
+#orbWrap{position:absolute;cursor:pointer;}
+#orbCanvas{display:block;}
+#orbLabel{display:none;}
 
-/* PORTFOLIO */
-.port-table{width:100%;border-collapse:collapse;}
-.port-table th{font-family:var(--mono);font-size:9px;color:var(--muted);letter-spacing:1px;text-align:left;padding:8px 4px;border-bottom:1px solid var(--dim);}
-.port-table td{padding:10px 4px;font-size:13px;border-bottom:1px solid rgba(26,37,53,0.5);}
-.verdict-pill{padding:3px 8px;border-radius:4px;font-size:10px;font-family:var(--mono);}
-.v-strong{background:rgba(0,230,118,.1);color:var(--green);}
-.v-moderate{background:rgba(0,136,255,.1);color:var(--accent2);}
-.v-mixed{background:rgba(255,179,0,.1);color:var(--amber);}
-.v-limited,.v-inconclusive{background:rgba(255,61,87,.1);color:var(--red);}
-.risk-badge{padding:2px 6px;border-radius:3px;font-size:9px;font-family:var(--mono);}
-.risk-badge.low{background:rgba(0,230,118,.08);color:var(--green);}
-.risk-badge.medium{background:rgba(255,179,0,.08);color:var(--amber);}
-.risk-badge.high{background:rgba(255,61,87,.08);color:var(--red);}
-.inv-btn{padding:5px 12px;border-radius:4px;border:1px solid var(--dim);background:transparent;color:var(--text);font-size:11px;cursor:pointer;}
-.inv-btn:hover{border-color:var(--accent);color:var(--accent);}
+/* ── SVG LINES ── */
+#svgLines{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;}
+
+/* ── CAP NODES ── */
+.cap-node{position:absolute;cursor:pointer;transition:transform .15s;}
+.cap-node:hover{transform:scale(1.06);}
+.cap-node:hover .cnode-card{border-color:#1a6cf0;background:#0d1e38;box-shadow:0 0 30px rgba(26,108,240,0.15);}
+.cap-node:hover .cnode-icon{color:#4a9eff;}
+.cap-node:hover .cnode-arrow{color:#1a6cf0;}
+.cnode-card{background:#080f1e;border:0.5px solid #1e3a5e;border-radius:12px;padding:14px 16px;width:160px;transition:all .2s;box-shadow:0 0 24px rgba(26,108,240,0.08);}
+.cnode-icon{font-size:22px;color:#4a9eff;margin-bottom:8px;transition:color .2s;}
+.cnode-title{font-size:12px;font-weight:600;color:#d0e8ff;margin-bottom:4px;}
+.cnode-desc{font-size:11px;color:#7090b0;line-height:1.5;}
+.cnode-arrow{font-size:9px;color:#2a70a0;margin-top:5px;transition:color .2s;font-family:var(--mono);}
+
+/* ── BRIEF STRIP ── */
+.brief-strip{position:absolute;right:0;top:0;bottom:0;width:220px;border-left:0.5px solid var(--border);background:var(--surface);padding:16px;display:flex;flex-direction:column;gap:2px;}
+.bs-title{font-size:9px;color:#3a6090;letter-spacing:2px;margin-bottom:8px;font-family:var(--mono);}
+.bs-item{padding:8px 0;border-bottom:0.5px solid var(--border);}
+.bs-item:last-child{border-bottom:none;}
+.bs-row{display:flex;gap:7px;align-items:flex-start;}
+.bs-dot{width:5px;height:5px;border-radius:50%;flex-shrink:0;margin-top:3px;}
+.bs-text{font-size:10px;color:#90b0d0;line-height:1.5;}
+.bs-act{font-size:9px;color:#2a70c0;margin-top:3px;cursor:pointer;font-family:var(--mono);}
+.bs-act:hover{color:var(--accent);}
+
+/* ── CAP VIEWS ── */
+.cap-view{position:absolute;inset:0;display:flex;flex-direction:column;opacity:0;transform:scale(.25);transition:transform .45s cubic-bezier(.4,0,.2,1),opacity .45s;pointer-events:none;background:var(--bg);}
+.cap-view.active{opacity:1;transform:scale(1);pointer-events:all;}
+.cv-header{padding:16px 20px;border-bottom:0.5px solid var(--border);display:flex;align-items:center;gap:14px;flex-shrink:0;}
+.cv-icon{font-size:22px;color:var(--accent);}
+.cv-title{font-size:15px;font-weight:500;color:var(--text);}
+.cv-sub{font-size:11px;color:var(--muted);margin-top:2px;}
+.cv-body{flex:1;padding:18px 20px;overflow-y:auto;display:flex;gap:16px;}
+.cv-main{flex:1;display:flex;flex-direction:column;gap:12px;}
+.cv-side{width:190px;flex-shrink:0;display:flex;flex-direction:column;gap:10px;}
+.cv-card{background:var(--card);border:0.5px solid var(--border);border-radius:8px;padding:14px;}
+.cv-label{font-size:9px;color:var(--dim2);letter-spacing:1px;margin-bottom:8px;font-family:var(--mono);}
+.cv-card-title{font-size:12px;color:var(--muted);line-height:1.5;margin-bottom:6px;}
+.cv-card-body{font-size:11px;color:var(--dim2);line-height:1.6;}
+.cv-tag{display:inline-block;padding:2px 7px;border-radius:3px;font-size:9px;margin:2px 2px 2px 0;font-family:var(--mono);}
+.cv-tag.blue{background:#0a1e3a;color:#4a8eff;}
+.cv-tag.green{background:#0a1e10;color:#2a9a60;}
+.cv-tag.amber{background:#1e1200;color:#c07010;}
+.cv-action{background:var(--card);border:0.5px solid var(--border2);border-radius:8px;padding:10px 14px;font-size:11px;color:var(--dim2);cursor:pointer;display:flex;justify-content:space-between;align-items:center;transition:all .2s;}
+.cv-action:hover{border-color:var(--accent);color:var(--accent2);background:var(--dim);}
+.cv-row{display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:0.5px solid var(--border);font-size:11px;}
+.cv-row:last-child{border-bottom:none;}
+.cv-row-label{color:var(--muted);}
+.cv-row-val{color:var(--text);font-family:var(--mono);font-size:10px;}
+.cv-input-row{display:flex;gap:8px;align-items:center;margin-top:8px;}
+.cv-input{flex:1;background:var(--bg);border:0.5px solid var(--border2);border-radius:20px;padding:8px 14px;font-size:11px;color:var(--text);outline:none;font-family:var(--sans);}
+.cv-input::placeholder{color:var(--dim2);}
+.cv-btn{background:var(--dim);border:0.5px solid var(--border2);border-radius:20px;padding:8px 16px;font-size:11px;color:var(--accent2);cursor:pointer;white-space:nowrap;}
+.cv-btn:hover{background:var(--accent);color:#fff;}
+.cv-response{background:var(--dim);border-left:2px solid var(--accent);border-radius:0 6px 6px 0;padding:10px 14px;font-size:11px;color:var(--muted);line-height:1.7;margin-top:8px;}
+
+/* ── SCIENTIST VIEW ── */
+#cv-scientist{position:absolute;inset:0;display:flex;flex-direction:column;opacity:0;transform:scale(.25);transition:transform .45s cubic-bezier(.4,0,.2,1),opacity .45s;pointer-events:none;background:var(--bg);}
+#cv-scientist.active{opacity:1;transform:scale(1);pointer-events:all;}
+.sci-messages{flex:1;overflow-y:auto;padding:20px;display:flex;flex-direction:column;gap:12px;}
+.sci-msg-user{align-self:flex-end;background:var(--accent);color:#fff;padding:10px 14px;border-radius:12px 2px 12px 12px;font-size:12px;max-width:70%;line-height:1.6;}
+.sci-msg-ai{align-self:flex-start;background:var(--card);border:0.5px solid var(--border);padding:12px 14px;border-radius:2px 12px 12px 12px;font-size:12px;color:var(--text);max-width:80%;line-height:1.7;}
+.sci-msg-ai .sci-label{font-size:9px;color:var(--accent);letter-spacing:1px;font-family:var(--mono);margin-bottom:6px;}
+.sci-bottom{padding:14px 20px;border-top:0.5px solid var(--border);display:flex;gap:8px;}
+.sci-textarea{flex:1;background:var(--card);border:0.5px solid var(--border2);border-radius:10px;padding:10px 14px;color:var(--text);font-size:12px;font-family:var(--sans);outline:none;resize:none;height:44px;}
+.sci-textarea:focus{border-color:var(--accent);}
+.sci-send{padding:10px 20px;border-radius:10px;border:none;background:var(--accent);color:#fff;font-size:12px;cursor:pointer;font-weight:500;}
+.sci-send:hover{background:#1560d8;}
+
+/* ── BOTTOM BAR ── */
+.bottom-bar{padding:12px 20px;border-top:0.5px solid var(--border);display:flex;gap:8px;z-index:20;flex-shrink:0;}
+.bb-input{flex:1;background:var(--card);border:0.5px solid var(--border2);border-radius:20px;padding:9px 16px;font-size:12px;color:var(--text);outline:none;font-family:var(--sans);}
+.bb-input::placeholder{color:var(--dim2);}
+.bb-input:focus{border-color:var(--accent);}
+.bb-mic{width:36px;height:36px;border-radius:50%;background:var(--card);border:0.5px solid var(--border2);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--muted);font-size:14px;flex-shrink:0;}
+.bb-mic:hover{border-color:var(--accent);color:var(--accent);}
+.bb-send{background:var(--accent);border:none;border-radius:20px;padding:9px 18px;font-size:12px;color:#fff;cursor:pointer;font-weight:500;}
+.bb-send:hover{background:#1560d8;}
+
+.toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:var(--card);border:0.5px solid var(--border2);border-left:2px solid var(--accent);border-radius:0 8px 8px 0;padding:10px 16px;font-size:11px;color:var(--muted);z-index:999;display:none;max-width:500px;line-height:1.6;}
 </style>
 </head>
 <body>
 
 <!-- LOGIN -->
 <div id="loginScreen">
-  <div class="lcard">
-    <div style="display:flex;align-items:center;gap:12px;margin-bottom:28px;">
-      <div style="font-size:22px;color:var(--accent);">&#9672;</div>
-      <div>
-        <div style="font-family:var(--mono);font-size:13px;font-weight:600;color:var(--white);letter-spacing:2px;">TATTVA AI</div>
-        <div style="font-family:var(--mono);font-size:9px;color:var(--muted);">Enterprise</div>
+  <div class="login-card">
+    <div class="login-logo">◈ TATTVA AI</div>
+    <div class="login-title">Autonomous Scientist</div>
+    <div class="login-sub">Sign in to your research OS</div>
+    <div class="login-field"><label>COMPANY ID</label><input type="text" id="loginId" placeholder="your-company-id" onkeydown="if(event.key==='Enter')doLogin()"/></div>
+    <div class="login-field"><label>PASSWORD</label><input type="password" id="loginPwd" placeholder="password" onkeydown="if(event.key==='Enter')doLogin()"/></div>
+    <button class="login-btn" onclick="doLogin()">Sign in</button>
+    <div class="login-err" id="loginErr">Invalid credentials. Contact sales@tattvaai.org</div>
+    <div class="login-help">No access? <a href="mailto:sales@tattvaai.org">sales@tattvaai.org</a></div>
+  </div>
+</div>
+
+<!-- SHELL -->
+<div id="shell">
+  <div class="topbar">
+    <div class="topbar-logo">T<span>A</span>TTVA</div>
+    <div class="topbar-back" id="topbarBack" onclick="goHome()">← Overview</div>
+    <div class="topbar-company" id="topbarCompany"></div>
+    <div class="topbar-status"><div class="status-dot"></div><span id="statusText">Autonomous scientist · active</span></div>
+  </div>
+
+  <div class="scene" id="scene">
+    <svg id="svgLines"></svg>
+
+    <!-- HOME VIEW -->
+    <div id="homeView">
+      <div id="orbWrap">
+        <canvas id="orbCanvas"></canvas>
+        <div id="orbLabel">TATTVA · AUTONOMOUS SCIENTIST</div>
+      </div>
+      <div id="capNodes"></div>
+      <div class="brief-strip" id="briefStrip">
+        <div class="bs-title">OVERNIGHT BRIEF</div>
+        <div id="briefItems">
+          <div class="bs-item"><div class="bs-row"><div class="bs-dot" style="background:#1a6cf0;"></div><div><div class="bs-text">Loading overnight findings...</div></div></div></div>
+        </div>
       </div>
     </div>
-    <div style="font-size:18px;font-weight:600;color:var(--white);margin-bottom:4px;">Sign in</div>
-    <div style="font-size:12px;color:var(--muted);margin-bottom:24px;">Access your autonomous research scientist</div>
-    <div class="lfield"><label>Company ID</label><input type="text" id="loginId" placeholder="your-company-id"/></div>
-    <div class="lfield"><label>Password</label><input type="password" id="loginPwd" placeholder="password" onkeydown="if(event.key==='Enter')doLogin()"/></div>
-    <button class="lbtn" onclick="doLogin()">Sign In</button>
-    <div class="lerr" id="loginErr">Invalid credentials. Contact sales@tattvaai.org</div>
-    <div style="margin-top:20px;text-align:center;font-size:11px;color:var(--muted);">No access? <a href="mailto:sales@tattvaai.org" style="color:var(--accent);">sales@tattvaai.org</a></div>
-  </div>
-</div>
 
-<!-- THINKING -->
-<div id="thinkOverlay">
-  <canvas id="thinkCanvas" width="80" height="80"></canvas>
-  <div id="thinkTxt">ANALYZING...</div>
-</div>
-
-<!-- MINI ORB -->
-<div id="miniOrb">
-  <div id="miniText"></div>
-  <div style="display:flex;gap:8px;align-items:center;">
-    <button id="miniMic" class="osbtn" onclick="micToggle()" style="width:32px;height:32px;font-size:13px;">&#127908;</button>
-    <canvas id="miniCanvas" width="44" height="44" style="cursor:pointer;border-radius:50%;" onclick="showOSScreen()"></canvas>
-  </div>
-</div>
-
-<!-- OS SCREEN -->
-<div id="osScreen">
-  <div id="osLabel">TATTVA &middot; AUTONOMOUS SCIENTIST</div>
-  <canvas id="osOrb" width="220" height="220" style="cursor:pointer;" onclick="osBrief()"></canvas>
-  <div id="osText">Initializing...</div>
-  <div id="osInputRow">
-    <button id="osMic" class="osbtn" onclick="micToggle()">&#127908;</button>
-    <input id="osField" placeholder="ask anything or say a command..." onkeydown="if(event.key==='Enter'){var v=this.value;this.value='';osCommand(v);}"/>
-    <button class="osbtn" style="width:auto;padding:0 16px;border-radius:24px;" onclick="var i=document.getElementById('osField');var v=i.value;i.value='';osCommand(v);">&#8594;</button>
-  </div>
-  <div id="osHint">CLICK ORB &middot; SPEAK &middot; OR TYPE &middot; ESC TO SKIP</div>
-  <button id="osSkip" onclick="showDashboard()">SKIP &#8594;</button>
-</div>
-
-<!-- DISCOVERY SCREEN -->
-<div id="discoveryScreen">
-  <button id="discBack" onclick="showDashboard()">&#8592; DASHBOARD</button>
-  <div style="text-align:center;margin-bottom:32px;">
-    <div id="discTitle" style="font-size:28px;font-weight:600;color:var(--white);margin-bottom:6px;">Overnight Discoveries</div>
-    <div id="discSub" style="font-size:11px;font-family:var(--mono);color:var(--muted);letter-spacing:1px;">AUTONOMOUS CROSS-DOMAIN ANALYSIS</div>
-  </div>
-  <div id="discGrid"></div>
-</div>
-
-<!-- DASHBOARD -->
-<div id="dashboard" style="display:none;">
-  <div class="sidebar">
-    <div class="sidebar-logo">
-      <div class="logo-hex">&#9672;</div>
-      <div>
-        <div class="logo-name">TATTVA AI</div>
-        <div class="logo-tag" id="companyTag">Enterprise</div>
+    <!-- CAP VIEWS -->
+    <div class="cap-view" id="cv-corpus">
+      <div class="cv-header"><div class="cv-icon">◎</div><div><div class="cv-title">Read my research</div><div class="cv-sub">Connect your papers, notes, and data sources</div></div></div>
+      <div class="cv-body">
+        <div class="cv-main">
+          <div class="cv-card">
+            <div class="cv-label">CONNECTED SOURCES</div>
+            <div class="cv-row"><span class="cv-row-label">arXiv · public literature</span><span class="cv-row-val" style="color:var(--green);">338,000 indexed</span></div>
+            <div class="cv-row"><span class="cv-row-label">Your private corpus</span><span class="cv-row-val" style="color:var(--dim2);">Not connected</span></div>
+            <div class="cv-row"><span class="cv-row-label">Lab notebooks</span><span class="cv-row-val" style="color:var(--dim2);">Not connected</span></div>
+          </div>
+          <div class="cv-card">
+            <div class="cv-label">UPLOAD PRIVATE PAPERS</div>
+            <div style="border:0.5px dashed var(--border2);border-radius:6px;padding:24px;text-align:center;cursor:pointer;" id="uploadZone">
+              <div style="font-size:24px;color:var(--dim2);margin-bottom:8px;">↑</div>
+              <div style="font-size:12px;color:var(--muted);">Drop PDFs here or click to browse</div>
+              <div style="font-size:10px;color:var(--dim2);margin-top:4px;">Private — visible only to your team</div>
+              <input type="file" accept=".pdf" multiple style="display:none;" id="pdfUpload"/>
+            </div>
+          </div>
+        </div>
+        <div class="cv-side">
+          <div class="cv-card">
+            <div class="cv-label">WHAT I KNOW ABOUT YOU</div>
+            <div class="cv-card-body" id="corpusProfile">Upload your papers and I will learn your research context, methods, and open questions automatically.</div>
+          </div>
+          <div class="cv-action" onclick="askScientist('What should I upload to help you understand my research better?')"><span>Ask what to upload</span><span>→</span></div>
+        </div>
       </div>
     </div>
-    <div class="nav">
-      <div class="nav-section">Intelligence</div>
-      <div class="nav-item active" onclick="goPane('scientist')">&#128302; Research Scientist</div>
-      <div class="nav-item" onclick="goPane('portfolio')">&#128202; Portfolio Health</div>
-      <div class="nav-item" onclick="showDiscoveryScreen()">&#128269; Discoveries <span class="nav-badge amber" id="discBadge">0</span></div>
-      <div class="nav-item" onclick="goPane('experiments')">&#129514; Experiment Designer</div>
-      <div class="nav-section">Settings</div>
-      <div class="nav-item" onclick="showOSScreen()" style="font-size:12px;opacity:0.6;">&#9672; Tattva OS</div>
-    </div>
-    <div class="sidebar-footer">
-      <button onclick="showOSScreen()">&#9672; OS</button>
-      <button onclick="window.location='/app'">&#8599; App</button>
-    </div>
-  </div>
-  <div class="main">
-    <div class="topbar">
-      <span class="tb-title" id="tbTitle">RESEARCH SCIENTIST</span>
-      <button class="tb-btn" onclick="micToggle()">&#127908; Voice</button>
-      <button class="tb-btn primary" onclick="showDiscoveryScreen()">&#128269; Discoveries</button>
-    </div>
-    <div class="content">
 
-      <!-- SCIENTIST PANE -->
-      <div class="pane active" id="pane-scientist">
-        <div style="max-width:800px;margin:0 auto;">
-          <div id="sciMessages" style="min-height:200px;margin-bottom:20px;display:flex;flex-direction:column;gap:14px;"></div>
-          <div style="display:flex;gap:10px;">
-            <textarea id="sciInput" placeholder="Ask a research question..." style="flex:1;background:var(--card);border:1px solid var(--dim);border-radius:10px;padding:12px 16px;color:var(--text);font-size:13px;font-family:var(--sans);outline:none;resize:none;height:52px;" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sciSend();}"></textarea>
-            <button onclick="sciSend()" style="padding:12px 20px;border-radius:10px;border:none;background:var(--accent);color:#000;font-size:13px;cursor:pointer;font-weight:500;">Send</button>
+    <div class="cap-view" id="cv-discoveries">
+      <div class="cv-header"><div class="cv-icon">◈</div><div><div class="cv-title">Autonomous discoveries</div><div class="cv-sub">Cross-domain connections found while you sleep</div></div></div>
+      <div class="cv-body">
+        <div class="cv-main" id="discMain">
+          <div class="cv-card"><div class="cv-label">LOADING</div><div class="cv-card-body">Fetching discoveries from world model...</div></div>
+        </div>
+        <div class="cv-side">
+          <div class="cv-card">
+            <div class="cv-label">WORLD MODEL</div>
+            <div class="cv-row"><span class="cv-row-label">Observations</span><span class="cv-row-val" id="dm-obs">—</span></div>
+            <div class="cv-row"><span class="cv-row-label">Concepts</span><span class="cv-row-val" id="dm-con">—</span></div>
+            <div class="cv-row"><span class="cv-row-label">Contradictions</span><span class="cv-row-val" id="dm-ctr" style="color:var(--red);">—</span></div>
+          </div>
+          <div class="cv-action" onclick="askScientist('What are the most surprising cross-domain discoveries this week?')"><span>Ask about discoveries</span><span>→</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="cap-view" id="cv-experiment">
+      <div class="cv-header"><div class="cv-icon">⬡</div><div><div class="cv-title">Design experiment</div><div class="cv-sub">Full protocol — dataset, metrics, controls, baselines, statistical tests</div></div></div>
+      <div class="cv-body">
+        <div class="cv-main">
+          <div class="cv-card">
+            <div class="cv-label">WHAT DO YOU WANT TO TEST?</div>
+            <div class="cv-input-row">
+              <input class="cv-input" id="expInput" placeholder="Describe your hypothesis or research question..."/>
+              <div class="cv-btn" onclick="generateExperiment()">Design →</div>
+            </div>
+          </div>
+          <div class="cv-card" id="expOutput" style="display:none;">
+            <div class="cv-label">GENERATED PROTOCOL</div>
+            <div id="expContent" class="cv-card-body"></div>
+          </div>
+        </div>
+        <div class="cv-side">
+          <div class="cv-card">
+            <div class="cv-label">QUICK START</div>
+            <div class="cv-action" style="margin-bottom:6px;" onclick="document.getElementById('expInput').value='Test if synaptic consolidation reduces MoE routing instability';generateExperiment()"><span style="font-size:10px;">Test top discovery</span><span>→</span></div>
+            <div class="cv-action" onclick="document.getElementById('expInput').value='Test if LoRA rank scheduling outperforms fixed rank';generateExperiment()"><span style="font-size:10px;">Test top hypothesis</span><span>→</span></div>
+          </div>
+          <div class="cv-action" onclick="openView('cv-simulation')"><span>Simulate first</span><span>→</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="cap-view" id="cv-simulation">
+      <div class="cv-header"><div class="cv-icon">▷</div><div><div class="cv-title">Run simulation</div><div class="cv-sub">Predict outcomes before spending compute or budget</div></div></div>
+      <div class="cv-body">
+        <div class="cv-main">
+          <div class="cv-card">
+            <div class="cv-label">WHAT DO YOU WANT TO SIMULATE?</div>
+            <div class="cv-input-row">
+              <input class="cv-input" id="simInput" placeholder="Describe the experiment or hypothesis..."/>
+              <div class="cv-btn" onclick="runSimulation()">Simulate →</div>
+            </div>
+          </div>
+          <div class="cv-card" id="simOutput" style="display:none;">
+            <div class="cv-label">SIMULATION RESULT</div>
+            <div id="simContent" class="cv-card-body"></div>
+          </div>
+        </div>
+        <div class="cv-side">
+          <div class="cv-card">
+            <div class="cv-label">HOW THIS WORKS</div>
+            <div class="cv-card-body">Uses 906 causal relations and 23K observations. Traverses causal graph to predict outcomes. Not a trained simulator — uses known equations and causal relationships.</div>
+          </div>
+          <div class="cv-action" onclick="openView('cv-experiment')"><span>Design real experiment</span><span>→</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="cap-view" id="cv-hypotheses">
+      <div class="cv-header"><div class="cv-icon">◇</div><div><div class="cv-title">Generate hypotheses</div><div class="cv-sub">Novel untested ideas from causal graph traversal</div></div></div>
+      <div class="cv-body">
+        <div class="cv-main">
+          <div class="cv-card">
+            <div class="cv-label">YOUR RESEARCH AREA</div>
+            <div class="cv-input-row">
+              <input class="cv-input" id="hypInput" placeholder="e.g. continual learning, MoE routing, LoRA..."/>
+              <div class="cv-btn" onclick="generateHypotheses()">Generate →</div>
+            </div>
+          </div>
+          <div id="hypOutput"></div>
+        </div>
+        <div class="cv-side">
+          <div class="cv-card">
+            <div class="cv-label">HOW HYPOTHESES ARE FOUND</div>
+            <div class="cv-card-body">I find A→B and B→C causal chains where A→C has never been directly tested in any paper. The connection is real but the test is missing.</div>
           </div>
         </div>
       </div>
-
-      <!-- PORTFOLIO PANE -->
-      <div class="pane" id="pane-portfolio">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
-          <div>
-            <div style="font-size:18px;font-weight:600;color:var(--white);">Portfolio Health</div>
-            <div style="font-size:11px;color:var(--muted);margin-top:2px;font-family:var(--mono);">Evidence strength across research directions</div>
-          </div>
-          <button class="inv-btn" onclick="loadPortfolio()">&#8635; Refresh</button>
-        </div>
-        <table class="port-table">
-          <thead><tr><th>Direction</th><th>Verdict</th><th>Confidence</th><th>Trend</th><th>Risk</th><th>Action</th></tr></thead>
-          <tbody id="portBody"><tr><td colspan="6" style="padding:40px;text-align:center;color:var(--muted);">Click Refresh to load portfolio</td></tr></tbody>
-        </table>
-      </div>
-
-      <!-- EXPERIMENTS PANE -->
-      <div class="pane" id="pane-experiments">
-        <div style="font-size:18px;font-weight:600;color:var(--white);margin-bottom:20px;">Experiment Designer</div>
-        <div id="expContent" style="color:var(--muted);padding:40px;text-align:center;">Ask the Research Scientist to design an experiment</div>
-      </div>
-
     </div>
+
+    <div class="cap-view" id="cv-methods">
+      <div class="cv-header"><div class="cv-icon">⊕</div><div><div class="cv-title">Find methods</div><div class="cv-sub">Techniques from other fields that solve your open problems</div></div></div>
+      <div class="cv-body">
+        <div class="cv-main">
+          <div class="cv-card">
+            <div class="cv-label">WHAT PROBLEM ARE YOU TRYING TO SOLVE?</div>
+            <div class="cv-input-row">
+              <input class="cv-input" id="methInput" placeholder="Describe your open problem or challenge..."/>
+              <div class="cv-btn" onclick="findMethods()">Find methods →</div>
+            </div>
+          </div>
+          <div id="methOutput"></div>
+        </div>
+        <div class="cv-side">
+          <div class="cv-card">
+            <div class="cv-label">EXAMPLE</div>
+            <div class="cv-card-body" style="color:var(--muted);">"How do we evaluate model calibration without ground truth labels?" → Tattva finds climate attribution techniques that solve this cross-domain.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SCIENTIST CHAT VIEW -->
+    <div id="cv-scientist">
+      <div class="cv-header"><div class="cv-icon">🔬</div><div><div class="cv-title">Scientific investigation</div><div class="cv-sub">Ask anything — I reason from 338K papers, not from memory</div></div></div>
+      <div class="sci-messages" id="sciMessages">
+        <div class="sci-msg-ai"><div class="sci-label">TATTVA</div>What would you like to investigate? I can read real papers, find contradictions, trace causal chains, and reason about your specific research questions.</div>
+      </div>
+      <div class="sci-bottom">
+        <textarea class="sci-textarea" id="sciInput" placeholder="Ask a research question..." onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sciSend();}"></textarea>
+        <button class="sci-send" onclick="sciSend()">Send</button>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="bottom-bar">
+    <div class="bb-mic" id="micBtn" onclick="micToggle()">🎤</div>
+    <input class="bb-input" id="bbInput" placeholder="Ask your scientist anything, or tell me what to work on..." onkeydown="if(event.key==='Enter')bbSend()"/>
+    <button class="bb-send" onclick="bbSend()">Ask →</button>
   </div>
 </div>
+
+<div class="toast" id="toast"></div>
 
 <script>
-var companyId = '';
-var companyName = '';
-var allDiscoveries = [];
-var chatHistory = [];
-var SPK = false;
-var LIS = false;
-var REC = null;
-
-// ── SPHERE ────────────────────────────────────────────────
 var DOTS = (function(){
   var pts = [], R = 14;
-  for(var i = 0; i <= R; i++){
+  for(var i = 0; i <= R*2; i++){
     var phi = Math.PI*i/R, y = Math.cos(phi), r = Math.sin(phi);
     var c = Math.max(1, Math.round(R*r));
     for(var j = 0; j < c; j++){
@@ -259,7 +374,97 @@ var DOTS = (function(){
   }
   return pts;
 })();
-var TT = 0, RY = 0, RX = 0.38;
+
+var companyId = '';
+var companyName = '';
+var sciHistory = [];
+var selectedDomains = [];
+var currentDiscoveries = [];
+var activeView = 'home';
+
+function doLogin(){
+  // Unlock audio on user gesture
+  window.speechSynthesis.cancel();
+  var unlock = new SpeechSynthesisUtterance('.');
+  unlock.volume = 0;
+  window.speechSynthesis.speak(unlock);
+  var cid = document.getElementById('loginId').value.trim();
+  var pwd = document.getElementById('loginPwd').value.trim();
+  var err = document.getElementById('loginErr');
+  err.style.display = 'none';
+  if(!cid || !pwd){ err.style.display = 'block'; err.textContent = 'Enter company ID and password.'; return; }
+  fetch('/api/company/login', {
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({company_id:cid, password:pwd})
+  }).then(function(r){ return r.json(); }).then(function(d){
+    if(d.success || d.company_id){
+      companyId = d.company_id || cid;
+      companyName = d.company_name || d.name || cid;
+      document.getElementById('topbarCompany').textContent = companyName;
+      document.getElementById('loginScreen').style.display = 'none';
+      goPane('home');
+      window.speechSynthesis.getVoices();
+      checkOnboarding(companyId);
+    } else {
+      err.style.display = 'block';
+      err.textContent = d.error || 'Invalid credentials.';
+    }
+  }).catch(function(){
+    // Demo mode
+    companyId = cid; companyName = cid;
+    var ct = document.getElementById('topbarCompany'); if(ct) ct.textContent = cid;
+    document.getElementById('loginScreen').style.display = 'none';
+    window.speechSynthesis.getVoices();
+    checkOnboarding(companyId);
+  });
+}
+
+function sciSend(){
+  var inp = document.getElementById('sciInput');
+  if(!inp) return;
+  var q = inp.value.trim();
+  if(!q) return;
+  inp.value = '';
+  addSciMsg('user', q);
+  sciHistory.push({role:'user', content:q});
+  // Check for special commands
+  var t = q.toLowerCase();
+  if(t.match(/discover|found|overnight/)){
+    showDiscoveryScreen(); return;
+  }
+  thinking('ANALYZING EVIDENCE...', true);
+  fetch('/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({query:q,history:sciHistory,researcher_id:companyId})})
+  .then(function(r){ return r.json(); }).then(function(d){
+    thinking('',false);
+    var resp = d.response || 'No response';
+    addSciMsg('ai', resp);
+    sciHistory.push({role:'assistant', content:resp});
+  }).catch(function(e){ thinking('',false); addSciMsg('ai','Error: '+e.message); });
+}
+
+function speak(text, cb){
+  if(!window.speechSynthesis){ if(cb) cb(); return; }
+  window.speechSynthesis.cancel();
+  SPK = true; setOSText(text);
+  var sentences = text.match(/[^.!?]+[.!?]+/g) || [text];
+  var idx = 0;
+  function next(){
+    if(idx >= sentences.length){ SPK = false; if(cb) cb(); return; }
+    var u = new SpeechSynthesisUtterance(sentences[idx].trim().replace(/[*#]/g,''));
+    u.rate = 0.88; u.pitch = 0.95; u.volume = 1.0; u.lang = 'en-US';
+    var vs = window.speechSynthesis.getVoices();
+    var v = vs.find(function(v){ return v.name === 'Samantha'; }) ||
+            vs.find(function(v){ return v.lang === 'en-US'; });
+    if(v) u.voice = v;
+    u.onend = function(){ idx++; setTimeout(next, 100); };
+    u.onerror = function(){ idx++; setTimeout(next, 100); };
+    window.speechSynthesis.speak(u);
+  }
+  if(window.speechSynthesis.getVoices().length === 0){
+    window.speechSynthesis.onvoiceschanged = next;
+  } else { next(); }
+}
 
 function drawSphere(cv, R){
   if(!cv) return;
@@ -291,201 +496,20 @@ function drawSphere(cv, R){
     ctx.fill();
   });
 }
-function tick(){
-  drawSphere(document.getElementById('osOrb'), 90);
-  drawSphere(document.getElementById('miniCanvas'), 18);
-  drawSphere(document.getElementById('thinkCanvas'), 32);
-  TT++; requestAnimationFrame(tick);
+
+function addSciMsg(role, text){
+  var msgs = document.getElementById('sciMessages');
+  if(!msgs) return;
+  var div = document.createElement('div');
+  var isUser = role === 'user';
+  div.style.cssText = 'display:flex;gap:10px;align-items:flex-start;'+(isUser?'flex-direction:row-reverse;':'');
+  div.innerHTML = '<div style="width:28px;height:28px;border-radius:50%;background:'+(isUser?'rgba(0,102,255,.2)':'rgba(0,136,255,.1)')+';border:1px solid '+(isUser?'rgba(0,102,255,.3)':'rgba(0,136,255,.2)')+';display:flex;align-items:center;justify-content:center;font-size:11px;color:'+(isUser?'#0066ff':'var(--accent)')+';flex-shrink:0;">'+(isUser?'U':'&#9672;')+'</div>' +
+    '<div style="max-width:80%;"><div style="padding:10px 14px;'+(isUser?'background:var(--accent);color:#000;':'background:var(--card);border:1px solid var(--dim);color:var(--text);')+'border-radius:10px;font-size:13px;line-height:1.7;">'+text+'</div></div>';
+  msgs.appendChild(div);
+  msgs.scrollTop = msgs.scrollHeight;
+  if(role === 'ai') speak(text.substring(0,200).replace(/<[^>]*>/g,''));
 }
 
-// ── VOICE ─────────────────────────────────────────────────
-function setOSText(t){
-  var e = document.getElementById('osText');
-  var m = document.getElementById('miniText');
-  if(e) e.textContent = t;
-  if(m){ m.textContent = t; m.style.display = t ? 'block' : 'none'; }
-}
-
-function speak(text, cb){
-  if(!window.speechSynthesis){ if(cb) cb(); return; }
-  window.speechSynthesis.cancel();
-  SPK = true; setOSText(text);
-  var sentences = text.match(/[^.!?]+[.!?]+/g) || [text];
-  var idx = 0;
-  function next(){
-    if(idx >= sentences.length){ SPK = false; if(cb) cb(); return; }
-    var u = new SpeechSynthesisUtterance(sentences[idx].trim().replace(/[*#]/g,''));
-    u.rate = 0.88; u.pitch = 0.95; u.volume = 1.0; u.lang = 'en-US';
-    var vs = window.speechSynthesis.getVoices();
-    var v = vs.find(function(v){ return v.name === 'Samantha'; }) ||
-            vs.find(function(v){ return v.lang === 'en-US'; });
-    if(v) u.voice = v;
-    u.onend = function(){ idx++; setTimeout(next, 100); };
-    u.onerror = function(){ idx++; setTimeout(next, 100); };
-    window.speechSynthesis.speak(u);
-  }
-  if(window.speechSynthesis.getVoices().length === 0){
-    window.speechSynthesis.onvoiceschanged = next;
-  } else { next(); }
-}
-
-function micToggle(){
-  window.speechSynthesis.cancel(); SPK = false;
-  if(LIS){ if(REC) REC.stop(); LIS = false; return; }
-  var SR = window.SpeechRecognition || window.webkitSpeechRecognition;
-  if(!SR){ speak('Voice not supported. Try Chrome.'); return; }
-  REC = new SR(); REC.continuous = false; REC.interimResults = false; REC.lang = 'en-US';
-  REC.onstart = function(){
-    LIS = true;
-    document.querySelectorAll('#osMic,#miniMic').forEach(function(b){ b.classList.add('mic-on'); });
-    setOSText('Listening...');
-  };
-  REC.onresult = function(e){
-    var t = e.results[0][0].transcript;
-    setOSText('You said: "'+t+'"');
-    setTimeout(function(){ osCommand(t); }, 300);
-  };
-  REC.onend = function(){
-    LIS = false;
-    document.querySelectorAll('#osMic,#miniMic').forEach(function(b){ b.classList.remove('mic-on'); });
-  };
-  REC.onerror = function(){
-    LIS = false;
-    document.querySelectorAll('#osMic,#miniMic').forEach(function(b){ b.classList.remove('mic-on'); });
-  };
-  REC.start();
-}
-
-// ── SCREENS ───────────────────────────────────────────────
-function showOSScreen(){
-  document.getElementById('osScreen').classList.add('active');
-  document.getElementById('dashboard').classList.remove('active');
-  document.getElementById('discoveryScreen').classList.remove('active');
-  document.getElementById('miniOrb').classList.remove('show');
-}
-function showDashboard(){
-  // No sidebar dashboard - go back to OS screen
-  document.getElementById('osScreen').classList.add('active');
-  document.getElementById('discoveryScreen').classList.remove('active');
-  document.getElementById('miniOrb').classList.remove('show');
-  window.speechSynthesis.cancel();
-}
-function showDiscoveryScreen(){
-  document.getElementById('osScreen').classList.remove('active');
-  document.getElementById('dashboard').classList.remove('active');
-  document.getElementById('discoveryScreen').classList.add('active');
-  document.getElementById('miniOrb').classList.add('show');
-  loadDiscoveries();
-}
-
-function thinking(msg, on){
-  document.getElementById('thinkTxt').textContent = msg || 'ANALYZING...';
-  document.getElementById('thinkOverlay').classList.toggle('on', on);
-}
-
-// ── LOGIN ─────────────────────────────────────────────────
-function doLogin(){
-  // Unlock audio on user gesture
-  window.speechSynthesis.cancel();
-  var unlock = new SpeechSynthesisUtterance('.');
-  unlock.volume = 0;
-  window.speechSynthesis.speak(unlock);
-  var cid = document.getElementById('loginId').value.trim();
-  var pwd = document.getElementById('loginPwd').value.trim();
-  var err = document.getElementById('loginErr');
-  err.style.display = 'none';
-  if(!cid || !pwd){ err.style.display = 'block'; err.textContent = 'Enter company ID and password.'; return; }
-  fetch('/api/company/login', {
-    method:'POST', headers:{'Content-Type':'application/json'},
-    body: JSON.stringify({company_id:cid, password:pwd})
-  }).then(function(r){ return r.json(); }).then(function(d){
-    if(d.success || d.company_id){
-      companyId = d.company_id || cid;
-      companyName = d.company_name || d.name || cid;
-      document.getElementById('companyTag').textContent = companyName;
-      document.getElementById('loginScreen').style.display = 'none';
-      window.speechSynthesis.getVoices();
-      checkOnboarding(companyId);
-    } else {
-      err.style.display = 'block';
-      err.textContent = d.error || 'Invalid credentials.';
-    }
-  }).catch(function(){
-    // Demo mode
-    companyId = cid; companyName = cid;
-    document.getElementById('companyTag').textContent = cid;
-    document.getElementById('loginScreen').style.display = 'none';
-    window.speechSynthesis.getVoices();
-    checkOnboarding(companyId);
-  });
-}
-
-// ── OS COMMANDS ───────────────────────────────────────────
-function osBrief(){
-  // Must start speech synchronously on user click for autoplay policy
-  window.speechSynthesis.cancel();
-  var u = new SpeechSynthesisUtterance('.');
-  u.volume = 0;
-  window.speechSynthesis.speak(u);
-  if(allDiscoveries.length > 0){
-    var d = allDiscoveries[0];
-    speak(
-      'Good morning. I found '+allDiscoveries.length+' discover'+(allDiscoveries.length===1?'y':'ies')+' overnight. '+
-      'The most promising connects '+d.from_domain+' to machine learning via '+d.mechanism+'. '+
-      'Novelty score '+d.novelty_score+'. Say show discoveries or run discovery 1.',
-      function(){ setTimeout(showDiscoveryScreen, 500); }
-    );
-  } else {
-    thinking('CHECKING PORTFOLIO...', true);
-    fetch('/api/run_research',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({query:'LoRA MoE efficiency recent findings'})})
-    .then(function(r){ return r.json(); }).then(function(d){
-      thinking('', false);
-      var conf = Math.round((d.proposal_confidence||0.5)*100);
-      speak('Good morning. I monitored the literature overnight. Your portfolio shows '+conf+
-        ' percent confidence. No new discoveries yet. What would you like to investigate?');
-    }).catch(function(){ thinking('',false); speak('Good morning. I am ready. What would you like to investigate?'); });
-  }
-}
-
-function osCommand(text){
-  var t = text.toLowerCase().trim();
-  if(!t) return;
-  if(t.match(/^(open |play |call |music |youtube |chrome |maps )/)){
-    speak('I investigate science, not apps. Ask me a research question.'); return;
-  }
-  if(t.match(/skip|dismiss|dashboard|enter/)) return showDashboard();
-  if(t.match(/discover|found|overnight|new finding|what did you find/)){
-    speak('Let me show you what I found.');
-    setTimeout(showDiscoveryScreen, 1200); return;
-  }
-  if(t.match(/portfolio|health/)){
-    showDashboard();
-    setTimeout(function(){ goPane('portfolio'); loadPortfolio(); speak('Opening your portfolio health.'); }, 900); return;
-  }
-  if(t.match(/brief|morning/)) return osBrief();
-  if(t.match(/run experiment|test this|test hypothesis|run test/)){runExperiment(lastHypothesis,'');return;}
-  if(t.match(/run discovery ?(\d+)/)){
-    var m = t.match(/run discovery ?(\d+)/);
-    var n = parseInt(m[1]) - 1;
-    if(allDiscoveries[n]){ showDiscoveryScreen(); setTimeout(function(){ runDiscovery(allDiscoveries[n].id, n); }, 600); }
-    return;
-  }
-  // Research question
-  speak('Let me investigate that for you.', function(){
-    showDashboard();
-    setTimeout(function(){
-      goPane('scientist');
-      setTimeout(function(){
-        var inp = document.getElementById('sciInput');
-        if(inp){ inp.value = text; sciSend(); }
-      }, 400);
-    }, 900);
-  });
-}
-
-document.addEventListener('keydown', function(e){ if(e.key==='Escape') showDashboard(); });
-
-// ── DISCOVERIES ───────────────────────────────────────────
 function loadDiscoveries(){
   fetch('/api/discoveries').then(function(r){ return r.json(); }).then(function(d){
     allDiscoveries = d.discoveries || [];
@@ -531,6 +555,75 @@ function renderDiscoveries(){
     'Click Run Experiment to test it, or say run discovery 1.');
 }
 
+function sciAsk(text){
+  goPane('scientist');
+  var inp = document.getElementById('sciInput');
+  if(inp){ inp.value = text; sciSend(); }
+}
+
+function unlockAudio(){
+  if(audioUnlocked) return;
+  audioUnlocked = true;
+  var u = new SpeechSynthesisUtterance('');
+  u.volume = 0;
+  window.speechSynthesis.speak(u);
+  window.speechSynthesis.cancel();
+  document.removeEventListener('click', unlockAudio);
+}
+
+function micToggle(){
+  window.speechSynthesis.cancel(); SPK = false;
+  if(LIS){ if(REC) REC.stop(); LIS = false; return; }
+  var SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if(!SR){ speak('Voice not supported. Try Chrome.'); return; }
+  REC = new SR(); REC.continuous = false; REC.interimResults = false; REC.lang = 'en-US';
+  REC.onstart = function(){
+    LIS = true;
+    document.querySelectorAll('#osMic,#miniMic').forEach(function(b){ b.classList.add('mic-on'); });
+    setOSText('Listening...');
+  };
+  REC.onresult = function(e){
+    var t = e.results[0][0].transcript;
+    setOSText('You said: "'+t+'"');
+    setTimeout(function(){ osCommand(t); }, 300);
+  };
+  REC.onend = function(){
+    LIS = false;
+    document.querySelectorAll('#osMic,#miniMic').forEach(function(b){ b.classList.remove('mic-on'); });
+  };
+  REC.onerror = function(){
+    LIS = false;
+    document.querySelectorAll('#osMic,#miniMic').forEach(function(b){ b.classList.remove('mic-on'); });
+  };
+  REC.start();
+}
+
+function osBrief(){
+  // Must start speech synchronously on user click for autoplay policy
+  window.speechSynthesis.cancel();
+  var u = new SpeechSynthesisUtterance('.');
+  u.volume = 0;
+  window.speechSynthesis.speak(u);
+  if(allDiscoveries.length > 0){
+    var d = allDiscoveries[0];
+    speak(
+      'Good morning. I found '+allDiscoveries.length+' discover'+(allDiscoveries.length===1?'y':'ies')+' overnight. '+
+      'The most promising connects '+d.from_domain+' to machine learning via '+d.mechanism+'. '+
+      'Novelty score '+d.novelty_score+'. Say show discoveries or run discovery 1.',
+      function(){ setTimeout(showDiscoveryScreen, 500); }
+    );
+  } else {
+    thinking('CHECKING PORTFOLIO...', true);
+    fetch('/api/run_research',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({query:'LoRA MoE efficiency recent findings'})})
+    .then(function(r){ return r.json(); }).then(function(d){
+      thinking('', false);
+      var conf = Math.round((d.proposal_confidence||0.5)*100);
+      speak('Good morning. I monitored the literature overnight. Your portfolio shows '+conf+
+        ' percent confidence. No new discoveries yet. What would you like to investigate?');
+    }).catch(function(){ thinking('',false); speak('Good morning. I am ready. What would you like to investigate?'); });
+  }
+}
+
 function runDiscovery(id, idx){
   var disc = allDiscoveries.find(function(d){ return d.id===id; }) || allDiscoveries[idx];
   if(!disc) return;
@@ -558,159 +651,40 @@ function runDiscoveryEngine(){
   }).catch(function(){ thinking('',false); speak('Discovery engine finished. Refreshing.'); loadDiscoveries(); });
 }
 
-// ── DASHBOARD ─────────────────────────────────────────────
-var PANE_TITLES = {scientist:'RESEARCH SCIENTIST',portfolio:'PORTFOLIO HEALTH',experiments:'EXPERIMENT DESIGNER'};
-
-function goPane(id){
-  // Show as full screen discovery screen style
-  if(id === 'portfolio'){
-    showFullScreen('portfolio');
-  } else if(id === 'scientist'){
-    showFullScreen('scientist');
-  } else {
-    showFullScreen(id);
-  }
-}
-
-function showFullScreen(id){
-  document.getElementById('osScreen').classList.remove('active');
-  document.getElementById('discoveryScreen').classList.remove('active');
-  document.getElementById('miniOrb').classList.add('show');
-  // Show the pane fullscreen
-  document.querySelectorAll('.fullpane').forEach(function(p){ p.style.display='none'; });
-  var p = document.getElementById('fullpane-'+id);
-  if(p){ p.style.display='flex'; }
-  if(id === 'portfolio') setTimeout(loadPortfolio, 100);
-}
-
-// ── SCIENTIST ─────────────────────────────────────────────
-var sciHistory = [];
-function addSciMsg(role, text){
-  var msgs = document.getElementById('sciMessages');
-  if(!msgs) return;
-  var div = document.createElement('div');
-  var isUser = role === 'user';
-  div.style.cssText = 'display:flex;gap:10px;align-items:flex-start;'+(isUser?'flex-direction:row-reverse;':'');
-  div.innerHTML = '<div style="width:28px;height:28px;border-radius:50%;background:'+(isUser?'rgba(0,102,255,.2)':'rgba(0,136,255,.1)')+';border:1px solid '+(isUser?'rgba(0,102,255,.3)':'rgba(0,136,255,.2)')+';display:flex;align-items:center;justify-content:center;font-size:11px;color:'+(isUser?'#0066ff':'var(--accent)')+';flex-shrink:0;">'+(isUser?'U':'&#9672;')+'</div>' +
-    '<div style="max-width:80%;"><div style="padding:10px 14px;'+(isUser?'background:var(--accent);color:#000;':'background:var(--card);border:1px solid var(--dim);color:var(--text);')+'border-radius:10px;font-size:13px;line-height:1.7;">'+text+'</div></div>';
-  msgs.appendChild(div);
-  msgs.scrollTop = msgs.scrollHeight;
-  if(role === 'ai') speak(text.substring(0,200).replace(/<[^>]*>/g,''));
-}
-
-function sciSend(){
-  var inp = document.getElementById('sciInput');
-  if(!inp) return;
-  var q = inp.value.trim();
-  if(!q) return;
-  inp.value = '';
-  addSciMsg('user', q);
-  sciHistory.push({role:'user', content:q});
-  // Check for special commands
-  var t = q.toLowerCase();
-  if(t.match(/discover|found|overnight/)){
-    showDiscoveryScreen(); return;
-  }
-  thinking('ANALYZING EVIDENCE...', true);
-  fetch('/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},
-    body:JSON.stringify({query:q,history:sciHistory,researcher_id:companyId})})
-  .then(function(r){ return r.json(); }).then(function(d){
-    thinking('',false);
-    var resp = d.response || 'No response';
-    addSciMsg('ai', resp);
-    sciHistory.push({role:'assistant', content:resp});
-  }).catch(function(e){ thinking('',false); addSciMsg('ai','Error: '+e.message); });
-}
-
-// ── PORTFOLIO ─────────────────────────────────────────────
-var DIRS = [
-  {name:'LoRA Optimization',query:'Does LoRA reduce fine-tuning cost and memory?'},
-  {name:'MoE Routing Efficiency',query:'Does mixture of experts improve LLM efficiency?'},
-  {name:'FlashAttention Speed',query:'Does FlashAttention improve training speed?'},
-  {name:'KV Cache Compression',query:'Does KV cache compression reduce memory without quality loss?'},
-  {name:'Speculative Decoding',query:'Does speculative decoding speed up LLM inference?'},
-  {name:'INT4 Quantization',query:'Does INT4 quantization preserve model quality?'},
-];
-
-function loadPortfolio(){
-  var tbody = document.getElementById('portBody');
-  if(!tbody) return;
-  tbody.innerHTML = '<tr><td colspan="6" style="padding:20px;text-align:center;color:var(--muted);">Loading...</td></tr>';
-  var results = [];
-  var done = 0;
-  DIRS.forEach(function(d, i){
-    fetch('/api/run_research',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({query:d.query})})
-    .then(function(r){ return r.json(); }).then(function(data){
-      results[i] = {name:d.name, query:d.query, data:data};
-      done++;
-      if(done === DIRS.length) renderPortfolio(results);
-    }).catch(function(){
-      results[i] = {name:d.name, query:d.query, data:{}};
-      done++;
-      if(done === DIRS.length) renderPortfolio(results);
-    });
+function checkOnboarding(cid) {
+  fetch('/api/company/profile?company_id=' + cid)
+  .then(r => r.json())
+  .then(d => {
+    if(!d.onboarded) {
+      setTimeout(showOnboarding, 800);
+    } else {
+      goPane('home');
+      if(d.profile) window.companyProfile = d.profile;
+      // Trigger welcome after sphere loads
+      setTimeout(function(){
+        fetch('/api/discoveries').then(r=>r.json()).then(function(disc){
+          allDiscoveries = disc.discoveries || [];
+          var badge = document.getElementById('discBadge');
+          if(badge) badge.textContent = allDiscoveries.length;
+          if(allDiscoveries.length > 0){
+            speak('Welcome back '+companyName+'. I found '+allDiscoveries.length+' discover'+(allDiscoveries.length===1?'y':'ies')+' overnight. Click the orb for details.');
+          } else {
+            speak('Welcome back '+companyName+'. I am ready to investigate. Click the orb for your morning brief, or ask me anything.');
+          }
+        }).catch(function(){
+          speak('Welcome back '+companyName+'. I am ready. Click the orb or ask me anything.');
+        });
+      }, 800);
+    }
+  })
+  .catch(function(){
+    goPane('home');
+    setTimeout(function(){ speak('Welcome. I am ready to investigate.'); }, 800);
   });
-}
-
-function renderPortfolio(results){
-  var tbody = document.getElementById('portBody');
-  tbody.innerHTML = results.map(function(r){
-    var v = (r.data.proposal_verdict||'inconclusive').toLowerCase();
-    var conf = ((r.data.proposal_confidence||0.5)*100).toFixed(0);
-    var drift = (r.data.drift&&r.data.drift.direction)||'stable';
-    var vc = v.includes('strong')?'v-strong':v.includes('moderate')?'v-moderate':v.includes('mixed')?'v-mixed':'v-limited';
-    var risk = v==='inconclusive'?'high':v.includes('mixed')?'medium':'low';
-    var tIcon = drift==='strengthening'?'&#8593;':drift==='weakening'?'&#8595;':'&#8594;';
-    return '<tr>' +
-      '<td style="font-weight:500;color:var(--white);">'+r.name+'</td>' +
-      '<td><span class="verdict-pill '+vc+'">'+v.replace('_',' ')+'</span></td>' +
-      '<td style="font-family:var(--mono);font-size:12px;">'+conf+'%</td>' +
-      '<td style="font-size:14px;">'+tIcon+' <span style="font-size:10px;color:var(--muted);">'+drift+'</span></td>' +
-      '<td><span class="risk-badge '+risk+'">'+risk.toUpperCase()+'</span></td>' +
-      '<td><button class="inv-btn" onclick="sciAsk(this.dataset.q)" data-q="'+r.query.replace(/"/g,"&quot;")+'">Investigate</button></td>' +
-      '</tr>';
-  }).join('');
-}
-
-function sciAsk(text){
-  goPane('scientist');
-  var inp = document.getElementById('sciInput');
-  if(inp){ inp.value = text; sciSend(); }
-}
-
-// ── BOOT ──────────────────────────────────────────────────
-// Unlock Web Speech API on first user interaction
-var audioUnlocked = false;
-document.addEventListener('click', function unlockAudio(){
-  if(audioUnlocked) return;
-  audioUnlocked = true;
-  var u = new SpeechSynthesisUtterance('');
-  u.volume = 0;
-  window.speechSynthesis.speak(u);
-  window.speechSynthesis.cancel();
-  document.removeEventListener('click', unlockAudio);
-}, true);
-
-
-var selectedDomains = [];
-
-function toggleDomain(btn, domain) {
-  if(btn.classList.contains('selected')) {
-    btn.classList.remove('selected');
-    selectedDomains = selectedDomains.filter(d => d !== domain);
-  } else {
-    btn.classList.add('selected');
-    selectedDomains.push(domain);
-  }
 }
 
 function showOnboarding() {
   document.getElementById('onboardingScreen').style.display = 'flex';
-}
-
-function skipOnboarding() {
-  document.getElementById('onboardingScreen').style.display = 'none';
-  showOSScreen();
 }
 
 function saveOnboarding() {
@@ -732,237 +706,453 @@ function saveOnboarding() {
     })
   }).then(r => r.json()).then(d => {
     document.getElementById('onboardingScreen').style.display = 'none';
-    showOSScreen();
+    goPane('home');
     speak('Profile saved. I now know what your team researches. I will monitor these domains overnight and report back in the morning.');
   });
 }
 
-// Check if company needs onboarding after login
-function checkOnboarding(cid) {
-  fetch('/api/company/profile?company_id=' + cid)
-  .then(r => r.json())
-  .then(d => {
-    if(!d.onboarded) {
-      setTimeout(showOnboarding, 800);
-    } else {
-      showOSScreen();
-      if(d.profile) window.companyProfile = d.profile;
-      // Trigger welcome after sphere loads
-      setTimeout(function(){
-        fetch('/api/discoveries').then(r=>r.json()).then(function(disc){
-          allDiscoveries = disc.discoveries || [];
-          var badge = document.getElementById('discBadge');
-          if(badge) badge.textContent = allDiscoveries.length;
-          if(allDiscoveries.length > 0){
-            speak('Welcome back '+companyName+'. I found '+allDiscoveries.length+' discover'+(allDiscoveries.length===1?'y':'ies')+' overnight. Click the orb for details.');
-          } else {
-            speak('Welcome back '+companyName+'. I am ready to investigate. Click the orb for your morning brief, or ask me anything.');
-          }
-        }).catch(function(){
-          speak('Welcome back '+companyName+'. I am ready. Click the orb or ask me anything.');
-        });
-      }, 800);
+function skipOnboarding() {
+  document.getElementById('onboardingScreen').style.display = 'none';
+  goPane('home');
+}
+
+function toggleDomain(btn, domain) {
+  if(btn.classList.contains('selected')) {
+    btn.classList.remove('selected');
+    selectedDomains = selectedDomains.filter(d => d !== domain);
+  } else {
+    btn.classList.add('selected');
+    selectedDomains.push(domain);
+  }
+}
+
+// ── NEW FUNCTIONS ────────────────────────────────────────
+
+function goHome() {
+  document.querySelectorAll('.cap-view').forEach(function(v){ v.classList.remove('active'); });
+  document.getElementById('cv-scientist').classList.remove('active');
+  var hv = document.getElementById('homeView');
+  hv.className = '';
+  document.getElementById('topbarBack').style.display = 'none';
+  activeView = 'home';
+}
+
+function openView(id, zoomDir) {
+  var hv = document.getElementById('homeView');
+  if (zoomDir) hv.className = 'zoom-' + zoomDir;
+  else hv.className = 'zoom-u';
+  setTimeout(function() {
+    document.querySelectorAll('.cap-view').forEach(function(v){ v.classList.remove('active'); });
+    document.getElementById('cv-scientist').classList.remove('active');
+    var el = document.getElementById(id);
+    if (el) el.classList.add('active');
+  }, 280);
+  document.getElementById('topbarBack').style.display = 'flex';
+  activeView = id;
+  if (id === 'cv-discoveries') setTimeout(loadDiscoveryView, 350);
+}
+
+function askScientist(q) {
+  openView('cv-scientist', 'u');
+  setTimeout(function() {
+    document.getElementById('sciInput').value = q;
+    sciSend();
+  }, 400);
+}
+
+function bbSend() {
+  var inp = document.getElementById('bbInput');
+  var val = inp.value.trim();
+  if (!val) return;
+  inp.value = '';
+  openView('cv-scientist', 'u');
+  setTimeout(function() {
+    document.getElementById('sciInput').value = val;
+    sciSend();
+  }, 400);
+}
+
+function showToast(msg, dur) {
+  var t = document.getElementById('toast');
+  t.textContent = msg;
+  t.style.display = 'block';
+  setTimeout(function() { t.style.display = 'none'; }, dur || 4000);
+}
+
+async function loadDiscoveryView() {
+  try {
+    var r1 = await fetch('/api/company/brief');
+    var d1 = await r1.json();
+    var r2 = await fetch('/api/world_model_stats');
+    var d2 = await r2.json();
+
+    var set = function(id, v) { var e = document.getElementById(id); if(e) e.textContent = v; };
+    set('dm-obs', (d2.observations||0).toLocaleString());
+    set('dm-con', (d2.concepts||0).toLocaleString());
+    set('dm-ctr', (d1.contested_beliefs||0).toLocaleString());
+
+    var main = document.getElementById('discMain');
+    if (!main) return;
+
+    // Store questions globally to avoid onclick string issues
+    window._discQuestions = [];
+
+    function makeRow(title, sub, question) {
+      var idx = window._discQuestions.length;
+      window._discQuestions.push(question);
+      return '<div style="padding:8px 0;border-bottom:0.5px solid var(--border);">' +
+        '<div style="font-size:12px;color:#90b0d0;margin-bottom:3px;">' + title + '</div>' +
+        '<div style="font-size:10px;color:#3a5070;margin-bottom:6px;">' + sub + '</div>' +
+        '<div class="cv-action" onclick="askScientist(window._discQuestions[' + idx + '])">' +
+        '<span style="font-size:10px;">Investigate</span><span>&#8594;</span></div>' +
+        '</div>';
     }
-  })
-  .catch(function(){
-    showOSScreen();
-    setTimeout(function(){ speak('Welcome. I am ready to investigate.'); }, 800);
-  });
+
+    var html = '';
+
+    if (d1.causal && d1.causal.length > 0) {
+      html += '<div class="cv-card" style="margin-bottom:12px;"><div class="cv-label">CROSS-DOMAIN CAUSAL CONNECTIONS</div>';
+      d1.causal.forEach(function(c) {
+        html += makeRow(
+          (c.from||'').slice(0,35) + ' &rarr; [' + (c.relation||'') + '] &rarr; ' + (c.to||'').slice(0,35),
+          'confidence=' + (c.confidence||0) + ' &middot; cross-domain discovery',
+          'How does ' + (c.from||'') + ' relate to ' + (c.to||'') + ' and what does this mean for research?'
+        );
+      });
+      html += '</div>';
+    }
+
+    if (d1.established && d1.established.length > 0) {
+      html += '<div class="cv-card" style="margin-bottom:12px;"><div class="cv-label">ESTABLISHED KNOWLEDGE</div>';
+      d1.established.forEach(function(c) {
+        html += makeRow(
+          (c.name||''),
+          (c.domain||'') + ' &middot; evidence=' + (c.evidence||0) + ' &middot; conf=' + (c.confidence||0),
+          'Tell me everything about ' + (c.name||'') + ' and its cross-domain implications'
+        );
+      });
+      html += '</div>';
+    }
+
+    if (d1.emerging && d1.emerging.length > 0) {
+      html += '<div class="cv-card"><div class="cv-label">EMERGING SIGNALS</div>';
+      d1.emerging.forEach(function(e2) {
+        html += makeRow(
+          (e2.name||'') + ' &mdash; emerging',
+          (e2.domain||'') + ' &middot; evidence=' + (e2.evidence||0),
+          'What is ' + (e2.name||'') + ' and why is it becoming significant in ' + (e2.domain||'') + '?'
+        );
+      });
+      html += '</div>';
+    }
+
+    main.innerHTML = html || '<div class="cv-card"><div class="cv-card-body">No discoveries yet.</div></div>';
+  } catch(e) { console.error('Discovery error:', e); }
 }
 
-window.addEventListener('load', function(){
-  window.speechSynthesis.getVoices();
-  setTimeout(function(){ window.speechSynthesis.getVoices(); }, 500);
-  tick();
-});
-</script>
-
-<style>
-.fullpane{position:fixed;inset:0;z-index:9970;background:var(--bg);display:none;flex-direction:column;padding:60px 40px 40px;overflow-y:auto;}
-#fpBack{position:fixed;top:18px;left:18px;z-index:9975;padding:7px 14px;border-radius:20px;border:1px solid rgba(0,136,255,0.2);background:rgba(2,5,8,0.9);color:rgba(0,136,255,0.6);font-size:11px;font-family:var(--mono);cursor:pointer;}
-.fp-title{font-size:26px;font-weight:600;color:var(--white);margin-bottom:6px;}
-.fp-sub{font-size:11px;font-family:var(--mono);color:var(--muted);letter-spacing:1px;margin-bottom:28px;}
-</style>
-
-<div id="fpBack" style="display:none;" onclick="backToOS()">← BACK</div>
-
-<!-- FULL SCREEN SCIENTIST -->
-<div class="fullpane" id="fullpane-scientist">
-  <div style="max-width:800px;margin:0 auto;width:100%;">
-    <div class="fp-title">Research Scientist</div>
-    <div class="fp-sub">ASK ANY SCIENTIFIC QUESTION</div>
-    <div id="sciMessages2" style="min-height:200px;margin-bottom:20px;display:flex;flex-direction:column;gap:14px;max-height:calc(100vh-300px);overflow-y:auto;"></div>
-    <div style="display:flex;gap:10px;">
-      <textarea id="sciInput2" placeholder="Ask a research question..." style="flex:1;background:var(--card);border:1px solid var(--dim);border-radius:10px;padding:12px 16px;color:var(--text);font-size:14px;font-family:var(--sans);outline:none;resize:none;height:52px;" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sciSend2();}"></textarea>
-      <button onclick="sciSend2()" style="padding:12px 22px;border-radius:10px;border:none;background:var(--accent);color:#000;font-size:13px;cursor:pointer;font-weight:600;">Send</button>
-    </div>
-    <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap;" id="sciSuggestions2"></div>
-  </div>
-</div>
-
-<!-- FULL SCREEN PORTFOLIO -->
-<div class="fullpane" id="fullpane-portfolio">
-  <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:28px;">
-    <div>
-      <div class="fp-title">Portfolio Health</div>
-      <div class="fp-sub">EVIDENCE STRENGTH ACROSS YOUR RESEARCH DIRECTIONS</div>
-    </div>
-    <button class="inv-btn" onclick="loadPortfolio2()">Refresh</button>
-  </div>
-  <table class="port-table" style="max-width:1000px;">
-    <thead><tr><th>Direction</th><th>Verdict</th><th>Confidence</th><th>Trend</th><th>Risk</th><th>Action</th></tr></thead>
-    <tbody id="portBody2"><tr><td colspan="6" style="padding:40px;text-align:center;color:var(--muted);">Loading...</td></tr></tbody>
-  </table>
-</div>
-
-<script>
-function backToOS(){
-  document.querySelectorAll(".fullpane").forEach(function(p){p.style.display="none";});
-  document.getElementById("fpBack").style.display="none";
-  document.getElementById("miniOrb").classList.remove("show");
-  document.getElementById("osScreen").classList.add("active");
-  window.speechSynthesis.cancel();
-}
-
-var origShowFullScreen = window.showFullScreen;
-function patchShowFullScreen(){
-  var orig = showFullScreen;
-  showFullScreen = function(id){
-    orig(id);
-    document.getElementById("fpBack").style.display="block";
-  };
-}
-
-function sciSend2(){
-  var inp=document.getElementById("sciInput2");
-  if(!inp)return;
-  var q=inp.value.trim();
-  if(!q)return;
-  inp.value="";
-  var msgs=document.getElementById("sciMessages2");
-  var udiv=document.createElement("div");
-  udiv.style.cssText="display:flex;gap:10px;flex-direction:row-reverse;align-items:flex-start;";
-  udiv.innerHTML='<div style="width:28px;height:28px;border-radius:50%;background:rgba(0,102,255,.2);display:flex;align-items:center;justify-content:center;font-size:11px;color:#0066ff;">U</div><div style="max-width:80%;padding:10px 14px;background:var(--accent);color:#000;border-radius:10px;font-size:13px;line-height:1.7;">'+q+'</div>';
-  msgs.appendChild(udiv);
-  // Store hypothesis for experiment runner
-  if(t.match(/hypothesi|experiment|test if|what if|could we/)) {
-    lastHypothesis = q;
-  }
-  // Auto-run experiment if asked
-  if(t.match(/^run experiment|^test this|^run this|^execute/i)) {
-    runExperiment(lastHypothesis || q, '');
-    return;
-  }
-  thinking("ANALYZING...",true);
-  fetch("/api/chat",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({query:q,history:sciHistory,researcher_id:companyId})})
-  .then(function(r){return r.json();})
-  .then(function(d){
-    thinking("",false);
-    var resp=d.response||"No response";
-    sciHistory.push({role:"user",content:q},{role:"assistant",content:resp});
-    var adiv=document.createElement("div");
-    adiv.style.cssText="display:flex;gap:10px;align-items:flex-start;";
-    adiv.innerHTML='<div style="width:28px;height:28px;border-radius:50%;background:rgba(0,136,255,.1);border:1px solid rgba(0,136,255,.2);display:flex;align-items:center;justify-content:center;font-size:11px;color:var(--accent);">&#9672;</div><div style="max-width:80%;padding:10px 14px;background:var(--card);border:1px solid var(--dim);color:var(--text);border-radius:10px;font-size:13px;line-height:1.7;">'+resp+'</div>';
-    msgs.appendChild(adiv);
-    msgs.scrollTop=msgs.scrollHeight;
-    speak(resp.substring(0,200));
-  }).catch(function(e){thinking("",false);alert("Error: "+e.message);});
-}
-
-function loadPortfolio2(){
-  var tbody=document.getElementById("portBody2");
-  if(!tbody)return;
-  tbody.innerHTML='<tr><td colspan="6" style="padding:20px;text-align:center;color:var(--muted);">Loading...</td></tr>';
-  var done=0;
-  var results=[];
-  DIRS.forEach(function(d,i){
-    fetch("/api/run_research",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({query:d.query})})
-    .then(function(r){return r.json();})
-    .then(function(data){
-      results[i]={name:d.name,query:d.query,data:data};
-      done++;
-      if(done===DIRS.length){
-        tbody.innerHTML=results.map(function(r){
-          var v=(r.data.proposal_verdict||"inconclusive").toLowerCase();
-          var conf=((r.data.proposal_confidence||0.5)*100).toFixed(0);
-          var drift=(r.data.drift&&r.data.drift.direction)||"stable";
-          var vc=v.includes("strong")?"v-strong":v.includes("moderate")?"v-moderate":v.includes("mixed")?"v-mixed":"v-limited";
-          var risk=v==="inconclusive"?"high":v.includes("mixed")?"medium":"low";
-          return "<tr><td style=\"font-weight:500;color:var(--white);\">"+r.name+"</td><td><span class=\"verdict-pill "+vc+"\">"+v.replace("_"," ")+"</span></td><td style=\"font-family:var(--mono);font-size:12px;\">"+conf+"%</td><td>"+(drift==="strengthening"?"&#8593;":drift==="weakening"?"&#8595;":"&#8594;")+" <span style=\"font-size:10px;color:var(--muted)\">"+drift+"</span></td><td><span class=\"risk-badge "+risk+"\">"+risk.toUpperCase()+"</span></td><td><button class=\"inv-btn\" onclick=\"goPane('scientist')\">Investigate</button></td></tr>";
-        }).join("");
-      }
-    }).catch(function(){
-      results[i]={name:d.name,query:d.query,data:{}};
-      done++;
-      if(done===DIRS.length)renderPortfolio(results);
+async function generateExperiment() {
+  var q = document.getElementById('expInput').value.trim();
+  if (!q) return;
+  var out = document.getElementById('expOutput');
+  var content = document.getElementById('expContent');
+  out.style.display = 'block';
+  content.innerHTML = '<span style="color:var(--dim2);">Designing protocol...</span>';
+  try {
+    var r = await fetch('/api/chat', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({
+        query: 'Design a complete scientific experiment protocol for: ' + q + '. Include: dataset, model/system to test, metrics, baseline, controls, statistical test, expected outcome, and failure modes. Be specific and actionable.',
+        history: [],
+        researcher_id: companyId
+      })
     });
-  });
+    var d = await r.json();
+    content.innerHTML = '<div style="font-size:11px;color:var(--muted);line-height:1.8;">' + (d.response || 'Could not generate protocol.').replace(/\n/g,'<br>') + '</div>';
+  } catch(e) {
+    content.innerHTML = '<span style="color:var(--red);">Error generating protocol.</span>';
+  }
 }
 
-// Patch showFullScreen to show back button
-function showFullScreen(id){
-  document.querySelectorAll(".fullpane").forEach(function(p){p.style.display="none";});
-  document.getElementById("osScreen").classList.remove("active");
-  document.getElementById("discoveryScreen").classList.remove("active");
-  document.getElementById("miniOrb").classList.add("show");
-  document.getElementById("fpBack").style.display="block";
-  var p=document.getElementById("fullpane-"+id);
-  if(p){p.style.display="flex";}
-  if(id==="portfolio") setTimeout(loadPortfolio2, 100);
-  if(id==="scientist") setTimeout(function(){var i=document.getElementById("sciInput2");if(i)i.focus();},300);
+async function runSimulation() {
+  var q = document.getElementById('simInput').value.trim();
+  if (!q) return;
+  var out = document.getElementById('simOutput');
+  var content = document.getElementById('simContent');
+  out.style.display = 'block';
+  content.innerHTML = '<span style="color:var(--dim2);">Running simulation...</span>';
+  try {
+    var r = await fetch('/api/chat', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({
+        query: 'Simulate the outcome of this experiment using causal reasoning and known scientific relationships: ' + q + '. Give me: predicted outcome with confidence percentage, key assumptions, what could go wrong, and whether it is worth running. Be specific.',
+        history: [],
+        researcher_id: companyId
+      })
+    });
+    var d = await r.json();
+    content.innerHTML = '<div style="font-size:11px;color:var(--muted);line-height:1.8;">' + (d.response || 'Could not simulate.').replace(/\n/g,'<br>') + '</div>';
+  } catch(e) {
+    content.innerHTML = '<span style="color:var(--red);">Simulation error.</span>';
+  }
+}
+
+async function generateHypotheses() {
+  var q = document.getElementById('hypInput').value.trim();
+  if (!q) return;
+  var out = document.getElementById('hypOutput');
+  out.innerHTML = '<div class="cv-card"><div class="cv-card-body" style="color:var(--dim2);">Traversing causal graph...</div></div>';
+  try {
+    var r = await fetch('/api/chat', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({
+        query: 'Generate 3 novel scientific hypotheses in the area of ' + q + ' that no paper has directly tested yet. For each: state the hypothesis clearly, explain the causal reasoning behind it, give a confidence score, and suggest how to test it. Focus on cross-domain connections.',
+        history: [],
+        researcher_id: companyId
+      })
+    });
+    var d = await r.json();
+    out.innerHTML = '<div class="cv-card"><div class="cv-label">GENERATED HYPOTHESES</div><div style="font-size:11px;color:var(--muted);line-height:1.8;">' + (d.response||'').replace(/\n/g,'<br>') + '</div></div>';
+  } catch(e) {
+    out.innerHTML = '<div class="cv-card"><div class="cv-card-body" style="color:var(--red);">Error generating hypotheses.</div></div>';
+  }
+}
+
+async function findMethods() {
+  var q = document.getElementById('methInput').value.trim();
+  if (!q) return;
+  var out = document.getElementById('methOutput');
+  out.innerHTML = '<div class="cv-card"><div class="cv-card-body" style="color:var(--dim2);">Searching 11 domains for applicable methods...</div></div>';
+  try {
+    var r = await fetch('/api/chat', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({
+        query: 'Find existing methods from any scientific domain that could solve this problem: ' + q + '. Look especially for cross-domain solutions — techniques from biology, climate science, physics, or other fields that map to this ML/AI problem. For each method: name it, explain how it applies, give confidence, and cite the source domain.',
+        history: [],
+        researcher_id: companyId
+      })
+    });
+    var d = await r.json();
+    out.innerHTML = '<div class="cv-card"><div class="cv-label">METHODS FOUND</div><div style="font-size:11px;color:var(--muted);line-height:1.8;">' + (d.response||'').replace(/\n/g,'<br>') + '</div></div>';
+  } catch(e) {
+    out.innerHTML = '<div class="cv-card"><div class="cv-card-body" style="color:var(--red);">Error finding methods.</div></div>';
+  }
+}
+
+async function loadBrief() {
+  try {
+    var r = await fetch('/api/company/brief');
+    var d = await r.json();
+    if (d.error) return;
+    var items = document.getElementById('briefItems');
+    var parts = [];
+
+    function makeItem(color, text, sub, viewId) {
+      return '<div class="bs-item"><div class="bs-row">' +
+        '<div class="bs-dot" style="background:' + color + ';margin-top:3px;flex-shrink:0;"></div>' +
+        '<div><div class="bs-text" style="color:#90b0d0;">' + text + '</div>' +
+        '<div style="font-size:9px;color:#3a5070;margin-top:2px;">' + sub + '</div>' +
+        '<div class="bs-act" onclick="openView(\'' + viewId + '\',\'u\')">&#8594; Investigate</div>' +
+        '</div></div></div>';
+    }
+
+    (d.threats||[]).slice(0,2).forEach(function(t) {
+      parts.push(makeItem('#ef4444',
+        (t.belief||'').slice(0,70),
+        (t.domain||'') + ' &middot; ' + (t.contradicting||0) + ' contradicting papers',
+        'cv-scientist'
+      ));
+    });
+
+    (d.emerging||[]).slice(0,2).forEach(function(e) {
+      parts.push(makeItem('#f59e0b',
+        (e.name||'') + ' emerging in ' + (e.domain||''),
+        'evidence=' + (e.evidence||0) + ' &middot; conf=' + (e.confidence||0),
+        'cv-discoveries'
+      ));
+    });
+
+    (d.causal||[]).slice(0,2).forEach(function(c) {
+      parts.push(makeItem('#10b981',
+        (c.from||'').slice(0,22) + ' &rarr; ' + (c.relation||'') + ' &rarr; ' + (c.to||'').slice(0,22),
+        'conf=' + (c.confidence||0) + ' &middot; cross-domain connection',
+        'cv-discoveries'
+      ));
+    });
+
+    items.innerHTML = parts.join('') || '<div class="bs-item"><div class="bs-text">Loading findings...</div></div>';
+  } catch(e) { console.error('Brief error', e); }
+}
+
+// ── ORB + LAYOUT ─────────────────────────────────────────
+var orbTT = 0, orbRY = 0, orbRAF = null;
+
+function initOrb() {
+  var cv = document.getElementById('orbCanvas');
+  if (!cv) return;
+  if (orbRAF) cancelAnimationFrame(orbRAF);
+  var R = Math.min(cv.width, cv.height) * 0.44;
+  var ctx = cv.getContext('2d');
+  function draw() {
+    ctx.clearRect(0, 0, cv.width, cv.height);
+    orbRY += 0.007; orbTT++;
+    var cx = cv.width/2, cy = cv.height/2;
+    DOTS.map(function(p) {
+      var pu = 1 + 0.05*Math.sin(orbTT*0.03+p.phi*3);
+      var sx=p.x*pu, sy=p.y*pu, sz=p.z*pu;
+      var x1=sx*Math.cos(orbRY)-sz*Math.sin(orbRY);
+      var z1=sx*Math.sin(orbRY)+sz*Math.cos(orbRY);
+      var ca=0.3, y2=sy*Math.cos(ca)-z1*Math.sin(ca), z2=sy*Math.sin(ca)+z1*Math.cos(ca);
+      return {sx:cx+x1*R, sy:cy-y2*R, sz:z2, d:(z2+1)/2};
+    }).sort(function(a,b){return a.sz-b.sz;}).forEach(function(p) {
+      if(p.d<0.05) return;
+      var al = p.d>0.5 ? 0.12+p.d*0.55 : 0.02+p.d*0.06;
+      ctx.beginPath();
+      ctx.arc(p.sx, p.sy, p.d>0.55?2.5:1.2, 0, Math.PI*2);
+      var bright = Math.min(al*2.2, 1); ctx.fillStyle = 'rgba(80,160,255,'+bright+')';
+      ctx.fill();
+    });
+    orbRAF = requestAnimationFrame(draw);
+  }
+  draw();
+}
+
+var CAPS_DEF = [
+  {id:'cv-corpus',  icon:'◎', title:'Read my research',    desc:'Connect papers, notes, data sources', zoom:'l'},
+  {id:'cv-discoveries', icon:'◈', title:'Autonomous discoveries', desc:'Cross-domain connections found overnight', zoom:'ul'},
+  {id:'cv-experiment',  icon:'⬡', title:'Design experiment',  desc:'Full protocol — dataset, metrics, controls', zoom:'u'},
+  {id:'cv-simulation',  icon:'▷', title:'Run simulation',     desc:'Predict outcomes before spending compute', zoom:'ur'},
+  {id:'cv-hypotheses',  icon:'◇', title:'Generate hypotheses', desc:'Novel untested ideas from causal graph', zoom:'r'},
+  {id:'cv-methods',     icon:'⊕', title:'Find methods',       desc:'Techniques from other fields for your problem', zoom:'dr'},
+];
+
+function layoutOrb() {
+  var scene = document.getElementById('scene');
+  var SW = scene.offsetWidth;
+  var SH = scene.offsetHeight;
+  var briefW = 220;
+  var pad = 10;
+  var cols = 2;
+  var rows = 3;
+
+  // Card grid: 2 cols x 3 rows on left
+  var cardGridW = Math.min(SW * 0.32, 380);
+  var cardW = (cardGridW - pad * (cols + 1)) / cols;
+  var cardH = (SH - pad * (rows + 1)) / rows;
+
+  // Orb: fills remaining space
+  var orbAreaW = SW - cardGridW - briefW - pad;
+  var orbSize = Math.min(orbAreaW, SH) * 0.98;
+  var orbX = cardGridW + pad + (orbAreaW - orbSize) / 2;
+  var orbY = (SH - orbSize) / 2;
+
+  var orbWrap = document.getElementById('orbWrap');
+  orbWrap.style.left = orbX + 'px';
+  orbWrap.style.top = orbY + 'px';
+  orbWrap.style.width = orbSize + 'px';
+  orbWrap.style.height = orbSize + 'px';
+
+  var cv = document.getElementById('orbCanvas');
+  cv.width = orbSize; cv.height = orbSize;
+  cv.style.width = orbSize + 'px'; cv.style.height = orbSize + 'px';
+
+  document.getElementById('svgLines').innerHTML = '';
+  var capNodes = document.getElementById('capNodes');
+  capNodes.innerHTML = '';
+
+  CAPS_DEF.forEach(function(cap, i) {
+    var col = i % cols;
+    var row = Math.floor(i / cols);
+    var x = pad + col * (cardW + pad);
+    var y = pad + row * (cardH + pad);
+    var el = document.createElement('div');
+    el.className = 'cap-node';
+    el.style.position = 'absolute';
+    el.style.left = x + 'px';
+    el.style.top = y + 'px';
+    el.style.width = cardW + 'px';
+    el.style.height = cardH + 'px';
+    el.innerHTML =
+      '<div class="cnode-card" style="width:100%;height:100%;display:flex;flex-direction:column;justify-content:center;padding:14px 16px;">' +
+      '<div class="cnode-icon" style="font-size:22px;margin-bottom:8px;">' + cap.icon + '</div>' +
+      '<div class="cnode-title" style="font-size:13px;margin-bottom:5px;">' + cap.title + '</div>' +
+      '<div class="cnode-desc" style="font-size:11px;">' + cap.desc + '</div>' +
+      '<div class="cnode-arrow" style="font-size:10px;margin-top:8px;">enter →</div>' +
+      '</div>';
+    el.onclick = (function(cid, zoom) {
+      return function() { openView(cid, zoom); };
+    })(cap.id, cap.zoom);
+    capNodes.appendChild(el);
+  });
+
+  var brief = document.getElementById('briefStrip');
+  if (brief) {
+    brief.style.position = 'absolute';
+    brief.style.right = '0';
+    brief.style.top = '0';
+    brief.style.bottom = '0';
+    brief.style.width = briefW + 'px';
+  }
+
+  initOrb();
+}
+
+// Override doLogin to go to home
+var _origDoLogin = doLogin;
+doLogin = function() {
+  _origDoLogin();
+};
+
+// Patch: after login, show shell and go home
+var _checkOnboardingOrig = checkOnboarding;
+checkOnboarding = async function() {
+  document.getElementById('loginScreen').style.display = 'none';
+  document.getElementById('shell').classList.add('active');
+  document.getElementById('topbarCompany').textContent = companyName || companyId;
+  setTimeout(function() {
+    layoutOrb();
+    loadBrief();
+  }, 100);
+  window.addEventListener('resize', layoutOrb);
+};
+
+// Upload zone
+document.addEventListener('DOMContentLoaded', function() {
+  var zone = document.getElementById('uploadZone');
+  var inp = document.getElementById('pdfUpload');
+  if (zone && inp) {
+    zone.addEventListener('click', function() { inp.click(); });
+    zone.addEventListener('dragover', function(e) { e.preventDefault(); zone.style.borderColor='var(--accent)'; });
+    zone.addEventListener('dragleave', function() { zone.style.borderColor=''; });
+    zone.addEventListener('drop', function(e) {
+      e.preventDefault();
+      zone.style.borderColor='';
+      showToast('Upload feature — connect your private corpus to get started');
+    });
+    inp.addEventListener('change', function() {
+      showToast('Upload feature coming soon — contact sales@tattvaai.org for private corpus access');
+    });
+  }
+});
+
+// addSciMsg override to use new UI
+function addSciMsg(role, text) {
+  var msgs = document.getElementById('sciMessages');
+  if (!msgs) return;
+  var div = document.createElement('div');
+  if (role === 'user') {
+    div.className = 'sci-msg-user';
+    div.textContent = text;
+  } else {
+    div.className = 'sci-msg-ai';
+    div.innerHTML = '<div class="sci-label">TATTVA</div>' + text.replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  }
+  msgs.appendChild(div);
+  msgs.scrollTop = msgs.scrollHeight;
 }
 </script>
-
-<!-- ONBOARDING SCREEN -->
-<div id="onboardingScreen" style="display:none;position:fixed;inset:0;z-index:99995;background:#020508;align-items:center;justify-content:center;flex-direction:column;">
-  <div style="max-width:560px;width:100%;padding:40px;background:#0d1520;border:1px solid #1a2535;border-radius:16px;">
-    <div style="font-size:22px;color:#0088ff;margin-bottom:8px;">◈</div>
-    <div style="font-size:22px;font-weight:600;color:#fff;margin-bottom:4px;">Welcome to Tattva</div>
-    <div style="font-size:13px;color:#5a7090;margin-bottom:28px;">Tell me about your research so I can work for you overnight</div>
-
-    <div style="margin-bottom:16px;">
-      <label style="display:block;font-family:monospace;font-size:9px;color:#5a7090;letter-spacing:1.5px;margin-bottom:6px;">WHAT DOES YOUR TEAM RESEARCH?</label>
-      <input id="ob_focus" placeholder="e.g. protein folding, drug discovery, ML efficiency..." style="width:100%;padding:11px 14px;background:#080d14;border:1px solid #1a2535;border-radius:8px;color:#c8deff;font-size:13px;outline:none;"/>
-    </div>
-
-    <div style="margin-bottom:16px;">
-      <label style="display:block;font-family:monospace;font-size:9px;color:#5a7090;letter-spacing:1.5px;margin-bottom:8px;">WHICH DOMAINS? (select all that apply)</label>
-      <div style="display:flex;flex-wrap:wrap;gap:8px;" id="ob_domains">
-        <button onclick="toggleDomain(this,'ml_ai')" class="ob-domain">Machine Learning</button>
-        <button onclick="toggleDomain(this,'neuroscience')" class="ob-domain">Neuroscience</button>
-        <button onclick="toggleDomain(this,'biology')" class="ob-domain">Biology</button>
-        <button onclick="toggleDomain(this,'medicine')" class="ob-domain">Medicine</button>
-        <button onclick="toggleDomain(this,'physics')" class="ob-domain">Physics</button>
-        <button onclick="toggleDomain(this,'chemistry')" class="ob-domain">Chemistry</button>
-        <button onclick="toggleDomain(this,'climate')" class="ob-domain">Climate</button>
-        <button onclick="toggleDomain(this,'economics')" class="ob-domain">Economics</button>
-      </div>
-    </div>
-
-    <div style="margin-bottom:24px;">
-      <label style="display:block;font-family:monospace;font-size:9px;color:#5a7090;letter-spacing:1.5px;margin-bottom:6px;">KEY TOPICS OR METHODS (comma separated)</label>
-      <input id="ob_topics" placeholder="e.g. CRISPR, LoRA, attention mechanism, drug targets..." style="width:100%;padding:11px 14px;background:#080d14;border:1px solid #1a2535;border-radius:8px;color:#c8deff;font-size:13px;outline:none;"/>
-    </div>
-
-    <button onclick="saveOnboarding()" style="width:100%;padding:13px;background:#0088ff;color:#000;border:none;border-radius:8px;font-size:14px;font-weight:700;cursor:pointer;">
-      Start Investigating →
-    </button>
-    <div style="text-align:center;margin-top:12px;">
-      <span onclick="skipOnboarding()" style="font-size:11px;color:#3a5070;cursor:pointer;">Skip for now</span>
-    </div>
-  </div>
-</div>
-
-<style>
-.ob-domain {
-  padding:6px 14px;border-radius:20px;border:1px solid #1a2535;
-  background:transparent;color:#5a7090;font-size:12px;cursor:pointer;
-  transition:all .15s;
-}
-.ob-domain.selected {
-  background:rgba(0,136,255,0.15);border-color:#0088ff;color:#0088ff;
-}
-</style>
-
 </body>
 </html>
