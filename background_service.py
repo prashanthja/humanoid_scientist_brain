@@ -1039,6 +1039,51 @@ def run_cycle():
             except Exception as e:
                 log.warning(f"Belief revision failed: {e}")
 
+            # Phase 7b: Mechanism extraction on new concepts
+            try:
+                from world_model.mechanism_extractor import extract_mechanisms, save_mechanisms, setup_mechanisms_table
+                conn_mech = psycopg2.connect(PG_URL, connect_timeout=10)
+                setup_mechanisms_table(conn_mech)
+                cur_mech = conn_mech.cursor()
+                cur_mech.execute("""
+                    SELECT canonical_name FROM concept_cells
+                    WHERE lifecycle_state IN ('established','emerging')
+                    AND evidence_count >= 6
+                    AND canonical_name NOT IN ('Module','Time','Treatment','Framework','Intervention')
+                    ORDER BY evidence_count DESC LIMIT 20
+                """)
+                concepts = [r[0] for r in cur_mech.fetchall()]
+                mech_total = 0
+                for c in concepts:
+                    mechs = extract_mechanisms(conn_mech, c, max_depth=3)
+                    if mechs:
+                        mech_total += save_mechanisms(conn_mech, mechs)
+                conn_mech.close()
+                log.info(f"Phase 7b: {mech_total} new mechanisms extracted")
+            except Exception as e:
+                log.warning(f"Mechanism extraction failed: {e}")
+
+            # Phase 7c: Hypothesis generation
+            try:
+                from world_model.hypothesis_generator import generate_hypotheses, save_hypotheses
+                conn_hyp = psycopg2.connect(PG_URL, connect_timeout=10)
+                hyps = generate_hypotheses(conn_hyp, min_confidence=0.65, limit=50)
+                saved_hyps = save_hypotheses(conn_hyp, hyps)
+                conn_hyp.close()
+                log.info(f"Phase 7c: {saved_hyps} new hypotheses generated")
+            except Exception as e:
+                log.warning(f"Hypothesis generation failed: {e}")
+
+            # Phase 7d: Cross-domain discovery
+            try:
+                from world_model.cross_domain_discovery import run_autonomous_discovery
+                conn_disc = psycopg2.connect(PG_URL, connect_timeout=10)
+                disc_results = run_autonomous_discovery(conn_disc)
+                conn_disc.close()
+                log.info(f"Phase 7d: discoveries={disc_results}")
+            except Exception as e:
+                log.warning(f"Cross-domain discovery failed: {e}")
+
             # Phase 7: Autonomous research loop
             try:
                 from world_model.autonomous_loop import run_research_cycle, setup_research_log_table
