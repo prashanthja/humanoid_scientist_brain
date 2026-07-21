@@ -51,6 +51,7 @@ def llm_complete(prompt, max_tokens=800):
     together_key = os.environ.get('TOGETHER_API_KEY', '')
     if together_key:
         try:
+            import time as _time
             from together import Together
             client = Together(api_key=together_key)
             r = client.chat.completions.create(
@@ -61,6 +62,9 @@ def llm_complete(prompt, max_tokens=800):
             )
             return r.choices[0].message.content.strip()
         except Exception as e:
+            if 'Connection' in str(e) or 'timeout' in str(e).lower():
+                import time as _time
+                _time.sleep(2)  # Brief pause on connection error
             print(f"Together AI error: {e}, falling back to Groq")
     
     # Groq fallback

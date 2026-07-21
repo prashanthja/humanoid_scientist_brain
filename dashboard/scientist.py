@@ -7,6 +7,9 @@ try:
     from world_model.query_engine import world_model_context, format_world_model_prompt
     from world_model.mechanism_extractor import get_mechanism_for_query, format_mechanism_prompt
     from world_model.hypothesis_generator import get_hypotheses_for_query, format_hypothesis_prompt
+    from world_model.simulation_engine import simulate, format_simulation_prompt
+    from world_model.active_learning import get_reading_queue, format_active_learning_prompt
+    from world_model.autonomous_loop import get_research_log
     WORLD_MODEL_ENABLED = True
 except Exception:
     WORLD_MODEL_ENABLED = False
@@ -325,6 +328,20 @@ def chat(query, history, chunks, verdict_data=None,
                 prompt = prompt + "\n\n" + hyp_prompt
         except Exception:
             pass
+    # 3e. Inject simulation (Layer 6) for predictive queries
+    if WORLD_MODEL_ENABLED:
+        sim_keywords = ['will','predict','simulate','outcome','expect','if we','would','forecast']
+        if any(k in query.lower() for k in sim_keywords):
+            try:
+                import psycopg2, os
+                conn = psycopg2.connect(os.environ.get('DATABASE_URL',''), connect_timeout=5)
+                sim = simulate(conn, query)
+                conn.close()
+                if sim:
+                    sim_prompt = format_simulation_prompt(sim)
+                    prompt = prompt + "\n\n" + sim_prompt
+            except Exception:
+                pass
 
     # 4. Build message history
     messages = [{"role":"system","content":prompt}]

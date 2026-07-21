@@ -32,17 +32,27 @@ DOMAIN_QUERIES = {
         "sparse attention long context transformer",
         "quantization LLM inference INT8 INT4",
         "MoE routing instability training sparse",
-        "continuous batching LLM serving vLLM",
-        "grouped query attention KV cache memory",
-        "PagedAttention virtual memory GPU LLM",
-        "pruning transformer inference cost",
-        "knowledge distillation model compression",
-        "sliding window attention sequence length",
-        "Mamba state space model transformers linear",
-        "tensor parallelism distributed LLM training",
-        "RWKV linear complexity recurrent transformer",
+        "continuous batching LLM serving throughput",
+        "state space models Mamba selective scan",
+        "RLHF reinforcement learning human feedback",
+        "chain of thought reasoning large language model",
+        "retrieval augmented generation RAG",
+        "instruction tuning alignment language model",
+        "diffusion models image generation",
+        "vision language models multimodal",
+        "continual learning catastrophic forgetting",
+        "neural scaling laws emergent capabilities",
+        "model merging weight averaging LLM",
         "prefix caching KV reuse inference",
-        "flash decoding parallel LLM inference",
+        "PagedAttention vLLM memory management",
+        "gradient checkpointing memory training",
+        "tensor parallelism pipeline model parallel",
+        "activation quantization INT4 GPTQ AWQ",
+        "sparse mixture experts Switch Transformer",
+        "long context window position encoding RoPE",
+        "group query attention multi-head latent",
+        "knowledge distillation smaller language model",
+        "benchmark evaluation LLM MMLU HumanEval",
     ],
     "neuroscience": [
         "hippocampal neurogenesis memory formation dentate gyrus",
@@ -572,6 +582,77 @@ def fetch_crossref(query: str, limit: int = 20) -> List[Dict]:
     except Exception as e: log.debug(f"CrossRef: {e}"); return []
 
 
+
+def fetch_biorxiv(query: str, limit: int = 20) -> List[Dict]:
+    """Fetch preprints from bioRxiv and medRxiv."""
+    papers = []
+    try:
+        import urllib.parse
+        from datetime import datetime, timedelta
+        # Get papers from last 30 days
+        end_date = datetime.now().strftime('%Y-%m-%d')
+        start_date = (datetime.now() - timedelta(days=30)).strftime('%Y-%m-%d')
+        url = f"https://api.biorxiv.org/details/biorxiv/{start_date}/{end_date}/0/json"
+        r = SESSION.get(url, timeout=15)
+        if r.status_code == 200:
+            data = r.json()
+            for item in data.get('collection', [])[:limit]:
+                title = item.get('title','')
+                abstract = item.get('abstract','')
+                # Filter by query terms
+                query_words = query.lower().split()
+                text_lower = (title + ' ' + abstract).lower()
+                if any(w in text_lower for w in query_words if len(w) > 4):
+                    papers.append({
+                        'title': title,
+                        'abstract': abstract,
+                        'full_text': abstract,
+                        'source': 'biorxiv',
+                        'url': f"https://biorxiv.org/content/{item.get('doi','')}",
+                        'authors': item.get('authors',''),
+                        'year': str(item.get('date',''))[:4]
+                    })
+    except Exception as e:
+        pass
+    return papers
+
+def fetch_pubmed_central(query: str, limit: int = 20) -> List[Dict]:
+    """Fetch from PubMed Central open access."""
+    papers = []
+    try:
+        import urllib.parse
+        # Search PMC
+        search_url = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi"
+        params = {
+            'db': 'pmc', 'term': query + ' open access[filter]',
+            'retmax': limit, 'retmode': 'json', 'sort': 'relevance'
+        }
+        r = SESSION.get(search_url, params=params, timeout=15)
+        if r.status_code != 200: return papers
+        ids = r.json().get('esearchresult',{}).get('idlist',[])
+        if not ids: return papers
+        
+        # Fetch details
+        fetch_url = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi"
+        params2 = {'db':'pmc','id':','.join(ids[:10]),'retmode':'xml','rettype':'abstract'}
+        r2 = SESSION.get(fetch_url, params=params2, timeout=15)
+        if r2.status_code == 200:
+            import re
+            abstracts = re.findall(r'<AbstractText[^>]*>(.*?)</AbstractText>', r2.text, re.DOTALL)
+            titles = re.findall(r'<ArticleTitle>(.*?)</ArticleTitle>', r2.text, re.DOTALL)
+            for i, (title, abstract) in enumerate(zip(titles, abstracts)):
+                papers.append({
+                    'title': title[:200],
+                    'abstract': abstract[:2000],
+                    'full_text': abstract[:2000],
+                    'source': 'pubmed_central',
+                    'url': f"https://ncbi.nlm.nih.gov/pmc/articles/PMC{ids[i]}/",
+                    'year': '2025'
+                })
+    except Exception as e:
+        pass
+    return papers
+
 def fetch_all_sources(query: str) -> List[Dict]:
     results = []
     for name, fetcher in [
@@ -946,6 +1027,22 @@ def run_cycle():
                     log.warning(f"  causal graph error: {e}")
 
             log.info("Phase 6: World model update complete")
+
+            # Phase 7: Autonomous research loop
+            try:
+                from world_model.autonomous_loop import run_research_cycle, setup_research_log_table
+                conn_loop = psycopg2.connect(PG_URL, connect_timeout=10)
+                setup_research_log_table(conn_loop)
+                cur_loop = conn_loop.cursor()
+                cur_loop.execute("SELECT COALESCE(MAX(cycle),0)+1 FROM research_log")
+                next_cycle = cur_loop.fetchone()[0]
+                conn_loop.close()
+                conn_loop = psycopg2.connect(PG_URL, connect_timeout=10)
+                summary = run_research_cycle(conn_loop, cycle_num=next_cycle, verbose=False)
+                conn_loop.close()
+                log.info(f"Research cycle {next_cycle}: tested={summary['hypotheses_tested']} supported={summary['supported']} rejected={summary['rejected']}")
+            except Exception as e:
+                log.warning(f"Research loop failed: {e}")
 
             # Extract new mechanisms
             try:
