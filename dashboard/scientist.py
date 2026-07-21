@@ -327,19 +327,65 @@ def chat(query, history, chunks, verdict_data=None,
                 conn.close()
             except Exception:
                 pass
-    # 3e. Inject simulation (Layer 6) for predictive queries
+    # 3e. Inject simulation (Layer 6) — for predictive AND discovery queries
     if WORLD_MODEL_ENABLED:
-        sim_keywords = ['will','predict','simulate','outcome','expect','if we','would','forecast']
+        sim_keywords = ['will','predict','simulate','outcome','expect','if we',
+                       'would','forecast','run','test','discover','hypothesis',
+                       'run this','simulate this','test this','what if','run discovery']
         if any(k in query.lower() for k in sim_keywords):
             try:
                 import psycopg2, os
                 conn = psycopg2.connect(os.environ.get('DATABASE_URL',''), connect_timeout=5)
+                
+                # 1. Run simulation
                 sim = simulate(conn, query)
-                conn.close()
                 if sim:
                     sim_prompt = format_simulation_prompt(sim)
                     prompt = prompt + "\n\n" + sim_prompt
-            except Exception:
+
+                # 2. Find matching discovery or hypothesis
+                words = [w.lower() for w in query.split() if len(w) > 4]
+                if words:
+                    cur = conn.cursor()
+                    # Check autonomous discoveries
+                    params = [f'%{w}%' for w in words[:3]]
+                    conds = ' OR '.join(['LOWER(title) LIKE %s OR LOWER(description) LIKE %s'] * len(params))
+                    flat = [p for p in params for _ in range(2)]
+                    cur.execute(f"""
+                        SELECT title, description, domain_a, domain_b, confidence
+                        FROM autonomous_discoveries
+                        WHERE {conds}
+                        ORDER BY confidence DESC LIMIT 2
+                    """, flat)
+                    discoveries = cur.fetchall()
+                    if discoveries:
+                        disc_text = "\n=== MATCHED DISCOVERIES ===\n"
+                        for d in discoveries:
+                            disc_text += f"Discovery: {d[0]}\n"
+                            disc_text += f"Description: {d[1][:200]}\n"
+                            disc_text += f"Domains: {d[2]} → {d[3]} (conf={d[4]:.0%})\n\n"
+                        prompt = prompt + "\n\n" + disc_text
+
+                    # Check hypotheses
+                    cur.execute(f"""
+                        SELECT concept_a, inferred_relation, concept_c,
+                               confidence, hypothesis_text, novelty_score
+                        FROM hypotheses
+                        WHERE {' OR '.join(['LOWER(hypothesis_text) LIKE %s OR LOWER(concept_a) LIKE %s OR LOWER(concept_c) LIKE %s'] * len(params[:2]))}
+                        AND tested = FALSE
+                        ORDER BY confidence DESC LIMIT 2
+                    """, [p for p in params[:2] for _ in range(3)])
+                    hypotheses = cur.fetchall()
+                    if hypotheses:
+                        hyp_text = "\n=== MATCHED HYPOTHESES ===\n"
+                        for h in hypotheses:
+                            hyp_text += f"Hypothesis: {h[0]} --[{h[1]}]--> {h[2]}\n"
+                            hyp_text += f"Confidence: {h[3]:.0%} | Novelty: {(h[5] or 0):.0%}\n"
+                            hyp_text += f"Text: {(h[4] or '')[:200]}\n\n"
+                        prompt = prompt + "\n\n" + hyp_text
+
+                conn.close()
+            except Exception as e:
                 pass
 
     # 4. Build message history

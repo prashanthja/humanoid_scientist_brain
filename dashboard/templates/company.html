@@ -878,23 +878,30 @@ async function runSimulation() {
   var q = document.getElementById('simInput').value.trim();
   if (!q) return;
   var out = document.getElementById('simOutput');
-  var content = document.getElementById('simContent');
+  var cnt = document.getElementById('simContent');
   out.style.display = 'block';
-  content.innerHTML = '<span style="color:var(--dim2);">Running simulation...</span>';
+  cnt.innerHTML = '<span style="color:var(--dim2);">Running simulation from world model...</span>';
   try {
     var r = await fetch('/api/chat', {
       method: 'POST',
       headers: {'Content-Type':'application/json'},
       body: JSON.stringify({
-        query: 'Simulate the outcome of this experiment using causal reasoning and known scientific relationships: ' + q + '. Give me: predicted outcome with confidence percentage, key assumptions, what could go wrong, and whether it is worth running. Be specific.',
+        query: 'Run this discovery and simulate: ' + q + '. Use the world model to: 1) Find matching hypotheses and discoveries, 2) Run simulation with confidence score, 3) Give causal path step by step, 4) Design experiment protocol, 5) State what could go wrong. Be specific with numbers.',
         history: [],
         researcher_id: companyId
       })
     });
     var d = await r.json();
-    content.innerHTML = '<div style="font-size:11px;color:var(--muted);line-height:1.8;">' + (d.response || 'Could not simulate.').replace(/\n/g,'<br>') + '</div>';
+    cnt.innerHTML = '<div style="font-size:11px;color:var(--muted);line-height:1.8;">' + 
+      (d.response || 'Could not simulate.').replace(/\n/g,'<br>') + '</div>';
+    
+    // Also show contradiction count
+    if (d.contradictions && d.contradictions.length > 0) {
+      cnt.innerHTML += '<div style="margin-top:10px;padding:8px;background:var(--dim);border-left:2px solid var(--red);font-size:10px;color:#ef4444;">' +
+        d.contradictions.length + ' contradicting papers found in world model</div>';
+    }
   } catch(e) {
-    content.innerHTML = '<span style="color:var(--red);">Simulation error.</span>';
+    cnt.innerHTML = '<span style="color:var(--red);">Simulation error.</span>';
   }
 }
 
