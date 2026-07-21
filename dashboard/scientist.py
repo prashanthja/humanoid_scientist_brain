@@ -10,6 +10,8 @@ try:
     from world_model.simulation_engine import simulate, format_simulation_prompt
     from world_model.active_learning import get_reading_queue, format_active_learning_prompt
     from world_model.autonomous_loop import get_research_log
+    from world_model.belief_revision import format_belief_revision_prompt
+    from world_model.experiment_planner import design_experiment, format_experiment_prompt
     WORLD_MODEL_ENABLED = True
 except Exception:
     WORLD_MODEL_ENABLED = False
@@ -316,6 +318,17 @@ def chat(query, history, chunks, verdict_data=None,
                 prompt = prompt + "\n\n" + mech_prompt
         except Exception:
             pass
+    # 3c2. Inject belief revision history
+    if WORLD_MODEL_ENABLED:
+        try:
+            import psycopg2, os
+            conn = psycopg2.connect(os.environ.get('DATABASE_URL',''), connect_timeout=5)
+            rev_prompt = format_belief_revision_prompt(conn, query)
+            conn.close()
+            if rev_prompt:
+                prompt = prompt + "\n\n" + rev_prompt
+        except Exception:
+            pass
     # 3d. Inject novel hypotheses (Layer 4)
     if WORLD_MODEL_ENABLED:
         try:
@@ -328,6 +341,22 @@ def chat(query, history, chunks, verdict_data=None,
                 prompt = prompt + "\n\n" + hyp_prompt
         except Exception:
             pass
+    # 3e2. Inject experiment design (Layer 5)
+    if WORLD_MODEL_ENABLED:
+        exp_keywords = ['experiment','design','test','protocol','measure','dataset','baseline']
+        if any(k in query.lower() for k in exp_keywords):
+            try:
+                import psycopg2, os
+                conn = psycopg2.connect(os.environ.get('DATABASE_URL',''), connect_timeout=5)
+                words = [w for w in query.split() if len(w) > 4]
+                if len(words) >= 2:
+                    exp = design_experiment(conn, concept_a=words[0], concept_c=words[-1])
+                    if exp:
+                        exp_prompt = format_experiment_prompt(exp)
+                        prompt = prompt + "\n\n" + exp_prompt
+                conn.close()
+            except Exception:
+                pass
     # 3e. Inject simulation (Layer 6) for predictive queries
     if WORLD_MODEL_ENABLED:
         sim_keywords = ['will','predict','simulate','outcome','expect','if we','would','forecast']

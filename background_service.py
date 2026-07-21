@@ -409,7 +409,7 @@ def _fetch_pdf_text(pdf_url: str, max_chars: int = 8000) -> Optional[str]:
 
 # ── Source fetchers ───────────────────────────────────────
 
-def fetch_semantic_scholar(query: str, limit: int = 25) -> List[Dict]:
+def fetch_semantic_scholar(query: str, limit: int = 50) -> List[Dict]:
     try:
         r = SESSION.get(
             "https://api.semanticscholar.org/graph/v1/paper/search",
@@ -432,7 +432,7 @@ def fetch_semantic_scholar(query: str, limit: int = 25) -> List[Dict]:
     except Exception as e: log.debug(f"S2: {e}"); return []
 
 
-def fetch_arxiv(query: str, limit: int = 25) -> List[Dict]:
+def fetch_arxiv(query: str, limit: int = 50) -> List[Dict]:
     try:
         params = (f"search_query=all:{urllib.parse.quote(query)}"
                   f"&max_results={limit}&sortBy=submittedDate&sortOrder=descending")
@@ -457,7 +457,7 @@ def fetch_arxiv(query: str, limit: int = 25) -> List[Dict]:
     except Exception as e: log.debug(f"ArXiv: {e}"); return []
 
 
-def fetch_openalex(query: str, limit: int = 25) -> List[Dict]:
+def fetch_openalex(query: str, limit: int = 50) -> List[Dict]:
     try:
         r = SESSION.get("https://api.openalex.org/works",
             params={"search":query,"per_page":limit,
@@ -546,7 +546,7 @@ def fetch_huggingface(query: str, limit: int = 20) -> List[Dict]:
     except Exception as e: log.debug(f"HF: {e}"); return []
 
 
-def fetch_europe_pmc(query: str, limit: int = 20) -> List[Dict]:
+def fetch_europe_pmc(query: str, limit: int = 50) -> List[Dict]:
     try:
         r = SESSION.get("https://www.ebi.ac.uk/europepmc/webservices/rest/search",
             params={"query":query,"resultType":"core","pageSize":limit,
@@ -583,7 +583,7 @@ def fetch_crossref(query: str, limit: int = 20) -> List[Dict]:
 
 
 
-def fetch_biorxiv(query: str, limit: int = 20) -> List[Dict]:
+def fetch_biorxiv(query: str, limit: int = 50) -> List[Dict]:
     """Fetch preprints from bioRxiv and medRxiv."""
     papers = []
     try:
@@ -1027,6 +1027,17 @@ def run_cycle():
                     log.warning(f"  causal graph error: {e}")
 
             log.info("Phase 6: World model update complete")
+
+            # Phase 6b: Belief revision cycle
+            try:
+                from world_model.belief_revision import run_belief_revision_cycle, setup_belief_history_table
+                conn_br = psycopg2.connect(PG_URL, connect_timeout=10)
+                setup_belief_history_table(conn_br)
+                br_results = run_belief_revision_cycle(conn_br, verbose=False)
+                conn_br.close()
+                log.info(f"Belief revision: revised={br_results['revised']} weakened={br_results['weakened']} retired={br_results['retired']}")
+            except Exception as e:
+                log.warning(f"Belief revision failed: {e}")
 
             # Phase 7: Autonomous research loop
             try:

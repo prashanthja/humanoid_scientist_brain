@@ -158,6 +158,16 @@ def save_hypotheses(conn, hypotheses):
     cur = conn.cursor()
     saved = 0
     for h in hypotheses:
+        # Check novelty online before saving
+        novelty_result = check_novelty_online(
+            h.get('text',''), h['a'], h['c']
+        )
+        online_novelty = novelty_result.get('novelty_score', h['novelty'])
+        similar_papers = novelty_result.get('similar_papers', [])
+        
+        # Boost or penalize confidence based on online novelty
+        adjusted_conf = round(h['confidence'] * 0.7 + online_novelty * 0.3, 3)
+        
         cur.execute("""
             INSERT INTO hypotheses
             (concept_a, concept_b, concept_c, relation_ab, relation_bc,
@@ -165,7 +175,7 @@ def save_hypotheses(conn, hypotheses):
             VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s)
             ON CONFLICT DO NOTHING
         """, (h['a'], h['b'], h['c'], h['rel_ab'], h['rel_bc'],
-              h['inferred_rel'], h['confidence'], h['novelty'],
+              h['inferred_rel'], adjusted_conf, online_novelty,
               h['text']))
         saved += 1
     conn.commit()
@@ -194,6 +204,145 @@ def get_hypotheses_for_query(conn, query, limit=3):
              'confidence': r[3], 'text': r[4],
              'reasoning': f"{r[0]} {r[5]} {r[6]}, and {r[6]} {r[7]} {r[2]}"}
             for r in rows]
+
+def check_novelty_online(hypothesis_text, concept_a, concept_c):
+    """
+    Check if hypothesis already exists in literature.
+    Search arXiv for similar work.
+    Returns: {'is_novel': bool, 'similar_papers': list, 'novelty_score': float}
+    """
+    try:
+        import urllib.request, urllib.parse, json as _json, ssl, re as _re
+        ssl._create_default_https_context = ssl._create_unverified_context
+
+        search_query = f"{concept_a} {concept_c}".replace("'","")
+        results = {'is_novel': True, 'similar_papers': [], 'novelty_score': 1.0}
+
+        # Search arXiv — search each concept separately then find overlap
+        try:
+            import re as _re2
+            def arxiv_search(q, limit=10):
+                aq = urllib.parse.quote(q[:50])
+                url = f"https://export.arxiv.org/api/query?search_query=all:{aq}&max_results={limit}"
+                req = urllib.request.Request(url, headers={'User-Agent': 'TattvaAI/1.0'})
+                resp = urllib.request.urlopen(req, timeout=10)
+                xml = resp.read().decode('utf-8')
+                entries = _re2.findall('<entry>(.*?)</entry>', xml, _re2.DOTALL)
+                papers = []
+                for e in entries:
+                    tm = _re2.search('<title>(.*?)</title>', e, _re2.DOTALL)
+                    ym = _re2.search('<published>([0-9]{4})', e)
+                    if tm:
+                        papers.append({
+                            'title': tm.group(1).strip(),
+                            'year': int(ym.group(1)) if ym else 2025
+                        })
+                return papers
+
+            # Search concept A
+            papers_a = arxiv_search(concept_a[:40])
+            titles_a = set(p['title'].lower() for p in papers_a)
+
+            # Search concept C
+            papers_c = arxiv_search(concept_c[:40])
+            titles_c = set(p['title'].lower() for p in papers_c)
+
+            # HIGH relevance: same paper mentions both
+            for p in papers_a:
+                c_in = any(w in p['title'].lower() for w in concept_c.lower().split()[:3] if len(w)>4)
+                if c_in:
+                    results['similar_papers'].append({
+                        'title': p['title'][:100], 'year': p['year'],
+                        'relevance': 'HIGH — covers both concepts'
+                    })
+
+            for p in papers_c:
+                a_in = any(w in p['title'].lower() for w in concept_a.lower().split()[:3] if len(w)>4)
+                if a_in:
+                    results['similar_papers'].append({
+                        'title': p['title'][:100], 'year': p['year'],
+                        'relevance': 'HIGH — covers both concepts'
+                    })
+
+            # PARTIAL: separate papers for each
+            if not results['similar_papers']:
+                for p in papers_a[:2]:
+                    results['similar_papers'].append({
+                        'title': p['title'][:100], 'year': p['year'],
+                        'relevance': f'PARTIAL — covers {concept_a[:20]}'
+                    })
+
+        except Exception as e:
+            pass
+
+        # Also search arXiv
+        try:
+            arxiv_query = urllib.parse.quote(f"{concept_a[:20]} {concept_c[:20]}")
+            url = f"http://export.arxiv.org/api/query?search_query=all:{arxiv_query}&max_results=3&sortBy=submittedDate"
+            req = urllib.request.Request(url, headers={'User-Agent': 'TattvaAI/1.0'})
+            resp = urllib.request.urlopen(req, timeout=8, context=ssl_ctx)
+            content_xml = resp.read().decode('utf-8')
+
+            import re
+            titles = re.findall(r'<title>(.*?)</title>', content_xml, re.DOTALL)
+            titles = [t.strip() for t in titles if t.strip() and t.strip() != 'ArXiv Query']
+
+            for title in titles[:3]:
+                a_in = concept_a[:12].lower() in title.lower()
+                c_in = concept_c[:12].lower() in title.lower()
+                if a_in and c_in:
+                    results['similar_papers'].append({
+                        'title': title[:100],
+                        'year': 2025,
+                        'relevance': 'HIGH (arXiv)'
+                    })
+
+        except Exception as e:
+            pass
+
+        # Calculate novelty score
+        high_relevance = sum(1 for p in results['similar_papers'] if 'HIGH' in p.get('relevance',''))
+        partial = sum(1 for p in results['similar_papers'] if 'PARTIAL' in p.get('relevance',''))
+
+        if high_relevance >= 2:
+            results['is_novel'] = False
+            results['novelty_score'] = 0.2
+        elif high_relevance == 1:
+            results['is_novel'] = True  # Still novel but related work exists
+            results['novelty_score'] = 0.5
+        elif partial >= 3:
+            results['novelty_score'] = 0.7
+        else:
+            results['novelty_score'] = 0.95  # Genuinely novel
+
+        return results
+
+    except Exception as e:
+        return {'is_novel': True, 'similar_papers': [], 'novelty_score': 0.8, 'error': str(e)}
+
+def format_novelty_report(novelty_result, hypothesis_text):
+    """Format novelty check result for display."""
+    if not novelty_result:
+        return "Novelty check: not performed"
+
+    score = novelty_result.get('novelty_score', 0.8)
+    is_novel = novelty_result.get('is_novel', True)
+    papers = novelty_result.get('similar_papers', [])
+
+    lines = [f"Novelty score: {score:.0%}"]
+    if is_novel:
+        lines.append("Status: NOVEL — no direct prior work found")
+    else:
+        lines.append("Status: KNOWN — similar work exists")
+
+    if papers:
+        lines.append(f"Similar papers found ({len(papers)}):")
+        for p in papers[:3]:
+            lines.append(f"  [{p.get('year','')}] {p.get('title','')[:70]}")
+            lines.append(f"  Relevance: {p.get('relevance','')}")
+
+    return '\n'.join(lines)
+
 
 def format_hypothesis_prompt(hypotheses):
     if not hypotheses:

@@ -5,6 +5,7 @@
 <title>Tattva AI - Mission Control</title>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;}
 :root{--bg:#05080f;--surface:#090d16;--card:#0d1320;--border:#162030;--accent:#00c896;--gold:#f5a623;--red:#ff3d57;--purple:#a855f7;--blue:#3b82f6;--text:#c8deff;--muted:#3a5070;--dim:#1a2840;--mono:"JetBrains Mono",monospace;--sans:"Space Grotesk",sans-serif;}
@@ -75,6 +76,10 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--s
 .rbtn{font-family:var(--mono);font-size:9px;color:var(--muted);background:none;border:1px solid var(--border);border-radius:4px;padding:3px 8px;cursor:pointer;}
 .rbtn:hover{color:var(--accent);border-color:var(--accent);}
 .tooltip{position:fixed;background:var(--card);border:1px solid var(--border);border-radius:6px;padding:8px 12px;font-family:var(--mono);font-size:10px;color:var(--text);pointer-events:none;opacity:0;transition:opacity .15s;z-index:999;max-width:200px;line-height:1.5;}
+#ngc{width:100%;height:480px;border-radius:8px;position:relative;overflow:hidden;background:radial-gradient(circle at 50% 42%,#0b1424 0%,#05080f 70%);cursor:grab;}
+#ngc.dragging{cursor:grabbing;}
+#ngt{position:absolute;background:var(--card);border:1px solid var(--border);border-radius:6px;padding:8px 12px;font-family:var(--mono);font-size:10px;color:var(--text);pointer-events:none;display:none;max-width:200px;line-height:1.5;z-index:20;}
+.nghint{font-family:var(--mono);font-size:8px;color:var(--muted);letter-spacing:1px;margin-top:8px;text-align:center;}
 </style>
 </head>
 <body>
@@ -96,7 +101,7 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--s
 </div>
 <div class="main">
 
-<div id="ov" class="panel active">
+<div id="overview" class="panel active">
   <div class="header">
     <div class="htitle">Tattva AI &mdash; Mission Control</div>
     <div style="display:flex;gap:10px;align-items:center;"><span id="clock" style="font-family:var(--mono);font-size:10px;color:var(--muted);"></span><button class="rbtn" onclick="loadAll()">&#8635; refresh</button></div>
@@ -156,18 +161,15 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--s
 </div>
 
 <div id="worldgraph" class="panel">
-  <div class="header"><div class="htitle">World Graph &mdash; Neural Concept Network</div></div>
-  <div style="display:flex;gap:6px;margin-bottom:12px;flex-wrap:wrap;" id="ng-tabs">
-    <button class="rbtn" onclick="setNG(this,'public')" style="border-color:var(--accent);color:var(--accent);">Public world model</button>
-    <button class="rbtn" onclick="setNG(this,'friendzy')">Friendzy private branch</button>
-
-  </div>
-  <div class="card" style="margin-bottom:12px;padding:8px;">
-    <canvas id="ngc" style="width:100%;height:420px;border-radius:8px;display:block;"></canvas>
-    <div id="ngt" style="position:absolute;background:var(--card);border:1px solid var(--border);border-radius:6px;padding:8px 12px;font-family:var(--mono);font-size:10px;color:var(--text);pointer-events:none;display:none;max-width:200px;line-height:1.5;z-index:20;"></div>
+  <div class="header"><div class="htitle">World Graph &mdash; The Brain</div></div>
+  <div class="card" style="margin-bottom:12px;padding:10px;">
+    <div id="ngc"><div id="ngt"></div></div>
+    <div class="nghint">drag to rotate &middot; scroll to zoom &middot; hover a bright node for details &middot; grows automatically as new concepts are ingested</div>
   </div>
   <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px;" id="ng-leg"></div>
-  <div class="card" id="ng-info" style="font-size:12px;color:var(--muted);line-height:1.7;"></div>
+  <div class="card" id="ng-info" style="font-size:12px;color:var(--muted);line-height:1.7;">
+    Small dim points are the ambient neuron field. Bright colored nodes are real concept cells from the world model &mdash; size = evidence count, color = domain, sharper glow = established belief, red halo = contested. Traveling pulses along the bright connections show related concepts firing.
+  </div>
 </div>
 
 <div id="beliefs" class="panel">
@@ -206,173 +208,418 @@ function show(el,p){
   document.querySelectorAll('.nav-item').forEach(x=>x.classList.remove('active'));
   if(document.getElementById(p)) document.getElementById(p).classList.add('active');
   el.classList.add('active');
-  if(p==='worldgraph'){setTimeout(function(){ngInit();},100);}
+  if(p==='worldgraph'){setTimeout(function(){ngInit();brainResize();},100);}
+  if(p==='overview'){setTimeout(function(){loadAll();},50);}
   if(p==='beliefs') setTimeout(drawBG,100);
   if(p==='concepts') renderFull();
 }
 
-
-var NG_COLORS={ml_ai:'#3b82f6',biology:'#10b981',medicine:'#f59e0b',neuroscience:'#a855f7',physics:'#06b6d4',chemistry:'#22c55e',climate:'#84cc16',economics:'#f97316',psychology:'#ec4899',mathematics:'#8b5cf6',computer_systems:'#14b8a6',private_ml:'#EF9F27',private_bio:'#E24B4A'};
-var NG_INFO={
-  public:'<b>Public world model</b> — shared by all companies. Built from 338K papers across 11 scientific domains. Nodes grow stronger as more papers confirm them.',
-  friendzy:'<b>Friendzy LLC</b> — no private corpus uploaded yet. When papers are uploaded at the Enterprise OS, their concepts appear here as orange dashed nodes connecting to the public world model.',
-  biotech:'<b>Biotech Co. private branch</b> — their unpublished drug trials and compounds. Never visible to other companies. Cross-domain bridges emerge automatically.',
-  both:'<b>Both layers merged</b> — how Tattva reasons per company. Public + private activated simultaneously. Dashed lines = bridges between private and public knowledge.'
-};
-var ng_nodes=[],ng_links=[],ng_view='public';
-var ng_canvas=null,ng_ctx=null;
-
-var NG_PUB=[
-  {name:'Spectrally Nudged\nStorylines',domain:'climate',ev:11,state:'established'},
+/* ================= WORLD GRAPH — NEURON-STYLE FLOATING BRAIN ================= */
+var NG_FALLBACK=[
+  {name:'Spectrally Nudged Storylines',domain:'climate',ev:11,state:'established'},
   {name:'RustSEM',domain:'computer_systems',ev:9,state:'established'},
-  {name:'Graphene\nadsorbents',domain:'chemistry',ev:7,state:'established'},
-  {name:'Anthropogenic\nClimate',domain:'climate',ev:7,state:'established'},
-  {name:'Astrocyte\ninteractions',domain:'neuroscience',ev:7,state:'candidate'},
-  {name:"Rust's type\nsystem",domain:'computer_systems',ev:5,state:'emerging'},
+  {name:'Graphene adsorbents',domain:'chemistry',ev:7,state:'established'},
+  {name:'Anthropogenic Climate',domain:'climate',ev:7,state:'established'},
+  {name:'Astrocyte interactions',domain:'neuroscience',ev:7,state:'candidate'},
+  {name:"Rust's type system",domain:'computer_systems',ev:5,state:'emerging'},
   {name:'Ionic liquids',domain:'chemistry',ev:4,state:'emerging'},
   {name:'EvolKV',domain:'ml_ai',ev:3,state:'emerging'},
   {name:'DPP III',domain:'chemistry',ev:16,state:'candidate'},
-  {name:'Chronic LED\nexposure',domain:'neuroscience',ev:4,state:'candidate'},
-  {name:'Laparoscopic\ntechniques',domain:'medicine',ev:4,state:'candidate'},
-  {name:'CAR target\ndiscovery',domain:'medicine',ev:3,state:'candidate'},
-  {name:'Zinc Ion\nBinding',domain:'chemistry',ev:4,state:'candidate'},
-  {name:'Synaptic\nPlasticity',domain:'neuroscience',ev:6,state:'emerging'},
-  {name:'Sparse Expert\nRouting',domain:'ml_ai',ev:1,state:'candidate'},
+  {name:'Chronic LED exposure',domain:'neuroscience',ev:4,state:'candidate'},
+  {name:'Laparoscopic techniques',domain:'medicine',ev:4,state:'candidate'},
+  {name:'CAR target discovery',domain:'medicine',ev:3,state:'candidate'},
+  {name:'Zinc Ion Binding',domain:'chemistry',ev:4,state:'candidate'},
+  {name:'Synaptic Plasticity',domain:'neuroscience',ev:6,state:'emerging'},
+  {name:'Sparse Expert Routing',domain:'ml_ai',ev:1,state:'candidate'}
 ];
-var NG_FRIENDZY=[];
-var NG_BIOTECH=[];
 
-function ngInit(){
-  ng_canvas=document.getElementById('ngc');
-  if(!ng_canvas)return;
-  ng_ctx=ng_canvas.getContext('2d');
-  ngResize();
-  ng_canvas.addEventListener('mousemove',ngHover);
-  ng_canvas.addEventListener('mouseleave',function(){document.getElementById('ngt').style.display='none';});
-  ngBuild();
+var brainScene,brainCamera,brainRenderer,brainGroup,brainRaycaster,brainMouse;
+var brainNodes={};
+var brainLines=null,brainAnimId=null;
+var brainDrag={active:false,lastX:0,lastY:0};
+var brainRotY=0.4,brainRotX=0.12,brainAutoRotate=true;
+var fillerPositions=[];
+var pulseMeshes=[];
+
+function ngGetData(){
+  if(S&&S.top_concepts&&S.top_concepts.length){
+    return S.top_concepts.map(function(c){return {name:c.name,domain:c.domain,ev:c.evidence,state:c.state};});
+  }
+  return NG_FALLBACK;
 }
 
-function setNG(el,v){
-  ng_view=v;
-  document.querySelectorAll('#ng-tabs .rbtn').forEach(function(b){
-    b.style.borderColor='';b.style.color='';
-  });
-  el.style.borderColor='var(--accent)';el.style.color='var(--accent)';
-  var info=document.getElementById('ng-info');
-  if(info)info.innerHTML=NG_INFO[v]||'';
+function ngInit(){
+  var container=document.getElementById('ngc');
+  if(!container)return;
+  if(brainRenderer){ngBuild();return;}
+
+  var W=container.clientWidth||600,H=480;
+  brainScene=new THREE.Scene();
+  brainCamera=new THREE.PerspectiveCamera(50,W/H,0.1,1000);
+  brainCamera.position.set(0,0,220);
+
+  brainRenderer=new THREE.WebGLRenderer({antialias:true,alpha:true});
+  brainRenderer.setSize(W,H);
+  brainRenderer.setPixelRatio(Math.min(window.devicePixelRatio||1,2));
+  var tip=document.getElementById('ngt');
+  container.innerHTML='';
+  container.appendChild(brainRenderer.domElement);
+  if(tip)container.appendChild(tip);
+
+  brainGroup=new THREE.Group();
+  brainScene.add(brainGroup);
+
+  brainScene.add(new THREE.AmbientLight(0x6688aa,1.1));
+  var pl=new THREE.PointLight(0x00c896,1.4,500);pl.position.set(120,100,150);brainScene.add(pl);
+  var pl2=new THREE.PointLight(0xa855f7,1.0,500);pl2.position.set(-120,-90,120);brainScene.add(pl2);
+
+  buildNeuronField();
+
+  brainRaycaster=new THREE.Raycaster();
+  brainMouse=new THREE.Vector2();
+
+  container.addEventListener('pointerdown',brainOnDown);
+  window.addEventListener('pointermove',brainOnMove);
+  window.addEventListener('pointerup',brainOnUp);
+  container.addEventListener('wheel',brainOnWheel,{passive:false});
+  container.addEventListener('mousemove',brainHoverCheck);
+  container.addEventListener('mouseleave',function(){var t=document.getElementById('ngt');if(t)t.style.display='none';});
+  window.addEventListener('resize',brainResize);
+
   ngBuild();
+  brainAnimate();
+}
+
+function grooveAt(x,y){
+  return Math.exp(-(x*x)/220)*Math.max(0,y/60);
+}
+
+function randomPointInBrain(maxR){
+  for(var t=0;t<20;t++){
+    var u=Math.random()*2-1,v=Math.random()*2-1,w=Math.random()*2-1;
+    var len=Math.sqrt(u*u+v*v+w*w)||1;
+    var rr=Math.cbrt(Math.random())*maxR;
+    var x=(u/len)*rr*1.15,y=(v/len)*rr*(v<0?0.85:1.0),z=(w/len)*rr*0.95;
+    var g=grooveAt(x,y);
+    if(g>0.4&&Math.abs(x)<8)continue;
+    return new THREE.Vector3(x,y-g*10,z);
+  }
+  return new THREE.Vector3(0,0,0);
+}
+
+function hashStr(s){
+  var h=1779033703^s.length;
+  for(var i=0;i<s.length;i++){h=Math.imul(h^s.charCodeAt(i),3432918353);h=h<<13|h>>>19;}
+  return function(){h=Math.imul(h^h>>>16,2246822519);h=Math.imul(h^h>>>13,3266489917);h^=h>>>16;return (h>>>0)/4294967296;};
+}
+
+var DOMAIN_COLOR_CACHE={};
+var DOMAIN_COLOR_RULES=[
+  [/artificial intelligence|machine learning|deep learning|large language|llm|ml_ai|video generation/,'#3b82f6'],
+  [/biology|biotech/,'#10b981'],
+  [/medic|health|healthcare/,'#f59e0b'],
+  [/neuro/,'#a855f7'],
+  [/physiolog/,'#ec4899'],
+  [/physics/,'#06b6d4'],
+  [/chem/,'#22c55e'],
+  [/climate|environment/,'#84cc16'],
+  [/econom/,'#f97316'],
+  [/psycholog/,'#ec4899'],
+  [/math/,'#8b5cf6'],
+  [/computer|software|systems/,'#14b8a6'],
+  [/material/,'#eab308'],
+  [/interdisciplinary/,'#f43f5e'],
+  [/physical activity/,'#fb923c']
+];
+function domainColor(domain){
+  if(!domain)return '#888888';
+  var key=domain.toLowerCase();
+  if(DOMAIN_COLOR_CACHE[key])return DOMAIN_COLOR_CACHE[key];
+  for(var i=0;i<DOMAIN_COLOR_RULES.length;i++){
+    if(DOMAIN_COLOR_RULES[i][0].test(key)){DOMAIN_COLOR_CACHE[key]=DOMAIN_COLOR_RULES[i][1];return DOMAIN_COLOR_RULES[i][1];}
+  }
+  var hue=Math.floor(hashStr(key)()*360);
+  var col='hsl('+hue+',65%,58%)';
+  DOMAIN_COLOR_CACHE[key]=col;
+  return col;
+}
+
+function seededPointInBrain(name,maxR){
+  var rand=hashStr(name);
+  for(var t=0;t<20;t++){
+    var u=rand()*2-1,v=rand()*2-1,w=rand()*2-1;
+    var len=Math.sqrt(u*u+v*v+w*w)||1;
+    var rr=(0.4+rand()*0.5)*maxR;
+    var x=(u/len)*rr*1.15,y=(v/len)*rr*(v<0?0.85:1.0),z=(w/len)*rr*0.95;
+    var g=grooveAt(x,y);
+    if(g>0.4&&Math.abs(x)<8)continue;
+    return new THREE.Vector3(x,y-g*10,z);
+  }
+  return new THREE.Vector3(0,0,0);
+}
+
+function dotTexture(){
+  var c=document.createElement('canvas');c.width=32;c.height=32;
+  var ctx=c.getContext('2d');
+  var g=ctx.createRadialGradient(16,16,0,16,16,16);
+  g.addColorStop(0,'rgba(255,255,255,1)');g.addColorStop(1,'rgba(255,255,255,0)');
+  ctx.fillStyle=g;ctx.fillRect(0,0,32,32);
+  return new THREE.CanvasTexture(c);
+}
+
+function buildNeuronField(){
+  var count=320;
+  var positions=new Float32Array(count*3),colors=new Float32Array(count*3);
+  var col=new THREE.Color();
+  fillerPositions=[];
+  for(var i=0;i<count;i++){
+    var p=randomPointInBrain(72);
+    positions[i*3]=p.x;positions[i*3+1]=p.y;positions[i*3+2]=p.z;
+    col.setHSL(0.48+Math.random()*0.08,0.7,0.4+Math.random()*0.25);
+    colors[i*3]=col.r;colors[i*3+1]=col.g;colors[i*3+2]=col.b;
+    fillerPositions.push(p);
+  }
+  var geo=new THREE.BufferGeometry();
+  geo.setAttribute('position',new THREE.BufferAttribute(positions,3));
+  geo.setAttribute('color',new THREE.BufferAttribute(colors,3));
+  var mat=new THREE.PointsMaterial({size:2.4,vertexColors:true,transparent:true,opacity:0.85,map:dotTexture(),depthWrite:false,blending:THREE.AdditiveBlending});
+  brainGroup.add(new THREE.Points(geo,mat));
+
+  var linePositions=[],lineColors=[];
+  var synCol=new THREE.Color(0x2fd9b8);
+  for(var i=0;i<count;i++){
+    var dists=[];
+    for(var j=0;j<count;j++){
+      if(i===j)continue;
+      var dx=fillerPositions[i].x-fillerPositions[j].x,dy=fillerPositions[i].y-fillerPositions[j].y,dz=fillerPositions[i].z-fillerPositions[j].z;
+      dists.push({j:j,d:dx*dx+dy*dy+dz*dz});
+    }
+    dists.sort(function(a,b){return a.d-b.d;});
+    var k=2+Math.floor(Math.random()*2);
+    for(var n=0;n<k;n++){
+      if(!dists[n])continue;
+      var j=dists[n].j;
+      if(j<i)continue;
+      linePositions.push(fillerPositions[i].x,fillerPositions[i].y,fillerPositions[i].z,fillerPositions[j].x,fillerPositions[j].y,fillerPositions[j].z);
+      lineColors.push(synCol.r,synCol.g,synCol.b,synCol.r,synCol.g,synCol.b);
+    }
+  }
+  var lgeo=new THREE.BufferGeometry();
+  lgeo.setAttribute('position',new THREE.Float32BufferAttribute(linePositions,3));
+  lgeo.setAttribute('color',new THREE.Float32BufferAttribute(lineColors,3));
+  var lmat=new THREE.LineBasicMaterial({vertexColors:true,transparent:true,opacity:0.16,blending:THREE.AdditiveBlending});
+  brainGroup.add(new THREE.LineSegments(lgeo,lmat));
+}
+
+function nodeRadius(ev){return Math.max(3,Math.min(9,3+(ev||1)*0.4));}
+function stateGlow(state){return state==='established'?1.0:state==='emerging'?0.7:state==='contested'?0.6:0.4;}
+
+function addBrainNode(d){
+  var r=nodeRadius(d.ev);
+  var geo=new THREE.SphereGeometry(r,16,16);
+  var color=new THREE.Color(domainColor(d.domain));
+  var mat=new THREE.MeshPhongMaterial({color:color,emissive:color,emissiveIntensity:stateGlow(d.state),transparent:true,opacity:0.95,shininess:90});
+  var mesh=new THREE.Mesh(geo,mat);
+  var pos=seededPointInBrain(d.name,66);
+  mesh.position.copy(pos);
+  mesh.scale.setScalar(0.001);
+  mesh.userData={name:d.name,spawnT:performance.now(),growing:true,pulseOffset:Math.random()*Math.PI*2};
+
+  var haloGeo=new THREE.SphereGeometry(r*2.0,12,12);
+  var haloMat=new THREE.MeshBasicMaterial({color:color,transparent:true,opacity:0.16,blending:THREE.AdditiveBlending,depthWrite:false});
+  mesh.add(new THREE.Mesh(haloGeo,haloMat));
+
+  if(d.state==='contested'){
+    var wgeo=new THREE.SphereGeometry(r*1.35,12,12);
+    var wmat=new THREE.MeshBasicMaterial({color:0xff3d57,wireframe:true,transparent:true,opacity:0.55});
+    mesh.add(new THREE.Mesh(wgeo,wmat));
+  }
+  brainGroup.add(mesh);
+  brainNodes[d.name]={mesh:mesh,data:d,baseR:r};
+}
+
+function updateNodeVisual(node,d){
+  var color=new THREE.Color(domainColor(d.domain));
+  node.mesh.material.color.copy(color);
+  node.mesh.material.emissive.copy(color);
+  node.mesh.material.emissiveIntensity=stateGlow(d.state);
+  var r=nodeRadius(d.ev);
+  if(Math.abs(r-node.baseR)>0.3){
+    node.mesh.geometry.dispose();
+    node.mesh.geometry=new THREE.SphereGeometry(r,16,16);
+    node.baseR=r;
+  }
+  node.data=d;
+}
+
+function removeBrainNode(name){
+  var n=brainNodes[name];
+  if(!n)return;
+  brainGroup.remove(n.mesh);
+  n.mesh.geometry.dispose();
+  n.mesh.material.dispose();
+  delete brainNodes[name];
+}
+
+function clearPulses(){
+  pulseMeshes.forEach(function(pm){brainGroup.remove(pm.mesh);pm.mesh.geometry.dispose();pm.mesh.material.dispose();});
+  pulseMeshes=[];
+}
+
+function rebuildBrainLinks(data){
+  if(brainLines){brainGroup.remove(brainLines);brainLines.geometry.dispose();brainLines.material.dispose();brainLines=null;}
+  clearPulses();
+  var positions=[],colors=[];
+  var col=new THREE.Color();
+
+  for(var i=0;i<data.length;i++){
+    for(var j=i+1;j<data.length;j++){
+      var a=data[i],b=data[j];
+      var na=brainNodes[a.name],nb=brainNodes[b.name];
+      if(!na||!nb)continue;
+      var link=false;
+      if(a.domain===b.domain){link=true;col.set(domainColor(a.domain));}
+      else if(a.state==='established'&&b.state==='established'){link=true;col.set('#ffffff');}
+      if(!link)continue;
+      positions.push(na.mesh.position.x,na.mesh.position.y,na.mesh.position.z,nb.mesh.position.x,nb.mesh.position.y,nb.mesh.position.z);
+      colors.push(col.r,col.g,col.b,col.r,col.g,col.b);
+
+      var pGeo=new THREE.SphereGeometry(1.7,8,8);
+      var pMat=new THREE.MeshBasicMaterial({color:col.getHex(),transparent:true,opacity:0.95,blending:THREE.AdditiveBlending,depthWrite:false});
+      var pMesh=new THREE.Mesh(pGeo,pMat);
+      brainGroup.add(pMesh);
+      pulseMeshes.push({mesh:pMesh,aName:a.name,bName:b.name,phase:Math.random()});
+    }
+  }
+
+  data.forEach(function(d){
+    var na=brainNodes[d.name];
+    if(!na||!fillerPositions.length)return;
+    var origin=na.mesh.position;
+    var nearest=[];
+    for(var i=0;i<fillerPositions.length;i++){
+      var p=fillerPositions[i];
+      var dx=origin.x-p.x,dy=origin.y-p.y,dz=origin.z-p.z;
+      nearest.push({i:i,d:dx*dx+dy*dy+dz*dz});
+    }
+    nearest.sort(function(a,b){return a.d-b.d;});
+    var domCol=new THREE.Color(domainColor(d.domain));
+    for(var k=0;k<2;k++){
+      if(!nearest[k])continue;
+      var p=fillerPositions[nearest[k].i];
+      positions.push(origin.x,origin.y,origin.z,p.x,p.y,p.z);
+      colors.push(domCol.r,domCol.g,domCol.b,domCol.r,domCol.g,domCol.b);
+    }
+  });
+
+  if(!positions.length)return;
+  var geo=new THREE.BufferGeometry();
+  geo.setAttribute('position',new THREE.Float32BufferAttribute(positions,3));
+  geo.setAttribute('color',new THREE.Float32BufferAttribute(colors,3));
+  var mat=new THREE.LineBasicMaterial({vertexColors:true,transparent:true,opacity:0.4,blending:THREE.AdditiveBlending});
+  brainLines=new THREE.LineSegments(geo,mat);
+  brainGroup.add(brainLines);
 }
 
 function ngBuild(){
-  if(!ng_canvas)ng_canvas=document.getElementById('ngc');
-  if(!ng_canvas||!ng_ctx)return;
-  var raw=ng_view==='public'?NG_PUB:ng_view==='friendzy'?NG_PUB.concat(NG_FRIENDZY):ng_view==='biotech'?NG_PUB.concat(NG_BIOTECH):NG_PUB.concat(NG_FRIENDZY).concat(NG_BIOTECH);
-  var W=ng_canvas.width/(window.devicePixelRatio||1),H=ng_canvas.height/(window.devicePixelRatio||1);
-  ng_nodes=raw.map(function(d,i){return Object.assign({},d,{id:i,r:Math.max(14,Math.min(38,d.ev*2.5)),x:W/2+(Math.random()-.5)*500,y:H/2+(Math.random()-.5)*360,vx:0,vy:0});});
-  ng_links=[];
-  ng_nodes.forEach(function(a,i){
-    ng_nodes.forEach(function(b,j){
-      if(i>=j)return;
-      if(a.domain===b.domain)ng_links.push({s:i,t:j,str:.6,same:true,cross:false});
-      else if(a.state==='established'&&b.state==='established')ng_links.push({s:i,t:j,str:.2,same:false,cross:false});
-      else if(a.priv!==b.priv&&Math.random()<.3)ng_links.push({s:i,t:j,str:.1,same:false,cross:true});
-    });
+  if(!brainGroup)return;
+  var data=ngGetData();
+  var seen={};
+  data.forEach(function(d){
+    seen[d.name]=true;
+    if(brainNodes[d.name])updateNodeVisual(brainNodes[d.name],d);
+    else addBrainNode(d);
   });
-  ngSimulate();
-  ngLegend();
-  var info=document.getElementById('ng-info');
-  if(info)info.innerHTML=NG_INFO[ng_view]||'';
+  Object.keys(brainNodes).forEach(function(name){if(!seen[name])removeBrainNode(name);});
+  rebuildBrainLinks(data);
+  ngLegend(data);
 }
 
-function ngSimulate(){
-  for(var k=0;k<500;k++){
-    ng_nodes.forEach(function(a,i){
-      ng_nodes.forEach(function(b,j){
-        if(i===j)return;
-        var dx=a.x-b.x,dy=a.y-b.y,d=Math.sqrt(dx*dx+dy*dy)||1;
-        var min=a.r+b.r+50;
-        if(d<min*3){var f=(min-d)/d*.35;a.vx+=dx*f;a.vy+=dy*f;b.vx-=dx*f;b.vy-=dy*f;}
-      });
-    });
-    ng_links.forEach(function(l){
-      var a=ng_nodes[l.s],b=ng_nodes[l.t];
-      var dx=b.x-a.x,dy=b.y-a.y,d=Math.sqrt(dx*dx+dy*dy)||1;
-      var tgt=l.same?160:l.cross?280:220;
-      var f=(d-tgt)/d*l.str*.03;
-      a.vx+=dx*f;a.vy+=dy*f;b.vx-=dx*f;b.vy-=dy*f;
-    });
-    var W=ng_canvas.width/(window.devicePixelRatio||1),H=ng_canvas.height/(window.devicePixelRatio||1);
-    ng_nodes.forEach(function(n){
-      n.vx+=(W/2-n.x)*.002;n.vy+=(H/2-n.y)*.002;
-      n.vx*=.80;n.vy*=.80;n.x+=n.vx;n.y+=n.vy;
-      n.x=Math.max(n.r+20,Math.min(W-n.r-20,n.x));
-      n.y=Math.max(n.r+20,Math.min(H-n.r-20,n.y));
-    });
-  }
-  ngDraw();
-}
-
-function ngDraw(){
-  if(!ng_canvas||!ng_ctx)return;
-  var dpr=window.devicePixelRatio||1;
-  var W=ng_canvas.width/dpr,H=ng_canvas.height/dpr;
-  ng_ctx.clearRect(0,0,ng_canvas.width,ng_canvas.height);
-  ng_ctx.fillStyle='#05080f';ng_ctx.fillRect(0,0,ng_canvas.width,ng_canvas.height);
-  ng_links.forEach(function(l){
-    var a=ng_nodes[l.s],b=ng_nodes[l.t];
-    ng_ctx.beginPath();ng_ctx.moveTo(a.x,a.y);ng_ctx.lineTo(b.x,b.y);
-    if(l.cross){ng_ctx.strokeStyle='#EF9F2788';ng_ctx.setLineDash([5,5]);ng_ctx.lineWidth=1.2;}
-    else if(l.same){ng_ctx.strokeStyle=(NG_COLORS[a.domain]||'#888')+'55';ng_ctx.setLineDash([]);ng_ctx.lineWidth=1.3;}
-    else{ng_ctx.strokeStyle='#ffffff12';ng_ctx.setLineDash([3,6]);ng_ctx.lineWidth=.6;}
-    ng_ctx.stroke();ng_ctx.setLineDash([]);
-  });
-  ng_nodes.forEach(function(n){
-    var col=NG_COLORS[n.domain]||'#888';
-    if(n.state==='established'){ng_ctx.beginPath();ng_ctx.arc(n.x,n.y,n.r+8,0,Math.PI*2);ng_ctx.fillStyle=col+'18';ng_ctx.fill();}
-    if(n.priv){ng_ctx.beginPath();ng_ctx.arc(n.x,n.y,n.r+5,0,Math.PI*2);ng_ctx.strokeStyle=col+'cc';ng_ctx.setLineDash([4,3]);ng_ctx.lineWidth=1.8;ng_ctx.stroke();ng_ctx.setLineDash([]);}
-    if(n.state==='contested'){ng_ctx.beginPath();ng_ctx.arc(n.x,n.y,n.r+3,0,Math.PI*2);ng_ctx.strokeStyle='#E24B4A88';ng_ctx.lineWidth=1.2;ng_ctx.stroke();}
-    ng_ctx.beginPath();ng_ctx.arc(n.x,n.y,n.r,0,Math.PI*2);ng_ctx.fillStyle=col+'38';ng_ctx.fill();ng_ctx.strokeStyle=col;ng_ctx.lineWidth=n.state==='established'?2.2:1;ng_ctx.stroke();
-    var lines=n.name.split('\n');
-    ng_ctx.fillStyle='#c8deff';ng_ctx.textAlign='center';ng_ctx.textBaseline='middle';
-    var fs=n.r>22?9:7;ng_ctx.font='500 '+fs+'px "JetBrains Mono",monospace';
-    var lh=fs+3;
-    lines.forEach(function(ln,i){ng_ctx.fillText(ln,n.x,n.y+(i-(lines.length-1)/2)*lh);});
-  });
-}
-
-function ngHover(e){
-  if(!ng_canvas)return;
-  var rect=ng_canvas.getBoundingClientRect();
-  var dpr=window.devicePixelRatio||1;
-  var mx=(e.clientX-rect.left)*(ng_canvas.width/rect.width)/dpr;
-  var my=(e.clientY-rect.top)*(ng_canvas.height/rect.height)/dpr;
-  var found=null;
-  ng_nodes.forEach(function(n){var dx=mx-n.x,dy=my-n.y;if(Math.sqrt(dx*dx+dy*dy)<n.r)found=n;});
-  var tip=document.getElementById('ngt');
-  if(found&&tip){
-    tip.style.display='block';
-    tip.style.left=(e.clientX-rect.left+14)+'px';
-    tip.style.top=(e.clientY-rect.top-10)+'px';
-    tip.innerHTML='<b>'+found.name.replace('\n',' ')+'</b><br>'+found.domain+'<br>evidence: '+found.ev+'<br>'+found.state+(found.priv?'<br><span style="color:#EF9F27">&#9649; private</span>':'');
-    ng_canvas.style.cursor='pointer';
-  } else {if(tip)tip.style.display='none';ng_canvas.style.cursor='default';}
-}
-
-function ngResize(){
-  if(!ng_canvas)return;
-  var dpr=window.devicePixelRatio||1;
-  var w=ng_canvas.offsetWidth,h=420;
-  ng_canvas.width=w*dpr;ng_canvas.height=h*dpr;
-  ng_canvas.style.width=w+'px';ng_canvas.style.height=h+'px';
-  ng_ctx.scale(dpr,dpr);
-}
-
-function ngLegend(){
-  var doms=[...new Set(ng_nodes.map(function(n){return n.domain;}))];
+function ngLegend(data){
+  var doms=[...new Set(data.map(function(n){return n.domain;}))];
   var leg=document.getElementById('ng-leg');
   if(!leg)return;
-  leg.innerHTML=doms.map(function(d){return '<div style="display:flex;align-items:center;gap:5px;font-size:10px;color:var(--muted);font-family:var(--mono);"><div style="width:8px;height:8px;border-radius:50%;background:'+(NG_COLORS[d]||'#888')+'"></div>'+(d==='private_ml'?'&#9649; Friendzy':d==='private_bio'?'&#9649; Biotech':d)+'</div>';}).join('');
+  leg.innerHTML=doms.map(function(d){return '<div style="display:flex;align-items:center;gap:5px;font-size:10px;color:var(--muted);font-family:var(--mono);"><div style="width:8px;height:8px;border-radius:50%;background:'+domainColor(d)+'"></div>'+d+'</div>';}).join('');
 }
+
+function brainAnimate(){
+  brainAnimId=requestAnimationFrame(brainAnimate);
+  var now=performance.now();
+  if(brainAutoRotate&&!brainDrag.active)brainRotY+=0.0018;
+  brainGroup.rotation.y=brainRotY;
+  brainGroup.rotation.x=brainRotX;
+  brainGroup.position.y=Math.sin(now*0.0006)*4;
+
+  Object.keys(brainNodes).forEach(function(name){
+    var nd=brainNodes[name],n=nd.mesh;
+    var base=1;
+    if(n.userData.growing){
+      var el=now-n.userData.spawnT;
+      var p=Math.min(1,el/600);
+      base=1-Math.pow(1-p,3);
+      if(p>=1)n.userData.growing=false;
+    }
+    var pulse=nd.data.state==='established'?1+Math.sin(now*0.003+n.userData.pulseOffset)*0.05:1;
+    n.scale.setScalar(base*pulse);
+  });
+
+  pulseMeshes.forEach(function(pm){
+    var na=brainNodes[pm.aName],nb=brainNodes[pm.bName];
+    if(!na||!nb){pm.mesh.visible=false;return;}
+    pm.mesh.visible=true;
+    var t=((now*0.00028)+pm.phase)%1;
+    pm.mesh.position.lerpVectors(na.mesh.position,nb.mesh.position,t);
+  });
+
+  brainRenderer.render(brainScene,brainCamera);
+}
+
+function brainOnDown(e){brainDrag.active=true;brainDrag.lastX=e.clientX;brainDrag.lastY=e.clientY;document.getElementById('ngc').classList.add('dragging');}
+function brainOnMove(e){
+  if(!brainDrag.active)return;
+  var dx=e.clientX-brainDrag.lastX,dy=e.clientY-brainDrag.lastY;
+  brainRotY+=dx*0.005;
+  brainRotX+=dy*0.005;
+  brainRotX=Math.max(-1,Math.min(1,brainRotX));
+  brainDrag.lastX=e.clientX;brainDrag.lastY=e.clientY;
+}
+function brainOnUp(){brainDrag.active=false;var c=document.getElementById('ngc');if(c)c.classList.remove('dragging');}
+function brainOnWheel(e){
+  e.preventDefault();
+  brainCamera.position.z+=e.deltaY*0.15;
+  brainCamera.position.z=Math.max(120,Math.min(400,brainCamera.position.z));
+}
+
+function brainHoverCheck(e){
+  var container=document.getElementById('ngc');
+  if(!container||!brainCamera)return;
+  var rect=container.getBoundingClientRect();
+  brainMouse.x=((e.clientX-rect.left)/rect.width)*2-1;
+  brainMouse.y=-((e.clientY-rect.top)/rect.height)*2+1;
+  brainRaycaster.setFromCamera(brainMouse,brainCamera);
+  var meshes=Object.keys(brainNodes).map(function(k){return brainNodes[k].mesh;});
+  var hits=brainRaycaster.intersectObjects(meshes);
+  var tip=document.getElementById('ngt');
+  if(hits.length){
+    var hitName=hits[0].object.userData.name;
+    var d=brainNodes[hitName]?brainNodes[hitName].data:null;
+    if(d&&tip){
+      tip.style.display='block';
+      tip.style.left=(e.clientX-rect.left+14)+'px';
+      tip.style.top=(e.clientY-rect.top-10)+'px';
+      tip.innerHTML='<b>'+d.name+'</b><br>'+d.domain+'<br>evidence: '+d.ev+'<br>'+d.state;
+    }
+  }else if(tip){tip.style.display='none';}
+}
+
+function brainResize(){
+  var container=document.getElementById('ngc');
+  if(!container||!brainRenderer||!brainCamera)return;
+  var W=container.clientWidth||600,H=480;
+  brainCamera.aspect=W/H;brainCamera.updateProjectionMatrix();
+  brainRenderer.setSize(W,H);
+}
+/* ================= END WORLD GRAPH ================= */
 
 async function loadAll(){
   try{
@@ -407,37 +654,9 @@ async function loadAll(){
     document.getElementById('clist').innerHTML=cx.slice(0,12).map(c=>
       '<div class="crow"><div class="cn" title="'+c.name+'">'+c.name+'</div><div class="cd" style="color:'+dc(c.domain)+'">'+c.domain+'</div><span class="badge b-'+c.state+'">'+c.state+'</span><div class="ce">'+c.evidence+'</div></div>'
     ).join('');
-  }catch(e){console.error(e);}
-}
 
-function drawWG(){
-  if(!S.top_concepts) return;
-  const cx=S.top_concepts||[];
-  const el=document.getElementById('wgraph');
-  el.innerHTML='';
-  const W=el.offsetWidth||600,H=320;
-  const svg=d3.select('#wgraph').append('svg').attr('viewBox','0 0 '+W+' '+H);
-  const nodes=cx.map((c,i)=>({id:i,name:c.name,domain:c.domain,evidence:c.evidence,state:c.state,r:Math.max(10,Math.min(32,c.evidence*2.5))}));
-  const sim=d3.forceSimulation(nodes)
-    .force('charge',d3.forceManyBody().strength(-150))
-    .force('center',d3.forceCenter(W/2,H/2))
-    .force('collision',d3.forceCollide().radius(d=>d.r+10))
-    .stop();
-  for(let i=0;i<300;i++) sim.tick();
-  const tt=document.getElementById('tt');
-  svg.selectAll('.gn').data(nodes).enter().append('g').attr('class','gn')
-    .attr('transform',d=>'translate('+Math.max(d.r,Math.min(W-d.r,d.x))+','+Math.max(d.r,Math.min(H-d.r,d.y))+')')
-    .on('mousemove',(e,d)=>{tt.style.opacity=1;tt.style.left=(e.clientX+12)+'px';tt.style.top=(e.clientY-10)+'px';tt.innerHTML='<b>'+d.name+'</b><br>'+d.domain+'<br>evidence: '+d.evidence+'<br>'+d.state;})
-    .on('mouseleave',()=>tt.style.opacity=0)
-    .each(function(d){
-      d3.select(this).append('circle').attr('r',d.r).attr('fill',dc(d.domain)+'44').attr('stroke',dc(d.domain)).attr('stroke-width',d.state==='established'?2:1);
-      d3.select(this).append('text').attr('text-anchor','middle').attr('dy','0.35em').attr('fill','#c8deff').attr('font-size',d.r>15?9:7).attr('font-family','JetBrains Mono').text(d.name.length>12?d.name.slice(0,10)+'...':d.name);
-    });
-  const bd={};cx.forEach(c=>{bd[c.domain]=(bd[c.domain]||0)+c.evidence;});
-  const da=Object.entries(bd).sort((a,b)=>b[1]-a[1]),me=Math.max(...da.map(x=>x[1]),1);
-  document.getElementById('dbars').innerHTML=da.map(([dom,ev])=>
-    '<div class="tnode"><div class="tdom" style="color:'+dc(dom)+'">'+dom+'</div><div class="tbar"><div class="tfill" style="width:'+(ev/me*100)+'%;background:'+dc(dom)+'"></div></div><div class="tcnt">'+ev+'</div></div>'
-  ).join('');
+    if(brainGroup&&document.getElementById('worldgraph').classList.contains('active')) ngBuild();
+  }catch(e){console.error(e);}
 }
 
 function drawBG(){

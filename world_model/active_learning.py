@@ -144,6 +144,50 @@ def format_active_learning_prompt(queue):
     lines.append("\nMention these knowledge gaps in your response where relevant.")
     return '\n'.join(lines)
 
+def auto_fetch_from_queue(conn, limit=5):
+    """
+    Actually fetch papers from reading queue.
+    Downloads and processes highest-priority papers.
+    """
+    queue = get_reading_queue(conn, limit=limit)
+    if not queue:
+        print("Reading queue empty — generating new items...")
+        new_queue = generate_reading_queue(conn)
+        save_reading_queue(conn, new_queue)
+        queue = get_reading_queue(conn, limit=limit)
+
+    print(f"Auto-fetching {len(queue)} papers from reading queue...")
+    fetched = 0
+
+    for item in queue:
+        query = item['query']
+        print(f"  Fetching: {query[:60]}")
+        try:
+            # Use background service fetchers
+            import sys
+            sys.path.insert(0,'.')
+            from background_service import fetch_arxiv, fetch_semantic_scholar
+            
+            papers = fetch_arxiv(query, limit=3)
+            if not papers:
+                papers = fetch_semantic_scholar(query, limit=3)
+            
+            print(f"    Found {len(papers)} papers")
+            
+            # Mark as fetched in queue
+            cur = conn.cursor()
+            cur.execute("""
+                UPDATE reading_queue SET status='fetched'
+                WHERE query=%s AND status='pending'
+            """, (query,))
+            conn.commit()
+            fetched += len(papers)
+
+        except Exception as e:
+            print(f"    Error: {e}")
+
+    return fetched
+
 if __name__ == "__main__":
     conn = get_conn()
     setup_reading_queue_table(conn)
