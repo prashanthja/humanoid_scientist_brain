@@ -1325,6 +1325,71 @@ def company_old():
 
 
 
+
+@app.route("/api/concept_detail")
+def api_concept_detail():
+    """Get beliefs, mechanisms and hypotheses for a concept."""
+    import psycopg2
+    name = request.args.get('name','')
+    if not name:
+        return jsonify({'error': 'no name'})
+    try:
+        conn = psycopg2.connect(os.environ.get('DATABASE_URL',''))
+        cur = conn.cursor()
+
+        # Beliefs for this concept
+        cur.execute("""
+            SELECT belief_text, supporting_count, contradicting_count, confidence
+            FROM beliefs
+            WHERE LOWER(concept_name) LIKE LOWER(%s)
+            OR LOWER(belief_text) LIKE LOWER(%s)
+            ORDER BY supporting_count DESC LIMIT 8
+        """, (f'%{name[:30]}%', f'%{name[:20]}%'))
+        beliefs = [{'text': r[0][:100], 'supporting': r[1],
+                    'contradicting': r[2], 'confidence': round(r[3],2)}
+                   for r in cur.fetchall()]
+
+        # Mechanisms
+        cur.execute("""
+            SELECT summary FROM mechanisms
+            WHERE LOWER(root_concept) LIKE LOWER(%s)
+            ORDER BY chain_length DESC LIMIT 4
+        """, (f'%{name[:25]}%',))
+        mechanisms = [r[0][:120] for r in cur.fetchall()]
+
+        # Hypotheses
+        cur.execute("""
+            SELECT concept_a, inferred_relation, concept_c, confidence
+            FROM hypotheses
+            WHERE LOWER(concept_a) LIKE LOWER(%s)
+            OR LOWER(concept_c) LIKE LOWER(%s)
+            ORDER BY confidence DESC LIMIT 4
+        """, (f'%{name[:25]}%', f'%{name[:25]}%'))
+        hypotheses = [{'a': r[0][:30], 'rel': r[1], 'c': r[2][:30],
+                       'confidence': round(r[3],2)}
+                      for r in cur.fetchall()]
+
+        # Causal relations
+        cur.execute("""
+            SELECT source_concept, relation_type, target_concept
+            FROM causal_relations
+            WHERE LOWER(source_concept) LIKE LOWER(%s)
+            ORDER BY confidence DESC LIMIT 4
+        """, (f'%{name[:20]}%',))
+        causal = [f"{r[0][:20]} --[{r[1]}]--> {r[2][:20]}"
+                  for r in cur.fetchall()]
+
+        conn.close()
+        return jsonify({
+            'name': name,
+            'beliefs': beliefs,
+            'mechanisms': mechanisms,
+            'hypotheses': hypotheses,
+            'causal': causal
+        })
+    except Exception as e:
+        return jsonify({'error': str(e)})
+
 @app.route("/api/company/brief")
 def api_company_brief():
     """Overnight brief — real findings for enterprise dashboard."""
@@ -2257,22 +2322,131 @@ def api_service_trigger():
 # ── Startup ────────────────────────────────────────────
 
 
+
+
+@app.route("/api/world_simulate", methods=["POST"])
+def api_world_simulate():
+    """Run world model simulation on concept pair."""
+    import psycopg2
+    try:
+        data = request.json or {}
+        concept_a = data.get('concept_a','')
+        concept_b = data.get('concept_b','')
+        if not concept_a or not concept_b:
+            return jsonify({'error': 'need concept_a and concept_b'})
+        from world_model.simulation_engine import simulate
+        from world_model.experiment_planner import design_experiment
+        from world_model.hypothesis_generator import check_novelty_online
+        conn = psycopg2.connect(os.environ.get('DATABASE_URL',''))
+        query = f"Does {concept_a} influence {concept_b}?"
+        sim = simulate(conn, query)
+        exp = design_experiment(conn, concept_a=concept_a, concept_c=concept_b, inferred_rel='influences')
+        novelty = check_novelty_online(f"{concept_a} influences {concept_b}", concept_a, concept_b)
+        conn.close()
+        return jsonify({
+            'concept_a': concept_a, 'concept_b': concept_b,
+            'simulation': {
+                'confidence': sim['confidence'] if sim else 0,
+                'recommendation': sim['recommendation'] if sim else 'INSUFFICIENT EVIDENCE',
+                'supporting': sim['supporting_count'] if sim else 0,
+                'contradicting': sim['contradicting_count'] if sim else 0,
+                'supporting_beliefs': sim.get('supporting_beliefs',[])[:3] if sim else [],
+                'causal_path': sim.get('causal_path',[])[:3] if sim else []
+            },
+            'experiment': {
+                'dataset': exp['dataset'] if exp else 'N/A',
+                'metrics': exp['metrics'][:3] if exp else [],
+                'sample_size': exp['sample_size'] if exp else 0,
+                'protocol': exp['protocol'][:4] if exp else [],
+                'compute': exp['estimated_compute'] if exp else 'N/A'
+            } if exp else None,
+            'novelty': {
+                'score': novelty['novelty_score'],
+                'is_novel': novelty['is_novel'],
+                'similar_papers': novelty['similar_papers'][:2]
+            }
+        })
+    except Exception as e:
+        return jsonify({'error': str(e)})
+
+@app.route("/api/run_discovery", methods=["POST"])
+def api_run_discovery():
+    """Manually trigger cross-domain discovery cycle."""
+    try:
+        import psycopg2
+        from world_model.cross_domain_discovery import run_autonomous_discovery
+        conn = psycopg2.connect(os.environ.get('DATABASE_URL',''))
+        results = run_autonomous_discovery(conn)
+        conn.close()
+        return jsonify({'success': True, 'discoveries': results.get('discoveries_saved', 0)})
+    except Exception as e:
+        return jsonify({'error': str(e)})
+
+@app.route("/api/run_research_cycle", methods=["POST"])
+def api_run_research_cycle():
+    """Manually trigger autonomous research cycle."""
+    try:
+        import psycopg2
+        from world_model.autonomous_loop import run_research_cycle, setup_research_log_table
+        conn = psycopg2.connect(os.environ.get('DATABASE_URL',''))
+        setup_research_log_table(conn)
+        cur = conn.cursor()
+        cur.execute("SELECT COALESCE(MAX(cycle),0)+1 FROM research_log")
+        next_cycle = cur.fetchone()[0]
+        summary = run_research_cycle(conn, cycle_num=next_cycle, verbose=False)
+        conn.close()
+        return jsonify({'success': True, 'summary': summary})
+    except Exception as e:
+        return jsonify({'error': str(e)})
+
 @app.route("/api/discoveries")
 def api_discoveries():
-    """Return stored overnight discoveries."""
-    import glob, json as _json
+    """Get autonomous discoveries from world model."""
+    import psycopg2
+    domain = request.args.get('domain', None)
+    limit = int(request.args.get('limit', 20))
     try:
-        files = sorted(glob.glob("outputs/discoveries/*.json"), reverse=True)[:5]
-        discoveries = []
-        for f in files:
-            try:
-                with open(f) as fp:
-                    d = _json.load(fp)
-                    discoveries.append(d)
-            except: pass
-        return jsonify({"discoveries": discoveries, "count": len(discoveries)})
+        conn = psycopg2.connect(os.environ.get('DATABASE_URL',''))
+        cur = conn.cursor()
+        where = "WHERE 1=1"
+        params = []
+        if domain:
+            where += " AND (domain_a=%s OR domain_b=%s)"
+            params += [domain, domain]
+        cur.execute(f"""
+            SELECT id, title, description, domain_a, domain_b,
+                   connection_type, confidence, created_at, concept_a, concept_b
+            FROM autonomous_discoveries
+            {where}
+            ORDER BY confidence DESC, created_at DESC LIMIT %s
+        """, params + [limit])
+        discoveries = [{'id':r[0],'title':r[1],'description':r[2],
+                        'domain_a':r[3],'domain_b':r[4],'type':r[5],
+                        'confidence':round(r[6],2),'created_at':str(r[7])[:10],
+                        'concept_a':r[8],'concept_b':r[9]}
+                       for r in cur.fetchall()]
+        cur.execute("""
+            SELECT id, concept_a, inferred_relation, concept_c,
+                   confidence, novelty_score, hypothesis_text
+            FROM hypotheses ORDER BY confidence DESC LIMIT 10
+        """)
+        hypotheses = [{'id':r[0],'a':r[1],'rel':r[2],'c':r[3],
+                       'confidence':round(r[4],2),'novelty':round(r[5] or 0,2),
+                       'text':(r[6] or '')[:150]}
+                      for r in cur.fetchall()]
+        cur.execute("""
+            SELECT cycle, hypothesis_text, outcome, simulation_confidence, created_at
+            FROM research_log ORDER BY id DESC LIMIT 10
+        """)
+        cycles = [{'cycle':r[0],'hypothesis':(r[1] or '')[:80],
+                   'outcome':r[2],'confidence':round(r[3],2),
+                   'date':str(r[4])[:10]}
+                  for r in cur.fetchall()]
+        conn.close()
+        return jsonify({'discoveries':discoveries,'hypotheses':hypotheses,
+                        'research_cycles':cycles,'total':len(discoveries)})
     except Exception as e:
-        return jsonify({"discoveries": [], "error": str(e)})
+        return jsonify({'error': str(e)})
 
 
 @app.route("/api/recent_queries")

@@ -1,0 +1,11 @@
+{
+  "timestamp": "2026-07-22T08:33:18.281466",
+  "mechanism": "compression",
+  "from_domain": "biology",
+  "to_domain": "ml_ai",
+  "bridge_papers": 53,
+  "novelty_score": 0.16,
+  "hypothesis": "HYPOTHESIS: Applying myofascial stretching and cranial techniques can enhance the effectiveness of deep learning models, such as Transformers, by improving the parasympathetic nervous system's regulation of attention and reducing mental fatigue.\n\nPREDICTION: We expect to find a 25% increase in model accuracy and a 30% reduction in training time when practitioners utilize myofascial stretching and cranial techniques prior to engaging in deep learning tasks, compared to a control group.\n\nEXPERIMENT: To test this hypothesis, we will recruit 100 participants and randomly assign them to either a treatment group that receives myofascial stretching and cranial techniques or a control group that does not, and then have them perform a series of deep learning tasks using a Transformer model. The participants' performance will be evaluated using metrics such as model accuracy, training time, and self-reported mental fatigue.\n\nIMPACT: This research matters because it could lead to the development of novel, biologically-inspired methods for improving the efficiency and effectiveness of deep learning models, ultimately enhancing the performance of AI systems in a wide range of applications.",
+  "experiment_output": "Traceback (most recent call last):\n  File \"/var/folders/_2/7yt2d7hn1ybcynjw9_72nftw0000gn/T/tmps6sdd6o1.py\", line 53, in <module>\n    baseline_model = train_model(baseline_model, X, y, 'baseline')\n  File \"/var/folders/_2/7yt2d7hn1ybcynjw9_72nftw0000gn/T/tmps6sdd6o1.py\", line 29, in train_model\n    optimizer = torch.nn.optim.Adam(model.parameters(), lr=0.001)\n                ^^^^^^^^^^^^^^\nAttributeError: module 'torch.nn' has no attribute 'optim'\n",
+  "result_line": null
+}

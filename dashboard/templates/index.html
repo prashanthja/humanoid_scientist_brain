@@ -8,78 +8,78 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;}
-:root{--bg:#05080f;--surface:#090d16;--card:#0d1320;--border:#162030;--accent:#00c896;--gold:#f5a623;--red:#ff3d57;--purple:#a855f7;--blue:#3b82f6;--text:#c8deff;--muted:#3a5070;--dim:#1a2840;--mono:"JetBrains Mono",monospace;--sans:"Space Grotesk",sans-serif;}
+:root{--bg:#05080f;--surface:#090d16;--card:#0d1320;--border:#162030;--accent:#3b82f6;--gold:#f5a623;--red:#ff3d57;--purple:#a855f7;--blue:#3b82f6;--text:#c8deff;--muted:#7391b8;--dim:#1a2840;--mono:"JetBrains Mono",monospace;--sans:"Space Grotesk",sans-serif;}
 html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--sans);overflow:hidden;}
 .shell{display:grid;grid-template-columns:200px 1fr;height:100vh;}
 .sidebar{background:var(--surface);border-right:1px solid var(--border);display:flex;flex-direction:column;}
 .main{overflow-y:auto;padding:20px;}
 .logo{padding:18px 16px;border-bottom:1px solid var(--border);}
 .logo-mark{font-family:var(--mono);font-size:17px;color:var(--accent);letter-spacing:3px;}
-.logo-sub{font-family:var(--mono);font-size:7px;color:var(--muted);letter-spacing:2px;margin-top:2px;}
+.logo-sub{font-family:var(--mono);font-size:8px;color:var(--muted);letter-spacing:2px;margin-top:2px;}
 .nav{padding:12px 8px;flex:1;}
-.nav-label{font-family:var(--mono);font-size:7px;color:var(--muted);letter-spacing:2px;padding:10px 8px 4px;text-transform:uppercase;}
-.nav-item{display:flex;align-items:center;gap:8px;padding:7px 10px;border-radius:6px;cursor:pointer;font-size:12px;color:var(--muted);margin-bottom:1px;transition:all .1s;}
-.nav-item:hover,.nav-item.active{background:rgba(0,200,150,.08);color:var(--accent);}
+.nav-label{font-family:var(--mono);font-size:8px;color:var(--muted);letter-spacing:2px;padding:10px 8px 4px;text-transform:uppercase;}
+.nav-item{display:flex;align-items:center;gap:8px;padding:7px 10px;border-radius:6px;cursor:pointer;font-size:13px;color:var(--muted);margin-bottom:1px;transition:all .1s;}
+.nav-item:hover,.nav-item.active{background:rgba(59,130,246,.1);color:var(--accent);}
 .dot{width:6px;height:6px;border-radius:50%;background:var(--accent);margin-left:auto;animation:pulse 2s infinite;}
 @keyframes pulse{0%,100%{opacity:1;}50%{opacity:.3;}}
 .panel{display:none;}.panel.active{display:block;}
 .header{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;}
-.htitle{font-family:var(--mono);font-size:10px;color:var(--muted);letter-spacing:2px;text-transform:uppercase;}
+.htitle{font-family:var(--mono);font-size:11px;color:var(--muted);letter-spacing:2px;text-transform:uppercase;}
 .stage-bar{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:13px 16px;margin-bottom:16px;}
 .stages{display:flex;gap:3px;margin:6px 0;}
 .stage{flex:1;height:4px;border-radius:2px;background:var(--dim);}
 .stage.done{background:var(--accent);}.stage.cur{background:var(--gold);}
 .slabels{display:flex;justify-content:space-between;}
-.sl{font-family:var(--mono);font-size:7px;color:var(--muted);}
+.sl{font-family:var(--mono);font-size:8px;color:var(--muted);}
 .sl.done{color:var(--accent);}.sl.cur{color:var(--gold);}
 .metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:16px;}
 .metric{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:14px;}
 .mval{font-family:var(--mono);font-size:22px;font-weight:500;color:var(--accent);}
-.mlabel{font-family:var(--mono);font-size:7px;color:var(--muted);letter-spacing:1.5px;margin-top:4px;text-transform:uppercase;}
-.msub{font-size:10px;color:var(--muted);margin-top:2px;}
+.mlabel{font-family:var(--mono);font-size:8px;color:var(--muted);letter-spacing:1.5px;margin-top:4px;text-transform:uppercase;}
+.msub{font-size:11px;color:var(--muted);margin-top:2px;}
 .two-col{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px;}
 .three-col{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:16px;}
 .card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:14px;}
-.ctitle{font-family:var(--mono);font-size:7px;color:var(--muted);letter-spacing:2px;text-transform:uppercase;margin-bottom:10px;}
+.ctitle{font-family:var(--mono);font-size:8px;color:var(--muted);letter-spacing:2px;text-transform:uppercase;margin-bottom:10px;}
 .tnode{display:flex;align-items:center;gap:8px;padding:4px 0;border-bottom:1px solid var(--dim);}
 .tnode:last-child{border-bottom:none;}
 .tbar{flex:1;height:3px;border-radius:2px;background:var(--dim);overflow:hidden;}
 .tfill{height:100%;border-radius:2px;}
-.tdom{font-family:var(--mono);font-size:9px;color:var(--muted);width:100px;flex-shrink:0;}
-.tcnt{font-family:var(--mono);font-size:9px;color:var(--accent);width:40px;text-align:right;}
+.tdom{font-family:var(--mono);font-size:10px;color:var(--muted);width:100px;flex-shrink:0;}
+.tcnt{font-family:var(--mono);font-size:10px;color:var(--accent);width:40px;text-align:right;}
 .crow{display:flex;align-items:center;gap:6px;padding:4px 0;border-bottom:1px solid var(--dim);}
 .crow:last-child{border-bottom:none;}
-.cn{font-size:11px;color:var(--text);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
-.cd{font-family:var(--mono);font-size:8px;width:70px;flex-shrink:0;}
-.ce{font-family:var(--mono);font-size:9px;color:var(--accent);width:25px;text-align:right;}
-.badge{display:inline-block;padding:1px 5px;border-radius:3px;font-family:var(--mono);font-size:7px;}
-.b-established{background:rgba(0,200,150,.1);color:var(--accent);border:1px solid rgba(0,200,150,.2);}
+.cn{font-size:12px;color:var(--text);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.cd{font-family:var(--mono);font-size:9px;width:70px;flex-shrink:0;}
+.ce{font-family:var(--mono);font-size:10px;color:var(--accent);width:25px;text-align:right;}
+.badge{display:inline-block;padding:1px 5px;border-radius:3px;font-family:var(--mono);font-size:8px;}
+.b-established{background:rgba(59,130,246,.12);color:var(--accent);border:1px solid rgba(59,130,246,.25);}
 .b-emerging{background:rgba(245,166,35,.1);color:var(--gold);border:1px solid rgba(245,166,35,.2);}
 .b-candidate{background:rgba(58,80,112,.2);color:var(--muted);border:1px solid var(--dim);}
 .lcgrid{display:flex;gap:6px;}
 .lci{background:var(--dim);border-radius:6px;padding:8px 10px;text-align:center;flex:1;}
 .lcn{font-family:var(--mono);font-size:18px;}
-.lcl{font-family:var(--mono);font-size:7px;color:var(--muted);margin-top:2px;}
+.lcl{font-family:var(--mono);font-size:8px;color:var(--muted);margin-top:2px;}
 .prow{display:flex;align-items:center;gap:8px;padding:5px 0;border-bottom:1px solid var(--dim);}
 .prow:last-child{border-bottom:none;}
-.pl{font-size:11px;color:var(--text);flex:1;}
-.pc{font-family:var(--mono);font-size:10px;color:var(--accent);}
-.pn{font-size:10px;color:var(--muted);}
+.pl{font-size:12px;color:var(--text);flex:1;}
+.pc{font-family:var(--mono);font-size:11px;color:var(--accent);}
+.pn{font-size:11px;color:var(--muted);}
 .bbar{display:flex;align-items:center;gap:6px;margin-top:5px;}
 .bfill{height:5px;border-radius:3px;}
-.bnum{font-family:var(--mono);font-size:9px;color:var(--muted);width:35px;}
+.bnum{font-family:var(--mono);font-size:10px;color:var(--muted);width:35px;}
 .comprow{display:flex;align-items:center;gap:8px;padding:5px 0;border-bottom:1px solid var(--dim);}
 .comprow:last-child{border-bottom:none;}
 .cav{width:26px;height:26px;border-radius:5px;background:var(--dim);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:10px;color:var(--accent);}
-.compn{flex:1;font-size:11px;color:var(--text);}
-.comps{font-family:var(--mono);font-size:8px;color:var(--accent);}
-.rbtn{font-family:var(--mono);font-size:9px;color:var(--muted);background:none;border:1px solid var(--border);border-radius:4px;padding:3px 8px;cursor:pointer;}
+.compn{flex:1;font-size:12px;color:var(--text);}
+.comps{font-family:var(--mono);font-size:9px;color:var(--accent);}
+.rbtn{font-family:var(--mono);font-size:10px;color:var(--muted);background:none;border:1px solid var(--border);border-radius:4px;padding:3px 8px;cursor:pointer;}
 .rbtn:hover{color:var(--accent);border-color:var(--accent);}
-.tooltip{position:fixed;background:var(--card);border:1px solid var(--border);border-radius:6px;padding:8px 12px;font-family:var(--mono);font-size:10px;color:var(--text);pointer-events:none;opacity:0;transition:opacity .15s;z-index:999;max-width:200px;line-height:1.5;}
+.tooltip{position:fixed;background:var(--card);border:1px solid var(--border);border-radius:6px;padding:8px 12px;font-family:var(--mono);font-size:11px;color:var(--text);pointer-events:none;opacity:0;transition:opacity .15s;z-index:999;max-width:200px;line-height:1.5;}
 #ngc{width:100%;height:480px;border-radius:8px;position:relative;overflow:hidden;background:radial-gradient(circle at 50% 42%,#0b1424 0%,#05080f 70%);cursor:grab;}
 #ngc.dragging{cursor:grabbing;}
-#ngt{position:absolute;background:var(--card);border:1px solid var(--border);border-radius:6px;padding:8px 12px;font-family:var(--mono);font-size:10px;color:var(--text);pointer-events:none;display:none;max-width:200px;line-height:1.5;z-index:20;}
-.nghint{font-family:var(--mono);font-size:8px;color:var(--muted);letter-spacing:1px;margin-top:8px;text-align:center;}
+#ngt{position:absolute;background:var(--card);border:1px solid var(--border);border-radius:6px;padding:8px 12px;font-family:var(--mono);font-size:11px;color:var(--text);pointer-events:none;display:none;max-width:200px;line-height:1.5;z-index:20;}
+.nghint{font-family:var(--mono);font-size:9px;color:var(--muted);letter-spacing:1px;margin-top:8px;text-align:center;}
 </style>
 </head>
 <body>
@@ -94,6 +94,7 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--s
     <div class="nav-item" onclick="show(this,'beliefs')">&#129504; Beliefs</div>
     <div class="nav-item" onclick="show(this,'concepts')">&#128161; Concepts</div>
     <div class="nav-label">Products</div>
+    <div class="nav-item" onclick="show(this,'discoveries')">&#128202; Discoveries</div>
     <div class="nav-item" onclick="window.open('/app','_blank')">&#128302; Research Tool</div>
     <div class="nav-item" onclick="window.open('/company/dashboard','_blank')">&#127970; Enterprise OS</div>
     <div class="nav-item" onclick="window.open('/map','_blank')">&#128506; Contradiction Map</div>
@@ -172,6 +173,53 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--s
   </div>
 </div>
 
+<div id="discoveries" class="panel">
+  <div class="header"><div class="htitle">Autonomous Discoveries &mdash; What Tattva Found</div></div>
+  
+  <div class="metrics" style="margin-bottom:16px;">
+    <div class="metric"><div class="mval" id="disc-total" style="color:#4a9eff">-</div><div class="mlbl">Discoveries</div></div>
+    <div class="metric"><div class="mval" id="disc-hyp" style="color:#10b981">-</div><div class="mlbl">Hypotheses</div></div>
+    <div class="metric"><div class="mval" id="disc-cycles" style="color:#f59e0b">-</div><div class="mlbl">Research Cycles</div></div>
+    <div class="metric"><div class="mval" id="disc-novel" style="color:#8b5cf6">-</div><div class="mlbl">Novel (arXiv verified)</div></div>
+  </div>
+
+  <div style="display:flex;gap:12px;margin-bottom:12px;flex-wrap:wrap;">
+    <select id="disc-domain-filter" onchange="loadDiscoveries()" style="background:var(--card);border:1px solid var(--border);color:var(--text);padding:6px 10px;border-radius:6px;font-size:11px;">
+      <option value="">All domains</option>
+      <option value="ml_ai">ML / AI</option>
+      <option value="biology">Biology</option>
+      <option value="neuroscience">Neuroscience</option>
+      <option value="medicine">Medicine</option>
+      <option value="physics">Physics</option>
+      <option value="chemistry">Chemistry</option>
+      <option value="climate">Climate</option>
+    </select>
+    <button onclick="runDiscoveryCycle()" style="background:var(--accent);border:none;color:#000;padding:6px 14px;border-radius:6px;font-size:11px;cursor:pointer;font-weight:500;">&#9654; Run Discovery Cycle</button>
+    <button onclick="runResearchCycle()" style="background:var(--card);border:1px solid var(--border);color:var(--text);padding:6px 14px;border-radius:6px;font-size:11px;cursor:pointer;">&#9881; Research Cycle</button>
+  </div>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+    <div>
+      <div class="ctitle" style="margin-bottom:8px;">Cross-Domain Discoveries</div>
+      <div id="disc-list" style="display:flex;flex-direction:column;gap:8px;max-height:400px;overflow-y:auto;"></div>
+    </div>
+    <div>
+      <div class="ctitle" style="margin-bottom:8px;">Novel Hypotheses</div>
+      <div id="hyp-list" style="display:flex;flex-direction:column;gap:8px;max-height:400px;overflow-y:auto;"></div>
+    </div>
+  </div>
+
+  <div style="margin-top:16px;">
+    <div class="ctitle" style="margin-bottom:8px;">Recent Research Cycles</div>
+    <div id="cycle-list" style="display:flex;flex-direction:column;gap:6px;"></div>
+  </div>
+
+  <div id="disc-sim-result" style="margin-top:16px;display:none;" class="card">
+    <div class="ctitle" style="margin-bottom:8px;">Simulation Result</div>
+    <div id="disc-sim-content" style="font-size:12px;color:var(--muted);line-height:1.8;"></div>
+  </div>
+</div>
+
 <div id="beliefs" class="panel">
   <div class="header"><div class="htitle">Belief Engine &mdash; Stage 7</div></div>
   <div class="metrics">
@@ -210,6 +258,7 @@ function show(el,p){
   el.classList.add('active');
   if(p==='worldgraph'){setTimeout(function(){ngInit();brainResize();},100);}
   if(p==='overview'){setTimeout(function(){loadAll();},50);}
+  if(p==='discoveries'){setTimeout(function(){if(typeof loadDiscoveries==='function')loadDiscoveries();else console.error('loadDiscoveries not found');},200);}
   if(p==='beliefs') setTimeout(drawBG,100);
   if(p==='concepts') renderFull();
 }
@@ -270,7 +319,7 @@ function ngInit(){
   brainScene.add(brainGroup);
 
   brainScene.add(new THREE.AmbientLight(0x6688aa,1.1));
-  var pl=new THREE.PointLight(0x00c896,1.4,500);pl.position.set(120,100,150);brainScene.add(pl);
+  var pl=new THREE.PointLight(0x3b82f6,1.4,500);pl.position.set(120,100,150);brainScene.add(pl);
   var pl2=new THREE.PointLight(0xa855f7,1.0,500);pl2.position.set(-120,-90,120);brainScene.add(pl2);
 
   buildNeuronField();
@@ -283,6 +332,7 @@ function ngInit(){
   window.addEventListener('pointerup',brainOnUp);
   container.addEventListener('wheel',brainOnWheel,{passive:false});
   container.addEventListener('mousemove',brainHoverCheck);
+  container.addEventListener('click',brainClick);
   container.addEventListener('mouseleave',function(){var t=document.getElementById('ngt');if(t)t.style.display='none';});
   window.addEventListener('resize',brainResize);
 
@@ -375,7 +425,7 @@ function buildNeuronField(){
   for(var i=0;i<count;i++){
     var p=randomPointInBrain(72);
     positions[i*3]=p.x;positions[i*3+1]=p.y;positions[i*3+2]=p.z;
-    col.setHSL(0.48+Math.random()*0.08,0.7,0.4+Math.random()*0.25);
+    col.setHSL(0.58+Math.random()*0.07,0.75,0.45+Math.random()*0.25);
     colors[i*3]=col.r;colors[i*3+1]=col.g;colors[i*3+2]=col.b;
     fillerPositions.push(p);
   }
@@ -386,7 +436,7 @@ function buildNeuronField(){
   brainGroup.add(new THREE.Points(geo,mat));
 
   var linePositions=[],lineColors=[];
-  var synCol=new THREE.Color(0x2fd9b8);
+  var synCol=new THREE.Color(0x4ea8ff);
   for(var i=0;i<count;i++){
     var dists=[];
     for(var j=0;j<count;j++){
@@ -536,10 +586,12 @@ function ngBuild(){
 }
 
 function ngLegend(data){
-  var doms=[...new Set(data.map(function(n){return n.domain;}))];
+  var counts={};
+  data.forEach(function(n){counts[n.domain]=(counts[n.domain]||0)+1;});
+  var doms=Object.keys(counts).sort(function(a,b){return counts[b]-counts[a];});
   var leg=document.getElementById('ng-leg');
   if(!leg)return;
-  leg.innerHTML=doms.map(function(d){return '<div style="display:flex;align-items:center;gap:5px;font-size:10px;color:var(--muted);font-family:var(--mono);"><div style="width:8px;height:8px;border-radius:50%;background:'+domainColor(d)+'"></div>'+d+'</div>';}).join('');
+  leg.innerHTML=doms.map(function(d){return '<div style="display:flex;align-items:center;gap:5px;font-size:11px;color:var(--muted);font-family:var(--mono);"><div style="width:8px;height:8px;border-radius:50%;background:'+domainColor(d)+'"></div>'+d+' <span style="color:var(--text)">('+counts[d]+')</span></div>';}).join('');
 }
 
 function brainAnimate(){
@@ -612,6 +664,76 @@ function brainHoverCheck(e){
   }else if(tip){tip.style.display='none';}
 }
 
+function brainClick(e){
+  var container=document.getElementById('ngc');
+  if(!container||!brainCamera)return;
+  var rect=container.getBoundingClientRect();
+  brainMouse.x=((e.clientX-rect.left)/rect.width)*2-1;
+  brainMouse.y=-((e.clientY-rect.top)/rect.height)*2+1;
+  brainRaycaster.setFromCamera(brainMouse,brainCamera);
+  var meshes=Object.keys(brainNodes).map(function(k){return brainNodes[k].mesh;});
+  var hits=brainRaycaster.intersectObjects(meshes);
+  if(hits.length){
+    var hitName=hits[0].object.userData.name;
+    var d=brainNodes[hitName]?brainNodes[hitName].data:null;
+    if(d) ngShowDetail(d);
+  }
+}
+
+async function ngShowDetail(d){
+  var panel=document.getElementById('ng-detail');
+  if(!panel){
+    panel=document.createElement('div');
+    panel.id='ng-detail';
+    panel.style.cssText='position:absolute;right:0;top:0;bottom:0;width:300px;background:#030d1e;border-left:1px solid #1a3050;overflow-y:auto;padding:16px;z-index:20;font-size:11px;color:#8aaac0;box-shadow:-4px 0 20px rgba(0,0,0,0.6);';
+    document.getElementById('worldgraph').style.position='relative';
+    document.getElementById('worldgraph').appendChild(panel);
+  }
+  panel.style.display='block';
+  panel._conceptName = d.name;
+  panel.innerHTML='<div style="color:#c8deff;font-size:13px;font-weight:500;margin-bottom:2px;">'+d.name+'</div>'+
+    '<div style="color:#2a5070;margin-bottom:10px;font-size:10px;">'+d.domain+' · '+d.state+' · ev='+d.ev+'</div>'+
+    '<div style="color:#1e3050;font-size:10px;">Loading...</div>';
+  try{
+    var r=await fetch('/api/concept_detail?name='+encodeURIComponent(d.name));
+    var data=await r.json();
+    var html='<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">';
+    html+='<div><div style="color:#c8deff;font-size:13px;font-weight:500;">'+d.name+'</div>';
+    html+='<div style="color:#2a5070;font-size:10px;">'+d.domain+' · '+d.state+'</div></div>';
+    html+='<span style="cursor:pointer;color:#2a5070;font-size:18px;" id="ng-close">×</span></div>';
+    if(data.beliefs&&data.beliefs.length){
+      html+='<div style="color:#2a6090;font-size:9px;letter-spacing:2px;margin-bottom:8px;">BELIEFS ('+data.beliefs.length+')</div>';
+      data.beliefs.slice(0,5).forEach(function(b){
+        var col=b.contradicting>0?'#ef4444':'#10b981';
+        html+='<div style="padding:6px 0;border-bottom:0.5px solid #0a1525;">';
+        html+='<div style="color:#90b0d0;line-height:1.6;font-size:11px;">'+b.text+'</div>';
+        html+='<div style="color:'+col+';font-size:9px;margin-top:2px;">sup='+b.supporting+' con='+b.contradicting+' conf='+b.confidence+'</div></div>';
+      });
+    }
+    if(data.mechanisms&&data.mechanisms.length){
+      html+='<div style="color:#2a6090;font-size:9px;letter-spacing:2px;margin:12px 0 8px;">MECHANISMS</div>';
+      data.mechanisms.slice(0,3).forEach(function(m){
+        html+='<div style="padding:5px 0;border-bottom:0.5px solid #0a1525;color:#2a5070;line-height:1.5;font-size:10px;">'+m+'</div>';
+      });
+    }
+    if(data.hypotheses&&data.hypotheses.length){
+      html+='<div style="color:#2a6090;font-size:9px;letter-spacing:2px;margin:12px 0 8px;">HYPOTHESES</div>';
+      data.hypotheses.slice(0,3).forEach(function(h){
+        html+='<div style="padding:5px 0;border-bottom:0.5px solid #0a1525;">';
+        html+='<div style="color:#5a9eff;font-size:11px;font-weight:500;">'+h.a+' → '+h.c+'</div>';
+        html+='<div style="color:#2a6090;font-size:10px;">confidence: '+h.confidence+'</div></div>';
+      });
+    }
+    html+='<button id="ng-ask-btn" style="width:100%;margin-top:12px;padding:8px;background:#0a2040;border:0.5px solid #1a4060;color:#4a9eff;border-radius:6px;cursor:pointer;font-size:11px;">Ask Tattva about this →</button>';
+    panel.innerHTML=html;
+    var closeBtn=document.getElementById('ng-close');
+    if(closeBtn) closeBtn.onclick=function(){panel.style.display='none';};
+    var askBtn=document.getElementById('ng-ask-btn');
+    if(askBtn) askBtn.onclick=function(){window.open('/app','_blank');};
+  }catch(e){panel.innerHTML='<div style="color:#ef4444;">Error loading</div>';}
+}
+
+
 function brainResize(){
   var container=document.getElementById('ngc');
   if(!container||!brainRenderer||!brainCamera)return;
@@ -644,6 +766,14 @@ async function loadAll(){
     const sup=d.supporting||0,con=d.contradicting||0,tot=sup+con||1;
     document.getElementById('sn').textContent=sup.toLocaleString();
     document.getElementById('cn2').textContent=con.toLocaleString();
+    var lcData=d.lifecycle||{};
+    var lcEls=document.querySelectorAll('.lci .lcn');
+    if(lcEls.length>=4){
+      lcEls[0].textContent=(lcData.established||0).toLocaleString();
+      lcEls[1].textContent=(lcData.emerging||0).toLocaleString();
+      lcEls[2].textContent=(lcData.candidate||0).toLocaleString();
+      lcEls[3].textContent=(d.contradicting||0).toLocaleString();
+    }
     document.getElementById('sb').style.width=(sup/tot*100)+'%';
     document.getElementById('cb').style.width=(con/tot*100)+'%';
     const doms=d.by_domain||[],mx=Math.max(...doms.map(x=>x.count),1);
@@ -691,6 +821,151 @@ function renderFull(){
 
 loadAll();
 setInterval(loadAll,30000);
+
+
+async function loadDiscoveries(){
+  var domainEl=document.getElementById('disc-domain-filter');
+  var domain=domainEl?domainEl.value:'';
+  try{
+    var resp=await fetch('/api/discoveries'+(domain?'?domain='+domain:''));
+    var data=await resp.json();
+    if(data.error)return;
+    var s=function(id,v){var e=document.getElementById(id);if(e)e.textContent=v;};
+    s('disc-total',data.discoveries.length);
+    s('disc-hyp',data.hypotheses.length);
+    s('disc-cycles',data.research_cycles.length);
+    s('disc-novel',data.hypotheses.filter(function(h){return h.novelty>=0.8;}).length);
+    renderDiscList(data.discoveries);
+    renderHypList(data.hypotheses);
+    renderCycleList(data.research_cycles);
+  }catch(err){console.error('loadDiscoveries:',err);}
+}
+
+function renderDiscList(items){
+  var el=document.getElementById('disc-list');
+  if(!el)return;
+  if(!items.length){el.innerHTML='<div style="color:var(--muted);font-size:11px;padding:12px;">No discoveries yet. Click Run Discovery Cycle.</div>';return;}
+  el.innerHTML=items.map(function(d,i){
+    return '<div class="card" style="padding:10px;margin-bottom:6px;">'+
+      '<div style="font-size:11px;color:var(--text);margin-bottom:4px;">'+(d.title||'').slice(0,80)+'</div>'+
+      '<div style="font-size:10px;display:flex;gap:6px;margin-bottom:6px;">'+
+      '<span style="color:var(--accent);">'+(d.domain_a||'')+'</span>'+
+      '<span style="color:var(--muted);">→</span>'+
+      '<span style="color:#8b5cf6;">'+(d.domain_b||'')+'</span>'+
+      '<span style="margin-left:auto;">'+Math.round((d.confidence||0)*100)+'%</span></div>'+
+      '<button data-a="'+(d.concept_a||'')+'" data-b="'+(d.concept_b||'')+'" onclick="simDiscBtn(this)" style="padding:4px 10px;background:var(--card);border:1px solid var(--border);color:var(--accent);border-radius:4px;font-size:10px;cursor:pointer;">▷ Simulate</button>'+
+      '</div>';
+  }).join('');
+}
+
+function renderHypList(items){
+  var el=document.getElementById('hyp-list');
+  if(!el)return;
+  el.innerHTML=items.map(function(h){
+    var nc=h.novelty>=0.8?'#10b981':h.novelty>=0.5?'#f59e0b':'#ef4444';
+    return '<div class="card" style="padding:10px;margin-bottom:6px;">'+
+      '<div style="font-size:11px;color:#4a9eff;margin-bottom:3px;">'+(h.a||'').slice(0,25)+' → '+(h.c||'').slice(0,25)+'</div>'+
+      '<div style="font-size:10px;margin-bottom:6px;"><span style="color:var(--muted);">conf='+Math.round((h.confidence||0)*100)+'%</span> <span style="color:'+nc+';">novel='+Math.round((h.novelty||0)*100)+'%</span></div>'+
+      '<button data-a="'+(h.a||'')+'" data-b="'+(h.c||'')+'" onclick="simDiscBtn(this)" style="padding:4px 10px;background:var(--card);border:1px solid var(--border);color:var(--accent);border-radius:4px;font-size:10px;cursor:pointer;">▷ Simulate</button>'+
+      '</div>';
+  }).join('');
+}
+
+function renderCycleList(items){
+  var el=document.getElementById('cycle-list');
+  if(!el)return;
+  el.innerHTML=items.map(function(c){
+    var col=c.outcome==='SUPPORTED'?'var(--accent)':c.outcome==='REJECTED'?'var(--red)':'var(--gold)';
+    return '<div style="display:flex;gap:10px;padding:6px 0;border-bottom:1px solid var(--dim);font-size:11px;">'+
+      '<span style="color:var(--muted);">'+c.cycle+'</span>'+
+      '<span style="flex:1;color:var(--text);">'+(c.hypothesis||'').slice(0,50)+'</span>'+
+      '<span style="color:'+col+';">'+c.outcome+'</span>'+
+      '<span style="color:var(--muted);">'+Math.round((c.confidence||0)*100)+'%</span></div>';
+  }).join('');
+}
+
+function simDiscBtn(btn){
+  var a=btn.getAttribute('data-a');
+  var b=btn.getAttribute('data-b');
+  // Extract keywords for better matching
+  function keywords(s){
+    var stop=['the','and','of','in','on','at','to','a','an','is','are','was','were',
+      'has','have','not','with','from','that','this','for','as','by','its','or','but',
+      'scientific','knowledge','established','inclusion','anthropogenic'];
+    var words=s.toLowerCase().split(/\s+/).filter(function(w){
+      return w.length>4 && stop.indexOf(w)<0;
+    });
+    return words.slice(0,2).join(' ')||s.slice(0,20);
+  }
+  simDisc(keywords(a), keywords(b));
+}
+
+async function simDisc(a,b){
+  var res=document.getElementById('disc-sim-result');
+  var cnt=document.getElementById('disc-sim-content');
+  if(res)res.style.display='block';
+  if(cnt)cnt.innerHTML='<div style="color:var(--muted);padding:10px;">Running world model simulation for: '+a+' → '+b+'...</div>';
+  try{
+    var resp=await fetch('/api/world_simulate',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({concept_a:a, concept_b:b})
+    });
+    var d=await resp.json();
+    if(d.error){cnt.innerHTML='<span style="color:var(--red);">'+d.error+'</span>';return;}
+    var sim=d.simulation||{};
+    var exp=d.experiment||{};
+    var nov=d.novelty||{};
+    var col=sim.confidence>=0.75?'var(--accent)':sim.confidence>=0.5?'var(--gold)':'var(--red)';
+    var html='<div style="margin-bottom:12px;">';
+    html+='<div style="font-size:13px;color:var(--text);font-weight:500;margin-bottom:8px;">'+a+' → '+b+'</div>';
+    html+='<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:12px;">';
+    html+='<div class="card" style="padding:8px;text-align:center;"><div style="font-size:18px;font-weight:500;color:'+col+';">'+Math.round((sim.confidence||0)*100)+'%</div><div style="font-size:10px;color:var(--muted);">Confidence</div></div>';
+    html+='<div class="card" style="padding:8px;text-align:center;"><div style="font-size:18px;font-weight:500;color:var(--accent);">'+(sim.supporting||0)+'</div><div style="font-size:10px;color:var(--muted);">Supporting</div></div>';
+    html+='<div class="card" style="padding:8px;text-align:center;"><div style="font-size:18px;font-weight:500;color:var(--red);">'+(sim.contradicting||0)+'</div><div style="font-size:10px;color:var(--muted);">Contradicting</div></div>';
+    html+='</div>';
+    html+='<div style="padding:8px;background:rgba(0,200,150,0.08);border-left:2px solid var(--accent);margin-bottom:12px;font-size:11px;color:var(--text);">'+(sim.recommendation||'N/A')+'</div>';
+    if(sim.supporting_beliefs&&sim.supporting_beliefs.length){
+      html+='<div style="font-size:9px;color:var(--muted);letter-spacing:1px;margin-bottom:6px;">SUPPORTING BELIEFS</div>';
+      html+=sim.supporting_beliefs.map(function(b){return '<div style="font-size:11px;color:var(--muted);padding:4px 0;border-bottom:1px solid var(--dim);">'+b+'</div>';}).join('');
+    }
+    if(sim.causal_path&&sim.causal_path.length){
+      html+='<div style="font-size:9px;color:var(--muted);letter-spacing:1px;margin:10px 0 6px;">CAUSAL PATH</div>';
+      html+=sim.causal_path.map(function(s){return '<div style="font-size:11px;color:#4a9eff;padding:3px 0;">'+s.from+' →['+s.relation+']→ '+s.to+'</div>';}).join('');
+    }
+    if(exp&&exp.dataset){
+      html+='<div style="font-size:9px;color:var(--muted);letter-spacing:1px;margin:10px 0 6px;">EXPERIMENT PROTOCOL</div>';
+      html+='<div style="font-size:11px;color:var(--muted);margin-bottom:4px;">Dataset: '+exp.dataset+'</div>';
+      html+='<div style="font-size:11px;color:var(--muted);margin-bottom:4px;">n='+exp.sample_size+' | Compute: '+exp.compute+'</div>';
+      if(exp.protocol)html+=exp.protocol.map(function(p){return '<div style="font-size:10px;color:var(--dim2);padding:2px 0;">'+p+'</div>';}).join('');
+    }
+    html+='<div style="font-size:9px;color:var(--muted);letter-spacing:1px;margin:10px 0 6px;">NOVELTY CHECK (arXiv)</div>';
+    html+='<div style="font-size:11px;color:'+(nov.is_novel?'var(--accent)':'var(--gold)')+';">'+Math.round((nov.score||0)*100)+'% novel — '+(nov.is_novel?'No prior work found':'Similar work exists')+'</div>';
+    if(nov.similar_papers&&nov.similar_papers.length){
+      html+=nov.similar_papers.map(function(p){return '<div style="font-size:10px;color:var(--muted);margin-top:2px;">['+p.year+'] '+p.title+'</div>';}).join('');
+    }
+    html+='</div>';
+    if(cnt)cnt.innerHTML=html;
+  }catch(err){if(cnt)cnt.innerHTML='<span style="color:var(--red);">Error: '+err.message+'</span>';}
+}
+
+async function runDiscoveryCycle(){
+  try{
+    var resp=await fetch('/api/run_discovery',{method:'POST'});
+    var data=await resp.json();
+    setTimeout(loadDiscoveries,500);
+    alert('Done: '+data.discoveries+' new discoveries found');
+  }catch(err){alert('Error: '+err.message);}
+}
+
+async function runResearchCycle(){
+  try{
+    var resp=await fetch('/api/run_research_cycle',{method:'POST'});
+    var data=await resp.json();
+    setTimeout(loadDiscoveries,500);
+    alert('Research cycle complete');
+  }catch(err){alert('Error: '+err.message);}
+}
 </script>
 </body>
 </html>

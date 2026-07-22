@@ -1,0 +1,11 @@
+{
+  "timestamp": "2026-07-22T08:34:10.157275",
+  "mechanism": "compression",
+  "from_domain": "biology",
+  "to_domain": "ml_ai",
+  "bridge_papers": 53,
+  "novelty_score": 0.16,
+  "hypothesis": "HYPOTHESIS: The mechanical properties of bionanofiber hydrogels can be optimized to improve the accuracy of LSTM pedestrian intention prediction models for intelligent guide sticks.\n\nPREDICTION: We expect to find a 25% increase in prediction accuracy when using bionanofiber hydrogels with optimized compression stress-strain curves, resulting in a mean absolute error of 0.85 meters.\n\nEXPERIMENT: To test this hypothesis, we will prepare bionanofiber hydrogels with varying compression stress-strain curves using NaOH neutralization and evaluate their mechanical properties using dynamic mechanical analysis. We will then integrate these optimized hydrogels into intelligent guide sticks and assess their performance using a dataset of 1000 pedestrian trajectories.\n\nIMPACT: This research matters because it has the potential to improve the safety and mobility of visually impaired individuals by providing more accurate and reliable intelligent guide sticks, which could reduce the risk of accidents by up to 30%.",
+  "experiment_output": "",
+  "result_line": null
+}
