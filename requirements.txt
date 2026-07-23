@@ -19,5 +19,5 @@ supabase
 upstash-redis
 groq
 optimum[onnxruntime]
-together>=2.0.0
+together==2.22.0
 psycopg2-binary

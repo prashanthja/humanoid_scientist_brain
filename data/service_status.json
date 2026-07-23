@@ -1,13 +1,13 @@
 {
   "state": "running",
-  "phase": "updating world model",
-  "last_run": "2026-07-22T11:42:09.004288",
-  "next_run": "2026-07-22T17:42:09.004309",
-  "total_chunks": 344522,
-  "chunks_added": 28,
-  "papers_fetched": 1201,
-  "elapsed_sec": 5373.9,
-  "cycles": 216,
+  "phase": "fetching papers",
+  "last_run": "2026-07-23T02:34:19.436543",
+  "next_run": "2026-07-23T08:34:19.436561",
+  "total_chunks": 344684,
+  "chunks_added": 162,
+  "papers_fetched": 1528,
+  "elapsed_sec": 12940.7,
+  "cycles": 217,
   "sources": [
     "semantic_scholar",
     "arxiv",
@@ -18,5 +18,5 @@
     "europe_pmc",
     "crossref"
   ],
-  "started_at": "2026-07-22T22:58:38.686868"
+  "started_at": "2026-07-23T02:34:19.598863"
 }
