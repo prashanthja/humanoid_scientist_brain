@@ -26,12 +26,18 @@ def _client():
             return Together(api_key=together_key)
         except:
             pass
+    together_key = os.environ.get("TOGETHER_API_KEY","")
+    if together_key:
+        try:
+            from together import Together
+            return Together(api_key=together_key)
+        except: pass
     return Groq(api_key=os.environ.get("GROQ_API_KEY",""))
 
 def _model():
     if os.environ.get("TOGETHER_API_KEY",""):
         return "meta-llama/Llama-3.3-70B-Instruct-Turbo"
-    return "llama-3.1-70b-versatile"
+    return "llama-3.3-70b-versatile"
 
 # ── SYSTEM PROMPT — The Scientist Identity ──────────────────
 IDENTITY = """You are Tattva — an autonomous scientific intelligence.

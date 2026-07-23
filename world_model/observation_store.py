@@ -71,7 +71,7 @@ def llm_complete(prompt, max_tokens=800):
     from groq import Groq
     groq_client = Groq(api_key=os.environ.get('GROQ_API_KEY', ''))
     r = groq_client.chat.completions.create(
-        model="llama-3.3-70b-versatile",
+        model="meta-llama/Llama-3.3-70B-Instruct-Turbo",
         messages=[{"role": "user", "content": prompt}],
         max_tokens=max_tokens,
         temperature=0.1
