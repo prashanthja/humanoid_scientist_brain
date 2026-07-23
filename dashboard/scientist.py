@@ -469,3 +469,4 @@ def _format_evidence(chunks):
         domain = c.get('domain','')
         lines.append(f"\n[{i}] {title} {f'({domain})' if domain else ''}\n{text}...")
     return '\n'.join(lines)
+# cache bust Wed Jul 22 23:52:23 CDT 2026

@@ -1,6 +1,6 @@
 {
   "state": "running",
-  "phase": "fetching papers",
+  "phase": "updating world model",
   "last_run": "2026-07-22T11:42:09.004288",
   "next_run": "2026-07-22T17:42:09.004309",
   "total_chunks": 344522,
