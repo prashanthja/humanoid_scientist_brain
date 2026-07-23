@@ -404,12 +404,14 @@ def chat(query, history, chunks, verdict_data=None,
     try:
         client = _client()
         model = model_override or _model()
+        print(f"[scientist] calling model={model} client={type(client).__name__}", flush=True)
         response = client.chat.completions.create(
             model=model,
             messages=messages,
             max_tokens=600,
             temperature=0.25
         )
+        print(f"[scientist] model call success", flush=True)
         content = response.choices[0].message.content
 
         # 6. Extract verdict
