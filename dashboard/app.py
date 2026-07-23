@@ -2340,7 +2340,21 @@ def api_world_simulate():
         conn = psycopg2.connect(os.environ.get('DATABASE_URL',''))
         query = f"Does {concept_a} influence {concept_b}?"
         sim = simulate(conn, query)
-        exp = design_experiment(conn, concept_a=concept_a, concept_c=concept_b, inferred_rel='influences')
+        # Detect domain from world model
+        cur = conn.cursor()
+        def get_domain(concept):
+            cur.execute("""
+                SELECT domain, COUNT(*) as n FROM observations
+                WHERE LOWER(subject) LIKE LOWER(%s)
+                AND domain NOT IN ('unknown','other','general','private')
+                GROUP BY domain ORDER BY n DESC LIMIT 1
+            """, (f'%{concept[:20]}%',))
+            row = cur.fetchone()
+            return row[0] if row else 'ml_ai'
+        dom_a = get_domain(concept_a)
+        dom_b = get_domain(concept_b)
+        domain = dom_a if dom_a != 'ml_ai' else dom_b
+        exp = design_experiment(conn, concept_a=concept_a, concept_c=concept_b, inferred_rel='influences', domain=domain)
         novelty = check_novelty_online(f"{concept_a} influences {concept_b}", concept_a, concept_b)
         conn.close()
         return jsonify({

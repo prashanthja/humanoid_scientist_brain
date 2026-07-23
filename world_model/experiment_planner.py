@@ -74,6 +74,32 @@ DOMAIN_DATASETS = {
         'QM9 (molecular properties)',
         'ChEMBL (bioactive molecules)',
         'CSD (crystal structures)'
+    ],
+    'physics': [
+        'Materials Project (material properties)',
+        'Open Quantum Materials Database',
+        'PhysioNet (physical signals)',
+        'NIST datasets (physical constants)'
+    ],
+    'economics': [
+        'World Bank Open Data',
+        'FRED (Federal Reserve Economic Data)',
+        'IMF datasets'
+    ],
+    'mathematics': [
+        'MATH benchmark',
+        'GSM8K (grade school math)',
+        'MMLU mathematics subset'
+    ],
+    'computer_systems': [
+        'SPEC CPU benchmarks',
+        'MLPerf benchmarks',
+        'Linux kernel traces'
+    ],
+    'psychology': [
+        'OSF psychology datasets',
+        'UK Biobank (cognitive measures)',
+        'ABCD Study (brain development)'
     ]
 }
 
@@ -83,7 +109,12 @@ DOMAIN_METRICS = {
     'medicine': ['sensitivity', 'specificity', 'PPV', 'NNT', 'hazard_ratio'],
     'neuroscience': ['firing_rate', 'coherence', 'decoding_accuracy', 'mutual_information'],
     'climate': ['RMSE', 'bias', 'correlation', 'skill_score'],
-    'chemistry': ['MAE', 'RMSE', 'validity', 'novelty', 'diversity']
+    'chemistry': ['MAE', 'RMSE', 'validity', 'novelty', 'diversity'],
+    'physics': ['MAE', 'RMSE', 'R²', 'energy_error', 'force_error'],
+    'economics': ['RMSE', 'R²', 'MAE', 'AIC', 'BIC'],
+    'mathematics': ['accuracy', 'exact_match', 'pass@k'],
+    'computer_systems': ['throughput', 'latency', 'memory_usage'],
+    'psychology': ['Cohen_d', 'AUC-ROC', 'sensitivity', 'specificity']
 }
 
 STATISTICAL_TESTS = {
