@@ -75,6 +75,8 @@ def check_already_tested(conn, concept_a, concept_c):
     return cur.fetchone()[0] > 0
 
 def generate_hypotheses(conn, min_confidence=0.6, limit=50):
+    """Generate hypotheses — with quality filtering."""
+    from world_model.quality_filter import is_noise_concept, score_hypothesis_quality
     """
     Find A→B, B→C pairs where A→C is untested.
     These are novel hypotheses.
@@ -96,6 +98,7 @@ def generate_hypotheses(conn, min_confidence=0.6, limit=50):
     print(f"Checking {len(relations)} causal relations for novel hypotheses...")
 
     hypotheses = []
+    from world_model.quality_filter import is_noise_concept
     seen = set()
 
     for src_a, rel_ab, tgt_b, conf_ab in relations:

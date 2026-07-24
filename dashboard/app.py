@@ -1504,6 +1504,8 @@ def api_world_model_stats():
         
         cur.execute("SELECT lifecycle_state, COUNT(*) FROM concept_cells GROUP BY lifecycle_state")
         lifecycle = {r[0]: r[1] for r in cur.fetchall()}
+        cur.execute("SELECT COUNT(*) FROM beliefs WHERE contradicting_count > 0")
+        lifecycle["contested"] = cur.fetchone()[0]
         
         cur.execute("SELECT domain, COUNT(*) FROM observations GROUP BY domain ORDER BY COUNT(*) DESC")
         by_domain = [{"domain": r[0], "count": r[1]} for r in cur.fetchall()]

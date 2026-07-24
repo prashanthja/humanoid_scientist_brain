@@ -146,7 +146,24 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--s
     <div class="card">
       <div class="ctitle">Companies</div>
       <div class="comprow"><div class="cav">F</div><div class="compn">Friendzy LLC</div><div class="comps">&#9679; active</div></div>
-      <div class="comprow"><div class="cav" style="color:var(--muted);">+</div><div class="compn" style="color:var(--muted);">Add enterprise client</div></div>
+      <div class="comprow" onclick="addEnterpriseClient()" style="cursor:pointer;" onmouseover="this.style.background='var(--dim)'" onmouseout="this.style.background=''">
+  <div class="cav" style="color:var(--accent);">+</div>
+  <div class="compn" style="color:var(--accent);">Add enterprise client</div>
+</div>
+
+<div id="add-client-modal" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.7);z-index:100;align-items:center;justify-content:center;">
+  <div style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:24px;width:400px;max-width:90vw;">
+    <div style="font-size:14px;color:var(--text);font-weight:500;margin-bottom:16px;">Add Enterprise Client</div>
+    <input id="client-name" placeholder="Company name" style="width:100%;padding:8px 12px;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:12px;margin-bottom:10px;box-sizing:border-box;">
+    <input id="client-domain" placeholder="Research domain (e.g. biology, ml_ai)" style="width:100%;padding:8px 12px;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:12px;margin-bottom:10px;box-sizing:border-box;">
+    <input id="client-email" placeholder="Contact email" style="width:100%;padding:8px 12px;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:12px;margin-bottom:16px;box-sizing:border-box;">
+    <div style="display:flex;gap:8px;justify-content:flex-end;">
+      <button onclick="document.getElementById('add-client-modal').style.display='none'" style="padding:8px 16px;background:var(--card);border:1px solid var(--border);color:var(--muted);border-radius:6px;cursor:pointer;font-size:12px;">Cancel</button>
+      <button onclick="saveEnterpriseClient()" style="padding:8px 16px;background:var(--accent);border:none;color:#000;border-radius:6px;cursor:pointer;font-size:12px;font-weight:500;">Add Client</button>
+    </div>
+    <div id="client-result" style="margin-top:10px;font-size:11px;color:var(--accent);"></div>
+  </div>
+</div>
       <div style="margin-top:10px;padding-top:10px;border-top:1px solid var(--dim);">
         <div class="ctitle">Products</div>
         <div class="prow">&#128302;<div class="pl">Tattva Research</div><div class="pc">$99/mo</div></div>
@@ -965,6 +982,41 @@ async function runResearchCycle(){
     setTimeout(loadDiscoveries,500);
     alert('Research cycle complete');
   }catch(err){alert('Error: '+err.message);}
+}
+
+function addEnterpriseClient(){
+  var modal = document.getElementById('add-client-modal');
+  modal.style.display = 'flex';
+}
+
+async function saveEnterpriseClient(){
+  var name = document.getElementById('client-name').value.trim();
+  var domain = document.getElementById('client-domain').value.trim();
+  var email = document.getElementById('client-email').value.trim();
+  if(!name){alert('Company name required');return;}
+  
+  var result = document.getElementById('client-result');
+  result.textContent = 'Adding...';
+  
+  try {
+    var r = await fetch('/api/company/create', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({company_name: name, domain: domain, email: email})
+    });
+    var d = await r.json();
+    if(d.success){
+      result.textContent = '✅ Client added: ' + name;
+      setTimeout(function(){
+        document.getElementById('add-client-modal').style.display='none';
+        loadAll();
+      }, 1500);
+    } else {
+      result.textContent = '❌ Error: ' + (d.error || 'unknown');
+    }
+  } catch(e) {
+    result.textContent = '❌ Error: ' + e.message;
+  }
 }
 </script>
 </body>
